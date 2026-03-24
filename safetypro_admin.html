@@ -83,6 +83,8 @@ svg{flex-shrink:0}
 .btn-save{background:var(--green);color:#0B0E12;border:none;padding:7px 18px;border-radius:7px;font-family:var(--fb);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
 .btn-save:hover{background:var(--g-h)}
 .btn-save svg{width:12px;height:12px;fill:#0B0E12}
+.btn-primary{background:var(--green);color:#0B0E12;border:none;border-radius:7px;font-family:var(--fb);font-weight:700;cursor:pointer;transition:all .2s}
+.btn-primary:hover{background:var(--g-h)}
 
 /* FORM */
 .form-section{padding:16px 18px;display:flex;flex-direction:column;gap:14px}
@@ -843,6 +845,7 @@ function switchTab(el,id){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   if(id==='activities') loadProjectsForActivities();
+  if(id==='roles') loadUsers();
 }
 function switchTmpl(el){
   document.querySelectorAll('.ttab').forEach(t=>t.classList.remove('active'));
@@ -1471,37 +1474,10 @@ document.addEventListener('click', function(e) {
   if (e.target === overlay) hideAddActivityModal();
 });
 
-</script>
+// Bug Fix 3: alias so any legacy onclick="closeAddActivity()" still works
+function closeAddActivity() { hideAddActivityModal(); }
 
-      <div class="modal-close" onclick="closeAddActivity()">✕</div>
-    </div>
-    <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
-      <div>
-        <div class="fi-label">Project *</div>
-        <select id="act-proj" class="fi">
-          <option value="">Select Project...</option>
-        </select>
-      </div>
-      <div>
-        <div class="fi-label">Activity Name *</div>
-        <input id="act-name" class="fi" type="text" placeholder="e.g. Civil, Electrical, Mechanical, MEP"/>
-      </div>
-      <div>
-        <div class="fi-label">Activity Head Name</div>
-        <input id="act-head-name" class="fi" type="text" placeholder="Full name of Activity Head"/>
-      </div>
-      <div>
-        <div class="fi-label">Activity Head Email (L1 Escalation)</div>
-        <input id="act-head-email" class="fi" type="email" placeholder="activityhead@company.com"/>
-      </div>
-      <div style="display:flex;gap:8px;margin-top:4px">
-        <button onclick="saveActivity()" style="flex:1;padding:10px;border-radius:8px;border:none;background:var(--green);color:#0B0E12;font-weight:700;font-size:13px;cursor:pointer">Save Activity</button>
-        <button onclick="closeAddActivity()" style="padding:10px 20px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--t2);font-size:13px;cursor:pointer">Cancel</button>
-      </div>
-      <div id="act-result" style="display:none;padding:10px;border-radius:6px;font-size:13px;text-align:center"></div>
-    </div>
-  </div>
-</div>
+</script>
 
 <!-- ══ ADD ACTIVITY MODAL ══ -->
 <div id="add-act-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;align-items:center;justify-content:center">
