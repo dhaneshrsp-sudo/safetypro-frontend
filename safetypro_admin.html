@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SafetyPro AI — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0B0F14;--card:#131C26;--raised:#16212B;--sidebar:#0F1720;--border:#1E293B;--div:rgba(255,255,255,0.05);
+  --green:#22C55E;--g-h:#16A34A;--g-s:rgba(34,197,94,0.12);--g-b:rgba(34,197,94,0.3);
+  --amber:#F59E0B;--a-s:rgba(245,158,11,0.12);--a-b:rgba(245,158,11,0.3);
+  --red:#EF4444;--r-s:rgba(239,68,68,0.12);--r-b:rgba(239,68,68,0.35);
+  --blue:#3B82F6;--b-s:rgba(59,130,246,0.12);--b-b:rgba(59,130,246,0.3);
+  --t1:#E6EDF3;--t2:#94A3B8;--t3:#64748B;
+  --fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);font-size:13px;line-height:1.5;min-height:100vh}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+svg{flex-shrink:0}
+.app{display:flex;flex-direction:column;min-height:100vh}
+
+/* NAV */
+.topnav{height:52px;flex-shrink:0;background:var(--sidebar);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;width:195px;flex-shrink:0;padding:0 16px 0 18px;border-right:1px solid var(--border)}
+.logo-mark{width:28px;height:28px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(34,197,94,.4)}
+.logo-mark svg{width:16px;height:16px;fill:#fff}
+.logo-text{font-family:var(--fh);font-size:15px;font-weight:700}
+.logo-text span{color:var(--green)}
+.nl{display:flex;align-items:center;gap:6px;padding:6px 13px;border-radius:7px;font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s;text-decoration:none}
+.nl:hover{color:var(--t1);background:rgba(255,255,255,.04)}
+.nl.active{color:var(--t1);font-weight:600}
+.nl svg{width:13px;height:13px;fill:currentColor}
+.nl .arr{font-size:9px;opacity:.5;margin-left:2px}
+.nav-links{display:flex;align-items:center;gap:2px;flex:1;padding:0 12px}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;padding-right:20px}
+.icon-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative}
+.icon-btn svg{width:14px;height:14px;fill:var(--t2)}
+.ndot{position:absolute;top:4px;right:4px;width:6px;height:6px;background:var(--red);border-radius:50%;border:1px solid var(--bg)}
+.user-pill{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:5px 10px 5px 5px;cursor:pointer}
+.ua{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.un-name{font-size:11px;font-weight:600;color:var(--t1);line-height:1.2}
+.un-role{font-size:9px;color:var(--t3)}
+
+/* BODY */
+.body{display:flex;flex:1}
+.sidebar{width:195px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:14px 8px;min-height:calc(100vh - 52px);position:sticky;top:52px;align-self:flex-start}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:var(--t3);cursor:pointer;transition:all .15s;font-size:13px;margin-bottom:2px;text-decoration:none}
+.sb-item:hover{background:rgba(255,255,255,.04);color:var(--t2)}
+.sb-item.active{background:rgba(34,197,94,.1);border-left:2px solid var(--green);color:var(--green);padding-left:8px}
+.sb-item svg{width:15px;height:15px;fill:currentColor;opacity:.7}
+.sb-item.active svg{opacity:1}
+.sb-badge{margin-left:auto;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px}
+.sb-badge.red{background:var(--red);color:#fff}
+.sb-badge.amber{background:var(--amber);color:#0B0E12}
+.sidebar-foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--border)}
+
+/* CONTENT */
+.content{flex:1;min-width:0}
+.sub-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50}
+.sh-left{display:flex;align-items:center;gap:12px}
+.sh-title{font-family:var(--fh);font-size:16px;font-weight:700}
+.sh-tabs{display:flex;gap:2px}
+.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent}
+.sh-tab:hover{color:var(--t2)}
+.sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
+
+/* MAIN */
+.main{padding:16px 20px;display:flex;flex-direction:column;gap:14px;padding-bottom:60px}
+.tab-panel{display:none}.tab-panel.active{display:flex;flex-direction:column;gap:14px}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--div)}
+.card-title{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1)}
+.card-sub{font-size:10px;color:var(--t3);margin-top:1px}
+.cbtn{font-size:11px;padding:6px 14px;border-radius:7px;border:1px solid var(--border);color:var(--t2);background:var(--raised);cursor:pointer;transition:all .15s;font-family:var(--fb)}
+.cbtn:hover{color:var(--t1)}
+.btn-save{background:var(--green);color:#0B0E12;border:none;padding:7px 18px;border-radius:7px;font-family:var(--fb);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.btn-save:hover{background:var(--g-h)}
+.btn-save svg{width:12px;height:12px;fill:#0B0E12}
+
+/* FORM */
+.form-section{padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fl{font-size:10px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.5px}
+.fi{background:var(--raised);border:1px solid var(--border);border-radius:7px;padding:8px 11px;font-family:var(--fb);font-size:12px;color:var(--t1);outline:none;transition:border-color .15s;width:100%}
+.fi:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(34,197,94,.1)}
+.fi::placeholder{color:var(--t3)}
+.fsel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
+.fta{resize:none;height:80px;line-height:1.5}
+.fdiv{height:1px;background:var(--div);margin:4px 0}
+
+/* UPLOAD ZONE */
+.upload-zone{border:2px dashed var(--border);border-radius:10px;padding:24px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:all .2s;background:var(--raised)}
+.upload-zone:hover{border-color:var(--green);background:var(--g-s)}
+.upload-zone svg{width:28px;height:28px;fill:var(--t3)}
+.upload-zone:hover svg{fill:var(--green)}
+.upload-zone-label{font-size:12px;color:var(--t3);font-weight:500}
+.upload-zone:hover .upload-zone-label{color:var(--green)}
+.upload-zone-sub{font-size:10px;color:var(--t3)}
+
+/* PREVIEW BOX */
+.brand-preview{background:var(--raised);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.bp-header{padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
+.bp-logo-placeholder{width:80px;height:32px;background:var(--green);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:11px;font-weight:700;color:#0B0E12}
+.bp-company{font-size:13px;font-weight:700;color:var(--t1)}
+.bp-address{font-size:10px;color:var(--t3)}
+.bp-body{padding:12px 16px}
+.bp-title{font-size:11px;font-weight:700;color:var(--t1);margin-bottom:6px}
+.bp-lines{display:flex;flex-direction:column;gap:3px}
+.bp-line{height:6px;background:var(--border);border-radius:3px}
+.bp-footer{padding:8px 16px;background:rgba(34,197,94,.06);border-top:1px solid var(--g-b);font-size:9px;color:var(--t3);display:flex;justify-content:space-between}
+
+/* COLOR PICKER */
+.color-options{display:flex;gap:8px;flex-wrap:wrap}
+.co{width:28px;height:28px;border-radius:6px;cursor:pointer;transition:all .15s;border:2px solid transparent}
+.co:hover{transform:scale(1.1)}
+.co.selected{border-color:var(--t1);box-shadow:0 0 0 3px rgba(255,255,255,.2)}
+
+/* TEMPLATE BUILDER */
+.template-tabs{display:flex;gap:4px;padding:10px 14px;border-bottom:1px solid var(--div);flex-wrap:wrap}
+.ttab{padding:4px 12px;border-radius:6px;font-size:11px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent}
+.ttab:hover{color:var(--t2)}.ttab.active{background:var(--g-s);border-color:var(--g-b);color:var(--green);font-weight:600}
+.field-builder{padding:14px;display:flex;flex-direction:column;gap:8px}
+.field-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--raised);border:1px solid var(--border);border-radius:8px}
+.fi-drag{color:var(--t3);cursor:grab;font-size:14px}
+.fi-type{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:var(--b-s);color:var(--blue);border:1px solid var(--b-b);min-width:60px;text-align:center}
+.fi-name{flex:1;font-size:12px;font-weight:500;color:var(--t1)}
+.fi-req{font-size:9px;padding:1px 5px;border-radius:3px}
+.req-y{background:var(--r-s);color:var(--red);border:1px solid var(--r-b)}
+.req-n{background:var(--raised);color:var(--t3);border:1px solid var(--border)}
+.fi-actions{display:flex;gap:4px}
+.fia{width:22px;height:22px;border-radius:4px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s}
+.fia:hover{border-color:var(--green);background:var(--g-s)}
+.fia svg{width:10px;height:10px;fill:var(--t3)}
+.fia:hover svg{fill:var(--green)}
+
+.add-field-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;border:2px dashed var(--border);border-radius:8px;cursor:pointer;color:var(--t3);font-size:12px;transition:all .15s}
+.add-field-btn:hover{border-color:var(--green);color:var(--green);background:var(--g-s)}
+
+/* WORKFLOW */
+.wf-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.wf-card{background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:14px}
+.wf-title{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.wf-steps{display:flex;flex-direction:column;gap:6px}
+.wf-step{display:flex;align-items:center;gap:8px}
+.wf-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.wf-step-body{flex:1;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:7px 10px}
+.wf-role{font-size:11px;font-weight:600;color:var(--t1)}
+.wf-person{font-size:9px;color:var(--t3)}
+.wf-arrow{color:var(--t3);font-size:10px;text-align:center;line-height:1}
+.wf-badge{font-size:9px;padding:1px 6px;border-radius:3px;font-weight:600}
+
+/* NOTIFICATIONS */
+.notif-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.notif-channel{background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:16px}
+.nc-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.nc-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center}
+.nc-icon svg{width:18px;height:18px}
+.nc-title{font-size:13px;font-weight:700;color:var(--t1)}
+.nc-status{font-size:10px}
+.notif-triggers{display:flex;flex-direction:column;gap:6px}
+.nt-item{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--div)}
+.nt-item:last-child{border-bottom:none}
+.nt-label{font-size:11px;color:var(--t2)}
+.toggle{width:36px;height:20px;border-radius:10px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.toggle.on{background:var(--green)}
+.toggle.off{background:var(--border)}
+.toggle-knob{position:absolute;top:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:left .2s}
+.toggle.on .toggle-knob{left:18px}
+.toggle.off .toggle-knob{left:2px}
+
+/* BILLING */
+.billing-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.plan-card{background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:16px;position:relative;transition:all .2s}
+.plan-card:hover{border-color:rgba(255,255,255,.12)}
+.plan-card.current{border-color:var(--g-b);background:rgba(34,197,94,.04)}
+.plan-badge{position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;padding:2px 8px;border-radius:100px;white-space:nowrap}
+.plan-name{font-family:var(--fh);font-size:14px;font-weight:700;margin-bottom:4px}
+.plan-price{font-family:var(--fh);font-size:24px;font-weight:800;color:var(--t1);margin-bottom:8px}
+.plan-price span{font-size:12px;color:var(--t3);font-weight:400}
+.plan-features{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.pf{font-size:11px;color:var(--t2);display:flex;align-items:center;gap:5px}
+.pf svg{width:11px;height:11px;fill:var(--green);flex-shrink:0}
+.plan-btn{width:100%;padding:8px;border-radius:7px;font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .2s}
+.plan-btn.current-btn{background:transparent;border:1px solid var(--g-b);color:var(--green)}
+.plan-btn.upgrade-btn{background:var(--green);border:none;color:#0B0E12}
+.plan-btn.upgrade-btn:hover{background:var(--g-h)}
+
+.usage-bar-wrap{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin:4px 0}
+.usage-bar{height:100%;border-radius:3px;background:var(--green)}
+
+/* ── MORE DROPDOWN ── */
+.more-wrap{position:relative;user-select:none}
+.more-menu{
+  display:none;position:absolute;top:calc(100% + 6px);left:0;
+  background:#131C26;border:1px solid #1E293B;border-radius:10px;
+  min-width:210px;z-index:200;padding:6px;
+  box-shadow:0 12px 32px rgba(0,0,0,.5);
+}
+.more-wrap.open .more-menu{display:flex;flex-direction:column;gap:1px}
+.mm-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;font-size:12px;color:#94A3B8;cursor:pointer;text-decoration:none;transition:all .15s}
+.mm-item:hover{background:rgba(255,255,255,.05);color:#E6EDF3}
+.mm-item svg{width:14px;height:14px;fill:currentColor;opacity:.7;flex-shrink:0}
+.mm-divider{height:1px;background:#1E293B;margin:4px 0}
+.mm-admin{color:#22C55E}
+.mm-admin:hover{background:rgba(34,197,94,.08);color:#22C55E}
+.mm-admin svg{opacity:1}
+.sb-more-item{padding:7px 10px;font-size:12px}
+.sb-more-item svg{width:13px;height:13px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a class="logo" href="#" title="Dashboard">
+    <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
+    <span class="logo-text">SafetyPro <span>AI</span></span>
+  </a>
+  <div class="nav-links">
+    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
+    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>Operations</a>
+    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
+    <a class="nl" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>Reports</a>
+    <div class="nl more-wrap active" id="more-btn" onclick="toggleMore(event)">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More<span class="arr">▾</span>
+      <div class="more-menu" id="more-menu">
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
+        <div class="mm-divider"></div>
+        <a class="mm-item mm-admin" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Admin &amp; Configuration</a>
+      </div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="icon-btn"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><div class="ndot"></div></div>
+    <div class="user-pill">
+      <div class="ua">DK</div>
+      <div><div class="un-name">Dhanesh CK</div><div class="un-role">Admin</div></div>
+      <span style="color:var(--t3);font-size:10px;margin-left:6px">▾</span>
+    </div>
+  </div>
+</nav>
+
+<div class="body">
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <a class="sb-item" href="#"  viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </a>
+    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>
+      Operations<span class="sb-badge amber">12</span>
+    </a>
+    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
+      Control<span class="sb-badge red">5</span>
+    </a>
+    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
+      Reports
+    </a>
+    <div style="height:1px;background:#1E293B;margin:10px 2px 6px"></div>
+    <div style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:2px 10px 6px">More</div>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
+      Audit & Compliance
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      Documents & Records
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      Site & Field Tools
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      AI Intelligence
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Auditor Verification
+    </a>
+    <div style="height:1px;background:#1E293B;margin:6px 2px 4px"></div>
+    <a class="sb-item active" style="font-size:12px;padding:7px 10px;color:#22C55E" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#22C55E"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Admin &amp; Configuration
+    </a>
+  </div>
+
+<!-- CONTENT -->
+<div class="content">
+  <div class="sub-header">
+    <div class="sh-left">
+      <div class="sh-title">Admin</div>
+      <div class="sh-tabs">
+        <div class="sh-tab active" onclick="switchTab(this,'branding')">🎨 Branding</div>
+        <div class="sh-tab" onclick="switchTab(this,'templates')">📋 Templates</div>
+        <div class="sh-tab" onclick="switchTab(this,'workflow')">🔄 Workflow</div>
+        <div class="sh-tab" onclick="switchTab(this,'roles')">👥 Roles</div>
+        <div class="sh-tab" onclick="switchTab(this,'notifications')">🔔 Notifications</div>
+        <div class="sh-tab" onclick="switchTab(this,'billing')">💳 Billing</div>
+        <div class="sh-tab" onclick="switchTab(this,'activities')">🏗️ Activities</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- ═══ BRANDING TAB ═══ -->
+    <div class="tab-panel active" id="tab-branding">
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:14px">
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Company Branding</div><div class="card-sub">Logo, colours and report identity</div></div>
+            <button class="btn-save" onclick="showToast('Branding saved successfully')"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Save Changes</button>
+          </div>
+          <div class="form-section">
+            <div class="form-grid">
+              <div class="fg"><label class="fl">Company Name *</label><input class="fi" type="text" value="IL&FS Engineering & Construction Co. Ltd" placeholder="Your company name"/></div>
+              <div class="fg"><label class="fl">Short Name / Abbreviation</label><input class="fi" type="text" value="IECCL" placeholder="e.g. IECCL"/></div>
+            </div>
+            <div class="form-grid">
+              <div class="fg"><label class="fl">Address Line 1</label><input class="fi" type="text" value="IL&FS Financial Centre, Bandra Kurla Complex" placeholder="Street address"/></div>
+              <div class="fg"><label class="fl">City, State</label><input class="fi" type="text" value="Mumbai, Maharashtra — 400 051" placeholder="City, State"/></div>
+            </div>
+            <div class="fdiv"></div>
+            <div class="fg"><label class="fl">Company Logo</label>
+              <div class="upload-zone" onclick="showToast('File picker would open here')">
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <div class="upload-zone-label">Click to upload logo</div>
+                <div class="upload-zone-sub">PNG or SVG · Max 2MB · Recommended 400×120px</div>
+              </div>
+            </div>
+            <div class="fdiv"></div>
+            <div class="fg"><label class="fl">Report Header Text</label><input class="fi" type="text" value="IECCL — Health, Safety & Environment Management System" placeholder="Appears at top of every PDF report"/></div>
+            <div class="fg"><label class="fl">Report Footer Text</label><input class="fi" type="text" value="This document is generated by SafetyPro AI · Confidential" placeholder="Appears at bottom of every PDF report"/></div>
+            <div class="fg"><label class="fl">Signature Block</label><textarea class="fi fta" placeholder="e.g. Approved by: HSE Head | Designation | Date: {auto}">Approved by: Dhanesh CK | HSE Head — IECCL | Date: {auto-date}</textarea></div>
+            <div class="fdiv"></div>
+            <div class="fg"><label class="fl">Theme Colour</label>
+              <div style="display:flex;align-items:center;gap:12px;margin-top:4px">
+                <div class="color-options">
+                  <div class="co selected" style="background:#22C55E" onclick="selectColor(this,'#22C55E')" title="Safety Green"></div>
+                  <div class="co" style="background:#3B82F6" onclick="selectColor(this,'#3B82F6')" title="Blue"></div>
+                  <div class="co" style="background:#F59E0B" onclick="selectColor(this,'#F59E0B')" title="Amber"></div>
+                  <div class="co" style="background:#8B5CF6" onclick="selectColor(this,'#8B5CF6')" title="Purple"></div>
+                  <div class="co" style="background:#EF4444" onclick="selectColor(this,'#EF4444')" title="Red"></div>
+                  <div class="co" style="background:#0EA5E9" onclick="selectColor(this,'#0EA5E9')" title="Sky Blue"></div>
+                  <div class="co" style="background:#14B8A6" onclick="selectColor(this,'#14B8A6')" title="Teal"></div>
+                </div>
+                <span style="font-size:11px;color:var(--t3)">or</span>
+                <input type="color" value="#22C55E" style="width:32px;height:32px;border:none;border-radius:6px;cursor:pointer;background:transparent" onchange="updatePreview(this.value)"/>
+                <input class="fi" style="width:100px" type="text" value="#22C55E" placeholder="#22C55E" id="color-input"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="card">
+            <div class="card-head"><div class="card-title">Report Preview</div></div>
+            <div style="padding:14px">
+              <div class="brand-preview">
+                <div class="bp-header">
+                  <div class="bp-logo-placeholder" id="preview-logo">IECCL</div>
+                  <div>
+                    <div class="bp-company">IL&FS Engineering & Construction</div>
+                    <div class="bp-address">Mumbai, Maharashtra</div>
+                  </div>
+                </div>
+                <div class="bp-body">
+                  <div class="bp-title" id="preview-header">IECCL — HSE Management System</div>
+                  <div class="bp-lines">
+                    <div class="bp-line" style="width:100%"></div>
+                    <div class="bp-line" style="width:80%"></div>
+                    <div class="bp-line" style="width:90%"></div>
+                    <div class="bp-line" style="width:70%"></div>
+                    <div class="bp-line" style="width:85%"></div>
+                    <div class="bp-line" style="width:60%"></div>
+                  </div>
+                </div>
+                <div class="bp-footer">
+                  <span id="preview-footer">SafetyPro AI · Confidential</span>
+                  <span>Page 1 of 8</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><div class="card-title">Compliance Standards</div></div>
+            <div style="padding:12px 14px;display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:12px;color:var(--t2)">ISO 45001:2018</span>
+                <div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:12px;color:var(--t2)">Factories Act 1948</span>
+                <div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:12px;color:var(--t2)">BOCW Act 1996</span>
+                <div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:12px;color:var(--t2)">DGFASLI</span>
+                <div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:12px;color:var(--t2)">OSHA</span>
+                <div class="toggle off" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TEMPLATES TAB ═══ -->
+    <div class="tab-panel" id="tab-templates">
+      <div class="card">
+        <div class="card-head">
+          <div><div class="card-title">Template Manager <span id="field-count" style="font-size:10px;padding:2px 7px;border-radius:4px;background:var(--g-s);color:var(--green);border:1px solid var(--g-b);font-weight:600;margin-left:6px">10 fields</span></div><div class="card-sub">Customise field definitions for each module</div></div>
+          <button class="btn-save" onclick="showToast('Template saved')"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Save Template</button>
+        </div>
+        <div class="template-tabs">
+          <div class="ttab active" onclick="switchTmpl(this)">Incident Report</div>
+          <div class="ttab" onclick="switchTmpl(this)">NCR / Observation</div>
+          <div class="ttab" onclick="switchTmpl(this)">Audit Checklist</div>
+          <div class="ttab" onclick="switchTmpl(this)">Investigation</div>
+          <div class="ttab" onclick="switchTmpl(this)">Risk Assessment</div>
+        </div>
+        <div class="field-builder" id="field-builder">
+          <!-- injected by JS -->
+        </div>
+        <div style="padding:0 14px 14px">
+          <div class="add-field-btn" onclick="addField()">
+            <svg style="width:14px;height:14px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+            Add New Field
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ WORKFLOW TAB ═══ -->
+    <div class="tab-panel" id="tab-workflow">
+      <div class="card">
+        <div class="card-head"><div><div class="card-title">Approval Workflow Builder</div><div class="card-sub">Configure approval hierarchy for each module</div></div><button class="btn-save" onclick="showToast('Workflow saved')"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/></svg>Save Workflows</button></div>
+        <div style="padding:14px">
+          <div class="wf-grid">
+            <div class="wf-card">
+              <div class="wf-title">NCR Approval Flow <span class="cbtn" style="font-size:9px;padding:2px 7px">Edit</span></div>
+              <div class="wf-steps">
+                <div class="wf-step"><div class="wf-num" style="background:var(--g-s);border:1px solid var(--g-b);color:var(--green)">1</div><div class="wf-step-body"><div class="wf-role">HSE Officer</div><div class="wf-person">Raise & Assign</div></div></div>
+                <div class="wf-arrow">↓</div>
+                <div class="wf-step"><div class="wf-num" style="background:var(--b-s);border:1px solid var(--b-b);color:var(--blue)">2</div><div class="wf-step-body"><div class="wf-role">HSE Head</div><div class="wf-person">Review & Approve</div></div></div>
+                <div class="wf-arrow">↓</div>
+                <div class="wf-step"><div class="wf-num" style="background:var(--a-s);border:1px solid var(--a-b);color:var(--amber)">3</div><div class="wf-step-body"><div class="wf-role">Project Head</div><div class="wf-person">Final Closure Sign-off</div></div></div>
+              </div>
+            </div>
+            <div class="wf-card">
+              <div class="wf-title">Audit Approval Flow <span class="cbtn" style="font-size:9px;padding:2px 7px">Edit</span></div>
+              <div class="wf-steps">
+                <div class="wf-step"><div class="wf-num" style="background:var(--g-s);border:1px solid var(--g-b);color:var(--green)">1</div><div class="wf-step-body"><div class="wf-role">Auditor</div><div class="wf-person">Conduct & Record Findings</div></div></div>
+                <div class="wf-arrow">↓</div>
+                <div class="wf-step"><div class="wf-num" style="background:var(--b-s);border:1px solid var(--b-b);color:var(--blue)">2</div><div class="wf-step-body"><div class="wf-role">HSE Head</div><div class="wf-person">Review Findings</div></div></div>
+                <div class="wf-arrow">↓</div>
+                <div class="wf-step"><div class="wf-num" style="background:var(--p-s);border:1px solid var(--p-b);color:var(--purple)">3</div><div class="wf-step-body"><div class="wf-role">HO Manager</div><div class="wf-person">Approve & Archive</div></div></div>
+              </div>
+            </div>
+            <div class="wf-card">
+              <div class="wf-title">Investigation Flow <span class="cbtn" style="font-size:9px;padding:2px 7px">Edit</span></div>
+              <div class="wf-steps">
+                <div class="wf-step"><div class="wf-num" style="background:var(--g-s);border:1px solid var(--g-b);color:var(--green)">1</div><div class="wf-step-body"><div class="wf-role">Investigator</div><div class="wf-person">Root Cause + Corrective Actions</div></div></div>
+                <div class="wf-arrow">↓</div>
+                <div class="wf-step"><div class="wf-num" style="background:var(--b-s);border:1px solid var(--b-b);color:var(--blue)">2</div><div class="wf-step-body"><div class="wf-role">HSE Manager</div><div class="wf-person">Review Report</div></div></div>
+                <div class="wf-arrow">↓</div>
+                <div class="wf-step"><div class="wf-num" style="background:var(--a-s);border:1px solid var(--a-b);color:var(--amber)">3</div><div class="wf-step-body"><div class="wf-role">HO HSE Head</div><div class="wf-person">Final Approval</div></div></div>
+              </div>
+            </div>
+            <div class="wf-card">
+              <div class="wf-title">Escalation Engine <span style="font-size:9px;padding:2px 7px;border-radius:4px;background:var(--g-s);color:var(--green);border:1px solid var(--g-b)">Auto</span></div>
+              <div style="font-size:11px;color:var(--t3);margin-bottom:10px">Time-based · runs every hour · checks all open actions</div>
+              <div class="wf-steps">
+                <div class="wf-step"><div class="wf-num" style="background:var(--a-s);border:1px solid var(--a-b);color:var(--amber)">L1</div><div class="wf-step-body"><div class="wf-role">Activity Head</div><div class="wf-person">1st breach</div></div></div>
+                <div class="wf-arrow">↓ +24h</div>
+                <div class="wf-step"><div class="wf-num" style="background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);color:#F97316">L2</div><div class="wf-step-body"><div class="wf-role">Project Head</div><div class="wf-person">+24h unresolved</div></div></div>
+                <div class="wf-arrow">↓ +48h</div>
+                <div class="wf-step"><div class="wf-num" style="background:var(--r-s);border:1px solid var(--r-b);color:var(--red)">L5</div><div class="wf-step-body"><div class="wf-role">CEO</div><div class="wf-person">Critical / unresolved</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ROLES TAB ═══ -->
+    <div class="tab-panel" id="tab-roles">
+
+      <!-- Create New User Card -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-head">
+          <div><div class="card-title">Create New User</div><div class="card-sub">Admin only — add team members to SafetyPro AI</div></div>
+        </div>
+        <div style="padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Full Name *</div>
+            <input id="nu-name" type="text" placeholder="e.g. Meera Krishnan" style="width:100%;background:var(--raised);border:1px solid var(--border);border-radius:7px;padding:8px 11px;font-size:13px;color:var(--t1);outline:none;font-family:var(--fb)"/>
+          </div>
+          <div>
+            <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Email Address *</div>
+            <input id="nu-email" type="email" placeholder="meera.k@ieccl.co.in" style="width:100%;background:var(--raised);border:1px solid var(--border);border-radius:7px;padding:8px 11px;font-size:13px;color:var(--t1);outline:none;font-family:var(--fb)"/>
+          </div>
+          <div>
+            <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Phone</div>
+            <input id="nu-phone" type="text" placeholder="+91-9876543210" style="width:100%;background:var(--raised);border:1px solid var(--border);border-radius:7px;padding:8px 11px;font-size:13px;color:var(--t1);outline:none;font-family:var(--fb)"/>
+          </div>
+          <div>
+            <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Role *</div>
+            <select id="nu-role" style="width:100%;background:var(--raised);border:1px solid var(--border);border-radius:7px;padding:8px 11px;font-size:13px;color:var(--t1);outline:none;font-family:var(--fb);cursor:pointer">
+              <option value="SITE_USER">Site User — Field worker</option>
+              <option value="HSE_HEAD">HSE Head — HSE Officer</option>
+              <option value="MANAGER">Manager — Project Manager</option>
+              <option value="AUDITOR">Auditor — Safety Auditor</option>
+              <option value="ADMIN">Admin — Full Access</option>
+            </select>
+          </div>
+          <div>
+            <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">Temporary Password *</div>
+            <input id="nu-password" type="text" placeholder="e.g. IECCL@2026" style="width:100%;background:var(--raised);border:1px solid var(--border);border-radius:7px;padding:8px 11px;font-size:13px;color:var(--t1);outline:none;font-family:var(--fb)" value="SafetyPro@123"/>
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button onclick="createUser()" style="width:100%;padding:9px;border-radius:8px;border:none;background:var(--green);color:#0B0E12;font-family:var(--fh);font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px">
+              <svg style="width:14px;height:14px;fill:#0B0E12" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+              Create User
+            </button>
+          </div>
+        </div>
+        <div id="nu-result" style="display:none;margin:0 16px 16px;padding:12px;border-radius:8px;font-size:13px"></div>
+      </div>
+
+      <!-- Team List Card -->
+      <div class="card">
+        <div class="card-head">
+          <div><div class="card-title">Team Members</div><div class="card-sub">All users in your SafetyPro AI account</div></div>
+          <button class="btn-save" onclick="loadUsers()"><svg viewBox="0 0 24 24"><path d="M1 4v6h6M23 20v-6h-6M20.49 9A9 9 0 005.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 013.51 15"/></svg>Refresh</button>
+        </div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse">
+            <thead>
+              <tr>
+                <th style="padding:8px 14px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)">Member</th>
+                <th style="padding:8px 14px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)">Email</th>
+                <th style="padding:8px 14px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)">Role</th>
+                <th style="padding:8px 14px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)">Last Login</th>
+                <th style="padding:8px 14px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)">Status</th>
+              </tr>
+            </thead>
+            <tbody id="roles-tbody">
+              <tr><td colspan="5" style="text-align:center;padding:24px;color:var(--t3);font-size:13px">Loading team members...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ NOTIFICATIONS TAB ═══ -->
+    <div class="tab-panel" id="tab-notifications">
+      <div class="card">
+        <div class="card-head"><div><div class="card-title">Notification Settings</div><div class="card-sub">Configure WhatsApp and Email alert rules</div></div><button class="btn-save" onclick="showToast('Notification settings saved')"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/></svg>Save Settings</button></div>
+        <div style="padding:14px">
+          <div class="notif-grid">
+            <!-- WhatsApp -->
+            <div class="notif-channel">
+              <div class="nc-header">
+                <div class="nc-icon" style="background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.3)"><svg style="fill:#25D366" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg></div>
+                <div><div class="nc-title">WhatsApp (Twilio)</div><div class="nc-status" style="color:var(--green)">● Connected</div></div>
+              </div>
+              <div style="background:var(--card);border:1px solid var(--border);border-radius:7px;padding:10px 12px;margin-bottom:10px">
+                <div style="font-size:10px;color:var(--t3);margin-bottom:4px">Twilio Account SID</div>
+                <div style="font-size:12px;color:var(--t2);font-family:monospace">AC••••••••••••••••••••••••••••••d4f2</div>
+              </div>
+              <div class="notif-triggers">
+                <div class="nt-item"><div class="nt-label">New Incident reported</div><div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div></div>
+                <div class="nt-item"><div class="nt-label">Action escalated (L1+)</div><div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div></div>
+                <div class="nt-item"><div class="nt-label">Action overdue reminder</div><div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div></div>
+                <div class="nt-item"><div class="nt-label">Daily morning summary (8am)</div><div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div></div>
+                <div class="nt-item"><div class="nt-label">Audit scheduled</div><div class="toggle off" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div></div>
+                <div class="nt-item"><div class="nt-label">Monthly report generated</div><div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div></div>
+              </div>
+            </div>
+            <!-- Email -->
+            <div class="notif-channel">
+              <div class="nc-header">
+                <div class="nc-icon" style="background:var(--b-s);border:1px solid var(--b-b)"><svg style="fill:var(--blue)" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+                <div><div class="nc-title">Email (SendGrid)</div><div class="nc-status" style="color:var(--green)">● Connected</div></div>
+              </div>
+              <div style="background:var(--card);border:1px solid var(--border);border-radius:7px;padding:10px 12px;margin-bottom:10px">
+                <div style="font-size:10px;color:var(--t3);margin-bottom:4px">From Email Address</div>
+                <input class="fi" type="email" value="safety@ieccl.co.in" style="font-size:12px"/>
+              </div>
+              <div class="notif-triggers">
+                <div class="nt-item"><div class="nt-label">New Incident reported</div><div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div></div>
+                <div class="nt-item"><div class="nt-label">Escalation to CEO (L5)</div><div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div></div>
+                <div class="nt-item"><div class="nt-label">Weekly summary report</div><div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div></div>
+                <div class="nt-item"><div class="nt-label">Monthly PDF auto-send</div><div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div></div>
+                <div class="nt-item"><div class="nt-label">Appraisal scores published</div><div class="toggle off" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div></div>
+                <div class="nt-item"><div class="nt-label">New user added</div><div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ BILLING TAB ═══ -->
+    <div class="tab-panel" id="tab-billing">
+      <!-- Usage -->
+      <div class="card">
+        <div class="card-head"><div><div class="card-title">Usage This Month</div><div class="card-sub">Professional Plan · Renews April 1, 2026</div></div><span style="font-size:11px;color:var(--green);padding:4px 10px;border-radius:6px;background:var(--g-s);border:1px solid var(--g-b)">● Active</span></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:16px">
+          <div style="padding:0 16px;border-right:1px solid var(--div)">
+            <div style="font-size:11px;color:var(--t3);margin-bottom:4px">Projects</div>
+            <div style="font-family:var(--fh);font-size:20px;font-weight:800;color:var(--t1);margin-bottom:4px">3 <span style="font-size:12px;color:var(--t3)">/ 25</span></div>
+            <div class="usage-bar-wrap"><div class="usage-bar" style="width:12%"></div></div>
+          </div>
+          <div style="padding:0 16px;border-right:1px solid var(--div)">
+            <div style="font-size:11px;color:var(--t3);margin-bottom:4px">Team Members</div>
+            <div style="font-family:var(--fh);font-size:20px;font-weight:800;color:var(--t1);margin-bottom:4px">18 <span style="font-size:12px;color:var(--t3)">/ 100</span></div>
+            <div class="usage-bar-wrap"><div class="usage-bar" style="width:18%"></div></div>
+          </div>
+          <div style="padding:0 16px;border-right:1px solid var(--div)">
+            <div style="font-size:11px;color:var(--t3);margin-bottom:4px">Storage Used</div>
+            <div style="font-family:var(--fh);font-size:20px;font-weight:800;color:var(--amber);margin-bottom:4px">4.2 <span style="font-size:12px;color:var(--t3)">/ 10 GB</span></div>
+            <div class="usage-bar-wrap"><div class="usage-bar" style="width:42%;background:var(--amber)"></div></div>
+          </div>
+          <div style="padding:0 16px">
+            <div style="font-size:11px;color:var(--t3);margin-bottom:4px">Reports Generated</div>
+            <div style="font-family:var(--fh);font-size:20px;font-weight:800;color:var(--t1);margin-bottom:4px">47 <span style="font-size:12px;color:var(--t3)">/ ∞</span></div>
+            <div class="usage-bar-wrap"><div class="usage-bar" style="width:47%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plans -->
+      <div class="card">
+        <div class="card-head"><div><div class="card-title">Plan Options</div><div class="card-sub">Contact sales for custom enterprise pricing</div></div></div>
+        <div style="padding:14px">
+          <div class="billing-grid">
+            <div class="plan-card">
+              <div class="plan-name" style="color:var(--t2)">Starter</div>
+              <div class="plan-price">Contact <span>for pricing</span></div>
+              <div class="plan-features">
+                <div class="pf"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Up to 5 projects</div>
+                <div class="pf"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Basic modules</div>
+                <div class="pf"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Email support</div>
+                <div class="pf" style="color:var(--t3)"><svg viewBox="0 0 24 24" style="fill:var(--t3)"><path d="M18 6L6 18M6 6l12 12"/></svg>WhatsApp alerts</div>
+                <div class="pf" style="color:var(--t3)"><svg viewBox="0 0 24 24" style="fill:var(--t3)"><path d="M18 6L6 18M6 6l12 12"/></svg>AI features</div>
+              </div>
+              <div class="plan-btn upgrade-btn" onclick="showToast('Contact sales: sales@safetypro.ai')">Request Pricing</div>
+            </div>
+            <div class="plan-card current">
+              <div class="plan-badge" style="background:var(--green);color:#0B0E12">★ Current Plan</div>
+              <div class="plan-name" style="color:var(--green)">Professional</div>
+              <div class="plan-price">Contact <span>for pricing</span></div>
+              <div class="plan-features">
+                <div class="pf"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Up to 25 projects</div>
+                <div class="pf"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>All modules</div>
+                <div class="pf"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>WhatsApp + Email alerts</div>
+                <div class="pf"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Branding + PDF reports</div>
+                <div class="pf"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Appraisal engine</div>
+              </div>
+              <div class="plan-btn current-btn">Current Plan</div>
+            </div>
+            <div class="plan-card">
+              <div class="plan-name" style="color:var(--blue)">Enterprise</div>
+              <div class="plan-price">Custom <span>pricing</span></div>
+              <div class="plan-features">
+                <div class="pf"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Unlimited projects</div>
+                <div class="pf"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Custom modules</div>
+                <div class="pf"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Dedicated HSE support</div>
+                <div class="pf"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>On-site training</div>
+                <div class="pf"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>API access + integrations</div>
+              </div>
+              <div class="plan-btn upgrade-btn" onclick="showToast('Contact: sales@safetypro.ai')">Talk to Sales</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- ══ ACTIVITIES TAB ══ -->
+    <div class="tab-panel" id="tab-activities">
+
+      <!-- Company Hierarchy -->
+      <div class="card">
+        <div class="card-head">
+          <div><div class="card-title">Company Escalation Hierarchy</div><div class="card-sub">Configure L3–L5 escalation recipients</div></div>
+          <button class="btn-save" onclick="saveHierarchy()">
+            <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/></svg>
+            Save Hierarchy
+          </button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding:14px">
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">🟡 Sector Head (L3)</div>
+            <input id="hier-sector-name" class="fi" type="text" placeholder="Full Name" style="margin-bottom:6px"/>
+            <input id="hier-sector-email" class="fi" type="email" placeholder="Email Address"/>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">🔴 HSE Head-HO (L4)</div>
+            <input id="hier-hse-name" class="fi" type="text" placeholder="Full Name" style="margin-bottom:6px"/>
+            <input id="hier-hse-email" class="fi" type="email" placeholder="Email Address"/>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">🟣 CEO (L5)</div>
+            <input id="hier-ceo-name" class="fi" type="text" placeholder="Full Name" style="margin-bottom:6px"/>
+            <input id="hier-ceo-email" class="fi" type="email" placeholder="Email Address"/>
+          </div>
+        </div>
+        <div id="hier-result" style="display:none;margin:0 14px 14px;padding:10px;border-radius:6px;font-size:13px;text-align:center"></div>
+      </div>
+
+      <!-- Project Head -->
+      <div class="card">
+        <div class="card-head">
+          <div><div class="card-title">Project Head (L2)</div><div class="card-sub">Assign Project Head per project for L2 escalation routing</div></div>
+        </div>
+        <div style="padding:14px;display:flex;flex-direction:column;gap:10px" id="project-head-list">
+          <div style="text-align:center;color:var(--t3);font-size:13px;padding:20px">Loading projects...</div>
+        </div>
+      </div>
+
+      <!-- Activity Master -->
+      <div class="card">
+        <div class="card-head">
+          <div><div class="card-title">Activity Master (L1)</div><div class="card-sub">Add activities per project — incidents routed to Activity Head automatically</div></div>
+          <button class="btn-primary" onclick="openAddActivity()" style="padding:6px 14px;font-size:12px">+ Add Activity</button>
+        </div>
+        <div style="padding:14px 14px 0">
+          <select id="act-project-sel" class="fi" onchange="loadActivities(this.value)" style="max-width:300px">
+            <option value="">Select Project...</option>
+          </select>
+        </div>
+        <div style="padding:14px;display:flex;flex-direction:column;gap:8px" id="activities-list">
+          <div style="text-align:center;color:var(--t3);font-size:13px;padding:20px">Select a project to view activities</div>
+        </div>
+      </div>
+
+    </div>
+
+    </div>
+
+  </div>
+</div>
+</div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--raised);border:1px solid var(--g-b);border-radius:10px;padding:10px 18px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;color:var(--t1);box-shadow:0 8px 24px rgba(0,0,0,.4);transition:transform .3s;z-index:9999;white-space:nowrap">
+  <div style="width:26px;height:26px;border-radius:7px;background:var(--g-s);border:1px solid var(--g-b);display:flex;align-items:center;justify-content:center"><svg style="width:13px;height:13px;fill:var(--green)" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+  <span id="toast-msg">Saved</span>
+</div>
+
+<script>
+/* TABS */
+function switchTab(el,id){
+  document.querySelectorAll('.sh-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+}
+function switchTmpl(el){
+  document.querySelectorAll('.ttab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  currentTemplate = el.textContent.trim();
+  currentFields = [...(allTemplates[currentTemplate] || allTemplates['Incident Report'])];
+  renderFields();
+  showToast('Loaded: ' + currentTemplate + ' template');
+}
+
+/* TEMPLATE FIELDS — separate data per template */
+const allTemplates = {
+  'Incident Report': [
+    {type:'Select',  name:'Project',                req:true},
+    {type:'Date',    name:'Incident Date & Time',   req:true},
+    {type:'Textarea',name:'Description',            req:true},
+    {type:'Select',  name:'Severity',               req:true},
+    {type:'Select',  name:'Injury Type',            req:true},
+    {type:'Text',    name:'Location / Area',        req:false},
+    {type:'GPS',     name:'GPS Coordinates',        req:false},
+    {type:'File',    name:'Evidence Photo',         req:false},
+    {type:'Text',    name:'Immediate Action Taken', req:false},
+    {type:'Select',  name:'Assign Investigator',    req:true},
+  ],
+  'NCR / Observation': [
+    {type:'Select',  name:'Project',                req:true},
+    {type:'Select',  name:'Observation Type',       req:true},
+    {type:'Textarea',name:'Description',            req:true},
+    {type:'Select',  name:'Severity',               req:true},
+    {type:'Text',    name:'Location / Zone',        req:false},
+    {type:'File',    name:'Evidence Photo',         req:false},
+    {type:'Select',  name:'Assign To',              req:true},
+    {type:'Date',    name:'Due Date',               req:true},
+    {type:'Text',    name:'Corrective Action',      req:false},
+    {type:'GPS',     name:'GPS Coordinates',        req:false},
+  ],
+  'Audit Checklist': [
+    {type:'Select',  name:'Audit Type',             req:true},
+    {type:'Select',  name:'Project',                req:true},
+    {type:'Date',    name:'Audit Date',             req:true},
+    {type:'Select',  name:'Auditor',                req:true},
+    {type:'Select',  name:'Contractor',             req:false},
+    {type:'Checklist','name':'Checklist Items',     req:true},
+    {type:'Textarea',name:'Findings Summary',       req:false},
+    {type:'Number',  name:'Audit Score (0–100)',    req:true},
+    {type:'File',    name:'Supporting Evidence',    req:false},
+    {type:'Select',  name:'Approval Sign-off',      req:true},
+  ],
+  'Investigation': [
+    {type:'Reference','name':'Linked Incident ID',  req:true},
+    {type:'Select',  name:'Root Cause Category',    req:true},
+    {type:'Textarea',name:'Root Cause Description', req:true},
+    {type:'Textarea',name:'Findings',               req:true},
+    {type:'Textarea',name:'Corrective Actions',     req:true},
+    {type:'Select',  name:'Contributing Factors',   req:false},
+    {type:'File',    name:'Supporting Documents',   req:false},
+    {type:'Date',    name:'Target Completion Date', req:true},
+    {type:'Select',  name:'Investigator',           req:true},
+    {type:'Select',  name:'Approval Sign-off',      req:true},
+  ],
+  'Risk Assessment': [
+    {type:'Select',  name:'Project',                req:true},
+    {type:'Text',    name:'Activity / Task',        req:true},
+    {type:'Textarea',name:'Hazard Identification',  req:true},
+    {type:'Select',  name:'Risk Level',             req:true},
+    {type:'Number',  name:'Likelihood (1–5)',       req:true},
+    {type:'Number',  name:'Severity (1–5)',         req:true},
+    {type:'Textarea',name:'Control Measures',       req:true},
+    {type:'Select',  name:'Responsible Person',     req:true},
+    {type:'Date',    name:'Review Date',            req:false},
+    {type:'Reference','name':'Linked Audit / Incident', req:false},
+  ],
+};
+
+let currentTemplate = 'Incident Report';
+let currentFields = [...allTemplates[currentTemplate]];
+
+function renderFields(){
+  document.getElementById('field-builder').innerHTML = currentFields.map((f,i)=>`
+    <div class="field-item">
+      <div class="fi-drag">⣿</div>
+      <span class="fi-type">${f.type}</span>
+      <span class="fi-name">${f.name}</span>
+      <span class="fi-req ${f.req?'req-y':'req-n'}">${f.req?'Required':'Optional'}</span>
+      <div class="fi-actions">
+        <div class="fia" title="Edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+        <div class="fia" title="Delete" onclick="removeField(${i})"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/></svg></div>
+      </div>
+    </div>`).join('');
+  // Update field count badge
+  const badge = document.getElementById('field-count');
+  if(badge) badge.textContent = currentFields.length + ' fields';
+}
+renderFields();
+
+function removeField(i){currentFields.splice(i,1);renderFields();showToast('Field removed');}
+function addField(){currentFields.push({type:'Text',name:'New Field',req:false});renderFields();showToast('Field added — click Edit to configure');}
+
+/* ROLES TABLE */
+const rolesData=[
+  {name:'Dhanesh CK',email:'dhanesh.ck@ieccl.co.in',color:'#22C55E',ini:'DK',role:'Admin',projects:'All',status:'Active'},
+  {name:'Meera K.',email:'meera.k@ieccl.co.in',color:'#F59E0B',ini:'MK',role:'HSE Head',projects:'Birpur, Alpha',status:'Active'},
+  {name:'Rajesh K.',email:'rajesh.k@ieccl.co.in',color:'#EF4444',ini:'RK',role:'Site User',projects:'Site Alpha',status:'Active'},
+  {name:'John M.',email:'john.m@ieccl.co.in',color:'#3B82F6',ini:'JM',role:'Manager',projects:'Tirora Plant',status:'Active'},
+  {name:'Vikram S.',email:'vikram.s@ieccl.co.in',color:'#8B5CF6',ini:'VS',role:'Site User',projects:'Birpur Road',status:'Active'},
+  {name:'Priya R.',email:'priya.r@ieccl.co.in',color:'#0EA5E9',ini:'PR',role:'Site User',projects:'Site Alpha',status:'Inactive'},
+];
+const roleColors={Admin:'var(--p-s),var(--purple)',HSEHead:'var(--g-s),var(--green)','HSE Head':'var(--g-s),var(--green)',Manager:'var(--a-s),var(--amber)','Site User':'var(--b-s),var(--blue)',Auditor:'rgba(20,184,166,.12),#14B8A6'};
+document.getElementById('roles-tbody').innerHTML=rolesData.map(r=>{
+  const rc=(roleColors[r.role]||'var(--b-s),var(--blue)').split(',');
+  return`<tr>
+    <td><div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:${r.color};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff">${r.ini}</div><span style="font-size:12px;font-weight:600;color:var(--t1)">${r.name}</span></div></td>
+    <td style="font-size:11px;color:var(--t3)">${r.email}</td>
+    <td><span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;background:${rc[0]};color:${rc[1]};border:1px solid ${rc[1].replace(')',',0.3)').replace('var(','rgba(')}">${r.role}</span></td>
+    <td style="font-size:11px;color:var(--t2)">${r.projects}</td>
+    <td><span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;${r.status==='Active'?'background:var(--g-s);color:var(--green);border:1px solid var(--g-b)':'background:var(--raised);color:var(--t3);border:1px solid var(--border)'}">${r.status}</span></td>
+    <td><div style="display:flex;gap:4px">
+      <div style="width:22px;height:22px;border-radius:4px;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer" onclick="showToast('Edit ${r.name}')"><svg style="width:10px;height:10px;fill:var(--t3)" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+    </div></td>
+  </tr>`;
+}).join('');
+
+/* TOGGLE */
+function toggleSwitch(el){
+  el.classList.toggle('on');
+  el.classList.toggle('off');
+}
+
+/* COLOR SELECT */
+function selectColor(el,hex){
+  document.querySelectorAll('.co').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('color-input').value=hex;
+  document.getElementById('preview-logo').style.background=hex;
+}
+function updatePreview(val){
+  document.getElementById('preview-logo').style.background=val;
+  document.getElementById('color-input').value=val;
+}
+
+/* TOAST */
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.style.transform='translateX(-50%) translateY(0)';
+  setTimeout(()=>{t.style.transform='translateX(-50%) translateY(100px)'},3000);
+}
+
+
+/* ══ ADMIN API ══ */
+const ADMIN_API = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
+function getAdminToken(){ return localStorage.getItem('sp_token'); }
+
+async function adminFetch(path, opts={}){
+  const res = await fetch(ADMIN_API+path, {
+    ...opts,
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+getAdminToken(),...(opts.headers||{})}
+  });
+  return res.json();
+}
+
+async function createUser(){
+  const name = document.getElementById('nu-name').value.trim();
+  const email = document.getElementById('nu-email').value.trim();
+  const phone = document.getElementById('nu-phone').value.trim();
+  const role = document.getElementById('nu-role').value;
+  const password = document.getElementById('nu-password').value.trim();
+  const result = document.getElementById('nu-result');
+
+  if(!name || !email || !password){
+    result.style.display='block';
+    result.style.background='rgba(239,68,68,.1)';
+    result.style.border='1px solid rgba(239,68,68,.3)';
+    result.style.color='#EF4444';
+    result.textContent='Please fill in Name, Email and Password';
+    return;
+  }
+
+  result.style.display='block';
+  result.style.background='rgba(245,158,11,.1)';
+  result.style.border='1px solid rgba(245,158,11,.3)';
+  result.style.color='#F59E0B';
+  result.textContent='Creating user...';
+
+  try {
+    const data = await adminFetch('/auth/create-user', {
+      method:'POST',
+      body: JSON.stringify({ name, email, phone, role, password })
+    });
+
+    if(data.user){
+      result.style.background='rgba(34,197,94,.1)';
+      result.style.border='1px solid rgba(34,197,94,.3)';
+      result.style.color='#22C55E';
+      result.textContent='✓ User created: '+data.user.name+' ('+data.user.role+') — Temp password: '+password;
+      // Clear form
+      document.getElementById('nu-name').value='';
+      document.getElementById('nu-email').value='';
+      document.getElementById('nu-phone').value='';
+      document.getElementById('nu-password').value='SafetyPro@123';
+      // Reload user list
+      loadUsers();
+    } else {
+      result.style.background='rgba(239,68,68,.1)';
+      result.style.border='1px solid rgba(239,68,68,.3)';
+      result.style.color='#EF4444';
+      result.textContent='Error: '+(data.message?.message || data.message || 'Failed to create user');
+    }
+  } catch(e){
+    result.style.background='rgba(239,68,68,.1)';
+    result.style.border='1px solid rgba(239,68,68,.3)';
+    result.style.color='#EF4444';
+    result.textContent='Error: '+e.message;
+  }
+}
+
+async function loadUsers(){
+  const tbody = document.getElementById('roles-tbody');
+  if(!tbody) return;
+  try {
+    const users = await adminFetch('/users');
+    if(!users || users.statusCode){
+      tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--t3);font-size:13px">Login required to view users</td></tr>';
+      return;
+    }
+    const roleColors = {ADMIN:'#22C55E',HSE_HEAD:'#3B82F6',MANAGER:'#F59E0B',AUDITOR:'#8B5CF6',SITE_USER:'#64748B'};
+    const roleLabels = {ADMIN:'Admin',HSE_HEAD:'HSE Head',MANAGER:'Manager',AUDITOR:'Auditor',SITE_USER:'Site User'};
+    tbody.innerHTML = users.map(u=>`
+      <tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:10px 14px">
+          <div style="display:flex;align-items:center;gap:9px">
+            <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#0B0E12;flex-shrink:0">
+              ${u.name.split(' ').map(n=>n[0]).join('').substring(0,2)}
+            </div>
+            <span style="font-size:13px;font-weight:500;color:var(--t1)">${u.name}</span>
+          </div>
+        </td>
+        <td style="padding:10px 14px;font-size:12px;color:var(--t2)">${u.email}</td>
+        <td style="padding:10px 14px">
+          <span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;background:${roleColors[u.role]||'#64748B'}22;color:${roleColors[u.role]||'#64748B'};border:1px solid ${roleColors[u.role]||'#64748B'}44">
+            ${roleLabels[u.role]||u.role}
+          </span>
+        </td>
+        <td style="padding:10px 14px;font-size:12px;color:var(--t3)">${u.lastLogin ? new Date(u.lastLogin).toLocaleDateString('en-IN') : 'Never'}</td>
+        <td style="padding:10px 14px"><span style="font-size:10px;color:#22C55E">● Active</span></td>
+      </tr>`).join('');
+  } catch(e){
+    tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--t3);font-size:13px">Could not load users</td></tr>';
+  }
+}
+
+// Load users when Roles tab is opened
+// switchTab override moved to activities section
+window._dummySwitchOverride = function(el, tabName){
+  if(tabName === 'roles') loadUsers();
+};
+
+/* ── MORE MENU ── */
+function toggleMore(e){
+  e.stopPropagation();
+  document.getElementById('more-btn').classList.toggle('open');
+}
+document.addEventListener('click',function(){
+  const mb=document.getElementById('more-btn');
+  if(mb) mb.classList.remove('open');
+});
+
+
+/* ══ NAVIGATION ══ */
+(function(){
+  const pages = {
+    'Dashboard':            'safetypro_v2.html',
+    'Operations':           'safetypro_operations.html',
+    'Control':              'safetypro_control.html',
+    'Reports':              'safetypro_reports.html',
+    'Audit & Compliance':   'safetypro_admin.html',
+    'Documents & Records':  'safetypro_admin.html',
+    'Site & Field Tools':   'safetypro_admin.html',
+    'AI Intelligence':      'safetypro_admin.html',
+    'Auditor Verification': 'safetypro_admin.html',
+    'Admin & Configuration':'safetypro_admin.html',
+  };
+
+  function navigate(label){
+    const dest = pages[label];
+    if(dest) window.location.href = dest;
+  }
+
+  // Wire sidebar items
+  document.querySelectorAll('.sb-item').forEach(el => {
+    const label = el.textContent.trim().replace(/\d+/g,'').trim();
+    const dest = pages[label];
+    if(dest){
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        window.location.href = dest;
+      });
+    }
+  });
+
+  // Wire topnav links
+  document.querySelectorAll('.nl').forEach(el => {
+    const label = el.textContent.trim().replace(/[▾]/g,'').trim();
+    const dest = pages[label];
+    if(dest && !el.classList.contains('more-wrap')){
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        window.location.href = dest;
+      });
+    }
+  });
+
+  // Wire More menu items
+  document.querySelectorAll('.mm-item').forEach(el => {
+    const label = el.textContent.trim();
+    const dest = pages[label];
+    if(dest){
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        window.location.href = dest;
+      });
+    }
+  });
+
+  // Wire logo click → dashboard
+  const logo = document.querySelector('.logo');
+  if(logo){
+    logo.style.cursor = 'pointer';
+    logo.addEventListener('click', () => { window.location.href = 'safetypro_v2.html'; });
+  }
+})();
+
+
+/* ══ ACTIVITIES & HIERARCHY ══ */
+const API = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
+function getToken(){ return localStorage.getItem('sp_token'); }
+async function apiFetch(path, opts={}) {
+  const res = await fetch(API+path, {
+    ...opts,
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken(),...(opts.headers||{})}
+  });
+  return res.json();
+}
+
+// Load projects into selects
+async function loadProjectsForActivities() {
+  try {
+    const projects = await apiFetch('/projects');
+    if(!projects || !projects.length) return;
+    const sel1 = document.getElementById('act-project-sel');
+    const sel2 = document.getElementById('act-proj');
+    projects.forEach(p => {
+      if(sel1) sel1.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+      if(sel2) sel2.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+    });
+    // Load project heads
+    loadProjectHeads(projects);
+    // Load hierarchy
+    loadHierarchy();
+  } catch(e){ console.warn(e); }
+}
+
+async function loadHierarchy() {
+  try {
+    const h = await apiFetch('/activities/company/hierarchy');
+    if(!h) return;
+    if(h.sectorHeadName) document.getElementById('hier-sector-name').value = h.sectorHeadName;
+    if(h.sectorHeadEmail) document.getElementById('hier-sector-email').value = h.sectorHeadEmail;
+    if(h.hseHeadHOName) document.getElementById('hier-hse-name').value = h.hseHeadHOName;
+    if(h.hseHeadHOEmail) document.getElementById('hier-hse-email').value = h.hseHeadHOEmail;
+    if(h.ceoName) document.getElementById('hier-ceo-name').value = h.ceoName;
+    if(h.ceoEmail) document.getElementById('hier-ceo-email').value = h.ceoEmail;
+  } catch(e){ console.warn(e); }
+}
+
+async function saveHierarchy() {
+  const data = {
+    sectorHeadName: document.getElementById('hier-sector-name').value,
+    sectorHeadEmail: document.getElementById('hier-sector-email').value,
+    hseHeadHOName: document.getElementById('hier-hse-name').value,
+    hseHeadHOEmail: document.getElementById('hier-hse-email').value,
+    ceoName: document.getElementById('hier-ceo-name').value,
+    ceoEmail: document.getElementById('hier-ceo-email').value,
+  };
+  const result = document.getElementById('hier-result');
+  try {
+    await apiFetch('/activities/company/hierarchy', { method:'PATCH', body: JSON.stringify(data) });
+    result.style.display='block';
+    result.style.background='rgba(34,197,94,.1)';
+    result.style.border='1px solid rgba(34,197,94,.3)';
+    result.style.color='#22C55E';
+    result.textContent='✓ Hierarchy saved successfully';
+    setTimeout(()=>result.style.display='none', 3000);
+  } catch(e){
+    result.style.display='block';
+    result.style.color='#EF4444';
+    result.textContent='Error saving hierarchy';
+  }
+}
+
+async function loadProjectHeads(projects) {
+  const container = document.getElementById('project-head-list');
+  if(!container) return;
+  container.innerHTML = '';
+  for(const p of projects) {
+    container.innerHTML += `
+      <div style="display:grid;grid-template-columns:200px 1fr 1fr 80px;gap:10px;align-items:center;padding:10px;background:var(--raised);border-radius:8px;border:1px solid var(--border)">
+        <div style="font-size:13px;font-weight:600;color:var(--t1)">${p.name}</div>
+        <input class="fi" type="text" placeholder="Project Head Name" id="ph-name-${p.id}" value="${p.projectHeadName||''}" style="margin:0"/>
+        <input class="fi" type="email" placeholder="Project Head Email (L2)" id="ph-email-${p.id}" value="${p.projectHeadEmail||''}" style="margin:0"/>
+        <button onclick="saveProjectHead('${p.id}')" style="padding:8px;border-radius:6px;border:none;background:var(--green);color:#0B0E12;font-size:12px;font-weight:600;cursor:pointer">Save</button>
+      </div>`;
+  }
+}
+
+async function saveProjectHead(projectId) {
+  const name = document.getElementById('ph-name-'+projectId)?.value;
+  const email = document.getElementById('ph-email-'+projectId)?.value;
+  try {
+    await apiFetch('/activities/project/'+projectId+'/head', {
+      method:'PATCH', body: JSON.stringify({ projectHeadName: name, projectHeadEmail: email })
+    });
+    showToast('✓ Project Head saved');
+  } catch(e){ showToast('Error saving'); }
+}
+
+async function loadActivities(projectId) {
+  if(!projectId) return;
+  const container = document.getElementById('activities-list');
+  container.innerHTML = '<div style="text-align:center;color:var(--t3);font-size:13px;padding:20px">Loading...</div>';
+  try {
+    const acts = await apiFetch('/activities/project/'+projectId);
+    if(!acts || !acts.length) {
+      container.innerHTML = '<div style="text-align:center;color:var(--t3);font-size:13px;padding:20px">No activities yet — click + Add Activity</div>';
+      return;
+    }
+    container.innerHTML = '';
+    acts.forEach(a => {
+      container.innerHTML += `
+        <div style="display:grid;grid-template-columns:180px 1fr 1fr 80px;gap:10px;align-items:center;padding:10px;background:var(--raised);border-radius:8px;border:1px solid var(--border)">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--green)">${a.name}</div>
+            <div style="font-size:11px;color:var(--t3)">L1 Escalation Target</div>
+          </div>
+          <div style="font-size:13px;color:var(--t2)">${a.headName||'—'}</div>
+          <div style="font-size:13px;color:var(--t2)">${a.headEmail||'—'}</div>
+          <button onclick="removeActivity('${a.id}')" style="padding:6px;border-radius:6px;border:1px solid var(--border);background:transparent;color:#EF4444;font-size:11px;cursor:pointer">Remove</button>
+        </div>`;
+    });
+  } catch(e){ container.innerHTML = '<div style="text-align:center;color:#EF4444;font-size:13px;padding:20px">Error loading activities</div>'; }
+}
+
+function openAddActivity() {
+  const m=document.getElementById('add-act-modal'); m.style.display='flex'; m.classList.add('open');
+}
+function closeAddActivity() {
+  const m=document.getElementById('add-act-modal'); m.style.display='none'; m.classList.remove('open');
+  document.getElementById('act-name').value='';
+  document.getElementById('act-head-name').value='';
+  document.getElementById('act-head-email').value='';
+  document.getElementById('act-result').style.display='none';
+}
+
+async function saveActivity() {
+  const projectId = document.getElementById('act-proj').value;
+  const name = document.getElementById('act-name').value.trim();
+  const headName = document.getElementById('act-head-name').value.trim();
+  const headEmail = document.getElementById('act-head-email').value.trim();
+  const result = document.getElementById('act-result');
+
+  if(!projectId || !name) {
+    result.style.display='block';
+    result.style.background='rgba(239,68,68,.1)';
+    result.style.border='1px solid rgba(239,68,68,.3)';
+    result.style.color='#EF4444';
+    result.textContent='Please select a project and enter activity name';
+    return;
+  }
+  try {
+    await apiFetch('/activities', {
+      method:'POST',
+      body: JSON.stringify({ projectId, name, headName, headEmail })
+    });
+    result.style.display='block';
+    result.style.background='rgba(34,197,94,.1)';
+    result.style.border='1px solid rgba(34,197,94,.3)';
+    result.style.color='#22C55E';
+    result.textContent='✓ Activity added successfully';
+    setTimeout(()=>{ closeAddActivity(); loadActivities(projectId); }, 1500);
+  } catch(e){ result.textContent='Error saving activity'; }
+}
+
+async function removeActivity(id) {
+  if(!confirm('Remove this activity?')) return;
+  try {
+    await apiFetch('/activities/'+id, { method:'DELETE' });
+    const sel = document.getElementById('act-project-sel');
+    if(sel?.value) loadActivities(sel.value);
+    showToast('Activity removed');
+  } catch(e){ showToast('Error removing'); }
+}
+
+// Auto-load when activities tab is clicked
+// Auto-load activities when tab clicked — handled via tab panel check
+document.addEventListener('click', function(e) {
+  if(e.target.closest && e.target.closest('[onclick*="activities"]')) {
+    setTimeout(loadProjectsForActivities, 100);
+  }
+});
+
+</script>
+
+<!-- ADD ACTIVITY MODAL -->
+<div class="modal-overlay" id="add-act-modal" style="display:none;opacity:1;pointer-events:all">
+  <div class="modal" style="max-width:460px">
+    <div class="modal-head">
+      <div class="modal-title">Add Activity</div>
+      <div class="modal-close" onclick="closeAddActivity()">✕</div>
+    </div>
+    <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+      <div>
+        <div class="fi-label">Project *</div>
+        <select id="act-proj" class="fi">
+          <option value="">Select Project...</option>
+        </select>
+      </div>
+      <div>
+        <div class="fi-label">Activity Name *</div>
+        <input id="act-name" class="fi" type="text" placeholder="e.g. Civil, Electrical, Mechanical, MEP"/>
+      </div>
+      <div>
+        <div class="fi-label">Activity Head Name</div>
+        <input id="act-head-name" class="fi" type="text" placeholder="Full name of Activity Head"/>
+      </div>
+      <div>
+        <div class="fi-label">Activity Head Email (L1 Escalation)</div>
+        <input id="act-head-email" class="fi" type="email" placeholder="activityhead@company.com"/>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:4px">
+        <button onclick="saveActivity()" style="flex:1;padding:10px;border-radius:8px;border:none;background:var(--green);color:#0B0E12;font-weight:700;font-size:13px;cursor:pointer">Save Activity</button>
+        <button onclick="closeAddActivity()" style="padding:10px 20px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--t2);font-size:13px;cursor:pointer">Cancel</button>
+      </div>
+      <div id="act-result" style="display:none;padding:10px;border-radius:6px;font-size:13px;text-align:center"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

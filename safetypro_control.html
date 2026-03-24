@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SafetyPro AI — Control</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#0B0F14;--card:#131C26;--raised:#16212B;--sidebar:#0F1720;--border:#1E293B;--div:rgba(255,255,255,0.05);
+  --green:#22C55E;--g-h:#16A34A;--g-s:rgba(34,197,94,0.12);--g-b:rgba(34,197,94,0.3);
+  --amber:#F59E0B;--a-s:rgba(245,158,11,0.12);--a-b:rgba(245,158,11,0.3);
+  --red:#EF4444;--r-s:rgba(239,68,68,0.12);--r-b:rgba(239,68,68,0.35);
+  --blue:#3B82F6;--b-s:rgba(59,130,246,0.12);--b-b:rgba(59,130,246,0.3);
+  --purple:#8B5CF6;--p-s:rgba(139,92,246,0.12);--p-b:rgba(139,92,246,0.3);
+  --t1:#E6EDF3;--t2:#94A3B8;--t3:#64748B;
+  --fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);font-size:13px;line-height:1.5;min-height:100vh}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+svg{flex-shrink:0}
+.app{display:flex;flex-direction:column;min-height:100vh}
+
+/* ── TOP NAV ── */
+.topnav{height:52px;flex-shrink:0;background:var(--sidebar);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 0 0 0;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;width:195px;flex-shrink:0;padding:0 16px 0 18px;border-right:1px solid var(--border)}
+.logo-mark{width:28px;height:28px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(34,197,94,.4)}
+.logo-mark svg{width:16px;height:16px;fill:#fff}
+.logo-text{font-family:var(--fh);font-size:15px;font-weight:700}
+.logo-text span{color:var(--green)}
+.nl{display:flex;align-items:center;gap:6px;padding:6px 13px;border-radius:7px;font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s;text-decoration:none}
+.nl:hover{color:var(--t1);background:rgba(255,255,255,.04)}
+.nl.active{color:var(--t1);font-weight:600}
+.nl svg{width:13px;height:13px;fill:currentColor}
+.nl .arr{font-size:9px;opacity:.5;margin-left:2px}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;padding-right:20px}
+.icon-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:border-color .15s}
+.icon-btn:hover{border-color:var(--t3)}
+.icon-btn svg{width:14px;height:14px;fill:var(--t2)}
+.ndot{position:absolute;top:4px;right:4px;width:6px;height:6px;background:var(--red);border-radius:50%;border:1px solid var(--bg)}
+.user-pill{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:5px 10px 5px 5px;cursor:pointer}
+.ua{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.un-name{font-size:11px;font-weight:600;color:var(--t1);line-height:1.2}
+.un-role{font-size:9px;color:var(--t3)}
+
+/* ── BODY ── */
+.body{display:flex;flex:1}
+
+/* ── SIDEBAR ── */
+.sidebar{width:195px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:14px 8px;min-height:calc(100vh - 52px);position:sticky;top:52px;align-self:flex-start}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:var(--t3);cursor:pointer;transition:all .15s;font-size:13px;margin-bottom:2px;text-decoration:none}
+.sb-item:hover{background:rgba(255,255,255,.04);color:var(--t2)}
+.sb-item.active{background:rgba(34,197,94,.1);border-left:2px solid var(--green);color:var(--green);padding-left:8px}
+.sb-item svg{width:15px;height:15px;fill:currentColor;opacity:.7}
+.sb-item.active svg{opacity:1}
+.sb-badge{margin-left:auto;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px}
+.sb-badge.red{background:var(--red);color:#fff}
+.sb-badge.amber{background:var(--amber);color:#0B0E12}
+.sidebar-foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--border)}
+
+/* ── CONTENT ── */
+.content{flex:1;min-width:0}
+
+/* ── SUB HEADER ── */
+.sub-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50}
+.sh-left{display:flex;align-items:center;gap:12px}
+.sh-title{font-family:var(--fh);font-size:16px;font-weight:700}
+.sh-tabs{display:flex;gap:2px}
+.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent}
+.sh-tab:hover{color:var(--t2)}
+.sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
+.sh-right{display:flex;gap:8px;align-items:center}
+.sel{background:var(--card);border:1px solid var(--border);color:var(--t1);padding:6px 12px;border-radius:7px;font-family:var(--fb);font-size:12px;outline:none;cursor:pointer}
+
+/* ── MAIN AREA ── */
+.main{padding:16px 20px;display:flex;flex-direction:column;gap:14px;padding-bottom:60px}
+
+/* ── STAT CARDS ── */
+.ctrl-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.cs-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden;cursor:pointer;transition:all .2s}
+.cs-card:hover{transform:translateY(-2px)}
+.cs-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:12px 12px 0 0}
+.cs-card.red{border-color:rgba(239,68,68,.3)}.cs-card.red::before{background:var(--red);box-shadow:0 0 16px rgba(239,68,68,.6)}
+.cs-card.amber{border-color:rgba(245,158,11,.3)}.cs-card.amber::before{background:var(--amber);box-shadow:0 0 16px rgba(245,158,11,.6)}
+.cs-card.green{border-color:rgba(34,197,94,.3)}.cs-card.green::before{background:var(--green);box-shadow:0 0 16px rgba(34,197,94,.6)}
+.cs-card.blue{border-color:rgba(59,130,246,.3)}.cs-card.blue::before{background:var(--blue);box-shadow:0 0 16px rgba(59,130,246,.6)}
+.cs-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.cs-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center}
+.cs-icon svg{width:14px;height:14px}
+.cs-icon.r{background:var(--r-s);border:1px solid var(--r-b)}.cs-icon.r svg{fill:var(--red)}
+.cs-icon.a{background:var(--a-s);border:1px solid var(--a-b)}.cs-icon.a svg{fill:var(--amber)}
+.cs-icon.g{background:var(--g-s);border:1px solid var(--g-b)}.cs-icon.g svg{fill:var(--green)}
+.cs-icon.b{background:var(--b-s);border:1px solid var(--b-b)}.cs-icon.b svg{fill:var(--blue)}
+.cs-trend{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px}
+.cs-trend.up{background:var(--r-s);color:var(--red)}.cs-trend.down{background:var(--g-s);color:var(--green)}.cs-trend.warn{background:var(--a-s);color:var(--amber)}
+.cs-num{font-family:var(--fh);font-size:32px;font-weight:800;letter-spacing:-1px;line-height:1}
+.cs-card.red .cs-num{color:var(--red)}.cs-card.amber .cs-num{color:var(--amber)}.cs-card.green .cs-num{color:var(--green)}.cs-card.blue .cs-num{color:var(--blue)}
+.cs-label{font-size:11px;color:var(--t2);margin-top:4px}
+.cs-sub{font-size:10px;color:var(--t3);margin-top:1px}
+
+/* ── CARD BASE ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--div)}
+.card-title{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1)}
+.card-sub{font-size:10px;color:var(--t3);margin-top:1px}
+.cbtn{font-size:10px;padding:4px 10px;border-radius:5px;border:1px solid var(--border);color:var(--t3);background:var(--raised);cursor:pointer;transition:all .15s;font-family:var(--fb)}
+.cbtn:hover{color:var(--t2)}.cbtn.on{background:var(--g-s);border-color:var(--g-b);color:var(--green)}
+.cbtn.red-on{background:var(--r-s);border-color:var(--r-b);color:var(--red)}
+
+/* ── ESCALATION TABLE ── */
+.esc-grid{display:grid;grid-template-columns:1fr 340px;gap:14px}
+
+.lvl-map{padding:10px 14px;display:flex;gap:6px;align-items:center;border-bottom:1px solid var(--div);flex-wrap:wrap}
+.lvl-pill{display:flex;align-items:center;gap:5px;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;border:1px solid var(--border);color:var(--t3)}
+.lvl-pill:hover{border-color:var(--t2)}
+.lvl-pill.l1{border-color:var(--a-b);color:var(--amber);background:var(--a-s)}
+.lvl-pill.l2{border-color:rgba(249,115,22,.3);color:#F97316;background:rgba(249,115,22,.1)}
+.lvl-pill.l3{border-color:var(--r-b);color:var(--red);background:var(--r-s)}
+.lvl-pill.l4{border-color:rgba(220,38,38,.4);color:#DC2626;background:rgba(220,38,38,.12)}
+.lvl-pill.l5{border-color:rgba(127,29,29,.5);color:#B91C1C;background:rgba(127,29,29,.15)}
+.lvl-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+.esc-table-wrap{overflow-x:auto}
+.etbl{width:100%;border-collapse:collapse}
+.etbl th{padding:8px 14px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015)}
+.etbl td{padding:11px 14px;border-bottom:1px solid var(--div);vertical-align:middle}
+.etbl tr:last-child td{border-bottom:none}
+.etbl tr{cursor:pointer;transition:background .12s}
+.etbl tr:hover td{background:rgba(255,255,255,.02)}
+
+.person-cell{display:flex;align-items:center;gap:8px}
+.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.p-name{font-size:12px;font-weight:600;color:var(--t1)}
+.p-role{font-size:10px;color:var(--t3)}
+
+.lvl-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px}
+.lv1{background:var(--a-s);color:var(--amber);border:1px solid var(--a-b)}
+.lv2{background:rgba(249,115,22,.1);color:#F97316;border:1px solid rgba(249,115,22,.3)}
+.lv3{background:var(--r-s);color:var(--red);border:1px solid var(--r-b);animation:pulse-badge 2s ease-in-out infinite}
+.lv4{background:rgba(220,38,38,.12);color:#DC2626;border:1px solid rgba(220,38,38,.4)}
+.lv5{background:rgba(127,29,29,.15);color:#B91C1C;border:1px solid rgba(127,29,29,.5)}
+@keyframes pulse-badge{0%,100%{box-shadow:0 0 0 rgba(239,68,68,0)}50%{box-shadow:0 0 8px rgba(239,68,68,.4)}}
+
+.days-cell{display:flex;align-items:center;gap:5px;font-size:11px}
+.days-cell.crit{color:var(--red);font-weight:700}
+.days-cell.high{color:#F97316;font-weight:600}
+.days-cell.med{color:var(--amber)}
+.days-cell.low{color:var(--t2)}
+
+.action-cell{display:flex;gap:5px}
+.act-icon{width:24px;height:24px;border-radius:5px;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s}
+.act-icon:hover{border-color:var(--green);background:var(--g-s)}
+.act-icon svg{width:11px;height:11px;fill:var(--t3)}
+.act-icon:hover svg{fill:var(--green)}
+
+.src-tag{display:inline-flex;align-items:center;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px}
+.src-i{background:var(--r-s);color:var(--red);border:1px solid var(--r-b)}
+.src-n{background:var(--a-s);color:var(--amber);border:1px solid var(--a-b)}
+.src-au{background:var(--p-s);color:var(--purple);border:1px solid var(--p-b)}
+
+/* ── ESCALATION CHAIN ── */
+.chain-card{display:flex;flex-direction:column;gap:0}
+.chain-head{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--div)}
+.chain-title{font-size:12px;font-weight:700;color:var(--t1)}
+.chain-sub{font-size:10px;color:var(--t3);margin-top:1px}
+
+.chain-steps{padding:12px 14px;display:flex;flex-direction:column;gap:0}
+.chain-step{display:flex;align-items:flex-start;gap:10px;position:relative;padding-bottom:16px}
+.chain-step:last-child{padding-bottom:0}
+.chain-step:not(:last-child)::after{content:'';position:absolute;left:13px;top:28px;bottom:0;width:1px;background:var(--border)}
+.cs-circle{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;z-index:1}
+.cs-circle.fired{background:var(--red);color:#fff;box-shadow:0 0 8px rgba(239,68,68,.5)}
+.cs-circle.active{background:var(--amber);color:#0B0E12;box-shadow:0 0 8px rgba(245,158,11,.4);animation:pulse-amber 2s ease-in-out infinite}
+@keyframes pulse-amber{0%,100%{box-shadow:0 0 4px rgba(245,158,11,.4)}50%{box-shadow:0 0 14px rgba(245,158,11,.6)}}
+.cs-circle.pending{background:var(--raised);border:1px solid var(--border);color:var(--t3)}
+.cs-circle.ceo{background:linear-gradient(135deg,#7C3AED,#6D28D9);color:#fff}
+.cs-body{flex:1}
+.cs-role{font-size:11px;font-weight:600;color:var(--t1)}
+.cs-person{font-size:10px;color:var(--t3)}
+.cs-time{font-size:9px;margin-top:2px}
+.cs-time.fired{color:var(--red)}.cs-time.active{color:var(--amber)}.cs-time.pending{color:var(--t3)}
+
+.chain-incident{margin:0 14px 12px;padding:10px 12px;background:var(--raised);border:1px solid var(--border);border-radius:8px}
+.ci-title{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:3px}
+.ci-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ci-tag{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:600}
+
+/* ── OVERDUE TRACKER ── */
+.od-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.od-filters{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--div);flex-wrap:wrap}
+.od-filter{padding:3px 10px;border-radius:100px;font-size:10px;border:1px solid var(--border);color:var(--t3);cursor:pointer;transition:all .15s}
+.od-filter:hover{color:var(--t2)}.od-filter.on{background:var(--r-s);border-color:var(--r-b);color:var(--red)}
+
+.od-list{display:flex;flex-direction:column;gap:0}
+.od-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--div);cursor:pointer;transition:background .12s}
+.od-item:last-child{border-bottom:none}
+.od-item:hover{background:rgba(255,255,255,.02)}
+.od-sev{width:4px;flex-shrink:0;border-radius:2px;align-self:stretch}
+.od-body{flex:1;min-width:0}
+.od-title{font-size:12px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.od-meta{display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap}
+.od-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
+.od-days{font-family:var(--fh);font-size:13px;font-weight:800}
+.od-days.d1{color:var(--amber)}.od-days.d3{color:#F97316}.od-days.d5{color:var(--red)}
+.od-days-label{font-size:9px;color:var(--t3)}
+
+/* ── DELAY CHART ── */
+.delay-chart-wrap{padding:14px;height:180px}
+
+/* ── ACCOUNTABILITY ── */
+.acc-section{display:flex;flex-direction:column;gap:0}
+.acc-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--div);cursor:pointer;transition:background .12s}
+.acc-item:hover{background:rgba(255,255,255,.02)}
+.acc-item:last-child{border-bottom:none}
+.acc-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.acc-body{flex:1;min-width:0}
+.acc-top-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.acc-name{font-size:12px;font-weight:600;color:var(--t1)}
+.acc-role{font-size:10px;color:var(--t3)}
+.acc-bar-wrap{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:3px}
+.acc-bar{height:100%;border-radius:3px;transition:width .8s ease}
+.acc-bar.excellent{background:var(--green);box-shadow:0 0 5px rgba(34,197,94,.4)}
+.acc-bar.good{background:var(--blue)}
+.acc-bar.warn{background:var(--amber)}
+.acc-bar.poor{background:var(--red)}
+.acc-stats{display:flex;gap:8px;align-items:center}
+.acc-stat-item{font-size:10px;color:var(--t3)}
+.acc-stat-item span{color:var(--t2);font-weight:600}
+.acc-pct{font-size:14px;font-weight:800;min-width:42px;text-align:right;font-family:var(--fh)}
+.grade-badge{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:4px}
+.gr-a{background:var(--g-s);color:var(--green);border:1px solid var(--g-b)}
+.gr-b{background:var(--b-s);color:var(--blue);border:1px solid var(--b-b)}
+.gr-c{background:var(--a-s);color:var(--amber);border:1px solid var(--a-b)}
+.gr-d{background:var(--r-s);color:var(--red);border:1px solid var(--r-b)}
+
+/* ── TEAM MANAGER ── */
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px}
+.team-card{background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;cursor:pointer;transition:all .2s}
+.team-card:hover{border-color:rgba(255,255,255,.12);transform:translateY(-2px)}
+.team-av-lg{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff}
+.team-name{font-size:13px;font-weight:600;color:var(--t1)}
+.team-role-text{font-size:10px;color:var(--t3)}
+.team-stats{display:flex;gap:10px;width:100%}
+.ts-item{flex:1;text-align:center;padding:5px;background:var(--card);border-radius:6px}
+.ts-num{font-family:var(--fh);font-size:14px;font-weight:700}
+.ts-label{font-size:8px;color:var(--t3);margin-top:1px}
+.team-perf-bar{width:100%;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.team-perf-fill{height:100%;border-radius:2px}
+.role-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:100px;border:1px solid}
+
+/* ── RESPONSIBILITY MATRIX ── */
+.matrix-wrap{padding:0 14px 14px;overflow-x:auto}
+.matrix{width:100%;border-collapse:collapse}
+.matrix th{padding:8px 12px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);white-space:nowrap}
+.matrix td{padding:9px 12px;border-bottom:1px solid var(--div);font-size:11px;color:var(--t2);vertical-align:middle}
+.matrix tr:last-child td{border-bottom:none}
+.matrix tr:hover td{background:rgba(255,255,255,.018)}
+.matrix-check{width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;margin:0 auto}
+.mc-yes{background:var(--g-s);border:1px solid var(--g-b)}
+.mc-yes svg{width:11px;height:11px;fill:var(--green)}
+.mc-partial{background:var(--a-s);border:1px solid var(--a-b)}
+.mc-partial svg{width:11px;height:11px;fill:var(--amber)}
+.mc-no{background:var(--raised);border:1px solid var(--border)}
+.mc-no svg{width:11px;height:11px;fill:var(--t3)}
+
+/* ── TAB PANELS ── */
+.tab-panel{display:none}.tab-panel.active{display:flex;flex-direction:column;gap:14px}
+
+/* ── STATUS PILLS ── */
+.sp{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:100px}
+.sp-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.sp-open{background:var(--b-s);color:var(--blue);border:1px solid var(--b-b)}
+.sp-over{background:var(--r-s);color:var(--red);border:1px solid var(--r-b)}
+.sp-prog{background:var(--a-s);color:var(--amber);border:1px solid var(--a-b)}
+
+/* ── ESCALATION TIMELINE (right panel) ── */
+.esc-timeline{padding:12px 14px;display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto}
+.etl-item{display:flex;gap:8px;align-items:flex-start}
+.etl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.etl-body{flex:1}
+.etl-title{font-size:11px;font-weight:600;color:var(--t1)}
+.etl-time{font-size:9px;color:var(--t3);margin-top:1px}
+
+/* ── MORE DROPDOWN ── */
+.more-wrap{position:relative;user-select:none}
+.more-menu{
+  display:none;position:absolute;top:calc(100% + 6px);left:0;
+  background:#131C26;border:1px solid #1E293B;border-radius:10px;
+  min-width:210px;z-index:200;padding:6px;
+  box-shadow:0 12px 32px rgba(0,0,0,.5);
+}
+.more-wrap.open .more-menu{display:flex;flex-direction:column;gap:1px}
+.mm-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;font-size:12px;color:#94A3B8;cursor:pointer;text-decoration:none;transition:all .15s}
+.mm-item:hover{background:rgba(255,255,255,.05);color:#E6EDF3}
+.mm-item svg{width:14px;height:14px;fill:currentColor;opacity:.7;flex-shrink:0}
+.mm-divider{height:1px;background:#1E293B;margin:4px 0}
+.mm-admin{color:#22C55E}
+.mm-admin:hover{background:rgba(34,197,94,.08);color:#22C55E}
+.mm-admin svg{opacity:1}
+.sb-more-item{padding:7px 10px;font-size:12px}
+.sb-more-item svg{width:13px;height:13px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a class="logo" href="#" title="Go to Dashboard">
+    <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
+    <span class="logo-text">SafetyPro <span>AI</span></span>
+  </a>
+  <div style="display:flex;align-items:center;gap:2px;flex:1;padding:0 12px">
+    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
+    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>Operations</a>
+    <a class="nl active" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
+    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>Reports</a>
+    <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More<span class="arr">▾</span>
+      <div class="more-menu" id="more-menu">
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
+        <div class="mm-divider"></div>
+        <a class="mm-item mm-admin" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Admin &amp; Configuration</a>
+      </div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="icon-btn"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><div class="ndot"></div></div>
+    <div class="icon-btn" style="background:var(--r-s);border-color:var(--r-b)"><svg viewBox="0 0 24 24" style="fill:var(--red)"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg></div>
+    <div class="user-pill">
+      <div class="ua">DK</div>
+      <div><div class="un-name">Dhanesh CK</div><div class="un-role">HSE Head</div></div>
+      <span style="color:var(--t3);font-size:10px;margin-left:6px">▾</span>
+    </div>
+  </div>
+</nav>
+
+<div class="body">
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <a class="sb-item" href="#"  viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </a>
+    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>
+      Operations<span class="sb-badge amber">12</span>
+    </a>
+    <a class="sb-item active" href="#">
+      <svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
+      Control<span class="sb-badge red">5</span>
+    </a>
+    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
+      Reports
+    </a>
+    <div style="height:1px;background:#1E293B;margin:10px 2px 6px"></div>
+    <div style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:2px 10px 6px">More</div>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
+      Audit & Compliance
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      Documents & Records
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      Site & Field Tools
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      AI Intelligence
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Auditor Verification
+    </a>
+    <div style="height:1px;background:#1E293B;margin:6px 2px 4px"></div>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#22C55E" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#22C55E"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Admin &amp; Configuration
+    </a>
+  </div>
+
+<!-- CONTENT -->
+<div class="content">
+  <div class="sub-header">
+    <div class="sh-left">
+      <div class="sh-title">Control</div>
+      <div class="sh-tabs">
+        <div class="sh-tab active" onclick="switchTab(this,'escalations')">Escalations</div>
+        <div class="sh-tab" onclick="switchTab(this,'overdue')">Overdue Tracker</div>
+        <div class="sh-tab" onclick="switchTab(this,'accountability')">Accountability</div>
+        <div class="sh-tab" onclick="switchTab(this,'team')">Team Manager</div>
+      </div>
+    </div>
+    <div class="sh-right">
+      <select class="sel">
+        <option>All Projects</option>
+        <option>Birpur Bihpur Road</option>
+        <option>Site Alpha — Mumbai</option>
+        <option>Tirora Power Plant</option>
+      </select>
+      <div class="cbtn">Export PDF</div>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- STAT CARDS — always visible -->
+    <div class="ctrl-stats">
+      <div class="cs-card red">
+        <div class="cs-top"><div class="cs-icon r"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg></div><span class="cs-trend up">▲ L3</span></div>
+        <div class="cs-num" id="cn1">0</div>
+        <div class="cs-label">Active Escalations</div>
+        <div class="cs-sub">2 critical, 3 high level</div>
+      </div>
+      <div class="cs-card amber">
+        <div class="cs-top"><div class="cs-icon a"><svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><span class="cs-trend warn">23 actions</span></div>
+        <div class="cs-num" id="cn2">0</div>
+        <div class="cs-label">Overdue Actions</div>
+        <div class="cs-sub">Oldest: 7 days overdue</div>
+      </div>
+      <div class="cs-card green">
+        <div class="cs-top"><div class="cs-icon g"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><span class="cs-trend down">↑ +12%</span></div>
+        <div class="cs-num" id="cn3">0</div>
+        <div class="cs-label">Closure Rate</div>
+        <div class="cs-sub">This month vs last</div>
+      </div>
+      <div class="cs-card blue">
+        <div class="cs-top"><div class="cs-icon b"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><span class="cs-trend down">Active</span></div>
+        <div class="cs-num" id="cn4">0</div>
+        <div class="cs-label">Team Members</div>
+        <div class="cs-sub">Across all projects</div>
+      </div>
+    </div>
+
+    <!-- ═══ ESCALATIONS TAB ═══ -->
+    <div class="tab-panel active" id="tab-escalations">
+      <div class="esc-grid">
+
+        <!-- Escalation Table -->
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Active Escalations</div><div class="card-sub">Auto-triggered by overdue actions · Updates hourly</div></div>
+            <div style="display:flex;gap:5px">
+              <div class="cbtn red-on">● Live</div>
+              <div class="cbtn">History</div>
+            </div>
+          </div>
+          <div class="lvl-map">
+            <span style="font-size:10px;color:var(--t3);margin-right:4px">Filter level:</span>
+            <div class="lvl-pill" onclick="toggleAll()">All</div>
+            <div class="lvl-pill l1" onclick="filterLevel(1)"><div class="lvl-dot"></div>L1 — Activity Head</div>
+            <div class="lvl-pill l2" onclick="filterLevel(2)"><div class="lvl-dot"></div>L2 — Project Head</div>
+            <div class="lvl-pill l3" onclick="filterLevel(3)"><div class="lvl-dot"></div>L3 — Sector Head</div>
+            <div class="lvl-pill l4" onclick="filterLevel(4)"><div class="lvl-dot"></div>L4 — HO HSE</div>
+            <div class="lvl-pill l5" onclick="filterLevel(5)"><div class="lvl-dot"></div>L5 — CEO</div>
+          </div>
+          <div class="esc-table-wrap">
+            <table class="etbl">
+              <thead>
+                <tr>
+                  <th>Action / Source</th>
+                  <th>Assigned To</th>
+                  <th>Escalated To</th>
+                  <th>Level</th>
+                  <th>Days Over</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="esc-tbody"></tbody>
+            </table>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-top:1px solid var(--div)">
+            <span style="font-size:11px;color:var(--t3)">5 active escalations · Next cron run in <span id="cron-timer" style="color:var(--amber);font-weight:600">47m</span></span>
+            <div style="display:flex;gap:5px">
+              <div class="cbtn">‹</div><div class="cbtn" style="background:var(--g-s);border-color:var(--g-b);color:var(--green)">1</div><div class="cbtn">2</div><div class="cbtn">›</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Escalation Chain + Timeline -->
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="card chain-card">
+            <div class="chain-head">
+              <div><div class="chain-title">Escalation Chain</div><div class="chain-sub">Fix loose railing — Block 3</div></div>
+              <span class="lvl-badge lv3">L3 Active</span>
+            </div>
+            <div class="chain-incident">
+              <div class="ci-title">Fix loose railing — Block 3 Level 2</div>
+              <div class="ci-meta">
+                <span class="ci-tag src-n">NCR</span>
+                <span style="font-size:10px;color:var(--t3)">Site Alpha · Assigned: Rajesh K.</span>
+                <span class="sp sp-over"><span class="sp-dot"></span>5 days overdue</span>
+              </div>
+            </div>
+            <div class="chain-steps">
+              <div class="chain-step">
+                <div class="cs-circle fired">L1</div>
+                <div class="cs-body">
+                  <div class="cs-role">Activity Head</div>
+                  <div class="cs-person">Vikram S. — Site Alpha</div>
+                  <div class="cs-time fired">Fired 3 days ago · No response</div>
+                </div>
+              </div>
+              <div class="chain-step">
+                <div class="cs-circle fired">L2</div>
+                <div class="cs-body">
+                  <div class="cs-role">Project Head</div>
+                  <div class="cs-person">Meera K. — Mumbai Zone</div>
+                  <div class="cs-time fired">Fired 2 days ago · Acknowledged</div>
+                </div>
+              </div>
+              <div class="chain-step">
+                <div class="cs-circle active">L3</div>
+                <div class="cs-body">
+                  <div class="cs-role">Sector Head</div>
+                  <div class="cs-person">Dhanesh CK — West India</div>
+                  <div class="cs-time active">Active now · WhatsApp sent 4h ago</div>
+                </div>
+              </div>
+              <div class="chain-step">
+                <div class="cs-circle pending">L4</div>
+                <div class="cs-body">
+                  <div class="cs-role">HO HSE Head</div>
+                  <div class="cs-person">Triggers in +24h if unresolved</div>
+                  <div class="cs-time pending">Waiting</div>
+                </div>
+              </div>
+              <div class="chain-step">
+                <div class="cs-circle ceo">L5</div>
+                <div class="cs-body">
+                  <div class="cs-role">CEO</div>
+                  <div class="cs-person">Final escalation — Critical only</div>
+                  <div class="cs-time pending">Waiting</div>
+                </div>
+              </div>
+            </div>
+            <div style="padding:10px 14px;border-top:1px solid var(--div);display:flex;gap:8px">
+              <button style="flex:1;padding:7px;border-radius:7px;background:var(--green);color:#0B0E12;border:none;font-family:var(--fh);font-size:12px;font-weight:700;cursor:pointer" onclick="resolveEsc()">Mark Resolved</button>
+              <button style="padding:7px 12px;border-radius:7px;background:transparent;color:var(--t2);border:1px solid var(--border);font-family:var(--fb);font-size:12px;cursor:pointer">Reassign</button>
+            </div>
+          </div>
+
+          <!-- Escalation Timeline -->
+          <div class="card">
+            <div class="card-head"><div class="card-title">Escalation History</div><div class="cbtn">Last 7 Days</div></div>
+            <div class="esc-timeline">
+              <div class="etl-item"><div class="etl-dot" style="background:var(--red)"></div><div class="etl-body"><div class="etl-title">L3 triggered — Fix loose railing, Site Alpha</div><div class="etl-time">Today 09:14 · Auto-triggered by cron</div></div></div>
+              <div class="etl-item"><div class="etl-dot" style="background:#F97316"></div><div class="etl-body"><div class="etl-title">L2 triggered — Electrical hazard, Tirora</div><div class="etl-time">Yesterday 14:22 · Acknowledged by Meera K.</div></div></div>
+              <div class="etl-item"><div class="etl-dot" style="background:var(--amber)"></div><div class="etl-body"><div class="etl-title">L1 triggered — PPE non-compliance, Block 3</div><div class="etl-time">Mar 19 · 11:08 · WhatsApp sent</div></div></div>
+              <div class="etl-item"><div class="etl-dot" style="background:var(--green)"></div><div class="etl-body"><div class="etl-title">Resolved — Fire exit blocked, Birpur</div><div class="etl-time">Mar 18 · 16:45 · Closed by Rajesh K.</div></div></div>
+              <div class="etl-item"><div class="etl-dot" style="background:var(--green)"></div><div class="etl-body"><div class="etl-title">Resolved — Scaffold inspection overdue</div><div class="etl-time">Mar 17 · 10:30 · Closed by Meera K.</div></div></div>
+              <div class="etl-item"><div class="etl-dot" style="background:var(--red)"></div><div class="etl-body"><div class="etl-title">L4 triggered — Crane safety certificate expired</div><div class="etl-time">Mar 16 · 08:00 · HO HSE notified</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ OVERDUE TRACKER TAB ═══ -->
+    <div class="tab-panel" id="tab-overdue">
+      <div class="od-grid">
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Overdue Actions</div><div class="card-sub">Sorted by days overdue — oldest first</div></div>
+            <div style="display:flex;gap:5px"><div class="cbtn">Sort: Oldest ↑</div><div class="cbtn">Export</div></div>
+          </div>
+          <div class="od-filters">
+            <div class="od-filter on">All (23)</div>
+            <div class="od-filter">Incident (8)</div>
+            <div class="od-filter">NCR (11)</div>
+            <div class="od-filter">Audit (4)</div>
+            <div class="od-filter">Critical only</div>
+            <div style="margin-left:auto;display:flex;align-items:center;gap:6px;background:var(--raised);border:1px solid var(--border);border-radius:5px;padding:3px 9px">
+              <svg style="width:11px;height:11px;fill:var(--t3)" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <input style="background:transparent;border:none;outline:none;font-size:11px;color:var(--t1);width:120px" placeholder="Search overdue..."/>
+            </div>
+          </div>
+          <div class="od-list" id="od-list"></div>
+          <div style="padding:10px 14px;border-top:1px solid var(--div);font-size:11px;color:var(--t3)">Showing 8 of 23 overdue actions · <span style="color:var(--green);cursor:pointer">Load more</span></div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <!-- Delay Analysis Chart -->
+          <div class="card">
+            <div class="card-head"><div><div class="card-title">Delay Analysis</div><div class="card-sub">Days overdue distribution</div></div></div>
+            <div class="delay-chart-wrap"><canvas id="delayChart"></canvas></div>
+          </div>
+          <!-- Quick Stats -->
+          <div class="card">
+            <div class="card-head"><div class="card-title">Overdue Summary</div></div>
+            <div style="padding:14px;display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--raised);border-radius:7px;border:1px solid var(--border)">
+                <span style="font-size:12px;color:var(--t2)">1–2 days overdue</span>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div style="width:80px;height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:40%;background:var(--amber);border-radius:2px"></div></div>
+                  <span style="font-family:var(--fh);font-size:14px;font-weight:700;color:var(--amber)">9</span>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--raised);border-radius:7px;border:1px solid var(--border)">
+                <span style="font-size:12px;color:var(--t2)">3–5 days overdue</span>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div style="width:80px;height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:60%;background:#F97316;border-radius:2px"></div></div>
+                  <span style="font-family:var(--fh);font-size:14px;font-weight:700;color:#F97316">8</span>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--r-s);border-radius:7px;border:1px solid var(--r-b)">
+                <span style="font-size:12px;color:var(--t2)">5+ days overdue</span>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div style="width:80px;height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:26%;background:var(--red);border-radius:2px"></div></div>
+                  <span style="font-family:var(--fh);font-size:14px;font-weight:700;color:var(--red)">6</span>
+                </div>
+              </div>
+              <div style="margin-top:4px;padding:10px;background:var(--r-s);border:1px solid var(--r-b);border-radius:8px;font-size:11px;color:var(--red)">
+                ⚡ <strong>6 actions</strong> are 5+ days overdue and will escalate to CEO if not resolved within 24 hours.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ACCOUNTABILITY TAB ═══ -->
+    <div class="tab-panel" id="tab-accountability">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">User Performance</div><div class="card-sub">Action closure rate — current month</div></div>
+            <div style="display:flex;gap:5px"><div class="cbtn on">This Month</div><div class="cbtn">Last Month</div></div>
+          </div>
+          <div class="acc-section" id="acc-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Task Ownership Map</div><div class="card-sub">Open actions per person</div></div>
+            <div class="cbtn">All Projects</div>
+          </div>
+          <div style="padding:14px;height:280px"><canvas id="ownerChart"></canvas></div>
+        </div>
+      </div>
+      <!-- Performance trend -->
+      <div class="card">
+        <div class="card-head"><div><div class="card-title">Team Performance Trend</div><div class="card-sub">Closure rate over last 6 months</div></div><div class="cbtn">6 Months</div></div>
+        <div style="padding:14px;height:180px"><canvas id="perfChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- ═══ TEAM MANAGER TAB ═══ -->
+    <div class="tab-panel" id="tab-team">
+      <div class="card">
+        <div class="card-head">
+          <div><div class="card-title">Team Members</div><div class="card-sub">Role assignment and project mapping</div></div>
+          <div style="display:flex;gap:5px">
+            <button style="display:flex;align-items:center;gap:5px;background:var(--green);color:#0B0E12;border:none;padding:7px 14px;border-radius:7px;font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer">
+              <svg style="width:12px;height:12px;fill:#0B0E12" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add Member
+            </button>
+          </div>
+        </div>
+        <div class="team-grid" id="team-grid"></div>
+      </div>
+
+      <!-- Responsibility Matrix -->
+      <div class="card">
+        <div class="card-head"><div><div class="card-title">Role & Permission Matrix</div><div class="card-sub">What each role can access and do</div></div></div>
+        <div class="matrix-wrap">
+          <table class="matrix">
+            <thead>
+              <tr>
+                <th>Permission</th>
+                <th style="text-align:center">Site User</th>
+                <th style="text-align:center">HSE Head</th>
+                <th style="text-align:center">Manager</th>
+                <th style="text-align:center">Auditor</th>
+                <th style="text-align:center">Admin</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Create Incident / NCR</td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td></tr>
+              <tr><td>View All Actions</td><td style="text-align:center"><div class="matrix-check mc-partial"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td></tr>
+              <tr><td>Control / Escalation</td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td></tr>
+              <tr><td>View Reports</td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td></tr>
+              <tr><td>Audit Module</td><td style="text-align:center"><div class="matrix-check mc-partial"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td></tr>
+              <tr><td>Admin Configuration</td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="padding:8px 14px 12px;font-size:10px;color:var(--t3)">
+          <span style="color:var(--green);margin-right:12px">✓ Full access</span>
+          <span style="color:var(--amber);margin-right:12px">— Own records only</span>
+          <span style="color:var(--t3)">✕ No access</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+</div>
+
+<script>
+/* ── DATA ── */
+const escData=[
+  {action:'Fix loose railing — Block 3 Level 2',src:'src-n',srcLabel:'NCR',assignee:'Rajesh K.',color:'#EF4444',ini:'RK',escalated:'Dhanesh CK',level:3,days:5,status:'over'},
+  {action:'Electrical hazard — Panel Room 4B',src:'src-i',srcLabel:'Incident',assignee:'John M.',color:'#3B82F6',ini:'JM',escalated:'Meera K.',level:2,days:3,status:'over'},
+  {action:'PPE non-compliance — Subcontractor crew',src:'src-n',srcLabel:'NCR',assignee:'Priya R.',color:'#22C55E',ini:'PR',escalated:'Vikram S.',level:1,days:2,status:'over'},
+  {action:'Fire extinguisher expired — Zone C',src:'src-au',srcLabel:'Audit',assignee:'Arvind S.',color:'#8B5CF6',ini:'AS',escalated:'Dhanesh CK',level:3,days:7,status:'over'},
+  {action:'MSDS sheets missing — Chemical store',src:'src-n',srcLabel:'NCR',assignee:'Vikram S.',color:'#F59E0B',ini:'VS',escalated:'Meera K.',level:2,days:4,status:'over'},
+];
+
+const odData=[
+  {title:'Fix loose railing — Block 3',site:'Site Alpha',src:'src-n',srcLabel:'NCR',person:'Rajesh K.',days:5,sev:'red'},
+  {title:'Fire extinguisher expired — Zone C',site:'Tirora Plant',src:'src-au',srcLabel:'Audit',person:'Arvind S.',days:7,sev:'red'},
+  {title:'Electrical hazard — Panel 4B',site:'Tirora Plant',src:'src-i',srcLabel:'Incident',person:'John M.',days:3,sev:'orange'},
+  {title:'MSDS sheets missing — Chemical store',site:'Birpur Road',src:'src-n',srcLabel:'NCR',person:'Vikram S.',days:4,sev:'orange'},
+  {title:'PPE non-compliance — Subcontractor',site:'Site Alpha',src:'src-n',srcLabel:'NCR',person:'Priya R.',days:2,sev:'amber'},
+  {title:'Scaffolding inspection due — Floor 5',site:'Site Alpha',src:'src-n',srcLabel:'NCR',person:'Meera K.',days:2,sev:'amber'},
+  {title:'Crane safety certificate renewal',site:'Birpur Road',src:'src-i',srcLabel:'Incident',person:'Rajesh K.',days:1,sev:'amber'},
+  {title:'Housekeeping audit finding — Store',site:'Tirora Plant',src:'src-au',srcLabel:'Audit',person:'Arvind S.',days:1,sev:'amber'},
+];
+
+const accData=[
+  {name:'Sarah T.',role:'HSE Officer',color:'#F59E0B',ini:'ST',open:1,total:18,pct:94,grade:'A'},
+  {name:'John M.',role:'Site Supervisor',color:'#3B82F6',ini:'JM',open:2,total:14,pct:86,grade:'A'},
+  {name:'Meera K.',role:'HSE Manager',color:'#22C55E',ini:'MK',open:1,total:12,pct:91,grade:'A'},
+  {name:'Rajesh K.',role:'Safety Officer',color:'#EF4444',ini:'RK',open:4,total:16,pct:75,grade:'B'},
+  {name:'Vikram S.',role:'Activity Head',color:'#8B5CF6',ini:'VS',open:3,total:11,pct:72,grade:'C'},
+  {name:'Priya R.',role:'HSE Executive',color:'#0EA5E9',ini:'PR',open:5,total:10,pct:50,grade:'D'},
+];
+
+const teamData=[
+  {name:'Dhanesh CK',role:'HSE Head',color:'#22C55E',ini:'DK',projects:'3',actions:'8',pct:88,roleTag:'HSE Head',tagColor:'var(--g-b)',tagText:'var(--green)'},
+  {name:'Meera K.',role:'HSE Manager',color:'#F59E0B',ini:'MK',projects:'2',actions:'12',pct:91,roleTag:'Manager',tagColor:'var(--a-b)',tagText:'var(--amber)'},
+  {name:'Rajesh K.',role:'Safety Officer',color:'#EF4444',ini:'RK',projects:'2',actions:'16',pct:75,roleTag:'Site User',tagColor:'var(--b-b)',tagText:'var(--blue)'},
+  {name:'John M.',role:'Site Supervisor',color:'#3B82F6',ini:'JM',projects:'1',actions:'14',pct:86,roleTag:'Manager',tagColor:'var(--a-b)',tagText:'var(--amber)'},
+  {name:'Vikram S.',role:'Activity Head',color:'#8B5CF6',ini:'VS',projects:'2',actions:'11',pct:72,roleTag:'Site User',tagColor:'var(--b-b)',tagText:'var(--blue)'},
+  {name:'Priya R.',role:'HSE Executive',color:'#0EA5E9',ini:'PR',projects:'1',actions:'10',pct:50,roleTag:'Site User',tagColor:'var(--b-b)',tagText:'var(--blue)'},
+];
+
+/* ── RENDER ESCALATIONS ── */
+function renderEsc(data){
+  document.getElementById('esc-tbody').innerHTML=data.map(e=>`
+    <tr>
+      <td>
+        <div style="font-size:12px;font-weight:600;color:var(--t1);margin-bottom:3px">${e.action}</div>
+        <span class="src-tag ${e.src}">${e.srcLabel}</span>
+      </td>
+      <td><div class="person-cell"><div class="av" style="background:${e.color}">${e.ini}</div><div><div class="p-name">${e.assignee}</div><div class="p-role">Site Officer</div></div></div></td>
+      <td><div style="font-size:12px;color:var(--t2)">${e.escalated}</div></td>
+      <td><span class="lvl-badge lv${e.level}">L${e.level} — ${['','Activity Head','Project Head','Sector Head','HO HSE','CEO'][e.level]}</span></td>
+      <td><div class="days-cell ${e.days>=5?'crit':e.days>=3?'high':'med'}"><svg style="width:11px;height:11px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>${e.days} days</div></td>
+      <td><span class="sp sp-over"><span class="sp-dot"></span>Overdue</span></td>
+      <td><div class="action-cell">
+        <div class="act-icon" title="Resolve"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div class="act-icon" title="View detail"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+      </div></td>
+    </tr>`).join('');
+}
+renderEsc(escData);
+
+/* ── RENDER OVERDUE ── */
+function renderOD(data){
+  const sevColor={red:'var(--red)',orange:'#F97316',amber:'var(--amber)'};
+  const dClass={red:'d5',orange:'d3',amber:'d1'};
+  document.getElementById('od-list').innerHTML=data.map(o=>`
+    <div class="od-item">
+      <div class="od-sev" style="background:${sevColor[o.sev]};min-height:48px"></div>
+      <div class="od-body">
+        <div class="od-title">${o.title}</div>
+        <div class="od-meta">
+          <span class="src-tag ${o.src}">${o.srcLabel}</span>
+          <span style="font-size:10px;color:var(--t3)">${o.site}</span>
+          <span style="font-size:10px;color:var(--t3)">→ ${o.person}</span>
+        </div>
+      </div>
+      <div class="od-right">
+        <div class="od-days ${dClass[o.sev]}">${o.days}</div>
+        <div class="od-days-label">days over</div>
+      </div>
+    </div>`).join('');
+}
+renderOD(odData);
+
+/* ── RENDER ACCOUNTABILITY ── */
+function renderAcc(data){
+  const barClass={A:'excellent',B:'good',C:'warn',D:'poor'};
+  const grClass={A:'gr-a',B:'gr-b',C:'gr-c',D:'gr-d'};
+  document.getElementById('acc-list').innerHTML=data.map(a=>`
+    <div class="acc-item">
+      <div class="acc-av" style="background:${a.color}">${a.ini}</div>
+      <div class="acc-body">
+        <div class="acc-top-row">
+          <div><span class="acc-name">${a.name}</span><span class="grade-badge ${grClass[a.grade]}">${a.grade}</span></div>
+          <span style="font-size:10px;color:var(--t3)">${a.role}</span>
+        </div>
+        <div class="acc-bar-wrap"><div class="acc-bar ${barClass[a.grade]}" style="width:${a.pct}%"></div></div>
+        <div class="acc-stats">
+          <span class="acc-stat-item"><span>${a.open}</span> open</span>
+          <span class="acc-stat-item"><span>${a.total}</span> total</span>
+          <span class="acc-stat-item"><span>${a.total-a.open}</span> closed</span>
+        </div>
+      </div>
+      <div class="acc-pct" style="color:${a.pct>=85?'var(--green)':a.pct>=70?'var(--blue)':a.pct>=60?'var(--amber)':'var(--red)'}">${a.pct}%</div>
+    </div>`).join('');
+}
+renderAcc(accData);
+
+/* ── RENDER TEAM ── */
+function renderTeam(data){
+  document.getElementById('team-grid').innerHTML=data.map(t=>`
+    <div class="team-card">
+      <div class="team-av-lg" style="background:${t.color}">${t.ini}</div>
+      <div class="team-name">${t.name}</div>
+      <div class="team-role-text">${t.role}</div>
+      <span class="role-badge" style="font-size:9px;padding:2px 8px;border-radius:100px;border-color:${t.tagColor};color:${t.tagText};background:transparent">${t.roleTag}</span>
+      <div class="team-stats">
+        <div class="ts-item"><div class="ts-num" style="color:var(--blue)">${t.projects}</div><div class="ts-label">Projects</div></div>
+        <div class="ts-item"><div class="ts-num" style="color:var(--amber)">${t.actions}</div><div class="ts-label">Actions</div></div>
+        <div class="ts-item"><div class="ts-num" style="color:var(--green)">${t.pct}%</div><div class="ts-label">Rate</div></div>
+      </div>
+      <div class="team-perf-bar"><div class="team-perf-fill" style="width:${t.pct}%;background:${t.pct>=85?'var(--green)':t.pct>=70?'var(--blue)':t.pct>=60?'var(--amber)':'var(--red)'}"></div></div>
+    </div>`).join('');
+}
+renderTeam(teamData);
+
+/* ── COUNT UP ── */
+function cu(id,t,ms){const el=document.getElementById(id);const s=performance.now();function u(n){const p=Math.min((n-s)/ms,1);const e=1-Math.pow(1-p,3);el.textContent=String(t).includes('%')?Math.round(t*e)+'%':Math.round(t*e);if(p<1)requestAnimationFrame(u);}requestAnimationFrame(u);}
+setTimeout(()=>{cu('cn1',5,700);cu('cn2',23,1000);cu('cn3',78,1200);cu('cn4',18,900);},200);
+
+/* ── CHARTS ── */
+// Delay chart
+const dc=document.getElementById('delayChart');
+if(dc){
+  new Chart(dc,{type:'bar',data:{labels:['1 day','2 days','3 days','4 days','5 days','6+ days'],datasets:[{data:[3,6,5,3,2,4],backgroundColor:['rgba(245,158,11,.7)','rgba(245,158,11,.7)','rgba(249,115,22,.7)','rgba(249,115,22,.7)','rgba(239,68,68,.7)','rgba(239,68,68,.9)'],borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#16212B',borderColor:'#1E293B',borderWidth:1,bodyColor:'#E6EDF3'}},scales:{x:{grid:{color:'rgba(30,41,59,.5)',lineWidth:.5},ticks:{color:'#64748B',font:{size:10}},border:{display:false}},y:{grid:{color:'rgba(30,41,59,.5)',lineWidth:.5},ticks:{color:'#64748B',font:{size:10},maxTicksLimit:5,stepSize:2},border:{display:false}}}}}); 
+}
+
+// Owner chart (doughnut)
+const oc=document.getElementById('ownerChart');
+if(oc){
+  new Chart(oc,{type:'doughnut',data:{labels:['Rajesh K.','Priya R.','Vikram S.','John M.','Meera K.','Others'],datasets:[{data:[16,10,11,14,12,8],backgroundColor:['rgba(239,68,68,.8)','rgba(14,165,233,.8)','rgba(139,92,246,.8)','rgba(59,130,246,.8)','rgba(245,158,11,.8)','rgba(100,116,139,.5)'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#94A3B8',font:{size:10},boxWidth:10,padding:12}},tooltip:{backgroundColor:'#16212B',borderColor:'#1E293B',borderWidth:1,bodyColor:'#E6EDF3'}},cutout:'65%'}});
+}
+
+// Perf trend chart
+const pf=document.getElementById('perfChart');
+if(pf){
+  const g=pf.getContext('2d');
+  const grad=g.createLinearGradient(0,0,0,180);
+  grad.addColorStop(0,'rgba(34,197,94,.2)');
+  grad.addColorStop(1,'rgba(34,197,94,.01)');
+  new Chart(pf,{type:'line',data:{labels:['Oct','Nov','Dec','Jan','Feb','Mar'],datasets:[{label:'Closure Rate %',data:[68,72,71,76,80,78],borderColor:'#22C55E',borderWidth:2.5,backgroundColor:grad,fill:true,tension:.4,pointBackgroundColor:'#22C55E',pointBorderColor:'#131C26',pointBorderWidth:2,pointRadius:3},{label:'Escalation Rate %',data:[22,18,20,15,12,14],borderColor:'#EF4444',borderWidth:2,backgroundColor:'transparent',fill:false,tension:.4,pointBackgroundColor:'#EF4444',pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94A3B8',font:{size:10},boxWidth:10}},tooltip:{backgroundColor:'#16212B',borderColor:'#1E293B',borderWidth:1,bodyColor:'#E6EDF3'}},scales:{x:{grid:{color:'rgba(30,41,59,.5)'},ticks:{color:'#64748B',font:{size:10}},border:{display:false}},y:{grid:{color:'rgba(30,41,59,.5)'},ticks:{color:'#64748B',font:{size:10},maxTicksLimit:5},border:{display:false}}}}});
+}
+
+/* ── TABS ── */
+function switchTab(el,id){
+  document.querySelectorAll('.sh-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  // render charts after tab becomes visible
+  setTimeout(()=>{window.dispatchEvent(new Event('resize'))},50);
+}
+
+/* ── FILTER LEVEL ── */
+function filterLevel(l){
+  const filtered=escData.filter(e=>e.level===l);
+  renderEsc(filtered.length?filtered:escData);
+}
+function toggleAll(){renderEsc(escData);}
+
+/* ── CRON TIMER ── */
+let cronMins=47;
+setInterval(()=>{
+  if(cronMins>0)cronMins--;
+  else cronMins=60;
+  const el=document.getElementById('cron-timer');
+  if(el)el.textContent=cronMins+'m';
+},60000);
+
+/* ── RESOLVE ── */
+function resolveEsc(){
+  const btn=event.target;
+  btn.textContent='✓ Resolved';
+  btn.style.background='var(--raised)';
+  btn.style.color='var(--green)';
+  btn.style.border='1px solid var(--g-b)';
+}
+
+
+/* ══ API INTEGRATION ══ */
+const API = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
+function getToken(){ return localStorage.getItem('sp_token'); }
+async function apiFetch(path, opts={}){
+  const res = await fetch(API+path, {
+    ...opts,
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken(),...(opts.headers||{})}
+  });
+  if(res.status===401){ window.location.href='safetypro_login.html'; return null; }
+  return res.json();
+}
+
+async function loadControlData(){
+  try {
+    // Load escalations
+    const escs = await apiFetch('/dashboard/escalations');
+    if(escs && escs.length){
+      const escTable = document.getElementById('esc-table-body');
+      if(escTable){
+        escTable.innerHTML = escs.map(e=>`
+          <tr>
+            <td>${e.action?.title?.substring(0,40)||'Action'}</td>
+            <td>${e.action?.assignedTo?.name||''}</td>
+            <td><span class="badge-level l${e.level}">L${e.level}</span></td>
+            <td style="color:#EF4444;font-weight:600">${e.status}</td>
+          </tr>`).join('');
+      }
+    }
+
+    // Load overdue actions
+    const overdue = await apiFetch('/actions/overdue');
+    if(overdue){
+      const el = document.getElementById('overdue-count');
+      if(el) el.textContent = overdue.length;
+    }
+
+    // Load KPIs
+    const kpis = await apiFetch('/dashboard/kpis');
+    if(kpis){
+      const e1=document.getElementById('ctrl-k1'); if(e1) e1.textContent=kpis.escalated||0;
+      const e2=document.getElementById('ctrl-k2'); if(e2) e2.textContent=kpis.overdueActions||0;
+      const e3=document.getElementById('ctrl-k3'); if(e3) e3.textContent='78%';
+      const e4=document.getElementById('ctrl-k4'); if(e4) e4.textContent='18';
+    }
+
+    // Load accountability
+    const acc = await apiFetch('/dashboard/accountability');
+    if(acc && acc.length){
+      const accEl = document.getElementById('acc-table-body');
+      if(accEl){
+        accEl.innerHTML = acc.map(u=>`
+          <tr>
+            <td>${u.name}</td>
+            <td>${u.role}</td>
+            <td>${u.total}</td>
+            <td>${u.closed}</td>
+            <td>${u.overdue}</td>
+            <td><span class="grade-badge ${u.closureRate>80?'grade-a':u.closureRate>60?'grade-b':'grade-c'}">${u.closureRate>80?'A':u.closureRate>60?'B':'C'}</span></td>
+          </tr>`).join('');
+      }
+    }
+  } catch(e){ console.warn('Control load:', e.message); }
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  if(!getToken()){ window.location.href='safetypro_login.html'; return; }
+  loadControlData();
+});
+
+/* ── MORE MENU ── */
+function toggleMore(e){
+  e.stopPropagation();
+  document.getElementById('more-btn').classList.toggle('open');
+}
+document.addEventListener('click',function(){
+  const mb=document.getElementById('more-btn');
+  if(mb) mb.classList.remove('open');
+});
+
+
+/* ══ NAVIGATION ══ */
+(function(){
+  const pages = {
+    'Dashboard':            'safetypro_v2.html',
+    'Operations':           'safetypro_operations.html',
+    'Control':              'safetypro_control.html',
+    'Reports':              'safetypro_reports.html',
+    'Audit & Compliance':   'safetypro_admin.html',
+    'Documents & Records':  'safetypro_admin.html',
+    'Site & Field Tools':   'safetypro_admin.html',
+    'AI Intelligence':      'safetypro_admin.html',
+    'Auditor Verification': 'safetypro_admin.html',
+    'Admin & Configuration':'safetypro_admin.html',
+  };
+
+  function navigate(label){
+    const dest = pages[label];
+    if(dest) window.location.href = dest;
+  }
+
+  // Wire sidebar items
+  document.querySelectorAll('.sb-item').forEach(el => {
+    const label = el.textContent.trim().replace(/\d+/g,'').trim();
+    const dest = pages[label];
+    if(dest){
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        window.location.href = dest;
+      });
+    }
+  });
+
+  // Wire topnav links
+  document.querySelectorAll('.nl').forEach(el => {
+    const label = el.textContent.trim().replace(/[▾]/g,'').trim();
+    const dest = pages[label];
+    if(dest && !el.classList.contains('more-wrap')){
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        window.location.href = dest;
+      });
+    }
+  });
+
+  // Wire More menu items
+  document.querySelectorAll('.mm-item').forEach(el => {
+    const label = el.textContent.trim();
+    const dest = pages[label];
+    if(dest){
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        window.location.href = dest;
+      });
+    }
+  });
+
+  // Wire logo click → dashboard
+  const logo = document.querySelector('.logo');
+  if(logo){
+    logo.style.cursor = 'pointer';
+    logo.addEventListener('click', () => { window.location.href = 'safetypro_v2.html'; });
+  }
+})();
+
+</script>
+</body>
+</html>

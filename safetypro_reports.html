@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SafetyPro AI — Reports</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#0B0F14;--card:#131C26;--raised:#16212B;--sidebar:#0F1720;--border:#1E293B;--div:rgba(255,255,255,0.05);
+  --green:#22C55E;--g-h:#16A34A;--g-s:rgba(34,197,94,0.12);--g-b:rgba(34,197,94,0.3);
+  --amber:#F59E0B;--a-s:rgba(245,158,11,0.12);--a-b:rgba(245,158,11,0.3);
+  --red:#EF4444;--r-s:rgba(239,68,68,0.12);--r-b:rgba(239,68,68,0.35);
+  --blue:#3B82F6;--b-s:rgba(59,130,246,0.12);--b-b:rgba(59,130,246,0.3);
+  --purple:#8B5CF6;--p-s:rgba(139,92,246,0.12);--p-b:rgba(139,92,246,0.3);
+  --t1:#E6EDF3;--t2:#94A3B8;--t3:#64748B;
+  --fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);font-size:13px;line-height:1.5;min-height:100vh}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+svg{flex-shrink:0}
+.app{display:flex;flex-direction:column;min-height:100vh}
+
+/* NAV */
+.topnav{height:52px;flex-shrink:0;background:var(--sidebar);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 0 0 0;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;width:195px;flex-shrink:0;padding:0 16px 0 18px;border-right:1px solid var(--border)}
+.logo-mark{width:28px;height:28px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(34,197,94,.4)}
+.logo-mark svg{width:16px;height:16px;fill:#fff}
+.logo-text{font-family:var(--fh);font-size:15px;font-weight:700}
+.logo-text span{color:var(--green)}
+.nl{display:flex;align-items:center;gap:6px;padding:6px 13px;border-radius:7px;font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s;text-decoration:none}
+.nl:hover{color:var(--t1);background:rgba(255,255,255,.04)}
+.nl.active{color:var(--t1);font-weight:600}
+.nl svg{width:13px;height:13px;fill:currentColor}
+.nl .arr{font-size:9px;opacity:.5;margin-left:2px}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;padding-right:20px}
+.icon-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative}
+.icon-btn svg{width:14px;height:14px;fill:var(--t2)}
+.ndot{position:absolute;top:4px;right:4px;width:6px;height:6px;background:var(--red);border-radius:50%;border:1px solid var(--bg)}
+.user-pill{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:5px 10px 5px 5px;cursor:pointer}
+.ua{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.un-name{font-size:11px;font-weight:600;color:var(--t1);line-height:1.2}
+.un-role{font-size:9px;color:var(--t3)}
+
+/* BODY */
+.body{display:flex;flex:1}
+.sidebar{width:195px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:14px 8px;min-height:calc(100vh - 52px);position:sticky;top:52px;align-self:flex-start}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:var(--t3);cursor:pointer;transition:all .15s;font-size:13px;margin-bottom:2px;text-decoration:none}
+.sb-item:hover{background:rgba(255,255,255,.04);color:var(--t2)}
+.sb-item.active{background:rgba(34,197,94,.1);border-left:2px solid var(--green);color:var(--green);padding-left:8px}
+.sb-item svg{width:15px;height:15px;fill:currentColor;opacity:.7}
+.sb-item.active svg{opacity:1}
+.sb-badge{margin-left:auto;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px}
+.sb-badge.red{background:var(--red);color:#fff}
+.sb-badge.amber{background:var(--amber);color:#0B0E12}
+.sidebar-foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--border)}
+
+/* CONTENT */
+.content{flex:1;min-width:0}
+.sub-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50}
+.sh-left{display:flex;align-items:center;gap:12px}
+.sh-title{font-family:var(--fh);font-size:16px;font-weight:700}
+.sh-tabs{display:flex;gap:2px}
+.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent}
+.sh-tab:hover{color:var(--t2)}
+.sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
+.sh-right{display:flex;gap:8px;align-items:center}
+.sel{background:var(--card);border:1px solid var(--border);color:var(--t1);padding:6px 12px;border-radius:7px;font-family:var(--fb);font-size:12px;outline:none;cursor:pointer}
+.btn-export{display:flex;align-items:center;gap:6px;background:var(--green);color:#0B0E12;border:none;padding:7px 14px;border-radius:7px;font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-export:hover{background:var(--g-h)}
+.btn-export svg{width:12px;height:12px;fill:#0B0E12}
+
+/* MAIN */
+.main{padding:16px 20px;display:flex;flex-direction:column;gap:14px;padding-bottom:60px}
+
+/* TAB PANELS */
+.tab-panel{display:none}.tab-panel.active{display:flex;flex-direction:column;gap:14px}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--div)}
+.card-title{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1)}
+.card-sub{font-size:10px;color:var(--t3);margin-top:1px}
+.cbtn{font-size:10px;padding:4px 10px;border-radius:5px;border:1px solid var(--border);color:var(--t3);background:var(--raised);cursor:pointer;transition:all .15s;font-family:var(--fb)}
+.cbtn:hover{color:var(--t2)}.cbtn.on{background:var(--g-s);border-color:var(--g-b);color:var(--green)}
+
+/* ── STATS TAB ── */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.sr-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden;transition:all .2s;cursor:default}
+.sr-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:12px 12px 0 0}
+.sr-card.g{border-color:rgba(34,197,94,.3)}.sr-card.g::before{background:var(--green);box-shadow:0 0 14px rgba(34,197,94,.5)}
+.sr-card.a{border-color:rgba(245,158,11,.3)}.sr-card.a::before{background:var(--amber);box-shadow:0 0 14px rgba(245,158,11,.5)}
+.sr-card.r{border-color:rgba(239,68,68,.3)}.sr-card.r::before{background:var(--red);box-shadow:0 0 14px rgba(239,68,68,.5)}
+.sr-card.b{border-color:rgba(59,130,246,.3)}.sr-card.b::before{background:var(--blue);box-shadow:0 0 14px rgba(59,130,246,.5)}
+.sr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.sr-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center}
+.sr-icon svg{width:14px;height:14px}
+.sr-icon.g{background:var(--g-s);border:1px solid var(--g-b)}.sr-icon.g svg{fill:var(--green)}
+.sr-icon.a{background:var(--a-s);border:1px solid var(--a-b)}.sr-icon.a svg{fill:var(--amber)}
+.sr-icon.r{background:var(--r-s);border:1px solid var(--r-b)}.sr-icon.r svg{fill:var(--red)}
+.sr-icon.b{background:var(--b-s);border:1px solid var(--b-b)}.sr-icon.b svg{fill:var(--blue)}
+.sr-change{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px}
+.sr-change.up{background:var(--g-s);color:var(--green)}.sr-change.dn{background:var(--r-s);color:var(--red)}.sr-change.nt{background:var(--a-s);color:var(--amber)}
+.sr-num{font-family:var(--fh);font-size:32px;font-weight:800;letter-spacing:-1px;line-height:1}
+.sr-card.g .sr-num{color:var(--green)}.sr-card.a .sr-num{color:var(--amber)}.sr-card.r .sr-num{color:var(--red)}.sr-card.b .sr-num{color:var(--blue)}
+.sr-label{font-size:11px;color:var(--t2);margin-top:4px}
+.sr-sub{font-size:10px;color:var(--t3);margin-top:1px}
+
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.chart-h200{padding:14px;height:220px}
+.chart-h160{padding:14px;height:180px}
+
+/* ── MONTHLY TAB ── */
+.monthly-grid{display:grid;grid-template-columns:1fr 320px;gap:14px}
+.report-list{padding:0 14px 14px;display:flex;flex-direction:column;gap:8px}
+.report-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--raised);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s}
+.report-item:hover{border-color:rgba(255,255,255,.1);transform:translateX(3px)}
+.ri-icon{width:40px;height:48px;background:linear-gradient(145deg,#1A2D42,#131C26);border:1px solid var(--border);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.ri-icon .pdf-top{width:100%;background:var(--red);height:12px;border-radius:5px 5px 0 0;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;color:#fff}
+.ri-icon .pdf-lines{padding:4px;display:flex;flex-direction:column;gap:2px;width:100%}
+.ri-icon .pdf-line{height:2px;background:var(--border);border-radius:1px}
+.ri-body{flex:1;min-width:0}
+.ri-title{font-size:13px;font-weight:600;color:var(--t1)}
+.ri-meta{display:flex;gap:8px;align-items:center;margin-top:3px;flex-wrap:wrap}
+.ri-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px}
+.ri-size{font-size:10px;color:var(--t3)}
+.ri-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.ri-date{font-size:10px;color:var(--t3)}
+.dl-btn{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:6px;background:var(--g-s);border:1px solid var(--g-b);color:var(--green);cursor:pointer;transition:all .15s}
+.dl-btn:hover{background:rgba(34,197,94,.2)}
+.dl-btn svg{width:11px;height:11px;fill:var(--green)}
+
+.report-preview{display:flex;flex-direction:column;gap:12px}
+.preview-card{background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:14px}
+.preview-header{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--div)}
+.preview-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--div)}
+.preview-row:last-child{border-bottom:none}
+.pr-label{font-size:11px;color:var(--t3)}
+.pr-val{font-size:11px;font-weight:600;color:var(--t1)}
+.pr-val.green{color:var(--green)}.pr-val.red{color:var(--red)}.pr-val.amber{color:var(--amber)}
+.gen-btn{width:100%;padding:10px;border-radius:8px;background:var(--green);color:#0B0E12;border:none;font-family:var(--fh);font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .2s}
+.gen-btn:hover{background:var(--g-h);transform:translateY(-1px)}
+.gen-btn svg{width:14px;height:14px;fill:#0B0E12}
+
+/* ── BENCHMARK TAB ── */
+.bench-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bench-score{display:flex;flex-direction:column;align-items:center;padding:24px;gap:8px}
+.score-ring{position:relative;width:140px;height:140px}
+.score-ring canvas{position:absolute;top:0;left:0}
+.score-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-num{font-family:var(--fh);font-size:36px;font-weight:800}
+.score-label{font-size:10px;color:var(--t3)}
+.bench-metrics{padding:14px;display:flex;flex-direction:column;gap:8px}
+.bm-item{display:flex;align-items:center;gap:10px}
+.bm-label{font-size:11px;color:var(--t2);width:120px;flex-shrink:0}
+.bm-bar-wrap{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.bm-bar{height:100%;border-radius:3px;transition:width 1s ease}
+.bm-val{font-size:11px;font-weight:700;width:36px;text-align:right;flex-shrink:0}
+.bm-ind{font-size:9px;color:var(--t3);width:40px;text-align:right;flex-shrink:0}
+
+.compare-table{padding:0 14px 14px}
+.ctbl{width:100%;border-collapse:collapse}
+.ctbl th{padding:8px 12px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015)}
+.ctbl td{padding:10px 12px;border-bottom:1px solid var(--div);font-size:12px;color:var(--t2);vertical-align:middle}
+.ctbl tr:last-child td{border-bottom:none}
+.ctbl tr:hover td{background:rgba(255,255,255,.018)}
+.vs-cell{display:flex;align-items:center;gap:6px}
+.vs-you{font-weight:700;color:var(--t1)}
+.vs-arrow{font-size:12px}
+.vs-ind{color:var(--t3)}
+.vs-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px}
+.vb-better{background:var(--g-s);color:var(--green);border:1px solid var(--g-b)}
+.vb-worse{background:var(--r-s);color:var(--red);border:1px solid var(--r-b)}
+.vb-same{background:var(--a-s);color:var(--amber);border:1px solid var(--a-b)}
+
+/* ── APPRAISAL TAB ── */
+.apr-grid{display:grid;grid-template-columns:1fr 280px;gap:14px}
+.apr-filters{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--div);flex-wrap:wrap}
+.af{padding:3px 10px;border-radius:100px;font-size:10px;border:1px solid var(--border);color:var(--t3);cursor:pointer;transition:all .15s}
+.af:hover{color:var(--t2)}.af.on{background:var(--g-s);border-color:var(--g-b);color:var(--green)}
+.apr-table{width:100%;border-collapse:collapse}
+.apr-table th{padding:8px 14px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015)}
+.apr-table td{padding:11px 14px;border-bottom:1px solid var(--div);vertical-align:middle}
+.apr-table tr:last-child td{border-bottom:none}
+.apr-table tr:hover td{background:rgba(255,255,255,.02);cursor:pointer}
+.score-bar-wrap{width:80px;height:5px;background:var(--border);border-radius:3px;overflow:hidden;display:inline-block}
+.score-bar{height:100%;border-radius:3px}
+.grade-pill{font-size:10px;font-weight:800;padding:3px 8px;border-radius:100px}
+.gp-ex{background:var(--g-s);color:var(--green);border:1px solid var(--g-b)}
+.gp-go{background:var(--b-s);color:var(--blue);border:1px solid var(--b-b)}
+.gp-av{background:var(--a-s);color:var(--amber);border:1px solid var(--a-b)}
+.gp-po{background:var(--r-s);color:var(--red);border:1px solid var(--r-b)}
+
+.score-breakdown{padding:14px;display:flex;flex-direction:column;gap:10px}
+.sb-title{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.sb-item{display:flex;flex-direction:column;gap:4px}
+.sb-row{display:flex;justify-content:space-between;align-items:center}
+.sb-label{font-size:11px;color:var(--t2)}
+.sb-val{font-size:11px;font-weight:700}
+.sb-bar-wrap{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.sb-bar{height:100%;border-radius:2px}
+
+/* ── TROPHY TAB ── */
+.trophy-header{padding:24px 20px;text-align:center;background:linear-gradient(180deg,rgba(34,197,94,.06) 0%,transparent 100%);border-bottom:1px solid var(--div)}
+.trophy-title{font-family:var(--fh);font-size:22px;font-weight:800;color:var(--t1);margin-bottom:4px}
+.trophy-sub{font-size:12px;color:var(--t3)}
+.trophy-reset{font-size:11px;color:var(--amber);margin-top:6px}
+
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:16px;padding:24px 20px 0}
+.pod-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.pod-avatar{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;position:relative}
+.pod-crown{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:18px}
+.pod-name{font-size:12px;font-weight:700;color:var(--t1);text-align:center}
+.pod-role{font-size:10px;color:var(--t3);text-align:center}
+.pod-score{font-family:var(--fh);font-size:18px;font-weight:800;text-align:center}
+.pod-block{display:flex;align-items:center;justify-content:center;border-radius:8px 8px 0 0;width:90px}
+.pod-rank{font-family:var(--fh);font-size:22px;font-weight:800;color:rgba(255,255,255,.5)}
+
+.lb-full{padding:14px;display:flex;flex-direction:column;gap:6px}
+.lb-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--raised);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .15s}
+.lb-row:hover{border-color:rgba(255,255,255,.1);transform:translateX(3px)}
+.lb-rank-num{font-family:var(--fh);font-size:14px;font-weight:800;width:20px;text-align:center}
+.lb-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.lb-inf{flex:1;min-width:0}
+.lb-name{font-size:12px;font-weight:600;color:var(--t1)}
+.lb-proj{font-size:10px;color:var(--t3)}
+.lb-bar-wrap{width:80px;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.lb-bar{height:100%;border-radius:2px;background:var(--green)}
+.lb-score-val{font-family:var(--fh);font-size:14px;font-weight:800;color:var(--green);min-width:32px;text-align:right}
+.lb-change{font-size:10px;font-weight:600;padding:1px 5px;border-radius:3px}
+.lbc-up{background:var(--g-s);color:var(--green)}.lbc-dn{background:var(--r-s);color:var(--red)}.lbc-eq{background:var(--a-s);color:var(--amber)}
+
+.trophy-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding:14px}
+.tc{background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .2s}
+.tc:hover{border-color:rgba(255,255,255,.12);transform:translateY(-2px)}
+.tc-trophy{font-size:28px}
+.tc-title{font-size:11px;font-weight:700;color:var(--t1)}
+.tc-name{font-size:13px;font-weight:800;color:var(--t1);font-family:var(--fh)}
+.tc-score{font-family:var(--fh);font-size:22px;font-weight:800;color:var(--green)}
+.tc-label{font-size:9px;color:var(--t3)}
+
+/* ── MORE DROPDOWN ── */
+.more-wrap{position:relative;user-select:none}
+.more-menu{
+  display:none;position:absolute;top:calc(100% + 6px);left:0;
+  background:#131C26;border:1px solid #1E293B;border-radius:10px;
+  min-width:210px;z-index:200;padding:6px;
+  box-shadow:0 12px 32px rgba(0,0,0,.5);
+}
+.more-wrap.open .more-menu{display:flex;flex-direction:column;gap:1px}
+.mm-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;font-size:12px;color:#94A3B8;cursor:pointer;text-decoration:none;transition:all .15s}
+.mm-item:hover{background:rgba(255,255,255,.05);color:#E6EDF3}
+.mm-item svg{width:14px;height:14px;fill:currentColor;opacity:.7;flex-shrink:0}
+.mm-divider{height:1px;background:#1E293B;margin:4px 0}
+.mm-admin{color:#22C55E}
+.mm-admin:hover{background:rgba(34,197,94,.08);color:#22C55E}
+.mm-admin svg{opacity:1}
+.sb-more-item{padding:7px 10px;font-size:12px}
+.sb-more-item svg{width:13px;height:13px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a class="logo" href="#" title="Dashboard">
+    <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
+    <span class="logo-text">SafetyPro <span>AI</span></span>
+  </a>
+  <div style="display:flex;align-items:center;gap:2px;flex:1;padding:0 12px">
+    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
+    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>Operations</a>
+    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
+    <a class="nl active" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>Reports</a>
+    <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More<span class="arr">▾</span>
+      <div class="more-menu" id="more-menu">
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
+        <div class="mm-divider"></div>
+        <a class="mm-item mm-admin" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Admin &amp; Configuration</a>
+      </div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="icon-btn"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><div class="ndot"></div></div>
+    <div class="user-pill">
+      <div class="ua">DK</div>
+      <div><div class="un-name">Dhanesh CK</div><div class="un-role">HSE Head</div></div>
+      <span style="color:var(--t3);font-size:10px;margin-left:6px">▾</span>
+    </div>
+  </div>
+</nav>
+
+<div class="body">
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <a class="sb-item" href="#"  viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </a>
+    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>
+      Operations<span class="sb-badge amber">12</span>
+    </a>
+    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
+      Control<span class="sb-badge red">5</span>
+    </a>
+    <a class="sb-item active" href="#">
+      <svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
+      Reports
+    </a>
+    <div style="height:1px;background:#1E293B;margin:10px 2px 6px"></div>
+    <div style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:2px 10px 6px">More</div>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
+      Audit & Compliance
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      Documents & Records
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      Site & Field Tools
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      AI Intelligence
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Auditor Verification
+    </a>
+    <div style="height:1px;background:#1E293B;margin:6px 2px 4px"></div>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#22C55E" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#22C55E"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Admin &amp; Configuration
+    </a>
+  </div>
+
+<!-- CONTENT -->
+<div class="content">
+  <div class="sub-header">
+    <div class="sh-left">
+      <div class="sh-title">Reports</div>
+      <div class="sh-tabs">
+        <div class="sh-tab active" onclick="switchTab(this,'stats')">Statistics</div>
+        <div class="sh-tab" onclick="switchTab(this,'monthly')">Monthly Reports</div>
+        <div class="sh-tab" onclick="switchTab(this,'benchmark')">Benchmark</div>
+        <div class="sh-tab" onclick="switchTab(this,'appraisal')">Appraisal</div>
+        <div class="sh-tab" onclick="switchTab(this,'trophy')">Champion Trophy</div>
+      </div>
+    </div>
+    <div class="sh-right">
+      <select class="sel"><option>All Projects</option><option>Birpur Bihpur Road</option><option>Site Alpha — Mumbai</option><option>Tirora Power Plant</option></select>
+      <select class="sel"><option>March 2026</option><option>February 2026</option><option>January 2026</option><option>Q1 2026</option></select>
+      <button class="btn-export"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Export PDF</button>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- ═══ STATISTICS TAB ═══ -->
+    <div class="tab-panel active" id="tab-stats">
+      <div class="stat-row">
+        <div class="sr-card g"><div class="sr-top"><div class="sr-icon g"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><span class="sr-change up">↓ -18%</span></div><div class="sr-num" id="sn1">0</div><div class="sr-label">Total Incidents YTD</div><div class="sr-sub">18% fewer than last year</div></div>
+        <div class="sr-card a"><div class="sr-top"><div class="sr-icon a"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg></div><span class="sr-change nt">→ Same</span></div><div class="sr-num" id="sn2">0</div><div class="sr-label">Open NCRs</div><div class="sr-sub">14 raised this month</div></div>
+        <div class="sr-card b"><div class="sr-top"><div class="sr-icon b"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg></div><span class="sr-change up">↑ +12%</span></div><div class="sr-num" id="sn3">0<span style="font-size:14px;color:var(--t3)">%</span></div><div class="sr-label">Audit Score Avg</div><div class="sr-sub">Across all projects</div></div>
+        <div class="sr-card r"><div class="sr-top"><div class="sr-icon r"><svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><span class="sr-change dn">↑ +2</span></div><div class="sr-num" id="sn4">0</div><div class="sr-label">Lost Time Injuries</div><div class="sr-sub">This financial year</div></div>
+      </div>
+
+      <div class="charts-grid">
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Incident Trend</div><div class="card-sub">Monthly incidents — last 12 months</div></div><div style="display:flex;gap:4px"><div class="cbtn on">Monthly</div><div class="cbtn">Weekly</div></div></div>
+          <div class="chart-h200"><canvas id="incidentChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">NCR by Type</div><div class="card-sub">Breakdown by category</div></div><div class="cbtn">This Month</div></div>
+          <div class="chart-h200"><canvas id="ncrChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Audit Score Trend</div><div class="card-sub">Monthly average — all projects</div></div><div class="cbtn">6 Months</div></div>
+          <div class="chart-h200"><canvas id="auditChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Action Closure Rate</div><div class="card-sub">% closed on time per month</div></div><div class="cbtn">6 Months</div></div>
+          <div class="chart-h200"><canvas id="closureChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Incident Severity Breakdown -->
+      <div class="card">
+        <div class="card-head"><div><div class="card-title">Incident Severity Distribution</div><div class="card-sub">All incidents this year by severity level</div></div><div style="display:flex;gap:5px"><div class="cbtn on">2026 YTD</div><div class="cbtn">2025</div></div></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:16px">
+          <div style="text-align:center;padding:0 12px;border-right:1px solid var(--div)">
+            <div style="font-family:var(--fh);font-size:36px;font-weight:800;color:var(--green)" id="sv1">0</div>
+            <div style="font-size:11px;color:var(--t2);margin-top:4px">Low</div>
+            <div style="font-size:10px;color:var(--t3)">No immediate risk</div>
+            <div style="height:4px;background:var(--green);border-radius:2px;margin-top:8px;width:60%;margin-left:auto;margin-right:auto"></div>
+          </div>
+          <div style="text-align:center;padding:0 12px;border-right:1px solid var(--div)">
+            <div style="font-family:var(--fh);font-size:36px;font-weight:800;color:var(--amber)" id="sv2">0</div>
+            <div style="font-size:11px;color:var(--t2);margin-top:4px">Medium</div>
+            <div style="font-size:10px;color:var(--t3)">Needs attention</div>
+            <div style="height:4px;background:var(--amber);border-radius:2px;margin-top:8px;width:40%;margin-left:auto;margin-right:auto"></div>
+          </div>
+          <div style="text-align:center;padding:0 12px;border-right:1px solid var(--div)">
+            <div style="font-family:var(--fh);font-size:36px;font-weight:800;color:#F97316" id="sv3">0</div>
+            <div style="font-size:11px;color:var(--t2);margin-top:4px">High</div>
+            <div style="font-size:10px;color:var(--t3)">Immediate action</div>
+            <div style="height:4px;background:#F97316;border-radius:2px;margin-top:8px;width:25%;margin-left:auto;margin-right:auto"></div>
+          </div>
+          <div style="text-align:center;padding:0 12px">
+            <div style="font-family:var(--fh);font-size:36px;font-weight:800;color:var(--red)" id="sv4">0</div>
+            <div style="font-size:11px;color:var(--t2);margin-top:4px">Critical</div>
+            <div style="font-size:10px;color:var(--t3)">CEO escalation</div>
+            <div style="height:4px;background:var(--red);border-radius:2px;margin-top:8px;width:15%;margin-left:auto;margin-right:auto"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ MONTHLY REPORTS TAB ═══ -->
+    <div class="tab-panel" id="tab-monthly">
+      <div class="monthly-grid">
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Generated Reports</div><div class="card-sub">Monthly safety reports — auto-generated</div></div><button class="btn-export" onclick="showToast('Generating March 2026 report...')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Generate New</button></div>
+          <div class="report-list">
+            <div class="report-item">
+              <div class="ri-icon"><div class="pdf-top">PDF</div><div class="pdf-lines"><div class="pdf-line"></div><div class="pdf-line" style="width:70%"></div><div class="pdf-line"></div></div></div>
+              <div class="ri-body">
+                <div class="ri-title">Safety Report — March 2026</div>
+                <div class="ri-meta"><span class="ri-tag" style="background:var(--g-s);color:var(--green);border:1px solid var(--g-b)">Current</span><span class="ri-size">2.4 MB · 18 pages</span><span style="font-size:10px;color:var(--t3)">All Projects</span></div>
+              </div>
+              <div class="ri-right"><div class="ri-date">21 Mar 2026</div><div class="dl-btn" onclick="showToast('Downloading March 2026 report...')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download</div></div>
+            </div>
+            <div class="report-item">
+              <div class="ri-icon"><div class="pdf-top">PDF</div><div class="pdf-lines"><div class="pdf-line"></div><div class="pdf-line" style="width:70%"></div><div class="pdf-line"></div></div></div>
+              <div class="ri-body">
+                <div class="ri-title">Safety Report — February 2026</div>
+                <div class="ri-meta"><span class="ri-tag" style="background:var(--b-s);color:var(--blue);border:1px solid var(--b-b)">Reviewed</span><span class="ri-size">2.1 MB · 16 pages</span></div>
+              </div>
+              <div class="ri-right"><div class="ri-date">01 Mar 2026</div><div class="dl-btn" onclick="showToast('Downloading...')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download</div></div>
+            </div>
+            <div class="report-item">
+              <div class="ri-icon"><div class="pdf-top">PDF</div><div class="pdf-lines"><div class="pdf-line"></div><div class="pdf-line" style="width:70%"></div><div class="pdf-line"></div></div></div>
+              <div class="ri-body">
+                <div class="ri-title">Safety Report — January 2026</div>
+                <div class="ri-meta"><span class="ri-tag" style="background:var(--b-s);color:var(--blue);border:1px solid var(--b-b)">Reviewed</span><span class="ri-size">1.9 MB · 15 pages</span></div>
+              </div>
+              <div class="ri-right"><div class="ri-date">01 Feb 2026</div><div class="dl-btn" onclick="showToast('Downloading...')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download</div></div>
+            </div>
+            <div class="report-item">
+              <div class="ri-icon"><div class="pdf-top">XLS</div><div class="pdf-lines"><div class="pdf-line"></div><div class="pdf-line" style="width:70%"></div><div class="pdf-line"></div></div></div>
+              <div class="ri-body">
+                <div class="ri-title">Q1 2026 — Combined Excel Report</div>
+                <div class="ri-meta"><span class="ri-tag" style="background:var(--g-s);color:var(--green);border:1px solid var(--g-b)">Q1</span><span class="ri-size">1.2 MB · 4 sheets</span></div>
+              </div>
+              <div class="ri-right"><div class="ri-date">31 Mar 2026</div><div class="dl-btn" onclick="showToast('Downloading Excel...')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download</div></div>
+            </div>
+            <div class="report-item">
+              <div class="ri-icon"><div class="pdf-top">PDF</div><div class="pdf-lines"><div class="pdf-line"></div><div class="pdf-line" style="width:70%"></div><div class="pdf-line"></div></div></div>
+              <div class="ri-body">
+                <div class="ri-title">Safety Report — December 2025</div>
+                <div class="ri-meta"><span class="ri-tag" style="background:var(--a-s);color:var(--amber);border:1px solid var(--a-b)">Archived</span><span class="ri-size">2.0 MB · 17 pages</span></div>
+              </div>
+              <div class="ri-right"><div class="ri-date">01 Jan 2026</div><div class="dl-btn" onclick="showToast('Downloading...')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="report-preview">
+          <div class="preview-card">
+            <div class="preview-header">📊 March 2026 — Report Preview</div>
+            <div class="preview-row"><div class="pr-label">Total Incidents</div><div class="pr-val">7</div></div>
+            <div class="preview-row"><div class="pr-label">NCRs Raised</div><div class="pr-val">14</div></div>
+            <div class="preview-row"><div class="pr-label">Actions Closed</div><div class="pr-val green">89%</div></div>
+            <div class="preview-row"><div class="pr-label">Overdue Actions</div><div class="pr-val red">3</div></div>
+            <div class="preview-row"><div class="pr-label">Avg Audit Score</div><div class="pr-val green">87%</div></div>
+            <div class="preview-row"><div class="pr-label">Escalations</div><div class="pr-val amber">5</div></div>
+            <div class="preview-row"><div class="pr-label">Lost Time Injuries</div><div class="pr-val green">0</div></div>
+            <div class="preview-row"><div class="pr-label">Toolbox Talks</div><div class="pr-val">12 sessions</div></div>
+            <div class="preview-row"><div class="pr-label">Attendance</div><div class="pr-val">284 workers</div></div>
+          </div>
+          <button class="gen-btn" onclick="showToast('Generating PDF report — this would trigger Puppeteer on the backend')">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+            Generate March Report PDF
+          </button>
+          <div style="background:var(--g-s);border:1px solid var(--g-b);border-radius:8px;padding:10px 12px">
+            <div style="font-size:11px;color:var(--green);font-weight:600;margin-bottom:3px">Auto-generation includes:</div>
+            <div style="font-size:10px;color:var(--t2);line-height:1.8">✓ Company logo + branding · ✓ All incident details · ✓ NCR summary with photos · ✓ Audit scores · ✓ Action status table · ✓ Approval signatures · ✓ BOCW compliance checklist</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ BENCHMARK TAB ═══ -->
+    <div class="tab-panel" id="tab-benchmark">
+      <div class="bench-grid">
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Your Safety Score</div><div class="card-sub">vs Industry benchmark — Indian Construction</div></div><div class="cbtn">Q1 2026</div></div>
+          <div class="bench-score">
+            <div class="score-ring">
+              <canvas id="scoreRing" width="140" height="140"></canvas>
+              <div class="score-center">
+                <div class="score-num" style="color:var(--green)" id="bench-score">0</div>
+                <div class="score-label">/ 100</div>
+              </div>
+            </div>
+            <div style="font-family:var(--fh);font-size:16px;font-weight:700;color:var(--green)">Good Performance</div>
+            <div style="font-size:12px;color:var(--t3);text-align:center">Above industry average of 62 points</div>
+            <div style="display:flex;gap:12px;margin-top:4px">
+              <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t3)"><div style="width:10px;height:10px;background:var(--green);border-radius:2px"></div>You: 78</div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t3)"><div style="width:10px;height:10px;background:var(--border);border-radius:2px"></div>Industry avg: 62</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Metric Comparison</div><div class="card-sub">You vs industry average</div></div></div>
+          <div class="bench-metrics">
+            <div class="bm-item"><div class="bm-label">Incident Rate</div><div class="bm-bar-wrap"><div class="bm-bar" style="width:65%;background:var(--green)"></div></div><div class="bm-val" style="color:var(--green)">6.5</div><div class="bm-ind">avg 8.2</div></div>
+            <div class="bm-item"><div class="bm-label">Audit Score</div><div class="bm-bar-wrap"><div class="bm-bar" style="width:87%;background:var(--green)"></div></div><div class="bm-val" style="color:var(--green)">87%</div><div class="bm-ind">avg 71%</div></div>
+            <div class="bm-item"><div class="bm-label">Closure Rate</div><div class="bm-bar-wrap"><div class="bm-bar" style="width:78%;background:var(--blue)"></div></div><div class="bm-val" style="color:var(--blue)">78%</div><div class="bm-ind">avg 65%</div></div>
+            <div class="bm-item"><div class="bm-label">Near Miss Rate</div><div class="bm-bar-wrap"><div class="bm-bar" style="width:45%;background:var(--amber)"></div></div><div class="bm-val" style="color:var(--amber)">4.5</div><div class="bm-ind">avg 3.1</div></div>
+            <div class="bm-item"><div class="bm-label">PTW Compliance</div><div class="bm-bar-wrap"><div class="bm-bar" style="width:92%;background:var(--green)"></div></div><div class="bm-val" style="color:var(--green)">92%</div><div class="bm-ind">avg 78%</div></div>
+            <div class="bm-item"><div class="bm-label">LTI Rate</div><div class="bm-bar-wrap"><div class="bm-bar" style="width:20%;background:var(--red)"></div></div><div class="bm-val" style="color:var(--red)">0.2</div><div class="bm-ind">avg 0.8</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><div><div class="card-title">Project Performance vs Benchmark</div><div class="card-sub">Each project compared against industry standard</div></div></div>
+        <div class="compare-table">
+          <table class="ctbl">
+            <thead>
+              <tr><th>Project</th><th>Incident Rate</th><th>Audit Score</th><th>Closure Rate</th><th>LTI Count</th><th>Overall Score</th><th>vs Industry</th></tr>
+            </thead>
+            <tbody>
+              <tr><td style="font-weight:600;color:var(--t1)">Birpur Bihpur Road</td><td><div class="vs-cell"><span class="vs-you">5.2</span><span class="vs-arrow">→</span><span class="vs-ind">8.2 avg</span></div></td><td><div class="vs-cell"><span class="vs-you">91%</span><span class="vs-arrow">→</span><span class="vs-ind">71% avg</span></div></td><td><div class="vs-cell"><span class="vs-you">84%</span></div></td><td><span class="vs-you" style="color:var(--green)">0</span></td><td><span style="font-family:var(--fh);font-size:13px;font-weight:800;color:var(--green)">84</span></td><td><span class="vs-badge vb-better">+22 pts</span></td></tr>
+              <tr><td style="font-weight:600;color:var(--t1)">Site Alpha — Mumbai</td><td><div class="vs-cell"><span class="vs-you">7.8</span><span class="vs-arrow">→</span><span class="vs-ind">8.2 avg</span></div></td><td><div class="vs-cell"><span class="vs-you">84%</span><span class="vs-arrow">→</span><span class="vs-ind">71% avg</span></div></td><td><div class="vs-cell"><span class="vs-you">76%</span></div></td><td><span class="vs-you" style="color:var(--amber)">1</span></td><td><span style="font-family:var(--fh);font-size:13px;font-weight:800;color:var(--blue)">71</span></td><td><span class="vs-badge vb-same">+9 pts</span></td></tr>
+              <tr><td style="font-weight:600;color:var(--t1)">Tirora Power Plant</td><td><div class="vs-cell"><span class="vs-you">9.1</span><span class="vs-arrow">→</span><span class="vs-ind">8.2 avg</span></div></td><td><div class="vs-cell"><span class="vs-you">79%</span><span class="vs-arrow">→</span><span class="vs-ind">71% avg</span></div></td><td><div class="vs-cell"><span class="vs-you">71%</span></div></td><td><span class="vs-you" style="color:var(--red)">2</span></td><td><span style="font-family:var(--fh);font-size:13px;font-weight:800;color:var(--amber)">65</span></td><td><span class="vs-badge vb-same">+3 pts</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ APPRAISAL TAB ═══ -->
+    <div class="tab-panel" id="tab-appraisal">
+      <div class="apr-grid">
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Safety Appraisal Scores</div><div class="card-sub">Individual performance — March 2026</div></div><div style="display:flex;gap:5px"><div class="cbtn on">Individual</div><div class="cbtn">Team</div><div class="cbtn">Project</div></div></div>
+          <div class="apr-filters">
+            <div class="af on">All (18)</div><div class="af">Excellent (6)</div><div class="af">Good (7)</div><div class="af">Average (4)</div><div class="af">Poor (1)</div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="apr-table">
+              <thead><tr><th>Name</th><th>Role</th><th>Score</th><th>Grade</th><th>Trend</th><th>Actions</th></tr></thead>
+              <tbody id="apr-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Score Breakdown -->
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Score Breakdown</div><div class="card-sub">Sarah T. — Top Performer</div></div></div>
+          <div class="score-breakdown">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--raised);border-radius:8px;margin-bottom:4px">
+              <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#F59E0B,#D97706);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff">ST</div>
+              <div><div style="font-size:13px;font-weight:700;color:var(--t1)">Sarah T.</div><div style="font-size:10px;color:var(--t3)">HSE Officer · Site Alpha</div></div>
+              <div style="margin-left:auto;font-family:var(--fh);font-size:28px;font-weight:800;color:var(--green)">96</div>
+            </div>
+            <div class="sb-item"><div class="sb-row"><div class="sb-label">Actions closed on time</div><div class="sb-val" style="color:var(--green)">40 pts</div></div><div class="sb-bar-wrap"><div class="sb-bar" style="width:100%;background:var(--green)"></div></div></div>
+            <div class="sb-item"><div class="sb-row"><div class="sb-label">Incidents reported</div><div class="sb-val" style="color:var(--blue)">20 pts</div></div><div class="sb-bar-wrap"><div class="sb-bar" style="width:100%;background:var(--blue)"></div></div></div>
+            <div class="sb-item"><div class="sb-row"><div class="sb-label">NCRs raised</div><div class="sb-val" style="color:var(--amber)">15 pts</div></div><div class="sb-bar-wrap"><div class="sb-bar" style="width:75%;background:var(--amber)"></div></div></div>
+            <div class="sb-item"><div class="sb-row"><div class="sb-label">Audit participation</div><div class="sb-val" style="color:var(--purple)">20 pts</div></div><div class="sb-bar-wrap"><div class="sb-bar" style="width:100%;background:var(--purple)"></div></div></div>
+            <div class="sb-item"><div class="sb-row"><div class="sb-label">Escalations received</div><div class="sb-val" style="color:var(--red)">−0 pts</div></div><div class="sb-bar-wrap"><div class="sb-bar" style="width:0%;background:var(--red)"></div></div></div>
+            <div style="background:var(--g-s);border:1px solid var(--g-b);border-radius:8px;padding:10px;margin-top:4px">
+              <div style="font-size:11px;color:var(--green);font-weight:700">Formula: (Actions×40) + (Incidents×5) + (NCR×5) + (Audit×20) − (Escalations×10)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TROPHY TAB ═══ -->
+    <div class="tab-panel" id="tab-trophy">
+      <div class="card">
+        <div class="trophy-header">
+          <div class="trophy-title">🏆 Champion Trophy — March 2026</div>
+          <div class="trophy-sub">Monthly safety performance leaderboard — resets 1st of every month</div>
+          <div class="trophy-reset">⏱ Resets in 10 days · 4 hours</div>
+        </div>
+
+        <!-- PODIUM -->
+        <div class="podium">
+          <div class="pod-item">
+            <div class="pod-avatar" style="width:52px;height:52px;background:linear-gradient(135deg,#94A3B8,#64748B)">JM</div>
+            <div class="pod-name">John M.</div>
+            <div class="pod-role">Site Supervisor</div>
+            <div class="pod-score" style="color:var(--t2)">88</div>
+            <div class="pod-block" style="height:60px;background:rgba(148,163,184,.15);border:1px solid var(--border)"><div class="pod-rank">2</div></div>
+          </div>
+          <div class="pod-item">
+            <div class="pod-avatar" style="width:64px;height:64px;background:linear-gradient(135deg,#F59E0B,#D97706);position:relative">
+              <div class="pod-crown">👑</div>ST
+            </div>
+            <div class="pod-name" style="font-size:14px">Sarah T.</div>
+            <div class="pod-role">HSE Officer</div>
+            <div class="pod-score" style="color:var(--amber);font-size:24px">96</div>
+            <div class="pod-block" style="height:80px;background:rgba(245,158,11,.12);border:1px solid var(--a-b)"><div class="pod-rank" style="color:var(--amber)">1</div></div>
+          </div>
+          <div class="pod-item">
+            <div class="pod-avatar" style="width:46px;height:46px;background:linear-gradient(135deg,#CD7F32,#A0522D)">MK</div>
+            <div class="pod-name">Meera K.</div>
+            <div class="pod-role">HSE Manager</div>
+            <div class="pod-score" style="color:#CD7F32">85</div>
+            <div class="pod-block" style="height:48px;background:rgba(205,127,50,.12);border:1px solid rgba(205,127,50,.3)"><div class="pod-rank">3</div></div>
+          </div>
+        </div>
+
+        <!-- Category Trophies -->
+        <div class="trophy-cards">
+          <div class="tc"><div class="tc-trophy">🥇</div><div class="tc-title">Top Performer</div><div class="tc-name">Sarah T.</div><div class="tc-score">96</div><div class="tc-label">HSE Officer · Site Alpha</div></div>
+          <div class="tc"><div class="tc-trophy">🏗️</div><div class="tc-title">Best Project</div><div class="tc-name">Birpur Bihpur</div><div class="tc-score">84</div><div class="tc-label">Overall safety score</div></div>
+          <div class="tc"><div class="tc-trophy">🤝</div><div class="tc-title">Best Contractor</div><div class="tc-name">ABC Infra Ltd</div><div class="tc-score">79</div><div class="tc-label">Contractor safety compliance</div></div>
+        </div>
+
+        <!-- Full Leaderboard -->
+        <div class="lb-full" id="lb-list"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--raised);border:1px solid var(--g-b);border-radius:10px;padding:10px 18px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;color:var(--t1);box-shadow:0 8px 24px rgba(0,0,0,.4);transition:transform .3s;z-index:9999;white-space:nowrap">
+  <div style="width:26px;height:26px;border-radius:7px;background:var(--g-s);border:1px solid var(--g-b);display:flex;align-items:center;justify-content:center"><svg style="width:13px;height:13px;fill:var(--green)" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+  <span id="toast-msg">Done</span>
+</div>
+
+<script>
+/* ── DATA ── */
+const aprData=[
+  {name:'Sarah T.',role:'HSE Officer',color:'#F59E0B',ini:'ST',score:96,grade:'Excellent',trend:'+4',trendDir:'up'},
+  {name:'Meera K.',role:'HSE Manager',color:'#22C55E',ini:'MK',score:91,grade:'Excellent',trend:'+2',trendDir:'up'},
+  {name:'John M.',role:'Site Supervisor',color:'#3B82F6',ini:'JM',score:88,grade:'Excellent',trend:'−1',trendDir:'dn'},
+  {name:'Dhanesh CK',role:'HSE Head',color:'#22C55E',ini:'DK',score:86,grade:'Excellent',trend:'+1',trendDir:'up'},
+  {name:'Rajesh K.',role:'Safety Officer',color:'#EF4444',ini:'RK',score:78,grade:'Good',trend:'+3',trendDir:'up'},
+  {name:'Arvind S.',role:'Activity Head',color:'#8B5CF6',ini:'AS',score:74,grade:'Good',trend:'0',trendDir:'eq'},
+  {name:'Vikram S.',role:'Activity Head',color:'#0EA5E9',ini:'VS',score:68,grade:'Good',trend:'−2',trendDir:'dn'},
+  {name:'Priya R.',role:'HSE Executive',color:'#EC4899',ini:'PR',score:52,grade:'Average',trend:'+5',trendDir:'up'},
+];
+
+const lbData=[
+  {rank:1,name:'Sarah T.',proj:'Site Alpha',color:'#F59E0B',ini:'ST',score:96,change:'up',pts:'+4'},
+  {rank:2,name:'John M.',proj:'Birpur Bihpur',color:'#3B82F6',ini:'JM',score:88,change:'dn',pts:'−1'},
+  {rank:3,name:'Meera K.',proj:'All Projects',color:'#22C55E',ini:'MK',score:85,change:'up',pts:'+2'},
+  {rank:4,name:'Dhanesh CK',proj:'All Projects',color:'#22C55E',ini:'DK',score:84,change:'up',pts:'+1'},
+  {rank:5,name:'Rajesh K.',proj:'Site Alpha',color:'#EF4444',ini:'RK',score:78,change:'up',pts:'+3'},
+  {rank:6,name:'Arvind S.',proj:'Tirora Plant',color:'#8B5CF6',ini:'AS',score:74,change:'eq',pts:'0'},
+  {rank:7,name:'Vikram S.',proj:'Birpur Bihpur',color:'#0EA5E9',ini:'VS',score:68,change:'dn',pts:'−2'},
+];
+
+/* ── RENDER APPRAISAL ── */
+function gradeClass(g){return{Excellent:'gp-ex',Good:'gp-go',Average:'gp-av',Poor:'gp-po'}[g]||'gp-av'}
+function scoreColor(s){return s>=85?'var(--green)':s>=70?'var(--blue)':s>=60?'var(--amber)':'var(--red)'}
+function renderApr(){
+  document.getElementById('apr-tbody').innerHTML=aprData.map(a=>`
+    <tr>
+      <td><div style="display:flex;align-items:center;gap:8px"><div style="width:26px;height:26px;border-radius:50%;background:${a.color};display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff">${a.ini}</div><span style="font-size:12px;font-weight:600;color:var(--t1)">${a.name}</span></div></td>
+      <td><span style="font-size:11px;color:var(--t3)">${a.role}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-family:var(--fh);font-size:15px;font-weight:800;color:${scoreColor(a.score)}">${a.score}</span>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:${a.score}%;background:${scoreColor(a.score)}"></div></div>
+        </div>
+      </td>
+      <td><span class="grade-pill ${gradeClass(a.grade)}">${a.grade}</span></td>
+      <td><span style="font-size:11px;font-weight:600;color:${a.trendDir==='up'?'var(--green)':a.trendDir==='dn'?'var(--red)':'var(--amber)'}">${a.trendDir==='up'?'↑':a.trendDir==='dn'?'↓':'→'} ${a.pts}</span></td>
+      <td><div style="display:flex;gap:4px"><div style="width:22px;height:22px;border-radius:4px;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg style="width:10px;height:10px;fill:var(--t3)" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div></div></td>
+    </tr>`).join('');
+}
+renderApr();
+
+/* ── RENDER LEADERBOARD ── */
+function renderLB(){
+  const rankColors={1:'var(--amber)',2:'var(--t2)',3:'#CD7F32'};
+  document.getElementById('lb-list').innerHTML=lbData.map(r=>`
+    <div class="lb-row">
+      <div class="lb-rank-num" style="color:${rankColors[r.rank]||'var(--t3)'}">${r.rank}</div>
+      <div class="lb-av" style="background:${r.color}">${r.ini}</div>
+      <div class="lb-inf"><div class="lb-name">${r.name}</div><div class="lb-proj">${r.proj}</div></div>
+      <div class="lb-bar-wrap"><div class="lb-bar" style="width:${r.score}%;background:${scoreColor(r.score)}"></div></div>
+      <span class="lb-change ${r.change==='up'?'lbc-up':r.change==='dn'?'lbc-dn':'lbc-eq'}">${r.change==='up'?'↑':r.change==='dn'?'↓':'→'} ${r.pts}</span>
+      <div class="lb-score-val" style="color:${scoreColor(r.score)}">${r.score}</div>
+    </div>`).join('');
+}
+renderLB();
+
+/* ── COUNT UP ── */
+function cu(id,t,ms,suffix){
+  const el=document.getElementById(id);if(!el)return;
+  const s=performance.now();
+  function u(n){
+    const p=Math.min((n-s)/ms,1);
+    const e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(t*e)+(suffix||'');
+    if(p<1)requestAnimationFrame(u);
+  }
+  requestAnimationFrame(u);
+}
+setTimeout(()=>{
+  cu('sn1',154,1000);cu('sn2',47,900);cu('sn3',87,1100,'');cu('sn4',3,600);
+  cu('sv1',68,900);cu('sv2',52,1000);cu('sv3',26,800);cu('sv4',8,700);
+  cu('bench-score',78,1200);
+},300);
+
+/* ── CHARTS ── */
+Chart.defaults.color='#64748B';Chart.defaults.font.family='DM Sans';
+
+// Incident trend
+const ic=document.getElementById('incidentChart');
+if(ic){
+  const g=ic.getContext('2d');
+  const grad=g.createLinearGradient(0,0,0,200);
+  grad.addColorStop(0,'rgba(239,68,68,.2)');grad.addColorStop(1,'rgba(239,68,68,.01)');
+  new Chart(ic,{type:'line',data:{labels:['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'],datasets:[{label:'Incidents',data:[18,22,15,19,14,16,12,10,14,9,11,7],borderColor:'#EF4444',borderWidth:2.5,backgroundColor:grad,fill:true,tension:.4,pointBackgroundColor:'#EF4444',pointBorderColor:'#131C26',pointBorderWidth:2,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#16212B',borderColor:'#1E293B',borderWidth:1,bodyColor:'#E6EDF3'}},scales:{x:{grid:{color:'rgba(30,41,59,.5)'},ticks:{font:{size:10}},border:{display:false}},y:{grid:{color:'rgba(30,41,59,.5)'},ticks:{font:{size:10},maxTicksLimit:5},border:{display:false}}}}});
+}
+
+// NCR pie
+const nc=document.getElementById('ncrChart');
+if(nc){
+  new Chart(nc,{type:'doughnut',data:{labels:['Unsafe Act','Unsafe Condition','Near Miss','Equipment','Environment'],datasets:[{data:[28,35,18,12,7],backgroundColor:['rgba(245,158,11,.8)','rgba(239,68,68,.8)','rgba(59,130,246,.8)','rgba(139,92,246,.8)','rgba(34,197,94,.8)'],borderWidth:0,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10,padding:10,color:'#94A3B8'}},tooltip:{backgroundColor:'#16212B',borderColor:'#1E293B',borderWidth:1,bodyColor:'#E6EDF3'}},cutout:'60%'}});
+}
+
+// Audit score
+const ac=document.getElementById('auditChart');
+if(ac){
+  const g=ac.getContext('2d');
+  const grad=g.createLinearGradient(0,0,0,200);
+  grad.addColorStop(0,'rgba(59,130,246,.2)');grad.addColorStop(1,'rgba(59,130,246,.01)');
+  new Chart(ac,{type:'line',data:{labels:['Oct','Nov','Dec','Jan','Feb','Mar'],datasets:[{label:'Audit Score %',data:[72,75,78,81,84,87],borderColor:'#3B82F6',borderWidth:2.5,backgroundColor:grad,fill:true,tension:.4,pointBackgroundColor:'#3B82F6',pointBorderColor:'#131C26',pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#16212B',borderColor:'#1E293B',borderWidth:1,bodyColor:'#E6EDF3'}},scales:{x:{grid:{color:'rgba(30,41,59,.5)'},ticks:{font:{size:10}},border:{display:false}},y:{grid:{color:'rgba(30,41,59,.5)'},ticks:{font:{size:10},maxTicksLimit:5},border:{display:false},min:60,max:100}}}});
+}
+
+// Closure rate
+const cc=document.getElementById('closureChart');
+if(cc){
+  new Chart(cc,{type:'bar',data:{labels:['Oct','Nov','Dec','Jan','Feb','Mar'],datasets:[{label:'Closure Rate %',data:[68,72,71,76,80,78],backgroundColor:['rgba(34,197,94,.7)','rgba(34,197,94,.7)','rgba(34,197,94,.7)','rgba(34,197,94,.7)','rgba(34,197,94,.7)','rgba(34,197,94,.9)'],borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#16212B',borderColor:'#1E293B',borderWidth:1,bodyColor:'#E6EDF3'}},scales:{x:{grid:{color:'rgba(30,41,59,.5)'},ticks:{font:{size:10}},border:{display:false}},y:{grid:{color:'rgba(30,41,59,.5)'},ticks:{font:{size:10},maxTicksLimit:5},border:{display:false},min:50,max:100}}}});
+}
+
+// Score ring (benchmark)
+const sr=document.getElementById('scoreRing');
+if(sr){
+  new Chart(sr,{type:'doughnut',data:{datasets:[{data:[78,22],backgroundColor:['#22C55E','rgba(30,41,59,.6)'],borderWidth:0,circumference:270,rotation:225}]},options:{responsive:false,plugins:{legend:{display:false},tooltip:{enabled:false}},cutout:'80%'}});
+}
+
+/* ── TABS ── */
+function switchTab(el,id){
+  document.querySelectorAll('.sh-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  setTimeout(()=>window.dispatchEvent(new Event('resize')),50);
+}
+
+/* ── TOAST ── */
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.style.transform='translateX(-50%) translateY(0)';
+  setTimeout(()=>{t.style.transform='translateX(-50%) translateY(100px)'},3500);
+}
+
+
+/* ══ API INTEGRATION ══ */
+const API = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
+function getToken(){ return localStorage.getItem('sp_token'); }
+async function apiFetch(path, opts={}){
+  const res = await fetch(API+path, {
+    ...opts,
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken(),...(opts.headers||{})}
+  });
+  if(res.status===401){ window.location.href='safetypro_login.html'; return null; }
+  return res.json();
+}
+
+async function loadReportsData(){
+  try {
+    const kpis = await apiFetch('/dashboard/kpis');
+    if(kpis){
+      const r1=document.getElementById('rep-k1'); if(r1) r1.textContent=kpis.totalIncidents||0;
+      const r2=document.getElementById('rep-k2'); if(r2) r2.textContent=kpis.openNCRs||0;
+      const r3=document.getElementById('rep-k3'); if(r3) r3.textContent=kpis.overdueActions||0;
+      const r4=document.getElementById('rep-k4'); if(r4) r4.textContent=(kpis.auditScore||0)+'/10';
+    }
+
+    const trends = await apiFetch('/dashboard/trends');
+    if(trends && window.trendChart){
+      window.trendChart.data.labels = trends.map(t=>t.month);
+      window.trendChart.data.datasets[0].data = trends.map(t=>t.incidents);
+      window.trendChart.update();
+    }
+  } catch(e){ console.warn('Reports load:', e.message); }
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  if(!getToken()){ window.location.href='safetypro_login.html'; return; }
+  loadReportsData();
+});
+
+/* ── MORE MENU ── */
+function toggleMore(e){
+  e.stopPropagation();
+  document.getElementById('more-btn').classList.toggle('open');
+}
+document.addEventListener('click',function(){
+  const mb=document.getElementById('more-btn');
+  if(mb) mb.classList.remove('open');
+});
+
+
+/* ══ NAVIGATION ══ */
+(function(){
+  const pages = {
+    'Dashboard':            'safetypro_v2.html',
+    'Operations':           'safetypro_operations.html',
+    'Control':              'safetypro_control.html',
+    'Reports':              'safetypro_reports.html',
+    'Audit & Compliance':   'safetypro_admin.html',
+    'Documents & Records':  'safetypro_admin.html',
+    'Site & Field Tools':   'safetypro_admin.html',
+    'AI Intelligence':      'safetypro_admin.html',
+    'Auditor Verification': 'safetypro_admin.html',
+    'Admin & Configuration':'safetypro_admin.html',
+  };
+
+  function navigate(label){
+    const dest = pages[label];
+    if(dest) window.location.href = dest;
+  }
+
+  // Wire sidebar items
+  document.querySelectorAll('.sb-item').forEach(el => {
+    const label = el.textContent.trim().replace(/\d+/g,'').trim();
+    const dest = pages[label];
+    if(dest){
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        window.location.href = dest;
+      });
+    }
+  });
+
+  // Wire topnav links
+  document.querySelectorAll('.nl').forEach(el => {
+    const label = el.textContent.trim().replace(/[▾]/g,'').trim();
+    const dest = pages[label];
+    if(dest && !el.classList.contains('more-wrap')){
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        window.location.href = dest;
+      });
+    }
+  });
+
+  // Wire More menu items
+  document.querySelectorAll('.mm-item').forEach(el => {
+    const label = el.textContent.trim();
+    const dest = pages[label];
+    if(dest){
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        window.location.href = dest;
+      });
+    }
+  });
+
+  // Wire logo click → dashboard
+  const logo = document.querySelector('.logo');
+  if(logo){
+    logo.style.cursor = 'pointer';
+    logo.addEventListener('click', () => { window.location.href = 'safetypro_v2.html'; });
+  }
+})();
+
+</script>
+</body>
+</html>
