@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- SafetyPro AI Admin v1.3 - Activities Tab -->
+<!-- SafetyPro AI Admin v1.4 - Activities Rebuilt 20260324082321 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -699,67 +699,130 @@ svg{flex-shrink:0}
         </div>
       </div>
 
+    </div>
+
     <!-- ══ ACTIVITIES TAB ══ -->
     <div class="tab-panel" id="tab-activities">
 
-      <!-- Company Hierarchy -->
+      <!-- ── ESCALATION LADDER ─────────────────────── -->
       <div class="card">
         <div class="card-head">
-          <div><div class="card-title">Company Escalation Hierarchy</div><div class="card-sub">Configure L3–L5 escalation recipients</div></div>
-          <button class="btn-save" onclick="saveHierarchy()">
+          <div>
+            <div class="card-title">Escalation Ladder (L2 → L5)</div>
+            <div class="card-sub">Configure your company hierarchy — any designation, any level. L1 is auto-routed from Activity Master.</div>
+          </div>
+          <button class="btn-save" onclick="saveLadder()">
             <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/></svg>
-            Save Hierarchy
+            Save Ladder
           </button>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding:14px">
-          <div>
-            <div style="font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">🟡 Sector Head (L3)</div>
-            <input id="hier-sector-name" class="fi" type="text" placeholder="Full Name" style="margin-bottom:6px"/>
-            <input id="hier-sector-email" class="fi" type="email" placeholder="Email Address"/>
+        <div style="padding:14px;display:flex;flex-direction:column;gap:0">
+
+          <!-- L1 readonly info -->
+          <div style="display:grid;grid-template-columns:100px 16px 1fr;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--div)">
+            <div style="text-align:center">
+              <span style="background:var(--green);color:#0B0E12;font-size:11px;font-weight:700;padding:4px 8px;border-radius:4px;display:inline-block">L1</span>
+              <div style="font-size:9px;color:var(--green);margin-top:3px;font-weight:600">1 day</div>
+            </div>
+            <div style="color:var(--t3);text-align:center">→</div>
+            <div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:8px;padding:10px 14px">
+              <div style="font-size:13px;font-weight:600;color:var(--t1)">Activity Head</div>
+              <div style="font-size:11px;color:var(--t3);margin-top:2px">Auto-routed based on Activity Master — no manual config needed</div>
+            </div>
           </div>
-          <div>
-            <div style="font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">🔴 HSE Head-HO (L4)</div>
-            <input id="hier-hse-name" class="fi" type="text" placeholder="Full Name" style="margin-bottom:6px"/>
-            <input id="hier-hse-email" class="fi" type="email" placeholder="Email Address"/>
+
+          <!-- L2 -->
+          <div style="display:grid;grid-template-columns:100px 16px 1fr 1fr;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--div)">
+            <div style="text-align:center">
+              <span style="background:var(--amber);color:#0B0E12;font-size:11px;font-weight:700;padding:4px 8px;border-radius:4px;display:inline-block">L2</span>
+              <div id="l2-label" style="font-size:9px;color:var(--amber);margin-top:3px;font-weight:600">3 days</div>
+            </div>
+            <div style="color:var(--t3);text-align:center">→</div>
+            <input id="l2-designation" class="fi" type="text" placeholder="Designation (e.g. Project Manager)" style="margin:0" oninput="updateLabel('l2')"/>
+            <input id="l2-email" class="fi" type="email" placeholder="Email address" style="margin:0"/>
           </div>
-          <div>
-            <div style="font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">🟣 CEO (L5)</div>
-            <input id="hier-ceo-name" class="fi" type="text" placeholder="Full Name" style="margin-bottom:6px"/>
-            <input id="hier-ceo-email" class="fi" type="email" placeholder="Email Address"/>
+
+          <!-- L3 -->
+          <div style="display:grid;grid-template-columns:100px 16px 1fr 1fr;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--div)">
+            <div style="text-align:center">
+              <span style="background:#D97706;color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:4px;display:inline-block">L3</span>
+              <div id="l3-label" style="font-size:9px;color:#D97706;margin-top:3px;font-weight:600">5 days</div>
+            </div>
+            <div style="color:var(--t3);text-align:center">→</div>
+            <input id="l3-designation" class="fi" type="text" placeholder="Designation (e.g. Cluster Head)" style="margin:0" oninput="updateLabel('l3')"/>
+            <input id="l3-email" class="fi" type="email" placeholder="Email address" style="margin:0"/>
           </div>
+
+          <!-- L4 -->
+          <div style="display:grid;grid-template-columns:100px 16px 1fr 1fr;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--div)">
+            <div style="text-align:center">
+              <span style="background:#B91C1C;color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:4px;display:inline-block">L4</span>
+              <div id="l4-label" style="font-size:9px;color:#B91C1C;margin-top:3px;font-weight:600">7 days</div>
+            </div>
+            <div style="color:var(--t3);text-align:center">→</div>
+            <input id="l4-designation" class="fi" type="text" placeholder="Designation (e.g. BU Head, HSE Head-HO)" style="margin:0" oninput="updateLabel('l4')"/>
+            <input id="l4-email" class="fi" type="email" placeholder="Email address" style="margin:0"/>
+          </div>
+
+          <!-- L5 -->
+          <div style="display:grid;grid-template-columns:100px 16px 1fr 1fr;gap:12px;align-items:center;padding:10px 0">
+            <div style="text-align:center">
+              <span style="background:#7C3AED;color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:4px;display:inline-block">L5</span>
+              <div id="l5-label" style="font-size:9px;color:#7C3AED;margin-top:3px;font-weight:600">10 days</div>
+            </div>
+            <div style="color:var(--t3);text-align:center">→</div>
+            <input id="l5-designation" class="fi" type="text" placeholder="Designation (e.g. CEO, MD, Director)" style="margin:0" oninput="updateLabel('l5')"/>
+            <input id="l5-email" class="fi" type="email" placeholder="Email address" style="margin:0"/>
+          </div>
+
         </div>
-        <div id="hier-result" style="display:none;margin:0 14px 14px;padding:10px;border-radius:6px;font-size:13px;text-align:center"></div>
+        <div id="ladder-result" style="display:none;margin:0 14px 14px;padding:10px;border-radius:6px;font-size:13px;text-align:center"></div>
       </div>
 
-      <!-- Project Head -->
+      <!-- ── PROJECT HEAD (L2 OVERRIDE) ─────────────── -->
       <div class="card">
         <div class="card-head">
-          <div><div class="card-title">Project Head (L2)</div><div class="card-sub">Assign Project Head per project for L2 escalation routing</div></div>
+          <div>
+            <div class="card-title">Project Head — L2 Override</div>
+            <div class="card-sub">Assign a specific head per project. This overrides the company-level L2 for that project.</div>
+          </div>
         </div>
-        <div style="padding:14px;display:flex;flex-direction:column;gap:10px" id="project-head-list">
-          <div style="text-align:center;color:var(--t3);font-size:13px;padding:20px">Loading projects...</div>
+        <div style="padding:0 14px 14px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 90px;gap:10px;padding:8px 0 6px;border-bottom:1px solid var(--border);margin-bottom:2px">
+            <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px">Project</div>
+            <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px">Head Email (L2 Override)</div>
+            <div></div>
+          </div>
+          <div id="project-head-list">
+            <div style="text-align:center;color:var(--t3);font-size:13px;padding:20px">Loading projects...</div>
+          </div>
         </div>
       </div>
 
-      <!-- Activity Master -->
+      <!-- ── ACTIVITY MASTER (L1) ───────────────────── -->
       <div class="card">
         <div class="card-head">
-          <div><div class="card-title">Activity Master (L1)</div><div class="card-sub">Add activities per project — incidents routed to Activity Head automatically</div></div>
-          <button class="btn-primary" onclick="openAddActivity()" style="padding:6px 14px;font-size:12px">+ Add Activity</button>
+          <div>
+            <div class="card-title">Activity Master — L1</div>
+            <div class="card-sub">Add activities per project. When incident/NCR is raised and activity selected, alert routes to Activity Head automatically.</div>
+          </div>
+          <button class="btn-primary" onclick="showAddActivityModal()" style="padding:6px 16px;font-size:12px;cursor:pointer">+ Add Activity</button>
         </div>
-        <div style="padding:14px 14px 0">
-          <select id="act-project-sel" class="fi" onchange="loadActivities(this.value)" style="max-width:300px">
-            <option value="">Select Project...</option>
+        <div style="padding:10px 14px 6px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--div)">
+          <div style="font-size:12px;color:var(--t2);white-space:nowrap">Filter by Project:</div>
+          <select id="act-project-sel" class="fi" onchange="loadActivities(this.value)" style="max-width:280px;margin:0;font-size:12px">
+            <option value="">All Projects</option>
           </select>
         </div>
-        <div style="padding:14px;display:flex;flex-direction:column;gap:8px" id="activities-list">
-          <div style="text-align:center;color:var(--t3);font-size:13px;padding:20px">Select a project to view activities</div>
+        <div style="padding:14px;display:flex;flex-direction:column;gap:6px" id="activities-list">
+          <div style="text-align:center;color:var(--t3);font-size:13px;padding:20px">Select a project above to view activities</div>
         </div>
       </div>
 
     </div>
 
-    </div>
+
+
 
   </div>
 </div>
@@ -779,6 +842,7 @@ function switchTab(el,id){
   el.classList.add('active');
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
+  if(id==='activities') loadProjectsForActivities();
 }
 function switchTmpl(el){
   document.querySelectorAll('.ttab').forEach(t=>t.classList.remove('active'));
@@ -1116,189 +1180,299 @@ document.addEventListener('click',function(){
 
 
 /* ══ ACTIVITIES & HIERARCHY ══ */
-const API = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
-function getToken(){ return localStorage.getItem('sp_token'); }
-async function apiFetch(path, opts={}) {
-  const res = await fetch(API+path, {
+/* ══════════════════════════════════════════════════
+   ACTIVITIES TAB — COMPLETE CLEAN IMPLEMENTATION
+══════════════════════════════════════════════════ */
+
+// Update level badge label dynamically as user types
+function updateLabel(level) {
+  const input = document.getElementById(level + '-designation');
+  const label = document.getElementById(level + '-label');
+  if (!input || !label) return;
+  const days = {l2:'3 days', l3:'5 days', l4:'7 days', l5:'10 days'};
+  label.textContent = input.value.trim() || days[level];
+}
+const ACT_API = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
+
+function actGetToken() {
+  return localStorage.getItem('sp_token') || localStorage.getItem('token') || '';
+}
+
+async function actFetch(path, opts = {}) {
+  const token = actGetToken();
+  const res = await fetch(ACT_API + path, {
     ...opts,
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken(),...(opts.headers||{})}
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+      ...(opts.headers || {})
+    }
   });
-  return res.json();
+  if (res.status === 401) {
+    showToast('Session expired — please login again');
+    setTimeout(() => window.location.href = 'safetypro_login.html', 1500);
+    throw new Error('Unauthorized');
+  }
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'API error ' + res.status);
+  return data;
 }
 
-// Load projects into selects
-async function loadProjectsForActivities() {
+function actShowResult(id, msg, ok = true) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.style.display = 'block';
+  el.style.background = ok ? 'rgba(34,197,94,.1)' : 'rgba(239,68,68,.1)';
+  el.style.border = ok ? '1px solid rgba(34,197,94,.3)' : '1px solid rgba(239,68,68,.3)';
+  el.style.color = ok ? '#22C55E' : '#EF4444';
+  el.textContent = msg;
+  if (ok) setTimeout(() => el.style.display = 'none', 3000);
+}
+
+/* ── ESCALATION LADDER ────────────────────────── */
+async function loadLadder() {
   try {
-    const projects = await apiFetch('/projects');
-    if(!projects || !projects.length) return;
-    const sel1 = document.getElementById('act-project-sel');
-    const sel2 = document.getElementById('act-proj');
-    projects.forEach(p => {
-      if(sel1) sel1.innerHTML += `<option value="${p.id}">${p.name}</option>`;
-      if(sel2) sel2.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+    const h = await actFetch('/activities/company/hierarchy');
+    if (!h) return;
+    const map = {
+      'l2-designation': h.projectHeadName || '',
+      'l2-email':       h.projectHeadEmail || '',
+      'l3-designation': h.sectorHeadName || '',
+      'l3-email':       h.sectorHeadEmail || '',
+      'l4-designation': h.hseHeadHOName || '',
+      'l4-email':       h.hseHeadHOEmail || '',
+      'l5-designation': h.ceoName || '',
+      'l5-email':       h.ceoEmail || '',
+    };
+    Object.entries(map).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (el) el.value = val;
     });
-    // Load project heads
-    loadProjectHeads(projects);
-    // Load hierarchy
-    loadHierarchy();
-  } catch(e){ console.warn(e); }
-}
-
-async function loadHierarchy() {
-  try {
-    const h = await apiFetch('/activities/company/hierarchy');
-    if(!h) return;
-    if(h.sectorHeadName) document.getElementById('hier-sector-name').value = h.sectorHeadName;
-    if(h.sectorHeadEmail) document.getElementById('hier-sector-email').value = h.sectorHeadEmail;
-    if(h.hseHeadHOName) document.getElementById('hier-hse-name').value = h.hseHeadHOName;
-    if(h.hseHeadHOEmail) document.getElementById('hier-hse-email').value = h.hseHeadHOEmail;
-    if(h.ceoName) document.getElementById('hier-ceo-name').value = h.ceoName;
-    if(h.ceoEmail) document.getElementById('hier-ceo-email').value = h.ceoEmail;
-  } catch(e){ console.warn(e); }
-}
-
-async function saveHierarchy() {
-  const data = {
-    sectorHeadName: document.getElementById('hier-sector-name').value,
-    sectorHeadEmail: document.getElementById('hier-sector-email').value,
-    hseHeadHOName: document.getElementById('hier-hse-name').value,
-    hseHeadHOEmail: document.getElementById('hier-hse-email').value,
-    ceoName: document.getElementById('hier-ceo-name').value,
-    ceoEmail: document.getElementById('hier-ceo-email').value,
-  };
-  const result = document.getElementById('hier-result');
-  try {
-    await apiFetch('/activities/company/hierarchy', { method:'PATCH', body: JSON.stringify(data) });
-    result.style.display='block';
-    result.style.background='rgba(34,197,94,.1)';
-    result.style.border='1px solid rgba(34,197,94,.3)';
-    result.style.color='#22C55E';
-    result.textContent='✓ Hierarchy saved successfully';
-    setTimeout(()=>result.style.display='none', 3000);
-  } catch(e){
-    result.style.display='block';
-    result.style.color='#EF4444';
-    result.textContent='Error saving hierarchy';
+    // Update dynamic labels
+    ['l2','l3','l4','l5'].forEach(l => updateLabel(l));
+  } catch (e) {
+    console.warn('Ladder load error:', e.message);
   }
 }
 
-async function loadProjectHeads(projects) {
-  const container = document.getElementById('project-head-list');
-  if(!container) return;
-  container.innerHTML = '';
-  for(const p of projects) {
-    container.innerHTML += `
-      <div style="display:grid;grid-template-columns:200px 1fr 1fr 80px;gap:10px;align-items:center;padding:10px;background:var(--raised);border-radius:8px;border:1px solid var(--border)">
-        <div style="font-size:13px;font-weight:600;color:var(--t1)">${p.name}</div>
-        <input class="fi" type="text" placeholder="Project Head Name" id="ph-name-${p.id}" value="${p.projectHeadName||''}" style="margin:0"/>
-        <input class="fi" type="email" placeholder="Project Head Email (L2)" id="ph-email-${p.id}" value="${p.projectHeadEmail||''}" style="margin:0"/>
-        <button onclick="saveProjectHead('${p.id}')" style="padding:8px;border-radius:6px;border:none;background:var(--green);color:#0B0E12;font-size:12px;font-weight:600;cursor:pointer">Save</button>
-      </div>`;
+async function saveLadder() {
+  const data = {
+    projectHeadName:  document.getElementById('l2-designation')?.value || '',
+    projectHeadEmail: document.getElementById('l2-email')?.value || '',
+    sectorHeadName:   document.getElementById('l3-designation')?.value || '',
+    sectorHeadEmail:  document.getElementById('l3-email')?.value || '',
+    hseHeadHOName:    document.getElementById('l4-designation')?.value || '',
+    hseHeadHOEmail:   document.getElementById('l4-email')?.value || '',
+    ceoName:          document.getElementById('l5-designation')?.value || '',
+    ceoEmail:         document.getElementById('l5-email')?.value || '',
+  };
+  try {
+    await actFetch('/activities/company/hierarchy', {
+      method: 'PATCH',
+      body: JSON.stringify(data)
+    });
+    actShowResult('ladder-result', '✓ Escalation ladder saved successfully', true);
+  } catch (e) {
+    actShowResult('ladder-result', '✗ Error: ' + e.message, false);
+  }
+}
+
+/* ── PROJECT HEADS ───────────────────────────── */
+let _actProjects = [];
+
+async function loadProjectsForActivities() {
+  const phList = document.getElementById('project-head-list');
+  const sel1   = document.getElementById('act-project-sel');
+  const sel2   = document.getElementById('act-proj');
+
+  if (phList) phList.innerHTML = '<div style="text-align:center;color:var(--t3);font-size:13px;padding:16px">Loading projects...</div>';
+
+  try {
+    const token = actGetToken();
+    if (!token) {
+      if (phList) phList.innerHTML = '<div style="color:#EF4444;font-size:13px;padding:10px">⚠ Not logged in — please login first</div>';
+      return;
+    }
+
+    const projects = await actFetch('/projects');
+
+    if (!Array.isArray(projects) || projects.length === 0) {
+      if (phList) phList.innerHTML = '<div style="color:var(--t3);font-size:13px;padding:10px">No projects found</div>';
+      return;
+    }
+
+    _actProjects = projects;
+
+    // Populate project dropdowns
+    const opts = '<option value="">Select Project...</option>' +
+      projects.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+    if (sel1) sel1.innerHTML = opts;
+    if (sel2) sel2.innerHTML = opts;
+
+    // Render project head rows
+    if (phList) {
+      phList.innerHTML = projects.map(p => `
+        <div style="display:grid;grid-template-columns:180px 40px 1fr 1fr 90px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--div)">
+          <div style="font-size:13px;font-weight:600;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.name}</div>
+          <div style="text-align:center;color:var(--t3)">→</div>
+          <input class="fi" type="text" id="ph-des-${p.id}" value="${p.projectHeadName || ''}" placeholder="Designation" style="margin:0;font-size:12px"/>
+          <input class="fi" type="email" id="ph-email-${p.id}" value="${p.projectHeadEmail || ''}" placeholder="Email (overrides L2)" style="margin:0;font-size:12px"/>
+          <button onclick="saveProjectHead('${p.id}')" style="padding:7px;border-radius:6px;border:none;background:var(--green);color:#0B0E12;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap">Save</button>
+        </div>`).join('');
+    }
+
+    // Load ladder
+    loadLadder();
+
+  } catch (e) {
+    if (phList) phList.innerHTML = `<div style="color:#EF4444;font-size:13px;padding:10px">✗ Error: ${e.message}</div>`;
   }
 }
 
 async function saveProjectHead(projectId) {
-  const name = document.getElementById('ph-name-'+projectId)?.value;
-  const email = document.getElementById('ph-email-'+projectId)?.value;
+  const des   = document.getElementById('ph-des-' + projectId)?.value || '';
+  const email = document.getElementById('ph-email-' + projectId)?.value || '';
   try {
-    await apiFetch('/activities/project/'+projectId+'/head', {
-      method:'PATCH', body: JSON.stringify({ projectHeadName: name, projectHeadEmail: email })
+    await actFetch('/activities/project/' + projectId + '/head', {
+      method: 'PATCH',
+      body: JSON.stringify({ projectHeadName: des, projectHeadEmail: email })
     });
     showToast('✓ Project Head saved');
-  } catch(e){ showToast('Error saving'); }
+  } catch (e) {
+    showToast('✗ Error: ' + e.message);
+  }
 }
 
+/* ── ACTIVITY MASTER ─────────────────────────── */
 async function loadActivities(projectId) {
-  if(!projectId) return;
+  if (!projectId) return;
   const container = document.getElementById('activities-list');
-  container.innerHTML = '<div style="text-align:center;color:var(--t3);font-size:13px;padding:20px">Loading...</div>';
+  if (!container) return;
+  container.innerHTML = '<div style="text-align:center;color:var(--t3);font-size:13px;padding:16px">Loading...</div>';
   try {
-    const acts = await apiFetch('/activities/project/'+projectId);
-    if(!acts || !acts.length) {
-      container.innerHTML = '<div style="text-align:center;color:var(--t3);font-size:13px;padding:20px">No activities yet — click + Add Activity</div>';
+    const acts = await actFetch('/activities/project/' + projectId);
+    if (!Array.isArray(acts) || acts.length === 0) {
+      container.innerHTML = '<div style="text-align:center;color:var(--t3);font-size:13px;padding:16px">No activities yet — click + Add Activity</div>';
       return;
     }
-    container.innerHTML = '';
-    acts.forEach(a => {
-      container.innerHTML += `
-        <div style="display:grid;grid-template-columns:180px 1fr 1fr 80px;gap:10px;align-items:center;padding:10px;background:var(--raised);border-radius:8px;border:1px solid var(--border)">
+    container.innerHTML = `
+      <div style="display:grid;grid-template-columns:180px 40px 1fr 1fr 80px;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);margin-bottom:4px">
+        <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase">ACTIVITY</div>
+        <div></div>
+        <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase">HEAD NAME</div>
+        <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase">HEAD EMAIL (L1)</div>
+        <div></div>
+      </div>` +
+      acts.map(a => `
+        <div style="display:grid;grid-template-columns:180px 40px 1fr 1fr 80px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--div)">
           <div>
             <div style="font-size:13px;font-weight:600;color:var(--green)">${a.name}</div>
-            <div style="font-size:11px;color:var(--t3)">L1 Escalation Target</div>
+            <div style="font-size:10px;color:var(--t3)">L1 Escalation</div>
           </div>
-          <div style="font-size:13px;color:var(--t2)">${a.headName||'—'}</div>
-          <div style="font-size:13px;color:var(--t2)">${a.headEmail||'—'}</div>
-          <button onclick="removeActivity('${a.id}')" style="padding:6px;border-radius:6px;border:1px solid var(--border);background:transparent;color:#EF4444;font-size:11px;cursor:pointer">Remove</button>
-        </div>`;
-    });
-  } catch(e){ container.innerHTML = '<div style="text-align:center;color:#EF4444;font-size:13px;padding:20px">Error loading activities</div>'; }
+          <div style="text-align:center;color:var(--t3)">→</div>
+          <div style="font-size:12px;color:var(--t2)">${a.headName || '—'}</div>
+          <div style="font-size:12px;color:var(--t2)">${a.headEmail || '—'}</div>
+          <button onclick="removeActivity('${a.id}')" style="padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:transparent;color:#EF4444;font-size:11px;cursor:pointer">Remove</button>
+        </div>`).join('');
+  } catch (e) {
+    container.innerHTML = `<div style="color:#EF4444;font-size:13px;padding:10px">✗ Error: ${e.message}</div>`;
+  }
 }
 
-function openAddActivity() {
-  const m=document.getElementById('add-act-modal'); m.style.display='flex'; m.classList.add('open');
+/* ── ADD ACTIVITY MODAL ──────────────────────── */
+function openAddActivity_old() {
+  // Pre-populate project dropdown with current selection
+  const mainSel = document.getElementById('act-project-sel');
+  const modalSel = document.getElementById('act-proj');
+  if (mainSel && modalSel && mainSel.value) {
+    modalSel.value = mainSel.value;
+  }
+  const m = document.getElementById('add-act-modal');
+  if (m) { m.style.display = 'flex'; m.classList.add('open'); }
 }
-function closeAddActivity() {
-  const m=document.getElementById('add-act-modal'); m.style.display='none'; m.classList.remove('open');
-  document.getElementById('act-name').value='';
-  document.getElementById('act-head-name').value='';
-  document.getElementById('act-head-email').value='';
-  document.getElementById('act-result').style.display='none';
+
+function closeAddActivity_old() {
+  const m = document.getElementById('add-act-modal');
+  if (m) { m.style.display = 'none'; m.classList.remove('open'); }
+  ['act-name', 'act-head-name', 'act-head-email'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const r = document.getElementById('act-result');
+  if (r) r.style.display = 'none';
 }
 
 async function saveActivity() {
-  const projectId = document.getElementById('act-proj').value;
-  const name = document.getElementById('act-name').value.trim();
-  const headName = document.getElementById('act-head-name').value.trim();
-  const headEmail = document.getElementById('act-head-email').value.trim();
-  const result = document.getElementById('act-result');
+  const projectId = document.getElementById('act-proj')?.value;
+  const name      = document.getElementById('act-name')?.value.trim();
+  const headName  = document.getElementById('act-head-name')?.value.trim();
+  const headEmail = document.getElementById('act-head-email')?.value.trim();
 
-  if(!projectId || !name) {
-    result.style.display='block';
-    result.style.background='rgba(239,68,68,.1)';
-    result.style.border='1px solid rgba(239,68,68,.3)';
-    result.style.color='#EF4444';
-    result.textContent='Please select a project and enter activity name';
+  if (!projectId || !name) {
+    actShowResult('act-result', '✗ Please select a project and enter activity name', false);
     return;
   }
+
   try {
-    await apiFetch('/activities', {
-      method:'POST',
+    await actFetch('/activities', {
+      method: 'POST',
       body: JSON.stringify({ projectId, name, headName, headEmail })
     });
-    result.style.display='block';
-    result.style.background='rgba(34,197,94,.1)';
-    result.style.border='1px solid rgba(34,197,94,.3)';
-    result.style.color='#22C55E';
-    result.textContent='✓ Activity added successfully';
-    setTimeout(()=>{ closeAddActivity(); loadActivities(projectId); }, 1500);
-  } catch(e){ result.textContent='Error saving activity'; }
+    actShowResult('act-result', '✓ Activity added successfully!', true);
+    setTimeout(() => {
+      hideAddActivityModal();
+      loadActivities(projectId);
+      // Update main project selector to show new activity
+      const sel = document.getElementById('act-project-sel');
+      if (sel) sel.value = projectId;
+    }, 1200);
+  } catch (e) {
+    actShowResult('act-result', '✗ Error: ' + e.message, false);
+  }
 }
 
 async function removeActivity(id) {
-  if(!confirm('Remove this activity?')) return;
+  if (!confirm('Remove this activity?')) return;
   try {
-    await apiFetch('/activities/'+id, { method:'DELETE' });
+    await actFetch('/activities/' + id, { method: 'DELETE' });
+    showToast('✓ Activity removed');
     const sel = document.getElementById('act-project-sel');
-    if(sel?.value) loadActivities(sel.value);
-    showToast('Activity removed');
-  } catch(e){ showToast('Error removing'); }
+    if (sel?.value) loadActivities(sel.value);
+  } catch (e) {
+    showToast('✗ Error: ' + e.message);
+  }
 }
 
-// Auto-load when activities tab is clicked
-// Auto-load activities when tab clicked — handled via tab panel check
-document.addEventListener('click', function(e) {
-  if(e.target.closest && e.target.closest('[onclick*="activities"]')) {
-    setTimeout(loadProjectsForActivities, 100);
+
+
+/* ══ ADD ACTIVITY MODAL ══ */
+function showAddActivityModal() {
+  const mainSel = document.getElementById('act-project-sel');
+  const modalSel = document.getElementById('act-proj');
+  if (modalSel && _actProjects && _actProjects.length) {
+    modalSel.innerHTML = '<option value="">Select Project...</option>' +
+      _actProjects.map(p => `<option value="${p.id}"${mainSel&&mainSel.value===p.id?' selected':''}>${p.name}</option>`).join('');
   }
+  const overlay = document.getElementById('add-act-overlay');
+  if (overlay) overlay.style.display = 'flex';
+  ['act-name','act-head-name','act-head-email'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.value = '';
+  });
+  const r = document.getElementById('act-result'); if(r) r.style.display='none';
+}
+
+function hideAddActivityModal() {
+  const overlay = document.getElementById('add-act-overlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+document.addEventListener('click', function(e) {
+  const overlay = document.getElementById('add-act-overlay');
+  if (e.target === overlay) hideAddActivityModal();
 });
 
 </script>
 
-<!-- ADD ACTIVITY MODAL -->
-<div class="modal-overlay" id="add-act-modal" style="display:none;opacity:1;pointer-events:all">
-  <div class="modal" style="max-width:460px">
-    <div class="modal-head">
-      <div class="modal-title">Add Activity</div>
       <div class="modal-close" onclick="closeAddActivity()">✕</div>
     </div>
     <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
@@ -1325,6 +1499,43 @@ document.addEventListener('click', function(e) {
         <button onclick="closeAddActivity()" style="padding:10px 20px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--t2);font-size:13px;cursor:pointer">Cancel</button>
       </div>
       <div id="act-result" style="display:none;padding:10px;border-radius:6px;font-size:13px;text-align:center"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADD ACTIVITY MODAL ══ -->
+<div id="add-act-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;align-items:center;justify-content:center">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:0;width:460px;max-width:95vw;max-height:90vh;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.5)">
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)">
+      <div style="font-size:15px;font-weight:700;color:var(--t1)">Add Activity</div>
+      <div onclick="hideAddActivityModal()" style="cursor:pointer;color:var(--t3);font-size:18px;line-height:1;padding:4px">✕</div>
+    </div>
+    <!-- Body -->
+    <div style="padding:20px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;max-height:calc(90vh - 120px)">
+      <div>
+        <div class="fi-label">Project *</div>
+        <select id="act-proj" class="fi" style="margin:0">
+          <option value="">Select Project...</option>
+        </select>
+      </div>
+      <div>
+        <div class="fi-label">Activity Name *</div>
+        <input id="act-name" class="fi" type="text" placeholder="e.g. Civil, Electrical, Mechanical, MEP, Finishing" style="margin:0"/>
+      </div>
+      <div>
+        <div class="fi-label">Activity Head Name</div>
+        <input id="act-head-name" class="fi" type="text" placeholder="Full name of Activity Head" style="margin:0"/>
+      </div>
+      <div>
+        <div class="fi-label">Activity Head Email <span style="color:var(--green);font-size:10px">(L1 escalation will go here)</span></div>
+        <input id="act-head-email" class="fi" type="email" placeholder="activityhead@yourcompany.com" style="margin:0"/>
+      </div>
+      <div id="act-result" style="display:none;padding:10px;border-radius:8px;font-size:13px;text-align:center"></div>
+      <div style="display:flex;gap:10px;margin-top:4px">
+        <button onclick="saveActivity()" style="flex:1;padding:11px;border-radius:8px;border:none;background:var(--green);color:#0B0E12;font-family:var(--fh);font-size:13px;font-weight:700;cursor:pointer">Save Activity</button>
+        <button onclick="hideAddActivityModal()" style="padding:11px 20px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--t2);font-size:13px;cursor:pointer">Cancel</button>
+      </div>
     </div>
   </div>
 </div>
