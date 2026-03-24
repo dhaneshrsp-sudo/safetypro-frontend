@@ -1276,6 +1276,19 @@ function setSev(el,level){
 }
 
 /* ══ NCR TYPE ══ */
+function setNcrModalType(el, type){
+  document.querySelectorAll('.ncr-type-btn').forEach(b=>{
+    b.style.border='1px solid var(--border)';
+    b.style.background='transparent';
+    b.style.color='var(--t2)';
+  });
+  el.style.border='1px solid var(--green)';
+  el.style.background='rgba(34,197,94,.1)';
+  el.style.color='var(--green)';
+  const inp=document.getElementById('ncr-modal-type');
+  if(inp) inp.value=type;
+}
+
 function setNcrType(el){
   document.querySelectorAll('.ncr-type').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
