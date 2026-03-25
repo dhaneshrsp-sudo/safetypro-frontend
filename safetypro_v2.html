@@ -1515,11 +1515,19 @@ function showDashToast(msg) {
 (function init() {
   const token = localStorage.getItem('sp_token');
   if (!token) {
-    window.location.href = 'safetypro_landing.html';
+    window.location.replace('safetypro_login.html');
     return;
   }
-  // Load profile immediately
-  loadNavProfile();
+  // Load profile from cache first — no API call on init
+  try {
+    const cached = localStorage.getItem('sp_user');
+    if (cached) {
+      const user = JSON.parse(cached);
+      if (user && user.name) applyNavProfile(user);
+    }
+  } catch(e) {}
+  // Then load profile from API in background
+  setTimeout(loadNavProfile, 500);
   // Load dashboard data
   if (typeof loadDashboardData === 'function') loadDashboardData(null);
 })();
@@ -2035,10 +2043,8 @@ function loadNavProfile() {
     applyNavProfile(user);
   })
   .catch((e) => {
-    if(e.message === 'Unauthorized') {
-      localStorage.removeItem('sp_token');
-      window.location.href = 'safetypro_login.html';
-    }
+    // Don't redirect on network errors — only clear on explicit 401
+    console.warn('Profile load error:', e.message);
   });
 }
 
@@ -2060,18 +2066,7 @@ function applyNavProfile(user) {
   const dot = document.getElementById('alert-dot');
   if(dot) dot.style.display = 'block';
 }
-/* ══ PAGE INITIALISATION ══ */
-(function init() {
-  const token = localStorage.getItem('sp_token');
-  if (!token) {
-    window.location.href = 'safetypro_landing.html';
-    return;
-  }
-  // Load profile immediately
-  loadNavProfile();
-  // Load dashboard data
-  if (typeof loadDashboardData === 'function') loadDashboardData(null);
-})();
+
 
 
 </script>
