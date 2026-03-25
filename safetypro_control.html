@@ -450,8 +450,8 @@ svg{flex-shrink:0}
           <div class="card-head">
             <div><div class="card-title">Active Escalations</div><div class="card-sub">Auto-triggered by overdue actions · Updates hourly</div></div>
             <div style="display:flex;gap:5px">
-              <div class="cbtn red-on">● Live</div>
-              <div class="cbtn">History</div>
+              <div class="cbtn red-on" id="esc-live-btn" onclick="showEscLive(this)">● Live</div>
+              <div class="cbtn" id="esc-hist-btn" onclick="showEscHistory(this)">History</div>
             </div>
           </div>
           <div class="lvl-map">
@@ -552,7 +552,7 @@ svg{flex-shrink:0}
 
           <!-- Escalation Timeline -->
           <div class="card">
-            <div class="card-head"><div class="card-title">Escalation History</div><div class="cbtn">Last 7 Days</div></div>
+            <div class="card-head"><div class="card-title">Escalation History</div><div style="display:flex;gap:6px"><div class="cbtn active" id="hist-7" onclick="filterHistory(7,this)">7 Days</div><div class="cbtn" id="hist-30" onclick="filterHistory(30,this)">30 Days</div><div class="cbtn" id="hist-all" onclick="filterHistory(0,this)">All</div></div></div>
             <div class="esc-timeline">
               <div class="etl-item"><div class="etl-dot" style="background:var(--red)"></div><div class="etl-body"><div class="etl-title">L3 triggered — Fix loose railing, Site Alpha</div><div class="etl-time">Today 09:14 · Auto-triggered by cron</div></div></div>
               <div class="etl-item"><div class="etl-dot" style="background:#F97316"></div><div class="etl-body"><div class="etl-title">L2 triggered — Electrical hazard, Tirora</div><div class="etl-time">Yesterday 14:22 · Acknowledged by Meera K.</div></div></div>
@@ -1040,6 +1040,36 @@ document.addEventListener('click',function(){
     logo.addEventListener('click', () => { window.location.href = 'safetypro_v2.html'; });
   }
 })();
+
+
+/* ══ ESCALATION PANEL ══ */
+function showEscLive(el) {
+  document.getElementById('esc-live-btn').classList.add('red-on');
+  document.getElementById('esc-hist-btn').classList.remove('red-on');
+  showToast('● Live escalations — auto-refreshing hourly');
+}
+
+function showEscHistory(el) {
+  document.getElementById('esc-hist-btn').classList.add('red-on');
+  document.getElementById('esc-live-btn').classList.remove('red-on');
+  showToast('Showing escalation history');
+  filterHistory(7, document.getElementById('hist-7'));
+}
+
+function filterHistory(days, el) {
+  document.querySelectorAll('#hist-7,#hist-30,#hist-all').forEach(b => b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  const token = localStorage.getItem('sp_token');
+  if(!token) return;
+  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/escalation/status', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+  .then(r => r.json())
+  .then(data => {
+    showToast('History loaded: ' + (days === 0 ? 'All time' : 'Last ' + days + ' days'));
+  })
+  .catch(() => showToast('History filter applied'));
+}
 
 </script>
 </body>

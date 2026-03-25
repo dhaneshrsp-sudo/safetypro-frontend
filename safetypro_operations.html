@@ -683,7 +683,7 @@ svg{flex-shrink:0}
                 <svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
                 Assigned to me
               </div>
-              <div class="filter-chip" onclick="toggleFilter(this)">Sort: Deadline ↑</div>
+              <div class="filter-chip" id="sort-btn" onclick="toggleSort(this)">Sort: Deadline ↑</div>
               <div class="search-box">
                 <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
                 <input type="text" placeholder="Search actions..."/>
@@ -1599,6 +1599,47 @@ function awRender(key) {
   });
 }
 function awReset(key) { window._awFiles[key] = []; awRender(key); }
+
+
+/* ══ SORT & FILTER ══ */
+let _sortAsc = true;
+let _showOnlyMine = true;
+
+function toggleSort(el) {
+  _sortAsc = !_sortAsc;
+  el.textContent = _sortAsc ? 'Sort: Deadline ↑' : 'Sort: Deadline ↓';
+  el.classList.toggle('on', !_sortAsc);
+  const sorted = [...(window.actions || [])].sort((a, b) => {
+    const da = new Date(a.deadline || '2099-01-01');
+    const db = new Date(b.deadline || '2099-01-01');
+    return _sortAsc ? da - db : db - da;
+  });
+  renderTable(sorted.slice(0, 8));
+  showToast(_sortAsc ? 'Sorted: Earliest deadline first' : 'Sorted: Latest deadline first');
+}
+
+function toggleAssignedMe(el) {
+  _showOnlyMine = !_showOnlyMine;
+  el.classList.toggle('active', _showOnlyMine);
+  const token = localStorage.getItem('sp_token');
+  if(!token) return;
+  // Get current user
+  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/auth/profile', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+  .then(r => r.json())
+  .then(user => {
+    let filtered = window.actions || [];
+    if(_showOnlyMine && user?.name) {
+      filtered = filtered.filter(a => a.person === user.name);
+    }
+    renderTable(filtered.slice(0, 8));
+    showToast(_showOnlyMine ? 'Showing: Assigned to me' : 'Showing: All actions');
+  })
+  .catch(() => {
+    renderTable((window.actions || []).slice(0, 8));
+  });
+}
 
 </script>
 

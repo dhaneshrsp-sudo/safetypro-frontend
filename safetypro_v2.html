@@ -514,6 +514,10 @@ body{min-height:100vh;background:var(--bg);color:var(--t1);font-family:var(--fb)
 .aw-file-rm:hover{color:#EF4444}
 .aw-more{display:flex;align-items:center;justify-content:center;padding:7px;border-radius:8px;border:1px dashed #1E293B;background:#16212B;color:#64748B;font-size:12px;font-weight:600;cursor:pointer;transition:.15s;width:100%;box-sizing:border-box}
 .aw-more:hover{border-color:#22C55E;color:#22C55E}
+
+/* ── Profile & Alert Dropdowns ── */
+.profile-menu-item{ padding:10px 16px;font-size:13px;color:var(--t2);cursor:pointer;display:flex;align-items:center;gap:8px; }
+.profile-menu-item:hover{ background:var(--raised); }
 </style>
 </head>
 <body>
@@ -546,19 +550,54 @@ body{min-height:100vh;background:var(--bg);color:var(--t1);font-family:var(--fb)
     </div>
   </div>
   <div class="nav-right" id="nav-user-wrap">
-    <div class="icon-btn">
+    <!-- Alert Bell -->
+    <div class="icon-btn" onclick="toggleAlerts()" id="alert-btn" title="Alerts" style="position:relative">
       <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+      <div class="red-dot" id="alert-dot"></div>
     </div>
-    <div class="icon-btn" style="background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.4)">
-      <svg viewBox="0 0 24 24" style="fill:var(--red)"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
-    </div>
-    <div class="user-pill">
-      <div class="ua">JM</div>
+    <!-- User Profile Pill -->
+    <div class="user-pill" onclick="toggleProfileMenu()" id="user-pill-btn" style="position:relative">
+      <div class="ua" id="nav-initials">DK</div>
       <div class="un">
-        <span class="un-name">John Miller</span>
-        <span class="un-role">Safety Manager</span>
+        <span class="un-name" id="nav-username">Loading...</span>
+        <span class="un-role" id="nav-role">SafetyPro AI</span>
       </div>
       <span style="color:var(--t3);font-size:10px;margin-left:4px">▾</span>
+    </div>
+  </div>
+
+  <!-- Alert Dropdown -->
+  <div id="alert-dropdown" style="display:none;position:fixed;top:56px;right:160px;width:320px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:9999;overflow:hidden">
+    <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+      <div style="font-size:13px;font-weight:700;color:var(--t1)">Alerts</div>
+      <div onclick="toggleAlerts()" style="cursor:pointer;color:var(--t3);font-size:12px">✕ Close</div>
+    </div>
+    <div id="alert-list" style="max-height:320px;overflow-y:auto">
+      <div style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Loading alerts...</div>
+    </div>
+  </div>
+
+  <!-- Profile Dropdown -->
+  <div id="profile-dropdown" style="display:none;position:fixed;top:56px;right:16px;width:220px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:9999;overflow:hidden">
+    <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
+      <div style="font-size:13px;font-weight:700;color:var(--t1)" id="profile-name">Loading...</div>
+      <div style="font-size:11px;color:var(--t3)" id="profile-email">-</div>
+      <div style="font-size:10px;color:var(--green);margin-top:2px;font-weight:600" id="profile-role-badge">-</div>
+    </div>
+    <div style="padding:8px 0">
+      <div onclick="goToSettings()" style="padding:10px 16px;font-size:13px;color:var(--t2);cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        Settings
+      </div>
+      <div onclick="changePassword()" style="padding:10px 16px;font-size:13px;color:var(--t2);cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Change Password
+      </div>
+      <div style="height:1px;background:var(--border);margin:4px 0"></div>
+      <div onclick="signOut()" style="padding:10px 16px;font-size:13px;color:#EF4444;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s" onmouseover="this.style.background='rgba(239,68,68,.08)'" onmouseout="this.style.background='transparent'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Sign Out
+      </div>
     </div>
   </div>
 </nav>
@@ -1180,7 +1219,7 @@ setTimeout(()=>{
 
 /* CHART — glowing green line */
 const ctx=document.getElementById('chart').getContext('2d');
-const labels=['Oct','Plus','Nov','Dec','Jan','Acb','Feb','Mar','Apr','May','Mar'];
+const labels=['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May'];
 const vals=[28,22,18,20,25,20,14,18,12,8,30];
 
 const g=ctx.createLinearGradient(0,0,0,200);
@@ -1887,6 +1926,106 @@ document.addEventListener('click',function(){
     logo.addEventListener('click', () => { window.location.href = 'safetypro_v2.html'; });
   }
 })();
+
+
+/* ══ NAV FUNCTIONS ══ */
+function toggleAlerts() {
+  const d = document.getElementById('alert-dropdown');
+  const p = document.getElementById('profile-dropdown');
+  if(p) p.style.display = 'none';
+  if(d) {
+    const isOpen = d.style.display === 'block';
+    d.style.display = isOpen ? 'none' : 'block';
+    if(!isOpen) loadAlerts();
+  }
+}
+
+function toggleProfileMenu() {
+  const d = document.getElementById('profile-dropdown');
+  const a = document.getElementById('alert-dropdown');
+  if(a) a.style.display = 'none';
+  if(d) d.style.display = d.style.display === 'block' ? 'none' : 'block';
+}
+
+function loadAlerts() {
+  const list = document.getElementById('alert-list');
+  if(!list) return;
+  // Show recent escalations and incidents as alerts
+  const token = localStorage.getItem('sp_token');
+  if(!token) { list.innerHTML = '<div style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Please login to view alerts</div>'; return; }
+  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/dashboard/kpis', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+  .then(r => r.json())
+  .then(data => {
+    const items = [
+      data.totalIncidents > 0 ? `<div style="padding:12px 16px;border-bottom:1px solid var(--div);display:flex;gap:10px;align-items:flex-start"><div style="width:8px;height:8px;border-radius:50%;background:var(--red);margin-top:4px;flex-shrink:0"></div><div><div style="font-size:13px;color:var(--t1);font-weight:500">${data.totalIncidents} Open Incidents</div><div style="font-size:11px;color:var(--t3);margin-top:2px">Require attention and action</div></div></div>` : '',
+      data.openNCRs > 0 ? `<div style="padding:12px 16px;border-bottom:1px solid var(--div);display:flex;gap:10px;align-items:flex-start"><div style="width:8px;height:8px;border-radius:50%;background:var(--amber);margin-top:4px;flex-shrink:0"></div><div><div style="font-size:13px;color:var(--t1);font-weight:500">${data.openNCRs} Open NCRs</div><div style="font-size:11px;color:var(--t3);margin-top:2px">Non-conformances pending closure</div></div></div>` : '',
+      data.overdueActions > 0 ? `<div style="padding:12px 16px;display:flex;gap:10px;align-items:flex-start"><div style="width:8px;height:8px;border-radius:50%;background:#7C3AED;margin-top:4px;flex-shrink:0"></div><div><div style="font-size:13px;color:var(--t1);font-weight:500">${data.overdueActions} Overdue Actions</div><div style="font-size:11px;color:var(--t3);margin-top:2px">Actions past due date</div></div></div>` : '',
+    ].filter(Boolean).join('');
+    list.innerHTML = items || '<div style="padding:16px;text-align:center;color:var(--t3);font-size:13px">✓ No active alerts</div>';
+  })
+  .catch(() => { list.innerHTML = '<div style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Unable to load alerts</div>'; });
+}
+
+function goToSettings() {
+  toggleProfileMenu();
+  showToast('Settings coming in next update');
+}
+
+function changePassword() {
+  toggleProfileMenu();
+  showToast('Change password — contact admin@safetyproworld.com');
+}
+
+function signOut() {
+  localStorage.removeItem('sp_token');
+  localStorage.removeItem('sp_user');
+  localStorage.removeItem('sp_company');
+  window.location.href = 'safetypro_login.html';
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(e) {
+  if(!e.target.closest('#alert-btn') && !e.target.closest('#alert-dropdown')) {
+    const d = document.getElementById('alert-dropdown');
+    if(d) d.style.display = 'none';
+  }
+  if(!e.target.closest('#user-pill-btn') && !e.target.closest('#profile-dropdown')) {
+    const d = document.getElementById('profile-dropdown');
+    if(d) d.style.display = 'none';
+  }
+});
+
+// Load user profile in nav
+function loadNavProfile() {
+  const token = localStorage.getItem('sp_token');
+  if(!token) return;
+  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/auth/profile', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+  .then(r => r.json())
+  .then(user => {
+    if(!user || !user.name) return;
+    const initials = user.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+    const el_init = document.getElementById('nav-initials');
+    const el_name = document.getElementById('nav-username');
+    const el_role = document.getElementById('nav-role');
+    const el_pname = document.getElementById('profile-name');
+    const el_pemail = document.getElementById('profile-email');
+    const el_prole = document.getElementById('profile-role-badge');
+    if(el_init) el_init.textContent = initials;
+    if(el_name) el_name.textContent = user.name;
+    if(el_role) el_role.textContent = user.role?.replace('_',' ') || 'User';
+    if(el_pname) el_pname.textContent = user.name;
+    if(el_pemail) el_pemail.textContent = user.email || '';
+    if(el_prole) el_prole.textContent = user.role?.replace('_',' ') || 'User';
+    // Show alert dot if overdue
+    const dot = document.getElementById('alert-dot');
+    if(dot) dot.style.display = 'block';
+  })
+  .catch(() => {});
+}
 
 </script>
 

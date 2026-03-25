@@ -594,38 +594,35 @@ async function submitRegistration(){
   result.style.color='#F59E0B';
   result.textContent='Sending your request...';
 
-  // Send email via mailto as fallback
-  const subject = encodeURIComponent('SafetyPro AI — Free Trial Request');
-  const body = encodeURIComponent(`Name: ${name}
-Company: ${company}
-Email: ${email}
-Phone: ${phone||'—'}
-Sector: ${sector||'—'}`);
-
   try {
-    // Try to send via fetch to a simple endpoint
     const res = await fetch('https://formspree.io/f/xreywdve', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ name, company, email, phone, sector, _subject: 'SafetyPro AI Trial Request' })
+      body: JSON.stringify({ name, company, email, phone, sector, _subject: 'SafetyPro AI — Trial Request from ' + name })
     });
 
-    result.style.background='rgba(34,197,94,.1)';
-    result.style.border='1px solid rgba(34,197,94,.3)';
-    result.style.color='#22C55E';
-    result.textContent='✓ Request received! We will contact you within 24 hours.';
-
-    // Clear form
-    ['reg-name','reg-company','reg-email','reg-phone'].forEach(id => document.getElementById(id).value='');
-    document.getElementById('reg-sector').value='';
-
+    if(res.ok) {
+      result.style.background='rgba(34,197,94,.1)';
+      result.style.border='1px solid rgba(34,197,94,.3)';
+      result.style.color='#22C55E';
+      result.textContent='✓ Request received! We will contact you within 24 hours.';
+      document.getElementById('reg-name').value='';
+      document.getElementById('reg-company').value='';
+      document.getElementById('reg-email').value='';
+      document.getElementById('reg-phone').value='';
+      document.getElementById('reg-sector').value='';
+    } else {
+      throw new Error('Form submission failed');
+    }
   } catch(e) {
-    // Fallback to mailto
-    window.location.href = `mailto:info@safetyproworld.com?subject=${subject}&body=${body}`;
+    // Fallback: open email client
+    const subject = encodeURIComponent('SafetyPro AI Trial Request — ' + name);
+    const body = encodeURIComponent('Name: ' + name + '\nCompany: ' + company + '\nEmail: ' + email + '\nPhone: ' + (phone||'—') + '\nSector: ' + (sector||'—'));
+    window.location.href = 'mailto:info@safetyproworld.com?subject=' + subject + '&body=' + body;
     result.style.background='rgba(34,197,94,.1)';
     result.style.border='1px solid rgba(34,197,94,.3)';
     result.style.color='#22C55E';
-    result.textContent='✓ Opening your email client...';
+    result.textContent='✓ Opening your email client to complete registration...';
   }
 }
 
