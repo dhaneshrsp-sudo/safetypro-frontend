@@ -531,6 +531,20 @@ svg{flex-shrink:0}
     </div>
   </div>
 </nav>
+  <!-- Profile Dropdown -->
+  <div id="profile-dropdown" style="display:none;position:fixed;top:52px;right:16px;width:220px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:9999;overflow:hidden">
+    <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
+      <div style="font-size:13px;font-weight:700;color:var(--t1)" id="profile-name">-</div>
+      <div style="font-size:11px;color:var(--t3)" id="profile-email">-</div>
+      <div style="font-size:10px;color:var(--green);margin-top:2px;font-weight:600" id="profile-role-badge">-</div>
+    </div>
+    <div style="padding:8px 0">
+      <div onclick="signOut()" style="padding:10px 16px;font-size:13px;color:#EF4444;cursor:pointer;display:flex;align-items:center;gap:8px" onmouseover="this.style.background='rgba(239,68,68,.08)'" onmouseout="this.style.background='transparent'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Sign Out
+      </div>
+    </div>
+  </div>
 
 <!-- ══ BODY ══ -->
 <div class="body">
@@ -652,7 +666,7 @@ svg{flex-shrink:0}
         <span><b>3 actions are overdue</b> — escalation will trigger in</span>
         <span class="ob-count" id="esc-timer">4h 22m</span>
         <span>if not closed</span>
-        <span style="margin-left:auto;font-size:11px;padding:3px 10px;border:1px solid var(--r-b);border-radius:5px;cursor:pointer">View Overdue →</span>
+        <span style="margin-left:auto;font-size:11px;padding:3px 10px;border:1px solid var(--r-b);border-radius:5px;cursor:pointer" onclick="viewOverdueActions()">View Overdue →</span>
       </div>
 
       <!-- MAIN GRID -->
@@ -1639,6 +1653,62 @@ function toggleAssignedMe(el) {
   .catch(() => {
     renderTable((window.actions || []).slice(0, 8));
   });
+}
+
+
+/* ══ NAV PROFILE (shared) ══ */
+function loadNavProfile() {
+  const token = localStorage.getItem('sp_token');
+  if(!token) { window.location.href = 'safetypro_landing.html'; return; }
+  try {
+    const cached = localStorage.getItem('sp_user');
+    if(cached) applyNavProfile(JSON.parse(cached));
+  } catch(e) {}
+  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/auth/profile', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+  .then(r => r.ok ? r.json() : Promise.reject('auth'))
+  .then(user => { localStorage.setItem('sp_user', JSON.stringify(user)); applyNavProfile(user); })
+  .catch(e => { if(e==='auth') { localStorage.removeItem('sp_token'); window.location.href='safetypro_login.html'; }});
+}
+function applyNavProfile(user) {
+  if(!user||!user.name) return;
+  const init = user.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+  const map = {'nav-initials':init,'nav-username':user.name,'nav-role':(user.role||'').replace(/_/g,' '),'profile-name':user.name,'profile-email':user.email||'','profile-role-badge':(user.role||'').replace(/_/g,' ')};
+  Object.entries(map).forEach(([id,val])=>{ const el=document.getElementById(id); if(el) el.textContent=val; });
+}
+function toggleProfileMenu() {
+  const d=document.getElementById('profile-dropdown');
+  if(d) d.style.display = d.style.display==='block' ? 'none' : 'block';
+}
+function signOut() {
+  localStorage.removeItem('sp_token');
+  localStorage.removeItem('sp_user');
+  window.location.href = 'safetypro_landing.html';
+}
+document.addEventListener('click', function(e) {
+  if(!e.target.closest('#user-pill-btn') && !e.target.closest('#profile-dropdown')) {
+    const d=document.getElementById('profile-dropdown'); if(d) d.style.display='none';
+  }
+});
+
+
+/* ══ VIEW OVERDUE ══ */
+function viewOverdueActions() {
+  // Filter table to show only overdue
+  const filtered = (window.actions || []).filter(a => 
+    a.status === 'overdue' || a.status === 'OVERDUE' ||
+    (a.deadline && new Date(a.deadline) < new Date())
+  );
+  if(filtered.length === 0) {
+    showToast('No overdue actions found');
+    return;
+  }
+  renderTable(filtered);
+  showToast(filtered.length + ' overdue actions shown');
+  // Switch to tracker tab
+  const trackerTab = document.querySelector('[onclick*="tracker"]');
+  if(trackerTab) switchTab(trackerTab, 'tracker');
 }
 
 </script>
