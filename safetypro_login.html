@@ -3,106 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SafetyPro AI — Login</title>
+<title>SafetyPro AI — Sign In</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#0B0F14;font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
-.wrap{width:420px;padding:20px}
+body{background:#0B0F14;font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.wrap{width:100%;max-width:420px}
 .logo{text-align:center;margin-bottom:32px}
-.logo-text{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:#E6EDF3}
+.logo-icon{width:48px;height:48px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.logo-icon svg{width:24px;height:24px;fill:#22C55E}
+.logo-text{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#E6EDF3}
 .logo-text span{color:#22C55E}
 .logo-sub{font-size:12px;color:#64748B;margin-top:4px}
-.card{background:#131C26;border:1px solid #1E293B;border-radius:14px;padding:32px}
-.card-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#E6EDF3;margin-bottom:6px}
-.card-sub{font-size:13px;color:#64748B;margin-bottom:24px}
-.group{margin-bottom:16px}
+.card{background:#131C26;border:1px solid #1E293B;border-radius:16px;padding:32px}
+.card-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#E6EDF3;margin-bottom:4px}
+.card-sub{font-size:13px;color:#64748B;margin-bottom:28px}
+.group{margin-bottom:18px}
 .label{font-size:11px;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-.input{width:100%;background:#16212B;border:1px solid #1E293B;border-radius:8px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:14px;color:#E6EDF3;outline:none;transition:border-color .15s}
+.input{width:100%;background:#16212B;border:1px solid #1E293B;border-radius:8px;padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:14px;color:#E6EDF3;outline:none;transition:border-color .15s}
 .input:focus{border-color:#22C55E;box-shadow:0 0 0 3px rgba(34,197,94,.1)}
-.input::placeholder{color:#64748B}
-.btn{width:100%;padding:12px;border-radius:8px;border:none;background:#22C55E;color:#0B0E12;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:8px}
+.input::placeholder{color:#3D5068}
+.btn{width:100%;padding:13px;border-radius:8px;border:none;background:#22C55E;color:#0B0E12;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:6px}
 .btn:hover{background:#16A34A;box-shadow:0 4px 16px rgba(34,197,94,.3)}
-.btn:disabled{opacity:.6;cursor:not-allowed}
+.btn:disabled{opacity:.5;cursor:not-allowed}
 .error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#EF4444;margin-top:12px;display:none}
-.divider{text-align:center;font-size:12px;color:#64748B;margin:20px 0}
-.demo-box{background:#16212B;border:1px solid #1E293B;border-radius:8px;padding:12px 14px}
-.demo-title{font-size:11px;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-.demo-item{font-size:12px;color:#64748B;margin-bottom:4px}
-.demo-item span{color:#94A3B8;font-weight:500}
-.demo-btn{font-size:11px;color:#22C55E;cursor:pointer;text-decoration:underline;margin-top:6px;display:inline-block}
+.loading{display:none;text-align:center;color:#64748B;font-size:13px;margin-top:10px}
 .badges{display:flex;gap:6px;justify-content:center;margin-top:20px;flex-wrap:wrap}
 .badge{font-size:10px;padding:3px 8px;border-radius:4px;background:#16212B;border:1px solid #1E293B;color:#64748B}
-.loading{display:none;text-align:center;color:#64748B;font-size:13px;margin-top:8px}
+.help-link{text-align:center;font-size:12px;color:#64748B;margin-top:16px}
+.help-link a{color:#22C55E;text-decoration:none}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
     <div class="logo-text">Safety<span>Pro</span> AI</div>
     <div class="logo-sub">Real-Time Safety Execution + Control + Intelligence</div>
   </div>
 
   <div class="card">
-    <div class="card-title">Welcome back</div>
-    <div class="card-sub">Sign in to your SafetyPro AI account</div>
+    <div class="card-title">Sign In</div>
+    <div class="card-sub">Enter your credentials to access the platform</div>
 
     <div class="group">
       <div class="label">Company ID</div>
-      <input class="input" id="companyId" type="text" placeholder="e.g. ieccl-demo" value="" autocomplete="off"/>
+      <input class="input" id="companyId" type="text" placeholder="Enter your company ID" autocomplete="organization"/>
     </div>
     <div class="group">
       <div class="label">Email Address</div>
-      <input class="input" id="email" type="email" placeholder="your@email.com" value="" autocomplete="email"/>
+      <input class="input" id="email" type="email" placeholder="Enter your email address" autocomplete="email"/>
     </div>
     <div class="group">
       <div class="label">Password</div>
-      <input class="input" id="password" type="password" placeholder="••••••••" value="" autocomplete="current-password"/>
+      <input class="input" id="password" type="password" placeholder="Enter your password" autocomplete="current-password"/>
     </div>
 
-    <button class="btn" id="login-btn" onclick="doLogin()">Sign In</button>
+    <button class="btn" id="login-btn" onclick="doLogin()">Sign In →</button>
     <div class="loading" id="loading">Signing in...</div>
     <div class="error" id="error-box"></div>
   </div>
 
-  <div class="divider">— Demo Accounts —</div>
-
-  <div class="demo-box">
-    <div class="demo-title">Test Credentials</div>
-    <div class="demo-item">Admin: <span>dhanesh.ck@ieccl.co.in</span></div>
-    <div class="demo-item">HSE Head: <span>meera.k@ieccl.co.in</span></div>
-    <div class="demo-item">Manager: <span>john.m@ieccl.co.in</span></div>
-    <div class="demo-item">Password: <span>SafetyPro@123</span></div>
-    <div class="demo-item">CompanyID: <span>ieccl-demo</span></div>
-    <div class="demo-btn" onclick="fillDemo()">Auto-fill credentials</div>
-    <div style="font-size:10px;color:#EF4444;margin-top:8px">⚠ To create new accounts contact your SafetyPro Admin</div>
+  <div class="help-link">
+    Don't have an account? <a href="safetypro_landing.html">Request access →</a>
   </div>
 
-  <div style="text-align:center;margin-bottom:8px"><span style="font-size:10px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#22C55E;padding:2px 10px;border-radius:100px">Beta v1.0 — IECCL Private</span></div>
   <div class="badges">
     <div class="badge">ISO 45001</div>
     <div class="badge">BOCW 1996</div>
     <div class="badge">Factories Act</div>
     <div class="badge">DGFASLI</div>
+    <div class="badge">Beta v1.0</div>
   </div>
 </div>
 
 <script>
 const API_BASE = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
 
-function fillDemo() {
-  document.getElementById('email').value = 'dhanesh.ck@ieccl.co.in';
-  document.getElementById('password').value = 'SafetyPro@123';
-  document.getElementById('companyId').value = 'ieccl-demo';
+// Only clear token if explicitly logging out (check URL param)
+// Do NOT clear on normal page load
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('logout') === '1') {
+  localStorage.removeItem('sp_token');
+  localStorage.removeItem('sp_user');
+}
+
+// If already logged in — redirect to dashboard
+const existingToken = localStorage.getItem('sp_token');
+if (existingToken) {
+  window.location.replace('safetypro_v2.html');
 }
 
 async function doLogin() {
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value;
+  const email     = document.getElementById('email').value.trim();
+  const password  = document.getElementById('password').value;
   const companyId = document.getElementById('companyId').value.trim();
-  const btn = document.getElementById('login-btn');
-  const loading = document.getElementById('loading');
-  const errorBox = document.getElementById('error-box');
+  const btn       = document.getElementById('login-btn');
+  const loading   = document.getElementById('loading');
+  const errorBox  = document.getElementById('error-box');
 
   if (!email || !password || !companyId) {
     showError('Please fill in all fields');
@@ -123,16 +123,18 @@ async function doLogin() {
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(data.message?.message || data.message || 'Login failed');
+      throw new Error(data.message?.message || data.message || 'Invalid credentials');
     }
 
+    // Store token and user
     localStorage.setItem('sp_token', data.accessToken);
-    localStorage.setItem('sp_user', JSON.stringify(data.user));
+    if (data.user) localStorage.setItem('sp_user', JSON.stringify(data.user));
 
-    window.location.href = 'safetypro_v2.html';
+    // Redirect to dashboard
+    window.location.replace('safetypro_v2.html');
 
   } catch (err) {
-    showError(err.message || 'Login failed. Check your credentials.');
+    showError(err.message || 'Login failed. Please check your credentials.');
   } finally {
     btn.disabled = false;
     loading.style.display = 'none';
@@ -145,13 +147,10 @@ function showError(msg) {
   el.style.display = 'block';
 }
 
-// Enter key support
+// Enter key
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') doLogin();
 });
-
-// Always clear old token on login page load
-localStorage.clear();
 </script>
 </body>
 </html>

@@ -1114,7 +1114,8 @@ function toggleProfileMenu() {
 function signOut() {
   localStorage.removeItem('sp_token');
   localStorage.removeItem('sp_user');
-  window.location.href = 'safetypro_landing.html';
+  localStorage.removeItem('sp_company');
+  window.location.href = 'safetypro_login.html?logout=1';
 }
 document.addEventListener('click', function(e) {
   if(!e.target.closest('#user-pill-btn') && !e.target.closest('#profile-dropdown')) {
