@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html{height:100%;overflow-y:auto;}
 body{
   background:#0B0F14;
   font-family:'Roboto',sans-serif;
@@ -17,14 +16,13 @@ body{
   justify-content:center;
   padding:20px;
   position:relative;
-  overflow-x:hidden;
-  overflow-y:auto;
+  overflow:hidden;
 }
 
 /* Subtle background grid pattern */
 body::before{
   content:'';
-  position:absolute;
+  position:fixed;
   inset:0;
   background-image:
     linear-gradient(rgba(34,197,94,.03) 1px, transparent 1px),
@@ -36,7 +34,7 @@ body::before{
 /* Green glow top */
 body::after{
   content:'';
-  position:absolute;
+  position:fixed;
   top:-200px;
   left:50%;
   transform:translateX(-50%);
@@ -351,7 +349,7 @@ if (urlParams.get('logout') === '1') {
 
 // Already logged in - go to dashboard
 if (localStorage.getItem('sp_token')) {
-  window.location.href = 'safetypro_v2.html';
+  window.location.replace('safetypro_v2.html');
 }
 
 // Show/hide password
@@ -391,29 +389,23 @@ function doLogin() {
   })
   .then(function(res) {
     return res.json().then(function(data) {
-      return { ok: res.ok, status: res.status, data: data };
+      return { ok: res.ok, data: data };
     });
   })
   .then(function(result) {
-    console.log('Login response:', result.status, result.ok, Object.keys(result.data));
     if (!result.ok) {
       var msg = result.data.message;
       if (Array.isArray(msg)) msg = msg.join(', ');
-      showError(msg || 'Invalid credentials');
-      btn.disabled = false;
-      loading.style.display = 'none';
-      return;
+      throw new Error(msg || 'Invalid credentials');
     }
-    // Login successful - save and redirect
-    try { localStorage.setItem('sp_token', result.data.accessToken); } catch(e) {}
-    try { if (result.data.user) localStorage.setItem('sp_user', JSON.stringify(result.data.user)); } catch(e) {}
-    // Redirect to dashboard
-    loading.style.display = 'none';
-    window.location.href = 'safetypro_v2.html';
+    localStorage.setItem('sp_token', result.data.accessToken);
+    if (result.data.user) {
+      localStorage.setItem('sp_user', JSON.stringify(result.data.user));
+    }
+    window.location.replace('safetypro_v2.html');
   })
   .catch(function(err) {
-    // Network error only
-    showError('Connection failed. Check your internet and try again.');
+    showError(err.message || 'Login failed. Please check your credentials.');
     btn.disabled = false;
     loading.style.display = 'none';
   });

@@ -5,7 +5,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>SafetyPro AI — Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root{
   --bg:#0B0F14;--card:#131C26;--raised:#16212B;--sidebar:#0F1720;--border:#1E293B;--div:rgba(255,255,255,0.05);
@@ -14,7 +14,7 @@
   --red:#EF4444;--r-s:rgba(239,68,68,0.12);--r-b:rgba(239,68,68,0.35);
   --blue:#3B82F6;--b-s:rgba(59,130,246,0.12);--b-b:rgba(59,130,246,0.3);
   --t1:#E6EDF3;--t2:#94A3B8;--t3:#64748B;
-  --fh:'Bebas Neue',sans-serif;--fb:'DM Sans',sans-serif;
+  --fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{margin:0;padding:0}
@@ -1000,20 +1000,11 @@ const ADMIN_API = 'https://distinguished-serenity-production-37d1.up.railway.app
 function getAdminToken(){ return localStorage.getItem('sp_token'); }
 
 async function adminFetch(path, opts={}){
-  let res;
-  try {
-    res = await fetch(ADMIN_API+path, {
-      ...opts,
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+getAdminToken(),...(opts.headers||{})}
-    });
-  } catch(netErr) {
-    throw new Error('Network error — server may be down.');
-  }
-  if(res.status===401){ localStorage.removeItem('sp_token'); window.location.href='safetypro_login.html'; return null; }
-  let data;
-  try { data = await res.json(); } catch { throw new Error('Invalid server response.'); }
-  // Don't throw on !res.ok here — callers check data.user / data.statusCode themselves
-  return data;
+  const res = await fetch(ADMIN_API+path, {
+    ...opts,
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+getAdminToken(),...(opts.headers||{})}
+  });
+  return res.json();
 }
 
 async function createUser(){
