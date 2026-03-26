@@ -3,106 +3,377 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SafetyPro AI — Sign In</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<title>SafetyPro AI - Sign In</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#0B0F14;font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.wrap{width:100%;max-width:420px}
-.logo{text-align:center;margin-bottom:32px}
-.logo-icon{width:48px;height:48px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
-.logo-icon svg{width:24px;height:24px;fill:#22C55E}
-.logo-text{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#E6EDF3}
-.logo-text span{color:#22C55E}
-.logo-sub{font-size:12px;color:#64748B;margin-top:4px}
-.card{background:#131C26;border:1px solid #1E293B;border-radius:16px;padding:32px}
-.card-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#E6EDF3;margin-bottom:4px}
-.card-sub{font-size:13px;color:#64748B;margin-bottom:28px}
-.group{margin-bottom:18px}
-.label{font-size:11px;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-.input{width:100%;background:#16212B;border:1px solid #1E293B;border-radius:8px;padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:14px;color:#E6EDF3;outline:none;transition:border-color .15s}
-.input:focus{border-color:#22C55E;box-shadow:0 0 0 3px rgba(34,197,94,.1)}
-.input::placeholder{color:#3D5068}
-.btn{width:100%;padding:13px;border-radius:8px;border:none;background:#22C55E;color:#0B0E12;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:6px}
-.btn:hover{background:#16A34A;box-shadow:0 4px 16px rgba(34,197,94,.3)}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#EF4444;margin-top:12px;display:none}
-.loading{display:none;text-align:center;color:#64748B;font-size:13px;margin-top:10px}
-.badges{display:flex;gap:6px;justify-content:center;margin-top:20px;flex-wrap:wrap}
-.badge{font-size:10px;padding:3px 8px;border-radius:4px;background:#16212B;border:1px solid #1E293B;color:#64748B}
-.help-link{text-align:center;font-size:12px;color:#64748B;margin-top:16px}
-.help-link a{color:#22C55E;text-decoration:none}
+html{height:100%;overflow-y:auto;}
+body{
+  background:#0B0F14;
+  font-family:'Roboto',sans-serif;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  position:relative;
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+
+/* Subtle background grid pattern */
+body::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(34,197,94,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,197,94,.03) 1px, transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+}
+
+/* Green glow top */
+body::after{
+  content:'';
+  position:absolute;
+  top:-200px;
+  left:50%;
+  transform:translateX(-50%);
+  width:600px;
+  height:400px;
+  background:radial-gradient(ellipse, rgba(34,197,94,.07) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.wrap{width:100%;max-width:440px;position:relative;z-index:1;}
+
+/* -- LOGO -- */
+.logo{text-align:center;margin-bottom:36px;}
+.logo-icon{
+  width:56px;height:56px;
+  background:rgba(34,197,94,.12);
+  border:1.5px solid rgba(34,197,94,.35);
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 14px;
+  box-shadow:0 0 24px rgba(34,197,94,.15);
+}
+.logo-icon svg{width:28px;height:28px;fill:#22C55E;}
+.logo-text{
+  font-family:'Montserrat',sans-serif;
+  font-size:28px;
+  font-weight:800;
+  color:#E6EDF3;
+  letter-spacing:-0.5px;
+}
+.logo-text span{color:#22C55E;}
+.logo-sub{font-size:12px;color:#64748B;margin-top:6px;font-weight:400;letter-spacing:0.3px;}
+
+/* -- CARD -- */
+.card{
+  background:#111926;
+  border:1px solid #1E293B;
+  border-radius:20px;
+  padding:36px;
+  box-shadow:0 8px 40px rgba(0,0,0,.4);
+}
+.card-title{
+  font-family:'Montserrat',sans-serif;
+  font-size:22px;
+  font-weight:700;
+  color:#E6EDF3;
+  margin-bottom:6px;
+  letter-spacing:-0.3px;
+}
+.card-sub{font-size:13px;color:#64748B;margin-bottom:32px;font-weight:400;line-height:1.5;}
+
+/* -- FORM GROUPS -- */
+.group{margin-bottom:20px;}
+.label{
+  font-family:'Montserrat',sans-serif;
+  font-size:11px;
+  font-weight:600;
+  color:#94A3B8;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  margin-bottom:8px;
+  display:block;
+}
+.input-wrap{position:relative;}
+.input-icon{
+  position:absolute;
+  left:13px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;
+  stroke:#3D5068;fill:none;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  transition:stroke .15s;
+  pointer-events:none;
+}
+.input{
+  width:100%;
+  background:#16212B;
+  border:1.5px solid #1E293B;
+  border-radius:10px;
+  padding:12px 14px 12px 40px;
+  font-family:'Roboto',sans-serif;
+  font-size:14px;
+  color:#E6EDF3;
+  outline:none;
+  transition:border-color .15s, box-shadow .15s;
+}
+.input:focus{
+  border-color:#22C55E;
+  box-shadow:0 0 0 3px rgba(34,197,94,.1);
+}
+.input:focus + .input-icon, .input-wrap:focus-within .input-icon{stroke:#22C55E;}
+.input::placeholder{color:#3D5068;}
+
+/* Password toggle */
+.pwd-toggle{
+  position:absolute;
+  right:13px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;
+  padding:4px;color:#3D5068;
+  display:flex;align-items:center;
+}
+.pwd-toggle:hover{color:#94A3B8;}
+.pwd-toggle svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+
+/* -- BUTTON -- */
+.btn{
+  width:100%;
+  padding:14px;
+  border-radius:10px;
+  border:none;
+  background:linear-gradient(135deg,#22C55E,#16A34A);
+  color:#0B0E12;
+  font-family:'Montserrat',sans-serif;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .2s;
+  margin-top:8px;
+  letter-spacing:0.3px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn:hover{
+  background:linear-gradient(135deg,#16A34A,#15803D);
+  box-shadow:0 6px 20px rgba(34,197,94,.35);
+  transform:translateY(-1px);
+}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+
+/* -- STATES -- */
+.error{
+  background:rgba(239,68,68,.08);
+  border:1px solid rgba(239,68,68,.25);
+  border-radius:10px;
+  padding:11px 14px;
+  font-size:13px;
+  color:#EF4444;
+  margin-top:14px;
+  display:none;
+  font-weight:400;
+}
+.loading{
+  display:none;
+  text-align:center;
+  color:#64748B;
+  font-size:13px;
+  margin-top:10px;
+}
+.loading-spinner{
+  display:inline-block;
+  width:14px;height:14px;
+  border:2px solid #1E293B;
+  border-top-color:#22C55E;
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+  margin-right:6px;
+  vertical-align:middle;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* -- DIVIDER -- */
+.divider{
+  display:flex;align-items:center;gap:12px;
+  margin:24px 0 0;
+}
+.divider-line{flex:1;height:1px;background:#1E293B;}
+.divider-text{font-size:11px;color:#3D5068;font-weight:500;}
+
+/* -- HELP LINK -- */
+.help-link{
+  text-align:center;
+  font-size:13px;
+  color:#64748B;
+  margin-top:20px;
+  font-weight:400;
+}
+.help-link a{color:#22C55E;text-decoration:none;font-weight:500;}
+.help-link a:hover{text-decoration:underline;}
+
+/* -- BADGES -- */
+.badges{
+  display:flex;gap:6px;justify-content:center;
+  margin-top:24px;flex-wrap:wrap;
+}
+.badge{
+  font-size:10px;
+  font-family:'Montserrat',sans-serif;
+  font-weight:500;
+  padding:4px 9px;
+  border-radius:5px;
+  background:#111926;
+  border:1px solid #1E293B;
+  color:#475569;
+  letter-spacing:0.3px;
+}
+
+/* -- VERSION TAG -- */
+.version{
+  text-align:center;
+  font-size:11px;
+  color:#334155;
+  margin-top:16px;
+  font-weight:400;
+}
 </style>
 </head>
 <body>
 <div class="wrap">
+
+  <!-- LOGO -->
   <div class="logo">
     <div class="logo-icon">
       <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
     </div>
     <div class="logo-text">Safety<span>Pro</span> AI</div>
-    <div class="logo-sub">Real-Time Safety Execution + Control + Intelligence</div>
+    <div class="logo-sub">Real-Time Safety Execution &nbsp;·&nbsp; Control &nbsp;·&nbsp; Intelligence</div>
   </div>
 
+  <!-- CARD -->
   <div class="card">
-    <div class="card-title">Sign In</div>
-    <div class="card-sub">Enter your credentials to access the platform</div>
+    <div class="card-title">Welcome back</div>
+    <div class="card-sub">Sign in to access your HSE management platform</div>
 
+    <!-- Company ID -->
     <div class="group">
-      <div class="label">Company ID</div>
-      <input class="input" id="companyId" type="text" placeholder="Enter your company ID" autocomplete="organization"/>
-    </div>
-    <div class="group">
-      <div class="label">Email Address</div>
-      <input class="input" id="email" type="email" placeholder="Enter your email address" autocomplete="email"/>
-    </div>
-    <div class="group">
-      <div class="label">Password</div>
-      <input class="input" id="password" type="password" placeholder="Enter your password" autocomplete="current-password"/>
+      <label class="label" for="companyId">Company ID</label>
+      <div class="input-wrap">
+        <input class="input" id="companyId" type="text"
+          placeholder="e.g. ieccl-demo"
+          autocomplete="organization"/>
+        <svg class="input-icon" viewBox="0 0 24 24">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
     </div>
 
-    <button class="btn" id="login-btn" onclick="doLogin()">Sign In →</button>
-    <div class="loading" id="loading">Signing in...</div>
+    <!-- Email -->
+    <div class="group">
+      <label class="label" for="email">Email Address</label>
+      <div class="input-wrap">
+        <input class="input" id="email" type="email"
+          placeholder="you@company.com"
+          autocomplete="email"/>
+        <svg class="input-icon" viewBox="0 0 24 24">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="group">
+      <label class="label" for="password">Password</label>
+      <div class="input-wrap">
+        <input class="input" id="password" type="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"/>
+        <svg class="input-icon" viewBox="0 0 24 24">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <button class="pwd-toggle" type="button" onclick="togglePwd()" title="Show/hide password">
+          <svg id="eye-icon" viewBox="0 0 24 24" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <button class="btn" id="login-btn" onclick="doLogin()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+        <polyline points="10 17 15 12 10 7"/>
+        <line x1="15" y1="12" x2="3" y2="12"/>
+      </svg>
+      Sign In
+    </button>
+
+    <div class="loading" id="loading">
+      <span class="loading-spinner"></span>Signing in...
+    </div>
     <div class="error" id="error-box"></div>
   </div>
 
+  <!-- HELP -->
   <div class="help-link">
-    Don't have an account? <a href="safetypro_landing.html">Request access →</a>
+    Don't have an account?&nbsp;<a href="safetypro_landing.html">Request access &rarr;</a>
   </div>
 
+  <!-- COMPLIANCE BADGES -->
   <div class="badges">
     <div class="badge">ISO 45001</div>
+    <div class="badge">OSHA</div>
+    <div class="badge">HSE UK</div>
     <div class="badge">BOCW 1996</div>
-    <div class="badge">Factories Act</div>
     <div class="badge">DGFASLI</div>
-    <div class="badge">Beta v1.0</div>
+    <div class="badge">ILO</div>
   </div>
+
+  <div class="version">SafetyPro AI &nbsp;·&nbsp; Beta v1.0 &nbsp;·&nbsp; IECCL Private</div>
 </div>
 
 <script>
-const API_BASE = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
+var API_BASE = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
 
-// Only clear token if explicitly logging out (check URL param)
-// Do NOT clear on normal page load
-const urlParams = new URLSearchParams(window.location.search);
+// Handle logout param
+var urlParams = new URLSearchParams(window.location.search);
 if (urlParams.get('logout') === '1') {
   localStorage.removeItem('sp_token');
   localStorage.removeItem('sp_user');
 }
 
-// If already logged in — redirect to dashboard
-const existingToken = localStorage.getItem('sp_token');
-if (existingToken) {
-  window.location.replace('safetypro_v2.html');
+// Already logged in - go to dashboard
+if (localStorage.getItem('sp_token')) {
+  window.location.href = 'safetypro_v2.html';
 }
 
-async function doLogin() {
-  const email     = document.getElementById('email').value.trim();
-  const password  = document.getElementById('password').value;
-  const companyId = document.getElementById('companyId').value.trim();
-  const btn       = document.getElementById('login-btn');
-  const loading   = document.getElementById('loading');
-  const errorBox  = document.getElementById('error-box');
+// Show/hide password
+function togglePwd() {
+  var inp = document.getElementById('password');
+  var icon = document.getElementById('eye-icon');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  } else {
+    inp.type = 'password';
+    icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  }
+}
+
+function doLogin() {
+  var email     = document.getElementById('email').value.trim();
+  var password  = document.getElementById('password').value;
+  var companyId = document.getElementById('companyId').value.trim();
+  var btn       = document.getElementById('login-btn');
+  var loading   = document.getElementById('loading');
+  var errorBox  = document.getElementById('error-box');
 
   if (!email || !password || !companyId) {
     showError('Please fill in all fields');
@@ -113,42 +384,49 @@ async function doLogin() {
   loading.style.display = 'block';
   errorBox.style.display = 'none';
 
-  try {
-    const res = await fetch(API_BASE + '/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, companyId }),
+  fetch(API_BASE + '/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email, password: password, companyId: companyId })
+  })
+  .then(function(res) {
+    return res.json().then(function(data) {
+      return { ok: res.ok, status: res.status, data: data };
     });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.message?.message || data.message || 'Invalid credentials');
+  })
+  .then(function(result) {
+    console.log('Login response:', result.status, result.ok, Object.keys(result.data));
+    if (!result.ok) {
+      var msg = result.data.message;
+      if (Array.isArray(msg)) msg = msg.join(', ');
+      showError(msg || 'Invalid credentials');
+      btn.disabled = false;
+      loading.style.display = 'none';
+      return;
     }
-
-    // Store token and user
-    localStorage.setItem('sp_token', data.accessToken);
-    if (data.user) localStorage.setItem('sp_user', JSON.stringify(data.user));
-
+    // Login successful - save and redirect
+    try { localStorage.setItem('sp_token', result.data.accessToken); } catch(e) {}
+    try { if (result.data.user) localStorage.setItem('sp_user', JSON.stringify(result.data.user)); } catch(e) {}
     // Redirect to dashboard
-    window.location.replace('safetypro_v2.html');
-
-  } catch (err) {
-    showError(err.message || 'Login failed. Please check your credentials.');
-  } finally {
+    loading.style.display = 'none';
+    window.location.href = 'safetypro_v2.html';
+  })
+  .catch(function(err) {
+    // Network error only
+    showError('Connection failed. Check your internet and try again.');
     btn.disabled = false;
     loading.style.display = 'none';
-  }
+  });
 }
 
 function showError(msg) {
-  const el = document.getElementById('error-box');
+  var el = document.getElementById('error-box');
   el.textContent = msg;
   el.style.display = 'block';
 }
 
-// Enter key
-document.addEventListener('keydown', (e) => {
+// Enter key to submit
+document.addEventListener('keydown', function(e) {
   if (e.key === 'Enter') doLogin();
 });
 </script>
