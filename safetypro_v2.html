@@ -3,1288 +3,2073 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>SafetyPro AI - Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<title>SafetyPro AI — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script src="safetypro_api.js"></script>
 <style>
+/* ═══════════════════════════════════════════
+   TOKENS — EXACT FROM BLUEPRINT SPEC
+═══════════════════════════════════════════ */
 :root{
-  --bg:#060B11;
-  --card:#0D1520;
-  --card2:#101C2A;
-  --elevated:#142030;
-  --sidebar:#080F18;
-  --border:#162236;
-  --divider:rgba(255,255,255,0.04);
-  --green:#22C55E;--green-dim:rgba(34,197,94,.08);--green-glow:rgba(34,197,94,.25);
-  --amber:#F59E0B;--amber-dim:rgba(245,158,11,.08);
-  --red:#EF4444;--red-dim:rgba(239,68,68,.08);--red-glow:rgba(239,68,68,.2);
-  --blue:#3B82F6;--blue-dim:rgba(59,130,246,.08);
-  --purple:#8B5CF6;
-  --t1:#EBF4FF;--t2:#7A9BBF;--t3:#2E4A66;--t4:#1A2E44;
-  --fh:'Montserrat',sans-serif;--fb:'Roboto',sans-serif;
-  --r:12px;--r2:8px;
+  --bg:       #0B0F14;
+  --card:     #131C26;
+  --elevated: #16212B;
+  --sidebar:  #0F1720;
+  --border:   #1E293B;
+  --divider:  rgba(255,255,255,0.05);
+  --green:    #22C55E;
+  --amber:    #F59E0B;
+  --red:      #EF4444;
+  --blue:     #3B82F6;
+  --t1:       #E6EDF3;
+  --t2:       #94A3B8;
+  --t3:       #64748B;
+  --fh:       'Syne',sans-serif;
+  --fb:       'DM Sans',sans-serif;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{height:100%;overflow:hidden;}
-body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;flex-direction:column;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{margin:0;padding:0}
+body{min-height:100vh;background:var(--bg);color:var(--t1);font-family:var(--fb);font-size:13px}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
-/* scanline overlay for terminal feel */
-body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.015) 2px,rgba(0,0,0,.015) 4px);pointer-events:none;z-index:9990;}
+/* ═══ APP SHELL ═══ */
+.app{display:flex;flex-direction:column;min-height:100vh}
 
-/* TOP NAV */
-.topnav{height:52px;flex-shrink:0;background:var(--sidebar);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:0;position:sticky;top:0;z-index:200;
-  box-shadow:0 1px 0 rgba(34,197,94,.06);}
-.logo{display:flex;align-items:center;gap:9px;text-decoration:none;margin-right:24px;flex-shrink:0;}
-.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 14px rgba(34,197,94,.4);}
-.logo-shield svg{width:15px;height:15px;fill:#fff;}
-.logo-text{font-family:var(--fh);font-size:15px;font-weight:800;color:var(--t1);letter-spacing:-.3px;}
-.logo-text span{color:var(--green);}
-.nav-links{display:flex;align-items:center;gap:1px;flex:1;}
-.nl{display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t3);text-decoration:none;transition:.15s;cursor:pointer;white-space:nowrap;letter-spacing:.2px;}
-.nl svg{width:13px;height:13px;fill:currentColor;flex-shrink:0;}
-.nl:hover{color:var(--t2);background:rgba(255,255,255,.04);}
-.nl.active{color:var(--green);background:var(--green-dim);border:1px solid rgba(34,197,94,.12);}
-.arr{font-size:8px;margin-left:2px;}
-.more-wrap{position:relative;}
-.more-menu{display:none;position:absolute;top:calc(100% + 8px);left:0;min-width:210px;background:#0C1824;border:1px solid var(--border);border-radius:11px;box-shadow:0 16px 48px rgba(0,0,0,.6),0 0 0 1px rgba(34,197,94,.04);z-index:999;overflow:hidden;padding:4px 0;}
-.more-wrap.open .more-menu{display:block;}
-.mm-item{display:flex;align-items:center;gap:10px;padding:9px 14px;font-size:12px;font-family:var(--fb);color:var(--t2);text-decoration:none;transition:.12s;cursor:pointer;}
-.mm-item svg{width:13px;height:13px;fill:currentColor;flex-shrink:0;}
-.mm-item:hover{background:var(--elevated);color:var(--t1);}
-.mm-item.mm-admin{color:var(--amber);}
-.mm-divider{height:1px;background:var(--border);margin:4px 0;}
-.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
-.icon-btn{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--t3);cursor:pointer;transition:.15s;position:relative;}
-.icon-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;}
-.icon-btn:hover{color:var(--t1);background:var(--elevated);}
-.red-dot{position:absolute;top:5px;right:5px;width:6px;height:6px;background:var(--red);border-radius:50%;border:1.5px solid var(--sidebar);display:none;animation:rdpulse 2s ease-in-out infinite;}
-@keyframes rdpulse{0%,100%{opacity:1}50%{opacity:.5}}
-.user-pill{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:4px 10px 4px 4px;cursor:pointer;transition:.15s;}
-.user-pill:hover{border-color:rgba(34,197,94,.3);background:var(--elevated);}
-.ua{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:9px;font-weight:700;color:#fff;letter-spacing:.5px;}
-.un-name{font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);}
-.un-role{font-size:9px;color:var(--t3);}
+/* ═══ TOP NAV ═══ */
+.topnav{
+  height:52px;flex-shrink:0;
+  background:var(--sidebar);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  padding:0 20px;gap:0;
+  position:sticky;top:0;z-index:100;
+}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;margin-right:32px}
+.logo-shield{
+  width:28px;height:28px;background:var(--green);
+  border-radius:6px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 10px rgba(34,197,94,.4);
+}
+.logo-shield svg{width:16px;height:16px;fill:#fff}
+.logo-text{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1)}
+.logo-text span{color:var(--green)}
+.nav-links{display:flex;align-items:center;gap:2px;flex:1;padding:0 12px}
+.nl{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 14px;border-radius:7px;
+  font-size:13px;color:var(--t2);
+  cursor:pointer;transition:all .15s;
+  text-decoration:none;
+}
+.nl:hover{color:var(--t1);background:rgba(255,255,255,.04)}
+.nl.active{color:var(--t1);font-weight:600}
+.nl svg{width:13px;height:13px;fill:currentColor;opacity:.7}
+.nl .arr{font-size:9px;opacity:.5;margin-left:2px}
+.nav-right{display:flex;align-items:center;gap:8px;margin-left:auto}
+.icon-btn{
+  width:30px;height:30px;border-radius:7px;
+  border:1px solid var(--border);background:var(--card);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;position:relative;transition:border-color .15s;
+}
+.icon-btn:hover{border-color:var(--t3)}
+.icon-btn svg{width:14px;height:14px;fill:var(--t2)}
+.red-dot{
+  position:absolute;top:4px;right:4px;
+  width:7px;height:7px;background:var(--red);
+  border-radius:50%;border:1px solid var(--bg);
+}
+.user-pill{
+  display:flex;align-items:center;gap:8px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:8px;padding:5px 10px 5px 5px;cursor:pointer;
+  transition:border-color .15s;
+}
+.user-pill:hover{border-color:var(--t3)}
+.ua{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.un{display:flex;flex-direction:column}
+.un-name{font-size:11px;font-weight:600;color:var(--t1);line-height:1.2}
+.un-role{font-size:9px;color:var(--t3)}
 
-/* ALERT DROPDOWN */
-.alert-dropdown{display:none;position:fixed;top:58px;right:16px;width:300px;background:#0C1824;border:1px solid var(--border);border-radius:12px;box-shadow:0 16px 48px rgba(0,0,0,.6);z-index:9999;overflow:hidden;}
-.alert-head{padding:12px 16px;font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t2);letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
-.alert-head::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--red);animation:rdpulse 1.5s ease-in-out infinite;}
+/* ═══ BODY (sidebar + content) ═══ */
+.body{display:flex;flex:1}
 
-/* PROFILE DROPDOWN */
-.profile-dd{display:none;position:fixed;top:58px;right:16px;width:250px;background:#0C1824;border:1px solid var(--border);border-radius:12px;box-shadow:0 16px 48px rgba(0,0,0,.6);z-index:9999;overflow:hidden;}
-.pd-header{padding:16px;background:linear-gradient(135deg,rgba(34,197,94,.07),transparent);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
-.pd-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:13px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 0 16px rgba(34,197,94,.3);}
-.pd-name{font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);}
-.pd-email{font-size:10px;color:var(--t3);margin-top:2px;}
-.pd-role{display:inline-block;font-size:9px;font-family:var(--fh);font-weight:600;color:var(--green);background:var(--green-dim);border:1px solid rgba(34,197,94,.2);border-radius:4px;padding:2px 7px;margin-top:4px;letter-spacing:.3px;}
-.pd-menu{padding:4px 0;}
-.pd-item{padding:9px 14px;font-size:12px;font-family:var(--fb);color:var(--t2);cursor:pointer;display:flex;align-items:center;gap:10px;transition:.12s;}
-.pd-item:hover{background:var(--elevated);color:var(--t1);}
-.pd-item svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;}
-.pd-sep{height:1px;background:var(--border);margin:4px 0;}
-.pd-signout{margin:6px 10px 10px;padding:10px 16px;font-family:var(--fh);font-size:12px;font-weight:700;color:#fff;background:linear-gradient(135deg,#EF4444,#DC2626);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;border-radius:8px;transition:.15s;letter-spacing:.3px;}
-.pd-signout:hover{opacity:.85;transform:translateY(-1px);}
-.pd-signout svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;}
+/* ═══ SIDEBAR ═══ */
+.sidebar{
+  width:195px;flex-shrink:0;
+  background:var(--sidebar);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  padding:14px 8px;
+  min-height:calc(100vh - 52px);
+  position:sticky;top:52px;align-self:flex-start;
+}
+.sub-tabs{
+  display:flex;align-items:center;gap:2px;
+  padding:6px 8px 10px;border-bottom:1px solid var(--border);
+  margin:-10px -8px 10px;
+}
+.st{
+  padding:5px 12px;border-radius:6px;font-size:12px;
+  color:var(--t3);cursor:pointer;transition:all .15s;
+}
+.st:hover{color:var(--t2)}
+.st.active{background:var(--card);color:var(--t1);font-weight:500}
+.st-more{margin-left:auto;font-size:11px;color:var(--t3);cursor:pointer}
 
-/* LAYOUT */
-.body{display:flex;flex:1;overflow:hidden;}
-.sidebar{width:176px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:10px 6px;overflow-y:auto;}
-.sb-section{font-size:9px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:1px;padding:8px 8px 5px;font-family:var(--fh);}
-.sb-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t3);text-decoration:none;transition:.15s;cursor:pointer;margin-bottom:1px;position:relative;}
-.sb-item svg{width:13px;height:13px;fill:currentColor;flex-shrink:0;}
-.sb-item:hover{color:var(--t2);background:rgba(255,255,255,.03);}
-.sb-item.active{color:var(--green);background:var(--green-dim);}
-.sb-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:2px;height:60%;background:var(--green);border-radius:2px;}
-.sb-badge{margin-left:auto;font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px;font-family:var(--fh);}
-.sb-badge.red{background:var(--red-dim);color:var(--red);}
-.sb-badge.amber{background:var(--amber-dim);color:var(--amber);}
-.sb-sep{height:1px;background:var(--border);margin:6px 2px;}
-.content{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
-.content::-webkit-scrollbar{width:4px;}
-.content::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.sb-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 10px;border-radius:8px;
+  color:var(--t3);cursor:pointer;
+  transition:all .15s;font-size:13px;margin-bottom:2px;
+}
+.sb-item:hover{background:rgba(255,255,255,.04);color:var(--t2)}
+.sb-item.active{
+  background:rgba(34,197,94,.1);
+  border-left:2px solid var(--green);
+  color:var(--green);padding-left:8px;
+}
+.sb-item svg{width:15px;height:15px;fill:currentColor;opacity:.7;flex-shrink:0}
+.sb-item.active svg{opacity:1}
+.sb-badge{margin-left:auto;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px}
+.sb-badge.red{background:var(--red);color:#fff}
+.sb-badge.amber{background:var(--amber);color:#0B0E12}
 
-/* SUBNAV */
-.subnav{display:flex;align-items:center;justify-content:space-between;padding:8px 18px;border-bottom:1px solid var(--border);background:var(--sidebar);flex-shrink:0;}
-.sn-tabs{display:flex;gap:3px;}
-.snt{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t3);padding:4px 10px;border-radius:5px;cursor:pointer;transition:.15s;letter-spacing:.3px;}
-.snt.active{color:var(--green);background:var(--green-dim);}
-.snt:hover:not(.active){color:var(--t2);background:rgba(255,255,255,.04);}
-.sn-right{display:flex;align-items:center;gap:8px;}
-.proj-sel{background:var(--elevated);border:1px solid var(--border);border-radius:6px;color:var(--t2);font-family:var(--fh);font-size:10px;font-weight:600;padding:4px 8px;cursor:pointer;outline:none;}
-.proj-sel option{background:#0C1824;}
-.exp-btn{display:flex;align-items:center;gap:5px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--t3);font-family:var(--fh);font-size:10px;font-weight:600;padding:4px 10px;cursor:pointer;transition:.15s;}
-.exp-btn:hover{border-color:var(--green);color:var(--green);}
-.exp-btn svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;}
+.sidebar-foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--border)}
+.sb-item.small{font-size:12px;padding:7px 10px}
 
-/* INNER CONTENT */
-.dash{padding:16px 18px;}
+.subnav-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:6px 8px;margin:0 0 12px;
+  border-bottom:1px solid var(--border);
+}
+.sn-tabs{display:flex;gap:4px}
+.snt{padding:4px 12px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s}
+.snt:hover{color:var(--t2)}
+.snt.active{background:var(--card);color:var(--t1);font-weight:500;border:1px solid var(--border)}
+.sn-right{display:flex;gap:5px;align-items:center}
+.sn-btn{font-size:10px;padding:3px 8px;border-radius:5px;border:1px solid var(--border);color:var(--t3);cursor:pointer;background:var(--card)}
 
-/* KPI CARDS */
-.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;}
-.kpi{border-radius:var(--r);padding:18px 18px 16px;position:relative;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;border:1px solid var(--border);}
-.kpi:hover{transform:translateY(-2px);}
-.kpi::before{content:'';position:absolute;inset:0;opacity:0;transition:.2s;}
-.kpi:hover::before{opacity:1;}
-.kpi-g{background:linear-gradient(145deg,rgba(34,197,94,.07) 0%,rgba(34,197,94,.02) 60%,var(--card) 100%);}
-.kpi-g:hover{box-shadow:0 8px 32px rgba(34,197,94,.12);}
-.kpi-a{background:linear-gradient(145deg,rgba(245,158,11,.07) 0%,rgba(245,158,11,.02) 60%,var(--card) 100%);}
-.kpi-a:hover{box-shadow:0 8px 32px rgba(245,158,11,.12);}
-.kpi-r{background:linear-gradient(145deg,rgba(239,68,68,.07) 0%,rgba(239,68,68,.02) 60%,var(--card) 100%);}
-.kpi-r:hover{box-shadow:0 8px 32px rgba(239,68,68,.12);}
-.kpi-b{background:linear-gradient(145deg,rgba(59,130,246,.07) 0%,rgba(59,130,246,.02) 60%,var(--card) 100%);}
-.kpi-b:hover{box-shadow:0 8px 32px rgba(59,130,246,.12);}
-.kpi-orb{position:absolute;right:-16px;top:-16px;width:80px;height:80px;border-radius:50%;opacity:.35;}
-.kpi-g .kpi-orb{background:radial-gradient(circle,rgba(34,197,94,.5),transparent 70%);}
-.kpi-a .kpi-orb{background:radial-gradient(circle,rgba(245,158,11,.5),transparent 70%);}
-.kpi-r .kpi-orb{background:radial-gradient(circle,rgba(239,68,68,.5),transparent 70%);}
-.kpi-b .kpi-orb{background:radial-gradient(circle,rgba(59,130,246,.5),transparent 70%);}
-.kpi-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
-.kpi-g .kpi-icon{background:rgba(34,197,94,.12);}
-.kpi-a .kpi-icon{background:rgba(245,158,11,.12);}
-.kpi-r .kpi-icon{background:rgba(239,68,68,.12);}
-.kpi-b .kpi-icon{background:rgba(59,130,246,.12);}
-.kpi-icon svg{width:14px;height:14px;fill:none;stroke-width:2;stroke-linecap:round;}
-.kpi-g .kpi-icon svg{stroke:var(--green);}
-.kpi-a .kpi-icon svg{stroke:var(--amber);}
-.kpi-r .kpi-icon svg{stroke:var(--red);}
-.kpi-b .kpi-icon svg{stroke:var(--blue);}
-.kpi-num{font-family:var(--fh);font-size:32px;font-weight:800;line-height:1;margin-bottom:6px;letter-spacing:-1px;}
-.kpi-g .kpi-num{color:var(--green);}
-.kpi-a .kpi-num{color:var(--amber);}
-.kpi-r .kpi-num{color:var(--red);}
-.kpi-b .kpi-num{color:var(--blue);}
-.kpi-label{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;}
-.kpi-foot{display:flex;align-items:center;justify-content:space-between;}
-.kpi-trend{display:flex;align-items:center;gap:4px;font-family:var(--fh);font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;}
-.trend-up{background:rgba(34,197,94,.1);color:var(--green);}
-.trend-down{background:rgba(239,68,68,.1);color:var(--red);}
-.trend-neutral{background:rgba(245,158,11,.1);color:var(--amber);}
-.kpi-sub{font-size:9px;color:var(--t3);font-family:var(--fb);}
-/* pulse ring for escalated KPI */
-.kpi-r .kpi-num::after{display:none;}
-.pulse-ring{position:absolute;top:12px;right:12px;width:8px;height:8px;border-radius:50%;background:var(--red);}
-.pulse-ring::before{content:'';position:absolute;top:-3px;left:-3px;right:-3px;bottom:-3px;border-radius:50%;border:1.5px solid var(--red);animation:pring 1.8s ease-out infinite;opacity:0;}
-@keyframes pring{0%{transform:scale(1);opacity:.8}100%{transform:scale(2.5);opacity:0}}
+/* ═══ CONTENT ═══ */
+.content{flex:1;padding:14px 18px;display:flex;flex-direction:column;gap:14px;padding-bottom:40px}
 
-/* DAF BANNER */
-.daf-banner{border-radius:var(--r);padding:16px 20px;margin-bottom:14px;background:linear-gradient(135deg,rgba(34,197,94,.06) 0%,rgba(34,197,94,.02) 50%,var(--card) 100%);border:1px solid rgba(34,197,94,.15);display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:20px;}
-.daf-ring-wrap{flex-shrink:0;}
-.daf-ring{position:relative;width:68px;height:68px;}
-.daf-ring svg{transform:rotate(-90deg);}
-.daf-ring-bg{fill:none;stroke:rgba(34,197,94,.1);stroke-width:6;}
-.daf-ring-fill{fill:none;stroke:var(--green);stroke-width:6;stroke-linecap:round;stroke-dasharray:188.5;stroke-dashoffset:28;transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1);}
-.daf-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.daf-num-big{font-family:var(--fh);font-size:20px;font-weight:800;color:var(--green);line-height:1;}
-.daf-num-unit{font-size:8px;color:var(--t3);font-family:var(--fh);font-weight:600;letter-spacing:.5px;}
-.daf-info{}
-.daf-title{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);margin-bottom:4px;letter-spacing:-.2px;}
-.daf-sub{font-size:11px;color:var(--t3);font-family:var(--fb);}
-.daf-streak{display:flex;align-items:center;gap:6px;}
-.daf-streak-pill{display:flex;align-items:center;gap:5px;background:var(--green-dim);border:1px solid rgba(34,197,94,.2);border-radius:6px;padding:4px 10px;font-family:var(--fh);font-size:10px;font-weight:700;color:var(--green);}
-.streak-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:rdpulse 1.5s ease-in-out infinite;}
-.daf-record{text-align:right;}
-.daf-record-num{font-family:var(--fh);font-size:22px;font-weight:800;color:var(--t2);letter-spacing:-1px;}
-.daf-record-label{font-size:9px;color:var(--t3);font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.6px;}
+/* ═══ KPI CARDS ═══ */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 
-/* MAIN GRID */
-.main-grid{display:grid;grid-template-columns:1fr 340px;gap:12px;margin-bottom:12px;}
+.kpi{
+  border-radius:12px;padding:18px 20px;
+  position:relative;overflow:hidden;
+  min-height:130px;cursor:default;
+  display:flex;flex-direction:column;justify-content:space-between;
+  transition:transform .2s,box-shadow .2s;
+}
+.kpi:hover{transform:translateY(-2px)}
 
-/* CHART CARD */
-.chart-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;}
-.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.card-title{font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);letter-spacing:.1px;}
-.card-sub{font-size:10px;color:var(--t3);font-family:var(--fb);margin-top:1px;}
-.ctabs{display:flex;gap:3px;}
-.ctab{font-family:var(--fh);font-size:9px;font-weight:600;padding:3px 9px;border-radius:4px;cursor:pointer;transition:.15s;color:var(--t3);border:1px solid transparent;}
-.ctab.active{color:var(--green);background:var(--green-dim);border-color:rgba(34,197,94,.15);}
-.ctab:hover:not(.active){color:var(--t2);background:rgba(255,255,255,.04);}
-.chart-wrap{position:relative;height:180px;}
-.chart-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
-.cs-item{text-align:center;}
-.cs-num{font-family:var(--fh);font-size:18px;font-weight:800;letter-spacing:-1px;}
-.cs-label{font-size:9px;color:var(--t3);font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
-.range-btns{display:flex;gap:3px;}
-.ca-btn{font-family:var(--fh);font-size:9px;font-weight:600;padding:3px 8px;border-radius:4px;cursor:pointer;transition:.15s;color:var(--t3);background:transparent;border:1px solid var(--border);}
-.ca-btn.active,.ca-btn:hover{color:var(--green);border-color:rgba(34,197,94,.3);background:var(--green-dim);}
+/* GREEN card */
+.kpi-g{
+  background:linear-gradient(135deg,#0D2818 0%,#112010 40%,#0A1A10 100%);
+  border:1px solid rgba(34,197,94,.35);
+}
+.kpi-g:hover{box-shadow:0 8px 32px rgba(34,197,94,.18)}
 
-/* LIVE ACTIVITY */
-.activity-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;}
-.act-list{display:flex;flex-direction:column;gap:8px;flex:1;overflow:hidden;}
-.act-item{display:flex;gap:10px;align-items:flex-start;padding:10px;background:var(--elevated);border-radius:8px;border:1px solid var(--border);transition:.15s;}
-.act-item:hover{border-color:var(--t4);}
-.act-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:9px;font-weight:700;color:#fff;flex-shrink:0;}
-.act-body{flex:1;min-width:0;}
-.act-title{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.act-meta{font-size:9px;color:var(--t3);display:flex;align-items:center;gap:6px;}
-.act-badge{font-size:8px;font-weight:700;font-family:var(--fh);padding:1px 6px;border-radius:3px;letter-spacing:.3px;flex-shrink:0;}
-.ab-r{background:var(--red-dim);color:var(--red);}
-.ab-a{background:var(--amber-dim);color:var(--amber);}
-.ab-g{background:var(--green-dim);color:var(--green);}
-.ab-b{background:var(--blue-dim);color:var(--blue);}
-.act-time{font-size:8px;color:var(--t4);margin-top:1px;font-family:var(--fh);}
+/* AMBER card */
+.kpi-a{
+  background:linear-gradient(135deg,#1E1400 0%,#1A1208 40%,#120E06 100%);
+  border:1px solid rgba(245,158,11,.35);
+}
+.kpi-a:hover{box-shadow:0 8px 32px rgba(245,158,11,.15)}
 
-/* BOTTOM GRID */
-.bottom-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;}
+/* RED card */
+.kpi-r{
+  background:linear-gradient(135deg,#1E0808 0%,#180808 40%,#0F0606 100%);
+  border:1px solid rgba(239,68,68,.4);
+  animation:pulse-r 3s ease-in-out infinite;
+}
+.kpi-r:hover{box-shadow:0 8px 32px rgba(239,68,68,.2)}
+@keyframes pulse-r{
+  0%,100%{box-shadow:0 0 0 rgba(239,68,68,0)}
+  50%{box-shadow:0 0 28px rgba(239,68,68,.2),inset 0 0 20px rgba(239,68,68,.04)}
+}
 
-/* ACCOUNTABILITY */
-.acc-list{display:flex;flex-direction:column;gap:8px;}
-.acc-person{padding:10px;background:var(--elevated);border-radius:8px;border:1px solid var(--border);}
-.acc-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.acc-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:8px;font-weight:700;color:#fff;flex-shrink:0;}
-.acc-name{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);flex:1;}
-.acc-pct{font-family:var(--fh);font-size:11px;font-weight:700;}
-.acc-bar-wrap{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
-.acc-bar{height:100%;border-radius:2px;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
-.acc-meta{display:flex;justify-content:space-between;margin-top:4px;}
-.acc-meta-txt{font-size:8px;color:var(--t3);font-family:var(--fb);}
+/* DARK card (audit) */
+.kpi-d{
+  background:var(--card);
+  border:1px solid var(--border);
+}
 
-/* ESCALATION CHAIN */
-.esc-chain{display:flex;flex-direction:column;gap:6px;}
-.esc-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--elevated);transition:.15s;position:relative;}
-.esc-item.active{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.04);}
-.esc-level{font-family:var(--fh);font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.5px;width:24px;flex-shrink:0;}
-.esc-item.active .esc-level{color:var(--red);}
-.esc-name{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t2);flex:1;}
-.esc-item.active .esc-name{color:var(--t1);}
-.esc-role{font-size:8px;color:var(--t3);font-family:var(--fb);}
-.esc-status{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.esc-item.active .esc-status{background:var(--red);animation:rdpulse 1.5s ease-in-out infinite;}
-.esc-item:not(.active) .esc-status{background:var(--t4);}
-.esc-connector{width:1px;height:6px;background:var(--border);margin-left:21px;}
-.esc-connector.active-conn{background:var(--red);opacity:.4;}
+/* Mesh texture overlay for colored cards */
+.kpi-mesh{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+  background-size:24px 24px;
+}
 
-/* PROJECT HEALTH */
-.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
-.proj-item{padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--elevated);}
-.proj-name{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);margin-bottom:4px;}
-.proj-loc{font-size:9px;color:var(--t3);margin-bottom:6px;}
-.proj-health{height:3px;border-radius:2px;margin-bottom:5px;}
-.proj-meta{display:flex;justify-content:space-between;}
-.proj-score{font-family:var(--fh);font-size:10px;font-weight:700;}
-.proj-issues{font-size:8px;color:var(--t3);}
+/* Glow corner orb */
+.kpi-orb{
+  position:absolute;bottom:-20px;right:-20px;
+  width:100px;height:100px;border-radius:50%;
+  pointer-events:none;filter:blur(28px);
+}
+.kpi-g .kpi-orb{background:rgba(34,197,94,.25)}
+.kpi-a .kpi-orb{background:rgba(245,158,11,.2)}
+.kpi-r .kpi-orb{background:rgba(239,68,68,.22)}
 
-/* TOP PERFORMERS */
-.perf-list{display:flex;flex-direction:column;gap:6px;}
-.perf-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--elevated);}
-.perf-rank{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:9px;font-weight:700;flex-shrink:0;}
-.rank-1{background:rgba(255,215,0,.15);color:#FFD700;}
-.rank-2{background:rgba(192,192,192,.15);color:#C0C0C0;}
-.rank-3{background:rgba(205,127,50,.15);color:#CD7F32;}
-.rank-4,.rank-5{background:var(--border);color:var(--t3);}
-.perf-name{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);flex:1;}
-.perf-score{font-family:var(--fh);font-size:11px;font-weight:700;color:var(--green);}
-.perf-badge{font-size:8px;color:var(--t3);font-family:var(--fb);}
+.kpi-top{display:flex;align-items:center;gap:10px;position:relative;z-index:1}
+.kpi-icon{
+  width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.kpi-g .kpi-icon{background:rgba(34,197,94,.2);border:1.5px solid rgba(34,197,94,.5)}
+.kpi-g .kpi-icon svg{fill:var(--green);width:18px;height:18px}
+.kpi-a .kpi-icon{background:rgba(245,158,11,.2);border:1.5px solid rgba(245,158,11,.5)}
+.kpi-a .kpi-icon svg{fill:var(--amber);width:18px;height:18px}
+.kpi-r .kpi-icon{background:rgba(239,68,68,.2);border:1.5px solid rgba(239,68,68,.5)}
+.kpi-r .kpi-icon svg{fill:var(--red);width:18px;height:18px}
+.kpi-d .kpi-icon{background:rgba(59,130,246,.15);border:1.5px solid rgba(59,130,246,.4)}
+.kpi-d .kpi-icon svg{fill:var(--blue);width:18px;height:18px}
 
-/* GENERIC CARD */
-.g-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;}
+.kpi-name{font-size:15px;font-weight:600;color:var(--t1);font-family:var(--fh)}
 
-/* FAB */
-.fab-bar{position:fixed;bottom:20px;right:20px;display:flex;gap:10px;z-index:500;}
-.fab{display:flex;align-items:center;gap:7px;padding:10px 16px;border-radius:10px;font-family:var(--fh);font-size:11px;font-weight:700;cursor:pointer;border:none;transition:all .2s;letter-spacing:.3px;}
-.fab-primary{background:linear-gradient(135deg,#22C55E,#16A34A);color:#0A1008;box-shadow:0 4px 20px rgba(34,197,94,.3);}
-.fab-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(34,197,94,.4);}
-.fab-secondary{background:linear-gradient(135deg,#F59E0B,#D97706);color:#0A0800;box-shadow:0 4px 20px rgba(245,158,11,.25);}
-.fab-secondary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(245,158,11,.35);}
-.fab svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;}
+.kpi-num{
+  font-family:var(--fh);font-size:48px;font-weight:800;
+  line-height:1;letter-spacing:-2px;
+  position:relative;z-index:1;margin:6px 0;
+}
+.kpi-g .kpi-num{color:#fff}
+.kpi-a .kpi-num{color:#fff}
+.kpi-r .kpi-num{color:#fff}
+.kpi-d .kpi-num{color:var(--blue);font-size:34px;letter-spacing:-1px}
 
-/* MODALS */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
-.modal-bg.open{display:flex;}
-.modal{background:#0C1824;border:1px solid var(--border);border-radius:16px;width:540px;max-width:95vw;max-height:90vh;overflow:auto;box-shadow:0 24px 80px rgba(0,0,0,.8);}
-.modal-head{padding:20px 22px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.modal-title{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1);}
-.modal-close{width:28px;height:28px;border-radius:6px;background:var(--elevated);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t3);font-size:16px;transition:.15s;}
-.modal-close:hover{color:var(--t1);}
-.modal-body{padding:20px 22px;}
-.form-group{margin-bottom:16px;}
-.form-label{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;display:block;}
-.form-input,.form-select,.form-textarea{width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-family:var(--fb);font-size:13px;color:var(--t1);outline:none;transition:.15s;}
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(34,197,94,.08);}
-.form-input::placeholder,.form-textarea::placeholder{color:var(--t3);}
-.form-select option{background:#0C1824;}
-.form-textarea{resize:vertical;min-height:80px;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.modal-foot{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;}
-.btn-cancel{padding:8px 16px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--t2);font-family:var(--fh);font-size:11px;font-weight:600;cursor:pointer;transition:.15s;}
-.btn-cancel:hover{background:var(--elevated);}
-.btn-submit{padding:8px 18px;border-radius:7px;border:none;background:linear-gradient(135deg,#22C55E,#16A34A);color:#0A1008;font-family:var(--fh);font-size:11px;font-weight:700;cursor:pointer;transition:.15s;letter-spacing:.3px;}
-.btn-submit:hover{opacity:.9;transform:translateY(-1px);}
+.kpi-sub{
+  display:flex;align-items:center;gap:5px;
+  font-size:12px;color:rgba(255,255,255,.82);
+  position:relative;z-index:1;
+}
+.kpi-sub .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.kpi-g .kpi-sub .dot{background:var(--green)}
+.kpi-a .kpi-sub .dot{background:var(--amber)}
+.kpi-r .kpi-sub .dot{background:var(--red)}
 
-/* TOAST */
-.toast{position:fixed;bottom:70px;right:20px;background:#0C1824;border:1px solid var(--border);border-radius:10px;padding:12px 18px;font-family:var(--fh);font-size:12px;font-weight:600;color:var(--t1);box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:9000;display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(10px);transition:all .3s;}
-.toast.show{opacity:1;transform:translateY(0);}
-.toast-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+/* Audit score specifics */
+.audit-score-label{font-size:11px;color:var(--t2);margin-bottom:4px}
+.audit-bar-wrap{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:5px}
+.audit-bar{height:100%;background:var(--green);border-radius:3px;box-shadow:0 0 6px rgba(34,197,94,.5)}
+.audit-pct{font-size:11px;color:var(--t2)}
+.audit-up{font-size:11px;color:var(--green);font-weight:600}
 
-/* SECTION HEADER */
-.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.sec-title{font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:6px;}
-.sec-badge{font-size:8px;font-weight:700;font-family:var(--fh);padding:2px 7px;border-radius:4px;letter-spacing:.3px;}
-.sec-link{font-family:var(--fh);font-size:9px;font-weight:600;color:var(--t3);cursor:pointer;transition:.15s;padding:3px 8px;border-radius:5px;}
-.sec-link:hover{color:var(--green);}
+/* ═══ MAIN GRID ═══ */
+.main-grid{display:grid;grid-template-columns:1fr 310px;gap:12px}
+.left-col{display:flex;flex-direction:column;gap:12px}
+.right-col{display:flex;flex-direction:column;gap:12px}
 
-/* UTILITY */
-.green{color:var(--green);}
-.amber{color:var(--amber);}
-.red{color:var(--red);}
-.blue{color:var(--blue);}
+/* ═══ CARD BASE ═══ */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.card-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 16px 0;
+}
+.card-title{font-family:var(--fh);font-size:14px;font-weight:700;color:var(--t1)}
+.card-sub{font-size:11px;color:var(--t3);margin-top:2px}
+.card-actions{display:flex;gap:5px;align-items:center}
+.ca-btn{font-size:10px;padding:3px 8px;border-radius:5px;border:1px solid var(--border);background:var(--elevated);color:var(--t3);cursor:pointer}
+.ca-btn:hover{color:var(--t2)}
 
-/* MANAGE USERS MODAL */
-.users-table{width:100%;border-collapse:collapse;font-size:12px;}
-.users-table th{text-align:left;padding:8px 10px;font-family:var(--fh);font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);}
-.users-table td{padding:9px 10px;border-bottom:1px solid var(--divider);vertical-align:middle;}
-.users-table tr:hover td{background:var(--elevated);}
-.u-role-badge{font-size:8px;font-weight:700;font-family:var(--fh);padding:2px 7px;border-radius:4px;}
-.u-active{background:var(--green-dim);color:var(--green);}
-.u-pending{background:var(--amber-dim);color:var(--amber);}
-.u-inactive{background:var(--red-dim);color:var(--red);}
+/* ═══ CHART ═══ */
+.chart-tabs{display:flex;gap:4px;padding:10px 16px 0}
+.ctab{padding:4px 12px;border-radius:5px;font-size:11px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent}
+.ctab:hover{color:var(--t2)}
+.ctab.active{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.35);color:var(--green);font-weight:600}
+.chart-wrap{padding:10px 16px 0;position:relative;height:200px}
+.chart-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px 14px;border-top:1px solid var(--divider);
+}
+.cf-filters{display:flex;gap:4px}
+.cf-btn{font-size:10px;padding:3px 8px;border-radius:4px;border:1px solid var(--border);color:var(--t3);background:var(--elevated);cursor:pointer}
+.cf-active{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.3);color:var(--green)}
+.cf-count{font-size:11px;font-weight:700;color:var(--t1);padding:3px 10px;background:var(--red);border-radius:4px}
+
+/* ═══ ESCALATIONS ═══ */
+.esc-critical{
+  display:flex;align-items:center;justify-content:space-between;
+  margin:10px 14px 8px;
+  padding:10px 14px;
+  background:linear-gradient(135deg,rgba(239,68,68,.18),rgba(180,30,30,.12));
+  border:1px solid rgba(239,68,68,.4);border-radius:8px;
+  animation:esc-pulse 2.5s ease-in-out infinite;
+}
+@keyframes esc-pulse{
+  0%,100%{box-shadow:0 0 0 rgba(239,68,68,0)}
+  50%{box-shadow:0 0 18px rgba(239,68,68,.25)}
+}
+.esc-c-left{display:flex;align-items:center;gap:8px}
+.esc-c-icon{width:22px;height:22px;background:rgba(239,68,68,.2);border-radius:50%;border:1px solid rgba(239,68,68,.5);display:flex;align-items:center;justify-content:center}
+.esc-c-icon svg{width:12px;height:12px;fill:var(--red)}
+.esc-c-title{font-size:13px;font-weight:700;color:var(--red)}
+.esc-c-sub{font-size:10px;color:rgba(239,68,68,.7);display:flex;align-items:center;gap:4px}
+.esc-c-num{font-family:var(--fh);font-size:28px;font-weight:800;color:var(--red)}
+
+.esc-list{padding:0 14px;max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:5px}
+.esc-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 10px;border-radius:8px;
+  background:var(--elevated);border:1px solid var(--border);
+  cursor:pointer;transition:border-color .15s;
+}
+.esc-item:hover{border-color:rgba(239,68,68,.35)}
+.esc-av{
+  width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#fff;flex-shrink:0;
+}
+.esc-inf{flex:1;min-width:0}
+.esc-name{font-size:12px;font-weight:600;color:var(--t1)}
+.esc-det{font-size:10px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.esc-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.lbadge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px}
+.lc{background:rgba(239,68,68,.18);color:var(--red);border:1px solid rgba(239,68,68,.35)}
+.lh{background:rgba(245,158,11,.15);color:var(--amber);border:1px solid rgba(245,158,11,.35)}
+.lm{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.ll{background:rgba(59,130,246,.12);color:var(--blue);border:1px solid rgba(59,130,246,.3)}
+.edays{font-size:9px;color:var(--t3)}
+.esc-num{font-family:var(--fh);font-size:13px;font-weight:800;color:var(--red)}
+
+.esc-foot{padding:10px 14px 14px}
+.esc-foot-btn{
+  width:100%;padding:7px;border-radius:7px;
+  background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);
+  color:var(--green);font-size:11px;cursor:pointer;text-align:center;
+  transition:background .15s;
+}
+.esc-foot-btn:hover{background:rgba(34,197,94,.14)}
+
+/* ═══ BOTTOM GRID ═══ */
+.bot-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* ═══ ACTIVITY ═══ */
+.act-list{padding:8px 14px 14px;display:flex;flex-direction:column;gap:0;overflow-y:auto;max-height:230px}
+.act-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:9px 0;border-bottom:1px solid var(--divider);cursor:pointer;
+}
+.act-item:last-child{border-bottom:none}
+.act-item:hover .act-name{color:var(--green)}
+.act-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px}
+.act-body{flex:1;min-width:0}
+.act-line{font-size:12px;color:var(--t2);line-height:1.4}
+.act-name{font-weight:600;color:var(--t1);transition:color .15s}
+.act-meta{display:flex;align-items:center;gap:5px;margin-top:3px}
+.act-time{font-size:10px;color:var(--t3)}
+.act-mod{font-size:9px;font-weight:600;padding:1px 5px;border-radius:3px}
+.m-ncr{background:rgba(245,158,11,.15);color:var(--amber)}
+.m-inc{background:rgba(239,68,68,.15);color:var(--red)}
+.m-act{background:rgba(34,197,94,.12);color:var(--green)}
+.m-aud{background:rgba(59,130,246,.12);color:var(--blue)}
+
+/* ═══ ACCOUNTABILITY ═══ */
+.acc-list{padding:8px 14px 14px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:230px}
+.acc-item{display:flex;align-items:center;gap:10px;cursor:pointer}
+.acc-item:hover .acc-name{color:var(--green)}
+.acc-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.acc-inf{flex:1;min-width:0}
+.acc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.acc-name{font-size:12px;font-weight:500;color:var(--t1);transition:color .15s}
+.acc-time{font-size:10px;color:var(--t3)}
+.acc-bar-wrap{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.acc-bar{height:100%;border-radius:2px;background:var(--green);transition:width .8s ease;box-shadow:0 0 5px rgba(34,197,94,.4)}
+.acc-pct{font-size:12px;font-weight:700;min-width:36px;text-align:right}
+.acc-item{position:relative}
+.acc-tip{position:absolute;right:0;top:calc(100% + 4px);z-index:20;background:#16212B;border:1px solid #1E293B;border-radius:8px;padding:8px 12px;font-size:11px;color:#94A3B8;white-space:nowrap;display:none;box-shadow:0 8px 24px rgba(0,0,0,.5);pointer-events:none}
+.acc-item:hover .acc-tip{display:block}
+
+.acc-foot{padding:0 14px 14px}
+.acc-foot-btn{
+  width:100%;padding:6px;border-radius:7px;
+  background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);
+  color:var(--green);font-size:11px;cursor:pointer;text-align:center;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+
+/* ═══ PERFORMANCE ═══ */
+.perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 14px}
+.perf-person{
+  background:var(--elevated);border:1px solid var(--border);
+  border-radius:8px;padding:12px;
+  display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;
+}
+.perf-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff}
+.perf-name{font-size:11px;font-weight:600;color:var(--t1)}
+.perf-sub{font-size:9px;color:var(--t3)}
+.perf-score{font-family:var(--fh);font-size:22px;font-weight:800;color:var(--green)}
+.perf-actions{display:flex;gap:4px;align-items:center;font-size:10px;color:var(--t2)}
+
+.lb-list{padding:0 14px 14px;display:flex;flex-direction:column;gap:5px}
+.lb-item{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 10px;border-radius:7px;
+  background:var(--elevated);border:1px solid var(--border);cursor:pointer;
+}
+.lb-item:hover{border-color:rgba(34,197,94,.3)}
+.lb-rank{font-family:var(--fh);font-size:12px;font-weight:800;width:16px;text-align:center}
+.r1{color:var(--amber)}.r2{color:var(--t2)}.r3{color:#CD7F32}
+.lb-icon{width:20px;height:20px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0}
+.lb-name{flex:1;font-size:11px;color:var(--t1)}
+.lb-val{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--green)}
+.lb-tag{font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.25)}
+
+/* ── QUICK MODALS ── */
+.qmodal-overlay{position:fixed;inset:0;background:rgba(7,11,15,.8);backdrop-filter:blur(4px);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.qmodal-overlay.open{opacity:1;pointer-events:all}
+.qmodal{background:#131C26;border:1px solid #1E293B;border-radius:14px;width:480px;max-width:95vw;max-height:88vh;overflow-y:auto;transform:translateY(16px) scale(0.98);transition:transform .25s;box-shadow:0 24px 60px rgba(0,0,0,.7)}
+.qmodal-overlay.open .qmodal{transform:translateY(0) scale(1)}
+.qmodal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #1E293B;position:sticky;top:0;background:#131C26;z-index:1}
+.qmodal-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#E6EDF3}
+.qmodal-close{width:28px;height:28px;border-radius:6px;background:#16212B;border:1px solid #1E293B;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s}
+.qmodal-close:hover{border-color:#EF4444;background:rgba(239,68,68,.12)}
+.qmodal-close svg{width:12px;height:12px;fill:#94A3B8}
+.qmodal-close:hover svg{fill:#EF4444}
+.qmodal-body{padding:18px 20px;display:flex;flex-direction:column;gap:12px}
+.qm-photo{border:2px dashed #1E293B;border-radius:10px;height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:all .2s;background:#16212B}
+.qm-photo:hover{border-color:#22C55E;background:rgba(34,197,94,.08)}
+.qm-photo svg{width:22px;height:22px;fill:#64748B}
+.qm-photo:hover svg{fill:#22C55E}
+.qm-photo-lbl{font-size:12px;color:#64748B;font-weight:500}
+.qm-photo:hover .qm-photo-lbl{color:#22C55E}
+.qm-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qm-group{display:flex;flex-direction:column;gap:4px}
+.qm-label{font-size:10px;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px}
+.qm-input{background:#16212B;border:1px solid #1E293B;border-radius:7px;padding:8px 11px;font-family:'DM Sans',sans-serif;font-size:12px;color:#E6EDF3;outline:none;transition:border-color .15s;width:100%}
+.qm-input:focus{border-color:#22C55E;box-shadow:0 0 0 2px rgba(34,197,94,.1)}
+.qm-input::placeholder{color:#64748B}
+.qm-ta{height:72px;resize:none;line-height:1.5}
+.qm-sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
+.sev-row{display:flex;gap:6px}
+.sev-opt{flex:1;padding:6px;border-radius:7px;border:1px solid #1E293B;text-align:center;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;color:#64748B;background:#16212B}
+.sev-opt.s-low{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.3);color:#22C55E}
+.sev-opt.s-med{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.3);color:#F59E0B}
+.sev-opt.s-high{background:rgba(249,115,22,.12);border-color:rgba(249,115,22,.3);color:#F97316}
+.sev-opt.s-crit{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.35);color:#EF4444}
+.gps-row{display:flex;align-items:center;gap:8px;background:#16212B;border:1px solid #1E293B;border-radius:7px;padding:8px 11px;cursor:pointer;transition:border-color .15s}
+.gps-row:hover{border-color:#22C55E}
+.gps-row svg{width:13px;height:13px;fill:#22C55E;flex-shrink:0}
+.gps-text{font-size:11px;color:#94A3B8;flex:1}
+.gps-text span{color:#22C55E;font-weight:600}
+.gps-pulse{width:7px;height:7px;border-radius:50%;background:#22C55E;box-shadow:0 0 5px #22C55E;animation:gpsblink 1.5s ease-in-out infinite}
+@keyframes gpsblink{0%,100%{opacity:1}50%{opacity:.4}}
+.auto-actions{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:8px;padding:10px 12px}
+.aa-title{font-size:11px;color:#22C55E;font-weight:600;margin-bottom:3px}
+.aa-body{font-size:10px;color:#94A3B8;line-height:1.7}
+.qmodal-footer{padding:14px 20px;border-top:1px solid #1E293B;display:flex;gap:8px;position:sticky;bottom:0;background:#131C26}
+.qm-cancel{flex:0;padding:8px 16px;border-radius:7px;background:transparent;border:1px solid #1E293B;color:#94A3B8;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.qm-submit{flex:1;padding:9px;border-radius:8px;border:none;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .2s}
+.qm-submit svg{width:13px;height:13px}
+.qm-submit.incident-submit{background:#22C55E;color:#0B0E12;box-shadow:0 4px 16px rgba(34,197,94,.25)}
+.qm-submit.incident-submit:hover{background:#16A34A;box-shadow:0 6px 20px rgba(34,197,94,.35)}
+.qm-submit.ncr-submit{background:#F59E0B;color:#0B0E12;box-shadow:0 4px 16px rgba(245,158,11,.2)}
+.qm-submit.ncr-submit:hover{background:#D97706}
+.ncr-types{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.ncr-type{padding:8px 6px;border-radius:7px;border:1px solid #1E293B;text-align:center;cursor:pointer;transition:all .15s;background:#16212B}
+.ncr-type.active{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.3)}
+.ncr-type-label{font-size:10px;font-weight:600;color:#94A3B8}
+.ncr-type.active .ncr-type-label{color:#F59E0B}
+.ncr-type-icon{font-size:15px;margin-bottom:3px}
+
+/* ── MORE DROPDOWN ── */
+.more-wrap{position:relative;user-select:none}
+.more-menu{
+  display:none;position:absolute;top:calc(100% + 6px);left:0;
+  background:#131C26;border:1px solid #1E293B;border-radius:10px;
+  min-width:210px;z-index:200;padding:6px;
+  box-shadow:0 12px 32px rgba(0,0,0,.5);
+}
+.more-wrap.open .more-menu{display:flex;flex-direction:column;gap:1px}
+.mm-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;font-size:12px;color:#94A3B8;cursor:pointer;text-decoration:none;transition:all .15s}
+.mm-item:hover{background:rgba(255,255,255,.05);color:#E6EDF3}
+.mm-item svg{width:14px;height:14px;fill:currentColor;opacity:.7;flex-shrink:0}
+.mm-divider{height:1px;background:#1E293B;margin:4px 0}
+.mm-admin{color:#22C55E}
+.mm-admin:hover{background:rgba(34,197,94,.08);color:#22C55E}
+.mm-admin svg{opacity:1}
+.sb-more-item{padding:7px 10px;font-size:12px}
+.sb-more-item svg{width:13px;height:13px}
+
+/* ══ ATTACHMENT WIDGET ══ */
+.aw-wrap{margin:8px 0}
+.aw-label{font-size:11px;font-weight:600;color:#64748B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.aw-btns{display:flex;gap:8px;margin-bottom:8px}
+.aw-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1px dashed #1E293B;background:#16212B;color:#64748B;font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
+.aw-btn:hover{border-color:#22C55E;color:#22C55E;background:rgba(34,197,94,.05)}
+.aw-previews{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px;min-height:0}
+.aw-thumb{position:relative;width:64px;height:64px;border-radius:8px;overflow:hidden;border:1px solid #1E293B;background:#0F1720;flex-shrink:0}
+.aw-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.aw-thumb-rm{position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:rgba(239,68,68,.9);color:#fff;font-size:9px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;font-weight:700}
+.aw-file{display:flex;align-items:center;gap:6px;padding:6px 10px;background:#16212B;border:1px solid #1E293B;border-radius:6px;font-size:11px;color:#94A3B8;width:100%;box-sizing:border-box}
+.aw-file-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.aw-file-rm{background:none;border:none;color:#64748B;cursor:pointer;font-size:12px;padding:0 2px;flex-shrink:0}
+.aw-file-rm:hover{color:#EF4444}
+.aw-more{display:flex;align-items:center;justify-content:center;padding:7px;border-radius:8px;border:1px dashed #1E293B;background:#16212B;color:#64748B;font-size:12px;font-weight:600;cursor:pointer;transition:.15s;width:100%;box-sizing:border-box}
+.aw-more:hover{border-color:#22C55E;color:#22C55E}
+
+/* ── Profile & Alert Dropdowns ── */
+.profile-menu-item{ padding:10px 16px;font-size:13px;color:var(--t2);cursor:pointer;display:flex;align-items:center;gap:8px; }
+.profile-menu-item:hover{ background:var(--raised); }
 </style>
+</head>
+<body>
+<div class="app">
 
-<!-- TOP NAV -->
+<!-- ═══ TOP NAV ═══ -->
 <nav class="topnav">
-  <a class="logo" href="safetypro_v2.html">
-    <div class="logo-shield"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
+  <a class="logo" href="#" title="Go to Dashboard">
+    <div class="logo-shield">
+      <svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg>
+    </div>
     <span class="logo-text">SafetyPro <span>AI</span></span>
   </a>
   <div class="nav-links">
     <a class="nl active" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
-    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations</a>
-    <a class="nl" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
-    <a class="nl" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2M5 3v18M19 3v18"/></svg>Reports</a>
-    <a class="nl" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>Admin</a>
+    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>Operations</a>
+    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
+    <a class="nl" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>Reports</a>
     <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
-      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More<span class="arr">&#9660;</span>
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More<span class="arr">▾</span>
       <div class="more-menu" id="more-menu">
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
         <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
         <div class="mm-divider"></div>
-        <a class="mm-item mm-admin" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09"/></svg>Admin &amp; Configuration</a>
+        <a class="mm-item mm-admin" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Admin &amp; Configuration</a>
       </div>
     </div>
   </div>
-  <div class="nav-right">
-    <div class="icon-btn" onclick="toggleAlerts()" id="alert-btn" title="Alerts">
+  <div class="nav-right" id="nav-user-wrap">
+    <!-- Alert Bell -->
+    <div class="icon-btn" onclick="toggleAlerts()" id="alert-btn" title="Alerts" style="position:relative">
       <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
       <div class="red-dot" id="alert-dot"></div>
     </div>
-    <div class="user-pill" onclick="toggleProfileMenu()" id="user-pill-btn">
-      <div class="ua" id="nav-initials">DC</div>
+    <!-- User Profile Pill -->
+    <div class="user-pill" onclick="toggleProfileMenu()" id="user-pill-btn" style="position:relative">
+      <div class="ua" id="nav-initials">DK</div>
       <div class="un">
-        <div class="un-name" id="nav-username">Loading...</div>
-        <div class="un-role" id="nav-role">SafetyPro AI</div>
+        <span class="un-name" id="nav-username">Loading...</span>
+        <span class="un-role" id="nav-role">SafetyPro AI</span>
       </div>
-      <span style="color:var(--t3);font-size:9px;margin-left:3px">&#9660;</span>
+      <span style="color:var(--t3);font-size:10px;margin-left:4px">▾</span>
+    </div>
+  </div>
+
+  <!-- Alert Dropdown -->
+  <div id="alert-dropdown" style="display:none;position:fixed;top:56px;right:160px;width:320px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:9999;overflow:hidden">
+    <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+      <div style="font-size:13px;font-weight:700;color:var(--t1)">Alerts</div>
+      <div onclick="toggleAlerts()" style="cursor:pointer;color:var(--t3);font-size:12px">✕ Close</div>
+    </div>
+    <div id="alert-list" style="max-height:320px;overflow-y:auto">
+      <div style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Loading alerts...</div>
+    </div>
+  </div>
+
+  <!-- Profile Dropdown -->
+  <div id="profile-dropdown" style="display:none;position:fixed;top:56px;right:16px;width:220px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:9999;overflow:hidden">
+    <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
+      <div style="font-size:13px;font-weight:700;color:var(--t1)" id="profile-name">Loading...</div>
+      <div style="font-size:11px;color:var(--t3)" id="profile-email">-</div>
+      <div style="font-size:10px;color:var(--green);margin-top:2px;font-weight:600" id="profile-role-badge">-</div>
+    </div>
+    <div style="padding:8px 0">
+      <div onclick="goToSettings()" style="padding:10px 16px;font-size:13px;color:var(--t2);cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        Settings
+      </div>
+      <div onclick="changePassword()" style="padding:10px 16px;font-size:13px;color:var(--t2);cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Change Password
+      </div>
+      <div style="height:1px;background:var(--border);margin:4px 0"></div>
+      <div onclick="signOut()" style="padding:10px 16px;font-size:13px;color:#EF4444;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s" onmouseover="this.style.background='rgba(239,68,68,.08)'" onmouseout="this.style.background='transparent'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Sign Out
+      </div>
     </div>
   </div>
 </nav>
 
-<!-- ALERT DROPDOWN -->
-<div id="alert-dropdown" class="alert-dropdown">
-  <div class="alert-head">Live Alerts</div>
-  <div id="alert-list"><div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Loading...</div></div>
-</div>
-
-<!-- PROFILE DROPDOWN -->
-<div id="profile-dropdown" class="profile-dd">
-  <div class="pd-header">
-    <div class="pd-avatar" id="pd-initials">DC</div>
-    <div>
-      <div class="pd-name" id="profile-name">Loading...</div>
-      <div class="pd-email" id="profile-email">-</div>
-      <div class="pd-role" id="profile-role-badge">-</div>
-    </div>
-  </div>
-  <div class="pd-menu">
-    <div class="pd-item" onclick="window.location.href='safetypro_v2.html'"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
-    <div class="pd-item" onclick="openManageUsers()"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Manage Users</div>
-    <div class="pd-item" onclick="goToSettings()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4"/></svg>Settings</div>
-    <div class="pd-item" onclick="changePassword()"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Change Password</div>
-    <div class="pd-sep"></div>
-    <div class="pd-signout" onclick="signOut()">
-      <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      Sign Out
-    </div>
-  </div>
-</div>
-
-<!-- BODY -->
+<!-- ═══ BODY ═══ -->
 <div class="body">
+
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <div class="sb-section">Main</div>
-    <a class="sb-item active" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
-    <a class="sb-item" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations<span class="sb-badge amber">12</span></a>
-    <a class="sb-item" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control<span class="sb-badge red">5</span></a>
-    <a class="sb-item" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2M5 3v18M19 3v18"/></svg>Reports</a>
-    <div class="sb-sep"></div>
-    <div class="sb-section">Tools</div>
-    <a class="sb-item" href="#" style="font-size:10px"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/></svg>Audit &amp; Compliance</a>
-    <a class="sb-item" href="#" style="font-size:10px"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field</a>
-    <a class="sb-item" href="safetypro_admin.html" style="font-size:10px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4"/></svg>Admin</a>
+    <a class="sb-item active" href="#">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </a>
+    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>
+      Operations<span class="sb-badge amber">12</span>
+    </a>
+    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
+      Control<span class="sb-badge red">5</span>
+    </a>
+    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
+      Reports
+    </a>
+    <div style="height:1px;background:#1E293B;margin:10px 2px 6px"></div>
+    <div style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:2px 10px 6px">More</div>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
+      Audit & Compliance
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      Documents & Records
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      Site & Field Tools
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      AI Intelligence
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Auditor Verification
+    </a>
+    <div style="height:1px;background:#1E293B;margin:6px 2px 4px"></div>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#22C55E" href="#">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#22C55E"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Admin &amp; Configuration
+    </a>
   </div>
 
   <!-- CONTENT -->
   <div class="content">
-    <!-- SUBNAV -->
-    <div class="subnav">
+
+    <!-- sub-nav row -->
+    <div class="subnav-row">
       <div class="sn-tabs">
         <div class="snt active" onclick="switchView(this,'global')">Global View</div>
         <div class="snt" onclick="switchView(this,'project')">Project View</div>
       </div>
       <div class="sn-right">
-        <select class="proj-sel" id="project-select" onchange="onProjectChange(this.value)">
-          <option value="">All Projects</option>
-          <option value="birpur">Birpur Dam</option>
-          <option value="mumbai">Mumbai Metro</option>
-          <option value="tirora">Tirora Plant</option>
-          <option value="delhi">Delhi NH-8</option>
+        <select style="background:var(--card);border:1px solid var(--border);color:var(--t1);padding:4px 10px;border-radius:6px;font-family:var(--fb);font-size:11px;outline:none;cursor:pointer" id="proj-select" onchange="onProjChange(this)">
+          <option>All Projects</option>
+          <option>Birpur Bihpur Road</option>
+          <option>Site Alpha — Mumbai</option>
+          <option>Tirora Power Plant</option>
         </select>
-        <button class="exp-btn" onclick="showDashToast('Generating report...')">
-          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Export Report
-        </button>
+        <div onclick="openQM('qm-ncr')" style="display:flex;align-items:center;gap:5px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid rgba(245,158,11,.3);color:var(--amber);background:rgba(245,158,11,.08);cursor:pointer;font-family:var(--fb)">+ Log NCR</div>
+        <div onclick="openQM('qm-incident')" style="display:flex;align-items:center;gap:5px;font-size:11px;padding:5px 12px;border-radius:6px;border:none;color:#0B0E12;background:var(--green);cursor:pointer;font-family:var(--fb);font-weight:600">+ Report Incident</div>
       </div>
     </div>
 
-    <!-- DASHBOARD INNER -->
-    <div class="dash">
+    <!-- VIEW BADGE -->
+    <div style="display:flex;align-items:center;gap:8px;padding:0 0 2px">
+      <div style="width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:gps-blink 2s ease-in-out infinite"></div>
+      <span id="view-badge" style="font-size:11px;color:var(--t3)">All Projects — HO View</span>
+    </div>
+    <!-- KPI CARDS -->
+    <div class="kpi-row">
 
-      <!-- KPI ROW -->
-      <div class="kpi-row">
-        <!-- Safe Actions -->
-        <div class="kpi kpi-g" onclick="showDashToast('Safe Actions detail coming soon')">
-          <div class="kpi-orb"></div>
+      <!-- Safe Actions -->
+      <div class="kpi kpi-g" onclick="navigateTo('operations')" style="cursor:pointer" title="View closed actions">
+        <div class="kpi-mesh"></div>
+        <div class="kpi-orb"></div>
+        <div class="kpi-top">
           <div class="kpi-icon">
-            <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           </div>
-          <div class="kpi-num" id="kn1">—</div>
-          <div class="kpi-label">Safe Actions</div>
-          <div class="kpi-foot">
-            <div class="kpi-trend trend-up">+14% vs last month</div>
-            <div class="kpi-sub">This month</div>
-          </div>
+          <span class="kpi-name">Safe Actions</span>
         </div>
-        <!-- Actions Due -->
-        <div class="kpi kpi-a" onclick="showDashToast('Actions Due detail coming soon')">
-          <div class="kpi-orb"></div>
+        <div class="kpi-num" id="kn1">0</div>
+        <div class="kpi-sub">
+          <span>Closed</span>
+          <span class="dot"></span>
+          <span>↓</span>
+        </div>
+      </div>
+
+      <!-- Pending -->
+      <div class="kpi kpi-a" onclick="navigateTo('operations')" style="cursor:pointer" title="View pending actions">
+        <div class="kpi-mesh"></div>
+        <div class="kpi-orb"></div>
+        <div class="kpi-top">
+          <div class="kpi-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <span class="kpi-name">Pending</span>
+        </div>
+        <div class="kpi-num" id="kn2">0</div>
+        <div class="kpi-sub">
+          <span>Due Soon</span>
+          <span class="dot"></span>
+        </div>
+      </div>
+
+      <!-- Escalated -->
+      <div class="kpi kpi-r" onclick="navigateTo('control')" style="cursor:pointer" title="View escalations">
+        <div class="kpi-mesh"></div>
+        <div class="kpi-orb"></div>
+        <div class="kpi-top">
+          <div class="kpi-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
+          </div>
+          <span class="kpi-name">Escalated</span>
+        </div>
+        <div class="kpi-num" id="kn3">0</div>
+        <div class="kpi-sub">
+          <span>Overdue</span>
+          <span class="dot"></span>
+          <span>↓</span>
+        </div>
+      </div>
+
+      <!-- Audit Score -->
+      <div class="kpi kpi-d" onclick="navigateTo('reports')" style="cursor:pointer" title="View audit reports">
+        <div class="kpi-top">
           <div class="kpi-icon">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           </div>
-          <div class="kpi-num" id="kn2">—</div>
-          <div class="kpi-label">Actions Due</div>
-          <div class="kpi-foot">
-            <div class="kpi-trend trend-neutral">3 overdue</div>
-            <div class="kpi-sub">Pending closure</div>
-          </div>
+          <span class="kpi-name" style="color:var(--t1)">Audit Score</span>
         </div>
-        <!-- Escalated -->
-        <div class="kpi kpi-r" onclick="showDashToast('Escalated items detail coming soon')">
-          <div class="kpi-orb"></div>
-          <div class="pulse-ring"></div>
-          <div class="kpi-icon">
-            <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          </div>
-          <div class="kpi-num" id="kn3">—</div>
-          <div class="kpi-label">Escalated</div>
-          <div class="kpi-foot">
-            <div class="kpi-trend trend-down">Needs attention</div>
-            <div class="kpi-sub">Critical</div>
-          </div>
-        </div>
-        <!-- Audit Score -->
-        <div class="kpi kpi-b" onclick="showDashToast('Audit Score detail coming soon')">
-          <div class="kpi-orb"></div>
-          <div class="kpi-icon">
-            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          </div>
-          <div class="kpi-num" id="kn4">—</div>
-          <div class="kpi-label">Audit Score</div>
-          <div class="kpi-foot">
-            <div class="kpi-trend trend-up">+0.3 this week</div>
-            <div class="kpi-sub">Out of 10</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DAF BANNER -->
-      <div class="daf-banner">
-        <div class="daf-ring-wrap">
-          <div class="daf-ring">
-            <svg width="68" height="68" viewBox="0 0 68 68">
-              <circle class="daf-ring-bg" cx="34" cy="34" r="30"/>
-              <circle class="daf-ring-fill" id="daf-ring-svg" cx="34" cy="34" r="30"/>
-            </svg>
-            <div class="daf-num">
-              <div class="daf-num-big" id="daf-count">47</div>
-              <div class="daf-num-unit">DAYS</div>
+        <div style="position:relative;z-index:1">
+          <div class="kpi-num" id="kn4" style="font-size:36px;color:var(--blue)">0<span style="font-size:14px;color:var(--t3)">/10</span></div>
+          <div style="margin-top:10px">
+            <div class="audit-score-label">Audit Score</div>
+            <div class="audit-bar-wrap"><div class="audit-bar" id="audit-bar" style="width:0%"></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span class="audit-pct">87%</span>
+              <span class="audit-up">+ 57%</span>
             </div>
           </div>
         </div>
-        <div class="daf-info">
-          <div class="daf-title">Days Accident Free</div>
-          <div class="daf-sub">Last incident: <span id="daf-last-incident" style="color:var(--t1);font-weight:500">8 Feb 2025</span> &nbsp;|&nbsp; <span style="color:var(--t1);font-weight:500">Minor slip &amp; fall, Birpur Site</span></div>
+      </div>
+    </div>
+
+    <!-- DAYS ACCIDENT FREE BANNER -->
+    <div id="daf-banner" style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:linear-gradient(135deg,rgba(34,197,94,0.12),rgba(34,197,94,0.06));border:1px solid rgba(34,197,94,0.3);border-radius:12px;cursor:pointer" onclick="navigateTo('reports')">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:44px;height:44px;border-radius:50%;background:rgba(34,197,94,.15);border:2px solid rgba(34,197,94,.5);display:flex;align-items:center;justify-content:center">
+          <svg style="width:20px;height:20px;fill:#22C55E" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </div>
-        <div class="daf-streak">
-          <div class="daf-streak-pill"><div class="streak-dot"></div>Active Streak</div>
-        </div>
-        <div class="daf-record">
-          <div class="daf-record-num">183</div>
-          <div class="daf-record-label">Record (days)</div>
+        <div>
+          <div style="font-family:var(--fh);font-size:22px;font-weight:800;color:#22C55E;line-height:1"><span id="daf-count">0</span> Days Accident Free</div>
+          <div style="font-size:11px;color:var(--t3);margin-top:2px" id="daf-project">All Projects · Last incident: 25 Jan 2026</div>
         </div>
       </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div style="text-align:right">
+          <div style="font-size:10px;color:var(--t3)">Previous record</div>
+          <div style="font-size:13px;font-weight:700;color:var(--t2)">62 days</div>
+        </div>
+        <div style="font-size:11px;color:var(--green);padding:5px 10px;border:1px solid rgba(34,197,94,.3);border-radius:6px;background:rgba(34,197,94,.08)">Share ↗</div>
+      </div>
+    </div>
 
-      <!-- MAIN GRID: Chart + Activity -->
-      <div class="main-grid">
-        <!-- CHART -->
-        <div class="chart-card">
-          <div class="card-hdr">
+    <!-- MAIN GRID -->
+    <div class="main-grid">
+      <div class="left-col">
+
+        <!-- Safety Trends -->
+        <div class="card">
+          <div class="card-head">
             <div>
               <div class="card-title">Safety Trends</div>
-              <div class="card-sub">Incidents, NCRs &amp; Actions over time</div>
+              <div class="card-sub">Incidents Last 6 Months</div>
             </div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <div class="ctabs">
-                <div class="ctab active" onclick="filterChart(this,'all')">All</div>
-                <div class="ctab" onclick="filterChart(this,'incident')">Incidents</div>
-                <div class="ctab" onclick="filterChart(this,'ncr')">NCR</div>
-                <div class="ctab" onclick="filterChart(this,'action')">Actions</div>
-              </div>
-              <div class="range-btns">
-                <button class="ca-btn active" onclick="setRange(this,'6m')">6M</button>
-                <button class="ca-btn" onclick="setRange(this,'12m')">12M</button>
-                <button class="ca-btn" onclick="setRange(this,'ytd')">YTD</button>
-              </div>
+            <div class="card-actions">
+              <div class="ca-btn">⬛ 6 Months ▾</div>
+              <div class="ca-btn">⊞</div>
             </div>
           </div>
-          <div class="chart-wrap"><canvas id="chart"></canvas></div>
-          <div class="chart-stats">
-            <div class="cs-item">
-              <div class="cs-num red" id="stat-total">37</div>
-              <div class="cs-label">Total Incidents</div>
+          <div class="chart-tabs">
+            <div class="ctab active" onclick="filterChart(this,'all')">All</div>
+            <div class="ctab" onclick="filterChart(this,'ncr')">NCR</div>
+            <div class="ctab" onclick="filterChart(this,'incident')">Incident</div>
+            <div class="ctab" onclick="filterChart(this,'safe')">Safe Action</div>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="chart"></canvas>
+          </div>
+          <div class="chart-footer">
+            <div class="cf-filters">
+              <div class="cf-btn cf-active">All</div>
+              <div class="cf-btn">17 r ▾</div>
+              <div class="cf-btn">M · 5</div>
+              <div class="cf-btn">⬛ 3 ▾</div>
             </div>
-            <div class="cs-item">
-              <div class="cs-num amber" id="stat-month">7</div>
-              <div class="cs-label">This Month</div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="font-size:10px;color:var(--t3)">% Creates</span>
+              <span class="cf-count">98</span>
             </div>
-            <div class="cs-item">
-              <div class="cs-num green">-23%</div>
-              <div class="cs-label">vs Last Period</div>
+          </div>
+          <!-- STATS ROW — exact from reference -->
+          <div style="display:flex;align-items:center;gap:0;border-top:1px solid var(--divider);padding:10px 16px;">
+            <div style="flex:1;display:flex;align-items:baseline;gap:6px">
+              <span style="font-size:11px;color:var(--t2)">Total Incidents:</span>
+              <span style="font-family:var(--fh);font-size:20px;font-weight:800;color:var(--t1)" id="stat-total">154</span>
+            </div>
+            <div style="width:1px;height:28px;background:var(--border);margin:0 16px"></div>
+            <div style="flex:1;display:flex;align-items:baseline;gap:6px">
+              <span style="font-size:11px;color:var(--t2)">Incidents Last Month:</span>
+              <span style="font-family:var(--fh);font-size:20px;font-weight:800;color:var(--t1)" id="stat-month">24</span>
+            </div>
+            <div style="width:1px;height:28px;background:var(--border);margin:0 16px"></div>
+            <div style="display:flex;align-items:baseline;gap:8px">
+              <span style="font-size:11px;color:var(--t2)">NCR Created:</span>
+              <span style="font-family:var(--fh);font-size:14px;font-weight:800;padding:3px 10px;background:var(--red);color:#fff;border-radius:5px">98</span>
             </div>
           </div>
         </div>
 
-        <!-- LIVE ACTIVITY -->
-        <div class="activity-card">
-          <div class="sec-hdr">
-            <div class="sec-title">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9" stroke-dasharray="4 2"/></svg>
-              Live Activity
+        <!-- Bottom row -->
+        <div class="bot-grid">
+
+          <!-- Recent Activity -->
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title">Recent Activity</div>
+              <div class="card-actions">
+                <span class="ca-btn">Day All ▾</span>
+                <span class="ca-btn">+1 ▾</span>
+              </div>
             </div>
-            <div class="sec-link" onclick="showDashToast('Full activity log opening...')">View all</div>
+            <div class="act-list">
+              <div class="act-item">
+                <div class="act-av" style="background:linear-gradient(135deg,#22C55E,#16A34A)">AM</div>
+                <div class="act-body">
+                  <div class="act-line"><span class="act-name">Ajay M.</span> created NCR</div>
+                  <div style="font-size:11px;color:var(--t3)">Responsibility incident - scaffolding failure</div>
+                  <div class="act-meta"><span class="act-time">5 min ago</span><span class="act-mod m-ncr">NCR</span></div>
+                </div>
+              </div>
+              <div class="act-item">
+                <div class="act-av" style="background:linear-gradient(135deg,#EF4444,#DC2626)">ST</div>
+                <div class="act-body">
+                  <div class="act-line"><span class="act-name">Sarah T.</span> reports da Incident</div>
+                  <div style="font-size:11px;color:var(--t3)">Ereic Action: 6 GantryPro</div>
+                  <div class="act-meta"><span class="act-time">15 min ago</span><span class="act-mod m-inc">Incident</span></div>
+                </div>
+              </div>
+              <div class="act-item">
+                <div class="act-av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">JM</div>
+                <div class="act-body">
+                  <div class="act-line"><span class="act-name">John M.</span> upouted an Action</div>
+                  <div style="font-size:11px;color:var(--t3)">Safe Receed - Aanrtora</div>
+                  <div class="act-meta"><span class="act-time">30 min ago</span><span class="act-mod m-act">Action</span></div>
+                </div>
+              </div>
+              <div class="act-item">
+                <div class="act-av" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED)">RP</div>
+                <div class="act-body">
+                  <div class="act-line"><span class="act-name">Rajesh P.</span> oported a Spill</div>
+                  <div style="font-size:11px;color:var(--t3)">Diep Delta - 1 nimes</div>
+                  <div class="act-meta"><span class="act-time">46 min ago</span><span class="act-mod m-inc">Incident</span></div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="act-list">
-            <div class="act-item">
-              <div class="act-av" style="background:linear-gradient(135deg,#EF4444,#DC2626)">RK</div>
-              <div class="act-body">
-                <div class="act-title">Incident reported - Height Work</div>
-                <div class="act-meta"><span class="act-badge ab-r">INCIDENT</span><span>Birpur Dam</span></div>
-                <div class="act-time">2 min ago &bull; Rajan Kumar</div>
+
+          <!-- Accountability -->
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title">Accountability</div>
+              <div class="card-actions">
+                <span class="ca-btn">View All</span>
+                <span class="ca-btn">•</span>
               </div>
             </div>
-            <div class="act-item">
-              <div class="act-av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">MS</div>
-              <div class="act-body">
-                <div class="act-title">NCR raised - Scaffolding defect</div>
-                <div class="act-meta"><span class="act-badge ab-a">NCR</span><span>Mumbai Metro</span></div>
-                <div class="act-time">14 min ago &bull; Mohan Singh</div>
+            <div class="acc-list">
+              <div class="acc-item">
+                <div class="acc-av" style="background:linear-gradient(135deg,#22C55E,#16A34A)">JG</div>
+                <div class="acc-inf">
+                  <div class="acc-top">
+                    <span class="acc-name">James G.</span>
+                    <span class="acc-time">5h 22m</span>
+                  </div>
+                  <div class="acc-bar-wrap"><div class="acc-bar" style="width:72%;background:var(--amber)"></div></div>
+                </div>
+                <div class="acc-pct" style="color:var(--amber)">72%</div>
+                <div class="acc-tip">8 open · 12 total · 4 closed on time · 2 overdue</div>
+              </div>
+              <div class="acc-item">
+                <div class="acc-av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">GM</div>
+                <div class="acc-inf">
+                  <div class="acc-top">
+                    <span class="acc-name">Gary M.</span>
+                    <span class="acc-time">3h 10a</span>
+                  </div>
+                  <div class="acc-bar-wrap"><div class="acc-bar" style="width:86%"></div></div>
+                </div>
+                <div class="acc-pct" style="color:var(--green)">86%</div>
+                <div class="acc-tip">2 open · 14 total · 12 closed on time · 0 overdue</div>
+              </div>
+              <div class="acc-item">
+                <div class="acc-av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">ST</div>
+                <div class="acc-inf">
+                  <div class="acc-top">
+                    <span class="acc-name">Sarah T.</span>
+                    <span class="acc-time">1h 55m</span>
+                  </div>
+                  <div class="acc-bar-wrap"><div class="acc-bar" style="width:97%"></div></div>
+                </div>
+                <div class="acc-pct" style="color:var(--green)">97%</div>
+                <div class="acc-tip">1 open · 18 total · 17 closed on time · 0 overdue</div>
+              </div>
+              <div class="acc-item">
+                <div class="acc-av" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED)">JN</div>
+                <div class="acc-inf">
+                  <div class="acc-top">
+                    <span class="acc-name">John M.</span>
+                    <span class="acc-time">56m</span>
+                  </div>
+                  <div class="acc-bar-wrap"><div class="acc-bar" style="width:86%"></div></div>
+                </div>
+                <div class="acc-pct" style="color:var(--green)">86%</div>
+                <div class="acc-tip">2 open · 14 total · 12 closed on time · 0 overdue</div>
               </div>
             </div>
-            <div class="act-item">
-              <div class="act-av" style="background:linear-gradient(135deg,#22C55E,#16A34A)">PD</div>
-              <div class="act-body">
-                <div class="act-title">Safety action closed - PPE audit</div>
-                <div class="act-meta"><span class="act-badge ab-g">CLOSED</span><span>Tirora Plant</span></div>
-                <div class="act-time">1 hr ago &bull; Priya Desai</div>
-              </div>
-            </div>
-            <div class="act-item">
-              <div class="act-av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">AK</div>
-              <div class="act-body">
-                <div class="act-title">Audit completed - ISO 45001 check</div>
-                <div class="act-meta"><span class="act-badge ab-b">AUDIT</span><span>Delhi NH-8</span></div>
-                <div class="act-time">3 hr ago &bull; Amit Kumar</div>
-              </div>
+            <div class="acc-foot">
+              <div class="acc-foot-btn" onclick="navigateTo('control')" style="cursor:pointer">Full Leaderboard ↗</div>
             </div>
           </div>
+
         </div>
+
+        <!-- TOP PERFORMER + BEST PROJECT -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:0">
+
+          <!-- Top Performer -->
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title">Top Performer</div>
+              <div class="card-actions">
+                <span style="font-size:10px;color:var(--t3)">10</span>
+                <span style="font-size:11px;padding:2px 7px;background:var(--g-s);border:1px solid var(--g-b);color:var(--green);border-radius:4px">▲ 25</span>
+              </div>
+            </div>
+            <div style="padding:12px 14px">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+                <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#F59E0B,#D97706);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff">ST</div>
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:var(--t1)">Sarah T.</div>
+                  <div style="font-size:10px;color:var(--t3)">6decentata6bbent.com</div>
+                </div>
+                <div style="margin-left:auto;font-family:var(--fh);font-size:26px;font-weight:800;color:var(--green)">15</div>
+              </div>
+              <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:10px">
+                <div style="height:100%;width:78%;background:var(--green);border-radius:3px;box-shadow:0 0 6px rgba(34,197,94,.4)"></div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--divider);padding-top:8px">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <span style="font-size:10px;color:var(--t3)">Incidents Closed</span>
+                  <div style="display:flex;gap:8px">
+                    <span style="font-size:10px;color:var(--t2)">2 8</span>
+                    <span style="font-size:10px;color:var(--green)">3·a20na</span>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <span style="font-size:10px;color:var(--t3)">Reports Filed</span>
+                  <div style="display:flex;gap:8px">
+                    <span style="font-size:10px;color:var(--t2)">9</span>
+                    <span style="font-size:10px;color:var(--t3)">17 trats</span>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-top:8px;padding-top:6px;border-top:1px solid var(--divider)">
+                <span style="font-size:10px;color:var(--green);cursor:pointer">6d·1 · 9fimat ›</span>
+                <span style="font-size:10px;color:var(--t3);cursor:pointer">6c·1 m</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Best Project -->
+          <div class="card">
+            <div class="card-head">
+              <div class="card-title">Best Project</div>
+              <div class="card-actions">
+                <span style="font-size:10px;padding:2px 7px;background:var(--raised);border:1px solid var(--border);color:var(--t3);border-radius:4px">19</span>
+                <span style="font-size:10px;color:var(--t3);padding:2px 4px;cursor:pointer">‹</span>
+                <span style="font-size:10px;color:var(--t3);padding:2px 4px;cursor:pointer">›</span>
+              </div>
+            </div>
+            <div style="padding:12px 14px">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+                <div style="width:40px;height:40px;border-radius:8px;background:linear-gradient(135deg,#22C55E,#0D9E45);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;overflow:hidden">
+                  <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:rgba(255,255,255,0.8)"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:var(--t1)">GantyPro</div>
+                  <div style="font-size:10px;color:var(--t3)">Site Sontyrerls</div>
+                </div>
+                <div style="margin-left:auto;font-family:var(--fh);font-size:22px;font-weight:800;color:var(--blue)">8.9</div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
+                <div style="background:var(--raised);border:1px solid var(--border);border-radius:6px;padding:6px 8px">
+                  <div style="font-size:9px;color:var(--t3)">Audit Score</div>
+                  <div style="font-size:11px;font-weight:600;color:var(--green)">87% ●</div>
+                </div>
+                <div style="background:var(--raised);border:1px solid var(--border);border-radius:6px;padding:6px 8px">
+                  <div style="font-size:9px;color:var(--t3)">Work Ream</div>
+                  <div style="font-size:11px;font-weight:600;color:var(--blue)">WO1k ●</div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--divider);padding-top:8px">
+                <div style="display:flex;justify-content:space-between">
+                  <span style="font-size:10px;color:var(--t3)">3:4 Incidents</span>
+                  <div style="display:flex;gap:8px">
+                    <span style="font-size:10px;color:var(--t3)">Sk·</span>
+                    <span style="font-size:10px;color:var(--t2)">3.9k</span>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:space-between">
+                  <span style="font-size:10px;color:var(--t3)">5.8M cacise</span>
+                  <div style="display:flex;gap:8px">
+                    <span style="font-size:10px;color:var(--t3)">%r·</span>
+                    <span style="font-size:10px;color:var(--t2)">3.9k</span>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-top:8px;padding-top:6px;border-top:1px solid var(--divider)">
+                <span style="font-size:10px;color:var(--green);cursor:pointer">10·11 · 5fimat ›</span>
+                <span style="font-size:10px;color:var(--t3);cursor:pointer">5· Lasth Cootar ›</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
       </div>
 
-      <!-- BOTTOM GRID: Accountability + Escalation + Performance/Projects -->
-      <div class="bottom-grid">
+      <!-- RIGHT COLUMN -->
+      <div class="right-col">
 
-        <!-- ACCOUNTABILITY -->
-        <div class="g-card">
-          <div class="sec-hdr">
-            <div class="sec-title">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-              Accountability
+        <!-- Escalations -->
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title">Escalations</div>
+            <div class="card-actions">
+              <span class="ca-btn">🔍 Search</span>
             </div>
-            <div class="sec-badge amber" style="background:var(--amber-dim);color:var(--amber)">3 overdue</div>
           </div>
-          <div class="acc-list">
-            <div class="acc-person">
-              <div class="acc-top">
-                <div class="acc-av" style="background:linear-gradient(135deg,#22C55E,#16A34A)">RK</div>
-                <div class="acc-name">Rajan Kumar</div>
-                <div class="acc-pct green">87%</div>
+          <div class="esc-critical">
+            <div class="esc-c-left">
+              <div class="esc-c-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
               </div>
-              <div class="acc-bar-wrap"><div class="acc-bar" style="width:0%;background:var(--green)" data-w="87%"></div></div>
-              <div class="acc-meta"><span class="acc-meta-txt">Site HSE Officer</span><span class="acc-meta-txt">13 actions closed</span></div>
+              <div>
+                <div class="esc-c-title">Critical</div>
+                <div class="esc-c-sub">Overdue 5 Days ↑</div>
+              </div>
             </div>
-            <div class="acc-person">
-              <div class="acc-top">
-                <div class="acc-av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">MS</div>
-                <div class="acc-name">Mohan Singh</div>
-                <div class="acc-pct amber">61%</div>
+            <div class="esc-c-num">5</div>
+          </div>
+          <div class="esc-list">
+            <div class="esc-item">
+              <div class="esc-av" style="background:linear-gradient(135deg,#22C55E,#16A34A)">JG</div>
+              <div class="esc-inf">
+                <div class="esc-name">James G.</div>
+                <div class="esc-det">Equipment inspection.</div>
+                <div style="font-size:9px;color:var(--t3);margin-top:1px">● Ob: GantyPro <span style="color:var(--green)">+1 (1)</span></div>
               </div>
-              <div class="acc-bar-wrap"><div class="acc-bar" style="width:0%;background:var(--amber)" data-w="61%"></div></div>
-              <div class="acc-meta"><span class="acc-meta-txt">Project Manager</span><span class="acc-meta-txt" style="color:var(--red)">2 overdue</span></div>
+              <div class="esc-right">
+                <span class="lbadge lc">Critical L</span>
+                <span class="esc-num">3</span>
+              </div>
             </div>
-            <div class="acc-person">
-              <div class="acc-top">
-                <div class="acc-av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">PD</div>
-                <div class="acc-name">Priya Desai</div>
-                <div class="acc-pct green">94%</div>
+            <div class="esc-item">
+              <div class="esc-av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">GM</div>
+              <div class="esc-inf">
+                <div class="esc-name">Gary M.</div>
+                <div class="esc-det">Dust hazard — Site B</div>
+                <div style="font-size:9px;color:var(--t3);margin-top:1px">● Ob: Houseke tapes <span style="color:var(--amber)">+4.0 (1)</span></div>
               </div>
-              <div class="acc-bar-wrap"><div class="acc-bar" style="width:0%;background:var(--green)" data-w="94%"></div></div>
-              <div class="acc-meta"><span class="acc-meta-txt">Safety Supervisor</span><span class="acc-meta-txt">Top performer</span></div>
+              <div class="esc-right">
+                <span class="lbadge lh">High L</span>
+                <span class="esc-num" style="color:var(--amber)">9</span>
+              </div>
             </div>
-            <div class="acc-person">
-              <div class="acc-top">
-                <div class="acc-av" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED)">AK</div>
-                <div class="acc-name">Amit Kumar</div>
-                <div class="acc-pct red">38%</div>
+            <div class="esc-item">
+              <div class="esc-av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">JM</div>
+              <div class="esc-inf">
+                <div class="esc-name">John M.</div>
+                <div class="esc-det">High housekeeping</div>
+                <div style="font-size:9px;color:var(--t3);margin-top:1px">● Ob: Solo Kentyibos</div>
               </div>
-              <div class="acc-bar-wrap"><div class="acc-bar" style="width:0%;background:var(--red)" data-w="38%"></div></div>
-              <div class="acc-meta"><span class="acc-meta-txt">Contractor Lead</span><span class="acc-meta-txt" style="color:var(--red)">1 overdue</span></div>
+              <div class="esc-right">
+                <span class="lbadge lm">Medium L</span>
+                <span class="esc-num" style="color:var(--green)">1</span>
+              </div>
+            </div>
+            <div class="esc-item">
+              <div class="esc-av" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED)">RP</div>
+              <div class="esc-inf">
+                <div class="esc-name">Rajesh P.</div>
+                <div class="esc-det">Splitt cleanup</div>
+              </div>
+              <div class="esc-right">
+                <span class="lbadge ll">L1</span>
+                <span class="edays">2 ↑</span>
+              </div>
+            </div>
+          </div>
+          <div class="esc-foot">
+            <div class="esc-foot-btn" onclick="navigateTo('control')" style="cursor:pointer">Full Leaderboard ↗</div>
+          </div>
+        </div>
+
+        <!-- Performance -->
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title">Performance</div>
+            <div class="card-actions">
+              <span class="ca-btn">⬛</span>
+              <span class="ca-btn">⊞</span>
+              <span class="ca-btn">%</span>
+            </div>
+          </div>
+          <div class="perf-grid">
+            <div class="perf-person">
+              <div class="perf-av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">ST</div>
+              <div class="perf-name">Sarah T.</div>
+              <div class="perf-sub">Top Safety Performer</div>
+              <div class="perf-score">8.7<span style="font-size:11px;color:var(--t3)">/10</span></div>
+              <div class="perf-actions">
+                <span>▲ 3.4</span>
+                <span>Actions</span>
+              </div>
+            </div>
+            <div class="perf-person">
+              <div class="perf-av" style="background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:7px">GP</div>
+              <div class="perf-name">GantyPro</div>
+              <div class="perf-sub">Best Project Score</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px;width:100%">
+                <div style="text-align:center">
+                  <div style="font-size:9px;color:var(--t3)">Actions</div>
+                  <div style="font-family:var(--fh);font-size:15px;font-weight:700;color:var(--green)">3.4</div>
+                </div>
+                <div style="text-align:center">
+                  <div style="font-size:9px;color:var(--t3)">Score</div>
+                  <div style="font-family:var(--fh);font-size:15px;font-weight:700;color:var(--blue)">8.9</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="lb-list">
+            <div class="lb-item">
+              <div class="lb-rank r1">1</div>
+              <div class="lb-icon">▲</div>
+              <div class="lb-name">Controll Ghost</div>
+              <div class="lb-val">120</div>
+              <span class="lb-tag">90</span>
+            </div>
+            <div class="lb-item">
+              <div class="lb-rank r2">2</div>
+              <div class="lb-icon">⊙</div>
+              <div class="lb-name">Sum M. Clotes</div>
+              <div class="lb-val">110</div>
+              <span class="lb-tag">90</span>
+            </div>
+            <div class="lb-item">
+              <div class="lb-rank r3">3</div>
+              <div class="lb-icon">⊙</div>
+              <div class="lb-name">Ajay M. Klotes</div>
+              <div class="lb-val">99</div>
+              <span class="lb-tag">80</span>
             </div>
           </div>
         </div>
 
-        <!-- ESCALATION CHAIN -->
-        <div class="g-card">
-          <div class="sec-hdr">
-            <div class="sec-title">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
-              Escalation Chain
-            </div>
-            <div class="sec-badge" style="background:var(--red-dim);color:var(--red)">L3 Active</div>
-          </div>
-          <div class="esc-chain">
-            <div class="esc-item">
-              <div class="esc-level">L1</div>
-              <div><div class="esc-name">Site HSE Officer</div><div class="esc-role">First responder</div></div>
-              <div class="esc-status"></div>
-            </div>
-            <div class="esc-connector"></div>
-            <div class="esc-item">
-              <div class="esc-level">L2</div>
-              <div><div class="esc-name">Project HSE Manager</div><div class="esc-role">24hr response</div></div>
-              <div class="esc-status"></div>
-            </div>
-            <div class="esc-connector active-conn"></div>
-            <div class="esc-item active">
-              <div class="esc-level">L3</div>
-              <div><div class="esc-name">Corporate HSE Head</div><div class="esc-role">Escalated &bull; 6h ago</div></div>
-              <div class="esc-status"></div>
-            </div>
-            <div class="esc-connector active-conn"></div>
-            <div class="esc-item active">
-              <div class="esc-level">L4</div>
-              <div><div class="esc-name">VP Operations</div><div class="esc-role">Notified &bull; Awaiting</div></div>
-              <div class="esc-status"></div>
-            </div>
-            <div class="esc-connector"></div>
-            <div class="esc-item">
-              <div class="esc-level">L5</div>
-              <div><div class="esc-name">CEO / Board</div><div class="esc-role">Critical threshold</div></div>
-              <div class="esc-status"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- RIGHT COLUMN: Performers + Project Health -->
-        <div style="display:flex;flex-direction:column;gap:12px;">
-          <!-- TOP PERFORMERS -->
-          <div class="g-card">
-            <div class="sec-hdr">
-              <div class="sec-title">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Top Performers
-              </div>
-              <div class="sec-link">This month</div>
-            </div>
-            <div class="perf-list">
-              <div class="perf-item"><div class="perf-rank rank-1">1</div><div><div class="perf-name">Priya Desai</div><div class="perf-badge">Safety Supervisor</div></div><div class="perf-score">98</div></div>
-              <div class="perf-item"><div class="perf-rank rank-2">2</div><div><div class="perf-name">Rajan Kumar</div><div class="perf-badge">HSE Officer</div></div><div class="perf-score">91</div></div>
-              <div class="perf-item"><div class="perf-rank rank-3">3</div><div><div class="perf-name">Deepa Nair</div><div class="perf-badge">Site Inspector</div></div><div class="perf-score">87</div></div>
-            </div>
-          </div>
-          <!-- PROJECT HEALTH -->
-          <div class="g-card">
-            <div class="sec-hdr">
-              <div class="sec-title">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
-                Project Health
-              </div>
-            </div>
-            <div class="proj-grid">
-              <div class="proj-item">
-                <div class="proj-name">Birpur Dam</div>
-                <div class="proj-loc">Bihar, India</div>
-                <div class="proj-health" style="background:var(--border)"><div style="width:88%;height:100%;background:var(--green);border-radius:2px;"></div></div>
-                <div class="proj-meta"><span class="proj-score green">88%</span><span class="proj-issues">2 open</span></div>
-              </div>
-              <div class="proj-item">
-                <div class="proj-name">Mumbai Metro</div>
-                <div class="proj-loc">Maharashtra</div>
-                <div class="proj-health" style="background:var(--border)"><div style="width:62%;height:100%;background:var(--amber);border-radius:2px;"></div></div>
-                <div class="proj-meta"><span class="proj-score amber">62%</span><span class="proj-issues">7 open</span></div>
-              </div>
-              <div class="proj-item">
-                <div class="proj-name">Tirora Plant</div>
-                <div class="proj-loc">Maharashtra</div>
-                <div class="proj-health" style="background:var(--border)"><div style="width:41%;height:100%;background:var(--red);border-radius:2px;"></div></div>
-                <div class="proj-meta"><span class="proj-score red">41%</span><span class="proj-issues" style="color:var(--red)">11 open</span></div>
-              </div>
-              <div class="proj-item">
-                <div class="proj-name">Delhi NH-8</div>
-                <div class="proj-loc">New Delhi</div>
-                <div class="proj-health" style="background:var(--border)"><div style="width:95%;height:100%;background:var(--green);border-radius:2px;"></div></div>
-                <div class="proj-meta"><span class="proj-score green">95%</span><span class="proj-issues">0 open</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-    </div><!-- end .dash -->
-  </div><!-- end .content -->
-</div><!-- end .body -->
-
-<!-- FAB -->
-<div class="fab-bar">
-  <button class="fab fab-secondary" onclick="openNcrModal()">
-    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-    Log NCR
-  </button>
-  <button class="fab fab-primary" onclick="openIncidentModal()">
-    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-    Report Incident
-  </button>
+    </div>
+  </div>
+</div>
 </div>
 
-<!-- TOAST -->
-<div class="toast" id="dash-toast"><div class="toast-dot" id="toast-dot" style="background:var(--green)"></div><span id="toast-msg">Saved</span></div>
+<script>
+/* COUNT-UP */
+function cu(el,t,ms){
+  const s=performance.now();
+  const isF=String(t).includes('.');
+  function u(n){
+    const p=Math.min((n-s)/ms,1);
+    const e=1-Math.pow(1-p,3);
+    const v=t*e;
+    if(isF) el.innerHTML=v.toFixed(1)+'<span style="font-size:14px;color:var(--t3)">/10</span>';
+    else el.textContent=Math.round(v);
+    if(p<1)requestAnimationFrame(u);
+  }
+  requestAnimationFrame(u);
+}
+setTimeout(()=>{
+  cu(document.getElementById('kn1'),128,1200);
+  cu(document.getElementById('kn2'),23,900);
+  cu(document.getElementById('kn3'),5,700);
+  cu(document.getElementById('kn4'),8.7,1400);
+  // audit bar
+  setTimeout(()=>{document.getElementById('audit-bar').style.width='87%'},200);
+},300);
 
-<!-- INCIDENT MODAL -->
-<div class="modal-bg" id="incident-modal">
-  <div class="modal">
-    <div class="modal-head">
-      <div class="modal-title">Report Incident</div>
-      <div class="modal-close" onclick="closeModal('incident-modal')">&#10005;</div>
+/* CHART — glowing green line */
+const ctx=document.getElementById('chart').getContext('2d');
+const labels=['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May'];
+const vals=[28,22,18,20,25,20,14,18,12,8,30];
+
+const g=ctx.createLinearGradient(0,0,0,200);
+g.addColorStop(0,'rgba(34,197,94,0.28)');
+g.addColorStop(0.6,'rgba(34,197,94,0.06)');
+g.addColorStop(1,'rgba(34,197,94,0.0)');
+
+/* Glow plugin */
+const glowPlugin={
+  id:'glow',
+  beforeDraw(chart){
+    chart.ctx.save();
+    chart.ctx.shadowColor='rgba(34,197,94,0.8)';
+    chart.ctx.shadowBlur=18;
+  },
+  afterDraw(chart){chart.ctx.restore()}
+};
+
+/* Peak annotation plugin */
+const peakPlugin={
+  id:'peak',
+  afterDraw(chart){
+    const ds=chart.data.datasets[0];
+    const meta=chart.getDatasetMeta(0);
+    const maxI=vals.indexOf(Math.max(...vals));
+    const pt=meta.data[maxI];
+    const ctx=chart.ctx;
+    // glow circle
+    ctx.save();
+    ctx.shadowColor='rgba(34,197,94,1)';
+    ctx.shadowBlur=20;
+    ctx.beginPath();
+    ctx.arc(pt.x,pt.y,6,0,Math.PI*2);
+    ctx.fillStyle='#22C55E';
+    ctx.fill();
+    ctx.restore();
+    // vertical line
+    ctx.save();
+    ctx.strokeStyle='rgba(34,197,94,0.35)';
+    ctx.lineWidth=1;
+    ctx.setLineDash([4,3]);
+    ctx.beginPath();
+    ctx.moveTo(pt.x,pt.y+8);
+    ctx.lineTo(pt.x,chart.chartArea.bottom);
+    ctx.stroke();
+    ctx.restore();
+    // tooltip bubble
+    const txt='30 ▲';
+    ctx.save();
+    ctx.font='bold 10px DM Sans';
+    const tw=ctx.measureText(txt).width+12;
+    const tx=pt.x-tw/2, ty=pt.y-30;
+    ctx.fillStyle='rgba(34,197,94,0.9)';
+    ctx.shadowColor='rgba(34,197,94,0.6)';
+    ctx.shadowBlur=8;
+    roundRect(ctx,tx,ty,tw,18,4);
+    ctx.fill();
+    ctx.restore();
+    ctx.fillStyle='#0B0F14';
+    ctx.font='bold 10px DM Sans';
+    ctx.textAlign='center';
+    ctx.textBaseline='middle';
+    ctx.fillText(txt,pt.x,ty+9);
+  }
+};
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y);
+  ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);
+  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);
+  ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
+}
+
+window.safetyChart = new Chart(ctx,{
+  type:'line',
+  plugins:[glowPlugin,peakPlugin],
+  data:{
+    labels,
+    datasets:[{
+      data:vals,
+      borderColor:'#22C55E',
+      borderWidth:2.5,
+      backgroundColor:g,
+      fill:true,
+      tension:0.45,
+      pointBackgroundColor:'#22C55E',
+      pointBorderColor:'#131C26',
+      pointBorderWidth:2,
+      pointRadius:3,
+      pointHoverRadius:6,
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{
+        backgroundColor:'#16212B',
+        borderColor:'#1E293B',
+        borderWidth:1,
+        titleColor:'#94A3B8',
+        bodyColor:'#E6EDF3',
+        callbacks:{label:c=>` ${c.raw} incidents`}
+      }
+    },
+    scales:{
+      x:{grid:{color:'rgba(30,41,59,0.6)',lineWidth:0.5},ticks:{color:'#64748B',font:{family:'DM Sans',size:10}},border:{display:false}},
+      y:{grid:{color:'rgba(30,41,59,0.6)',lineWidth:0.5},ticks:{color:'#64748B',font:{family:'DM Sans',size:10},maxTicksLimit:5,stepSize:10},border:{display:false},min:0,max:40}
+    },
+    animation:{duration:1800,easing:'easeOutQuart'}
+  }
+});
+
+/* VIEW SWITCHER */
+const projectData={
+  'All Projects':       {k1:128,k2:23,k3:5,  k4:8.7,label:'All Projects — HO View'},
+  'Birpur Bihpur Road': {k1:54, k2:8, k3:2,  k4:9.1,label:'Birpur Bihpur Road — Project View'},
+  'Site Alpha — Mumbai':{k1:47, k2:11,k3:2,  k4:8.4,label:'Site Alpha — Mumbai — Project View'},
+  'Tirora Power Plant': {k1:27, k2:4, k3:1,  k4:8.2,label:'Tirora Power Plant — Project View'},
+};
+
+function switchView(el,view){
+  document.querySelectorAll('.snt').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const ps=document.getElementById('proj-select');
+  if(!ps)return;
+  if(view==='project'){
+    if(ps.value==='All Projects') ps.value='Birpur Bihpur Road';
+  } else {
+    ps.value='All Projects';
+  }
+  onProjChange(ps);
+}
+
+function onProjChange(sel){
+  const proj=sel.value;
+  const d=projectData[proj]||projectData['All Projects'];
+  animateNum(document.getElementById('kn1'),d.k1);
+  animateNum(document.getElementById('kn2'),d.k2);
+  animateNum(document.getElementById('kn3'),d.k3);
+  const k4=document.getElementById('kn4');
+  if(k4) k4.innerHTML=d.k4+'<span style="font-size:14px;color:var(--t3)">/10</span>';
+  const badge=document.getElementById('view-badge');
+  if(badge) badge.textContent=d.label;
+  // Update audit bar
+  const ab=document.getElementById('audit-bar');
+  if(ab){const pct={8.7:87,9.1:91,8.4:84,8.2:82}[d.k4]||87;ab.style.width=pct+'%';}
+}
+
+function animateNum(el,target){
+  if(!el)return;
+  const start=performance.now();
+  function upd(now){
+    const p=Math.min((now-start)/600,1);
+    const e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(target*e);
+    if(p<1)requestAnimationFrame(upd);
+  }
+  requestAnimationFrame(upd);
+}
+
+/* NAV interactions */
+document.querySelectorAll('.ctab').forEach(t=>{
+  t.addEventListener('click',()=>{document.querySelectorAll('.ctab').forEach(x=>x.classList.remove('active'));t.classList.add('active')});
+});
+document.querySelectorAll('.sb-item').forEach(t=>{
+  t.addEventListener('click',()=>{document.querySelectorAll('.sb-item').forEach(x=>x.classList.remove('active'));t.classList.add('active')});
+});
+
+/* Live activity pulse */
+const acts=[
+  {nm:'Vikram S.',act:'reported Unsafe Condition',det:'Loose railing Block 5',time:'Just now',cls:'m-ncr',lbl:'NCR',col:'#F59E0B,#D97706',ini:'VS'},
+  {nm:'Priya R.',act:'closed Action',det:'PPE replacement verified',time:'Just now',cls:'m-act',lbl:'Action',col:'#22C55E,#16A34A',ini:'PR'},
+];
+const aList=document.querySelector('.act-list');
+setInterval(()=>{
+  const p=acts[Math.floor(Math.random()*acts.length)];
+  const el=document.createElement('div');
+  el.className='act-item';el.style.opacity='0';el.style.transition='opacity 0.4s';
+  el.innerHTML=`<div class="act-av" style="background:linear-gradient(135deg,${p.col})">${p.ini}</div><div class="act-body"><div class="act-line"><span class="act-name">${p.nm}</span> ${p.act}</div><div style="font-size:11px;color:var(--t3)">${p.det}</div><div class="act-meta"><span class="act-time">${p.time}</span><span class="act-mod ${p.cls}">${p.lbl}</span></div></div>`;
+  aList.insertBefore(el,aList.firstChild);
+  if(aList.children.length>5)aList.removeChild(aList.lastChild);
+  requestAnimationFrame(()=>{el.style.opacity='1'});
+},9000);
+
+/* ── NAVIGATE ── */
+function navigateTo(screen) {
+  const msgs = {
+    control:    'Navigating to Control screen — in the full app this would route to /control',
+    operations: 'Navigating to Operations screen — in the full app this would route to /operations',
+    reports:    'Navigating to Reports screen — in the full app this would route to /reports',
+  };
+  showDashToast(msgs[screen] || 'Navigating...');
+}
+
+/* ── DAYS ACCIDENT FREE ── */
+function initDAF() {
+  const dafEl = document.getElementById('daf-count');
+  if (!dafEl) return;
+  const s = performance.now();
+  function u(n) {
+    const p = Math.min((n-s)/800,1);
+    const e = 1-Math.pow(1-p,3);
+    dafEl.textContent = Math.round(55*e);
+    if(p<1) requestAnimationFrame(u);
+  }
+  requestAnimationFrame(u);
+}
+setTimeout(initDAF, 500);
+
+/* ── CHART FILTER TABS ── */
+const chartDatasets = {
+  all:      {data:[28,22,18,20,25,20,14,18,12,8,30], color:'#22C55E', label:'All'},
+  ncr:      {data:[12,10,8,9,11,9,6,8,5,4,13],       color:'#F59E0B', label:'NCR'},
+  incident: {data:[10,8,6,7,9,7,5,6,4,3,11],         color:'#EF4444', label:'Incident'},
+  safe:     {data:[6,4,4,4,5,4,3,4,3,1,6],           color:'#3B82F6', label:'Safe Action'},
+};
+function filterChart(el, type) {
+  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const ch = window.safetyChart;
+  if (!ch) return;
+  const d = chartDatasets[type];
+  const g = ch.ctx.createLinearGradient(0,0,0,200);
+  g.addColorStop(0, d.color+'44');
+  g.addColorStop(1, d.color+'04');
+  ch.data.datasets[0].data = d.data;
+  ch.data.datasets[0].borderColor = d.color;
+  ch.data.datasets[0].backgroundColor = g;
+  ch.data.datasets[0].pointBackgroundColor = d.color;
+  ch.update('active');
+}
+
+/* ── PROJECT VIEW — also update chart ── */
+const projectCharts = {
+  'All Projects':        [28,22,18,20,25,20,14,18,12,8,30],
+  'Birpur Bihpur Road':  [12,10,8,8,11,9,6,7,5,3,13],
+  'Site Alpha — Mumbai': [10,8,6,7,9,7,5,7,4,3,11],
+  'Tirora Power Plant':  [6,4,4,5,5,4,3,4,3,2,6],
+};
+const _origOnProjChange = window.onProjChange;
+window.onProjChange = function(sel) {
+  _origOnProjChange && _origOnProjChange(sel);
+  const proj = sel.value;
+  const ch = window.safetyChart;
+  if (ch && projectCharts[proj]) {
+    ch.data.datasets[0].data = projectCharts[proj];
+    ch.update('active');
+  }
+  // Update DAF banner
+  const dafProj = document.getElementById('daf-project');
+  const dafData = {
+    'All Projects':        {days:55, last:'25 Jan 2026', proj:'All Projects'},
+    'Birpur Bihpur Road':  {days:68, last:'13 Jan 2026', proj:'Birpur Bihpur Road'},
+    'Site Alpha — Mumbai': {days:22, last:'28 Feb 2026', proj:'Site Alpha — Mumbai'},
+    'Tirora Power Plant':  {days:41, last:'09 Feb 2026', proj:'Tirora Power Plant'},
+  };
+  const dd = dafData[proj] || dafData['All Projects'];
+  const dafEl = document.getElementById('daf-count');
+  if (dafEl) animateNum(dafEl, dd.days);
+  if (dafProj) dafProj.textContent = dd.proj + ' · Last incident: ' + dd.last;
+};
+
+/* ── QUICK MODAL (from dashboard) ── */
+function showQuickModal(type) {
+  showDashToast(type === 'incident'
+    ? '+ Report Incident — opens the Incident form (built in Operations screen)'
+    : '+ Log NCR — opens the NCR form (built in Operations screen)');
+}
+
+/* ── DASHBOARD TOAST ── */
+function showDashToast(msg) {
+  let t = document.getElementById('dash-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'dash-toast';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:#16212B;border:1px solid rgba(34,197,94,.3);border-radius:10px;padding:10px 18px;display:flex;align-items:center;gap:10px;font-size:12px;font-weight:500;color:#E6EDF3;box-shadow:0 8px 24px rgba(0,0,0,.5);transition:transform .3s;z-index:9999;white-space:nowrap;max-width:500px;white-space:normal;text-align:center';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>{ t.style.transform = 'translateX(-50%) translateY(100px)'; }, 3500);
+}
+/* ══ PAGE INITIALISATION ══ */
+(function init() {
+  const token = localStorage.getItem('sp_token');
+  if (!token) {
+    window.location.replace('safetypro_login.html');
+    return;
+  }
+  // Load profile from cache first — no API call on init
+  try {
+    const cached = localStorage.getItem('sp_user');
+    if (cached) {
+      const user = JSON.parse(cached);
+      if (user && user.name) applyNavProfile(user);
+    }
+  } catch(e) {}
+  // Then load profile from API in background
+  setTimeout(loadNavProfile, 500);
+  // Load dashboard data
+  if (typeof loadDashboardData === 'function') loadDashboardData(null);
+})();
+
+
+</script>
+
+<!-- ── INCIDENT QUICK MODAL ── -->
+<div class="qmodal-overlay" id="qm-incident" onclick="closeQModal(event,'qm-incident')">
+  <div class="qmodal">
+    <div class="qmodal-head">
+      <div>
+        <div class="qmodal-title">Report Incident</div>
+        <div style="font-size:11px;color:#64748B;margin-top:2px">Quick report · Auto-creates action + investigation</div>
+      </div>
+      <div class="qmodal-close" onclick="closeQM('qm-incident')">
+        <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </div>
     </div>
-    <div class="modal-body">
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Incident Type</label>
-          <select class="form-select" id="inc-type">
-            <option>Near Miss</option><option>First Aid</option><option>Medical Treatment</option>
-            <option>Lost Time Injury</option><option>Fatal</option>
+    <div class="qmodal-body">
+      <div class="aw-wrap">
+        <div class="aw-label">Photos / Attachments</div>
+        <div class="aw-btns">
+          <div class="aw-btn" onclick="document.getElementById('dash-inc-cam').click()">📷 Take Photo</div>
+          <div class="aw-btn" onclick="document.getElementById('dash-inc-file').click()">📎 Attach File</div>
+        </div>
+        <input type="file" id="dash-inc-cam" accept="image/*" capture="environment" multiple style="display:none" onchange="awAdd('dash-inc',this)"/>
+        <input type="file" id="dash-inc-file" accept="image/*,application/pdf,.doc,.docx" multiple style="display:none" onchange="awAdd('dash-inc',this)"/>
+        <div class="aw-previews" id="dash-inc-previews"></div>
+        <div class="aw-more" onclick="document.getElementById('dash-inc-file').click()">+ Add More Files</div>
+      </div>
+      <div class="qm-row">
+        <div class="qm-group">
+          <label class="qm-label">Project *</label>
+          <select class="qm-input qm-sel">
+            <option>Birpur Bihpur Road</option>
+            <option>Site Alpha — Mumbai</option>
+            <option>Tirora Power Plant</option>
           </select>
         </div>
-        <div class="form-group">
-          <label class="form-label">Severity</label>
-          <select class="form-select" id="inc-severity">
-            <option>Low</option><option>Medium</option><option>High</option><option>Critical</option>
-          </select>
+        <div class="qm-group">
+          <label class="qm-label">Date & Time *</label>
+          <input type="datetime-local" class="qm-input" value="2026-03-21T10:30"/>
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Project / Location</label>
-        <select class="form-select" id="inc-project">
-          <option value="">Select Project</option>
-          <option>Birpur Dam</option><option>Mumbai Metro</option><option>Tirora Plant</option><option>Delhi NH-8</option>
+      <div class="qm-group">
+        <label class="qm-label">Activity / Work Type <span style="font-size:10px;color:var(--t3)">(Routes alert to Activity Head)</span></label>
+        <select id="inc-activity" class="qm-input qm-sel">
+          <option value="">Select Activity...</option>
+          <option value="civil">Civil</option>
+          <option value="electrical">Electrical</option>
+          <option value="mechanical">Mechanical</option>
+          <option value="mep">MEP</option>
+          <option value="finishing">Finishing</option>
+          <option value="structural">Structural</option>
+          <option value="other">Other</option>
         </select>
       </div>
-      <div class="form-group">
-        <label class="form-label">Description</label>
-        <textarea class="form-textarea" id="inc-desc" placeholder="Describe what happened, where, and initial response taken..."></textarea>
+      <div class="qm-group">
+        <label class="qm-label">Description *</label>
+        <textarea class="qm-input qm-ta" placeholder="What happened? Where? Who was involved?"></textarea>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Injured Person (if any)</label>
-          <input class="form-input" id="inc-person" placeholder="Name or N/A"/>
+      <div class="qm-group">
+        <label class="qm-label">Severity *</label>
+        <div class="sev-row">
+          <div class="sev-opt" onclick="setQSev(this,'s-low')">Low</div>
+          <div class="sev-opt s-med" onclick="setQSev(this,'s-med')">Medium</div>
+          <div class="sev-opt" onclick="setQSev(this,'s-high')">High</div>
+          <div class="sev-opt" onclick="setQSev(this,'s-crit')">Critical</div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Reported By</label>
-          <input class="form-input" id="inc-reporter" placeholder="Your name"/>
-        </div>
+      </div>
+      <div class="gps-row">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <span class="gps-text">GPS: <span>25.5941° N, 85.1376° E — Patna, Bihar</span></span>
+        <div class="gps-pulse"></div>
+      </div>
+      <div class="auto-actions">
+        <div class="aa-title">On submit — auto actions:</div>
+        <div class="aa-body">✓ Action record created · ✓ Investigation opened · ✓ WhatsApp alert sent · ✓ Dashboard updates live</div>
       </div>
     </div>
-    <div class="modal-foot">
-      <button class="btn-cancel" onclick="closeModal('incident-modal')">Cancel</button>
-      <button class="btn-submit" onclick="submitIncident()">Submit Report</button>
+    <div class="qmodal-footer">
+      <button class="qm-cancel" onclick="closeQM('qm-incident')">Cancel</button>
+      <button class="qm-submit incident-submit" onclick="submitQIncident()">
+        <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+        Submit Incident Report
+      </button>
     </div>
   </div>
 </div>
 
-<!-- NCR MODAL -->
-<div class="modal-bg" id="ncr-modal">
-  <div class="modal">
-    <div class="modal-head">
-      <div class="modal-title">Log NCR</div>
-      <div class="modal-close" onclick="closeModal('ncr-modal')">&#10005;</div>
+<!-- ── NCR QUICK MODAL ── -->
+<div class="qmodal-overlay" id="qm-ncr" onclick="closeQModal(event,'qm-ncr')">
+  <div class="qmodal">
+    <div class="qmodal-head">
+      <div>
+        <div class="qmodal-title">Log NCR / Observation</div>
+        <div style="font-size:11px;color:#64748B;margin-top:2px">Non-conformance · Unsafe act or condition</div>
+      </div>
+      <div class="qmodal-close" onclick="closeQM('qm-ncr')">
+        <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </div>
     </div>
-    <div class="modal-body">
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">NCR Category</label>
-          <select class="form-select" id="ncr-cat">
-            <option>PPE Non-compliance</option><option>Scaffolding</option><option>Electrical Safety</option>
-            <option>Housekeeping</option><option>Method Statement</option><option>Permit to Work</option>
+    <div class="qmodal-body">
+      <div class="qm-group">
+        <label class="qm-label">Observation Type *</label>
+        <div class="ncr-types">
+          <div class="ncr-type active" onclick="setNcrType(this)">
+            <div class="ncr-type-icon">⚠️</div>
+            <div class="ncr-type-label">Unsafe Act</div>
+          </div>
+          <div class="ncr-type" onclick="setNcrType(this)">
+            <div class="ncr-type-icon">🏗️</div>
+            <div class="ncr-type-label">Unsafe Condition</div>
+          </div>
+          <div class="ncr-type" onclick="setNcrType(this)">
+            <div class="ncr-type-icon">💨</div>
+            <div class="ncr-type-label">Near Miss</div>
+          </div>
+        </div>
+      </div>
+      <div class="qm-row">
+        <div class="qm-group">
+          <label class="qm-label">Project *</label>
+          <select class="qm-input qm-sel">
+            <option>Birpur Bihpur Road</option>
+            <option>Site Alpha — Mumbai</option>
+            <option>Tirora Power Plant</option>
           </select>
         </div>
-        <div class="form-group">
-          <label class="form-label">Priority</label>
-          <select class="form-select" id="ncr-priority">
-            <option>Low</option><option>Medium</option><option>High</option><option>Critical</option>
+        <div class="qm-group">
+          <label class="qm-label">Severity *</label>
+          <select class="qm-input qm-sel">
+            <option>Low</option>
+            <option selected>Medium</option>
+            <option>High</option>
+            <option>Critical</option>
           </select>
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Project</label>
-        <select class="form-select" id="ncr-project">
-          <option value="">Select Project</option>
-          <option>Birpur Dam</option><option>Mumbai Metro</option><option>Tirora Plant</option><option>Delhi NH-8</option>
+      <div class="qm-group">
+        <label class="qm-label">Activity / Work Type <span style="font-size:10px;color:var(--t3)">(Routes alert to Activity Head)</span></label>
+        <select id="ncr-activity" class="qm-input qm-sel">
+          <option value="">Select Activity...</option>
+          <option value="civil">Civil</option>
+          <option value="electrical">Electrical</option>
+          <option value="mechanical">Mechanical</option>
+          <option value="mep">MEP</option>
+          <option value="finishing">Finishing</option>
+          <option value="structural">Structural</option>
+          <option value="other">Other</option>
         </select>
       </div>
-      <div class="form-group">
-        <label class="form-label">Non-Conformance Description</label>
-        <textarea class="form-textarea" id="ncr-desc" placeholder="Describe the non-conformance observed..."></textarea>
+      <div class="qm-group">
+        <label class="qm-label">Description *</label>
+        <textarea class="qm-input qm-ta" placeholder="Describe the unsafe condition or act observed..."></textarea>
       </div>
-      <div class="form-group">
-        <label class="form-label">Corrective Action Required</label>
-        <textarea class="form-textarea" id="ncr-action" placeholder="Describe the corrective action to be taken..." style="min-height:60px"></textarea>
+      <div class="qm-row">
+        <div class="qm-group">
+          <label class="qm-label">Assign To *</label>
+          <select class="qm-input qm-sel">
+            <option>Rajesh Kumar</option>
+            <option>Meera K.</option>
+            <option>John M.</option>
+            <option>Vikram S.</option>
+          </select>
+        </div>
+        <div class="qm-group">
+          <label class="qm-label">Due Date *</label>
+          <input type="date" class="qm-input" value="2026-03-28"/>
+        </div>
+      </div>
+      <div class="aw-wrap">
+        <div class="aw-label">Evidence Photos / Documents</div>
+        <div class="aw-btns">
+          <div class="aw-btn" onclick="document.getElementById('dash-ncr-cam').click()">📷 Take Photo</div>
+          <div class="aw-btn" onclick="document.getElementById('dash-ncr-file').click()">📎 Attach File</div>
+        </div>
+        <input type="file" id="dash-ncr-cam" accept="image/*" capture="environment" multiple style="display:none" onchange="awAdd('dash-ncr',this)"/>
+        <input type="file" id="dash-ncr-file" accept="image/*,application/pdf,.doc,.docx" multiple style="display:none" onchange="awAdd('dash-ncr',this)"/>
+        <div class="aw-previews" id="dash-ncr-previews"></div>
+        <div class="aw-more" onclick="document.getElementById('dash-ncr-file').click()">+ Add More Files</div>
+      </div>
+      <div class="auto-actions">
+        <div class="aa-title">On submit — auto actions:</div>
+        <div class="aa-body">✓ Action created & assigned · ✓ Due date set · ✓ WhatsApp sent to assignee · ✓ NCR counter updates</div>
       </div>
     </div>
-    <div class="modal-foot">
-      <button class="btn-cancel" onclick="closeModal('ncr-modal')">Cancel</button>
-      <button class="btn-submit" onclick="submitNcr()">Log NCR</button>
-    </div>
-  </div>
-</div>
-
-<!-- MANAGE USERS MODAL -->
-<div class="modal-bg" id="users-modal">
-  <div class="modal" style="width:640px">
-    <div class="modal-head">
-      <div class="modal-title">Manage Users</div>
-      <div class="modal-close" onclick="closeModal('users-modal')">&#10005;</div>
-    </div>
-    <div class="modal-body" style="padding-top:0">
-      <div id="users-table-wrap" style="overflow-x:auto">
-        <div style="padding:20px;text-align:center;color:var(--t3);font-size:13px">Loading users...</div>
-      </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn-cancel" onclick="closeModal('users-modal')">Close</button>
-      <button class="btn-submit" onclick="showDashToast('Add user coming soon')">+ Add User</button>
+    <div class="qmodal-footer">
+      <button class="qm-cancel" onclick="closeQM('qm-ncr')">Cancel</button>
+      <button class="qm-submit ncr-submit" onclick="submitQNCR()">
+        <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+        Submit NCR
+      </button>
     </div>
   </div>
 </div>
 
 <script>
-var API_BASE = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
 
-/* AUTH GUARD */
-(function(){
-  var token = localStorage.getItem('sp_token');
-  if (!token) { window.location.replace('safetypro_login.html'); return; }
+
+/* ══ UNIVERSAL ATTACHMENT WIDGET ══ */
+window._awFiles = {};
+function awAdd(key, input) {
+  if(!window._awFiles[key]) window._awFiles[key] = [];
+  Array.from(input.files).forEach(f => window._awFiles[key].push(f));
+  awRender(key);
+  input.value = '';
+}
+function awRemove(key, idx) {
+  if(window._awFiles[key]) window._awFiles[key].splice(idx, 1);
+  awRender(key);
+}
+function awRender(key) {
+  const container = document.getElementById(key + '-previews');
+  if(!container) return;
+  container.innerHTML = '';
+  (window._awFiles[key] || []).forEach(function(file, idx) {
+    if(file.type && file.type.startsWith('image/')) {
+      const thumb = document.createElement('div');
+      thumb.className = 'aw-thumb';
+      const url = URL.createObjectURL(file);
+      const btn = '<button class="aw-thumb-rm" onclick="awRemove(' + "'" + key + "'," + idx + ')">x</button>';
+      thumb.innerHTML = '<img src="' + url + '"/>' + btn;
+      container.appendChild(thumb);
+    } else {
+      const row = document.createElement('div');
+      row.className = 'aw-file';
+      const btn = '<button class="aw-file-rm" onclick="awRemove(' + "'" + key + "'," + idx + ')">x</button>';
+      row.innerHTML = '<span style="color:#22C55E;font-size:13px">doc</span><span class="aw-file-name">' + file.name + '</span>' + btn;
+      container.appendChild(row);
+    }
+  });
+}
+function awReset(key) { window._awFiles[key] = []; awRender(key); }
+
+
+function openQM(id){
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeQM(id){
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeQModal(e,id){
+  if(e.target.id===id) closeQM(id);
+}
+function setQSev(el,cls){
+  el.closest('.sev-row').querySelectorAll('.sev-opt').forEach(s=>{s.className='sev-opt';});
+  el.classList.add(cls);
+}
+function setNcrType(el){
+  el.closest('.ncr-types').querySelectorAll('.ncr-type').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+async function submitQIncident(){
+  const projSel = document.querySelector('#qm-incident select');
+  const desc = document.querySelector('#qm-incident textarea');
+  const sevEl = document.querySelector('#qm-incident .sev-opt.s-low, #qm-incident .sev-opt.s-med, #qm-incident .sev-opt.s-high, #qm-incident .sev-opt.s-crit');
+  const projectMap = {'Birpur Bihpur Road':'proj-birpur','Site Alpha — Mumbai':'proj-alpha','Tirora Power Plant':'proj-tirora'};
+  const sevMap = {'s-low':'LOW','s-med':'MEDIUM','s-high':'HIGH','s-crit':'CRITICAL'};
+  const sevClass = sevEl ? Array.from(sevEl.classList).find(c=>c.startsWith('s-')) : 's-med';
   try {
-    var cached = localStorage.getItem('sp_user');
-    if (cached) { var u = JSON.parse(cached); if (u && u.name) applyNavProfile(u); }
-  } catch(e){}
-  setTimeout(loadNavProfile, 600);
-  setTimeout(loadDashboardData, 900);
-})();
-
-/* CHART */
-var chartInstance = null;
-var chartRange = '6m';
-var chartFilter = 'all';
-var chartData = {
-  labels: ['Oct','Nov','Dec','Jan','Feb','Mar'],
-  incidents: [8,12,6,9,4,7],
-  ncr: [14,18,11,16,8,12],
-  actions: [32,28,35,22,40,38]
-};
-
-function buildChart() {
-  var ctx = document.getElementById('chart');
-  if (!ctx) return;
-  if (chartInstance) { chartInstance.destroy(); }
-  var sets = [];
-  if (chartFilter === 'all' || chartFilter === 'incident') {
-    sets.push({ label:'Incidents', data:chartData.incidents, borderColor:'#EF4444', backgroundColor:'rgba(239,68,68,0.06)', borderWidth:1.5, tension:0.4, fill:true, pointBackgroundColor:'#EF4444', pointRadius:3, pointHoverRadius:5 });
+    const token = localStorage.getItem('sp_token');
+    const res = await fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/incidents', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body: JSON.stringify({
+        projectId: projectMap[projSel?.value] || 'proj-alpha',
+        description: desc?.value || 'Incident reported from dashboard',
+        severity: sevMap[sevClass] || 'MEDIUM',
+        location: 'GPS Auto-detected',
+        incidentDate: new Date().toISOString(),
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(JSON.stringify(data.message));
+    closeQM('qm-incident');
+    showDashToast('✓ Incident reported — Action + Investigation created!');
+    const daf=document.getElementById('daf-count');
+    if(daf) daf.textContent='0';
+    setTimeout(()=>loadDashboardData(null), 800);
+  } catch(err) {
+    showDashToast('Error: ' + err.message);
   }
-  if (chartFilter === 'all' || chartFilter === 'ncr') {
-    sets.push({ label:'NCRs', data:chartData.ncr, borderColor:'#F59E0B', backgroundColor:'rgba(245,158,11,0.05)', borderWidth:1.5, tension:0.4, fill:true, pointBackgroundColor:'#F59E0B', pointRadius:3, pointHoverRadius:5 });
+}
+
+async function submitQNCR(){
+  const projSel = document.querySelector('#qm-ncr select');
+  const desc = document.querySelector('#qm-ncr textarea');
+  const typeEl = document.querySelector('#qm-ncr .ncr-type.active .ncr-type-label');
+  const sevSel = document.querySelectorAll('#qm-ncr select')[1];
+  const projectMap = {'Birpur Bihpur Road':'proj-birpur','Site Alpha — Mumbai':'proj-alpha','Tirora Power Plant':'proj-tirora'};
+  const typeMap = {'Unsafe Act':'UNSAFE_ACT','Unsafe Condition':'UNSAFE_CONDITION','Near Miss':'NEAR_MISS'};
+  const sevMap = {'Low':'LOW','Medium':'MEDIUM','High':'HIGH','Critical':'CRITICAL'};
+  try {
+    const token = localStorage.getItem('sp_token');
+    const res = await fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/ncr', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body: JSON.stringify({
+        projectId: projectMap[projSel?.value] || 'proj-alpha',
+        observationType: typeMap[typeEl?.textContent?.trim()] || 'UNSAFE_ACT',
+        description: desc?.value || 'NCR logged from dashboard',
+        severity: sevMap[sevSel?.value] || 'MEDIUM',
+        assignedToId: 'user-rajesh',
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(JSON.stringify(data.message));
+    closeQM('qm-ncr');
+    showDashToast('✓ NCR logged — Action created & assigned!');
+    setTimeout(()=>loadDashboardData(null), 800);
+  } catch(err) {
+    showDashToast('Error: ' + err.message);
   }
-  if (chartFilter === 'all' || chartFilter === 'action') {
-    sets.push({ label:'Actions', data:chartData.actions, borderColor:'#22C55E', backgroundColor:'rgba(34,197,94,0.05)', borderWidth:1.5, tension:0.4, fill:true, pointBackgroundColor:'#22C55E', pointRadius:3, pointHoverRadius:5 });
-  }
-  chartInstance = new Chart(ctx, {
-    type:'line',
-    data:{ labels:chartData.labels, datasets:sets },
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      interaction:{ intersect:false, mode:'index' },
-      plugins:{
-        legend:{ display:sets.length > 1, position:'top',
-          labels:{ color:'#7A9BBF', font:{ family:'Montserrat', size:10, weight:'600' }, boxWidth:10, padding:14 }
-        },
-        tooltip:{
-          backgroundColor:'#0C1824', borderColor:'#162236', borderWidth:1,
-          titleColor:'#EBF4FF', bodyColor:'#7A9BBF',
-          titleFont:{ family:'Montserrat', weight:'700', size:11 },
-          bodyFont:{ family:'Roboto', size:11 }, padding:10, cornerRadius:8
-        }
-      },
-      scales:{
-        x:{ grid:{ color:'rgba(255,255,255,0.03)' }, ticks:{ color:'#2E4A66', font:{ family:'Montserrat', size:9 } } },
-        y:{ grid:{ color:'rgba(255,255,255,0.03)' }, ticks:{ color:'#2E4A66', font:{ family:'Montserrat', size:9 } }, beginAtZero:true }
-      }
-    }
-  });
 }
 
-function filterChart(el, type) {
-  document.querySelectorAll('.ctab').forEach(function(t){ t.classList.remove('active'); });
-  el.classList.add('active');
-  chartFilter = type;
-  buildChart();
+/* ── REAL API DASHBOARD LOAD ── */
+async function loadDashboardData(projectId) {
+  try {
+    const token = localStorage.getItem('sp_token');
+    if (!token) return;
+    const headers = {'Authorization':'Bearer '+token};
+    const url = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1/dashboard/kpis' + (projectId ? '?projectId='+projectId : '');
+    const res = await fetch(url, {headers});
+    if (!res.ok) return;
+    const kpis = await res.json();
+    animateNum(document.getElementById('kn1'), kpis.safeActions||0);
+    animateNum(document.getElementById('kn2'), kpis.pending||0);
+    animateNum(document.getElementById('kn3'), kpis.escalated||0);
+    const k4=document.getElementById('kn4');
+    if(k4) k4.innerHTML=(kpis.auditScore||0)+'<span style="font-size:14px;color:var(--t3)">/10</span>';
+    const daf=document.getElementById('daf-count');
+    if(daf) animateNum(daf, kpis.daysAccidentFree||0);
+  } catch(e) { console.warn('Dashboard load:', e.message); }
 }
 
-function setRange(el, range) {
-  document.querySelectorAll('.ca-btn').forEach(function(b){ b.classList.remove('active'); });
-  el.classList.add('active');
-  chartRange = range;
-  showDashToast('Range updated to ' + range.toUpperCase());
-}
+// Load on page start
+setTimeout(()=>loadDashboardData(null), 500);
 
-/* KPI COUNTUP */
-function animateNum(el, target) {
-  if (!el) return;
-  var dur = 1200;
-  var t0 = performance.now();
-  var isFloat = String(target).indexOf('.') > -1;
-  function step(now) {
-    var p = Math.min((now - t0) / dur, 1);
-    var ease = 1 - Math.pow(1 - p, 3);
-    var val = target * ease;
-    el.textContent = isFloat ? val.toFixed(1) : Math.round(val);
-    if (p < 1) requestAnimationFrame(step);
-    else el.textContent = isFloat ? target.toFixed(1) : Math.round(target);
-  }
-  requestAnimationFrame(step);
+/* ── MORE MENU ── */
+function toggleMore(e){
+  e.stopPropagation();
+  document.getElementById('more-btn').classList.toggle('open');
 }
-
-/* DASHBOARD DATA */
-function loadDashboardData(projectId) {
-  var token = localStorage.getItem('sp_token');
-  if (!token) return;
-  var url = API_BASE + '/dashboard/kpis' + (projectId ? '?projectId=' + projectId : '');
-  fetch(url, { headers: { 'Authorization': 'Bearer ' + token } })
-  .then(function(r) { if (!r.ok) return null; return r.json(); })
-  .then(function(kpis) {
-    if (!kpis) { setFallbackKPIs(); return; }
-    animateNum(document.getElementById('kn1'), kpis.safeActions || 128);
-    animateNum(document.getElementById('kn2'), kpis.pending || 23);
-    animateNum(document.getElementById('kn3'), kpis.escalated || 5);
-    var k4 = document.getElementById('kn4');
-    if (k4) {
-      var score = kpis.auditScore || 8.7;
-      var t = performance.now();
-      (function step(now) {
-        var p = Math.min((now - t) / 1200, 1);
-        var v = (score * (1 - Math.pow(1 - p, 3))).toFixed(1);
-        k4.innerHTML = v + '<span style="font-size:14px;color:var(--t3);font-weight:400">/10</span>';
-        if (p < 1) requestAnimationFrame(step);
-      })(performance.now());
-    }
-    var total = document.getElementById('stat-total');
-    if (total && kpis.totalIncidents) animateNum(total, kpis.totalIncidents);
-    var month = document.getElementById('stat-month');
-    if (month && kpis.monthIncidents) animateNum(month, kpis.monthIncidents);
-    var dot = document.getElementById('alert-dot');
-    if (dot && kpis.escalated > 0) dot.style.display = 'block';
-  })
-  .catch(function() { setFallbackKPIs(); });
-}
-
-function setFallbackKPIs() {
-  animateNum(document.getElementById('kn1'), 128);
-  animateNum(document.getElementById('kn2'), 23);
-  animateNum(document.getElementById('kn3'), 5);
-  var k4 = document.getElementById('kn4');
-  if (k4) {
-    var t = performance.now();
-    (function step(now) {
-      var p = Math.min((now - t) / 1200, 1);
-      var v = (8.7 * (1 - Math.pow(1 - p, 3))).toFixed(1);
-      k4.innerHTML = v + '<span style="font-size:14px;color:var(--t3);font-weight:400">/10</span>';
-      if (p < 1) requestAnimationFrame(step);
-    })(performance.now());
-  }
-  document.getElementById('alert-dot').style.display = 'block';
-}
-
-/* ANIMATE BARS */
-function animateBars() {
-  document.querySelectorAll('.acc-bar[data-w]').forEach(function(bar) {
-    setTimeout(function() { bar.style.width = bar.getAttribute('data-w'); }, 300);
-  });
-}
-
-window.addEventListener('load', function() {
-  buildChart();
-  animateBars();
+document.addEventListener('click',function(){
+  const mb=document.getElementById('more-btn');
+  if(mb) mb.classList.remove('open');
 });
 
-/* NAV / PROFILE */
-function loadNavProfile() {
-  var token = localStorage.getItem('sp_token');
-  if (!token) return;
-  fetch(API_BASE + '/auth/me', { headers: { 'Authorization': 'Bearer ' + token } })
-  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
-  .then(function(u) {
-    localStorage.setItem('sp_user', JSON.stringify(u));
-    applyNavProfile(u);
-  })
-  .catch(function(){});
-}
 
-function applyNavProfile(u) {
-  if (!u) return;
-  var name = u.name || u.email || 'User';
-  var role = u.role || 'HSE Officer';
-  var parts = name.trim().split(' ');
-  var initials = parts.length > 1 ? parts[0][0] + parts[parts.length-1][0] : name.substring(0,2);
-  initials = initials.toUpperCase();
-  var el = document.getElementById('nav-initials');
-  if (el) el.textContent = initials;
-  var un = document.getElementById('nav-username');
-  if (un) un.textContent = name.length > 14 ? name.substring(0,14)+'...' : name;
-  var nr = document.getElementById('nav-role');
-  if (nr) nr.textContent = role;
-  var pd = document.getElementById('pd-initials');
-  if (pd) pd.textContent = initials;
-  var pn = document.getElementById('profile-name');
-  if (pn) pn.textContent = name;
-  var pe = document.getElementById('profile-email');
-  if (pe) pe.textContent = u.email || '';
-  var pr = document.getElementById('profile-role-badge');
-  if (pr) pr.textContent = role;
-}
+/* ══ NAVIGATION ══ */
+(function(){
+  const pages = {
+    'Dashboard':            'safetypro_v2.html',
+    'Operations':           'safetypro_operations.html',
+    'Control':              'safetypro_control.html',
+    'Reports':              'safetypro_reports.html',
+    'Audit & Compliance':   'safetypro_admin.html',
+    'Documents & Records':  'safetypro_admin.html',
+    'Site & Field Tools':   'safetypro_admin.html',
+    'AI Intelligence':      'safetypro_admin.html',
+    'Auditor Verification': 'safetypro_admin.html',
+    'Admin & Configuration':'safetypro_admin.html',
+  };
 
-/* DROPDOWNS */
-function toggleProfileMenu() {
-  var d = document.getElementById('profile-dropdown');
-  var a = document.getElementById('alert-dropdown');
-  if (a) a.style.display = 'none';
-  if (d) d.style.display = d.style.display === 'block' ? 'none' : 'block';
-}
+  function navigate(label){
+    const dest = pages[label];
+    if(dest) window.location.href = dest;
+  }
 
+  // Wire sidebar items
+  document.querySelectorAll('.sb-item').forEach(el => {
+    const label = el.textContent.trim().replace(/\d+/g,'').trim();
+    const dest = pages[label];
+    if(dest){
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        window.location.href = dest;
+      });
+    }
+  });
+
+  // Wire topnav links
+  document.querySelectorAll('.nl').forEach(el => {
+    const label = el.textContent.trim().replace(/[▾]/g,'').trim();
+    const dest = pages[label];
+    if(dest && !el.classList.contains('more-wrap')){
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        window.location.href = dest;
+      });
+    }
+  });
+
+  // Wire More menu items
+  document.querySelectorAll('.mm-item').forEach(el => {
+    const label = el.textContent.trim();
+    const dest = pages[label];
+    if(dest){
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        window.location.href = dest;
+      });
+    }
+  });
+
+  // Wire logo click → dashboard
+  const logo = document.querySelector('.logo');
+  if(logo){
+    logo.style.cursor = 'pointer';
+    logo.addEventListener('click', () => { window.location.href = 'safetypro_v2.html'; });
+  }
+})();
+
+
+/* ══ NAV FUNCTIONS ══ */
 function toggleAlerts() {
-  var d = document.getElementById('alert-dropdown');
-  var p = document.getElementById('profile-dropdown');
-  if (p) p.style.display = 'none';
-  if (!d) return;
-  d.style.display = d.style.display === 'block' ? 'none' : 'block';
-  if (d.style.display === 'block') loadAlerts();
+  const d = document.getElementById('alert-dropdown');
+  const p = document.getElementById('profile-dropdown');
+  if(p) p.style.display = 'none';
+  if(d) {
+    const isOpen = d.style.display === 'block';
+    d.style.display = isOpen ? 'none' : 'block';
+    if(!isOpen) loadAlerts();
+  }
+}
+
+function toggleProfileMenu() {
+  const d = document.getElementById('profile-dropdown');
+  const a = document.getElementById('alert-dropdown');
+  if(a) a.style.display = 'none';
+  if(d) d.style.display = d.style.display === 'block' ? 'none' : 'block';
 }
 
 function loadAlerts() {
-  var list = document.getElementById('alert-list');
-  if (!list) return;
-  var token = localStorage.getItem('sp_token');
-  if (!token) { list.innerHTML = '<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Please login</div>'; return; }
-  fetch(API_BASE + '/dashboard/kpis', { headers: { 'Authorization': 'Bearer ' + token } })
-  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
-  .then(function(data) {
-    var html = '';
-    if (data.escalated > 0) html += '<div style="padding:10px 14px;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid var(--border)"><div style="width:7px;height:7px;border-radius:50%;background:var(--red);margin-top:4px;flex-shrink:0"></div><div><div style="font-size:12px;color:var(--t1);font-weight:600;font-family:var(--fh)">' + data.escalated + ' Escalated Actions</div><div style="font-size:10px;color:var(--t3);margin-top:2px">Require immediate attention</div></div></div>';
-    if (data.openNCRs > 0) html += '<div style="padding:10px 14px;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid var(--border)"><div style="width:7px;height:7px;border-radius:50%;background:var(--amber);margin-top:4px;flex-shrink:0"></div><div><div style="font-size:12px;color:var(--t1);font-weight:600;font-family:var(--fh)">' + data.openNCRs + ' Open NCRs</div><div style="font-size:10px;color:var(--t3);margin-top:2px">Non-conformances pending closure</div></div></div>';
-    if (data.overdueActions > 0) html += '<div style="padding:10px 14px;display:flex;gap:10px;align-items:flex-start"><div style="width:7px;height:7px;border-radius:50%;background:var(--purple);margin-top:4px;flex-shrink:0"></div><div><div style="font-size:12px;color:var(--t1);font-weight:600;font-family:var(--fh)">' + data.overdueActions + ' Overdue Actions</div><div style="font-size:10px;color:var(--t3);margin-top:2px">Actions past due date</div></div></div>';
-    list.innerHTML = html || '<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">No active alerts</div>';
+  const list = document.getElementById('alert-list');
+  if(!list) return;
+  // Show recent escalations and incidents as alerts
+  const token = localStorage.getItem('sp_token');
+  if(!token) { list.innerHTML = '<div style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Please login to view alerts</div>'; return; }
+  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/dashboard/kpis', {
+    headers: { 'Authorization': 'Bearer ' + token }
   })
-  .catch(function() {
-    list.innerHTML = '<div style="padding:10px 14px;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid var(--border)"><div style="width:7px;height:7px;border-radius:50%;background:var(--red);margin-top:4px"></div><div><div style="font-size:12px;color:var(--t1);font-weight:600;font-family:var(--fh)">5 Escalated Actions</div><div style="font-size:10px;color:var(--t3);margin-top:2px">Require immediate attention</div></div></div><div style="padding:10px 14px;display:flex;gap:10px;align-items:flex-start"><div style="width:7px;height:7px;border-radius:50%;background:var(--amber);margin-top:4px"></div><div><div style="font-size:12px;color:var(--t1);font-weight:600;font-family:var(--fh)">12 Open NCRs</div><div style="font-size:10px;color:var(--t3);margin-top:2px">Non-conformances pending closure</div></div></div>';
-  });
+  .then(r => r.json())
+  .then(data => {
+    const items = [
+      data.totalIncidents > 0 ? `<div style="padding:12px 16px;border-bottom:1px solid var(--div);display:flex;gap:10px;align-items:flex-start"><div style="width:8px;height:8px;border-radius:50%;background:var(--red);margin-top:4px;flex-shrink:0"></div><div><div style="font-size:13px;color:var(--t1);font-weight:500">${data.totalIncidents} Open Incidents</div><div style="font-size:11px;color:var(--t3);margin-top:2px">Require attention and action</div></div></div>` : '',
+      data.openNCRs > 0 ? `<div style="padding:12px 16px;border-bottom:1px solid var(--div);display:flex;gap:10px;align-items:flex-start"><div style="width:8px;height:8px;border-radius:50%;background:var(--amber);margin-top:4px;flex-shrink:0"></div><div><div style="font-size:13px;color:var(--t1);font-weight:500">${data.openNCRs} Open NCRs</div><div style="font-size:11px;color:var(--t3);margin-top:2px">Non-conformances pending closure</div></div></div>` : '',
+      data.overdueActions > 0 ? `<div style="padding:12px 16px;display:flex;gap:10px;align-items:flex-start"><div style="width:8px;height:8px;border-radius:50%;background:#7C3AED;margin-top:4px;flex-shrink:0"></div><div><div style="font-size:13px;color:var(--t1);font-weight:500">${data.overdueActions} Overdue Actions</div><div style="font-size:11px;color:var(--t3);margin-top:2px">Actions past due date</div></div></div>` : '',
+    ].filter(Boolean).join('');
+    list.innerHTML = items || '<div style="padding:16px;text-align:center;color:var(--t3);font-size:13px">✓ No active alerts</div>';
+  })
+  .catch(() => { list.innerHTML = '<div style="padding:16px;text-align:center;color:var(--t3);font-size:13px">Unable to load alerts</div>'; });
 }
 
-function goToSettings() { toggleProfileMenu(); showDashToast('Settings coming soon', 'blue'); }
-function changePassword() { toggleProfileMenu(); showDashToast('Contact admin@safetyproworld.com', 'blue'); }
+function goToSettings() {
+  toggleProfileMenu();
+  showToast('Settings coming in next update');
+}
+
+function changePassword() {
+  toggleProfileMenu();
+  showToast('Change password — contact admin@safetyproworld.com');
+}
 
 function signOut() {
   localStorage.removeItem('sp_token');
   localStorage.removeItem('sp_user');
   localStorage.removeItem('sp_company');
-  window.location.href = 'safetypro_login.html?logout=1';
+  window.location.href = 'safetypro_landing.html';
 }
 
+// Close dropdowns when clicking outside
 document.addEventListener('click', function(e) {
-  if (!e.target.closest('#alert-btn') && !e.target.closest('#alert-dropdown')) {
-    var d = document.getElementById('alert-dropdown');
-    if (d) d.style.display = 'none';
+  if(!e.target.closest('#alert-btn') && !e.target.closest('#alert-dropdown')) {
+    const d = document.getElementById('alert-dropdown');
+    if(d) d.style.display = 'none';
   }
-  if (!e.target.closest('#user-pill-btn') && !e.target.closest('#profile-dropdown')) {
-    var d = document.getElementById('profile-dropdown');
-    if (d) d.style.display = 'none';
-  }
-  if (!e.target.closest('#more-btn')) {
-    var m = document.getElementById('more-btn');
-    if (m) m.classList.remove('open');
+  if(!e.target.closest('#user-pill-btn') && !e.target.closest('#profile-dropdown')) {
+    const d = document.getElementById('profile-dropdown');
+    if(d) d.style.display = 'none';
   }
 });
 
-function toggleMore(e) {
-  e.stopPropagation();
-  document.getElementById('more-btn').classList.toggle('open');
-}
-
-/* VIEW SWITCHING */
-function switchView(el, type) {
-  document.querySelectorAll('.snt').forEach(function(t){ t.classList.remove('active'); });
-  el.classList.add('active');
-  if (type === 'project') {
-    showDashToast('Switching to Project View...', 'blue');
-  }
-}
-
-function onProjectChange(val) {
-  if (val) loadDashboardData(val);
-  else loadDashboardData();
-}
-
-/* MODALS */
-function openIncidentModal() {
-  document.getElementById('incident-modal').classList.add('open');
-}
-function openNcrModal() {
-  document.getElementById('ncr-modal').classList.add('open');
-}
-function openManageUsers() {
-  toggleProfileMenu();
-  document.getElementById('users-modal').classList.add('open');
-  loadUsers();
-}
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-}
-
-document.querySelectorAll('.modal-bg').forEach(function(bg) {
-  bg.addEventListener('click', function(e) {
-    if (e.target === bg) bg.classList.remove('open');
-  });
-});
-
-function loadUsers() {
-  var wrap = document.getElementById('users-table-wrap');
-  if (!wrap) return;
-  var token = localStorage.getItem('sp_token');
-  if (!token) { wrap.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3)">Not authenticated</div>'; return; }
-  fetch(API_BASE + '/users', { headers: { 'Authorization': 'Bearer ' + token } })
-  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
-  .then(function(users) {
-    if (!users || !users.length) { wrap.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3)">No users found</div>'; return; }
-    var rows = users.map(function(u) {
-      var roleClass = u.isActive ? 'u-active' : 'u-inactive';
-      return '<tr><td style="color:var(--t1);font-family:var(--fh);font-size:12px;font-weight:600">' + (u.name || '-') + '</td><td style="color:var(--t3)">' + (u.email || '-') + '</td><td><span class="u-role-badge ' + roleClass + '">' + (u.role || '-') + '</span></td><td><span class="u-role-badge ' + (u.isActive ? 'u-active' : 'u-inactive') + '">' + (u.isActive ? 'Active' : 'Inactive') + '</span></td></tr>';
-    }).join('');
-    wrap.innerHTML = '<table class="users-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table>';
+// Load user profile in nav
+function loadNavProfile() {
+  const token = localStorage.getItem('sp_token');
+  if(!token) return;
+  
+  // Try localStorage cache first for instant display
+  try {
+    const cached = localStorage.getItem('sp_user');
+    if(cached) {
+      const user = JSON.parse(cached);
+      applyNavProfile(user);
+    }
+  } catch(e) {}
+  
+  // Then refresh from API
+  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/auth/profile', {
+    headers: { 'Authorization': 'Bearer ' + token }
   })
-  .catch(function() {
-    wrap.innerHTML = '<table class="users-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th></tr></thead><tbody><tr><td style="color:var(--t1);font-family:var(--fh);font-size:12px;font-weight:600">Dhanesh CK</td><td style="color:var(--t3)">dhanesh@ieccl.com</td><td><span class="u-role-badge u-active">Admin</span></td><td><span class="u-role-badge u-active">Active</span></td></tr><tr><td style="color:var(--t1);font-family:var(--fh);font-size:12px;font-weight:600">Rajan Kumar</td><td style="color:var(--t3)">rajan@ieccl.com</td><td><span class="u-role-badge u-active">HSE Officer</span></td><td><span class="u-role-badge u-active">Active</span></td></tr><tr><td style="color:var(--t1);font-family:var(--fh);font-size:12px;font-weight:600">Priya Desai</td><td style="color:var(--t3)">priya@ieccl.com</td><td><span class="u-role-badge u-active">Supervisor</span></td><td><span class="u-role-badge u-active">Active</span></td></tr></tbody></table>';
+  .then(r => { if(!r.ok) throw new Error('Unauthorized'); return r.json(); })
+  .then(user => {
+    if(!user || !user.name) return;
+    localStorage.setItem('sp_user', JSON.stringify(user));
+    applyNavProfile(user);
+  })
+  .catch((e) => {
+    // Don't redirect on network errors — only clear on explicit 401
+    console.warn('Profile load error:', e.message);
   });
 }
 
-/* INCIDENT SUBMIT */
-function submitIncident() {
-  var token = localStorage.getItem('sp_token');
-  if (!token) { showDashToast('Not authenticated', 'red'); return; }
-  var type = document.getElementById('inc-type').value;
-  var severity = document.getElementById('inc-severity').value;
-  var project = document.getElementById('inc-project').value;
-  var desc = document.getElementById('inc-desc').value;
-  if (!desc || !project) { showDashToast('Please fill all required fields', 'amber'); return; }
-  fetch(API_BASE + '/incidents', {
-    method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ type:type, severity:severity, projectId:project, description:desc, reportedBy:document.getElementById('inc-reporter').value })
-  })
-  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
-  .then(function() {
-    closeModal('incident-modal');
-    showDashToast('Incident reported successfully', 'green');
-    setTimeout(loadDashboardData, 1000);
-  })
-  .catch(function() {
-    closeModal('incident-modal');
-    showDashToast('Incident logged (offline mode)', 'amber');
+function applyNavProfile(user) {
+  if(!user || !user.name) return;
+  const initials = user.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+  const els = {
+    'nav-initials': initials,
+    'nav-username': user.name,
+    'nav-role': (user.role||'User').replace(/_/g,' '),
+    'profile-name': user.name,
+    'profile-email': user.email || '',
+    'profile-role-badge': (user.role||'User').replace(/_/g,' '),
+  };
+  Object.entries(els).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if(el) el.textContent = val;
   });
+  const dot = document.getElementById('alert-dot');
+  if(dot) dot.style.display = 'block';
 }
 
-/* NCR SUBMIT */
-function submitNcr() {
-  var token = localStorage.getItem('sp_token');
-  if (!token) { showDashToast('Not authenticated', 'red'); return; }
-  var cat = document.getElementById('ncr-cat').value;
-  var priority = document.getElementById('ncr-priority').value;
-  var project = document.getElementById('ncr-project').value;
-  var desc = document.getElementById('ncr-desc').value;
-  if (!desc || !project) { showDashToast('Please fill all required fields', 'amber'); return; }
-  fetch(API_BASE + '/ncrs', {
-    method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ category:cat, priority:priority, projectId:project, description:desc, correctiveAction:document.getElementById('ncr-action').value })
-  })
-  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
-  .then(function() {
-    closeModal('ncr-modal');
-    showDashToast('NCR logged successfully', 'green');
-    setTimeout(loadDashboardData, 1000);
-  })
-  .catch(function() {
-    closeModal('ncr-modal');
-    showDashToast('NCR logged (offline mode)', 'amber');
-  });
-}
 
-/* TOAST */
-var toastTimer = null;
-function showDashToast(msg, type) {
-  var t = document.getElementById('dash-toast');
-  var m = document.getElementById('toast-msg');
-  var d = document.getElementById('toast-dot');
-  if (!t) return;
-  m.textContent = msg;
-  var color = type === 'red' ? 'var(--red)' : type === 'amber' ? 'var(--amber)' : type === 'blue' ? 'var(--blue)' : 'var(--green)';
-  d.style.background = color;
-  t.classList.add('show');
-  if (toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 3000);
-}
+
 </script>
+
 </body>
 </html>
