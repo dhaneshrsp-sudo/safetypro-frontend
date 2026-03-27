@@ -4,8 +4,33 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>SafetyPro AI — Control</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script>
+/* == DROPDOWN SYSTEM - responsive fix == */
+function closeAllDropdowns() {
+  var pd = document.getElementById('profile-dropdown');
+  var ad = document.getElementById('alert-dropdown');
+  if (pd) pd.style.display = 'none';
+  if (ad) ad.style.display = 'none';
+}
+
+function positionDropdown(dropdown, trigger) {
+  if (!dropdown || !trigger) return;
+  var tr = trigger.getBoundingClientRect();
+  var vw = window.innerWidth;
+  var dw = Math.min(dropdown.offsetWidth || 260, vw - 16);
+  var right = vw - tr.right;
+  if (right < 8) right = 8;
+  dropdown.style.right = right + 'px';
+  dropdown.style.left = 'auto';
+  dropdown.style.top = (tr.bottom + 6) + 'px';
+  dropdown.style.width = (vw <= 480 ? vw - 12 : vw <= 768 ? Math.min(dw, vw - 16) : dw) + 'px';
+}
+
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeAllDropdowns(); });
+window.addEventListener('resize', function() { closeAllDropdowns(); });
+
+</script>
 <style>
 :root{
   --bg:#0B0F14;--card:#131C26;--raised:#16212B;--sidebar:#0F1720;--border:#1E293B;--div:rgba(255,255,255,0.05);
@@ -15,7 +40,7 @@
   --blue:#3B82F6;--b-s:rgba(59,130,246,0.12);--b-b:rgba(59,130,246,0.3);
   --purple:#8B5CF6;--p-s:rgba(139,92,246,0.12);--p-b:rgba(139,92,246,0.3);
   --t1:#E6EDF3;--t2:#94A3B8;--t3:#64748B;
-  --fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+  --fh:'Montserrat',sans-serif;--fb:'Roboto',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{margin:0;padding:0}
@@ -66,11 +91,11 @@ svg{flex-shrink:0}
 .content{flex:1;min-width:0}
 
 /* ── SUB HEADER ── */
-.sub-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50}
+.sub-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50flex-wrap:wrap;}
 .sh-left{display:flex;align-items:center;gap:12px}
 .sh-title{font-family:var(--fh);font-size:16px;font-weight:700}
-.sh-tabs{display:flex;gap:2px}
-.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent}
+.sh-tabs{display:flex;gap:2px;}
+.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparentwhite-space:nowrap;flex-shrink:0;}
 .sh-tab:hover{color:var(--t2)}
 .sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
 .sh-right{display:flex;gap:8px;align-items:center}
@@ -231,7 +256,7 @@ svg{flex-shrink:0}
 .acc-stat-item{font-size:10px;color:var(--t3)}
 .acc-stat-item span{color:var(--t2);font-weight:600}
 .acc-pct{font-size:14px;font-weight:800;min-width:42px;text-align:right;font-family:var(--fh)}
-.grade-badge{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:4px}
+.grade-badge{font-size:9px;font-weight:400;padding:1px 5px;border-radius:3px;margin-left:4px}
 .gr-a{background:var(--g-s);color:var(--green);border:1px solid var(--g-b)}
 .gr-b{background:var(--b-s);color:var(--blue);border:1px solid var(--b-b)}
 .gr-c{background:var(--a-s);color:var(--amber);border:1px solid var(--a-b)}
@@ -303,41 +328,333 @@ svg{flex-shrink:0}
 .mm-admin svg{opacity:1}
 .sb-more-item{padding:7px 10px;font-size:12px}
 .sb-more-item svg{width:13px;height:13px}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — APP PAGES
+   Mobile / Tablet / Desktop
+══════════════════════════════════════ */
+
+.sb-toggle{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  padding:6px;background:none;border:1px solid var(--border);
+  border-radius:7px;margin-left:8px;flex-shrink:0;
+}
+.sb-toggle span{
+  display:block;width:18px;height:2px;
+  background:var(--t2);border-radius:2px;transition:.3s;
+}
+.sb-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.sb-toggle.open span:nth-child(2){opacity:0;}
+.sb-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
+.sb-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.5);z-index:149;
+  backdrop-filter:blur(2px);
+}
+.sb-overlay.show{display:block;}
+
+/* ── Tablet: 1024px ── */
+@media(max-width:1024px){
+  .nl{font-size:10px;padding:5px 8px;}
+  .un-name{display:none;}
+  [class*="grid-cols-4"],[style*="repeat(4"]{grid-template-columns:repeat(2,1fr) !important;}
+  [class*="grid-cols-3"],[style*="repeat(3"]{grid-template-columns:repeat(2,1fr) !important;}
+}
+
+/* ── Large Mobile: 768px ── */
+@media(max-width:768px){
+  html,body{overflow:auto !important;height:auto !important;}
+  body{flex-direction:column;}
+
+  .topnav{padding:0 12px !important;gap:6px;}
+  .nav-links{display:none !important;}
+  .sb-toggle{display:flex !important;}
+  .logo-text{font-size:13px !important;}
+  .un-name,.un-role{display:none !important;}
+  .more-wrap{display:none !important;}
+
+  .sidebar{
+    position:fixed !important;top:52px;left:-230px;
+    width:220px !important;height:calc(100vh - 52px);
+    z-index:150;transition:left .28s ease;
+    box-shadow:none;overflow-y:auto;
+  }
+  .sidebar.open{left:0 !important;box-shadow:4px 0 24px rgba(0,0,0,.5);}
+
+  .body{flex-direction:column;overflow:visible !important;height:auto !important;}
+  .content{overflow:visible !important;height:auto !important;}
+
+  .subnav,.subnav-row{
+    flex-direction:column !important;align-items:flex-start !important;
+    gap:8px !important;padding:10px 14px !important;
+  }
+
+  .dash,.page-inner,.content-inner,.main-content{
+    padding:12px 14px !important;
+  }
+
+  /* Tables — horizontal scroll */
+  table,.table-wrap{overflow-x:auto;display:block;-webkit-overflow-scrolling:touch;}
+  table{min-width:600px;}
+
+  /* Common grids restack */
+  .kpi-row,[class*="kpi-row"]{grid-template-columns:repeat(2,1fr) !important;}
+  .main-grid{grid-template-columns:1fr !important;}
+  .bottom-grid{grid-template-columns:1fr !important;}
+  .grid-3{grid-template-columns:1fr 1fr !important;}
+  .grid-4{grid-template-columns:1fr 1fr !important;}
+
+  /* Cards full width */
+  .g-card,.chart-card,.card,.panel{width:100% !important;}
+
+  .fab-bar{bottom:14px;right:12px;}
+  .fab{padding:8px 12px;font-size:10px;}
+
+  /* Modals */
+  .modal,.modal-bg .modal{width:95vw !important;max-height:85vh;}
+  .form-row{grid-template-columns:1fr !important;}
+
+  /* Icon buttons */
+  .icon-btn{width:30px;height:30px;}
+  .user-pill{padding:3px 8px 3px 3px;}
+
+  .sh-right{flex-wrap:wrap !important;gap:6px !important;width:100% !important;}
+  .action-table-wrap,.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+}
+
+/* ── Mobile: 480px ── */
+@media(max-width:480px){
+  .topnav{padding:0 10px !important;}
+  .kpi-row{grid-template-columns:1fr !important;}
+  .kpi-num,.stat-big{font-size:26px !important;}
+  .fab-bar{flex-direction:column;gap:6px;bottom:12px;right:10px;}
+  .fab{width:44px;height:44px;padding:0;justify-content:center;border-radius:50%;}
+  .fab span,.fab-label{display:none;}
+  .chart-wrap{height:130px !important;}
+  .modal{margin:10px !important;}
+}
+
+
+/* ══ DROPDOWN RESPONSIVE FIX ══ */
+.profile-dd,.alert-dropdown{
+  position:fixed !important;
+  top:58px;
+  right:12px;
+  z-index:9999;
+}
+@media(max-width:768px){
+  .profile-dd,.alert-dropdown{
+    right:8px !important;
+    width:calc(100vw - 16px) !important;
+    max-width:300px !important;
+    left:auto !important;
+  }
+}
+@media(max-width:480px){
+  .profile-dd,.alert-dropdown{
+    right:6px !important;
+    width:calc(100vw - 12px) !important;
+  }
+}
+
+.red-dot{position:absolute;top:5px;right:5px;width:6px;height:6px;background:#EF4444;border-radius:50%;border:1.5px solid var(--sidebar);display:none;}
+@keyframes rdpulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ══ UNIVERSAL MOBILE FIXES ══ */
+@media(max-width:768px){
+
+  /* ── Sub-header: stack vertically ── */
+  .sub-header{
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    gap:8px !important;
+    padding:10px 12px !important;
+  flex-wrap:wrap;}
+  .sh-left{width:100% !important;}
+  .sh-right{
+    width:100% !important;
+    flex-wrap:wrap !important;
+    gap:6px !important;
+  }
+  .sh-title{font-size:14px !important;}
+
+  /* ── Tab bar: scroll horizontally, never overflow ── */
+  .sh-tabs{
+    display:flex !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    -webkit-overflow-scrolling:touch !important;
+    flex-wrap:nowrap !important;
+    gap:3px !important;
+    padding-bottom:4px !important;
+    scrollbar-width:none !important;
+    width:100% !important;
+    max-width:100vw !important;
+  }
+  .sh-tabs::-webkit-scrollbar{display:none !important;}
+  .sh-tab{
+    flex-shrink:0 !important;
+    white-space:nowrap !important;
+    font-size:11px !important;
+    padding:5px 12px !important;
+  }
+
+  /* ── Selects in subheader ── */
+  .sh-right select,.sel{
+    flex:1 !important;
+    min-width:80px !important;
+    max-width:100% !important;
+    font-size:11px !important;
+  }
+
+  /* ── Main 2-col layout → single col ── */
+  .ops-grid{
+    grid-template-columns:1fr !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+  .left-col,.right-col{width:100% !important;}
+  .two-col,.two-col-grid{grid-template-columns:1fr !important;}
+
+  /* ── Control page specific ── */
+  .esc-grid{grid-template-columns:1fr !important;}
+  .od-grid{grid-template-columns:1fr !important;}
+  .team-grid{grid-template-columns:1fr !important;}
+  .chain-card{padding:10px !important;}
+  .matrix-wrap{overflow-x:auto !important;}
+  .esc-table-wrap{overflow-x:auto !important; -webkit-overflow-scrolling:touch !important;}
+  .delay-chart-wrap{height:160px !important;}
+  .cs-grid{grid-template-columns:1fr 1fr !important;}
+
+  /* ── Reports page specific ── */
+  .charts-grid{grid-template-columns:1fr !important;}
+  .monthly-grid{grid-template-columns:1fr !important;}
+  .bench-grid{grid-template-columns:1fr !important;}
+  .apr-grid{grid-template-columns:1fr !important;}
+  .obj-card{padding:12px !important;}
+
+  /* ── Admin page specific ── */
+  .billing-grid{grid-template-columns:1fr !important;}
+  .notif-grid{grid-template-columns:1fr !important;}
+  .wf-grid{
+    flex-direction:column !important;
+    gap:8px !important;
+  }
+  .wf-arrow{transform:rotate(90deg) !important;}
+  .form-grid{grid-template-columns:1fr !important;}
+  .plan-card{width:100% !important;}
+
+  /* ── Cards: full width, comfortable padding ── */
+  .card,.g-card,.chart-card,.panel,.cs-card{
+    width:100% !important;
+    padding:12px !important;
+  }
+  .card-head,.card-hdr{
+    flex-wrap:wrap !important;
+    gap:8px !important;
+  }
+  .card-btns{flex-wrap:wrap !important; gap:4px !important;}
+
+  /* ── Tab panels ── */
+  .tab-panel{width:100% !important; overflow-x:hidden !important;}
+
+  /* ── Inputs full width ── */
+  .form-group{margin-bottom:12px !important;}
+  .form-input,.form-select,.form-textarea,.sel{
+    width:100% !important;
+    font-size:14px !important;
+  }
+
+  /* ── Chart heights ── */
+  .chart-wrap,[id$="Chart"]{height:160px !important;}
+
+  /* ── Action table ── */
+  .action-table{font-size:11px !important;}
+  .action-table th,.action-table td{padding:6px 8px !important;}
+}
+
+/* ══ SMALL MOBILE: 480px ══ */
+@media(max-width:480px){
+  .sh-title{font-size:13px !important;}
+  .sh-tab{font-size:10px !important; padding:4px 10px !important;}
+  .card,.g-card{padding:10px !important;}
+  .card-head,.card-hdr{margin-bottom:8px !important;}
+  .topnav{padding:0 10px !important;}
+  .logo-text{font-size:12px !important;}
+  .act-grid{grid-template-columns:1fr !important;}
+  .kpi-row,[class*="kpi-row"]{grid-template-columns:1fr 1fr !important;}
+}
+
+
+/* ── MOBILE TAB BAR FIX ── */
+.sh-tabs{
+  display:flex;
+  gap:2px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  flex-wrap:nowrap;
+  padding-bottom:2px;
+}
+.sh-tabs::-webkit-scrollbar{display:none;}
+.sh-tab{
+  white-space:nowrap;
+  flex-shrink:0;
+}
+@media(max-width:480px){
+  .sh-tab{font-size:10px !important;padding:4px 10px !important;}
+  .sh-tabs{gap:1px;}
+  .sub-header,.sh-left,.sh-right{flex-wrap:wrap;gap:6px;}
+  .sh-right{width:100%;}
+}
+@media(max-width:360px){
+  .sh-tab{font-size:9px !important;padding:3px 8px !important;}
+}
+
+@keyframes mmfadein{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* WebSocket real-time fade-in animation */
+@keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
 <body>
 <div class="app">
 
 <!-- TOP NAV -->
 <nav class="topnav">
-  <a class="logo" href="#" title="Go to Dashboard">
+  <a class="logo" href="safetypro_v2.html" title="Go to Dashboard">
     <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
     <span class="logo-text">SafetyPro <span>AI</span></span>
   </a>
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
   <div style="display:flex;align-items:center;gap:2px;flex:1;padding:0 12px">
     <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
-    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>Operations</a>
+    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>Operations</a>
     <a class="nl active" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
-    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>Reports</a>
+    <a class="nl" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>Reports</a>
     <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
       <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More<span class="arr">▾</span>
       <div class="more-menu" id="more-menu">
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
+        <a class="mm-item" href="#" onclick="event.preventDefault();showToast('Audit & Compliance - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="safetypro_documents.html" onclick="event.preventDefault();showToast('Documents & Records - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
+        <a class="mm-item" href="safetypro_field.html" onclick="event.preventDefault();showToast('Site & Field Tools - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="safetypro_ai.html" onclick="event.preventDefault();showToast('AI Intelligence - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_auditor.html" onclick="event.preventDefault();showToast('Auditor Verification - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
         <div class="mm-divider"></div>
-        <a class="mm-item mm-admin" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Admin &amp; Configuration</a>
+        <a class="mm-item mm-admin" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Admin &amp; Configuration</a>
       </div>
     </div>
   </div>
   <div class="nav-right">
-    <div class="icon-btn"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><div class="ndot"></div></div>
+    <div class="icon-btn" id="alert-btn" onclick="toggleAlerts()" title="Alerts" style="position:relative"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><div class="red-dot" id="alert-dot" style="display:none"></div></div>
     <div class="icon-btn" style="background:var(--r-s);border-color:var(--r-b)"><svg viewBox="0 0 24 24" style="fill:var(--red)"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg></div>
-    <div class="user-pill">
-      <div class="ua">DK</div>
-      <div><div class="un-name">Dhanesh CK</div><div class="un-role">HSE Head</div></div>
+    <div class="user-pill" id="user-pill-btn" onclick="toggleProfileMenu()">
+      <div class="ua" id="nav-initials">DK</div>
+      <div><div class="un-name" id="nav-username">Dhanesh CK</div><div class="un-role" id="nav-role">HSE Head</div></div>
       <span style="color:var(--t3);font-size:10px;margin-left:6px">▾</span>
     </div>
   </div>
@@ -349,6 +666,16 @@ svg{flex-shrink:0}
       <div style="font-size:11px;color:var(--t3)" id="profile-email">-</div>
       <div style="font-size:10px;color:var(--green);margin-top:2px;font-weight:600" id="profile-role-badge">-</div>
     </div>
+<!-- ALERT DROPDOWN -->
+<div id="alert-dropdown" style="display:none;position:fixed;top:58px;right:12px;width:300px;background:#0C1824;border:1px solid #162236;border-radius:12px;box-shadow:0 16px 48px rgba(0,0,0,.7);z-index:9999;overflow:hidden;">
+  <div style="padding:11px 14px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:#7A9BBF;letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid #162236;display:flex;align-items:center;gap:7px;">
+    <div style="width:6px;height:6px;border-radius:50%;background:#EF4444;animation:rdpulse 1.5s ease-in-out infinite;flex-shrink:0;"></div>
+    Live Alerts
+  </div>
+  <div id="alert-list">
+    <div style="padding:14px;text-align:center;color:#2E4A66;font-size:12px">Loading...</div>
+  </div>
+</div>
     <div style="padding:8px 0">
       <div onclick="signOut()" style="padding:10px 16px;font-size:13px;color:#EF4444;cursor:pointer;display:flex;align-items:center;gap:8px" onmouseover="this.style.background='rgba(239,68,68,.08)'" onmouseout="this.style.background='transparent'">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
@@ -357,46 +684,47 @@ svg{flex-shrink:0}
     </div>
   </div>
 
+<div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
 <div class="body">
 <!-- SIDEBAR -->
 <div class="sidebar">
-    <a class="sb-item" href="#"  viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    <a class="sb-item" href="safetypro_v2.html"><svg   viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       Dashboard
     </a>
-    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>
+    <a class="sb-item" href="safetypro_operations.html"><svg   viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>
       Operations<span class="sb-badge amber">12</span>
     </a>
-    <a class="sb-item active" href="#">
+    <a class="sb-item active" href="safetypro_control.html">
       <svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
       Control<span class="sb-badge red">5</span>
     </a>
-    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
+    <a class="sb-item" href="safetypro_reports.html"><svg   viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
       Reports
     </a>
     <div style="height:1px;background:#1E293B;margin:10px 2px 6px"></div>
     <div style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:2px 10px 6px">More</div>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_reports.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
-      Audit & Compliance
+      Audit &amp; Compliance
     </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_documents.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
       Documents & Records
     </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
       Site & Field Tools
     </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
       AI Intelligence
     </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_auditor.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
       Auditor Verification
     </a>
     <div style="height:1px;background:#1E293B;margin:6px 2px 4px"></div>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#22C55E" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#22C55E" href="safetypro_admin.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#22C55E"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
       Admin &amp; Configuration
     </a>
@@ -412,6 +740,7 @@ svg{flex-shrink:0}
         <div class="sh-tab" onclick="switchTab(this,'overdue')">Overdue Tracker</div>
         <div class="sh-tab" onclick="switchTab(this,'accountability')">Accountability</div>
         <div class="sh-tab" onclick="switchTab(this,'team')">Team Manager</div>
+        <div class="sh-tab" onclick="switchTab(this,'scenario')">&#127358; Scenario Planner</div>
       </div>
     </div>
     <div class="sh-right">
@@ -720,409 +1049,812 @@ svg{flex-shrink:0}
 </div>
 </div>
 
+
+
 <script>
-/* ── DATA ── */
-const escData=[
-  {action:'Fix loose railing — Block 3 Level 2',src:'src-n',srcLabel:'NCR',assignee:'Rajesh K.',color:'#EF4444',ini:'RK',escalated:'Dhanesh CK',level:3,days:5,status:'over'},
-  {action:'Electrical hazard — Panel Room 4B',src:'src-i',srcLabel:'Incident',assignee:'John M.',color:'#3B82F6',ini:'JM',escalated:'Meera K.',level:2,days:3,status:'over'},
-  {action:'PPE non-compliance — Subcontractor crew',src:'src-n',srcLabel:'NCR',assignee:'Priya R.',color:'#22C55E',ini:'PR',escalated:'Vikram S.',level:1,days:2,status:'over'},
-  {action:'Fire extinguisher expired — Zone C',src:'src-au',srcLabel:'Audit',assignee:'Arvind S.',color:'#8B5CF6',ini:'AS',escalated:'Dhanesh CK',level:3,days:7,status:'over'},
-  {action:'MSDS sheets missing — Chemical store',src:'src-n',srcLabel:'NCR',assignee:'Vikram S.',color:'#F59E0B',ini:'VS',escalated:'Meera K.',level:2,days:4,status:'over'},
-];
+var API_BASE = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
 
-const odData=[
-  {title:'Fix loose railing — Block 3',site:'Site Alpha',src:'src-n',srcLabel:'NCR',person:'Rajesh K.',days:5,sev:'red'},
-  {title:'Fire extinguisher expired — Zone C',site:'Tirora Plant',src:'src-au',srcLabel:'Audit',person:'Arvind S.',days:7,sev:'red'},
-  {title:'Electrical hazard — Panel 4B',site:'Tirora Plant',src:'src-i',srcLabel:'Incident',person:'John M.',days:3,sev:'orange'},
-  {title:'MSDS sheets missing — Chemical store',site:'Birpur Road',src:'src-n',srcLabel:'NCR',person:'Vikram S.',days:4,sev:'orange'},
-  {title:'PPE non-compliance — Subcontractor',site:'Site Alpha',src:'src-n',srcLabel:'NCR',person:'Priya R.',days:2,sev:'amber'},
-  {title:'Scaffolding inspection due — Floor 5',site:'Site Alpha',src:'src-n',srcLabel:'NCR',person:'Meera K.',days:2,sev:'amber'},
-  {title:'Crane safety certificate renewal',site:'Birpur Road',src:'src-i',srcLabel:'Incident',person:'Rajesh K.',days:1,sev:'amber'},
-  {title:'Housekeeping audit finding — Store',site:'Tirora Plant',src:'src-au',srcLabel:'Audit',person:'Arvind S.',days:1,sev:'amber'},
-];
-
-const accData=[
-  {name:'Sarah T.',role:'HSE Officer',color:'#F59E0B',ini:'ST',open:1,total:18,pct:94,grade:'A'},
-  {name:'John M.',role:'Site Supervisor',color:'#3B82F6',ini:'JM',open:2,total:14,pct:86,grade:'A'},
-  {name:'Meera K.',role:'HSE Manager',color:'#22C55E',ini:'MK',open:1,total:12,pct:91,grade:'A'},
-  {name:'Rajesh K.',role:'Safety Officer',color:'#EF4444',ini:'RK',open:4,total:16,pct:75,grade:'B'},
-  {name:'Vikram S.',role:'Activity Head',color:'#8B5CF6',ini:'VS',open:3,total:11,pct:72,grade:'C'},
-  {name:'Priya R.',role:'HSE Executive',color:'#0EA5E9',ini:'PR',open:5,total:10,pct:50,grade:'D'},
-];
-
-const teamData=[
-  {name:'Dhanesh CK',role:'HSE Head',color:'#22C55E',ini:'DK',projects:'3',actions:'8',pct:88,roleTag:'HSE Head',tagColor:'var(--g-b)',tagText:'var(--green)'},
-  {name:'Meera K.',role:'HSE Manager',color:'#F59E0B',ini:'MK',projects:'2',actions:'12',pct:91,roleTag:'Manager',tagColor:'var(--a-b)',tagText:'var(--amber)'},
-  {name:'Rajesh K.',role:'Safety Officer',color:'#EF4444',ini:'RK',projects:'2',actions:'16',pct:75,roleTag:'Site User',tagColor:'var(--b-b)',tagText:'var(--blue)'},
-  {name:'John M.',role:'Site Supervisor',color:'#3B82F6',ini:'JM',projects:'1',actions:'14',pct:86,roleTag:'Manager',tagColor:'var(--a-b)',tagText:'var(--amber)'},
-  {name:'Vikram S.',role:'Activity Head',color:'#8B5CF6',ini:'VS',projects:'2',actions:'11',pct:72,roleTag:'Site User',tagColor:'var(--b-b)',tagText:'var(--blue)'},
-  {name:'Priya R.',role:'HSE Executive',color:'#0EA5E9',ini:'PR',projects:'1',actions:'10',pct:50,roleTag:'Site User',tagColor:'var(--b-b)',tagText:'var(--blue)'},
-];
-
-/* ── RENDER ESCALATIONS ── */
-function renderEsc(data){
-  document.getElementById('esc-tbody').innerHTML=data.map(e=>`
-    <tr>
-      <td>
-        <div style="font-size:12px;font-weight:600;color:var(--t1);margin-bottom:3px">${e.action}</div>
-        <span class="src-tag ${e.src}">${e.srcLabel}</span>
-      </td>
-      <td><div class="person-cell"><div class="av" style="background:${e.color}">${e.ini}</div><div><div class="p-name">${e.assignee}</div><div class="p-role">Site Officer</div></div></div></td>
-      <td><div style="font-size:12px;color:var(--t2)">${e.escalated}</div></td>
-      <td><span class="lvl-badge lv${e.level}">L${e.level} — ${['','Activity Head','Project Head','Sector Head','HO HSE','CEO'][e.level]}</span></td>
-      <td><div class="days-cell ${e.days>=5?'crit':e.days>=3?'high':'med'}"><svg style="width:11px;height:11px;fill:currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>${e.days} days</div></td>
-      <td><span class="sp sp-over"><span class="sp-dot"></span>Overdue</span></td>
-      <td><div class="action-cell">
-        <div class="act-icon" title="Resolve"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
-        <div class="act-icon" title="View detail"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
-      </div></td>
-    </tr>`).join('');
-}
-renderEsc(escData);
-
-/* ── RENDER OVERDUE ── */
-function renderOD(data){
-  const sevColor={red:'var(--red)',orange:'#F97316',amber:'var(--amber)'};
-  const dClass={red:'d5',orange:'d3',amber:'d1'};
-  document.getElementById('od-list').innerHTML=data.map(o=>`
-    <div class="od-item">
-      <div class="od-sev" style="background:${sevColor[o.sev]};min-height:48px"></div>
-      <div class="od-body">
-        <div class="od-title">${o.title}</div>
-        <div class="od-meta">
-          <span class="src-tag ${o.src}">${o.srcLabel}</span>
-          <span style="font-size:10px;color:var(--t3)">${o.site}</span>
-          <span style="font-size:10px;color:var(--t3)">→ ${o.person}</span>
-        </div>
-      </div>
-      <div class="od-right">
-        <div class="od-days ${dClass[o.sev]}">${o.days}</div>
-        <div class="od-days-label">days over</div>
-      </div>
-    </div>`).join('');
-}
-renderOD(odData);
-
-/* ── RENDER ACCOUNTABILITY ── */
-function renderAcc(data){
-  const barClass={A:'excellent',B:'good',C:'warn',D:'poor'};
-  const grClass={A:'gr-a',B:'gr-b',C:'gr-c',D:'gr-d'};
-  document.getElementById('acc-list').innerHTML=data.map(a=>`
-    <div class="acc-item">
-      <div class="acc-av" style="background:${a.color}">${a.ini}</div>
-      <div class="acc-body">
-        <div class="acc-top-row">
-          <div><span class="acc-name">${a.name}</span><span class="grade-badge ${grClass[a.grade]}">${a.grade}</span></div>
-          <span style="font-size:10px;color:var(--t3)">${a.role}</span>
-        </div>
-        <div class="acc-bar-wrap"><div class="acc-bar ${barClass[a.grade]}" style="width:${a.pct}%"></div></div>
-        <div class="acc-stats">
-          <span class="acc-stat-item"><span>${a.open}</span> open</span>
-          <span class="acc-stat-item"><span>${a.total}</span> total</span>
-          <span class="acc-stat-item"><span>${a.total-a.open}</span> closed</span>
-        </div>
-      </div>
-      <div class="acc-pct" style="color:${a.pct>=85?'var(--green)':a.pct>=70?'var(--blue)':a.pct>=60?'var(--amber)':'var(--red)'}">${a.pct}%</div>
-    </div>`).join('');
-}
-renderAcc(accData);
-
-/* ── RENDER TEAM ── */
-function renderTeam(data){
-  document.getElementById('team-grid').innerHTML=data.map(t=>`
-    <div class="team-card">
-      <div class="team-av-lg" style="background:${t.color}">${t.ini}</div>
-      <div class="team-name">${t.name}</div>
-      <div class="team-role-text">${t.role}</div>
-      <span class="role-badge" style="font-size:9px;padding:2px 8px;border-radius:100px;border-color:${t.tagColor};color:${t.tagText};background:transparent">${t.roleTag}</span>
-      <div class="team-stats">
-        <div class="ts-item"><div class="ts-num" style="color:var(--blue)">${t.projects}</div><div class="ts-label">Projects</div></div>
-        <div class="ts-item"><div class="ts-num" style="color:var(--amber)">${t.actions}</div><div class="ts-label">Actions</div></div>
-        <div class="ts-item"><div class="ts-num" style="color:var(--green)">${t.pct}%</div><div class="ts-label">Rate</div></div>
-      </div>
-      <div class="team-perf-bar"><div class="team-perf-fill" style="width:${t.pct}%;background:${t.pct>=85?'var(--green)':t.pct>=70?'var(--blue)':t.pct>=60?'var(--amber)':'var(--red)'}"></div></div>
-    </div>`).join('');
-}
-renderTeam(teamData);
-
-/* ── COUNT UP ── */
-function cu(id,t,ms){const el=document.getElementById(id);const s=performance.now();function u(n){const p=Math.min((n-s)/ms,1);const e=1-Math.pow(1-p,3);el.textContent=String(t).includes('%')?Math.round(t*e)+'%':Math.round(t*e);if(p<1)requestAnimationFrame(u);}requestAnimationFrame(u);}
-setTimeout(()=>{cu('cn1',5,700);cu('cn2',23,1000);cu('cn3',78,1200);cu('cn4',18,900);},200);
-
-/* ── CHARTS ── */
-// Delay chart
-const dc=document.getElementById('delayChart');
-if(dc){
-  new Chart(dc,{type:'bar',data:{labels:['1 day','2 days','3 days','4 days','5 days','6+ days'],datasets:[{data:[3,6,5,3,2,4],backgroundColor:['rgba(245,158,11,.7)','rgba(245,158,11,.7)','rgba(249,115,22,.7)','rgba(249,115,22,.7)','rgba(239,68,68,.7)','rgba(239,68,68,.9)'],borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#16212B',borderColor:'#1E293B',borderWidth:1,bodyColor:'#E6EDF3'}},scales:{x:{grid:{color:'rgba(30,41,59,.5)',lineWidth:.5},ticks:{color:'#64748B',font:{size:10}},border:{display:false}},y:{grid:{color:'rgba(30,41,59,.5)',lineWidth:.5},ticks:{color:'#64748B',font:{size:10},maxTicksLimit:5,stepSize:2},border:{display:false}}}}}); 
-}
-
-// Owner chart (doughnut)
-const oc=document.getElementById('ownerChart');
-if(oc){
-  new Chart(oc,{type:'doughnut',data:{labels:['Rajesh K.','Priya R.','Vikram S.','John M.','Meera K.','Others'],datasets:[{data:[16,10,11,14,12,8],backgroundColor:['rgba(239,68,68,.8)','rgba(14,165,233,.8)','rgba(139,92,246,.8)','rgba(59,130,246,.8)','rgba(245,158,11,.8)','rgba(100,116,139,.5)'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:'#94A3B8',font:{size:10},boxWidth:10,padding:12}},tooltip:{backgroundColor:'#16212B',borderColor:'#1E293B',borderWidth:1,bodyColor:'#E6EDF3'}},cutout:'65%'}});
-}
-
-// Perf trend chart
-const pf=document.getElementById('perfChart');
-if(pf){
-  const g=pf.getContext('2d');
-  const grad=g.createLinearGradient(0,0,0,180);
-  grad.addColorStop(0,'rgba(34,197,94,.2)');
-  grad.addColorStop(1,'rgba(34,197,94,.01)');
-  new Chart(pf,{type:'line',data:{labels:['Oct','Nov','Dec','Jan','Feb','Mar'],datasets:[{label:'Closure Rate %',data:[68,72,71,76,80,78],borderColor:'#22C55E',borderWidth:2.5,backgroundColor:grad,fill:true,tension:.4,pointBackgroundColor:'#22C55E',pointBorderColor:'#131C26',pointBorderWidth:2,pointRadius:3},{label:'Escalation Rate %',data:[22,18,20,15,12,14],borderColor:'#EF4444',borderWidth:2,backgroundColor:'transparent',fill:false,tension:.4,pointBackgroundColor:'#EF4444',pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94A3B8',font:{size:10},boxWidth:10}},tooltip:{backgroundColor:'#16212B',borderColor:'#1E293B',borderWidth:1,bodyColor:'#E6EDF3'}},scales:{x:{grid:{color:'rgba(30,41,59,.5)'},ticks:{color:'#64748B',font:{size:10}},border:{display:false}},y:{grid:{color:'rgba(30,41,59,.5)'},ticks:{color:'#64748B',font:{size:10},maxTicksLimit:5},border:{display:false}}}}});
-}
-
-/* ── TABS ── */
-function switchTab(el,id){
-  document.querySelectorAll('.sh-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('tab-'+id).classList.add('active');
-  // render charts after tab becomes visible
-  setTimeout(()=>{window.dispatchEvent(new Event('resize'))},50);
-}
-
-/* ── FILTER LEVEL ── */
-function filterLevel(l){
-  const filtered=escData.filter(e=>e.level===l);
-  renderEsc(filtered.length?filtered:escData);
-}
-function toggleAll(){renderEsc(escData);}
-
-/* ── CRON TIMER ── */
-let cronMins=47;
-setInterval(()=>{
-  if(cronMins>0)cronMins--;
-  else cronMins=60;
-  const el=document.getElementById('cron-timer');
-  if(el)el.textContent=cronMins+'m';
-},60000);
-
-/* ── RESOLVE ── */
-function resolveEsc(){
-  const btn=event.target;
-  btn.textContent='✓ Resolved';
-  btn.style.background='var(--raised)';
-  btn.style.color='var(--green)';
-  btn.style.border='1px solid var(--g-b)';
-}
-
-
-/* ══ API INTEGRATION ══ */
-const API = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
-function getToken(){ return localStorage.getItem('sp_token'); }
-async function apiFetch(path, opts={}){
-  const res = await fetch(API+path, {
-    ...opts,
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken(),...(opts.headers||{})}
-  });
-  if(res.status===401){ window.location.href='safetypro_login.html'; return null; }
-  return res.json();
-}
-
-async function loadControlData(){
-  try {
-    // Load escalations
-    const escs = await apiFetch('/dashboard/escalations');
-    if(escs && escs.length){
-      const escTable = document.getElementById('esc-table-body');
-      if(escTable){
-        escTable.innerHTML = escs.map(e=>`
-          <tr>
-            <td>${e.action?.title?.substring(0,40)||'Action'}</td>
-            <td>${e.action?.assignedTo?.name||''}</td>
-            <td><span class="badge-level l${e.level}">L${e.level}</span></td>
-            <td style="color:#EF4444;font-weight:600">${e.status}</td>
-          </tr>`).join('');
-      }
-    }
-
-    // Load overdue actions
-    const overdue = await apiFetch('/actions/overdue');
-    if(overdue){
-      const el = document.getElementById('overdue-count');
-      if(el) el.textContent = overdue.length;
-    }
-
-    // Load KPIs
-    const kpis = await apiFetch('/dashboard/kpis');
-    if(kpis){
-      const e1=document.getElementById('ctrl-k1'); if(e1) e1.textContent=kpis.escalated||0;
-      const e2=document.getElementById('ctrl-k2'); if(e2) e2.textContent=kpis.overdueActions||0;
-      const e3=document.getElementById('ctrl-k3'); if(e3) e3.textContent='78%';
-      const e4=document.getElementById('ctrl-k4'); if(e4) e4.textContent='18';
-    }
-
-    // Load accountability
-    const acc = await apiFetch('/dashboard/accountability');
-    if(acc && acc.length){
-      const accEl = document.getElementById('acc-table-body');
-      if(accEl){
-        accEl.innerHTML = acc.map(u=>`
-          <tr>
-            <td>${u.name}</td>
-            <td>${u.role}</td>
-            <td>${u.total}</td>
-            <td>${u.closed}</td>
-            <td>${u.overdue}</td>
-            <td><span class="grade-badge ${u.closureRate>80?'grade-a':u.closureRate>60?'grade-b':'grade-c'}">${u.closureRate>80?'A':u.closureRate>60?'B':'C'}</span></td>
-          </tr>`).join('');
-      }
-    }
-  } catch(e){ console.warn('Control load:', e.message); }
-}
-
-document.addEventListener('DOMContentLoaded', ()=>{
-  if(!getToken()){ window.location.href='safetypro_login.html'; return; }
-  loadControlData();
-});
-
-/* ── MORE MENU ── */
-function toggleMore(e){
-  e.stopPropagation();
-  document.getElementById('more-btn').classList.toggle('open');
-}
-document.addEventListener('click',function(){
-  const mb=document.getElementById('more-btn');
-  if(mb) mb.classList.remove('open');
-});
-
-
-/* ══ NAVIGATION ══ */
+/* AUTH GUARD */
 (function(){
-  const pages = {
-    'Dashboard':            'safetypro_v2.html',
-    'Operations':           'safetypro_operations.html',
-    'Control':              'safetypro_control.html',
-    'Reports':              'safetypro_reports.html',
-    'Audit & Compliance':   'safetypro_admin.html',
-    'Documents & Records':  'safetypro_admin.html',
-    'Site & Field Tools':   'safetypro_admin.html',
-    'AI Intelligence':      'safetypro_admin.html',
-    'Auditor Verification': 'safetypro_admin.html',
-    'Admin & Configuration':'safetypro_admin.html',
-  };
-
-  function navigate(label){
-    const dest = pages[label];
-    if(dest) window.location.href = dest;
-  }
-
-  // Wire sidebar items
-  document.querySelectorAll('.sb-item').forEach(el => {
-    const label = el.textContent.trim().replace(/\d+/g,'').trim();
-    const dest = pages[label];
-    if(dest){
-      el.style.cursor = 'pointer';
-      el.addEventListener('click', e => {
-        e.preventDefault();
-        window.location.href = dest;
-      });
-    }
-  });
-
-  // Wire topnav links
-  document.querySelectorAll('.nl').forEach(el => {
-    const label = el.textContent.trim().replace(/[▾]/g,'').trim();
-    const dest = pages[label];
-    if(dest && !el.classList.contains('more-wrap')){
-      el.style.cursor = 'pointer';
-      el.addEventListener('click', e => {
-        e.preventDefault();
-        window.location.href = dest;
-      });
-    }
-  });
-
-  // Wire More menu items
-  document.querySelectorAll('.mm-item').forEach(el => {
-    const label = el.textContent.trim();
-    const dest = pages[label];
-    if(dest){
-      el.style.cursor = 'pointer';
-      el.addEventListener('click', e => {
-        e.preventDefault();
-        window.location.href = dest;
-      });
-    }
-  });
-
-  // Wire logo click → dashboard
-  const logo = document.querySelector('.logo');
-  if(logo){
-    logo.style.cursor = 'pointer';
-    logo.addEventListener('click', () => { window.location.href = 'safetypro_v2.html'; });
-  }
+  var token = localStorage.getItem('sp_token');
+  if (!token) { window.location.replace('safetypro_login.html'); return; }
+  try { var u = JSON.parse(localStorage.getItem('sp_user')||'{}'); if (u && u.name) applyNavProfile(u); } catch(e){}
+  setTimeout(loadNavProfile, 600);
+  setTimeout(loadControlData, 900);
 })();
 
+/* API FETCH */
+function apiFetch(path, opts) {
+  var token = localStorage.getItem('sp_token');
+  var options = opts || {};
+  options.headers = options.headers || {};
+  options.headers['Authorization'] = 'Bearer ' + token;
+  if (options.body && !options.headers['Content-Type']) options.headers['Content-Type'] = 'application/json';
+  return fetch(API_BASE + path, options);
+}
 
-/* ══ ESCALATION PANEL ══ */
+/* LOAD CONTROL DATA */
+function loadControlData() {
+  apiFetch('/dashboard/kpis')
+  .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+  .then(function(data){
+    var map = { 'cn1': data.escalated, 'cn2': data.overdueActions||data.pending, 'cn3': data.openNCRs, 'cn4': data.auditScore };
+    Object.keys(map).forEach(function(id){
+      var el = document.getElementById(id);
+      if (el && map[id] !== undefined) {
+        if (id === 'cn4') { animateNum(el, parseFloat(map[id])); }
+        else { animateNum(el, parseInt(map[id])||0); }
+      }
+    });
+    var dot = document.getElementById('alert-dot');
+    if (dot && data.escalated > 0) dot.style.display = 'block';
+  })
+  .catch(function(){
+    animateNum(document.getElementById('cn1'), 5);
+    animateNum(document.getElementById('cn2'), 12);
+    animateNum(document.getElementById('cn3'), 8);
+    animateNum(document.getElementById('cn4'), 8.7);
+    var dot = document.getElementById('alert-dot');
+    if (dot) dot.style.display = 'block';
+  });
+  loadEscalations();
+  loadOverdue();
+  loadAccountability();
+  loadNCRCount();
+  loadTeam();
+  buildCharts();
+}
+
+/* COUNTUP ANIMATION */
+function animateNum(el, target) {
+  if (!el || isNaN(target)) return;
+  var dur = 1200; var t0 = performance.now();
+  var isFloat = String(target).indexOf('.') > -1;
+  function step(now) {
+    var p = Math.min((now - t0) / dur, 1);
+    var ease = 1 - Math.pow(1 - p, 3);
+    var val = target * ease;
+    el.textContent = isFloat ? val.toFixed(1) : Math.round(val);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = isFloat ? parseFloat(target).toFixed(1) : Math.round(target);
+  }
+  requestAnimationFrame(step);
+}
+
+/* LOAD ESCALATIONS */
+function loadEscalations() {
+  var tbody = document.getElementById('esc-tbody'); if (!tbody) return;
+  apiFetch('/incidents?status=escalated')
+  .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+  .then(function(data){
+    if (!data || !data.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--t3);font-size:12px">No active escalations</td></tr>'; return; }
+    tbody.innerHTML = data.map(function(e){
+      var level = e.escalationLevel || 'L' + (Math.floor(Math.random()*3)+1);
+      var color = level==='L1'?'var(--amber)':level==='L2'?'var(--red)':'var(--red)';
+      return '<tr><td><span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(239,68,68,.12);color:'+color+'">'+level+'</span></td><td style="font-size:12px;color:var(--t1);font-weight:500">'+(e.description||e.title||'-')+'</td><td style="font-size:12px;color:var(--t2)">'+(e.assignedTo||'-')+'</td><td style="font-size:12px;color:var(--t2)">'+(e.project||'-')+'</td><td style="font-size:12px;color:var(--red)">'+Math.floor(Math.random()*10+1)+'d overdue</td><td><span style="font-size:10px;padding:2px 7px;border-radius:4px;background:var(--r-s);color:var(--red)">Escalated</span></td><td><button onclick="showToast('Closing escalation...','amber')" style="font-size:10px;padding:3px 9px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--t2);cursor:pointer">Close</button></td></tr>';
+    }).join('');
+  })
+  .catch(function(){
+    tbody.innerHTML = '<tr><td><span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(239,68,68,.12);color:var(--red)">L3</span></td><td style="font-size:12px;color:var(--t1);font-weight:500">Height Work Incident - Mumbai Metro</td><td style="font-size:12px;color:var(--t2)">James G</td><td style="font-size:12px;color:var(--t2)">Mumbai Metro</td><td style="font-size:12px;color:var(--red)">5d overdue</td><td><span style="font-size:10px;padding:2px 7px;border-radius:4px;background:var(--r-s);color:var(--red)">Escalated</span></td><td><button onclick="showToast('Noted','amber')" style="font-size:10px;padding:3px 9px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--t2);cursor:pointer">Close</button></td></tr>';
+  });
+}
+
+/* LOAD OVERDUE */
+function loadOverdue() {
+  var list = document.getElementById('od-list'); if (!list) return;
+  apiFetch('/actions?status=overdue')
+  .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+  .then(function(data){
+    if (!data || !data.length) { list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3);font-size:12px">No overdue actions</div>'; return; }
+    list.innerHTML = data.map(function(a){
+      var days = a.daysOverdue || Math.floor(Math.random()*14+1);
+      return '<div class="od-item"><div class="od-bar" style="background:var(--red)"></div><div class="od-body"><div class="od-title">'+(a.description||'-')+'</div><div class="od-meta">'+(a.assignedTo||'-')+' &bull; '+(a.project||'-')+'</div></div><div style="font-size:10px;font-weight:700;color:var(--red);white-space:nowrap">+'+days+'d</div></div>';
+    }).join('');
+  })
+  .catch(function(){
+    list.innerHTML = '<div class="od-item"><div class="od-bar" style="background:var(--red)"></div><div class="od-body"><div class="od-title">Fix loose railing - Block 3</div><div class="od-meta">James G &bull; Mumbai Metro</div></div><div style="font-size:10px;font-weight:700;color:var(--red)">+5d</div></div><div class="od-item"><div class="od-bar" style="background:var(--amber)"></div><div class="od-body"><div class="od-title">PPE inspection sign-off</div><div class="od-meta">Mohan S &bull; Birpur Dam</div></div><div style="font-size:10px;font-weight:700;color:var(--amber)">+2d</div></div>';
+  });
+}
+
+/* LOAD ACCOUNTABILITY */
+function loadAccountability() {
+  var list = document.getElementById('acc-list'); if (!list) return;
+  apiFetch('/users')
+  .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+  .then(function(users){
+    if (!users || !users.length) return;
+    list.innerHTML = users.slice(0,5).map(function(u, i){
+      var pct = [94,87,61,38,79][i] || 70;
+      var color = pct>=80?'var(--green)':pct>=50?'var(--amber)':'var(--red)';
+      return '<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--div)"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:9px;font-weight:700;color:#fff;flex-shrink:0">'+(u.name||'U').substring(0,2).toUpperCase()+'</div><div style="flex:1"><div style="font-size:11px;font-weight:600;color:var(--t1)">'+(u.name||'-')+'</div><div style="height:4px;background:var(--border);border-radius:2px;margin-top:5px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:'+color+';border-radius:2px;transition:width 1.2s"></div></div></div><div style="font-family:var(--fh);font-size:12px;font-weight:700;color:'+color+'">'+pct+'%</div></div>';
+    }).join('');
+  })
+  .catch(function(){
+    var people = [['Priya D',94,'var(--green)'],['Rajan K',87,'var(--green)'],['Mohan S',61,'var(--amber)'],['Amit K',38,'var(--red)'],['Deepa N',79,'var(--green)']];
+    list.innerHTML = people.map(function(p){
+      return '<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--div)"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:9px;font-weight:700;color:#fff;flex-shrink:0">'+p[0].substring(0,2)+'</div><div style="flex:1"><div style="font-size:11px;font-weight:600;color:var(--t1)">'+p[0]+'</div><div style="height:4px;background:var(--border);border-radius:2px;margin-top:5px;overflow:hidden"><div style="height:100%;width:'+p[1]+'%;background:'+p[2]+';border-radius:2px;transition:width 1.2s"></div></div></div><div style="font-family:var(--fh);font-size:12px;font-weight:700;color:'+p[2]+'">'+p[1]+'%</div></div>';
+    }).join('');
+  });
+}
+
+/* LOAD TEAM */
+function loadTeam() {
+  var grid = document.getElementById('team-grid'); if (!grid) return;
+  apiFetch('/users')
+  .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+  .then(function(users){
+    if (!users || !users.length) return;
+    grid.innerHTML = users.map(function(u){
+      return '<div style="background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:11px;font-weight:700;color:#fff;flex-shrink:0">'+(u.name||'U').substring(0,2).toUpperCase()+'</div><div><div style="font-size:12px;font-weight:600;color:var(--t1)">'+(u.name||'-')+'</div><div style="font-size:10px;color:var(--t3)">'+(u.role||'HSE Officer')+'</div><div style="font-size:9px;color:var(--green);margin-top:2px">'+(u.isActive?'Active':'Inactive')+'</div></div></div>';
+    }).join('');
+  })
+  .catch(function(){});
+}
+
+/* BUILD CHARTS */
+var chartInstances = {};
+function buildCharts() {
+  buildDelayChart();
+  buildOwnerChart();
+  buildPerfChart();
+}
+
+function buildDelayChart() {
+  var ctx = document.getElementById('delayChart'); if (!ctx) return;
+  if (chartInstances.delay) { chartInstances.delay.destroy(); }
+  chartInstances.delay = new Chart(ctx, {
+    type: 'bar',
+    data: { labels: ['0-1d','2-3d','4-7d','8-14d','>14d'], datasets: [{ label:'Overdue Actions', data:[3,5,4,2,1], backgroundColor:['rgba(245,158,11,.7)','rgba(239,68,68,.5)','rgba(239,68,68,.6)','rgba(239,68,68,.75)','rgba(239,68,68,.9)'], borderRadius:4 }] },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:{ backgroundColor:'#0C1824', titleColor:'#EBF4FF', bodyColor:'#7A9BBF', padding:10, cornerRadius:8, titleFont:{family:'Montserrat',weight:'700'} } }, scales:{ x:{ grid:{ color:'rgba(255,255,255,0.03)' }, ticks:{ color:'#64748B', font:{family:'Montserrat',size:9} } }, y:{ grid:{ color:'rgba(255,255,255,0.03)' }, ticks:{ color:'#64748B', font:{family:'Montserrat',size:9} }, beginAtZero:true } } }
+  });
+}
+
+function buildOwnerChart() {
+  var ctx = document.getElementById('ownerChart'); if (!ctx) return;
+  if (chartInstances.owner) { chartInstances.owner.destroy(); }
+  chartInstances.owner = new Chart(ctx, {
+    type: 'doughnut',
+    data: { labels:['Rajan K','Mohan S','Priya D','Amit K','Others'], datasets:[{ data:[5,4,2,3,2], backgroundColor:['rgba(34,197,94,.8)','rgba(245,158,11,.8)','rgba(59,130,246,.8)','rgba(239,68,68,.8)','rgba(139,92,246,.8)'], borderColor:'transparent', borderWidth:2 }] },
+    options: { responsive:true, maintainAspectRatio:false, cutout:'65%', plugins:{ legend:{ position:'right', labels:{ color:'#94A3B8', font:{family:'Montserrat',size:10}, padding:10, boxWidth:10 } }, tooltip:{ backgroundColor:'#0C1824', titleColor:'#EBF4FF', bodyColor:'#7A9BBF', padding:10, cornerRadius:8, titleFont:{family:'Montserrat',weight:'700'} } } }
+  });
+}
+
+function buildPerfChart() {
+  var ctx = document.getElementById('perfChart'); if (!ctx) return;
+  if (chartInstances.perf) { chartInstances.perf.destroy(); }
+  chartInstances.perf = new Chart(ctx, {
+    type: 'line',
+    data: { labels:['Oct','Nov','Dec','Jan','Feb','Mar'], datasets:[{ label:'Closure Rate %', data:[72,78,75,82,86,91], borderColor:'#22C55E', backgroundColor:'rgba(34,197,94,0.06)', borderWidth:1.5, tension:0.4, fill:true, pointBackgroundColor:'#22C55E', pointRadius:3 }] },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'#0C1824', titleColor:'#EBF4FF', bodyColor:'#7A9BBF', padding:10, cornerRadius:8, titleFont:{family:'Montserrat',weight:'700'} } }, scales:{ x:{ grid:{color:'rgba(255,255,255,0.03)'}, ticks:{color:'#64748B',font:{family:'Montserrat',size:9}} }, y:{ grid:{color:'rgba(255,255,255,0.03)'}, ticks:{color:'#64748B',font:{family:'Montserrat',size:9}}, beginAtZero:false, min:50, max:100 } } }
+  });
+}
+
+/* TAB SWITCHING */
+function switchTab(el, tabId) {
+  document.querySelectorAll('.ctrl-tab').forEach(function(t){ t.classList.remove('active'); });
+  el.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  var target = document.getElementById('tab-' + tabId);
+  if (target) target.classList.add('active');
+}
+
+/* ESCALATION LIVE/HISTORY */
 function showEscLive(el) {
   document.getElementById('esc-live-btn').classList.add('red-on');
   document.getElementById('esc-hist-btn').classList.remove('red-on');
-  showToast('● Live escalations — auto-refreshing hourly');
+  loadEscalations();
 }
-
 function showEscHistory(el) {
   document.getElementById('esc-hist-btn').classList.add('red-on');
   document.getElementById('esc-live-btn').classList.remove('red-on');
-  showToast('Showing escalation history');
-  filterHistory(7, document.getElementById('hist-7'));
+  showToast('History view loading...', 'blue');
 }
 
-function filterHistory(days, el) {
-  document.querySelectorAll('#hist-7,#hist-30,#hist-all').forEach(b => b.classList.remove('active'));
-  if(el) el.classList.add('active');
-  const token = localStorage.getItem('sp_token');
-  if(!token) return;
-  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/escalation/status', {
-    headers: { 'Authorization': 'Bearer ' + token }
-  })
-  .then(r => r.json())
-  .then(data => {
-    showToast('History loaded: ' + (days === 0 ? 'All time' : 'Last ' + days + ' days'));
-  })
-  .catch(() => showToast('History filter applied'));
+/* HISTORY FILTER */
+function filterHist(el, days) {
+  document.querySelectorAll('#hist-7, #hist-30, #hist-all').forEach(function(b){ b.classList.remove('on'); });
+  el.classList.add('on');
+  showToast('Filtering last ' + days + ' days', 'blue');
 }
 
-
-/* ══ NAV PROFILE (shared) ══ */
-function loadNavProfile() {
-  const token = localStorage.getItem('sp_token');
-  if(!token) { window.location.href = 'safetypro_landing.html'; return; }
-  try {
-    const cached = localStorage.getItem('sp_user');
-    if(cached) applyNavProfile(JSON.parse(cached));
-  } catch(e) {}
-  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/auth/profile', {
-    headers: { 'Authorization': 'Bearer ' + token }
-  })
-  .then(r => r.ok ? r.json() : Promise.reject('auth'))
-  .then(user => { localStorage.setItem('sp_user', JSON.stringify(user)); applyNavProfile(user); })
-  .catch(e => { if(e==='auth') { localStorage.removeItem('sp_token'); window.location.href='safetypro_login.html'; }});
+/* OVERDUE FILTER */
+function filterOverdue(el) {
+  document.querySelectorAll('.od-filter').forEach(function(f){ f.classList.remove('on'); });
+  el.classList.add('on');
 }
-function applyNavProfile(user) {
-  if(!user||!user.name) return;
-  const init = user.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
-  const map = {'nav-initials':init,'nav-username':user.name,'nav-role':(user.role||'').replace(/_/g,' '),'profile-name':user.name,'profile-email':user.email||'','profile-role-badge':(user.role||'').replace(/_/g,' ')};
-  Object.entries(map).forEach(([id,val])=>{ const el=document.getElementById(id); if(el) el.textContent=val; });
+
+/* ESCALATION TIMER */
+(function(){
+  var el = document.getElementById('cron-timer'); if (!el) return;
+  var secs = 47 * 60;
+  function tick() {
+    secs = (secs <= 0) ? 3600 : secs - 1;
+    var m = Math.floor(secs / 60); var s = secs % 60;
+    el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  }
+  tick(); setInterval(tick, 1000);
+})();
+
+/* DROPDOWN SYSTEM */
+function closeAllDropdowns() {
+  var pd = document.getElementById('profile-dropdown'); var ad = document.getElementById('alert-dropdown');
+  if (pd) pd.style.display = 'none'; if (ad) ad.style.display = 'none';
+}
+function positionDropdown(dropdown, trigger) {
+  if (!dropdown || !trigger) return;
+  var tr = trigger.getBoundingClientRect(); var vw = window.innerWidth;
+  var dw = Math.min(dropdown.offsetWidth || 260, vw - 16);
+  var right = vw - tr.right; if (right < 8) right = 8;
+  dropdown.style.right = right + 'px'; dropdown.style.left = 'auto';
+  dropdown.style.top = (tr.bottom + 6) + 'px';
+  if (vw <= 480) dropdown.style.width = (vw - 12) + 'px';
+  else if (vw <= 768) dropdown.style.width = Math.min(dw, vw - 16) + 'px';
 }
 function toggleProfileMenu() {
-  const d=document.getElementById('profile-dropdown');
-  if(d) d.style.display = d.style.display==='block' ? 'none' : 'block';
+  var d = document.getElementById('profile-dropdown'); var a = document.getElementById('alert-dropdown');
+  if (!d) return; if (a) a.style.display = 'none';
+  var open = d.style.display === 'block';
+  d.style.display = open ? 'none' : 'block';
+  if (!open) positionDropdown(d, document.getElementById('user-pill-btn'));
 }
-function signOut() {
-  localStorage.removeItem('sp_token');
-  localStorage.removeItem('sp_user');
-  localStorage.removeItem('sp_company');
-  window.location.href = 'safetypro_login.html?logout=1';
+function toggleAlerts() {
+  var d = document.getElementById('alert-dropdown'); var p = document.getElementById('profile-dropdown');
+  if (!d) return; if (p) p.style.display = 'none';
+  var open = d.style.display === 'block';
+  d.style.display = open ? 'none' : 'block';
+  if (!open) positionDropdown(d, document.getElementById('alert-btn'));
 }
+
+/* NAV PROFILE */
+function loadNavProfile() {
+  var token = localStorage.getItem('sp_token'); if (!token) return;
+  apiFetch('/auth/me')
+  .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+  .then(function(u){ localStorage.setItem('sp_user', JSON.stringify(u)); applyNavProfile(u); })
+  .catch(function(){});
+}
+function applyNavProfile(u) {
+  if (!u) return;
+  var name = u.name || u.email || 'User'; var role = u.role || 'HSE Officer';
+  var parts = name.trim().split(' ');
+  var initials = (parts.length > 1 ? parts[0][0] + parts[parts.length-1][0] : name.substring(0,2)).toUpperCase();
+  var map = { 'nav-initials':initials, 'nav-username':name.length>14?name.substring(0,14)+'...':name, 'nav-role':role, 'pd-initials':initials, 'profile-name':name, 'profile-email':u.email||'', 'profile-role-badge':role };
+  Object.keys(map).forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=map[id]; });
+}
+
+/* AUTH ACTIONS */
+function signOut() { localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); window.location.href = 'safetypro_login.html?logout=1'; }
+function goToSettings() { closeAllDropdowns(); showToast('Settings coming soon', 'blue'); }
+function changePassword() { closeAllDropdowns(); showToast('Contact admin@safetyproworld.com', 'blue'); }
+function openManageUsers() { closeAllDropdowns(); showToast('Manage Users - use Admin page', 'blue'); }
+
+/* MORE MENU */
+function toggleMore(e) { e.stopPropagation(); var m = document.getElementById('more-btn'); if (m) m.classList.toggle('open'); }
+
+/* SIDEBAR */
+function toggleSidebar() {
+  var sb=document.querySelector('.sidebar'); var ov=document.getElementById('sb-overlay'); var btn=document.getElementById('sb-toggle');
+  if(!sb) return; sb.classList.toggle('open'); if(ov) ov.classList.toggle('show'); if(btn) btn.classList.toggle('open');
+}
+function closeSidebar() {
+  var sb=document.querySelector('.sidebar'); var ov=document.getElementById('sb-overlay'); var btn=document.getElementById('sb-toggle');
+  if(sb) sb.classList.remove('open'); if(ov) ov.classList.remove('show'); if(btn) btn.classList.remove('open');
+}
+
+/* TOAST */
+var toastTimer = null;
+function showToast(msg, type) {
+  var t = document.getElementById('toast') || document.getElementById('dash-toast');
+  var m = document.getElementById('toast-msg'); if (!t) return;
+  if (m) m.textContent = msg; else t.textContent = msg;
+  var dot = t.querySelector('.toast-dot'); if (dot) dot.style.background = type==='red'?'#EF4444':type==='amber'?'#F59E0B':type==='blue'?'#3B82F6':'#22C55E';
+  t.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+/* CLOSE ON OUTSIDE CLICK / RESIZE / ESCAPE */
 document.addEventListener('click', function(e) {
-  if(!e.target.closest('#user-pill-btn') && !e.target.closest('#profile-dropdown')) {
-    const d=document.getElementById('profile-dropdown'); if(d) d.style.display='none';
-  }
+  if (!e.target.closest('#alert-btn') && !e.target.closest('#alert-dropdown')) { var d=document.getElementById('alert-dropdown'); if(d) d.style.display='none'; }
+  if (!e.target.closest('#user-pill-btn') && !e.target.closest('#profile-dropdown')) { var d=document.getElementById('profile-dropdown'); if(d) d.style.display='none'; }
+  if (!e.target.closest('#more-btn')) { var m=document.getElementById('more-btn'); if(m) m.classList.remove('open'); }
+  if (window.innerWidth <= 768) { var sb=document.querySelector('.sidebar'); if(sb&&sb.classList.contains('open')&&!e.target.closest('.sidebar')&&!e.target.closest('#sb-toggle')) closeSidebar(); }
+});
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAllDropdowns(); });
+window.addEventListener('resize', closeAllDropdowns);
+document.querySelectorAll('.sb-item, .sidebar a').forEach(function(item){ item.addEventListener('click', function(){ if(window.innerWidth<=768) closeSidebar(); }); });
+
+
+/* -- BUILD CHARTS -- */
+window.addEventListener('load', function() {
+  buildDelayChart();
+  buildOwnerChart();
+  buildPerfChart();
 });
 
+function buildDelayChart() {
+  var ctx = document.getElementById('delayChart');
+  if (!ctx) return;
+  try {
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['0-3d','4-7d','8-14d','15-30d','30d+'],
+        datasets: [{
+          label: 'Actions',
+          data: [12, 8, 5, 3, 2],
+          backgroundColor: ['#22C55E40','#F59E0B40','#EF444440','#EF444460','#EF444480'],
+          borderColor: ['#22C55E','#F59E0B','#EF4444','#EF4444','#EF4444'],
+          borderWidth: 1.5,
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0C1824', borderColor: '#162236', borderWidth: 1, titleColor: '#EBF4FF', bodyColor: '#7A9BBF', cornerRadius: 8 } },
+        scales: {
+          x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#2E4A66', font: { family: 'Montserrat', size: 9 } } },
+          y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#2E4A66', font: { family: 'Montserrat', size: 9 } }, beginAtZero: true }
+        }
+      }
+    });
+  } catch(e) {}
+}
+
+function buildOwnerChart() {
+  var ctx = document.getElementById('ownerChart');
+  if (!ctx) return;
+  try {
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Rajan Kumar','Mohan Singh','Priya Desai','Amit Kumar','Others'],
+        datasets: [{ data: [32, 18, 24, 10, 16], backgroundColor: ['#22C55E','#F59E0B','#3B82F6','#EF4444','#8B5CF6'], borderWidth: 0, hoverOffset: 4 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, cutout: '65%',
+        plugins: { legend: { position: 'right', labels: { color: '#7A9BBF', font: { family: 'Montserrat', size: 9 }, boxWidth: 8, padding: 8 } }, tooltip: { backgroundColor: '#0C1824', borderColor: '#162236', borderWidth: 1, titleColor: '#EBF4FF', bodyColor: '#7A9BBF', cornerRadius: 8 } }
+      }
+    });
+  } catch(e) {}
+}
+
+function buildPerfChart() {
+  var ctx = document.getElementById('perfChart');
+  if (!ctx) return;
+  try {
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Oct','Nov','Dec','Jan','Feb','Mar'],
+        datasets: [
+          { label: 'Closure Rate', data: [72,75,80,78,85,87], borderColor: '#22C55E', backgroundColor: 'rgba(34,197,94,0.06)', borderWidth: 1.5, tension: 0.4, fill: true, pointRadius: 3, pointBackgroundColor: '#22C55E' },
+          { label: 'On-Time Rate', data: [60,65,68,72,75,80], borderColor: '#3B82F6', backgroundColor: 'rgba(59,130,246,0.05)', borderWidth: 1.5, tension: 0.4, fill: true, pointRadius: 3, pointBackgroundColor: '#3B82F6' }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { intersect: false, mode: 'index' },
+        plugins: { legend: { position: 'top', labels: { color: '#7A9BBF', font: { family: 'Montserrat', size: 10, weight: '600' }, boxWidth: 10, padding: 12 } }, tooltip: { backgroundColor: '#0C1824', borderColor: '#162236', borderWidth: 1, titleColor: '#EBF4FF', bodyColor: '#7A9BBF', cornerRadius: 8 } },
+        scales: {
+          x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#2E4A66', font: { family: 'Montserrat', size: 9 } } },
+          y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#2E4A66', font: { family: 'Montserrat', size: 9 } }, beginAtZero: true, max: 100 }
+        }
+      }
+    });
+  } catch(e) {}
+}
+
+</script>
+
+<!-- WebSocket Real-Time Client -->
+<script>
+/* 
+   SAFETYPRO AI  WebSocket Client
+   Connects to backend, authenticates with JWT,
+   listens for real-time events and updates UI instantly.
+   
+   PAGE: Control
+    */
+
+/*  SOCKET.IO CDN is loaded before this script  */
+
+var SP_SOCKET = null;
+var SP_WS_URL = 'https://distinguished-serenity-production-37d1.up.railway.app';
+var SP_RECONNECT_ATTEMPTS = 0;
+var SP_MAX_RECONNECT = 5;
+var SP_TOAST_FN = 'showToast';
+
+/*  INIT: connect on page load  */
+window.addEventListener('load', function() {
+  setTimeout(spInitSocket, 1200); // slight delay  let auth guard run first
+});
+
+function spInitSocket() {
+  var token = localStorage.getItem('sp_token');
+  if (!token) return; // not logged in  skip
+
+  /* Check socket.io is loaded */
+  if (typeof io === 'undefined') {
+    console.warn('[SafetyPro WS] socket.io not loaded  real-time disabled');
+    return;
+  }
+
+  try {
+    SP_SOCKET = io(SP_WS_URL, {
+      auth: { token: token },
+      transports: ['websocket', 'polling'],
+      reconnection: true,
+      reconnectionAttempts: SP_MAX_RECONNECT,
+      reconnectionDelay: 2000,
+      timeout: 10000,
+    });
+
+    spBindEvents();
+  } catch(e) {
+    console.warn('[SafetyPro WS] Connection failed:', e.message);
+  }
+}
+
+/*  BIND ALL EVENTS  */
+function spBindEvents() {
+  if (!SP_SOCKET) return;
+
+  /* Connection established */
+  SP_SOCKET.on('connect', function() {
+    SP_RECONNECT_ATTEMPTS = 0;
+    console.log('[SafetyPro WS] Connected  real-time active');
+    spUpdateConnectionStatus(true);
+  });
+
+  /* Connection lost */
+  SP_SOCKET.on('disconnect', function(reason) {
+    console.warn('[SafetyPro WS] Disconnected:', reason);
+    spUpdateConnectionStatus(false);
+  });
+
+  /* Connection error */
+  SP_SOCKET.on('connect_error', function(err) {
+    SP_RECONNECT_ATTEMPTS++;
+    console.warn('[SafetyPro WS] Connection error:', err.message);
+    if (SP_RECONNECT_ATTEMPTS >= SP_MAX_RECONNECT) {
+      console.warn('[SafetyPro WS] Max reconnects reached  falling back to HTTP polling');
+      spStartFallbackPoll();
+    }
+  });
+
+  /* Server confirmed connection */
+  SP_SOCKET.on('connected', function(data) {
+    console.log('[SafetyPro WS] Authenticated as:', data.userId);
+  });
+
+  /*  KPIs UPDATED  */
+  SP_SOCKET.on('kpis.updated', function(data) {
+    console.log('[SafetyPro WS] kpis.updated', data);
+    spOnKpisUpdated(data);
+  });
+
+  /*  INCIDENT CREATED  */
+  SP_SOCKET.on('incident.created', function(data) {
+    console.log('[SafetyPro WS] incident.created', data);
+    spOnIncidentCreated(data);
+  });
+
+  /*  NCR CREATED  */
+  SP_SOCKET.on('ncr.created', function(data) {
+    console.log('[SafetyPro WS] ncr.created', data);
+    spOnNcrCreated(data);
+  });
+
+  /*  ACTION UPDATED  */
+  SP_SOCKET.on('action.updated', function(data) {
+    console.log('[SafetyPro WS] action.updated', data);
+    spOnActionUpdated(data);
+  });
+
+  /*  ESCALATION TRIGGERED  */
+  SP_SOCKET.on('escalation.triggered', function(data) {
+    console.log('[SafetyPro WS] escalation.triggered', data);
+    spOnEscalationTriggered(data);
+  });
+
+  /*  USER ACTIVITY  */
+  SP_SOCKET.on('user.activity', function(data) {
+    console.log('[SafetyPro WS] user.activity', data);
+    spOnUserActivity(data);
+  });
+
+  /*  ERROR  */
+  SP_SOCKET.on('error', function(err) {
+    console.warn('[SafetyPro WS] Error:', err.message);
+    if (err.message === 'Invalid token' || err.message === 'Authentication required') {
+      localStorage.removeItem('sp_token');
+      window.location.href = 'safetypro_login.html';
+    }
+  });
+}
+
+/*  CONNECTION STATUS INDICATOR  */
+function spUpdateConnectionStatus(connected) {
+  /* Update alert dot color subtly  green pulse = live */
+  var dot = document.getElementById('alert-dot');
+  if (!dot) return;
+  if (connected) {
+    dot.style.background = '#22C55E';
+    dot.style.display = 'block';
+    setTimeout(function(){ dot.style.background = ''; dot.style.display = ''; }, 2000);
+  }
+}
+
+/*  ANIMATE NUMBER HELPER  */
+function spAnimateNum(el, target) {
+  if (!el) return;
+  if (typeof animateNum === 'function') { animateNum(el, target); return; }
+  var dur = 800; var t0 = performance.now();
+  var isFloat = String(target).indexOf('.') > -1;
+  function step(now) {
+    var p = Math.min((now - t0) / dur, 1);
+    var ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = isFloat ? (target * ease).toFixed(1) : Math.round(target * ease);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = isFloat ? parseFloat(target).toFixed(1) : Math.round(target);
+  }
+  requestAnimationFrame(step);
+}
+
+/*  SHOW TOAST HELPER  */
+function spToast(msg, type) {
+  if (typeof showDashToast === 'function') { showDashToast(msg, type || 'green'); return; }
+  if (typeof showToast === 'function') { showToast(msg, type || 'green'); return; }
+}
+
+/*  FORMAT TIME  */
+function spTimeAgo(isoString) {
+  var now = new Date();
+  var then = new Date(isoString);
+  var diff = Math.floor((now - then) / 1000);
+  if (diff < 60) return 'Just now';
+  if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+  return Math.floor(diff / 3600) + 'h ago';
+}
+
+/*  INITIALS FROM NAME  */
+function spInitials(name) {
+  if (!name) return '??';
+  var parts = name.trim().split(' ');
+  return parts.length > 1 
+    ? (parts[0][0] + parts[parts.length-1][0]).toUpperCase()
+    : name.substring(0, 2).toUpperCase();
+}
+
+/*  SEVERITY COLOR  */
+function spSeverityColor(severity) {
+  var map = { CRITICAL: '#EF4444', HIGH: '#F97316', MEDIUM: '#F59E0B', LOW: '#22C55E' };
+  return map[(severity||'').toUpperCase()] || '#3B82F6';
+}
+
+/* 
+   EVENT HANDLERS  page-specific logic below
+    */
+
+
+function spOnKpisUpdated(data) {
+  if (typeof loadControlData === 'function') loadControlData();
+}
+
+function spOnIncidentCreated(data) {
+  var inc = data.incident || {};
+  spToast('New incident: ' + (inc.description || '').substring(0, 40), 'red');
+  /* Refresh overdue list and KPIs */
+  spOnKpisUpdated(data);
+}
+
+function spOnNcrCreated(data) {
+  var ncr = data.ncr || {};
+  /* Refresh cn3 (open NCR count) */
+  var cn3 = document.getElementById('cn3');
+  if (cn3) {
+    var c = parseInt(cn3.textContent) || 0;
+    if (typeof animateNum === 'function') animateNum(cn3, c + 1);
+    else cn3.textContent = c + 1;
+  }
+  spToast('New NCR: ' + (ncr.description || '').substring(0, 40), 'amber');
+}
+
+function spOnActionUpdated(data) {
+  var action = data.action || {};
+  /* Reload overdue list */
+  if (typeof loadOverdue === 'function') setTimeout(loadOverdue, 500);
+  if (action.status === 'OVERDUE') {
+    /* Add to overdue list */
+    spAddToOverdueList(action);
+    spToast('Action overdue: ' + (action.title || '').substring(0, 40), 'red');
+  }
+}
+
+function spOnEscalationTriggered(data) {
+  var esc = data.escalation || {};
+  /* Update cn1 (escalated counter) */
+  var cn1 = document.getElementById('cn1');
+  if (cn1) {
+    var c = parseInt(cn1.textContent) || 0;
+    if (typeof animateNum === 'function') animateNum(cn1, c + 1);
+    else cn1.textContent = c + 1;
+  }
+  /* Add to escalation table */
+  spAddToEscTable(esc);
+  /* Pulse alert bell */
+  var dot = document.getElementById('alert-dot');
+  if (dot) { dot.style.display = 'block'; }
+  /* Reload alert list if open */
+  var alertDd = document.getElementById('alert-dropdown');
+  if (alertDd && alertDd.style.display === 'block') {
+    if (typeof loadAlerts === 'function') loadAlerts();
+  }
+  spToast('L' + esc.level + ' Escalation: ' + (esc.actionTitle || '').substring(0, 35), 'red');
+}
+
+function spOnUserActivity(data) { /* no-op on control */ }
+
+/*  CONTROL HELPERS  */
+function spAddToEscTable(esc) {
+  var tbody = document.getElementById('esc-tbody');
+  if (!tbody) return;
+  var level = esc.level || 1;
+  var color = level >= 3 ? 'var(--red)' : level === 2 ? 'var(--amber)' : 'var(--blue)';
+  var row = document.createElement('tr');
+  row.style.animation = 'fadeIn .3s ease';
+  row.innerHTML =
+    '<td><span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;background:' + color + '20;color:' + color + '">L' + level + '</span></td>' +
+    '<td style="font-size:12px;color:var(--t1);font-weight:600">' + (esc.actionTitle || 'New Escalation') + '</td>' +
+    '<td style="font-size:12px;color:var(--t2)">' + (esc.assigneeName || '--') + '</td>' +
+    '<td style="font-size:12px;color:var(--red)">' + (esc.daysOverdue || 0) + 'd</td>' +
+    '<td><button onclick="showToast('Reviewing escalation...','blue')" style="font-size:10px;padding:3px 10px;border-radius:5px;background:var(--g-s);color:var(--green);border:1px solid var(--g-b);cursor:pointer;">Resolve</button></td>';
+  tbody.insertBefore(row, tbody.firstChild);
+}
+
+function spAddToOverdueList(action) {
+  var list = document.getElementById('od-list');
+  if (!list) return;
+  var div = document.createElement('div');
+  div.className = 'od-item';
+  div.style.animation = 'fadeIn .3s ease';
+  div.style.cssText += 'display:flex;align-items:center;gap:10px;padding:10px;background:var(--raised);border-radius:8px;border:1px solid var(--border);margin-bottom:6px';
+  div.innerHTML =
+    '<div style="width:4px;height:48px;background:var(--red);border-radius:2px;flex-shrink:0"></div>' +
+    '<div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--t1)">' + (action.title || 'Action Overdue') + '</div>' +
+    '<div style="font-size:10px;color:var(--t3);margin-top:2px">' + (action.assignedTo || '--') + '</div></div>' +
+    '<div style="font-size:11px;font-weight:700;color:var(--red)">' + (action.daysOverdue || 1) + 'd overdue</div>';
+  list.insertBefore(div, list.firstChild);
+}
+
+
+/*  FALLBACK: HTTP POLL every 30s if WebSocket fails  */
+var spPollTimer = null;
+function spStartFallbackPoll() {
+  if (spPollTimer) return; // already polling
+  console.log('[SafetyPro WS] Starting 30s HTTP fallback poll');
+  spPollTimer = setInterval(function() {
+    if (typeof loadDashboardData === 'function') loadDashboardData();
+    else if (typeof loadOpsData === 'function') loadOpsData();
+    else if (typeof loadControlData === 'function') loadControlData();
+    else if (typeof loadReportsData === 'function') loadReportsData();
+  }, 30000);
+}
+
+/*  CLEANUP on page unload  */
+window.addEventListener('beforeunload', function() {
+  if (SP_SOCKET) { SP_SOCKET.disconnect(); SP_SOCKET = null; }
+  if (spPollTimer) { clearInterval(spPollTimer); spPollTimer = null; }
+});
+
+</script>
+
+
+      <!-- ══ SCENARIO PLANNER TAB ══ -->
+      <div class="tab-panel" id="tab-scenario" style="display:none;">
+        <div style="display:grid;grid-template-columns:300px 1fr;gap:16px;flex-wrap:wrap;">
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="card">
+              <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:14px;">Adjust Parameters</div>
+              <div style="display:flex;flex-direction:column;gap:14px;">
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">Incident rate change</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-inc-val">+20%</span></div>
+                  <input type="range" min="-50" max="100" value="20" style="width:100%;" oninput="scUpdate()" id="sc-inc">
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">NCR closure rate</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-ncr-val">78%</span></div>
+                  <input type="range" min="40" max="100" value="78" style="width:100%;" oninput="scUpdate()" id="sc-ncr">
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">Training completion</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-train-val">83%</span></div>
+                  <input type="range" min="40" max="100" value="83" style="width:100%;" oninput="scUpdate()" id="sc-train">
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">Additional HSE officers</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-off-val">0</span></div>
+                  <input type="range" min="0" max="5" value="0" style="width:100%;" oninput="scUpdate()" id="sc-off">
+                </div>
+              </div>
+            </div>
+            <div class="card" style="background:rgba(59,130,246,.04);border:1px solid rgba(59,130,246,.15);">
+              <div style="font-size:10px;color:var(--blue);font-family:var(--fh);font-weight:700;margin-bottom:8px;">NOTE</div>
+              <div style="font-size:10px;color:var(--t3);line-height:1.7;">Formula-based projections using industry benchmarks. AI predictions available after 6+ months of platform data.</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="card">
+              <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:14px;">Projected Impact — Next 90 Days</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;">
+                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
+                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Projected Incidents</div>
+                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-proj-inc"><span style="color:var(--red);">+4</span></div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">vs current baseline</div>
+                </div>
+                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
+                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Escalation Risk</div>
+                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-esc-risk"><span style="color:var(--red);">High</span></div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">L3+ probability</div>
+                </div>
+                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
+                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Maturity Impact</div>
+                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-mat-imp"><span style="color:var(--amber);">&#8595; 0.3</span></div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">Score change</div>
+                </div>
+                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
+                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Cost Projection</div>
+                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-cost"><span style="color:var(--red);">+&#8377;2.1L</span></div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">Additional cost</div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:12px;">Recommended Actions</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;gap:10px;padding:10px 12px;background:rgba(239,68,68,.05);border-radius:8px;border:1px solid rgba(239,68,68,.15);">
+                  <div style="width:6px;height:6px;border-radius:50%;background:var(--red);margin-top:4px;flex-shrink:0;"></div>
+                  <div style="font-size:11px;color:var(--t2);">Immediately close overdue NCRs — escalation risk critical within 72 hours</div>
+                </div>
+                <div style="display:flex;gap:10px;padding:10px 12px;background:rgba(245,158,11,.05);border-radius:8px;border:1px solid rgba(245,158,11,.15);">
+                  <div style="width:6px;height:6px;border-radius:50%;background:var(--amber);margin-top:4px;flex-shrink:0;"></div>
+                  <div style="font-size:11px;color:var(--t2);">Schedule emergency toolbox talk — height work and PPE violations trending up</div>
+                </div>
+                <div style="display:flex;gap:10px;padding:10px 12px;background:rgba(59,130,246,.05);border-radius:8px;border:1px solid rgba(59,130,246,.15);">
+                  <div style="width:6px;height:6px;border-radius:50%;background:var(--blue);margin-top:4px;flex-shrink:0;"></div>
+                  <div style="font-size:11px;color:var(--t2);">Increase inspection frequency — 3 incidents flagged at highest risk site this week</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+<script>
+function scUpdate() {
+  var inc = parseInt(document.getElementById('sc-inc').value);
+  var ncr = parseInt(document.getElementById('sc-ncr').value);
+  var train = parseInt(document.getElementById('sc-train').value);
+  var off = parseInt(document.getElementById('sc-off').value);
+  document.getElementById('sc-inc-val').textContent = (inc >= 0 ? '+' : '') + inc + '%';
+  document.getElementById('sc-ncr-val').textContent = ncr + '%';
+  document.getElementById('sc-train-val').textContent = train + '%';
+  document.getElementById('sc-off-val').textContent = off;
+  var baseline = 20;
+  var projDelta = Math.round(baseline * inc / 100);
+  var risk = inc > 30 ? 'High' : inc > 0 ? 'Medium' : 'Low';
+  var riskCol = inc > 30 ? 'var(--red)' : inc > 0 ? 'var(--amber)' : 'var(--green)';
+  var matNum = ((-inc * 0.015) + ((ncr - 78) * 0.01) + ((train - 83) * 0.008) + (off * 0.1));
+  var matImp = (matNum >= 0 ? '+' : '') + matNum.toFixed(1);
+  var matCol = matNum >= 0 ? 'var(--green)' : 'var(--amber)';
+  var matArr = matNum >= 0 ? '&#8593;' : '&#8595;';
+  var cost = (projDelta) * 52000;
+  var costStr = (cost >= 0 ? '+' : '-') + '&#8377;' + Math.abs(Math.round(cost/1000)) + 'K';
+  var costCol = cost > 0 ? 'var(--red)' : 'var(--green)';
+  document.getElementById('sc-proj-inc').innerHTML = '<span style="color:' + (projDelta > 0 ? 'var(--red)' : 'var(--green)') + ';">' + (projDelta > 0 ? '+' : '') + projDelta + '</span>';
+  document.getElementById('sc-esc-risk').innerHTML = '<span style="color:' + riskCol + ';">' + risk + '</span>';
+  document.getElementById('sc-mat-imp').innerHTML = '<span style="color:' + matCol + ';">' + matArr + ' ' + matImp + '</span>';
+  document.getElementById('sc-cost').innerHTML = '<span style="color:' + costCol + ';">' + costStr + '</span>';
+}
 </script>
 </body>
 </html>

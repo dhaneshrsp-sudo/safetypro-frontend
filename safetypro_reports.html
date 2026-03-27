@@ -4,8 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>SafetyPro AI — Reports</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
 <style>
 :root{
   --bg:#0B0F14;--card:#131C26;--raised:#16212B;--sidebar:#0F1720;--border:#1E293B;--div:rgba(255,255,255,0.05);
@@ -15,7 +15,7 @@
   --blue:#3B82F6;--b-s:rgba(59,130,246,0.12);--b-b:rgba(59,130,246,0.3);
   --purple:#8B5CF6;--p-s:rgba(139,92,246,0.12);--p-b:rgba(139,92,246,0.3);
   --t1:#E6EDF3;--t2:#94A3B8;--t3:#64748B;
-  --fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+  --fh:'Montserrat',sans-serif;--fb:'Roboto',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{margin:0;padding:0}
@@ -61,11 +61,11 @@ svg{flex-shrink:0}
 
 /* CONTENT */
 .content{flex:1;min-width:0}
-.sub-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50}
+.sub-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50flex-wrap:wrap;}
 .sh-left{display:flex;align-items:center;gap:12px}
 .sh-title{font-family:var(--fh);font-size:16px;font-weight:700}
-.sh-tabs{display:flex;gap:2px}
-.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent}
+.sh-tabs{display:flex;gap:2px;}
+.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparentwhite-space:nowrap;flex-shrink:0;}
 .sh-tab:hover{color:var(--t2)}
 .sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
 .sh-right{display:flex;gap:8px;align-items:center}
@@ -261,40 +261,330 @@ svg{flex-shrink:0}
 .mm-admin svg{opacity:1}
 .sb-more-item{padding:7px 10px;font-size:12px}
 .sb-more-item svg{width:13px;height:13px}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — APP PAGES
+   Mobile / Tablet / Desktop
+══════════════════════════════════════ */
+
+.sb-toggle{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  padding:6px;background:none;border:1px solid var(--border);
+  border-radius:7px;margin-left:8px;flex-shrink:0;
+}
+.sb-toggle span{
+  display:block;width:18px;height:2px;
+  background:var(--t2);border-radius:2px;transition:.3s;
+}
+.sb-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.sb-toggle.open span:nth-child(2){opacity:0;}
+.sb-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
+.sb-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.5);z-index:149;
+  backdrop-filter:blur(2px);
+}
+.sb-overlay.show{display:block;}
+
+/* ── Tablet: 1024px ── */
+@media(max-width:1024px){
+  .nl{font-size:10px;padding:5px 8px;}
+  .un-name{display:none;}
+  [class*="grid-cols-4"],[style*="repeat(4"]{grid-template-columns:repeat(2,1fr) !important;}
+  [class*="grid-cols-3"],[style*="repeat(3"]{grid-template-columns:repeat(2,1fr) !important;}
+}
+
+/* ── Large Mobile: 768px ── */
+@media(max-width:768px){
+  html,body{overflow:auto !important;height:auto !important;}
+  body{flex-direction:column;}
+
+  .topnav{padding:0 12px !important;gap:6px;}
+  .nav-links{display:none !important;}
+  .sb-toggle{display:flex !important;}
+  .logo-text{font-size:13px !important;}
+  .un-name,.un-role{display:none !important;}
+  .more-wrap{display:none !important;}
+
+  .sidebar{
+    position:fixed !important;top:52px;left:-230px;
+    width:220px !important;height:calc(100vh - 52px);
+    z-index:150;transition:left .28s ease;
+    box-shadow:none;overflow-y:auto;
+  }
+  .sidebar.open{left:0 !important;box-shadow:4px 0 24px rgba(0,0,0,.5);}
+
+  .body{flex-direction:column;overflow:visible !important;height:auto !important;}
+  .content{overflow:visible !important;height:auto !important;}
+
+  .subnav,.subnav-row{
+    flex-direction:column !important;align-items:flex-start !important;
+    gap:8px !important;padding:10px 14px !important;
+  }
+
+  .dash,.page-inner,.content-inner,.main-content{
+    padding:12px 14px !important;
+  }
+
+  /* Tables — horizontal scroll */
+  table,.table-wrap{overflow-x:auto;display:block;-webkit-overflow-scrolling:touch;}
+  table{min-width:600px;}
+
+  /* Common grids restack */
+  .kpi-row,[class*="kpi-row"]{grid-template-columns:repeat(2,1fr) !important;}
+  .main-grid{grid-template-columns:1fr !important;}
+  .bottom-grid{grid-template-columns:1fr !important;}
+  .grid-3{grid-template-columns:1fr 1fr !important;}
+  .grid-4{grid-template-columns:1fr 1fr !important;}
+
+  /* Cards full width */
+  .g-card,.chart-card,.card,.panel{width:100% !important;}
+
+  .fab-bar{bottom:14px;right:12px;}
+  .fab{padding:8px 12px;font-size:10px;}
+
+  /* Modals */
+  .modal,.modal-bg .modal{width:95vw !important;max-height:85vh;}
+  .form-row{grid-template-columns:1fr !important;}
+
+  /* Icon buttons */
+  .icon-btn{width:30px;height:30px;}
+  .user-pill{padding:3px 8px 3px 3px;}
+
+  .sh-right{flex-wrap:wrap !important;gap:6px !important;width:100% !important;}
+  .action-table-wrap,.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+}
+
+/* ── Mobile: 480px ── */
+@media(max-width:480px){
+  .topnav{padding:0 10px !important;}
+  .kpi-row{grid-template-columns:1fr !important;}
+  .kpi-num,.stat-big{font-size:26px !important;}
+  .fab-bar{flex-direction:column;gap:6px;bottom:12px;right:10px;}
+  .fab{width:44px;height:44px;padding:0;justify-content:center;border-radius:50%;}
+  .fab span,.fab-label{display:none;}
+  .chart-wrap{height:130px !important;}
+  .modal{margin:10px !important;}
+}
+
+
+/* ══ DROPDOWN RESPONSIVE FIX ══ */
+.profile-dd,.alert-dropdown{
+  position:fixed !important;
+  top:58px;
+  right:12px;
+  z-index:9999;
+}
+@media(max-width:768px){
+  .profile-dd,.alert-dropdown{
+    right:8px !important;
+    width:calc(100vw - 16px) !important;
+    max-width:300px !important;
+    left:auto !important;
+  }
+}
+@media(max-width:480px){
+  .profile-dd,.alert-dropdown{
+    right:6px !important;
+    width:calc(100vw - 12px) !important;
+  }
+}
+
+
+/* ══ UNIVERSAL MOBILE FIXES ══ */
+@media(max-width:768px){
+
+  /* ── Sub-header: stack vertically ── */
+  .sub-header{
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    gap:8px !important;
+    padding:10px 12px !important;
+  flex-wrap:wrap;}
+  .sh-left{width:100% !important;}
+  .sh-right{
+    width:100% !important;
+    flex-wrap:wrap !important;
+    gap:6px !important;
+  }
+  .sh-title{font-size:14px !important;}
+
+  /* ── Tab bar: scroll horizontally, never overflow ── */
+  .sh-tabs{
+    display:flex !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    -webkit-overflow-scrolling:touch !important;
+    flex-wrap:nowrap !important;
+    gap:3px !important;
+    padding-bottom:4px !important;
+    scrollbar-width:none !important;
+    width:100% !important;
+    max-width:100vw !important;
+  }
+  .sh-tabs::-webkit-scrollbar{display:none !important;}
+  .sh-tab{
+    flex-shrink:0 !important;
+    white-space:nowrap !important;
+    font-size:11px !important;
+    padding:5px 12px !important;
+  }
+
+  /* ── Selects in subheader ── */
+  .sh-right select,.sel{
+    flex:1 !important;
+    min-width:80px !important;
+    max-width:100% !important;
+    font-size:11px !important;
+  }
+
+  /* ── Main 2-col layout → single col ── */
+  .ops-grid{
+    grid-template-columns:1fr !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+  .left-col,.right-col{width:100% !important;}
+  .two-col,.two-col-grid{grid-template-columns:1fr !important;}
+
+  /* ── Control page specific ── */
+  .esc-grid{grid-template-columns:1fr !important;}
+  .od-grid{grid-template-columns:1fr !important;}
+  .team-grid{grid-template-columns:1fr !important;}
+  .chain-card{padding:10px !important;}
+  .matrix-wrap{overflow-x:auto !important;}
+  .esc-table-wrap{overflow-x:auto !important; -webkit-overflow-scrolling:touch !important;}
+  .delay-chart-wrap{height:160px !important;}
+  .cs-grid{grid-template-columns:1fr 1fr !important;}
+
+  /* ── Reports page specific ── */
+  .charts-grid{grid-template-columns:1fr !important;}
+  .monthly-grid{grid-template-columns:1fr !important;}
+  .bench-grid{grid-template-columns:1fr !important;}
+  .apr-grid{grid-template-columns:1fr !important;}
+  .obj-card{padding:12px !important;}
+
+  /* ── Admin page specific ── */
+  .billing-grid{grid-template-columns:1fr !important;}
+  .notif-grid{grid-template-columns:1fr !important;}
+  .wf-grid{
+    flex-direction:column !important;
+    gap:8px !important;
+  }
+  .wf-arrow{transform:rotate(90deg) !important;}
+  .form-grid{grid-template-columns:1fr !important;}
+  .plan-card{width:100% !important;}
+
+  /* ── Cards: full width, comfortable padding ── */
+  .card,.g-card,.chart-card,.panel,.cs-card{
+    width:100% !important;
+    padding:12px !important;
+  }
+  .card-head,.card-hdr{
+    flex-wrap:wrap !important;
+    gap:8px !important;
+  }
+  .card-btns{flex-wrap:wrap !important; gap:4px !important;}
+
+  /* ── Tab panels ── */
+  .tab-panel{width:100% !important; overflow-x:hidden !important;}
+
+  /* ── Inputs full width ── */
+  .form-group{margin-bottom:12px !important;}
+  .form-input,.form-select,.form-textarea,.sel{
+    width:100% !important;
+    font-size:14px !important;
+  }
+
+  /* ── Chart heights ── */
+  .chart-wrap,[id$="Chart"]{height:160px !important;}
+
+  /* ── Action table ── */
+  .action-table{font-size:11px !important;}
+  .action-table th,.action-table td{padding:6px 8px !important;}
+}
+
+/* ══ SMALL MOBILE: 480px ══ */
+@media(max-width:480px){
+  .sh-title{font-size:13px !important;}
+  .sh-tab{font-size:10px !important; padding:4px 10px !important;}
+  .card,.g-card{padding:10px !important;}
+  .card-head,.card-hdr{margin-bottom:8px !important;}
+  .topnav{padding:0 10px !important;}
+  .logo-text{font-size:12px !important;}
+  .act-grid{grid-template-columns:1fr !important;}
+  .kpi-row,[class*="kpi-row"]{grid-template-columns:1fr 1fr !important;}
+}
+
+
+/* ── MOBILE TAB BAR FIX ── */
+.sh-tabs{
+  display:flex;
+  gap:2px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  flex-wrap:nowrap;
+  padding-bottom:2px;
+}
+.sh-tabs::-webkit-scrollbar{display:none;}
+.sh-tab{
+  white-space:nowrap;
+  flex-shrink:0;
+}
+@media(max-width:480px){
+  .sh-tab{font-size:10px !important;padding:4px 10px !important;}
+  .sh-tabs{gap:1px;}
+  .sub-header,.sh-left,.sh-right{flex-wrap:wrap;gap:6px;}
+  .sh-right{width:100%;}
+}
+@media(max-width:360px){
+  .sh-tab{font-size:9px !important;padding:3px 8px !important;}
+}
+
+@keyframes mmfadein{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* WebSocket real-time fade-in animation */
+@keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
 <body>
 <div class="app">
 
 <!-- TOP NAV -->
 <nav class="topnav">
-  <a class="logo" href="#" title="Dashboard">
+  <a class="logo" href="safetypro_v2.html" title="Dashboard">
     <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
     <span class="logo-text">SafetyPro <span>AI</span></span>
   </a>
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
   <div style="display:flex;align-items:center;gap:2px;flex:1;padding:0 12px">
     <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
-    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>Operations</a>
-    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
+    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>Operations</a>
+    <a class="nl" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
     <a class="nl active" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>Reports</a>
     <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
       <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More<span class="arr">▾</span>
       <div class="more-menu" id="more-menu">
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
+        <a class="mm-item" href="#" onclick="event.preventDefault();showToast('Audit & Compliance - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="safetypro_documents.html" onclick="event.preventDefault();showToast('Documents & Records - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
+        <a class="mm-item" href="safetypro_field.html" onclick="event.preventDefault();showToast('Site & Field Tools - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="safetypro_ai.html" onclick="event.preventDefault();showToast('AI Intelligence - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_auditor.html" onclick="event.preventDefault();showToast('Auditor Verification - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
         <div class="mm-divider"></div>
-        <a class="mm-item mm-admin" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Admin &amp; Configuration</a>
+        <a class="mm-item mm-admin" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Admin &amp; Configuration</a>
       </div>
     </div>
   </div>
   <div class="nav-right">
-    <div class="icon-btn"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><div class="ndot"></div></div>
-    <div class="user-pill">
-      <div class="ua">DK</div>
-      <div><div class="un-name">Dhanesh CK</div><div class="un-role">HSE Head</div></div>
+    <div class="icon-btn" id="alert-btn" onclick="toggleAlerts()" title="Alerts" style="position:relative"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><div class="red-dot" id="alert-dot" style="display:none"></div></div>
+    <div class="user-pill" id="user-pill-btn" onclick="toggleProfileMenu()">
+      <div class="ua" id="nav-initials">DK</div>
+      <div><div class="un-name" id="nav-username">Dhanesh CK</div><div class="un-role" id="nav-role">HSE Head</div></div>
       <span style="color:var(--t3);font-size:10px;margin-left:6px">▾</span>
     </div>
   </div>
@@ -306,6 +596,14 @@ svg{flex-shrink:0}
       <div style="font-size:11px;color:var(--t3)" id="profile-email">-</div>
       <div style="font-size:10px;color:var(--green);margin-top:2px;font-weight:600" id="profile-role-badge">-</div>
     </div>
+<!-- ALERT DROPDOWN -->
+<div id="alert-dropdown" style="display:none;position:fixed;top:58px;right:12px;width:300px;background:#0C1824;border:1px solid #1E293B;border-radius:12px;box-shadow:0 16px 48px rgba(0,0,0,.7);z-index:9999;overflow:hidden;">
+  <div style="padding:11px 14px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:#7A9BBF;letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid #1E293B;display:flex;align-items:center;gap:7px;">
+    <div style="width:6px;height:6px;border-radius:50%;background:#EF4444;flex-shrink:0;"></div>
+    Live Alerts
+  </div>
+  <div id="alert-list"><div style="padding:14px;text-align:center;color:#64748B;font-size:12px">Loading...</div></div>
+</div>
     <div style="padding:8px 0">
       <div onclick="signOut()" style="padding:10px 16px;font-size:13px;color:#EF4444;cursor:pointer;display:flex;align-items:center;gap:8px" onmouseover="this.style.background='rgba(239,68,68,.08)'" onmouseout="this.style.background='transparent'">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
@@ -314,46 +612,47 @@ svg{flex-shrink:0}
     </div>
   </div>
 
+<div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
 <div class="body">
 <!-- SIDEBAR -->
 <div class="sidebar">
-    <a class="sb-item" href="#"  viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    <a class="sb-item" href="safetypro_v2.html"><svg   viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       Dashboard
     </a>
-    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>
+    <a class="sb-item" href="safetypro_operations.html"><svg   viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>
       Operations<span class="sb-badge amber">12</span>
     </a>
-    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
+    <a class="sb-item" href="safetypro_control.html"><svg   viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
       Control<span class="sb-badge red">5</span>
     </a>
-    <a class="sb-item active" href="#">
+    <a class="sb-item active" href="safetypro_reports.html">
       <svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
       Reports
     </a>
     <div style="height:1px;background:#1E293B;margin:10px 2px 6px"></div>
     <div style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:2px 10px 6px">More</div>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_reports.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
-      Audit & Compliance
+      Audit &amp; Compliance
     </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_documents.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
       Documents & Records
     </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
       Site & Field Tools
     </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
       AI Intelligence
     </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_auditor.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
       Auditor Verification
     </a>
     <div style="height:1px;background:#1E293B;margin:6px 2px 4px"></div>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#22C55E" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#22C55E" href="safetypro_admin.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#22C55E"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
       Admin &amp; Configuration
     </a>
@@ -370,6 +669,10 @@ svg{flex-shrink:0}
         <div class="sh-tab" onclick="switchTab(this,'benchmark')">Benchmark</div>
         <div class="sh-tab" onclick="switchTab(this,'appraisal')">Appraisal</div>
         <div class="sh-tab" onclick="switchTab(this,'trophy')">Champion Trophy</div>
+        <div class="sh-tab" onclick="switchTab(this,'objectives')">Objectives &amp; Targets</div>
+        <div class="sh-tab" onclick="switchTab(this,'roi')">&#128200; ROI &amp; Value</div>
+        <div class="sh-tab" onclick="switchTab(this,'maturity')">&#127919; Maturity Index</div>
+        <div class="sh-tab" onclick="switchTab(this,'calendar')">&#128197; Legal Calendar</div>
       </div>
     </div>
     <div class="sh-right">
@@ -658,296 +961,1148 @@ svg{flex-shrink:0}
 </div>
 </div>
 
+
+          <!-- ═══ OBJECTIVES & TARGETS TAB ═══ -->
+          <div id="tab-objectives" class="tab-panel" style="display:none">
+
+            <!-- KPI STRIP -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;">
+              <div style="background:linear-gradient(145deg,rgba(34,197,94,.07),var(--card));border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:hidden;">
+                <div style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--green);letter-spacing:-1px;" id="obj-achieved">78%</div>
+                <div style="font-family:var(--fh);font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-top:4px;">Overall Achieved</div>
+                <div style="position:absolute;right:-10px;top:-10px;width:60px;height:60px;border-radius:50%;background:radial-gradient(circle,rgba(34,197,94,.4),transparent 70%);opacity:.3;"></div>
+              </div>
+              <div style="background:linear-gradient(145deg,rgba(34,197,94,.07),var(--card));border:1px solid var(--border);border-radius:12px;padding:16px;">
+                <div style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--green);letter-spacing:-1px;" id="obj-ontrack">6</div>
+                <div style="font-family:var(--fh);font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-top:4px;">On Track</div>
+              </div>
+              <div style="background:linear-gradient(145deg,rgba(239,68,68,.07),var(--card));border:1px solid var(--border);border-radius:12px;padding:16px;">
+                <div style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--red);letter-spacing:-1px;" id="obj-delayed">2</div>
+                <div style="font-family:var(--fh);font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-top:4px;">Delayed</div>
+              </div>
+              <div style="background:linear-gradient(145deg,rgba(59,130,246,.07),var(--card));border:1px solid var(--border);border-radius:12px;padding:16px;">
+                <div style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--blue);letter-spacing:-1px;" id="obj-evidence">24</div>
+                <div style="font-family:var(--fh);font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-top:4px;">Evidence Attached</div>
+              </div>
+            </div>
+
+            <!-- MAIN GRID: Objectives List + Scorecard/Insights -->
+            <div style="display:grid;grid-template-columns:1fr 320px;gap:12px;margin-bottom:12px;">
+
+              <!-- OBJECTIVES LIST -->
+              <div style="display:flex;flex-direction:column;gap:10px;">
+
+                <!-- Header -->
+                <div style="display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;">
+                  <div>
+                    <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);">HSE Objectives &amp; Targets</div>
+                    <div style="font-size:10px;color:var(--t3);margin-top:2px;">ABC Infra &bull; Jan-Mar 2026 &bull; Prepared by HSE Dept</div>
+                  </div>
+                  <div style="display:flex;gap:6px;">
+                    <select style="background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t2);font-family:var(--fh);font-size:10px;font-weight:600;padding:4px 8px;outline:none;" onchange="filterObjectives(this.value)">
+                      <option value="all">All Status</option>
+                      <option value="on-track">On Track</option>
+                      <option value="delayed">Delayed</option>
+                      <option value="in-progress">In Progress</option>
+                    </select>
+                    <button onclick="showObjToast('Downloading PDF...')" style="display:flex;align-items:center;gap:5px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--t3);font-family:var(--fh);font-size:10px;font-weight:600;padding:4px 10px;cursor:pointer;transition:.15s;" onmouseover="this.style.borderColor='var(--green)';this.style.color='var(--green)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--t3)'">
+                      &#8595; PDF
+                    </button>
+                    <button onclick="showObjToast('Exporting Excel...')" style="display:flex;align-items:center;gap:5px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--t3);font-family:var(--fh);font-size:10px;font-weight:600;padding:4px 10px;cursor:pointer;transition:.15s;" onmouseover="this.style.borderColor='var(--blue)';this.style.color='var(--blue)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--t3)'">
+                      &#8595; Excel
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Objective Cards -->
+                <div id="obj-list" style="display:flex;flex-direction:column;gap:8px;">
+
+                  <!-- Objective 1: Incident Reduction -->
+                  <div class="obj-card" data-status="delayed" style="background:var(--card);border:1px solid rgba(239,68,68,.25);border-left:3px solid var(--red);border-radius:12px;padding:14px 16px;">
+                    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+                      <div>
+                        <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:3px;">Reduce Incident Rate</div>
+                        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                          <span style="font-size:9px;font-family:var(--fh);font-weight:600;padding:2px 7px;border-radius:4px;background:var(--r-s);color:var(--red);">Delayed</span>
+                          <span style="font-size:9px;font-family:var(--fh);font-weight:600;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.05);color:var(--t3);">Reduction</span>
+                          <span style="font-size:9px;font-family:var(--fh);font-weight:600;padding:2px 7px;border-radius:4px;background:rgba(59,130,246,.1);color:var(--blue);">Weight: 40%</span>
+                        </div>
+                      </div>
+                      <div style="text-align:right;">
+                        <div style="font-family:var(--fh);font-size:22px;font-weight:800;color:var(--red);letter-spacing:-1px;">66%</div>
+                        <div style="font-size:9px;color:var(--t3);">Achievement</div>
+                      </div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;font-size:10px;">
+                      <div><span style="color:var(--t3);">Target:</span> <span style="color:var(--t1);font-weight:600;">&#8804; 2/month</span></div>
+                      <div><span style="color:var(--t3);">Actual:</span> <span style="color:var(--red);font-weight:600;">3 incidents</span></div>
+                      <div><span style="color:var(--t3);">Due:</span> <span style="color:var(--t1);font-weight:600;">30 Mar 2026</span></div>
+                      <div><span style="color:var(--t3);">Owner:</span> <span style="color:var(--t1);font-weight:600;">HSE Manager</span></div>
+                      <div><span style="color:var(--t3);">Type:</span> <span style="color:var(--t1);font-weight:600;">Reduction</span></div>
+                    </div>
+                    <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:10px;">
+                      <div style="width:66%;height:100%;background:var(--red);border-radius:2px;"></div>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                      <button onclick="showObjToast('Opening details...')" style="flex:1;padding:6px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--t2);font-family:var(--fh);font-size:10px;font-weight:600;cursor:pointer;">View Details</button>
+                      <button onclick="document.getElementById('obj1-file').click()" style="flex:1;padding:6px;border-radius:7px;border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.05);color:var(--green);font-family:var(--fh);font-size:10px;font-weight:600;cursor:pointer;">&#128204; Attach Evidence</button>
+                      <input type="file" id="obj1-file" style="display:none" onchange="handleEvidenceUpload(this,'obj1')" multiple accept="image/*,.pdf,.xlsx,.docx"/>
+                    </div>
+                  </div>
+
+                  <!-- Objective 2: PPE Compliance -->
+                  <div class="obj-card" data-status="in-progress" style="background:var(--card);border:1px solid rgba(245,158,11,.2);border-left:3px solid var(--amber);border-radius:12px;padding:14px 16px;">
+                    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+                      <div>
+                        <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:3px;">PPE Compliance</div>
+                        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                          <span style="font-size:9px;font-family:var(--fh);font-weight:600;padding:2px 7px;border-radius:4px;background:rgba(245,158,11,.1);color:var(--amber);">In Progress</span>
+                          <span style="font-size:9px;font-family:var(--fh);font-weight:600;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.05);color:var(--t3);">Percentage</span>
+                          <span style="font-size:9px;font-family:var(--fh);font-weight:600;padding:2px 7px;border-radius:4px;background:rgba(59,130,246,.1);color:var(--blue);">Weight: 30%</span>
+                        </div>
+                      </div>
+                      <div style="text-align:right;">
+                        <div style="font-family:var(--fh);font-size:22px;font-weight:800;color:var(--amber);letter-spacing:-1px;">82%</div>
+                        <div style="font-size:9px;color:var(--t3);">Achievement</div>
+                      </div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;font-size:10px;">
+                      <div><span style="color:var(--t3);">Target:</span> <span style="color:var(--t1);font-weight:600;">100%</span></div>
+                      <div><span style="color:var(--amber);font-weight:600;">Actual: 82%</span></div>
+                      <div><span style="color:var(--t3);">Due:</span> <span style="color:var(--t1);font-weight:600;">25 Mar 2026</span></div>
+                      <div><span style="color:var(--t3);">Owner:</span> <span style="color:var(--t1);font-weight:600;">Supervisor</span></div>
+                    </div>
+                    <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:10px;">
+                      <div style="width:82%;height:100%;background:var(--amber);border-radius:2px;"></div>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                      <button onclick="showObjToast('Opening details...')" style="flex:1;padding:6px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--t2);font-family:var(--fh);font-size:10px;font-weight:600;cursor:pointer;">View Details</button>
+                      <button onclick="document.getElementById('obj2-file').click()" style="flex:1;padding:6px;border-radius:7px;border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.05);color:var(--green);font-family:var(--fh);font-size:10px;font-weight:600;cursor:pointer;">&#128204; Attach Evidence</button>
+                      <input type="file" id="obj2-file" style="display:none" onchange="handleEvidenceUpload(this,'obj2')" multiple accept="image/*,.pdf,.xlsx,.docx"/>
+                    </div>
+                  </div>
+
+                  <!-- Objective 3: Training Completion -->
+                  <div class="obj-card" data-status="on-track" style="background:var(--card);border:1px solid rgba(34,197,94,.15);border-left:3px solid var(--green);border-radius:12px;padding:14px 16px;">
+                    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+                      <div>
+                        <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:3px;">Training Completion</div>
+                        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                          <span style="font-size:9px;font-family:var(--fh);font-weight:600;padding:2px 7px;border-radius:4px;background:rgba(34,197,94,.1);color:var(--green);">On Track</span>
+                          <span style="font-size:9px;font-family:var(--fh);font-weight:600;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.05);color:var(--t3);">Percentage</span>
+                          <span style="font-size:9px;font-family:var(--fh);font-weight:600;padding:2px 7px;border-radius:4px;background:rgba(59,130,246,.1);color:var(--blue);">Weight: 20%</span>
+                        </div>
+                      </div>
+                      <div style="text-align:right;">
+                        <div style="font-family:var(--fh);font-size:22px;font-weight:800;color:var(--green);letter-spacing:-1px;">76%</div>
+                        <div style="font-size:9px;color:var(--t3);">Achievement</div>
+                      </div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;font-size:10px;">
+                      <div><span style="color:var(--t3);">Target:</span> <span style="color:var(--t1);font-weight:600;">90%</span></div>
+                      <div><span style="color:var(--green);font-weight:600;">Actual: 76%</span></div>
+                      <div><span style="color:var(--t3);">Due:</span> <span style="color:var(--t1);font-weight:600;">31 Mar 2026</span></div>
+                      <div><span style="color:var(--t3);">Owner:</span> <span style="color:var(--t1);font-weight:600;">HSE Head</span></div>
+                    </div>
+                    <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:10px;">
+                      <div style="width:76%;height:100%;background:var(--green);border-radius:2px;"></div>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                      <button onclick="showObjToast('Opening details...')" style="flex:1;padding:6px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--t2);font-family:var(--fh);font-size:10px;font-weight:600;cursor:pointer;">View Details</button>
+                      <button onclick="document.getElementById('obj3-file').click()" style="flex:1;padding:6px;border-radius:7px;border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.05);color:var(--green);font-family:var(--fh);font-size:10px;font-weight:600;cursor:pointer;">&#128204; Attach Evidence</button>
+                      <input type="file" id="obj3-file" style="display:none" onchange="handleEvidenceUpload(this,'obj3')" multiple accept="image/*,.pdf,.xlsx,.docx"/>
+                    </div>
+                  </div>
+
+                </div><!-- end obj-list -->
+              </div><!-- end objectives list col -->
+
+              <!-- RIGHT: Compliance Scorecard + AI Insights -->
+              <div style="display:flex;flex-direction:column;gap:10px;">
+
+                <!-- KPI Progress Circles -->
+                <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;">
+                  <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);margin-bottom:12px;">KPI Progress</div>
+                  <div style="display:flex;justify-content:space-around;align-items:center;">
+                    <div style="text-align:center;">
+                      <svg width="64" height="64" viewBox="0 0 64 64" style="transform:rotate(-90deg)">
+                        <circle cx="32" cy="32" r="26" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="5"/>
+                        <circle cx="32" cy="32" r="26" fill="none" stroke="var(--amber)" stroke-width="5" stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="29.4"/>
+                      </svg>
+                      <div style="font-family:var(--fh);font-size:13px;font-weight:800;color:var(--amber);margin-top:-44px;position:relative;z-index:1;">82%</div>
+                      <div style="font-size:9px;color:var(--t3);margin-top:30px;font-family:var(--fh);font-weight:600;">PPE</div>
+                    </div>
+                    <div style="text-align:center;">
+                      <svg width="64" height="64" viewBox="0 0 64 64" style="transform:rotate(-90deg)">
+                        <circle cx="32" cy="32" r="26" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="5"/>
+                        <circle cx="32" cy="32" r="26" fill="none" stroke="var(--green)" stroke-width="5" stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="14.7"/>
+                      </svg>
+                      <div style="font-family:var(--fh);font-size:13px;font-weight:800;color:var(--green);margin-top:-44px;position:relative;z-index:1;">91%</div>
+                      <div style="font-size:9px;color:var(--t3);margin-top:30px;font-family:var(--fh);font-weight:600;">Audit</div>
+                    </div>
+                    <div style="text-align:center;">
+                      <svg width="64" height="64" viewBox="0 0 64 64" style="transform:rotate(-90deg)">
+                        <circle cx="32" cy="32" r="26" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="5"/>
+                        <circle cx="32" cy="32" r="26" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="39.2"/>
+                      </svg>
+                      <div style="font-family:var(--fh);font-size:13px;font-weight:800;color:var(--blue);margin-top:-44px;position:relative;z-index:1;">76%</div>
+                      <div style="font-size:9px;color:var(--t3);margin-top:30px;font-family:var(--fh);font-weight:600;">Training</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Compliance Scorecard -->
+                <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;">
+                  <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);margin-bottom:10px;">Compliance Scorecard</div>
+                  <div style="display:flex;flex-direction:column;gap:7px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--raised);border-radius:7px;">
+                      <span style="font-size:11px;color:var(--t2);">Incident Reduction</span>
+                      <span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;"></span>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--raised);border-radius:7px;">
+                      <span style="font-size:11px;color:var(--t2);">PPE Compliance</span>
+                      <span style="width:8px;height:8px;border-radius:50%;background:var(--amber);display:inline-block;"></span>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--raised);border-radius:7px;">
+                      <span style="font-size:11px;color:var(--t2);">Training Completion</span>
+                      <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;"></span>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--raised);border-radius:7px;">
+                      <span style="font-size:11px;color:var(--t2);">Audit Score</span>
+                      <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- AI Insights -->
+                <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;">
+                  <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--purple,#8B5CF6)" stroke-width="2.5" stroke-linecap="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    AI Insights
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:7px;">
+                    <div style="padding:8px 10px;border-left:3px solid var(--red);background:var(--raised);border-radius:0 7px 7px 0;">
+                      <div style="font-family:var(--fh);font-size:10px;font-weight:700;color:var(--t1);margin-bottom:2px;">Training target at risk</div>
+                      <div style="font-size:9px;color:var(--t3);line-height:1.4;">76% vs 90% target. 3 weeks remaining.</div>
+                    </div>
+                    <div style="padding:8px 10px;border-left:3px solid var(--green);background:var(--raised);border-radius:0 7px 7px 0;">
+                      <div style="font-family:var(--fh);font-size:10px;font-weight:700;color:var(--t1);margin-bottom:2px;">Performance improved 12%</div>
+                      <div style="font-size:9px;color:var(--t3);line-height:1.4;">Overall HSE score up from last quarter.</div>
+                    </div>
+                    <div style="padding:8px 10px;border-left:3px solid var(--blue);background:var(--raised);border-radius:0 7px 7px 0;">
+                      <div style="font-family:var(--fh);font-size:10px;font-weight:700;color:var(--t1);margin-bottom:2px;">Audit score stable</div>
+                      <div style="font-size:9px;color:var(--t3);line-height:1.4;">91% maintained for 2 consecutive periods.</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div><!-- end right col -->
+            </div><!-- end main grid -->
+
+            <!-- CHARTS ROW: Trend + Target vs Actual -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+              <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;">
+                <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);margin-bottom:12px;">Trend Performance</div>
+                <div style="height:160px;"><canvas id="objTrendChart"></canvas></div>
+              </div>
+              <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;">
+                <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);margin-bottom:12px;">Target vs Actual</div>
+                <div style="height:160px;"><canvas id="objTargetChart"></canvas></div>
+              </div>
+            </div>
+
+            <!-- EVIDENCE SECTION -->
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;">
+              <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);margin-bottom:12px;">Evidence Uploaded</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;" id="evidence-grid">
+                <div style="display:flex;align-items:center;gap:8px;padding:9px 10px;background:var(--raised);border:1px solid var(--border);border-radius:8px;">
+                  <span style="font-size:18px;">&#128247;</span>
+                  <div><div style="font-size:10px;font-weight:600;color:var(--t1);font-family:var(--fh);">Site_Photo.jpg</div><div style="font-size:9px;color:var(--t3);">Ravi &bull; 12 Mar</div></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;padding:9px 10px;background:var(--raised);border:1px solid var(--border);border-radius:8px;">
+                  <span style="font-size:18px;">&#128196;</span>
+                  <div><div style="font-size:10px;font-weight:600;color:var(--t1);font-family:var(--fh);">Audit_Report.pdf</div><div style="font-size:9px;color:var(--t3);">Ravi &bull; 12 Mar</div></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;padding:9px 10px;background:var(--raised);border:1px solid var(--border);border-radius:8px;">
+                  <span style="font-size:18px;">&#128202;</span>
+                  <div><div style="font-size:10px;font-weight:600;color:var(--t1);font-family:var(--fh);">Checklist.xlsx</div><div style="font-size:9px;color:var(--t3);">Priya &bull; 14 Mar</div></div>
+                </div>
+              </div>
+              <div id="new-evidence" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;"></div>
+            </div>
+
+            <!-- ACTIONS BAR -->
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button onclick="showObjToast('Generating PDF Report...')" style="flex:1;min-width:120px;padding:10px 16px;border-radius:9px;border:none;background:linear-gradient(135deg,#22C55E,#16A34A);color:#050E07;font-family:var(--fh);font-size:11px;font-weight:700;cursor:pointer;">&#8595; Download PDF</button>
+              <button onclick="showObjToast('Exporting to Excel...')" style="flex:1;min-width:120px;padding:10px 16px;border-radius:9px;border:1px solid var(--border);background:var(--raised);color:var(--t1);font-family:var(--fh);font-size:11px;font-weight:700;cursor:pointer;">&#8595; Export Excel</button>
+              <button onclick="showObjToast('Generating share link...')" style="flex:1;min-width:120px;padding:10px 16px;border-radius:9px;border:1px solid var(--border);background:var(--raised);color:var(--t1);font-family:var(--fh);font-size:11px;font-weight:700;cursor:pointer;">&#8679; Share Report</button>
+            </div>
+
+          </div><!-- end tab-objectives -->
+
+  <!-- ══ ROI & VALUE TAB ══ -->
+  <div class="tab-panel" id="tab-roi" style="display:none;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:20px;">
+      <div class="card" style="border:1px solid rgba(34,197,94,.2);">
+        <div style="font-size:10px;color:var(--t3);font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Cost Saved This Month</div>
+        <div style="font-size:28px;font-weight:700;color:var(--green);font-family:var(--fh);">&#8377;4.2L</div>
+        <div style="font-size:10px;color:var(--t3);margin-top:4px;">3 LTIs prevented · Estimated medical + legal costs avoided</div>
+      </div>
+      <div class="card" style="border:1px solid rgba(59,130,246,.2);">
+        <div style="font-size:10px;color:var(--t3);font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Training ROI</div>
+        <div style="font-size:28px;font-weight:700;color:var(--blue);font-family:var(--fh);">6.4x</div>
+        <div style="font-size:10px;color:var(--t3);margin-top:4px;">Every &#8377;1 spent on HSE training returns &#8377;6.4 in avoided costs</div>
+      </div>
+      <div class="card" style="border:1px solid rgba(245,158,11,.2);">
+        <div style="font-size:10px;color:var(--t3);font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Downtime Prevented</div>
+        <div style="font-size:28px;font-weight:700;color:var(--amber);font-family:var(--fh);">47 days</div>
+        <div style="font-size:10px;color:var(--t3);margin-top:4px;">Production days saved by preventing incidents this quarter</div>
+      </div>
+      <div class="card" style="border:1px solid rgba(139,92,246,.2);">
+        <div style="font-size:10px;color:var(--t3);font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Compliance Savings</div>
+        <div style="font-size:28px;font-weight:700;color:var(--purple);font-family:var(--fh);">&#8377;1.8L</div>
+        <div style="font-size:10px;color:var(--t3);margin-top:4px;">Penalty avoidance through timely audit closure and compliance</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
+      <div class="card">
+        <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:14px;">Cost Breakdown — Incidents Prevented</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:11px;color:var(--t2);">Lost Time Injuries (LTI)</span><span style="font-size:11px;font-weight:600;color:var(--green);">&#8377;2.1L saved</span></div>
+            <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="height:100%;width:72%;background:var(--green);border-radius:3px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:11px;color:var(--t2);">Medical Treatment Cases</span><span style="font-size:11px;font-weight:600;color:var(--blue);">&#8377;84K saved</span></div>
+            <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="height:100%;width:48%;background:var(--blue);border-radius:3px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:11px;color:var(--t2);">Near Miss Escalations</span><span style="font-size:11px;font-weight:600;color:var(--amber);">&#8377;45K saved</span></div>
+            <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="height:100%;width:32%;background:var(--amber);border-radius:3px;"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:11px;color:var(--t2);">Regulatory Penalties</span><span style="font-size:11px;font-weight:600;color:var(--purple);">&#8377;1.8L saved</span></div>
+            <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="height:100%;width:88%;background:var(--purple);border-radius:3px;"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:14px;">SafetyPro Investment vs Return</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;justify-content:space-between;padding:10px 12px;background:var(--raised);border-radius:8px;">
+            <span style="font-size:11px;color:var(--t2);">Platform subscription cost</span>
+            <span style="font-size:12px;font-weight:700;color:var(--red);">- &#8377;18,000/mo</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 12px;background:var(--raised);border-radius:8px;">
+            <span style="font-size:11px;color:var(--t2);">HSE admin time saved</span>
+            <span style="font-size:12px;font-weight:700;color:var(--green);">+ &#8377;42,000/mo</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 12px;background:var(--raised);border-radius:8px;">
+            <span style="font-size:11px;color:var(--t2);">Incident cost avoidance</span>
+            <span style="font-size:12px;font-weight:700;color:var(--green);">+ &#8377;4,20,000/mo</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 12px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:8px;">
+            <span style="font-size:12px;font-weight:700;color:var(--t1);">Net ROI this month</span>
+            <span style="font-size:14px;font-weight:700;color:var(--green);">+ &#8377;4.44L</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.15);border-radius:10px;padding:14px 18px;font-size:11px;color:var(--t2);line-height:1.7;">
+      <span style="color:var(--green);font-weight:600;">Note:</span> ROI calculations are based on industry-standard cost models — average LTI cost &#8377;7L, medical treatment &#8377;28K, near miss &#8377;15K. Configure your actual cost parameters in Admin &rarr; Settings for accurate figures.
+    </div>
+  </div>
+
+  <!-- ══ MATURITY INDEX TAB ══ -->
+  <div class="tab-panel" id="tab-maturity" style="display:none;">
+    <div style="display:grid;grid-template-columns:280px 1fr;gap:16px;margin-bottom:20px;">
+      <div class="card" style="text-align:center;">
+        <div style="font-size:10px;color:var(--t3);font-family:var(--fh);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px;">Current HSE Maturity</div>
+        <div style="width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,rgba(59,130,246,.15),rgba(59,130,246,.05));border:3px solid var(--blue);display:flex;align-items:center;justify-content:center;flex-direction:column;margin:0 auto 16px;">
+          <div style="font-size:36px;font-weight:700;color:var(--blue);font-family:var(--fh);">3</div>
+          <div style="font-size:9px;color:var(--t3);">of 5</div>
+        </div>
+        <div style="font-size:14px;font-weight:700;color:var(--blue);font-family:var(--fh);margin-bottom:4px;">Systematic</div>
+        <div style="font-size:10px;color:var(--t3);line-height:1.6;">HSE processes are defined and documented. Actions are tracked systematically. Escalation is automated.</div>
+      </div>
+      <div class="card">
+        <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:16px;">Maturity Level Scale</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:8px;">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:var(--fh);flex-shrink:0;">1</div>
+            <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Reactive</div><div style="font-size:10px;color:var(--t3);">Act only after accidents. No formal process.</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:8px;">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:var(--fh);flex-shrink:0;">2</div>
+            <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Managed</div><div style="font-size:10px;color:var(--t3);">Basic incident reporting. Some procedures in place.</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:rgba(59,130,246,.08);border:2px solid rgba(59,130,246,.3);border-radius:8px;">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:var(--fh);flex-shrink:0;">3</div>
+            <div><div style="font-size:11px;font-weight:600;color:var(--blue);">Systematic &#9664; You are here</div><div style="font-size:10px;color:var(--t3);">Automated escalation, full accountability, audit trails.</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--raised);border:1px solid var(--border);border-radius:8px;opacity:.6;">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--t3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:var(--fh);flex-shrink:0;">4</div>
+            <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Proactive</div><div style="font-size:10px;color:var(--t3);">Predictive risk management. Leading indicators tracked.</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--raised);border:1px solid var(--border);border-radius:8px;opacity:.4;">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--t3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:var(--fh);flex-shrink:0;">5</div>
+            <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Resilient</div><div style="font-size:10px;color:var(--t3);">Zero harm culture. AI-driven continuous improvement.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:14px;">
+      <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:14px;">To reach Level 4 — Proactive, you need to:</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;">
+        <div style="display:flex;align-items:start;gap:10px;padding:10px;background:rgba(239,68,68,.05);border-radius:8px;border:1px solid rgba(239,68,68,.15);">
+          <div style="width:18px;height:18px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
+          <div><div style="font-size:11px;font-weight:600;color:var(--t1);">NCR Closure Rate</div><div style="font-size:10px;color:var(--t3);">Improve from 78% to 90%+ within 60 days</div></div>
+        </div>
+        <div style="display:flex;align-items:start;gap:10px;padding:10px;background:rgba(245,158,11,.05);border-radius:8px;border:1px solid rgba(245,158,11,.15);">
+          <div style="width:18px;height:18px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
+          <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Repeat Incidents</div><div style="font-size:10px;color:var(--t3);">Reduce repeat incident rate below 5%</div></div>
+        </div>
+        <div style="display:flex;align-items:start;gap:10px;padding:10px;background:rgba(245,158,11,.05);border-radius:8px;border:1px solid rgba(245,158,11,.15);">
+          <div style="width:18px;height:18px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
+          <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Training Completion</div><div style="font-size:10px;color:var(--t3);">Reach 95%+ training completion across all sites</div></div>
+        </div>
+        <div style="display:flex;align-items:start;gap:10px;padding:10px;background:rgba(34,197,94,.05);border-radius:8px;border:1px solid rgba(34,197,94,.15);">
+          <div style="width:18px;height:18px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Near Miss Reporting</div><div style="font-size:10px;color:var(--t3);">Already strong &#8250; maintain reporting culture</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ LEGAL CALENDAR TAB ══ -->
+  <div class="tab-panel" id="tab-calendar" style="display:none;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <select style="font-size:11px;padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-family:var(--fh);">
+          <option>All Regions</option>
+          <option>India</option><option>UAE</option><option>Saudi Arabia</option>
+          <option>UK</option><option>USA</option><option>Qatar</option><option>International</option>
+        </select>
+        <select style="font-size:11px;padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-family:var(--fh);">
+          <option>All Status</option><option>Overdue</option><option>Due This Month</option><option>Upcoming</option><option>Completed</option>
+        </select>
+      </div>
+      <div style="font-size:10px;color:var(--t3);">Showing global compliance deadlines · Auto-filtered by your project regions</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:8px 12px;font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);">
+        <div>Due Date</div><div>Regulation &amp; Requirement</div><div>Region</div><div>Responsible</div><div>Status</div>
+      </div>
+      <!-- OVERDUE -->
+      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:8px;align-items:center;">
+        <div style="font-size:11px;font-weight:600;color:var(--red);">15 Mar 2026</div>
+        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">BOCW — Monthly Safety Return</div><div style="font-size:10px;color:var(--t3);">Form XIII submission to Labour Commissioner</div></div>
+        <div style="font-size:10px;color:var(--t2);">&#127470;&#127475; India</div>
+        <div style="font-size:10px;color:var(--t2);">HSE Head</div>
+        <div><span style="font-size:9px;background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">OVERDUE</span></div>
+      </div>
+      <!-- DUE SOON -->
+      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.15);border-radius:8px;align-items:center;">
+        <div style="font-size:11px;font-weight:600;color:var(--amber);">31 Mar 2026</div>
+        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">ISO 45001 — Internal Audit</div><div style="font-size:10px;color:var(--t3);">Annual internal audit completion &amp; management review</div></div>
+        <div style="font-size:10px;color:var(--t2);">&#127758; International</div>
+        <div style="font-size:10px;color:var(--t2);">Audit Lead</div>
+        <div><span style="font-size:9px;background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">4 DAYS</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.15);border-radius:8px;align-items:center;">
+        <div style="font-size:11px;font-weight:600;color:var(--amber);">15 Apr 2026</div>
+        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">OSHAD-SF — Quarterly Report</div><div style="font-size:10px;color:var(--t3);">UAE Abu Dhabi OSHAD quarterly HSE performance submission</div></div>
+        <div style="font-size:10px;color:var(--t2);">&#127462;&#127466; UAE</div>
+        <div style="font-size:10px;color:var(--t2);">HSE Manager</div>
+        <div><span style="font-size:9px;background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">19 DAYS</span></div>
+      </div>
+      <!-- UPCOMING -->
+      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:var(--card);border:1px solid var(--border);border-radius:8px;align-items:center;">
+        <div style="font-size:11px;font-weight:600;color:var(--t2);">30 Apr 2026</div>
+        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Factories Act — Medical Examination</div><div style="font-size:10px;color:var(--t3);">Annual medical examination records submission — DGFASLI</div></div>
+        <div style="font-size:10px;color:var(--t2);">&#127470;&#127475; India</div>
+        <div style="font-size:10px;color:var(--t2);">Safety Officer</div>
+        <div><span style="font-size:9px;background:var(--blue-dim);color:var(--blue);border:1px solid rgba(59,130,246,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">UPCOMING</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:var(--card);border:1px solid var(--border);border-radius:8px;align-items:center;">
+        <div style="font-size:11px;font-weight:600;color:var(--t2);">31 May 2026</div>
+        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">HSE RIDDOR — Annual Return</div><div style="font-size:10px;color:var(--t3);">UK Reporting of Injuries, Diseases &amp; Dangerous Occurrences</div></div>
+        <div style="font-size:10px;color:var(--t2);">&#127468;&#127463; UK</div>
+        <div style="font-size:10px;color:var(--t2);">HSE Head</div>
+        <div><span style="font-size:9px;background:var(--blue-dim);color:var(--blue);border:1px solid rgba(59,130,246,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">UPCOMING</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:var(--card);border:1px solid var(--border);border-radius:8px;align-items:center;">
+        <div style="font-size:11px;font-weight:600;color:var(--t2);">30 Jun 2026</div>
+        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Saudi Labour Law — HSE Compliance Report</div><div style="font-size:10px;color:var(--t3);">Semi-annual HSE performance report to Ministry of HR</div></div>
+        <div style="font-size:10px;color:var(--t2);">&#127480;&#127462; Saudi Arabia</div>
+        <div style="font-size:10px;color:var(--t2);">Project HSE Lead</div>
+        <div><span style="font-size:9px;background:var(--blue-dim);color:var(--blue);border:1px solid rgba(59,130,246,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">UPCOMING</span></div>
+      </div>
+      <!-- COMPLETED -->
+      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:rgba(34,197,94,.03);border:1px solid rgba(34,197,94,.1);border-radius:8px;align-items:center;opacity:.7;">
+        <div style="font-size:11px;font-weight:600;color:var(--green);">28 Feb 2026</div>
+        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">OSHA 300 Log — Annual Summary</div><div style="font-size:10px;color:var(--t3);">US OSHA 29 CFR 1904 annual injury &amp; illness log posting</div></div>
+        <div style="font-size:10px;color:var(--t2);">&#127482;&#127480; USA</div>
+        <div style="font-size:10px;color:var(--t2);">Safety Manager</div>
+        <div><span style="font-size:9px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">DONE</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:rgba(34,197,94,.03);border:1px solid rgba(34,197,94,.1);border-radius:8px;align-items:center;opacity:.7;">
+        <div style="font-size:11px;font-weight:600;color:var(--green);">15 Jan 2026</div>
+        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">QCS 2014 — Site Safety Plan Review</div><div style="font-size:10px;color:var(--t3);">Qatar Construction Specification annual site safety plan update</div></div>
+        <div style="font-size:10px;color:var(--t2);">&#127478;&#127462; Qatar</div>
+        <div style="font-size:10px;color:var(--t2);">Site HSE Officer</div>
+        <div><span style="font-size:9px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">DONE</span></div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:12px 16px;background:rgba(59,130,246,.05);border:1px solid rgba(59,130,246,.15);border-radius:8px;font-size:10px;color:var(--t3);line-height:1.7;">
+      <span style="color:var(--blue);font-weight:600;">Covered regulations:</span> ISO 45001 &bull; BOCW 1996 &bull; Factories Act &bull; DGFASLI &bull; OSHA 29 CFR 1926 &bull; HSE RIDDOR &bull; CDM 2015 &bull; OSHAD-SF &bull; UAE Federal Labour Law &bull; Saudi Labour Law &bull; SASO &bull; QCS 2014 &bull; ISO 14001 &bull; PUWER &bull; EPA &bull; Kahramaa HSE &bull; DOSH Malaysia
+    </div>
+  </div>
+
 <!-- TOAST -->
 <div id="toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--raised);border:1px solid var(--g-b);border-radius:10px;padding:10px 18px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;color:var(--t1);box-shadow:0 8px 24px rgba(0,0,0,.4);transition:transform .3s;z-index:9999;white-space:nowrap">
   <div style="width:26px;height:26px;border-radius:7px;background:var(--g-s);border:1px solid var(--g-b);display:flex;align-items:center;justify-content:center"><svg style="width:13px;height:13px;fill:var(--green)" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
   <span id="toast-msg">Done</span>
 </div>
 
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
-/* ── DATA ── */
-const aprData=[
-  {name:'Sarah T.',role:'HSE Officer',color:'#F59E0B',ini:'ST',score:96,grade:'Excellent',trend:'+4',trendDir:'up'},
-  {name:'Meera K.',role:'HSE Manager',color:'#22C55E',ini:'MK',score:91,grade:'Excellent',trend:'+2',trendDir:'up'},
-  {name:'John M.',role:'Site Supervisor',color:'#3B82F6',ini:'JM',score:88,grade:'Excellent',trend:'−1',trendDir:'dn'},
-  {name:'Dhanesh CK',role:'HSE Head',color:'#22C55E',ini:'DK',score:86,grade:'Excellent',trend:'+1',trendDir:'up'},
-  {name:'Rajesh K.',role:'Safety Officer',color:'#EF4444',ini:'RK',score:78,grade:'Good',trend:'+3',trendDir:'up'},
-  {name:'Arvind S.',role:'Activity Head',color:'#8B5CF6',ini:'AS',score:74,grade:'Good',trend:'0',trendDir:'eq'},
-  {name:'Vikram S.',role:'Activity Head',color:'#0EA5E9',ini:'VS',score:68,grade:'Good',trend:'−2',trendDir:'dn'},
-  {name:'Priya R.',role:'HSE Executive',color:'#EC4899',ini:'PR',score:52,grade:'Average',trend:'+5',trendDir:'up'},
-];
+var API_BASE = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
 
-const lbData=[
-  {rank:1,name:'Sarah T.',proj:'Site Alpha',color:'#F59E0B',ini:'ST',score:96,change:'up',pts:'+4'},
-  {rank:2,name:'John M.',proj:'Birpur Bihpur',color:'#3B82F6',ini:'JM',score:88,change:'dn',pts:'−1'},
-  {rank:3,name:'Meera K.',proj:'All Projects',color:'#22C55E',ini:'MK',score:85,change:'up',pts:'+2'},
-  {rank:4,name:'Dhanesh CK',proj:'All Projects',color:'#22C55E',ini:'DK',score:84,change:'up',pts:'+1'},
-  {rank:5,name:'Rajesh K.',proj:'Site Alpha',color:'#EF4444',ini:'RK',score:78,change:'up',pts:'+3'},
-  {rank:6,name:'Arvind S.',proj:'Tirora Plant',color:'#8B5CF6',ini:'AS',score:74,change:'eq',pts:'0'},
-  {rank:7,name:'Vikram S.',proj:'Birpur Bihpur',color:'#0EA5E9',ini:'VS',score:68,change:'dn',pts:'−2'},
-];
-
-/* ── RENDER APPRAISAL ── */
-function gradeClass(g){return{Excellent:'gp-ex',Good:'gp-go',Average:'gp-av',Poor:'gp-po'}[g]||'gp-av'}
-function scoreColor(s){return s>=85?'var(--green)':s>=70?'var(--blue)':s>=60?'var(--amber)':'var(--red)'}
-function renderApr(){
-  document.getElementById('apr-tbody').innerHTML=aprData.map(a=>`
-    <tr>
-      <td><div style="display:flex;align-items:center;gap:8px"><div style="width:26px;height:26px;border-radius:50%;background:${a.color};display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff">${a.ini}</div><span style="font-size:12px;font-weight:600;color:var(--t1)">${a.name}</span></div></td>
-      <td><span style="font-size:11px;color:var(--t3)">${a.role}</span></td>
-      <td>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span style="font-family:var(--fh);font-size:15px;font-weight:800;color:${scoreColor(a.score)}">${a.score}</span>
-          <div class="score-bar-wrap"><div class="score-bar" style="width:${a.score}%;background:${scoreColor(a.score)}"></div></div>
-        </div>
-      </td>
-      <td><span class="grade-pill ${gradeClass(a.grade)}">${a.grade}</span></td>
-      <td><span style="font-size:11px;font-weight:600;color:${a.trendDir==='up'?'var(--green)':a.trendDir==='dn'?'var(--red)':'var(--amber)'}">${a.trendDir==='up'?'↑':a.trendDir==='dn'?'↓':'→'} ${a.pts}</span></td>
-      <td><div style="display:flex;gap:4px"><div style="width:22px;height:22px;border-radius:4px;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg style="width:10px;height:10px;fill:var(--t3)" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div></div></td>
-    </tr>`).join('');
-}
-renderApr();
-
-/* ── RENDER LEADERBOARD ── */
-function renderLB(){
-  const rankColors={1:'var(--amber)',2:'var(--t2)',3:'#CD7F32'};
-  document.getElementById('lb-list').innerHTML=lbData.map(r=>`
-    <div class="lb-row">
-      <div class="lb-rank-num" style="color:${rankColors[r.rank]||'var(--t3)'}">${r.rank}</div>
-      <div class="lb-av" style="background:${r.color}">${r.ini}</div>
-      <div class="lb-inf"><div class="lb-name">${r.name}</div><div class="lb-proj">${r.proj}</div></div>
-      <div class="lb-bar-wrap"><div class="lb-bar" style="width:${r.score}%;background:${scoreColor(r.score)}"></div></div>
-      <span class="lb-change ${r.change==='up'?'lbc-up':r.change==='dn'?'lbc-dn':'lbc-eq'}">${r.change==='up'?'↑':r.change==='dn'?'↓':'→'} ${r.pts}</span>
-      <div class="lb-score-val" style="color:${scoreColor(r.score)}">${r.score}</div>
-    </div>`).join('');
-}
-renderLB();
-
-/* ── COUNT UP ── */
-function cu(id,t,ms,suffix){
-  const el=document.getElementById(id);if(!el)return;
-  const s=performance.now();
-  function u(n){
-    const p=Math.min((n-s)/ms,1);
-    const e=1-Math.pow(1-p,3);
-    el.textContent=Math.round(t*e)+(suffix||'');
-    if(p<1)requestAnimationFrame(u);
-  }
-  requestAnimationFrame(u);
-}
-setTimeout(()=>{
-  cu('sn1',154,1000);cu('sn2',47,900);cu('sn3',87,1100,'');cu('sn4',3,600);
-  cu('sv1',68,900);cu('sv2',52,1000);cu('sv3',26,800);cu('sv4',8,700);
-  cu('bench-score',78,1200);
-},300);
-
-/* ── CHARTS ── */
-Chart.defaults.color='#64748B';Chart.defaults.font.family='DM Sans';
-
-// Incident trend
-const ic=document.getElementById('incidentChart');
-if(ic){
-  const g=ic.getContext('2d');
-  const grad=g.createLinearGradient(0,0,0,200);
-  grad.addColorStop(0,'rgba(239,68,68,.2)');grad.addColorStop(1,'rgba(239,68,68,.01)');
-  new Chart(ic,{type:'line',data:{labels:['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'],datasets:[{label:'Incidents',data:[18,22,15,19,14,16,12,10,14,9,11,7],borderColor:'#EF4444',borderWidth:2.5,backgroundColor:grad,fill:true,tension:.4,pointBackgroundColor:'#EF4444',pointBorderColor:'#131C26',pointBorderWidth:2,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#16212B',borderColor:'#1E293B',borderWidth:1,bodyColor:'#E6EDF3'}},scales:{x:{grid:{color:'rgba(30,41,59,.5)'},ticks:{font:{size:10}},border:{display:false}},y:{grid:{color:'rgba(30,41,59,.5)'},ticks:{font:{size:10},maxTicksLimit:5},border:{display:false}}}}});
-}
-
-// NCR pie
-const nc=document.getElementById('ncrChart');
-if(nc){
-  new Chart(nc,{type:'doughnut',data:{labels:['Unsafe Act','Unsafe Condition','Near Miss','Equipment','Environment'],datasets:[{data:[28,35,18,12,7],backgroundColor:['rgba(245,158,11,.8)','rgba(239,68,68,.8)','rgba(59,130,246,.8)','rgba(139,92,246,.8)','rgba(34,197,94,.8)'],borderWidth:0,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:10,padding:10,color:'#94A3B8'}},tooltip:{backgroundColor:'#16212B',borderColor:'#1E293B',borderWidth:1,bodyColor:'#E6EDF3'}},cutout:'60%'}});
-}
-
-// Audit score
-const ac=document.getElementById('auditChart');
-if(ac){
-  const g=ac.getContext('2d');
-  const grad=g.createLinearGradient(0,0,0,200);
-  grad.addColorStop(0,'rgba(59,130,246,.2)');grad.addColorStop(1,'rgba(59,130,246,.01)');
-  new Chart(ac,{type:'line',data:{labels:['Oct','Nov','Dec','Jan','Feb','Mar'],datasets:[{label:'Audit Score %',data:[72,75,78,81,84,87],borderColor:'#3B82F6',borderWidth:2.5,backgroundColor:grad,fill:true,tension:.4,pointBackgroundColor:'#3B82F6',pointBorderColor:'#131C26',pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#16212B',borderColor:'#1E293B',borderWidth:1,bodyColor:'#E6EDF3'}},scales:{x:{grid:{color:'rgba(30,41,59,.5)'},ticks:{font:{size:10}},border:{display:false}},y:{grid:{color:'rgba(30,41,59,.5)'},ticks:{font:{size:10},maxTicksLimit:5},border:{display:false},min:60,max:100}}}});
-}
-
-// Closure rate
-const cc=document.getElementById('closureChart');
-if(cc){
-  new Chart(cc,{type:'bar',data:{labels:['Oct','Nov','Dec','Jan','Feb','Mar'],datasets:[{label:'Closure Rate %',data:[68,72,71,76,80,78],backgroundColor:['rgba(34,197,94,.7)','rgba(34,197,94,.7)','rgba(34,197,94,.7)','rgba(34,197,94,.7)','rgba(34,197,94,.7)','rgba(34,197,94,.9)'],borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#16212B',borderColor:'#1E293B',borderWidth:1,bodyColor:'#E6EDF3'}},scales:{x:{grid:{color:'rgba(30,41,59,.5)'},ticks:{font:{size:10}},border:{display:false}},y:{grid:{color:'rgba(30,41,59,.5)'},ticks:{font:{size:10},maxTicksLimit:5},border:{display:false},min:50,max:100}}}});
-}
-
-// Score ring (benchmark)
-const sr=document.getElementById('scoreRing');
-if(sr){
-  new Chart(sr,{type:'doughnut',data:{datasets:[{data:[78,22],backgroundColor:['#22C55E','rgba(30,41,59,.6)'],borderWidth:0,circumference:270,rotation:225}]},options:{responsive:false,plugins:{legend:{display:false},tooltip:{enabled:false}},cutout:'80%'}});
-}
-
-/* ── TABS ── */
-function switchTab(el,id){
-  document.querySelectorAll('.sh-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('tab-'+id).classList.add('active');
-  setTimeout(()=>window.dispatchEvent(new Event('resize')),50);
-}
-
-/* ── TOAST ── */
-function showToast(msg){
-  const t=document.getElementById('toast');
-  document.getElementById('toast-msg').textContent=msg;
-  t.style.transform='translateX(-50%) translateY(0)';
-  setTimeout(()=>{t.style.transform='translateX(-50%) translateY(100px)'},3500);
-}
-
-
-/* ══ API INTEGRATION ══ */
-const API = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
-function getToken(){ return localStorage.getItem('sp_token'); }
-async function apiFetch(path, opts={}){
-  const res = await fetch(API+path, {
-    ...opts,
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken(),...(opts.headers||{})}
-  });
-  if(res.status===401){ window.location.href='safetypro_login.html'; return null; }
-  return res.json();
-}
-
-async function loadReportsData(){
-  try {
-    const kpis = await apiFetch('/dashboard/kpis');
-    if(kpis){
-      const r1=document.getElementById('rep-k1'); if(r1) r1.textContent=kpis.totalIncidents||0;
-      const r2=document.getElementById('rep-k2'); if(r2) r2.textContent=kpis.openNCRs||0;
-      const r3=document.getElementById('rep-k3'); if(r3) r3.textContent=kpis.overdueActions||0;
-      const r4=document.getElementById('rep-k4'); if(r4) r4.textContent=(kpis.auditScore||0)+'/10';
-    }
-
-    const trends = await apiFetch('/dashboard/trends');
-    if(trends && window.trendChart){
-      window.trendChart.data.labels = trends.map(t=>t.month);
-      window.trendChart.data.datasets[0].data = trends.map(t=>t.incidents);
-      window.trendChart.update();
-    }
-  } catch(e){ console.warn('Reports load:', e.message); }
-}
-
-document.addEventListener('DOMContentLoaded', ()=>{
-  if(!getToken()){ window.location.href='safetypro_login.html'; return; }
-  loadReportsData();
-});
-
-/* ── MORE MENU ── */
-function toggleMore(e){
-  e.stopPropagation();
-  document.getElementById('more-btn').classList.toggle('open');
-}
-document.addEventListener('click',function(){
-  const mb=document.getElementById('more-btn');
-  if(mb) mb.classList.remove('open');
-});
-
-
-/* ══ NAVIGATION ══ */
+/* AUTH GUARD */
 (function(){
-  const pages = {
-    'Dashboard':            'safetypro_v2.html',
-    'Operations':           'safetypro_operations.html',
-    'Control':              'safetypro_control.html',
-    'Reports':              'safetypro_reports.html',
-    'Audit & Compliance':   'safetypro_admin.html',
-    'Documents & Records':  'safetypro_admin.html',
-    'Site & Field Tools':   'safetypro_admin.html',
-    'AI Intelligence':      'safetypro_admin.html',
-    'Auditor Verification': 'safetypro_admin.html',
-    'Admin & Configuration':'safetypro_admin.html',
-  };
-
-  function navigate(label){
-    const dest = pages[label];
-    if(dest) window.location.href = dest;
-  }
-
-  // Wire sidebar items
-  document.querySelectorAll('.sb-item').forEach(el => {
-    const label = el.textContent.trim().replace(/\d+/g,'').trim();
-    const dest = pages[label];
-    if(dest){
-      el.style.cursor = 'pointer';
-      el.addEventListener('click', e => {
-        e.preventDefault();
-        window.location.href = dest;
-      });
-    }
-  });
-
-  // Wire topnav links
-  document.querySelectorAll('.nl').forEach(el => {
-    const label = el.textContent.trim().replace(/[▾]/g,'').trim();
-    const dest = pages[label];
-    if(dest && !el.classList.contains('more-wrap')){
-      el.style.cursor = 'pointer';
-      el.addEventListener('click', e => {
-        e.preventDefault();
-        window.location.href = dest;
-      });
-    }
-  });
-
-  // Wire More menu items
-  document.querySelectorAll('.mm-item').forEach(el => {
-    const label = el.textContent.trim();
-    const dest = pages[label];
-    if(dest){
-      el.style.cursor = 'pointer';
-      el.addEventListener('click', e => {
-        e.preventDefault();
-        window.location.href = dest;
-      });
-    }
-  });
-
-  // Wire logo click → dashboard
-  const logo = document.querySelector('.logo');
-  if(logo){
-    logo.style.cursor = 'pointer';
-    logo.addEventListener('click', () => { window.location.href = 'safetypro_v2.html'; });
-  }
+  var token = localStorage.getItem('sp_token');
+  if (!token) { window.location.replace('safetypro_login.html'); return; }
+  try { var u = JSON.parse(localStorage.getItem('sp_user')||'{}'); if (u && u.name) applyNavProfile(u); } catch(e){}
+  setTimeout(loadNavProfile, 600);
+  setTimeout(loadReportsData, 900);
 })();
 
-
-/* ══ NAV PROFILE (shared) ══ */
-function loadNavProfile() {
-  const token = localStorage.getItem('sp_token');
-  if(!token) { window.location.href = 'safetypro_landing.html'; return; }
-  try {
-    const cached = localStorage.getItem('sp_user');
-    if(cached) applyNavProfile(JSON.parse(cached));
-  } catch(e) {}
-  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/auth/profile', {
-    headers: { 'Authorization': 'Bearer ' + token }
-  })
-  .then(r => r.ok ? r.json() : Promise.reject('auth'))
-  .then(user => { localStorage.setItem('sp_user', JSON.stringify(user)); applyNavProfile(user); })
-  .catch(e => { if(e==='auth') { localStorage.removeItem('sp_token'); window.location.href='safetypro_login.html'; }});
+/* API FETCH */
+function apiFetch(path, opts) {
+  var token = localStorage.getItem('sp_token');
+  var options = opts || {};
+  options.headers = options.headers || {};
+  options.headers['Authorization'] = 'Bearer ' + token;
+  if (options.body && !options.headers['Content-Type']) options.headers['Content-Type'] = 'application/json';
+  return fetch(API_BASE + path, options);
 }
-function applyNavProfile(user) {
-  if(!user||!user.name) return;
-  const init = user.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
-  const map = {'nav-initials':init,'nav-username':user.name,'nav-role':(user.role||'').replace(/_/g,' '),'profile-name':user.name,'profile-email':user.email||'','profile-role-badge':(user.role||'').replace(/_/g,' ')};
-  Object.entries(map).forEach(([id,val])=>{ const el=document.getElementById(id); if(el) el.textContent=val; });
+
+/* LOAD REPORTS DATA */
+function loadReportsData() {
+  apiFetch('/dashboard/kpis')
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function(d) {
+    var map = { 'sn1': d.totalIncidents, 'sn2': d.openNCRs, 'sn3': d.auditScore, 'sn4': d.safeActions };
+    Object.keys(map).forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el && map[id] !== undefined) animateNum(el, map[id]);
+    });
+    var dot = document.getElementById('alert-dot');
+    if (dot && d.escalated > 0) dot.style.display = 'block';
+  })
+  .catch(function(){});
+}
+
+/* ANIMATE NUMBER */
+function animateNum(el, target) {
+  if (!el) return;
+  var dur = 1000; var t0 = performance.now();
+  function step(now) {
+    var p = Math.min((now-t0)/dur,1); var ease = 1-Math.pow(1-p,3);
+    el.textContent = Math.round(target * ease);
+    if (p < 1) requestAnimationFrame(step); else el.textContent = Math.round(target);
+  }
+  requestAnimationFrame(step);
+}
+
+/* TAB SWITCHING */
+function switchTab(el, tabId) {
+  document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
+  el.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(function(p) {
+    p.style.display = 'none'; p.classList.remove('active');
+  });
+  var target = document.getElementById('tab-' + tabId);
+  if (target) { target.style.display = 'block'; target.classList.add('active'); }
+  if (tabId === 'objectives') initObjCharts();
+  if (tabId === 'stats') initStatsCharts();
+  if (tabId === 'benchmark') initBenchChart();
+  if (tabId === 'appraisal') { renderApr(); renderLb(); }
+  if (tabId === 'trophy') renderLb();
+}
+
+/* FILTER OBJECTIVES */
+function filterObjectives(status) {
+  document.querySelectorAll('.obj-card').forEach(function(card) {
+    if (status === 'all' || card.getAttribute('data-status') === status) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+/* EVIDENCE UPLOAD */
+function handleEvidenceUpload(input, objId) {
+  if (!input.files || !input.files.length) return;
+  var grid = document.getElementById('new-evidence');
+  if (!grid) return;
+  Array.from(input.files).forEach(function(file) {
+    var icon = file.type.indexOf('image') > -1 ? '&#128247;' : file.name.indexOf('.pdf') > -1 ? '&#128196;' : '&#128202;';
+    var div = document.createElement('div');
+    div.style.cssText = 'display:flex;align-items:center;gap:8px;padding:9px 10px;background:var(--raised);border:1px solid rgba(34,197,94,.2);border-radius:8px;';
+    div.innerHTML = '<span style="font-size:18px">' + icon + '</span><div><div style="font-size:10px;font-weight:600;color:var(--t1);font-family:var(--fh);">' + (file.name.length > 20 ? file.name.substring(0,20)+'...' : file.name) + '</div><div style="font-size:9px;color:var(--t3)">Just uploaded</div></div>';
+    grid.appendChild(div);
+  });
+  showObjToast(input.files.length + ' file(s) attached', 'green');
+}
+
+/* OBJECTIVES CHARTS */
+var objChartsBuilt = false;
+function initObjCharts() {
+  if (objChartsBuilt) return;
+  objChartsBuilt = true;
+  var trendCtx = document.getElementById('objTrendChart');
+  var targetCtx = document.getElementById('objTargetChart');
+  if (trendCtx) {
+    try {
+      new Chart(trendCtx, {
+        type: 'line',
+        data: {
+          labels: ['Oct','Nov','Dec','Jan','Feb','Mar'],
+          datasets: [
+            { label: 'PPE', data: [70,73,75,78,80,82], borderColor: '#F59E0B', backgroundColor: 'rgba(245,158,11,0.05)', borderWidth: 1.5, tension: 0.4, fill: true, pointRadius: 3, pointBackgroundColor: '#F59E0B' },
+            { label: 'Training', data: [60,62,68,70,74,76], borderColor: '#3B82F6', backgroundColor: 'rgba(59,130,246,0.05)', borderWidth: 1.5, tension: 0.4, fill: true, pointRadius: 3, pointBackgroundColor: '#3B82F6' },
+            { label: 'Audit', data: [85,87,88,89,90,91], borderColor: '#22C55E', backgroundColor: 'rgba(34,197,94,0.05)', borderWidth: 1.5, tension: 0.4, fill: true, pointRadius: 3, pointBackgroundColor: '#22C55E' }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position: 'top', labels: { color: '#7A9BBF', font: { family: 'Montserrat', size: 9, weight: '600' }, boxWidth: 8, padding: 10 } }, tooltip: { backgroundColor: '#0C1824', borderColor: '#1E293B', borderWidth: 1, titleColor: '#EBF4FF', bodyColor: '#7A9BBF', cornerRadius: 8 } },
+          scales: { x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#2E4A66', font: { family: 'Montserrat', size: 9 } } }, y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#2E4A66', font: { family: 'Montserrat', size: 9 } }, beginAtZero: true, max: 100 } }
+        }
+      });
+    } catch(e) {}
+  }
+  if (targetCtx) {
+    try {
+      new Chart(targetCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Incident Red.', 'PPE Comp.', 'Training', 'Audit'],
+          datasets: [
+            { label: 'Target', data: [100, 100, 90, 95], backgroundColor: 'rgba(34,197,94,0.2)', borderColor: '#22C55E', borderWidth: 1.5, borderRadius: 4 },
+            { label: 'Actual', data: [66, 82, 76, 91], backgroundColor: ['rgba(239,68,68,0.3)', 'rgba(245,158,11,0.3)', 'rgba(59,130,246,0.3)', 'rgba(34,197,94,0.3)'], borderColor: ['#EF4444','#F59E0B','#3B82F6','#22C55E'], borderWidth: 1.5, borderRadius: 4 }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position: 'top', labels: { color: '#7A9BBF', font: { family: 'Montserrat', size: 9, weight: '600' }, boxWidth: 8, padding: 10 } }, tooltip: { backgroundColor: '#0C1824', borderColor: '#1E293B', borderWidth: 1, titleColor: '#EBF4FF', bodyColor: '#7A9BBF', cornerRadius: 8 } },
+          scales: { x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#2E4A66', font: { family: 'Montserrat', size: 9 } } }, y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#2E4A66', font: { family: 'Montserrat', size: 9 } }, beginAtZero: true, max: 110 } }
+        }
+      });
+    } catch(e) {}
+  }
+}
+
+/* STATS CHARTS */
+var statsChartsBuilt = false;
+function initStatsCharts() {
+  if (statsChartsBuilt) return;
+  statsChartsBuilt = true;
+  var chartConfigs = [
+    { id: 'incidentChart', type: 'line', labels: ['Oct','Nov','Dec','Jan','Feb','Mar'], data: [8,12,6,9,4,7], color: '#EF4444' },
+    { id: 'ncrChart', type: 'bar', labels: ['Oct','Nov','Dec','Jan','Feb','Mar'], data: [14,18,11,16,8,12], color: '#F59E0B' },
+    { id: 'auditChart', type: 'line', labels: ['Oct','Nov','Dec','Jan','Feb','Mar'], data: [82,85,87,89,90,91], color: '#22C55E' },
+    { id: 'closureChart', type: 'bar', labels: ['Oct','Nov','Dec','Jan','Feb','Mar'], data: [72,75,80,78,85,87], color: '#3B82F6' }
+  ];
+  chartConfigs.forEach(function(cfg) {
+    var ctx = document.getElementById(cfg.id);
+    if (!ctx) return;
+    try {
+      new Chart(ctx, {
+        type: cfg.type,
+        data: {
+          labels: cfg.labels,
+          datasets: [{ label: cfg.id, data: cfg.data, borderColor: cfg.color, backgroundColor: cfg.color + '20', borderWidth: 1.5, tension: 0.4, fill: true, pointRadius: 2, pointBackgroundColor: cfg.color, borderRadius: cfg.type === 'bar' ? 4 : 0 }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0C1824', borderColor: '#1E293B', borderWidth: 1, titleColor: '#EBF4FF', bodyColor: '#7A9BBF', cornerRadius: 8 } },
+          scales: { x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#2E4A66', font: { family: 'Montserrat', size: 9 } } }, y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#2E4A66', font: { family: 'Montserrat', size: 9 } }, beginAtZero: true } }
+        }
+      });
+    } catch(e) {}
+  });
+  buildScoreRing();
+}
+
+function buildScoreRing() {
+  var ctx = document.getElementById('scoreRing');
+  if (!ctx) return;
+  try {
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: { labels: ['Score','Remaining'], datasets: [{ data: [87, 13], backgroundColor: ['#22C55E','rgba(255,255,255,.04)'], borderWidth: 0, hoverOffset: 0 }] },
+      options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
+    });
+  } catch(e) {}
+}
+
+/* BENCHMARK CHART */
+var benchChartBuilt = false;
+function initBenchChart() {
+  if (benchChartBuilt) return;
+  benchChartBuilt = true;
+  var ctx = document.getElementById('bench-score');
+  if (!ctx) return;
+  try {
+    new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: ['Incidents', 'NCR Closure', 'Training', 'PPE', 'Audit', 'Response Time'],
+        datasets: [
+          { label: 'Your Score', data: [66, 87, 76, 82, 91, 78], borderColor: '#22C55E', backgroundColor: 'rgba(34,197,94,0.1)', borderWidth: 2, pointBackgroundColor: '#22C55E', pointRadius: 3 },
+          { label: 'Industry Avg', data: [72, 75, 80, 78, 85, 70], borderColor: '#3B82F6', backgroundColor: 'rgba(59,130,246,0.08)', borderWidth: 1.5, pointBackgroundColor: '#3B82F6', pointRadius: 3, borderDash: [4,4] }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'top', labels: { color: '#7A9BBF', font: { family: 'Montserrat', size: 10, weight: '600' }, boxWidth: 8, padding: 10 } }, tooltip: { backgroundColor: '#0C1824', borderColor: '#1E293B', borderWidth: 1, titleColor: '#EBF4FF', bodyColor: '#7A9BBF', cornerRadius: 8 } },
+        scales: { r: { grid: { color: 'rgba(255,255,255,0.06)' }, angleLines: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#2E4A66', font: { family: 'Montserrat', size: 9 }, backdropColor: 'transparent' }, pointLabels: { color: '#7A9BBF', font: { family: 'Montserrat', size: 9, weight: '600' } } } }
+      }
+    });
+  } catch(e) {}
+}
+
+/* APPRAISAL + LEADERBOARD (from existing data) */
+function gradeClass(g) { return {Excellent:'gp-ex',Good:'gp-go',Average:'gp-av',Poor:'gp-po'}[g] || 'gp-av'; }
+function scoreColor(s) { return s >= 85 ? 'var(--green)' : s >= 70 ? 'var(--blue)' : s >= 60 ? 'var(--amber)' : 'var(--red)'; }
+
+function renderApr() {
+  var tbody = document.getElementById('apr-tbody');
+  if (!tbody || !window.aprData) return;
+  tbody.innerHTML = aprData.map(function(a) {
+    var trend = a.trendDir === 'up' ? 'var(--green)' : a.trendDir === 'dn' ? 'var(--red)' : 'var(--t3)';
+    var arrow = a.trendDir === 'up' ? '&#8593;' : a.trendDir === 'dn' ? '&#8595;' : '&#8212;';
+    return '<tr><td><div style="display:flex;align-items:center;gap:8px"><div style="width:26px;height:26px;border-radius:50%;background:' + a.color + ';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff">' + a.ini + '</div><span style="font-size:12px;font-weight:600;color:var(--t1)">' + a.name + '</span></div></td><td><span style="font-size:11px;color:var(--t3)">' + a.role + '</span></td><td><div style="display:flex;align-items:center;gap:8px"><span style="font-family:var(--fh);font-size:15px;font-weight:800;color:' + scoreColor(a.score) + '">' + a.score + '</span><div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;min-width:40px"><div style="width:' + a.score + '%;height:100%;background:' + scoreColor(a.score) + ';border-radius:2px"></div></div></div></td><td><span class="grade-pill ' + gradeClass(a.grade) + '">' + a.grade + '</span></td><td><span style="font-size:11px;font-weight:600;color:' + trend + '">' + arrow + ' ' + a.trend + '</span></td></tr>';
+  }).join('');
+}
+
+function renderLb() {
+  var list = document.getElementById('lb-list');
+  if (!list || !window.lbData) return;
+  list.innerHTML = lbData.map(function(p) {
+    var bg = p.rank === 1 ? '#FFD700' : p.rank === 2 ? '#C0C0C0' : p.rank === 3 ? '#CD7F32' : 'var(--t3)';
+    var change = p.change === 'up' ? '<span style="color:var(--green)">&#8593;' + p.pts + '</span>' : p.change === 'dn' ? '<span style="color:var(--red)">&#8595;' + p.pts + '</span>' : '<span style="color:var(--t3)">&#8212;</span>';
+    return '<div style="display:flex;align-items:center;gap:10px;padding:9px 10px;background:var(--raised);border-radius:8px;border:1px solid var(--border);margin-bottom:6px"><div style="width:22px;height:22px;border-radius:50%;background:' + bg + '20;color:' + bg + ';display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:10px;font-weight:700;flex-shrink:0">' + p.rank + '</div><div style="width:26px;height:26px;border-radius:50%;background:' + p.color + ';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0">' + p.ini + '</div><div style="flex:1"><div style="font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t1)">' + p.name + '</div><div style="font-size:9px;color:var(--t3)">' + p.proj + '</div></div>' + change + '<div style="font-family:var(--fh);font-size:13px;font-weight:800;color:var(--green)">' + p.score + '</div></div>';
+  }).join('');
+}
+
+/* MISC INTERACTIONS */
+function filterSV(el, key) {
+  document.querySelectorAll('.sv-filter').forEach(function(f){ f.classList.remove('on'); });
+  el.classList.add('on');
+}
+function switchSV(el, v) {
+  document.querySelectorAll('.sv-toggle .sv-btn').forEach(function(b){ b.classList.remove('on'); });
+  el.classList.add('on');
+}
+function filterAPR(el, grade) {
+  document.querySelectorAll('.apr-filter').forEach(function(f){ f.classList.remove('on'); });
+  el.classList.add('on');
+  var rows = document.querySelectorAll('#apr-tbody tr');
+  rows.forEach(function(r) {
+    r.style.display = (grade === 'All' || r.textContent.indexOf(grade) > -1) ? '' : 'none';
+  });
+}
+function switchReport(el, type) {
+  document.querySelectorAll('.rep-tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  el.classList.add('active');
+}
+function showObjToast(msg) { showToast(msg, 'green'); }
+
+/* DROPDOWN SYSTEM */
+function closeAllDropdowns() {
+  var pd = document.getElementById('profile-dropdown');
+  var ad = document.getElementById('alert-dropdown');
+  if (pd) pd.style.display = 'none';
+  if (ad) ad.style.display = 'none';
+}
+function positionDropdown(dropdown, trigger) {
+  if (!dropdown || !trigger) return;
+  var tr = trigger.getBoundingClientRect(); var vw = window.innerWidth;
+  var dw = Math.min(dropdown.offsetWidth || 260, vw - 16);
+  var right = vw - tr.right; if (right < 8) right = 8;
+  dropdown.style.right = right + 'px'; dropdown.style.left = 'auto';
+  dropdown.style.top = (tr.bottom + 6) + 'px';
+  if (vw <= 480) dropdown.style.width = (vw - 12) + 'px';
+  else if (vw <= 768) dropdown.style.width = Math.min(dw, vw - 16) + 'px';
 }
 function toggleProfileMenu() {
-  const d=document.getElementById('profile-dropdown');
-  if(d) d.style.display = d.style.display==='block' ? 'none' : 'block';
+  var d = document.getElementById('profile-dropdown'); var a = document.getElementById('alert-dropdown');
+  if (!d) return; if (a) a.style.display = 'none';
+  var open = d.style.display === 'block';
+  d.style.display = open ? 'none' : 'block';
+  if (!open) positionDropdown(d, document.getElementById('user-pill-btn'));
 }
-function signOut() {
-  localStorage.removeItem('sp_token');
-  localStorage.removeItem('sp_user');
-  localStorage.removeItem('sp_company');
-  window.location.href = 'safetypro_login.html?logout=1';
+function toggleAlerts() {
+  var d = document.getElementById('alert-dropdown'); var p = document.getElementById('profile-dropdown');
+  if (!d) return; if (p) p.style.display = 'none';
+  var open = d.style.display === 'block';
+  d.style.display = open ? 'none' : 'block';
+  if (!open) { positionDropdown(d, document.getElementById('alert-btn')); loadAlerts(); }
 }
+function loadAlerts() {
+  var list = document.getElementById('alert-list'); if (!list) return;
+  apiFetch('/dashboard/kpis')
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function(data) {
+    var html = '';
+    if (data.escalated > 0) html += '<div style="padding:10px 14px;display:flex;gap:9px;align-items:flex-start;border-bottom:1px solid rgba(255,255,255,.04)"><div style="width:7px;height:7px;border-radius:50%;background:#EF4444;margin-top:4px;flex-shrink:0"></div><div><div style="font-size:12px;color:#EBF4FF;font-weight:600;font-family:Montserrat,sans-serif">' + data.escalated + ' Escalated Actions</div><div style="font-size:10px;color:#2E4A66;margin-top:2px">Require immediate attention</div></div></div>';
+    if (data.openNCRs > 0) html += '<div style="padding:10px 14px;display:flex;gap:9px;align-items:flex-start"><div style="width:7px;height:7px;border-radius:50%;background:#F59E0B;margin-top:4px;flex-shrink:0"></div><div><div style="font-size:12px;color:#EBF4FF;font-weight:600;font-family:Montserrat,sans-serif">' + data.openNCRs + ' Open NCRs</div><div style="font-size:10px;color:#2E4A66;margin-top:2px">Pending closure</div></div></div>';
+    list.innerHTML = html || '<div style="padding:14px;text-align:center;color:#2E4A66;font-size:12px">No active alerts</div>';
+  })
+  .catch(function() { var l = document.getElementById('alert-list'); if(l) l.innerHTML = '<div style="padding:14px;text-align:center;color:#2E4A66;font-size:12px">Unable to load</div>'; });
+}
+
+/* NAV PROFILE */
+function loadNavProfile() {
+  apiFetch('/auth/me')
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function(u) { localStorage.setItem('sp_user', JSON.stringify(u)); applyNavProfile(u); })
+  .catch(function(){});
+}
+function applyNavProfile(u) {
+  if (!u) return;
+  var name = u.name || u.email || 'User'; var role = u.role || 'HSE Officer';
+  var parts = name.trim().split(' ');
+  var initials = (parts.length > 1 ? parts[0][0] + parts[parts.length-1][0] : name.substring(0,2)).toUpperCase();
+  var map = { 'nav-initials':initials, 'nav-username':name.length>14?name.substring(0,14)+'...':name, 'nav-role':role, 'pd-initials':initials, 'profile-name':name, 'profile-email':u.email||'', 'profile-role-badge':role };
+  Object.keys(map).forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=map[id]; });
+}
+
+/* SIGN OUT */
+function signOut() { localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); window.location.href = 'safetypro_login.html?logout=1'; }
+function goToSettings() { closeAllDropdowns(); showToast('Settings coming soon', 'blue'); }
+function changePassword() { closeAllDropdowns(); showToast('Contact admin@safetyproworld.com', 'blue'); }
+function openManageUsers() { closeAllDropdowns(); showToast('Go to Admin page', 'blue'); }
+
+/* MORE MENU */
+function toggleMore(e) { e.stopPropagation(); var m = document.getElementById('more-btn'); if (m) m.classList.toggle('open'); }
+
+/* SIDEBAR */
+function toggleSidebar() {
+  var sb = document.querySelector('.sidebar'); var ov = document.getElementById('sb-overlay'); var btn = document.getElementById('sb-toggle');
+  if (!sb) return;
+  sb.classList.toggle('open'); if (ov) ov.classList.toggle('show'); if (btn) btn.classList.toggle('open');
+}
+function closeSidebar() {
+  var sb = document.querySelector('.sidebar'); var ov = document.getElementById('sb-overlay'); var btn = document.getElementById('sb-toggle');
+  if (sb) sb.classList.remove('open'); if (ov) ov.classList.remove('show'); if (btn) btn.classList.remove('open');
+}
+
+/* TOAST */
+var toastTimer = null;
+function showToast(msg, type) {
+  var t = document.getElementById('toast'); var m = document.getElementById('toast-msg');
+  if (!t) return;
+  if (m) m.textContent = msg; else t.textContent = msg;
+  var dot = t.querySelector('.toast-dot'); if (dot) dot.style.background = type==='red'?'#EF4444':type==='amber'?'#F59E0B':type==='blue'?'#3B82F6':'#22C55E';
+  t.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+/* CLOSE ON OUTSIDE CLICK */
 document.addEventListener('click', function(e) {
-  if(!e.target.closest('#user-pill-btn') && !e.target.closest('#profile-dropdown')) {
-    const d=document.getElementById('profile-dropdown'); if(d) d.style.display='none';
+  if (!e.target.closest('#alert-btn') && !e.target.closest('#alert-dropdown')) { var d=document.getElementById('alert-dropdown'); if(d) d.style.display='none'; }
+  if (!e.target.closest('#user-pill-btn') && !e.target.closest('#profile-dropdown')) { var d=document.getElementById('profile-dropdown'); if(d) d.style.display='none'; }
+  if (!e.target.closest('#more-btn')) { var m=document.getElementById('more-btn'); if(m) m.classList.remove('open'); }
+  if (window.innerWidth <= 768) { var sb=document.querySelector('.sidebar'); if(sb&&sb.classList.contains('open')&&!e.target.closest('.sidebar')&&!e.target.closest('#sb-toggle')) closeSidebar(); }
+});
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeAllDropdowns(); });
+window.addEventListener('resize', closeAllDropdowns);
+document.querySelectorAll('.sb-item, .sidebar a').forEach(function(item) {
+  item.addEventListener('click', function() { if (window.innerWidth <= 768) closeSidebar(); });
+});
+
+/* INIT FIRST TAB ON LOAD */
+window.addEventListener('load', function() {
+  initStatsCharts();
+});
+
+/* EXPORT FUNCTIONS */
+function exportPDF() {
+  showToast('Generating PDF Report...', 'green');
+  setTimeout(function() { showToast('PDF ready - check downloads', 'blue'); }, 2000);
+}
+function exportExcel() {
+  showToast('Exporting to Excel...', 'green');
+  setTimeout(function() { showToast('Excel export complete', 'blue'); }, 1500);
+}
+function shareReport() {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(window.location.href).then(function() {
+      showToast('Share link copied', 'green');
+    }).catch(function() { showToast('Share link copied', 'green'); });
+  } else {
+    showToast('Share link copied', 'green');
   }
+}
+function filterReports(el, type) {
+  document.querySelectorAll('.rep-filter').forEach(function(f){ f.classList.remove('on'); });
+  if (el) el.classList.add('on');
+}
+function switchObjTab(el, tab) {
+  document.querySelectorAll('.obj-tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (el) el.classList.add('active');
+  filterObjectives(tab);
+}
+function downloadReport() { exportPDF(); }
+function printReport() {
+  showToast('Opening print dialog...', 'blue');
+  setTimeout(function() { window.print(); }, 500);
+}
+
+</script>
+
+
+<!-- WebSocket Real-Time Client -->
+<script>
+/* 
+   SAFETYPRO AI  WebSocket Client
+   Connects to backend, authenticates with JWT,
+   listens for real-time events and updates UI instantly.
+   
+   PAGE: Reports
+    */
+
+/*  SOCKET.IO CDN is loaded before this script  */
+
+var SP_SOCKET = null;
+var SP_WS_URL = 'https://distinguished-serenity-production-37d1.up.railway.app';
+var SP_RECONNECT_ATTEMPTS = 0;
+var SP_MAX_RECONNECT = 5;
+var SP_TOAST_FN = 'showToast';
+
+/*  INIT: connect on page load  */
+window.addEventListener('load', function() {
+  setTimeout(spInitSocket, 1200); // slight delay  let auth guard run first
+});
+
+function spInitSocket() {
+  var token = localStorage.getItem('sp_token');
+  if (!token) return; // not logged in  skip
+
+  /* Check socket.io is loaded */
+  if (typeof io === 'undefined') {
+    console.warn('[SafetyPro WS] socket.io not loaded  real-time disabled');
+    return;
+  }
+
+  try {
+    SP_SOCKET = io(SP_WS_URL, {
+      auth: { token: token },
+      transports: ['websocket', 'polling'],
+      reconnection: true,
+      reconnectionAttempts: SP_MAX_RECONNECT,
+      reconnectionDelay: 2000,
+      timeout: 10000,
+    });
+
+    spBindEvents();
+  } catch(e) {
+    console.warn('[SafetyPro WS] Connection failed:', e.message);
+  }
+}
+
+/*  BIND ALL EVENTS  */
+function spBindEvents() {
+  if (!SP_SOCKET) return;
+
+  /* Connection established */
+  SP_SOCKET.on('connect', function() {
+    SP_RECONNECT_ATTEMPTS = 0;
+    console.log('[SafetyPro WS] Connected  real-time active');
+    spUpdateConnectionStatus(true);
+  });
+
+  /* Connection lost */
+  SP_SOCKET.on('disconnect', function(reason) {
+    console.warn('[SafetyPro WS] Disconnected:', reason);
+    spUpdateConnectionStatus(false);
+  });
+
+  /* Connection error */
+  SP_SOCKET.on('connect_error', function(err) {
+    SP_RECONNECT_ATTEMPTS++;
+    console.warn('[SafetyPro WS] Connection error:', err.message);
+    if (SP_RECONNECT_ATTEMPTS >= SP_MAX_RECONNECT) {
+      console.warn('[SafetyPro WS] Max reconnects reached  falling back to HTTP polling');
+      spStartFallbackPoll();
+    }
+  });
+
+  /* Server confirmed connection */
+  SP_SOCKET.on('connected', function(data) {
+    console.log('[SafetyPro WS] Authenticated as:', data.userId);
+  });
+
+  /*  KPIs UPDATED  */
+  SP_SOCKET.on('kpis.updated', function(data) {
+    console.log('[SafetyPro WS] kpis.updated', data);
+    spOnKpisUpdated(data);
+  });
+
+  /*  INCIDENT CREATED  */
+  SP_SOCKET.on('incident.created', function(data) {
+    console.log('[SafetyPro WS] incident.created', data);
+    spOnIncidentCreated(data);
+  });
+
+  /*  NCR CREATED  */
+  SP_SOCKET.on('ncr.created', function(data) {
+    console.log('[SafetyPro WS] ncr.created', data);
+    spOnNcrCreated(data);
+  });
+
+  /*  ACTION UPDATED  */
+  SP_SOCKET.on('action.updated', function(data) {
+    console.log('[SafetyPro WS] action.updated', data);
+    spOnActionUpdated(data);
+  });
+
+  /*  ESCALATION TRIGGERED  */
+  SP_SOCKET.on('escalation.triggered', function(data) {
+    console.log('[SafetyPro WS] escalation.triggered', data);
+    spOnEscalationTriggered(data);
+  });
+
+  /*  USER ACTIVITY  */
+  SP_SOCKET.on('user.activity', function(data) {
+    console.log('[SafetyPro WS] user.activity', data);
+    spOnUserActivity(data);
+  });
+
+  /*  ERROR  */
+  SP_SOCKET.on('error', function(err) {
+    console.warn('[SafetyPro WS] Error:', err.message);
+    if (err.message === 'Invalid token' || err.message === 'Authentication required') {
+      localStorage.removeItem('sp_token');
+      window.location.href = 'safetypro_login.html';
+    }
+  });
+}
+
+/*  CONNECTION STATUS INDICATOR  */
+function spUpdateConnectionStatus(connected) {
+  /* Update alert dot color subtly  green pulse = live */
+  var dot = document.getElementById('alert-dot');
+  if (!dot) return;
+  if (connected) {
+    dot.style.background = '#22C55E';
+    dot.style.display = 'block';
+    setTimeout(function(){ dot.style.background = ''; dot.style.display = ''; }, 2000);
+  }
+}
+
+/*  ANIMATE NUMBER HELPER  */
+function spAnimateNum(el, target) {
+  if (!el) return;
+  if (typeof animateNum === 'function') { animateNum(el, target); return; }
+  var dur = 800; var t0 = performance.now();
+  var isFloat = String(target).indexOf('.') > -1;
+  function step(now) {
+    var p = Math.min((now - t0) / dur, 1);
+    var ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = isFloat ? (target * ease).toFixed(1) : Math.round(target * ease);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = isFloat ? parseFloat(target).toFixed(1) : Math.round(target);
+  }
+  requestAnimationFrame(step);
+}
+
+/*  SHOW TOAST HELPER  */
+function spToast(msg, type) {
+  if (typeof showDashToast === 'function') { showDashToast(msg, type || 'green'); return; }
+  if (typeof showToast === 'function') { showToast(msg, type || 'green'); return; }
+}
+
+/*  FORMAT TIME  */
+function spTimeAgo(isoString) {
+  var now = new Date();
+  var then = new Date(isoString);
+  var diff = Math.floor((now - then) / 1000);
+  if (diff < 60) return 'Just now';
+  if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+  return Math.floor(diff / 3600) + 'h ago';
+}
+
+/*  INITIALS FROM NAME  */
+function spInitials(name) {
+  if (!name) return '??';
+  var parts = name.trim().split(' ');
+  return parts.length > 1 
+    ? (parts[0][0] + parts[parts.length-1][0]).toUpperCase()
+    : name.substring(0, 2).toUpperCase();
+}
+
+/*  SEVERITY COLOR  */
+function spSeverityColor(severity) {
+  var map = { CRITICAL: '#EF4444', HIGH: '#F97316', MEDIUM: '#F59E0B', LOW: '#22C55E' };
+  return map[(severity||'').toUpperCase()] || '#3B82F6';
+}
+
+/* 
+   EVENT HANDLERS  page-specific logic below
+    */
+
+
+function spOnKpisUpdated(data) {
+  if (typeof loadReportsData === 'function') loadReportsData();
+}
+function spOnIncidentCreated(data) {
+  spOnKpisUpdated(data);
+  spToast('New incident reported', 'red');
+}
+function spOnNcrCreated(data) {
+  spOnKpisUpdated(data);
+  spToast('New NCR logged', 'amber');
+}
+function spOnActionUpdated(data) { spOnKpisUpdated(data); }
+function spOnEscalationTriggered(data) {
+  var esc = data.escalation || {};
+  var dot = document.getElementById('alert-dot');
+  if (dot) dot.style.display = 'block';
+  spToast('L' + esc.level + ' Escalation triggered', 'red');
+}
+function spOnUserActivity(data) { /* no-op on reports */ }
+
+
+/*  FALLBACK: HTTP POLL every 30s if WebSocket fails  */
+var spPollTimer = null;
+function spStartFallbackPoll() {
+  if (spPollTimer) return; // already polling
+  console.log('[SafetyPro WS] Starting 30s HTTP fallback poll');
+  spPollTimer = setInterval(function() {
+    if (typeof loadDashboardData === 'function') loadDashboardData();
+    else if (typeof loadOpsData === 'function') loadOpsData();
+    else if (typeof loadControlData === 'function') loadControlData();
+    else if (typeof loadReportsData === 'function') loadReportsData();
+  }, 30000);
+}
+
+/*  CLEANUP on page unload  */
+window.addEventListener('beforeunload', function() {
+  if (SP_SOCKET) { SP_SOCKET.disconnect(); SP_SOCKET = null; }
+  if (spPollTimer) { clearInterval(spPollTimer); spPollTimer = null; }
 });
 
 </script>

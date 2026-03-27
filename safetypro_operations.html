@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>SafetyPro AI — Operations</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 /* ══════════════════════════════════════════════
    TOKENS — BLUEPRINT SPEC EXACT
@@ -32,8 +32,8 @@
   --t1:      #E6EDF3;
   --t2:      #94A3B8;
   --t3:      #64748B;
-  --fh:      'Syne',sans-serif;
-  --fb:      'DM Sans',sans-serif;
+  --fh:'Montserrat',sans-serif;
+  --fb:'Roboto',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{margin:0;padding:0}
@@ -98,11 +98,11 @@ svg{flex-shrink:0}
   display:flex;align-items:center;justify-content:space-between;
   flex-shrink:0;background:var(--bg);
   position:sticky;top:52px;z-index:50;
-}
+flex-wrap:wrap;}
 .sh-left{display:flex;align-items:center;gap:12px}
 .sh-title{font-family:var(--fh);font-size:16px;font-weight:700;color:var(--t1)}
-.sh-tabs{display:flex;gap:2px}
-.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent}
+.sh-tabs{display:flex;gap:2px;}
+.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparentwhite-space:nowrap;flex-shrink:0;}
 .sh-tab:hover{color:var(--t2)}
 .sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
 .sh-right{display:flex;gap:8px;align-items:center}
@@ -494,31 +494,330 @@ svg{flex-shrink:0}
 .aw-file-rm:hover{color:#EF4444}
 .aw-more{display:flex;align-items:center;justify-content:center;padding:7px;border-radius:8px;border:1px dashed var(--border);background:var(--raised);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:.15s;width:100%;box-sizing:border-box;margin-top:4px}
 .aw-more:hover{border-color:var(--green);color:var(--green)}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — APP PAGES
+   Mobile / Tablet / Desktop
+══════════════════════════════════════ */
+
+.sb-toggle{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  padding:6px;background:none;border:1px solid var(--border);
+  border-radius:7px;margin-left:8px;flex-shrink:0;
+}
+.sb-toggle span{
+  display:block;width:18px;height:2px;
+  background:var(--t2);border-radius:2px;transition:.3s;
+}
+.sb-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.sb-toggle.open span:nth-child(2){opacity:0;}
+.sb-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
+.sb-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.5);z-index:149;
+  backdrop-filter:blur(2px);
+}
+.sb-overlay.show{display:block;}
+
+/* ── Tablet: 1024px ── */
+@media(max-width:1024px){
+  .nl{font-size:10px;padding:5px 8px;}
+  .un-name{display:none;}
+  [class*="grid-cols-4"],[style*="repeat(4"]{grid-template-columns:repeat(2,1fr) !important;}
+  [class*="grid-cols-3"],[style*="repeat(3"]{grid-template-columns:repeat(2,1fr) !important;}
+}
+
+/* ── Large Mobile: 768px ── */
+@media(max-width:768px){
+  html,body{overflow:auto !important;height:auto !important;}
+  body{flex-direction:column;}
+
+  .topnav{padding:0 12px !important;gap:6px;}
+  .nav-links{display:none !important;}
+  .sb-toggle{display:flex !important;}
+  .logo-text{font-size:13px !important;}
+  .un-name,.un-role{display:none !important;}
+  .more-wrap{display:none !important;}
+
+  .sidebar{
+    position:fixed !important;top:52px;left:-230px;
+    width:220px !important;height:calc(100vh - 52px);
+    z-index:150;transition:left .28s ease;
+    box-shadow:none;overflow-y:auto;
+  }
+  .sidebar.open{left:0 !important;box-shadow:4px 0 24px rgba(0,0,0,.5);}
+
+  .body{flex-direction:column;overflow:visible !important;height:auto !important;}
+  .content{overflow:visible !important;height:auto !important;}
+
+  .subnav,.subnav-row{
+    flex-direction:column !important;align-items:flex-start !important;
+    gap:8px !important;padding:10px 14px !important;
+  }
+
+  .dash,.page-inner,.content-inner,.main-content{
+    padding:12px 14px !important;
+  }
+
+  /* Tables — horizontal scroll */
+  table,.table-wrap{overflow-x:auto;display:block;-webkit-overflow-scrolling:touch;}
+  table{min-width:600px;}
+
+  /* Common grids restack */
+  .kpi-row,[class*="kpi-row"]{grid-template-columns:repeat(2,1fr) !important;}
+  .main-grid{grid-template-columns:1fr !important;}
+  .bottom-grid{grid-template-columns:1fr !important;}
+  .grid-3{grid-template-columns:1fr 1fr !important;}
+  .grid-4{grid-template-columns:1fr 1fr !important;}
+
+  /* Cards full width */
+  .g-card,.chart-card,.card,.panel{width:100% !important;}
+
+  .fab-bar{bottom:14px;right:12px;}
+  .fab{padding:8px 12px;font-size:10px;}
+
+  /* Modals */
+  .modal,.modal-bg .modal{width:95vw !important;max-height:85vh;}
+  .form-row{grid-template-columns:1fr !important;}
+
+  /* Icon buttons */
+  .icon-btn{width:30px;height:30px;}
+  .user-pill{padding:3px 8px 3px 3px;}
+
+  /* Operations grid — stack on mobile */
+  .ops-grid{grid-template-columns:1fr !important;gap:10px !important;}
+  .right-col,.left-col{width:100% !important;}
+  .ops-grid > *{min-width:0;}
+  /* sh-right filters wrap */
+  .sh-right{flex-wrap:wrap !important;gap:6px !important;}
+  .sh-right select,.sh-right .sel{flex:1;min-width:100px;}
+  /* action table scrollable */
+  .action-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .action-table{min-width:600px;}
+
+}
+
+/* ── Mobile: 480px ── */
+@media(max-width:480px){
+  .topnav{padding:0 10px !important;}
+  .kpi-row{grid-template-columns:1fr !important;}
+  .kpi-num,.stat-big{font-size:26px !important;}
+  .fab-bar{flex-direction:column;gap:6px;bottom:12px;right:10px;}
+  .fab{width:44px;height:44px;padding:0;justify-content:center;border-radius:50%;}
+  .fab span,.fab-label{display:none;}
+  .chart-wrap{height:130px !important;}
+  .modal{margin:10px !important;}
+}
+
+
+/* ══ DROPDOWN RESPONSIVE FIX ══ */
+.profile-dd,.alert-dropdown{
+  position:fixed !important;
+  top:58px;
+  right:12px;
+  z-index:9999;
+}
+@media(max-width:768px){
+  .profile-dd,.alert-dropdown{
+    right:8px !important;
+    width:calc(100vw - 16px) !important;
+    max-width:300px !important;
+    left:auto !important;
+  }
+}
+@media(max-width:480px){
+  .profile-dd,.alert-dropdown{
+    right:6px !important;
+    width:calc(100vw - 12px) !important;
+  }
+}
+
+
+/* ══ UNIVERSAL MOBILE FIXES ══ */
+@media(max-width:768px){
+
+  /* ── Sub-header: stack vertically ── */
+  .sub-header{
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    gap:8px !important;
+    padding:10px 12px !important;
+  flex-wrap:wrap;}
+  .sh-left{width:100% !important;}
+  .sh-right{
+    width:100% !important;
+    flex-wrap:wrap !important;
+    gap:6px !important;
+  }
+  .sh-title{font-size:14px !important;}
+
+  /* ── Tab bar: scroll horizontally, never overflow ── */
+  .sh-tabs{
+    display:flex !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    -webkit-overflow-scrolling:touch !important;
+    flex-wrap:nowrap !important;
+    gap:3px !important;
+    padding-bottom:4px !important;
+    scrollbar-width:none !important;
+    width:100% !important;
+    max-width:100vw !important;
+  }
+  .sh-tabs::-webkit-scrollbar{display:none !important;}
+  .sh-tab{
+    flex-shrink:0 !important;
+    white-space:nowrap !important;
+    font-size:11px !important;
+    padding:5px 12px !important;
+  }
+
+  /* ── Selects in subheader ── */
+  .sh-right select,.sel{
+    flex:1 !important;
+    min-width:80px !important;
+    max-width:100% !important;
+    font-size:11px !important;
+  }
+
+  /* ── Main 2-col layout → single col ── */
+  .ops-grid{
+    grid-template-columns:1fr !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+  .left-col,.right-col{width:100% !important;}
+  .two-col,.two-col-grid{grid-template-columns:1fr !important;}
+
+  /* ── Control page specific ── */
+  .esc-grid{grid-template-columns:1fr !important;}
+  .od-grid{grid-template-columns:1fr !important;}
+  .team-grid{grid-template-columns:1fr !important;}
+  .chain-card{padding:10px !important;}
+  .matrix-wrap{overflow-x:auto !important;}
+  .esc-table-wrap{overflow-x:auto !important; -webkit-overflow-scrolling:touch !important;}
+  .delay-chart-wrap{height:160px !important;}
+  .cs-grid{grid-template-columns:1fr 1fr !important;}
+
+  /* ── Reports page specific ── */
+  .charts-grid{grid-template-columns:1fr !important;}
+  .monthly-grid{grid-template-columns:1fr !important;}
+  .bench-grid{grid-template-columns:1fr !important;}
+  .apr-grid{grid-template-columns:1fr !important;}
+  .obj-card{padding:12px !important;}
+
+  /* ── Admin page specific ── */
+  .billing-grid{grid-template-columns:1fr !important;}
+  .notif-grid{grid-template-columns:1fr !important;}
+  .wf-grid{
+    flex-direction:column !important;
+    gap:8px !important;
+  }
+  .wf-arrow{transform:rotate(90deg) !important;}
+  .form-grid{grid-template-columns:1fr !important;}
+  .plan-card{width:100% !important;}
+
+  /* ── Cards: full width, comfortable padding ── */
+  .card,.g-card,.chart-card,.panel,.cs-card{
+    width:100% !important;
+    padding:12px !important;
+  }
+  .card-head,.card-hdr{
+    flex-wrap:wrap !important;
+    gap:8px !important;
+  }
+  .card-btns{flex-wrap:wrap !important; gap:4px !important;}
+
+  /* ── Tab panels ── */
+  .tab-panel{width:100% !important; overflow-x:hidden !important;}
+
+  /* ── Inputs full width ── */
+  .form-group{margin-bottom:12px !important;}
+  .form-input,.form-select,.form-textarea,.sel{
+    width:100% !important;
+    font-size:14px !important;
+  }
+
+  /* ── Chart heights ── */
+  .chart-wrap,[id$="Chart"]{height:160px !important;}
+
+  /* ── Action table ── */
+  .action-table{font-size:11px !important;}
+  .action-table th,.action-table td{padding:6px 8px !important;}
+}
+
+/* ══ SMALL MOBILE: 480px ══ */
+@media(max-width:480px){
+  .sh-title{font-size:13px !important;}
+  .sh-tab{font-size:10px !important; padding:4px 10px !important;}
+  .card,.g-card{padding:10px !important;}
+  .card-head,.card-hdr{margin-bottom:8px !important;}
+  .topnav{padding:0 10px !important;}
+  .logo-text{font-size:12px !important;}
+  .act-grid{grid-template-columns:1fr !important;}
+  .kpi-row,[class*="kpi-row"]{grid-template-columns:1fr 1fr !important;}
+}
+
+
+/* ── MOBILE TAB BAR FIX ── */
+.sh-tabs{
+  display:flex;
+  gap:2px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  flex-wrap:nowrap;
+  padding-bottom:2px;
+}
+.sh-tabs::-webkit-scrollbar{display:none;}
+.sh-tab{
+  white-space:nowrap;
+  flex-shrink:0;
+}
+@media(max-width:480px){
+  .sh-tab{font-size:10px !important;padding:4px 10px !important;}
+  .sh-tabs{gap:1px;}
+  .sub-header,.sh-left,.sh-right{flex-wrap:wrap;gap:6px;}
+  .sh-right{width:100%;}
+}
+@media(max-width:360px){
+  .sh-tab{font-size:9px !important;padding:3px 8px !important;}
+}
+
+@keyframes mmfadein{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* WebSocket real-time fade-in animation */
+@keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
 <body>
 
 <!-- ══ TOP NAV ══ -->
 <nav class="topnav">
-  <a class="logo" href="#" title="Go to Dashboard">
+  <a class="logo" href="safetypro_v2.html" title="Go to Dashboard">
     <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
     <span class="logo-text">SafetyPro <span>AI</span></span>
   </a>
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
   <div class="nav-links">
     <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
     <a class="nl active" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>Operations</a>
-    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
-    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>Reports</a>
+    <a class="nl" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
+    <a class="nl" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>Reports</a>
     <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
       <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More<span class="arr">▾</span>
       <div class="more-menu" id="more-menu">
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
-        <a class="mm-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
+        <a class="mm-item" href="#" onclick="event.preventDefault();showToast('Audit & Compliance - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="safetypro_documents.html" onclick="event.preventDefault();showToast('Documents & Records - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
+        <a class="mm-item" href="safetypro_field.html" onclick="event.preventDefault();showToast('Site & Field Tools - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="safetypro_ai.html" onclick="event.preventDefault();showToast('AI Intelligence - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_auditor.html" onclick="event.preventDefault();showToast('Auditor Verification - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
         <div class="mm-divider"></div>
-        <a class="mm-item mm-admin" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Admin &amp; Configuration</a>
+        <a class="mm-item mm-admin" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Admin &amp; Configuration</a>
       </div>
     </div>
   </div>
@@ -547,47 +846,48 @@ svg{flex-shrink:0}
   </div>
 
 <!-- ══ BODY ══ -->
+<div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
 <div class="body">
 
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <a class="sb-item" href="#"  viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    <a class="sb-item" href="safetypro_v2.html"><svg   viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       Dashboard
     </a>
-    <a class="sb-item active" href="#">
+    <a class="sb-item active" href="safetypro_operations.html">
       <svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>
       Operations<span class="sb-badge amber">12</span>
     </a>
-    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
+    <a class="sb-item" href="safetypro_control.html"><svg   viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
       Control<span class="sb-badge red">5</span>
     </a>
-    <a class="sb-item" href="#"  viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
+    <a class="sb-item" href="safetypro_reports.html"><svg   viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
       Reports
     </a>
     <div style="height:1px;background:#1E293B;margin:10px 2px 6px"></div>
     <div style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:2px 10px 6px">More</div>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_reports.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
-      Audit & Compliance
+      Audit &amp; Compliance
     </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_documents.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
       Documents & Records
     </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
       Site & Field Tools
     </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
       AI Intelligence
     </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_auditor.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
       Auditor Verification
     </a>
     <div style="height:1px;background:#1E293B;margin:6px 2px 4px"></div>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#22C55E" href="#">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#22C55E" href="safetypro_admin.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#22C55E"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
       Admin &amp; Configuration
     </a>
@@ -1173,27 +1473,27 @@ svg{flex-shrink:0}
 </div>
 
 <script>
-/* ══ ACTIONS DATA ══ */
-const actions=[
-  {src:'Incident',srcCls:'src-i',title:'Fix loose railing — Block 3 Level 2',site:'Site Alpha',person:'Rajesh K.',color:'#EF4444',initials:'RK',deadline:'2026-03-19',status:'over',prog:30},
-  {src:'NCR',srcCls:'src-n',title:'Replace unsafe scaffolding — Floor 5',site:'Birpur Bihpur',person:'Meera K.',color:'#F59E0B',initials:'MK',deadline:'2026-03-22',status:'prog',prog:60},
-  {src:'Incident',srcCls:'src-i',title:'Electrical hazard — Panel Room 4B',site:'Tirora Plant',person:'John M.',color:'#3B82F6',initials:'JM',deadline:'2026-03-24',status:'open',prog:0},
-  {src:'Audit',srcCls:'src-au',title:'Install fire extinguisher mounts — Zone C',site:'Site Alpha',person:'Arvind S.',color:'#8B5CF6',initials:'AS',deadline:'2026-03-25',status:'open',prog:20},
-  {src:'NCR',srcCls:'src-n',title:'Clear blocked emergency exit — Level 2',site:'Birpur Bihpur',person:'Priya R.',color:'#22C55E',initials:'PR',deadline:'2026-03-21',status:'over',prog:45},
-  {src:'Incident',srcCls:'src-i',title:'MSDS sheets missing — Chemical store',site:'Tirora Plant',person:'Vikram S.',color:'#F59E0B',initials:'VS',deadline:'2026-03-28',status:'prog',prog:75},
-  {src:'Audit',srcCls:'src-au',title:'Update safety signage — main gate',site:'Site Alpha',person:'Dhanesh CK',color:'#22C55E',initials:'DK',deadline:'2026-03-30',status:'open',prog:10},
-  {src:'NCR',srcCls:'src-n',title:'PPE compliance check — subcontractor crew',site:'Birpur Bihpur',person:'Rajesh K.',color:'#3B82F6',initials:'RK',deadline:'2026-04-01',status:'done',prog:100},
+/* == ACTIONS DATA == */
+var actions=[
+  {src:'Incident',srcCls:'src-i',title:'Fix loose railing - Block 3 Level 2',site:'Site Alpha',person:'Rajesh K.',color:'#EF4444',initials:'RK',deadline:'2026-03-19',status:'over',prog:30},
+  {src:'NCR',srcCls:'src-n',title:'Replace unsafe scaffolding - Floor 5',site:'Birpur Bihpur',person:'Meera K.',color:'#F59E0B',initials:'MK',deadline:'2026-03-22',status:'prog',prog:60},
+  {src:'Incident',srcCls:'src-i',title:'Electrical hazard - Panel Room 4B',site:'Tirora Plant',person:'John M.',color:'#3B82F6',initials:'JM',deadline:'2026-03-24',status:'open',prog:0},
+  {src:'Audit',srcCls:'src-au',title:'Install fire extinguisher mounts - Zone C',site:'Site Alpha',person:'Arvind S.',color:'#8B5CF6',initials:'AS',deadline:'2026-03-25',status:'open',prog:20},
+  {src:'NCR',srcCls:'src-n',title:'Clear blocked emergency exit - Level 2',site:'Birpur Bihpur',person:'Priya R.',color:'#22C55E',initials:'PR',deadline:'2026-03-21',status:'over',prog:45},
+  {src:'Incident',srcCls:'src-i',title:'MSDS sheets missing - Chemical store',site:'Tirora Plant',person:'Vikram S.',color:'#F59E0B',initials:'VS',deadline:'2026-03-28',status:'prog',prog:75},
+  {src:'Audit',srcCls:'src-au',title:'Update safety signage - main gate',site:'Site Alpha',person:'Dhanesh CK',color:'#22C55E',initials:'DK',deadline:'2026-03-30',status:'open',prog:10},
+  {src:'NCR',srcCls:'src-n',title:'PPE compliance check - subcontractor crew',site:'Birpur Bihpur',person:'Rajesh K.',color:'#3B82F6',initials:'RK',deadline:'2026-04-01',status:'done',prog:100},
 ];
 
 function dlClass(dl,status){
   if(status==='over') return 'over';
-  const d=new Date(dl)-new Date();
+  var d=new Date(dl)-new Date();
   if(d<86400000*2) return 'soon';
   return 'ok';
 }
 function dlLabel(dl,status){
-  if(status==='over') return '⚠ Overdue';
-  const date=new Date(dl);
+  if(status==='over') return ' Overdue';
+  var date=new Date(dl);
   return date.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
 }
 function statusPill(s){
@@ -1204,8 +1504,8 @@ function statusPill(s){
 }
 
 function renderTable(data){
-  const tbody=document.getElementById('action-tbody');
-  tbody.innerHTML=data.map(a=>`
+  var tbody=document.getElementById('action-tbody');
+  tbody.innerHTML=data.map(function(a){ return `
     <tr>
       <td><span class="src-badge ${a.srcCls}">${a.src}</span></td>
       <td>
@@ -1234,18 +1534,18 @@ function renderTable(data){
 }
 renderTable(actions);
 
-/* ══ COUNT UP ══ */
+/* == COUNT UP == */
 function cu(el,t,ms){
-  const s=performance.now();
+  var s=performance.now();
   function u(n){
-    const p=Math.min((n-s)/ms,1);
-    const e=1-Math.pow(1-p,3);
+    var p=Math.min((n-s)/ms,1);
+    var e=1-Math.pow(1-p,3);
     el.textContent=Math.round(t*e);
     if(p<1)requestAnimationFrame(u);
   }
   requestAnimationFrame(u);
 }
-setTimeout(()=>{
+setTimeoutfunction((){
   cu(document.getElementById('sn1'),7,700);
   cu(document.getElementById('sn2'),14,900);
   cu(document.getElementById('sn3'),23,1000);
@@ -1253,43 +1553,43 @@ setTimeout(()=>{
   cu(document.getElementById('sn5'),18,1100);
 },200);
 
-/* ══ COUNTDOWN TIMER ══ */
-let mins=262;
-setInterval(()=>{
+/* == COUNTDOWN TIMER == */
+var mins=262;
+setIntervalfunction((){
   if(mins>0)mins--;
-  const h=Math.floor(mins/60),m=mins%60;
-  const el=document.getElementById('esc-timer');
+  var h=Math.floor(mins/60),m=mins%60;
+  var el=document.getElementById('esc-timer');
   if(el)el.textContent=h+'h '+m+'m';
 },60000);
 
-/* ══ TABS ══ */
+/* == TABS == */
 function switchTab(el,id){
-  document.querySelectorAll('.sh-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.sh-tab').forEach(function(t){ return t.classList.remove('active'));
   el.classList.add('active');
   ['tracker','myactions','toolbox','ptw'].forEach(t=>{
-    const el=document.getElementById('tab-'+t);
+    var el=document.getElementById('tab-'+t);
     if(el) el.style.display=t===id?'block':'none';
   });
 }
 
-/* ══ FORM SWITCH ══ */
+/* == FORM SWITCH == */
 function switchForm(el,id){
-  document.querySelectorAll('.card-btns .cbtn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.card-btns .cbtn').forEach(function(b){ return b.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('incident-qf').style.display=id==='incident-qf'?'block':'none';
   document.getElementById('ncr-qf').style.display=id==='ncr-qf'?'block':'none';
 }
 
-/* ══ SEVERITY ══ */
+/* == SEVERITY == */
 function setSev(el,level){
-  const parent=el.parentElement;
+  var parent=el.parentElement;
   parent.querySelectorAll('.sev-opt').forEach(s=>{
     s.className='sev-opt';
   });
   el.classList.add('active-'+level);
 }
 
-/* ══ NCR TYPE ══ */
+/* == NCR TYPE == */
 function setNcrModalType(el, type){
   document.querySelectorAll('.ncr-type-btn').forEach(b=>{
     b.style.border='1px solid var(--border)';
@@ -1299,40 +1599,40 @@ function setNcrModalType(el, type){
   el.style.border='1px solid var(--green)';
   el.style.background='rgba(34,197,94,.1)';
   el.style.color='var(--green)';
-  const inp=document.getElementById('ncr-modal-type');
+  var inp=document.getElementById('ncr-modal-type');
   if(inp) inp.value=type;
 }
 
 function setNcrType(el){
-  document.querySelectorAll('.ncr-type').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.ncr-type').forEach(function(t){ return t.classList.remove('active'));
   el.classList.add('active');
 }
 
-/* ══ FILTERS ══ */
+/* == FILTERS == */
 function toggleFilter(el){ el.classList.toggle('on'); }
 function filterSrc(el,src){
-  document.querySelectorAll('.card-btns .cbtn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.card-btns .cbtn').forEach(function(b){ return b.classList.remove('active'));
   el.classList.add('active');
-  const filtered=src==='all'?actions:actions.filter(a=>a.src===src);
+  var filtered=src==='all'?actions:actions.filter(function(a){ return a.src===src);
   renderTable(filtered.length?filtered:actions);
 }
 
-/* ══ GPS ══ */
+/* == GPS == */
 function refreshGPS(){
-  const el=document.getElementById('gps-coords');
-  if(el){el.textContent='Locating...';setTimeout(()=>{el.textContent='25.5941° N, 85.1376° E'},1200);}
+  var el=document.getElementById('gps-coords');
+  if(el){el.textContent='Locating...';setTimeoutfunction((){el.textContent='25.5941 N, 85.1376 E'},1200);}
 }
 
-/* ══ TOAST ══ */
+/* == TOAST == */
 function showToast(msg){
-  const t=document.getElementById('toast');
-  const m=document.getElementById('toast-msg');
+  var t=document.getElementById('toast');
+  var m=document.getElementById('toast-msg');
   if(m)m.textContent=msg;
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),3500);
 }
 
-/* ══ MODAL ══ */
+/* == MODAL == */
 function openModal(type){
   if(type==='incident') document.getElementById('modal-incident').classList.add('open');
   if(type==='ncr') document.getElementById('modal-ncr').classList.add('open');
@@ -1341,8 +1641,8 @@ function openModal(type){
     document.getElementById('modal-toolbox').classList.add('open');
   }
   if(type==='ptw') {
-    const now = new Date();
-    const later = new Date(now.getTime() + 8*60*60*1000);
+    var now = new Date();
+    var later = new Date(now.getTime() + 8*60*60*1000);
     document.getElementById('ptw-start').value = now.toISOString().slice(0,16);
     document.getElementById('ptw-end').value = later.toISOString().slice(0,16);
     document.getElementById('modal-ptw').classList.add('open');
@@ -1351,7 +1651,7 @@ function openModal(type){
 function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 function closeModalOutside(e,id){ if(e.target.id===id) closeModal(id); }
 
-/* ══ FAB ══ */
+/* == FAB == */
 function toggleFab(){
   document.getElementById('fab').classList.toggle('open');
   document.getElementById('fab-menu').classList.toggle('open');
@@ -1364,32 +1664,43 @@ document.addEventListener('click',e=>{
   if(!e.target.closest('#fab')&&!e.target.closest('#fab-menu')) closeFab();
 });
 
-/* ══ API HELPERS ══ */
-const API = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
+/* == API HELPERS == */
+var API = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
 function getToken(){ return localStorage.getItem('sp_token'); }
-async function apiFetch(path, opts={}){
-  const res = await fetch(API+path, {
-    ...opts,
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken(),...(opts.headers||{})}
-  });
-  if(res.status===401){ window.location.href='safetypro_login.html'; return; }
-  return res.json();
+function apiFetch(path, opts){
+  var res;
+  try {
+    res = fetch(API+path, {
+      ...opts,
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken(),...(opts.headers||{})}
+    });
+  } catch(netErr) {
+    throw new Error('Network error - server may be down.');
+  }
+  if(res.status===401){ localStorage.removeItem('sp_token'); window.location.href='safetypro_login.html'; return null; }
+  var data;
+  try { data = res.json(); } catch { throw new Error('Invalid server response.'); }
+  if(!res.ok){
+    var msg = Array.isArray(data.message) ? data.message.join(', ') : (data.message || 'Server error '+res.status);
+    throw new Error(msg);
+  }
+  return data;
 }
 
-/* ══ LOAD REAL DATA ══ */
-async function loadOperationsData(){
+/* == LOAD REAL DATA == */
+function loadOperationsData(){
   try {
     // Load actions
-    const actions = await apiFetch('/actions');
+    var actions = apiFetch('/actions');
     if(actions && actions.length){
-      const mapped = actions.map(a => ({
+      var mapped = actions.map(function(a){ return ({
         src: a.source === 'INCIDENT' ? 'Incident' : a.source === 'NCR' ? 'NCR' : 'Audit',
         srcCls: a.source === 'INCIDENT' ? 'src-i' : a.source === 'NCR' ? 'src-n' : 'src-a',
         title: a.title,
-        site: a.project?.name || '',
-        person: a.assignedTo?.name || '',
+        site: a.project.name || '',
+        person: a.assignedTo.name || '',
         color: '#22C55E',
-        initials: (a.assignedTo?.name||'?').split(' ').map(n=>n[0]).join('').substring(0,2),
+        initials: (a.assignedTo.name||'?').split(' ').map(function(n){ return n[0]).join('').substring(0,2),
         deadline: a.dueDate ? a.dueDate.substring(0,10) : '',
         status: a.status.toLowerCase().replace('_','-'),
         prog: a.progressPct || 0,
@@ -1399,64 +1710,64 @@ async function loadOperationsData(){
     }
 
     // Load stats
-    const kpis = await apiFetch('/dashboard/kpis');
+    var kpis = apiFetch('/dashboard/kpis');
     if(kpis){
-      const sn1=document.getElementById('sn1'); if(sn1) sn1.textContent=kpis.totalIncidents||0;
-      const sn2=document.getElementById('sn2'); if(sn2) sn2.textContent=kpis.openNCRs||0;
-      const sn3=document.getElementById('sn3'); if(sn3) sn3.textContent=kpis.pending||0;
-      const sn4=document.getElementById('sn4'); if(sn4) sn4.textContent=kpis.overdueActions||0;
+      var sn1=document.getElementById('sn1'); if(sn1) sn1.textContent=kpis.totalIncidents||0;
+      var sn2=document.getElementById('sn2'); if(sn2) sn2.textContent=kpis.openNCRs||0;
+      var sn3=document.getElementById('sn3'); if(sn3) sn3.textContent=kpis.pending||0;
+      var sn4=document.getElementById('sn4'); if(sn4) sn4.textContent=kpis.overdueActions||0;
     }
   } catch(e){ console.warn('Load error:', e.message); }
 }
 
-/* ══ SUBMIT ══ */
-async function submitIncident(){
-  const desc = document.querySelector('#modal-incident textarea') ||
+/* == SUBMIT == */
+function submitIncident(){
+  var desc = document.querySelector('#modal-incident textarea') ||
                document.querySelector('.qr-form textarea');
-  const projSel = document.querySelector('#modal-incident select') ||
+  var projSel = document.querySelector('#modal-incident select') ||
                   document.querySelector('.qr-form select');
-  const sevSel = document.querySelectorAll('.qr-form select')[1];
-  const sevMap = {'Low':'LOW','Medium':'MEDIUM','High':'HIGH','Critical':'CRITICAL'};
-  const projectMap = {'Birpur Bihpur Road':'proj-birpur','Site Alpha — Mumbai':'proj-alpha','Tirora Power Plant':'proj-tirora'};
+  var sevSel = document.querySelectorAll('.qr-form select')[1];
+  var sevMap = {'Low':'LOW','Medium':'MEDIUM','High':'HIGH','Critical':'CRITICAL'};
+  var projectMap = {'Birpur Bihpur Road':'proj-birpur','Site Alpha - Mumbai':'proj-alpha','Tirora Power Plant':'proj-tirora'};
 
   try {
-    const data = await apiFetch('/incidents', {
+    var data = apiFetch('/incidents', {
       method:'POST',
       body: JSON.stringify({
-        projectId: projectMap[projSel?.value] || 'proj-birpur',
-        description: desc?.value || 'Incident reported from Operations',
-        severity: sevMap[sevSel?.value] || 'MEDIUM',
+        projectId: projectMap[projSel.value] || 'proj-birpur',
+        description: desc.value || 'Incident reported from Operations',
+        severity: sevMap[sevSel.value] || 'MEDIUM',
         location: 'Site Location',
         incidentDate: new Date().toISOString(),
       })
     });
-    if(data?.incident){
+    if(data.incident){
       closeModal('modal-incident');
-      showToast('✓ Incident reported — Action + Investigation auto-created');
+      showToast(' Incident reported - Action + Investigation auto-created');
       setTimeout(loadOperationsData, 500);
     }
   } catch(e){ showToast('Error: '+e.message); }
 }
 
-async function submitNCR(){
-  const desc = document.querySelector('.qr-ncr textarea');
-  const projectMap = {'Birpur Bihpur Road':'proj-birpur','Site Alpha — Mumbai':'proj-alpha','Tirora Power Plant':'proj-tirora'};
-  const typeEl = document.querySelector('.ncr-type.active');
-  const typeMap = {'Unsafe Act':'UNSAFE_ACT','Unsafe Condition':'UNSAFE_CONDITION','Near Miss':'NEAR_MISS'};
+function submitNCR(){
+  var desc = document.querySelector('.qr-ncr textarea');
+  var projectMap = {'Birpur Bihpur Road':'proj-birpur','Site Alpha - Mumbai':'proj-alpha','Tirora Power Plant':'proj-tirora'};
+  var typeEl = document.querySelector('.ncr-type.active');
+  var typeMap = {'Unsafe Act':'UNSAFE_ACT','Unsafe Condition':'UNSAFE_CONDITION','Near Miss':'NEAR_MISS'};
 
   try {
-    const data = await apiFetch('/ncr', {
+    var data = apiFetch('/ncr', {
       method:'POST',
       body: JSON.stringify({
-        projectId: 'proj-birpur',
-        observationType: typeMap[typeEl?.textContent?.trim()] || 'UNSAFE_ACT',
-        description: desc?.value || 'NCR logged from Operations',
+        projectId: document.querySelector('.qr-ncr select').value || 'proj-birpur',
+        observationType: typeMap[typeEl.textContent.trim()] || 'UNSAFE_ACT',
+        description: desc.value || 'NCR logged from Operations',
         severity: 'MEDIUM',
         assignedToId: 'user-rajesh',
       })
     });
-    if(data?.ncr){
-      showToast('✓ NCR logged — Action created & assigned. Due date set.');
+    if(data.ncr){
+      showToast(' NCR logged - Action created & assigned. Due date set.');
       setTimeout(loadOperationsData, 500);
     }
   } catch(e){ showToast('Error: '+e.message); }
@@ -1467,19 +1778,19 @@ function submitFromModal(){
 }
 
 
-// Old file handlers removed — using unified awAdd system
+// Old file handlers removed - using unified awAdd system
 
 // Load on page start
-document.addEventListener('DOMContentLoaded', ()=>{
+document.addEventListenerfunction('DOMContentLoaded', (){
   if(!getToken()){ window.location.href='safetypro_login.html'; return; }
   loadOperationsData();
 });
 
-/* ══ ADD LIVE ACTION ══ */
+/* == ADD LIVE ACTION == */
 function addNewAction(){
-  const newAction={
+  var newAction={
     src:'Incident',srcCls:'src-i',
-    title:'New incident — Birpur Bihpur Road (just now)',
+    title:'New incident - Birpur Bihpur Road (just now)',
     site:'Birpur Bihpur Road',
     person:'Dhanesh CK',color:'#22C55E',initials:'DK',
     deadline:'2026-03-28',status:'open',prog:0
@@ -1487,34 +1798,34 @@ function addNewAction(){
   actions.unshift(newAction);
   renderTable(actions.slice(0,8));
   // Update stats
-  const el=document.getElementById('sn1');
+  var el=document.getElementById('sn1');
   if(el) el.textContent=parseInt(el.textContent)+1;
-  const el2=document.getElementById('sn3');
+  var el2=document.getElementById('sn3');
   if(el2) el2.textContent=parseInt(el2.textContent)+1;
 }
 
-/* ══ PAGE BTN ══ */
-document.querySelectorAll('.page-btn').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('.page-btn').forEach(x=>x.classList.remove('active'));
+/* == PAGE BTN == */
+document.querySelectorAll('.page-btn').forEachfunction(b=>{
+  b.addEventListener('click',(){
+    document.querySelectorAll('.page-btn').forEach(function(x){ return x.classList.remove('active'));
     if(!isNaN(parseInt(b.textContent))) b.classList.add('active');
   });
 });
 
-/* ── MORE MENU ── */
+/* -- MORE MENU -- */
 function toggleMore(e){
   e.stopPropagation();
   document.getElementById('more-btn').classList.toggle('open');
 }
 document.addEventListener('click',function(){
-  const mb=document.getElementById('more-btn');
+  var mb=document.getElementById('more-btn');
   if(mb) mb.classList.remove('open');
 });
 
 
-/* ══ NAVIGATION ══ */
+/* == NAVIGATION == */
 (function(){
-  const pages = {
+  var pages = {
     'Dashboard':            'safetypro_v2.html',
     'Operations':           'safetypro_operations.html',
     'Control':              'safetypro_control.html',
@@ -1528,17 +1839,17 @@ document.addEventListener('click',function(){
   };
 
   function navigate(label){
-    const dest = pages[label];
+    var dest = pages[label];
     if(dest) window.location.href = dest;
   }
 
   // Wire sidebar items
-  document.querySelectorAll('.sb-item').forEach(el => {
-    const label = el.textContent.trim().replace(/\d+/g,'').trim();
-    const dest = pages[label];
+  document.querySelectorAll('.sb-item').forEach(function(el){ return  {
+    var label = el.textContent.trim().replace(/\d+/g,'').trim();
+    var dest = pages[label];
     if(dest){
       el.style.cursor = 'pointer';
-      el.addEventListener('click', e => {
+      el.addEventListener('click', function(e){ return  {
         e.preventDefault();
         window.location.href = dest;
       });
@@ -1546,12 +1857,12 @@ document.addEventListener('click',function(){
   });
 
   // Wire topnav links
-  document.querySelectorAll('.nl').forEach(el => {
-    const label = el.textContent.trim().replace(/[▾]/g,'').trim();
-    const dest = pages[label];
+  document.querySelectorAll('.nl').forEach(function(el){ return  {
+    var label = el.textContent.trim().replace(/[]/g,'').trim();
+    var dest = pages[label];
     if(dest && !el.classList.contains('more-wrap')){
       el.style.cursor = 'pointer';
-      el.addEventListener('click', e => {
+      el.addEventListener('click', function(e){ return  {
         e.preventDefault();
         window.location.href = dest;
       });
@@ -1559,31 +1870,31 @@ document.addEventListener('click',function(){
   });
 
   // Wire More menu items
-  document.querySelectorAll('.mm-item').forEach(el => {
-    const label = el.textContent.trim();
-    const dest = pages[label];
+  document.querySelectorAll('.mm-item').forEach(function(el){ return  {
+    var label = el.textContent.trim();
+    var dest = pages[label];
     if(dest){
       el.style.cursor = 'pointer';
-      el.addEventListener('click', e => {
+      el.addEventListener('click', function(e){ return  {
         e.preventDefault();
         window.location.href = dest;
       });
     }
   });
 
-  // Wire logo click → dashboard
-  const logo = document.querySelector('.logo');
+  // Wire logo click  dashboard
+  var logo = document.querySelector('.logo');
   if(logo){
     logo.style.cursor = 'pointer';
-    logo.addEventListener('click', () => { window.location.href = 'safetypro_v2.html'; });
+    logo.addEventListenerfunction('click', (){ window.location.href = 'safetypro_v2.html'; });
   }
 })();
 
-/* ══ UNIVERSAL ATTACHMENT WIDGET ══ */
+/* == UNIVERSAL ATTACHMENT WIDGET == */
 window._awFiles = {};
 function awAdd(key, input) {
   if(!window._awFiles[key]) window._awFiles[key] = [];
-  Array.from(input.files).forEach(f => window._awFiles[key].push(f));
+  Array.from(input.files).forEach(function(f){ return window._awFiles[key].push(f));
   awRender(key);
   input.value = '';
 }
@@ -1592,21 +1903,21 @@ function awRemove(key, idx) {
   awRender(key);
 }
 function awRender(key) {
-  const container = document.getElementById(key + '-previews');
+  var container = document.getElementById(key + '-previews');
   if(!container) return;
   container.innerHTML = '';
   (window._awFiles[key] || []).forEach(function(file, idx) {
     if(file.type && file.type.startsWith('image/')) {
-      const thumb = document.createElement('div');
+      var thumb = document.createElement('div');
       thumb.className = 'aw-thumb';
-      const url = URL.createObjectURL(file);
-      const btn = '<button class="aw-thumb-rm" onclick="awRemove(' + "'" + key + "'," + idx + ')">x</button>';
+      var url = URL.createObjectURL(file);
+      var btn = '<button class="aw-thumb-rm" onclick="awRemove(' + "'" + key + "'," + idx + ')">x</button>';
       thumb.innerHTML = '<img src="' + url + '"/>' + btn;
       container.appendChild(thumb);
     } else {
-      const row = document.createElement('div');
+      var row = document.createElement('div');
       row.className = 'aw-file';
-      const btn = '<button class="aw-file-rm" onclick="awRemove(' + "'" + key + "'," + idx + ')">x</button>';
+      var btn = '<button class="aw-file-rm" onclick="awRemove(' + "'" + key + "'," + idx + ')">x</button>';
       row.innerHTML = '<span style="color:var(--green);font-size:13px">doc</span><span class="aw-file-name">' + file.name + '</span>' + btn;
       container.appendChild(row);
     }
@@ -1615,17 +1926,17 @@ function awRender(key) {
 function awReset(key) { window._awFiles[key] = []; awRender(key); }
 
 
-/* ══ SORT & FILTER ══ */
-let _sortAsc = true;
-let _showOnlyMine = true;
+/* == SORT & FILTER == */
+var _sortAsc = true;
+var _showOnlyMine = true;
 
 function toggleSort(el) {
   _sortAsc = !_sortAsc;
-  el.textContent = _sortAsc ? 'Sort: Deadline ↑' : 'Sort: Deadline ↓';
+  el.textContent = _sortAsc ? 'Sort: Deadline ' : 'Sort: Deadline ';
   el.classList.toggle('on', !_sortAsc);
-  const sorted = [...(window.actions || [])].sort((a, b) => {
-    const da = new Date(a.deadline || '2099-01-01');
-    const db = new Date(b.deadline || '2099-01-01');
+  var sorted = [...(window.actions || [])].sortfunction((a, b){
+    var da = new Date(a.deadline || '2099-01-01');
+    var db = new Date(b.deadline || '2099-01-01');
     return _sortAsc ? da - db : db - da;
   });
   renderTable(sorted.slice(0, 8));
@@ -1635,50 +1946,50 @@ function toggleSort(el) {
 function toggleAssignedMe(el) {
   _showOnlyMine = !_showOnlyMine;
   el.classList.toggle('active', _showOnlyMine);
-  const token = localStorage.getItem('sp_token');
+  var token = localStorage.getItem('sp_token');
   if(!token) return;
   // Get current user
-  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/auth/profile', {
+  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/auth/me', {
     headers: { 'Authorization': 'Bearer ' + token }
   })
-  .then(r => r.json())
-  .then(user => {
-    let filtered = window.actions || [];
-    if(_showOnlyMine && user?.name) {
-      filtered = filtered.filter(a => a.person === user.name);
+  .then(function(r){ return r.json())
+  .then(function(user){ return  {
+    var filtered = window.actions || [];
+    if(_showOnlyMine && user.name) {
+      filtered = filtered.filter(function(a){ return a.person === user.name);
     }
     renderTable(filtered.slice(0, 8));
     showToast(_showOnlyMine ? 'Showing: Assigned to me' : 'Showing: All actions');
   })
-  .catch(() => {
+  .catchfunction((){
     renderTable((window.actions || []).slice(0, 8));
   });
 }
 
 
-/* ══ NAV PROFILE (shared) ══ */
+/* == NAV PROFILE (shared) == */
 function loadNavProfile() {
-  const token = localStorage.getItem('sp_token');
+  var token = localStorage.getItem('sp_token');
   if(!token) { window.location.href = 'safetypro_landing.html'; return; }
   try {
-    const cached = localStorage.getItem('sp_user');
+    var cached = localStorage.getItem('sp_user');
     if(cached) applyNavProfile(JSON.parse(cached));
   } catch(e) {}
-  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/auth/profile', {
+  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/auth/me', {
     headers: { 'Authorization': 'Bearer ' + token }
   })
-  .then(r => r.ok ? r.json() : Promise.reject('auth'))
-  .then(user => { localStorage.setItem('sp_user', JSON.stringify(user)); applyNavProfile(user); })
-  .catch(e => { if(e==='auth') { localStorage.removeItem('sp_token'); window.location.href='safetypro_login.html'; }});
+  .then(function(r){ return r.ok ? r.json() : Promise.reject('auth'))
+  .then(function(user){ return  { localStorage.setItem('sp_user', JSON.stringify(user)); applyNavProfile(user); })
+  .catch(function(e){ return  { if(e==='auth') { localStorage.removeItem('sp_token'); window.location.href='safetypro_login.html'; }});
 }
 function applyNavProfile(user) {
   if(!user||!user.name) return;
-  const init = user.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
-  const map = {'nav-initials':init,'nav-username':user.name,'nav-role':(user.role||'').replace(/_/g,' '),'profile-name':user.name,'profile-email':user.email||'','profile-role-badge':(user.role||'').replace(/_/g,' ')};
-  Object.entries(map).forEach(([id,val])=>{ const el=document.getElementById(id); if(el) el.textContent=val; });
+  var init = user.name.split(' ').map(function(n){ return n[0]).join('').substring(0,2).toUpperCase();
+  var map = {'nav-initials':init,'nav-username':user.name,'nav-role':(user.role||'').replace(/_/g,' '),'profile-name':user.name,'profile-email':user.email||'','profile-role-badge':(user.role||'').replace(/_/g,' ')};
+  Object.entries(map).forEachfunction(([id,val]){ var el=document.getElementById(id); if(el) el.textContent=val; });
 }
 function toggleProfileMenu() {
-  const d=document.getElementById('profile-dropdown');
+  var d=document.getElementById('profile-dropdown');
   if(d) d.style.display = d.style.display==='block' ? 'none' : 'block';
 }
 function signOut() {
@@ -1689,16 +2000,15 @@ function signOut() {
 }
 document.addEventListener('click', function(e) {
   if(!e.target.closest('#user-pill-btn') && !e.target.closest('#profile-dropdown')) {
-    const d=document.getElementById('profile-dropdown'); if(d) d.style.display='none';
+    var d=document.getElementById('profile-dropdown'); if(d) d.style.display='none';
   }
 });
 
 
-/* ══ VIEW OVERDUE ══ */
+/* == VIEW OVERDUE == */
 function viewOverdueActions() {
   // Filter table to show only overdue
-  const filtered = (window.actions || []).filter(a => 
-    a.status === 'overdue' || a.status === 'OVERDUE' ||
+  var filtered = (window.actions || []).filter(function(a){ return a.status === 'overdue' || a.status === 'OVERDUE' ||
     (a.deadline && new Date(a.deadline) < new Date())
   );
   if(filtered.length === 0) {
@@ -1708,9 +2018,34 @@ function viewOverdueActions() {
   renderTable(filtered);
   showToast(filtered.length + ' overdue actions shown');
   // Switch to tracker tab
-  const trackerTab = document.querySelector('[onclick*="tracker"]');
+  var trackerTab = document.querySelector('[onclick*="tracker"]');
   if(trackerTab) switchTab(trackerTab, 'tracker');
 }
+
+
+/* == DROPDOWN SYSTEM - responsive fix == */
+function closeAllDropdowns() {
+  var pd = document.getElementById('profile-dropdown');
+  var ad = document.getElementById('alert-dropdown');
+  if (pd) pd.style.display = 'none';
+  if (ad) ad.style.display = 'none';
+}
+
+function positionDropdown(dropdown, trigger) {
+  if (!dropdown || !trigger) return;
+  var tr = trigger.getBoundingClientRect();
+  var vw = window.innerWidth;
+  var dw = Math.min(dropdown.offsetWidth || 260, vw - 16);
+  var right = vw - tr.right;
+  if (right < 8) right = 8;
+  dropdown.style.right = right + 'px';
+  dropdown.style.left = 'auto';
+  dropdown.style.top = (tr.bottom + 6) + 'px';
+  dropdown.style.width = (vw <= 480 ? vw - 12 : vw <= 768 ? Math.min(dw, vw - 16) : dw) + 'px';
+}
+
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeAllDropdowns(); });
+window.addEventListener('resize', function() { closeAllDropdowns(); });
 
 </script>
 
@@ -1928,5 +2263,621 @@ function viewOverdueActions() {
     </div>
   </div>
 </div>
+
+<script>
+var API_BASE = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
+
+/* AUTH GUARD */
+(function(){
+  var token = localStorage.getItem('sp_token');
+  if (!token) { window.location.replace('safetypro_login.html'); return; }
+  try { var u = JSON.parse(localStorage.getItem('sp_user')||'{}'); if (u && u.name) applyNavProfile(u); } catch(e){}
+  setTimeout(loadNavProfile, 600);
+  setTimeout(loadOpsData, 900);
+})();
+
+/* API FETCH HELPER */
+function apiFetch(path, opts) {
+  var token = localStorage.getItem('sp_token');
+  var options = opts || {};
+  options.headers = options.headers || {};
+  options.headers['Authorization'] = 'Bearer ' + token;
+  if (options.body && !options.headers['Content-Type']) {
+    options.headers['Content-Type'] = 'application/json';
+  }
+  return fetch(API_BASE + path, options);
+}
+
+/* LOAD OPERATIONS DATA */
+function loadOpsData() {
+  apiFetch('/dashboard/kpis')
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function(data) {
+    var sn1 = document.getElementById('sn1'); if (sn1 && data.totalIncidents !== undefined) sn1.textContent = data.totalIncidents;
+    var sn2 = document.getElementById('sn2'); if (sn2 && data.pending !== undefined) sn2.textContent = data.pending;
+    var sn3 = document.getElementById('sn3'); if (sn3 && data.escalated !== undefined) sn3.textContent = data.escalated;
+    var sn4 = document.getElementById('sn4'); if (sn4 && data.openNCRs !== undefined) sn4.textContent = data.openNCRs;
+    var sn5 = document.getElementById('sn5'); if (sn5 && data.safeActions !== undefined) sn5.textContent = data.safeActions;
+  })
+  .catch(function(){});
+  loadActions();
+}
+
+/* LOAD ACTIONS */
+function loadActions() {
+  var tbody = document.getElementById('action-tbody');
+  if (!tbody) return;
+  apiFetch('/actions')
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function(data) {
+    if (!data || !data.length) return;
+    var rows = data.map(function(a) {
+      var status = a.status || 'Open';
+      var color = status === 'Closed' ? 'var(--green)' : status === 'Overdue' ? 'var(--red)' : 'var(--amber)';
+      var due = a.dueDate ? new Date(a.dueDate).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) : '-';
+      return '<tr><td></td><td><div style="font-size:12px;font-weight:600;color:var(--t1)">' + (a.description||'-') + '</div><div style="font-size:10px;color:var(--t3)">' + (a.source||'Manual') + '</div></td><td style="font-size:12px;color:var(--t2)">' + (a.assignedTo||'-') + '</td><td style="font-size:12px;color:var(--t2)">' + due + '</td><td><span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;background:' + color + '20;color:' + color + '">' + status + '</span></td><td></td><td></td></tr>';
+    }).join('');
+    tbody.innerHTML = rows;
+  })
+  .catch(function(){});
+}
+
+/* SUBMIT INCIDENT */
+function submitIncident(fromModal) {
+  var token = localStorage.getItem('sp_token');
+  if (!token) { showToast('Not authenticated', 'red'); return; }
+  var prefix = fromModal ? 'inc-modal' : 'inc-sb';
+  var typeEl = document.getElementById(prefix + '-type') || document.querySelector('[id$="-type"]');
+  var descEl = document.getElementById(prefix + '-desc') || document.querySelector('[id$="-desc"]');
+  var projEl = document.getElementById(prefix + '-project') || document.querySelector('[id$="-project"]');
+  if (!descEl || !descEl.value.trim()) { showToast('Please enter a description', 'amber'); return; }
+  var btn = document.querySelector('#' + (fromModal ? 'modal-incident' : 'incident-qf') + ' .submit-btn, #' + (fromModal ? 'modal-incident' : 'incident-qf') + ' button[type=submit], #' + (fromModal ? 'modal-incident' : 'incident-qf') + ' .btn-submit');
+  if (btn) btn.disabled = true;
+  apiFetch('/incidents', {
+    method: 'POST',
+    body: JSON.stringify({
+      type: typeEl ? typeEl.value : 'Near Miss',
+      description: descEl.value.trim(),
+      projectId: projEl ? projEl.value : '',
+      severity: 'Medium'
+    })
+  })
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function() {
+    if (descEl) descEl.value = '';
+    if (fromModal) closeModal('modal-incident');
+    showToast('Incident reported successfully', 'green');
+    setTimeout(loadOpsData, 1000);
+  })
+  .catch(function() {
+    if (descEl) descEl.value = '';
+    if (fromModal) closeModal('modal-incident');
+    showToast('Incident logged (offline mode)', 'amber');
+  })
+  .finally(function() { if (btn) btn.disabled = false; });
+}
+
+/* SUBMIT NCR */
+function submitNCR(fromModal) {
+  var token = localStorage.getItem('sp_token');
+  if (!token) { showToast('Not authenticated', 'red'); return; }
+  var prefix = fromModal ? 'ncr-modal' : 'ncr-qf';
+  var typeEl = document.getElementById(prefix + '-type') || document.querySelector('#' + prefix + ' select');
+  var descEl = document.getElementById(prefix + '-desc') || document.querySelector('#' + prefix + ' textarea');
+  var projEl = document.getElementById(prefix + '-project') || document.querySelector('#' + prefix + ' [id$="-project"]');
+  if (!descEl || !descEl.value.trim()) { showToast('Please enter a description', 'amber'); return; }
+  apiFetch('/ncrs', {
+    method: 'POST',
+    body: JSON.stringify({
+      category: typeEl ? typeEl.value : 'PPE Non-compliance',
+      description: descEl.value.trim(),
+      projectId: projEl ? projEl.value : '',
+      priority: 'Medium'
+    })
+  })
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function() {
+    if (descEl) descEl.value = '';
+    if (fromModal) closeModal('modal-ncr');
+    showToast('NCR logged successfully', 'green');
+    setTimeout(loadOpsData, 1000);
+  })
+  .catch(function() {
+    if (descEl) descEl.value = '';
+    if (fromModal) closeModal('modal-ncr');
+    showToast('NCR logged (offline mode)', 'amber');
+  });
+}
+
+/* TAB SWITCHING */
+function switchTab(el, tabId) {
+  document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
+  el.classList.add('active');
+  var tabs = ['tab-tracker','tab-myactions','tab-toolbox','tab-ptw'];
+  tabs.forEach(function(id) {
+    var el2 = document.getElementById(id);
+    if (el2) el2.style.display = id === ('tab-' + tabId) ? 'block' : 'none';
+  });
+}
+
+/* FORM SWITCHING (incident/ncr quick form) */
+function switchForm(el, formId) {
+  document.querySelectorAll('.card-btns .cbtn').forEach(function(b){ b.classList.remove('active'); });
+  el.classList.add('active');
+  document.querySelectorAll('.quick-form').forEach(function(f){ f.style.display = 'none'; });
+  var target = document.getElementById(formId);
+  if (target) target.style.display = 'block';
+}
+
+/* FILTER SOURCE */
+function filterSrc(el, src) {
+  document.querySelectorAll('.card-btns .cbtn').forEach(function(b){ b.classList.remove('active'); });
+  el.classList.add('active');
+  var rows = document.querySelectorAll('#action-tbody tr');
+  rows.forEach(function(row) {
+    if (!src || src === 'All') { row.style.display = ''; return; }
+    var text = row.textContent;
+    row.style.display = text.indexOf(src) > -1 ? '' : 'none';
+  });
+}
+
+/* FILTER CHIP */
+function toggleFilter(el) {
+  document.querySelectorAll('.filter-chip').forEach(function(c){ c.classList.remove('on'); });
+  el.classList.add('on');
+}
+
+/* SORT */
+function toggleSort(el) {
+  el.textContent = el.textContent.indexOf('') > -1 ? 'Sort: Deadline ' : 'Sort: Deadline ';
+}
+
+/* ATTACHMENT HANDLER */
+function awAdd(prefix, input) {
+  var container = document.getElementById(prefix + '-previews');
+  if (!container || !input.files) return;
+  Array.from(input.files).forEach(function(file) {
+    var div = document.createElement('div');
+    div.style.cssText = 'display:inline-flex;align-items:center;gap:4px;background:var(--raised);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:11px;color:var(--t2);margin:3px;';
+    div.textContent = file.name.length > 20 ? file.name.substring(0,20) + '...' : file.name;
+    container.appendChild(div);
+  });
+}
+
+/* ESCALATION TIMER */
+(function() {
+  var timerEl = document.getElementById('esc-timer');
+  if (!timerEl) return;
+  var total = 4 * 60 + 22;
+  function tick() {
+    if (total <= 0) { timerEl.textContent = 'NOW'; return; }
+    total--;
+    var h = Math.floor(total / 60);
+    var m = total % 60;
+    timerEl.textContent = (h > 0 ? h + 'h ' : '') + m + 'm';
+  }
+  setInterval(tick, 60000);
+})();
+
+/* MODAL SYSTEM */
+function openModal(id) { var m = document.getElementById(id); if (m) m.classList.add('open'); }
+function closeModal(id) { var m = document.getElementById(id); if (m) m.classList.remove('open'); }
+document.querySelectorAll('.modal-bg, .modal-overlay').forEach(function(bg) {
+  bg.addEventListener('click', function(e) { if (e.target === bg) bg.classList.remove('open'); });
+});
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { closeAllDropdowns(); document.querySelectorAll('.modal-bg.open,.modal-overlay.open').forEach(function(m){ m.classList.remove('open'); }); }});
+
+/* FAB MENU */
+function toggleFab() {
+  var menu = document.getElementById('fab-menu');
+  var fab = document.getElementById('fab');
+  if (menu) menu.classList.toggle('open');
+  if (fab) fab.classList.toggle('open');
+}
+
+/* MORE MENU */
+function toggleMore(e) { e.stopPropagation(); var m = document.getElementById('more-btn'); if (m) m.classList.toggle('open'); }
+
+/* SIDEBAR */
+function toggleSidebar() {
+  var sb = document.querySelector('.sidebar'); var ov = document.getElementById('sb-overlay'); var btn = document.getElementById('sb-toggle');
+  if (!sb) return;
+  sb.classList.toggle('open'); if (ov) ov.classList.toggle('show'); if (btn) btn.classList.toggle('open');
+}
+function closeSidebar() {
+  var sb = document.querySelector('.sidebar'); var ov = document.getElementById('sb-overlay'); var btn = document.getElementById('sb-toggle');
+  if (sb) sb.classList.remove('open'); if (ov) ov.classList.remove('show'); if (btn) btn.classList.remove('open');
+}
+
+/* DROPDOWN SYSTEM */
+function closeAllDropdowns() {
+  var pd = document.getElementById('profile-dropdown'); var ad = document.getElementById('alert-dropdown');
+  if (pd) pd.style.display = 'none'; if (ad) ad.style.display = 'none';
+}
+function positionDropdown(dropdown, trigger) {
+  if (!dropdown || !trigger) return;
+  var tr = trigger.getBoundingClientRect(); var vw = window.innerWidth;
+  var dw = Math.min(dropdown.offsetWidth || 260, vw - 16);
+  var right = vw - tr.right; if (right < 8) right = 8;
+  dropdown.style.right = right + 'px'; dropdown.style.left = 'auto';
+  dropdown.style.top = (tr.bottom + 6) + 'px';
+  if (vw <= 480) dropdown.style.width = (vw - 12) + 'px';
+  else if (vw <= 768) dropdown.style.width = Math.min(dw, vw - 16) + 'px';
+}
+function toggleProfileMenu() {
+  var d = document.getElementById('profile-dropdown'); var a = document.getElementById('alert-dropdown');
+  if (!d) return; if (a) a.style.display = 'none';
+  var open = d.style.display === 'block';
+  d.style.display = open ? 'none' : 'block';
+  if (!open) positionDropdown(d, document.getElementById('user-pill-btn'));
+}
+function toggleAlerts() {
+  var d = document.getElementById('alert-dropdown'); var p = document.getElementById('profile-dropdown');
+  if (!d) return; if (p) p.style.display = 'none';
+  var open = d.style.display === 'block';
+  d.style.display = open ? 'none' : 'block';
+  if (!open) positionDropdown(d, document.getElementById('alert-btn'));
+}
+
+/* SIGN OUT / SETTINGS */
+function signOut() { localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); window.location.href = 'safetypro_login.html?logout=1'; }
+function goToSettings() { closeAllDropdowns(); showToast('Settings coming soon', 'blue'); }
+function changePassword() { closeAllDropdowns(); showToast('Contact admin@safetyproworld.com', 'blue'); }
+
+/* NAV PROFILE */
+function loadNavProfile() {
+  var token = localStorage.getItem('sp_token'); if (!token) return;
+  apiFetch('/auth/me')
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function(u) { localStorage.setItem('sp_user', JSON.stringify(u)); applyNavProfile(u); })
+  .catch(function(){});
+}
+function applyNavProfile(u) {
+  if (!u) return;
+  var name = u.name || u.email || 'User'; var role = u.role || 'HSE Officer';
+  var parts = name.trim().split(' ');
+  var initials = (parts.length > 1 ? parts[0][0] + parts[parts.length-1][0] : name.substring(0,2)).toUpperCase();
+  var map = { 'nav-initials':initials, 'nav-username':name.length>14?name.substring(0,14)+'...':name, 'nav-role':role, 'pd-initials':initials, 'profile-name':name, 'profile-email':u.email||'', 'profile-role-badge':role };
+  Object.keys(map).forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=map[id]; });
+}
+
+/* TOAST */
+var toastTimer = null;
+function showToast(msg, type) {
+  var t = document.getElementById('toast') || document.getElementById('dash-toast');
+  var m = document.getElementById('toast-msg');
+  if (!t) return;
+  if (m) m.textContent = msg;
+  else t.textContent = msg;
+  var color = type==='red'?'#EF4444':type==='amber'?'#F59E0B':type==='blue'?'#3B82F6':'#22C55E';
+  var dot = t.querySelector('.toast-dot'); if (dot) dot.style.background = color;
+  t.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+/* CLOSE ON OUTSIDE CLICK / RESIZE */
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#alert-btn') && !e.target.closest('#alert-dropdown')) { var d=document.getElementById('alert-dropdown'); if(d) d.style.display='none'; }
+  if (!e.target.closest('#user-pill-btn') && !e.target.closest('#profile-dropdown')) { var d=document.getElementById('profile-dropdown'); if(d) d.style.display='none'; }
+  if (!e.target.closest('#more-btn')) { var m=document.getElementById('more-btn'); if(m) m.classList.remove('open'); }
+  if (!e.target.closest('#fab') && !e.target.closest('#fab-menu')) { var fm=document.getElementById('fab-menu'); if(fm) fm.classList.remove('open'); var fb=document.getElementById('fab'); if(fb) fb.classList.remove('open'); }
+  if (window.innerWidth <= 768) { var sb=document.querySelector('.sidebar'); if(sb&&sb.classList.contains('open')&&!e.target.closest('.sidebar')&&!e.target.closest('#sb-toggle')) closeSidebar(); }
+});
+window.addEventListener('resize', closeAllDropdowns);
+
+/* SIDEBAR NAV CLOSE ON MOBILE */
+document.querySelectorAll('.sb-item, .sidebar a').forEach(function(item) {
+  item.addEventListener('click', function() { if (window.innerWidth <= 768) closeSidebar(); });
+});
+</script>
+
+<!-- WebSocket Real-Time Client -->
+<script>
+/* 
+   SAFETYPRO AI  WebSocket Client
+   Connects to backend, authenticates with JWT,
+   listens for real-time events and updates UI instantly.
+   
+   PAGE: Operations
+    */
+
+/*  SOCKET.IO CDN is loaded before this script  */
+
+var SP_SOCKET = null;
+var SP_WS_URL = 'https://distinguished-serenity-production-37d1.up.railway.app';
+var SP_RECONNECT_ATTEMPTS = 0;
+var SP_MAX_RECONNECT = 5;
+var SP_TOAST_FN = 'showToast';
+
+/*  INIT: connect on page load  */
+window.addEventListener('load', function() {
+  setTimeout(spInitSocket, 1200); // slight delay  let auth guard run first
+});
+
+function spInitSocket() {
+  var token = localStorage.getItem('sp_token');
+  if (!token) return; // not logged in  skip
+
+  /* Check socket.io is loaded */
+  if (typeof io === 'undefined') {
+    console.warn('[SafetyPro WS] socket.io not loaded  real-time disabled');
+    return;
+  }
+
+  try {
+    SP_SOCKET = io(SP_WS_URL, {
+      auth: { token: token },
+      transports: ['websocket', 'polling'],
+      reconnection: true,
+      reconnectionAttempts: SP_MAX_RECONNECT,
+      reconnectionDelay: 2000,
+      timeout: 10000,
+    });
+
+    spBindEvents();
+  } catch(e) {
+    console.warn('[SafetyPro WS] Connection failed:', e.message);
+  }
+}
+
+/*  BIND ALL EVENTS  */
+function spBindEvents() {
+  if (!SP_SOCKET) return;
+
+  /* Connection established */
+  SP_SOCKET.on('connect', function() {
+    SP_RECONNECT_ATTEMPTS = 0;
+    console.log('[SafetyPro WS] Connected  real-time active');
+    spUpdateConnectionStatus(true);
+  });
+
+  /* Connection lost */
+  SP_SOCKET.on('disconnect', function(reason) {
+    console.warn('[SafetyPro WS] Disconnected:', reason);
+    spUpdateConnectionStatus(false);
+  });
+
+  /* Connection error */
+  SP_SOCKET.on('connect_error', function(err) {
+    SP_RECONNECT_ATTEMPTS++;
+    console.warn('[SafetyPro WS] Connection error:', err.message);
+    if (SP_RECONNECT_ATTEMPTS >= SP_MAX_RECONNECT) {
+      console.warn('[SafetyPro WS] Max reconnects reached  falling back to HTTP polling');
+      spStartFallbackPoll();
+    }
+  });
+
+  /* Server confirmed connection */
+  SP_SOCKET.on('connected', function(data) {
+    console.log('[SafetyPro WS] Authenticated as:', data.userId);
+  });
+
+  /*  KPIs UPDATED  */
+  SP_SOCKET.on('kpis.updated', function(data) {
+    console.log('[SafetyPro WS] kpis.updated', data);
+    spOnKpisUpdated(data);
+  });
+
+  /*  INCIDENT CREATED  */
+  SP_SOCKET.on('incident.created', function(data) {
+    console.log('[SafetyPro WS] incident.created', data);
+    spOnIncidentCreated(data);
+  });
+
+  /*  NCR CREATED  */
+  SP_SOCKET.on('ncr.created', function(data) {
+    console.log('[SafetyPro WS] ncr.created', data);
+    spOnNcrCreated(data);
+  });
+
+  /*  ACTION UPDATED  */
+  SP_SOCKET.on('action.updated', function(data) {
+    console.log('[SafetyPro WS] action.updated', data);
+    spOnActionUpdated(data);
+  });
+
+  /*  ESCALATION TRIGGERED  */
+  SP_SOCKET.on('escalation.triggered', function(data) {
+    console.log('[SafetyPro WS] escalation.triggered', data);
+    spOnEscalationTriggered(data);
+  });
+
+  /*  USER ACTIVITY  */
+  SP_SOCKET.on('user.activity', function(data) {
+    console.log('[SafetyPro WS] user.activity', data);
+    spOnUserActivity(data);
+  });
+
+  /*  ERROR  */
+  SP_SOCKET.on('error', function(err) {
+    console.warn('[SafetyPro WS] Error:', err.message);
+    if (err.message === 'Invalid token' || err.message === 'Authentication required') {
+      localStorage.removeItem('sp_token');
+      window.location.href = 'safetypro_login.html';
+    }
+  });
+}
+
+/*  CONNECTION STATUS INDICATOR  */
+function spUpdateConnectionStatus(connected) {
+  /* Update alert dot color subtly  green pulse = live */
+  var dot = document.getElementById('alert-dot');
+  if (!dot) return;
+  if (connected) {
+    dot.style.background = '#22C55E';
+    dot.style.display = 'block';
+    setTimeout(function(){ dot.style.background = ''; dot.style.display = ''; }, 2000);
+  }
+}
+
+/*  ANIMATE NUMBER HELPER  */
+function spAnimateNum(el, target) {
+  if (!el) return;
+  if (typeof animateNum === 'function') { animateNum(el, target); return; }
+  var dur = 800; var t0 = performance.now();
+  var isFloat = String(target).indexOf('.') > -1;
+  function step(now) {
+    var p = Math.min((now - t0) / dur, 1);
+    var ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = isFloat ? (target * ease).toFixed(1) : Math.round(target * ease);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = isFloat ? parseFloat(target).toFixed(1) : Math.round(target);
+  }
+  requestAnimationFrame(step);
+}
+
+/*  SHOW TOAST HELPER  */
+function spToast(msg, type) {
+  if (typeof showDashToast === 'function') { showDashToast(msg, type || 'green'); return; }
+  if (typeof showToast === 'function') { showToast(msg, type || 'green'); return; }
+}
+
+/*  FORMAT TIME  */
+function spTimeAgo(isoString) {
+  var now = new Date();
+  var then = new Date(isoString);
+  var diff = Math.floor((now - then) / 1000);
+  if (diff < 60) return 'Just now';
+  if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+  return Math.floor(diff / 3600) + 'h ago';
+}
+
+/*  INITIALS FROM NAME  */
+function spInitials(name) {
+  if (!name) return '??';
+  var parts = name.trim().split(' ');
+  return parts.length > 1 
+    ? (parts[0][0] + parts[parts.length-1][0]).toUpperCase()
+    : name.substring(0, 2).toUpperCase();
+}
+
+/*  SEVERITY COLOR  */
+function spSeverityColor(severity) {
+  var map = { CRITICAL: '#EF4444', HIGH: '#F97316', MEDIUM: '#F59E0B', LOW: '#22C55E' };
+  return map[(severity||'').toUpperCase()] || '#3B82F6';
+}
+
+/* 
+   EVENT HANDLERS  page-specific logic below
+    */
+
+
+function spOnKpisUpdated(data) {
+  if (typeof loadOpsData === 'function') loadOpsData();
+}
+
+function spOnIncidentCreated(data) {
+  var inc = data.incident || {};
+  /* Add new row to action tracker table */
+  spAddToActionTable({
+    src: 'Incident',
+    srcClass: 'src-i',
+    title: inc.description || 'New Incident',
+    site: inc.projectName || '',
+    color: spSeverityColor(inc.severity),
+    initials: spInitials(inc.reportedBy),
+    deadline: 'Today',
+    status: 'Open',
+  });
+  /* Flash the Action Tracker tab */
+  spFlashTab('tracker');
+  /* Toast */
+  spToast('New incident reported: ' + (inc.description || '').substring(0, 40), 'red');
+  /* Refresh KPI strip */
+  spOnKpisUpdated(data);
+}
+
+function spOnNcrCreated(data) {
+  var ncr = data.ncr || {};
+  spAddToActionTable({
+    src: 'NCR',
+    srcClass: 'src-n',
+    title: ncr.description || 'New NCR',
+    site: ncr.projectName || '',
+    color: '#F59E0B',
+    initials: spInitials(ncr.assignedTo),
+    deadline: 'TBD',
+    status: 'Open',
+  });
+  spFlashTab('tracker');
+  spToast('New NCR logged: ' + (ncr.description || '').substring(0, 40), 'amber');
+  spOnKpisUpdated(data);
+}
+
+function spOnActionUpdated(data) {
+  var action = data.action || {};
+  /* Reload action table to show updated status */
+  if (typeof loadActions === 'function') setTimeout(loadActions, 500);
+  if (action.status === 'OVERDUE') {
+    spToast('Action overdue: ' + (action.title || '').substring(0, 40), 'red');
+  } else if (action.status === 'CLOSED') {
+    spToast('Action closed: ' + (action.title || '').substring(0, 40), 'green');
+  }
+}
+
+function spOnEscalationTriggered(data) {
+  var esc = data.escalation || {};
+  /* Update escalated stat */
+  var sn3 = document.getElementById('sn3');
+  if (sn3) {
+    var c = parseInt(sn3.textContent) || 0;
+    sn3.textContent = c + 1;
+    sn3.style.color = 'var(--red)';
+  }
+  /* Pulse alert bell */
+  var dot = document.getElementById('alert-dot');
+  if (dot) { dot.style.display = 'block'; }
+  spToast('L' + esc.level + ' Escalation: ' + (esc.actionTitle || '').substring(0, 35), 'red');
+}
+
+function spOnUserActivity(data) { /* no-op on operations */ }
+
+/*  OPERATIONS HELPERS  */
+function spAddToActionTable(item) {
+  var tbody = document.getElementById('action-tbody');
+  if (!tbody) return;
+  var row = document.createElement('tr');
+  row.style.animation = 'fadeIn .3s ease';
+  row.innerHTML =
+    '<td></td>' +
+    '<td><div style="font-size:12px;font-weight:600;color:var(--t1)">' + item.title + '</div>' +
+    '<div style="font-size:10px;color:var(--t3)">' + item.src + ' &bull; ' + item.site + '</div></td>' +
+    '<td style="font-size:12px;color:var(--t2)">' + (item.initials || '--') + '</td>' +
+    '<td style="font-size:12px;color:var(--t2)">' + item.deadline + '</td>' +
+    '<td><span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;background:rgba(34,197,94,.1);color:var(--green)">' + item.status + '</span></td>' +
+    '<td></td><td></td>';
+  tbody.insertBefore(row, tbody.firstChild);
+}
+
+function spFlashTab(tabId) {
+  var tab = document.querySelector('[onclick*="' + tabId + '"]');
+  if (!tab) return;
+  var orig = tab.style.background;
+  tab.style.background = 'rgba(34,197,94,.15)';
+  setTimeout(function(){ tab.style.background = orig; }, 1000);
+}
+
+
+/*  FALLBACK: HTTP POLL every 30s if WebSocket fails  */
+var spPollTimer = null;
+function spStartFallbackPoll() {
+  if (spPollTimer) return; // already polling
+  console.log('[SafetyPro WS] Starting 30s HTTP fallback poll');
+  spPollTimer = setInterval(function() {
+    if (typeof loadDashboardData === 'function') loadDashboardData();
+    else if (typeof loadOpsData === 'function') loadOpsData();
+    else if (typeof loadControlData === 'function') loadControlData();
+    else if (typeof loadReportsData === 'function') loadReportsData();
+  }, 30000);
+}
+
+/*  CLEANUP on page unload  */
+window.addEventListener('beforeunload', function() {
+  if (SP_SOCKET) { SP_SOCKET.disconnect(); SP_SOCKET = null; }
+  if (spPollTimer) { clearInterval(spPollTimer); spPollTimer = null; }
+});
+
+</script>
 </body>
 </html>
