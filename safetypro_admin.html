@@ -1586,15 +1586,15 @@ function apiFetch(path, opts) {
 
 /* TABS */
 function switchTab(el,id){
-  document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'));
+  document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
-  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
   document.getElementById('tab-'+id).classList.add('active');
   if(id==='activities') loadProjectsForActivities();
   if(id==='roles') loadUsers();
 }
 function switchTmpl(el){
-  document.querySelectorAll('.ttab').forEach(function(t){ t.classList.remove('active'));
+  document.querySelectorAll('.ttab').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
   currentTemplate = el.textContent.trim();
   currentFields = [...(allTemplates[currentTemplate] || allTemplates['Incident Report'])];
@@ -2200,7 +2200,7 @@ window.addEventListener('resize', function() { closeAllDropdowns(); });
 
 /* NAV PROFILE */
 function loadNavProfile() {
-  apiFetch('/auth/me')
+  apiFetch('/auth/profile')
   .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
   .then(function(u) { localStorage.setItem('sp_user', JSON.stringify(u)); applyNavProfile(u); })
   .catch(function(){});

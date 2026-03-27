@@ -1308,7 +1308,7 @@ function toggleAlerts() {
 /* NAV PROFILE */
 function loadNavProfile() {
   var token = localStorage.getItem('sp_token'); if (!token) return;
-  apiFetch('/auth/me')
+  apiFetch('/auth/profile')
   .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
   .then(function(u){ localStorage.setItem('sp_user', JSON.stringify(u)); applyNavProfile(u); })
   .catch(function(){});

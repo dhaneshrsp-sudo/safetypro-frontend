@@ -753,16 +753,21 @@ if (urlParams.get('logout') === '1') {
   localStorage.removeItem('sp_user');
 }
 
-// Already logged in
+// Already logged in - redirect based on stored role
 if (localStorage.getItem('sp_token')) {
-  var userRole = (data.user && data.user.role) ? data.user.role : (data.role || '');
-          if (userRole === 'CLIENT_VIEWER') {
-            window.location.replace('safetypro_auditor.html');
-          } else if (userRole === 'SUPER_ADMIN') {
-            window.location.replace('safetypro_superadmin.html');
-          } else {
-            window.location.replace('safetypro_v2.html');
-          }
+  try {
+    var storedUser = JSON.parse(localStorage.getItem('sp_user') || '{}');
+    var userRole = storedUser.role || '';
+    if (userRole === 'CLIENT_VIEWER') {
+      window.location.replace('safetypro_auditor.html');
+    } else if (userRole === 'SUPER_ADMIN') {
+      window.location.replace('safetypro_superadmin.html');
+    } else {
+      window.location.replace('safetypro_v2.html');
+    }
+  } catch(e) {
+    window.location.replace('safetypro_v2.html');
+  }
 }
 
 /* -- Toggle Password Visibility -- */
