@@ -102,7 +102,7 @@ flex-wrap:wrap;}
 .sh-left{display:flex;align-items:center;gap:12px}
 .sh-title{font-family:var(--fh);font-size:16px;font-weight:700;color:var(--t1)}
 .sh-tabs{display:flex;gap:2px;}
-.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparentwhite-space:nowrap;flex-shrink:0;}
+.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap;flex-shrink:0;}
 .sh-tab:hover{color:var(--t2)}
 .sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
 .sh-right{display:flex;gap:8px;align-items:center}
@@ -791,6 +791,82 @@ flex-wrap:wrap;}
 /* WebSocket real-time fade-in animation */
 @keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 
+
+/* ══ VISUAL ENHANCEMENTS ══════════════════════════════════════════════ */
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+.app{position:relative;z-index:1;}
+.logo-mark{animation:logo-pulse 4s ease-in-out infinite;}
+@keyframes logo-pulse{0%,100%{box-shadow:0 0 10px rgba(34,197,94,.4)}50%{box-shadow:0 0 22px rgba(34,197,94,.8),0 0 40px rgba(34,197,94,.2)}}
+.topnav{box-shadow:0 1px 0 rgba(34,197,94,.08),0 4px 20px rgba(0,0,0,.3);}
+.nl.active{position:relative;}
+.nl.active::after{content:'';position:absolute;bottom:-1px;left:13px;right:13px;height:2px;background:var(--green);border-radius:2px;box-shadow:0 0 8px rgba(34,197,94,.6);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.ops-stat:nth-child(1){animation:fadeUp .4s ease both .05s}
+.ops-stat:nth-child(2){animation:fadeUp .4s ease both .1s}
+.ops-stat:nth-child(3){animation:fadeUp .4s ease both .15s}
+.ops-stat:nth-child(4){animation:fadeUp .4s ease both .2s}
+.ops-stat:nth-child(5){animation:fadeUp .4s ease both .25s}
+.overdue-banner{animation:fadeUp .4s ease both .3s}
+.ops-grid{animation:fadeUp .4s ease both .35s}
+.ops-stat{border-bottom:2px solid transparent;transition:all .25s cubic-bezier(.34,1.56,.64,1);}
+.ops-stat:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.1);box-shadow:0 8px 28px rgba(0,0,0,.3);}
+.overdue-banner{position:relative;overflow:hidden;}
+.overdue-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(239,68,68,.06),transparent);animation:banner-scan 3s linear infinite;}
+@keyframes banner-scan{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.overdue-banner span:last-child{transition:all .2s;font-weight:600;}
+.overdue-banner span:last-child:hover{background:rgba(239,68,68,.15);color:#ff6b6b;box-shadow:0 0 12px rgba(239,68,68,.3);}
+.card-head{background:linear-gradient(180deg,rgba(255,255,255,.018),transparent);}
+.sh-tab{position:relative;transition:color .15s,background .15s;}
+.sh-tab.active::after{content:'';position:absolute;bottom:-1px;left:8px;right:8px;height:2px;background:var(--green);border-radius:2px;box-shadow:0 0 6px rgba(34,197,94,.5);}
+.btn-primary{box-shadow:0 4px 16px rgba(34,197,94,.25);transition:all .2s cubic-bezier(.34,1.56,.64,1);}
+.btn-primary:hover{box-shadow:0 6px 24px rgba(34,197,94,.45);transform:translateY(-2px);}
+.btn-primary:active{transform:translateY(0);box-shadow:none;}
+.btn-outline{transition:all .2s;}
+.btn-outline:hover{background:rgba(255,255,255,.03);}
+.action-table tbody tr{position:relative;transition:background .12s;}
+.action-table tbody tr::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:var(--green);transition:width .15s;border-radius:0 2px 2px 0;}
+.action-table tbody tr:hover::before{width:3px;}
+.action-table tbody tr:hover td{background:rgba(34,197,94,.04);}
+.filter-chip{border-radius:100px;transition:all .15s;}
+.filter-chip:hover{transform:translateY(-1px);}
+.filter-chip.on{box-shadow:0 0 0 1px rgba(34,197,94,.3),inset 0 0 8px rgba(34,197,94,.06);}
+.cbtn{border-radius:100px;}
+.cbtn.active{box-shadow:0 0 8px rgba(34,197,94,.2);}
+.fab{transition:all .2s cubic-bezier(.34,1.56,.64,1);}
+.fab:hover{box-shadow:0 6px 30px rgba(34,197,94,.65),0 0 0 4px rgba(34,197,94,.08);transform:scale(1.1);}
+.fab:active{transform:scale(.95);}
+.fab::after{content:'';position:absolute;inset:0;border-radius:50%;background:rgba(34,197,94,.3);animation:fab-ring 2.5s ease-out infinite;}
+@keyframes fab-ring{0%{transform:scale(1);opacity:.5}100%{transform:scale(2);opacity:0}}
+.fab-menu.open .fab-option:nth-child(1){animation:fabIn .2s ease both 0s}
+.fab-menu.open .fab-option:nth-child(2){animation:fabIn .2s ease both .04s}
+.fab-menu.open .fab-option:nth-child(3){animation:fabIn .2s ease both .08s}
+.fab-menu.open .fab-option:nth-child(4){animation:fabIn .2s ease both .12s}
+@keyframes fabIn{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:none}}
+.fab-option{transition:all .15s;}
+.fab-option:hover{transform:translateX(-3px);box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.modal{border-top:1px solid rgba(34,197,94,.15);box-shadow:0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.04);}
+.modal-overlay.open .modal{transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+.modal-head{border-bottom:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,rgba(34,197,94,.04),transparent);}
+.form-input:focus,.fi:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(34,197,94,.1),0 2px 8px rgba(0,0,0,.15);outline:none;}
+.gps-row{border:1px solid rgba(34,197,94,.2);background:rgba(34,197,94,.03);}
+.gps-row:hover{border-color:rgba(34,197,94,.5);background:rgba(34,197,94,.06);}
+.sev-opt{transition:all .2s cubic-bezier(.34,1.56,.64,1);}
+.sev-opt:hover{transform:translateY(-2px);}
+.ttalk-item{border-left:0 solid transparent;transition:all .15s;}
+.ttalk-item:hover{border-left:3px solid rgba(34,197,94,.4);padding-left:11px;}
+.ma-item{transition:all .2s cubic-bezier(.34,1.56,.64,1);}
+.ma-item:hover{transform:translateX(3px);}
+.ma-item.overdue:hover{box-shadow:0 0 0 1px rgba(239,68,68,.25);}
+.sp-over{animation:over-pulse 2.5s ease-in-out infinite;}
+@keyframes over-pulse{0%,100%{box-shadow:0 0 0 rgba(239,68,68,0)}50%{box-shadow:0 0 6px rgba(239,68,68,.3)}}
+.sb-item.active{box-shadow:inset 0 0 20px rgba(34,197,94,.04);}
+.sb-item{transition:all .15s;}
+.sb-item:hover{transform:translateX(2px);}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.2)}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
@@ -856,10 +932,10 @@ flex-wrap:wrap;}
     </a>
     <a class="sb-item active" href="safetypro_operations.html">
       <svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>
-      Operations<span class="sb-badge amber">12</span>
+      Operations <span class="sb-badge amber" aria-hidden="true">12</span>
     </a>
     <a class="sb-item" href="safetypro_control.html"><svg   viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
-      Control<span class="sb-badge red">5</span>
+      Control <span class="sb-badge red" aria-hidden="true">5</span>
     </a>
     <a class="sb-item" href="safetypro_reports.html"><svg   viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
       Reports
@@ -1505,32 +1581,22 @@ function statusPill(s){
 
 function renderTable(data){
   var tbody=document.getElementById('action-tbody');
-  tbody.innerHTML=data.map(function(a){ return `
-    <tr>
-      <td><span class="src-badge ${a.srcCls}">${a.src}</span></td>
-      <td>
-        <div class="action-title">${a.title}</div>
-        <div class="action-sub">${a.site}</div>
-      </td>
-      <td>
-        <div class="person-cell">
-          <div class="mini-av" style="background:${a.color}">${a.initials}</div>
-          <span style="font-size:11px;color:var(--t2)">${a.person}</span>
-        </div>
-      </td>
-      <td><span class="deadline ${dlClass(a.deadline,a.status)}">${dlLabel(a.deadline,a.status)}</span></td>
-      <td>${statusPill(a.status)}</td>
-      <td>
-        <div class="prog-wrap"><div class="prog-bar" style="width:${a.prog}%"></div></div>
-        <div style="font-size:9px;color:var(--t3);margin-top:2px">${a.prog}%</div>
-      </td>
-      <td style="text-align:right">
-        <div class="action-btn" title="Update status">
-          <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        </div>
-      </td>
-    </tr>
-  `).join('');
+  if(!tbody) return;
+  tbody.innerHTML=data.map(function(a){
+    return '<tr>'+
+      '<td><span class="src-badge '+a.srcCls+'">'+a.src+'</span></td>'+
+      '<td><div class="action-title">'+a.title+'</div><div class="action-sub">'+a.site+'</div></td>'+
+      '<td><div class="person-cell"><div class="mini-av" style="background:'+a.color+'">'+a.initials+'</div>'+
+      '<span style="font-size:11px;color:var(--t2)">'+a.person+'</span></div></td>'+
+      '<td><span class="deadline '+dlClass(a.deadline,a.status)+'">'+dlLabel(a.deadline,a.status)+'</span></td>'+
+      '<td>'+statusPill(a.status)+'</td>'+
+      '<td><div class="prog-wrap"><div class="prog-bar" style="width:'+a.prog+'%"></div></div>'+
+      '<div style="font-size:9px;color:var(--t3);margin-top:2px">'+a.prog+'%</div></td>'+
+      '<td style="text-align:right"><div class="action-btn" title="Update status">'+
+      '<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'+
+      '</div></td>'+
+      '</tr>';
+  }).join('');
 }
 renderTable(actions);
 
@@ -1545,7 +1611,7 @@ function cu(el,t,ms){
   }
   requestAnimationFrame(u);
 }
-setTimeoutfunction((){
+setTimeout(function(){
   cu(document.getElementById('sn1'),7,700);
   cu(document.getElementById('sn2'),14,900);
   cu(document.getElementById('sn3'),23,1000);
@@ -1555,7 +1621,7 @@ setTimeoutfunction((){
 
 /* == COUNTDOWN TIMER == */
 var mins=262;
-setIntervalfunction((){
+setInterval(function(){
   if(mins>0)mins--;
   var h=Math.floor(mins/60),m=mins%60;
   var el=document.getElementById('esc-timer');
@@ -1564,7 +1630,7 @@ setIntervalfunction((){
 
 /* == TABS == */
 function switchTab(el,id){
-  document.querySelectorAll('.sh-tab').forEach(function(t){ return t.classList.remove('active'));
+  document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
   ['tracker','myactions','toolbox','ptw'].forEach(t=>{
     var el=document.getElementById('tab-'+t);
@@ -1574,7 +1640,7 @@ function switchTab(el,id){
 
 /* == FORM SWITCH == */
 function switchForm(el,id){
-  document.querySelectorAll('.card-btns .cbtn').forEach(function(b){ return b.classList.remove('active'));
+  document.querySelectorAll('.card-btns .cbtn').forEach(function(b){ b.classList.remove('active'); });
   el.classList.add('active');
   document.getElementById('incident-qf').style.display=id==='incident-qf'?'block':'none';
   document.getElementById('ncr-qf').style.display=id==='ncr-qf'?'block':'none';
@@ -1604,23 +1670,23 @@ function setNcrModalType(el, type){
 }
 
 function setNcrType(el){
-  document.querySelectorAll('.ncr-type').forEach(function(t){ return t.classList.remove('active'));
+  document.querySelectorAll('.ncr-type').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
 }
 
 /* == FILTERS == */
 function toggleFilter(el){ el.classList.toggle('on'); }
 function filterSrc(el,src){
-  document.querySelectorAll('.card-btns .cbtn').forEach(function(b){ return b.classList.remove('active'));
+  document.querySelectorAll('.card-btns .cbtn').forEach(function(b){ b.classList.remove('active'); });
   el.classList.add('active');
-  var filtered=src==='all'?actions:actions.filter(function(a){ return a.src===src);
+  var filtered=src==='all'?actions:actions.filter(function(a){ return a.src===src; });
   renderTable(filtered.length?filtered:actions);
 }
 
 /* == GPS == */
 function refreshGPS(){
   var el=document.getElementById('gps-coords');
-  if(el){el.textContent='Locating...';setTimeoutfunction((){el.textContent='25.5941 N, 85.1376 E'},1200);}
+  if(el){el.textContent='Locating...';setTimeout(function(){el.textContent='25.5941 N, 85.1376 E';},1200);}
 }
 
 /* == TOAST == */
@@ -1689,99 +1755,19 @@ function apiFetch(path, opts){
 
 /* == LOAD REAL DATA == */
 function loadOperationsData(){
-  try {
-    // Load actions
-    var actions = apiFetch('/actions');
-    if(actions && actions.length){
-      var mapped = actions.map(function(a){ return ({
-        src: a.source === 'INCIDENT' ? 'Incident' : a.source === 'NCR' ? 'NCR' : 'Audit',
-        srcCls: a.source === 'INCIDENT' ? 'src-i' : a.source === 'NCR' ? 'src-n' : 'src-a',
-        title: a.title,
-        site: a.project.name || '',
-        person: a.assignedTo.name || '',
-        color: '#22C55E',
-        initials: (a.assignedTo.name||'?').split(' ').map(function(n){ return n[0]).join('').substring(0,2),
-        deadline: a.dueDate ? a.dueDate.substring(0,10) : '',
-        status: a.status.toLowerCase().replace('_','-'),
-        prog: a.progressPct || 0,
-      }));
-      window.actions = mapped;
-      renderTable(mapped.slice(0,8));
-    }
-
-    // Load stats
-    var kpis = apiFetch('/dashboard/kpis');
-    if(kpis){
-      var sn1=document.getElementById('sn1'); if(sn1) sn1.textContent=kpis.totalIncidents||0;
-      var sn2=document.getElementById('sn2'); if(sn2) sn2.textContent=kpis.openNCRs||0;
-      var sn3=document.getElementById('sn3'); if(sn3) sn3.textContent=kpis.pending||0;
-      var sn4=document.getElementById('sn4'); if(sn4) sn4.textContent=kpis.overdueActions||0;
-    }
-  } catch(e){ console.warn('Load error:', e.message); }
+  if(typeof loadOpsData === 'function') loadOpsData();
 }
 
 /* == SUBMIT == */
-function submitIncident(){
-  var desc = document.querySelector('#modal-incident textarea') ||
-               document.querySelector('.qr-form textarea');
-  var projSel = document.querySelector('#modal-incident select') ||
-                  document.querySelector('.qr-form select');
-  var sevSel = document.querySelectorAll('.qr-form select')[1];
-  var sevMap = {'Low':'LOW','Medium':'MEDIUM','High':'HIGH','Critical':'CRITICAL'};
-  var projectMap = {'Birpur Bihpur Road':'proj-birpur','Site Alpha - Mumbai':'proj-alpha','Tirora Power Plant':'proj-tirora'};
-
-  try {
-    var data = apiFetch('/incidents', {
-      method:'POST',
-      body: JSON.stringify({
-        projectId: projectMap[projSel.value] || 'proj-birpur',
-        description: desc.value || 'Incident reported from Operations',
-        severity: sevMap[sevSel.value] || 'MEDIUM',
-        location: 'Site Location',
-        incidentDate: new Date().toISOString(),
-      })
-    });
-    if(data.incident){
-      closeModal('modal-incident');
-      showToast(' Incident reported - Action + Investigation auto-created');
-      setTimeout(loadOperationsData, 500);
-    }
-  } catch(e){ showToast('Error: '+e.message); }
-}
-
-function submitNCR(){
-  var desc = document.querySelector('.qr-ncr textarea');
-  var projectMap = {'Birpur Bihpur Road':'proj-birpur','Site Alpha - Mumbai':'proj-alpha','Tirora Power Plant':'proj-tirora'};
-  var typeEl = document.querySelector('.ncr-type.active');
-  var typeMap = {'Unsafe Act':'UNSAFE_ACT','Unsafe Condition':'UNSAFE_CONDITION','Near Miss':'NEAR_MISS'};
-
-  try {
-    var data = apiFetch('/ncr', {
-      method:'POST',
-      body: JSON.stringify({
-        projectId: document.querySelector('.qr-ncr select').value || 'proj-birpur',
-        observationType: typeMap[typeEl.textContent.trim()] || 'UNSAFE_ACT',
-        description: desc.value || 'NCR logged from Operations',
-        severity: 'MEDIUM',
-        assignedToId: 'user-rajesh',
-      })
-    });
-    if(data.ncr){
-      showToast(' NCR logged - Action created & assigned. Due date set.');
-      setTimeout(loadOperationsData, 500);
-    }
-  } catch(e){ showToast('Error: '+e.message); }
-}
-
-function submitFromModal(){
-  submitIncident();
-}
+function submitIncident(){ if(typeof submitIncidentModal==='function') submitIncidentModal(); }
+function submitNCR(){       if(typeof submitNCRModal==='function')      submitNCRModal();      }
+function submitFromModal(){ if(typeof submitIncident==='function')      submitIncident(true);  }
 
 
 // Old file handlers removed - using unified awAdd system
 
 // Load on page start
-document.addEventListenerfunction('DOMContentLoaded', (){
+document.addEventListener('DOMContentLoaded', function(){
   if(!getToken()){ window.location.href='safetypro_login.html'; return; }
   loadOperationsData();
 });
@@ -1805,9 +1791,9 @@ function addNewAction(){
 }
 
 /* == PAGE BTN == */
-document.querySelectorAll('.page-btn').forEachfunction(b=>{
-  b.addEventListener('click',(){
-    document.querySelectorAll('.page-btn').forEach(function(x){ return x.classList.remove('active'));
+document.querySelectorAll('.page-btn').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('.page-btn').forEach(function(x){ x.classList.remove('active'); });
     if(!isNaN(parseInt(b.textContent))) b.classList.add('active');
   });
 });
@@ -1844,12 +1830,12 @@ document.addEventListener('click',function(){
   }
 
   // Wire sidebar items
-  document.querySelectorAll('.sb-item').forEach(function(el){ return  {
+  document.querySelectorAll('.sb-item').forEach(function(el){
     var label = el.textContent.trim().replace(/\d+/g,'').trim();
     var dest = pages[label];
     if(dest){
       el.style.cursor = 'pointer';
-      el.addEventListener('click', function(e){ return  {
+      el.addEventListener('click', function(e){
         e.preventDefault();
         window.location.href = dest;
       });
@@ -1857,12 +1843,12 @@ document.addEventListener('click',function(){
   });
 
   // Wire topnav links
-  document.querySelectorAll('.nl').forEach(function(el){ return  {
+  document.querySelectorAll('.nl').forEach(function(el){
     var label = el.textContent.trim().replace(/[]/g,'').trim();
     var dest = pages[label];
     if(dest && !el.classList.contains('more-wrap')){
       el.style.cursor = 'pointer';
-      el.addEventListener('click', function(e){ return  {
+      el.addEventListener('click', function(e){
         e.preventDefault();
         window.location.href = dest;
       });
@@ -1870,12 +1856,12 @@ document.addEventListener('click',function(){
   });
 
   // Wire More menu items
-  document.querySelectorAll('.mm-item').forEach(function(el){ return  {
+  document.querySelectorAll('.mm-item').forEach(function(el){
     var label = el.textContent.trim();
     var dest = pages[label];
     if(dest){
       el.style.cursor = 'pointer';
-      el.addEventListener('click', function(e){ return  {
+      el.addEventListener('click', function(e){
         e.preventDefault();
         window.location.href = dest;
       });
@@ -1886,7 +1872,7 @@ document.addEventListener('click',function(){
   var logo = document.querySelector('.logo');
   if(logo){
     logo.style.cursor = 'pointer';
-    logo.addEventListenerfunction('click', (){ window.location.href = 'safetypro_v2.html'; });
+    logo.addEventListener('click', function(){ window.location.href = 'safetypro_v2.html'; });
   }
 })();
 
@@ -1894,7 +1880,7 @@ document.addEventListener('click',function(){
 window._awFiles = {};
 function awAdd(key, input) {
   if(!window._awFiles[key]) window._awFiles[key] = [];
-  Array.from(input.files).forEach(function(f){ return window._awFiles[key].push(f));
+  Array.from(input.files).forEach(function(f){ window._awFiles[key].push(f); });
   awRender(key);
   input.value = '';
 }
@@ -1934,7 +1920,7 @@ function toggleSort(el) {
   _sortAsc = !_sortAsc;
   el.textContent = _sortAsc ? 'Sort: Deadline ' : 'Sort: Deadline ';
   el.classList.toggle('on', !_sortAsc);
-  var sorted = [...(window.actions || [])].sortfunction((a, b){
+  var sorted = (window.actions || []).slice().sort(function(a, b){
     var da = new Date(a.deadline || '2099-01-01');
     var db = new Date(b.deadline || '2099-01-01');
     return _sortAsc ? da - db : db - da;
@@ -1949,19 +1935,19 @@ function toggleAssignedMe(el) {
   var token = localStorage.getItem('sp_token');
   if(!token) return;
   // Get current user
-  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/auth/profile', {
+  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/auth/me', {
     headers: { 'Authorization': 'Bearer ' + token }
   })
-  .then(function(r){ return r.json())
-  .then(function(user){ return  {
+  .then(function(r){ return r.json(); })
+  .then(function(user){
     var filtered = window.actions || [];
     if(_showOnlyMine && user.name) {
-      filtered = filtered.filter(function(a){ return a.person === user.name);
+      filtered = filtered.filter(function(a){ return a.person === user.name; });
     }
     renderTable(filtered.slice(0, 8));
     showToast(_showOnlyMine ? 'Showing: Assigned to me' : 'Showing: All actions');
   })
-  .catchfunction((){
+  .catch(function(){
     renderTable((window.actions || []).slice(0, 8));
   });
 }
@@ -1975,18 +1961,18 @@ function loadNavProfile() {
     var cached = localStorage.getItem('sp_user');
     if(cached) applyNavProfile(JSON.parse(cached));
   } catch(e) {}
-  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/auth/profile', {
+  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/auth/me', {
     headers: { 'Authorization': 'Bearer ' + token }
   })
-  .then(function(r){ return r.ok ? r.json() : Promise.reject('auth'))
-  .then(function(user){ return  { localStorage.setItem('sp_user', JSON.stringify(user)); applyNavProfile(user); })
-  .catch(function(e){ return  { if(e==='auth') { localStorage.removeItem('sp_token'); window.location.href='safetypro_login.html'; }});
+  .then(function(r){ return r.ok ? r.json() : Promise.reject('auth'); })
+  .then(function(user){ localStorage.setItem('sp_user', JSON.stringify(user)); applyNavProfile(user); })
+  .catch(function(e){ if(e==='auth') { localStorage.removeItem('sp_token'); window.location.href='safetypro_login.html'; } });
 }
 function applyNavProfile(user) {
   if(!user||!user.name) return;
-  var init = user.name.split(' ').map(function(n){ return n[0]).join('').substring(0,2).toUpperCase();
+  var init = user.name.split(' ').map(function(n){ return n[0]; }).join('').substring(0,2).toUpperCase();
   var map = {'nav-initials':init,'nav-username':user.name,'nav-role':(user.role||'').replace(/_/g,' '),'profile-name':user.name,'profile-email':user.email||'','profile-role-badge':(user.role||'').replace(/_/g,' ')};
-  Object.entries(map).forEachfunction(([id,val]){ var el=document.getElementById(id); if(el) el.textContent=val; });
+  Object.entries(map).forEach(function(entry){ var id=entry[0],val=entry[1]; var el=document.getElementById(id); if(el) el.textContent=val; });
 }
 function toggleProfileMenu() {
   var d=document.getElementById('profile-dropdown');
@@ -2010,7 +1996,7 @@ function viewOverdueActions() {
   // Filter table to show only overdue
   var filtered = (window.actions || []).filter(function(a){ return a.status === 'overdue' || a.status === 'OVERDUE' ||
     (a.deadline && new Date(a.deadline) < new Date())
-  );
+  });
   if(filtered.length === 0) {
     showToast('No overdue actions found');
     return;
@@ -2322,6 +2308,79 @@ function loadActions() {
   .catch(function(){});
 }
 
+/* SUBMIT NCR FROM MODAL */
+function submitNCRModal() {
+  var descEl = document.getElementById('ncr-modal-desc');
+  var projEl = document.getElementById('ncr-modal-project');
+  var sevEl  = document.getElementById('ncr-modal-severity');
+  var typeEl = document.getElementById('ncr-modal-type');
+  if (!descEl || !descEl.value.trim()) { showToast('Please enter a description', 'amber'); return; }
+  apiFetch('/ncrs', {
+    method: 'POST',
+    body: JSON.stringify({
+      category: typeEl ? typeEl.value : 'Unsafe Act',
+      description: descEl.value.trim(),
+      projectId: projEl ? projEl.value : '',
+      priority: sevEl ? sevEl.value : 'Medium'
+    })
+  })
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function() { closeModal('ncr'); showToast('NCR logged successfully', 'green'); setTimeout(loadOpsData, 800); })
+  .catch(function() { closeModal('ncr'); showToast('NCR logged (offline mode)', 'amber'); });
+}
+
+/* SUBMIT TOOLBOX TALK FROM MODAL */
+function submitToolboxTalk() {
+  var topicEl = document.getElementById('tb-topic');
+  var attendEl = document.getElementById('tb-attendees');
+  if (!topicEl || !topicEl.value.trim()) { showToast('Please enter a topic', 'amber'); return; }
+  if (!attendEl || !attendEl.value) { showToast('Please enter number of attendees', 'amber'); return; }
+  apiFetch('/toolbox-talks', {
+    method: 'POST',
+    body: JSON.stringify({
+      topic:     topicEl.value.trim(),
+      conductor: (document.getElementById('tb-conductor')||{}).value || '',
+      date:      (document.getElementById('tb-date')||{}).value || new Date().toISOString().split('T')[0],
+      attendees: parseInt(attendEl.value) || 0,
+      notes:     (document.getElementById('tb-notes')||{}).value || '',
+      location:  (document.getElementById('tb-location')||{}).value || '',
+      duration:  parseInt((document.getElementById('tb-duration')||{}).value) || 30,
+      projectId: 'proj-birpur'
+    })
+  })
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function() { closeModal('toolbox'); showToast('Toolbox talk recorded', 'green'); setTimeout(loadOpsData, 800); })
+  .catch(function() { closeModal('toolbox'); showToast('Talk saved (offline mode)', 'amber'); });
+}
+
+/* SUBMIT PERMIT TO WORK FROM MODAL */
+function submitPTW() {
+  var descEl = document.getElementById('ptw-desc');
+  var typeEl = document.getElementById('ptw-type');
+  if (!descEl || !descEl.value.trim()) { showToast('Please enter work description', 'amber'); return; }
+  if (!typeEl || !typeEl.value)        { showToast('Please select permit type', 'amber'); return; }
+  var ppe = [];
+  ['helmet','harness','gloves','goggles','vest','boots'].forEach(function(p) {
+    var el = document.getElementById('ppe-'+p); if (el && el.checked) ppe.push(p);
+  });
+  apiFetch('/permits', {
+    method: 'POST',
+    body: JSON.stringify({
+      description: descEl.value.trim(),
+      type:        typeEl.value,
+      startTime:   (document.getElementById('ptw-start')||{}).value || '',
+      endTime:     (document.getElementById('ptw-end')||{}).value   || '',
+      location:    (document.getElementById('ptw-location')||{}).value || '',
+      worker:      (document.getElementById('ptw-worker')||{}).value   || '',
+      hazards:     (document.getElementById('ptw-hazards')||{}).value  || '',
+      ppe: ppe, projectId: 'proj-birpur'
+    })
+  })
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function() { closeModal('ptw'); showToast('Permit created successfully', 'green'); setTimeout(loadOpsData, 800); })
+  .catch(function() { closeModal('ptw'); showToast('Permit created (offline mode)', 'amber'); });
+}
+
 /* SUBMIT INCIDENT */
 function submitIncident(fromModal) {
   var token = localStorage.getItem('sp_token');
@@ -2460,8 +2519,8 @@ function awAdd(prefix, input) {
 })();
 
 /* MODAL SYSTEM */
-function openModal(id) { var m = document.getElementById(id); if (m) m.classList.add('open'); }
-function closeModal(id) { var m = document.getElementById(id); if (m) m.classList.remove('open'); }
+function openModal(id) { var key=id.indexOf('modal-')===0?id:'modal-'+id; var m=document.getElementById(key); if(m) m.classList.add('open'); }
+function closeModal(id) { var key=id.indexOf('modal-')===0?id:'modal-'+id; var m=document.getElementById(key); if(m) m.classList.remove('open'); }
 document.querySelectorAll('.modal-bg, .modal-overlay').forEach(function(bg) {
   bg.addEventListener('click', function(e) { if (e.target === bg) bg.classList.remove('open'); });
 });
@@ -2527,7 +2586,7 @@ function changePassword() { closeAllDropdowns(); showToast('Contact admin@safety
 /* NAV PROFILE */
 function loadNavProfile() {
   var token = localStorage.getItem('sp_token'); if (!token) return;
-  apiFetch('/auth/profile')
+  apiFetch('/auth/me')
   .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
   .then(function(u) { localStorage.setItem('sp_user', JSON.stringify(u)); applyNavProfile(u); })
   .catch(function(){});

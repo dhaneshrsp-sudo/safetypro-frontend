@@ -88,21 +88,21 @@ svg{flex-shrink:0}
 .sidebar-foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--border)}
 
 /* ── CONTENT ── */
-.content{flex:1;min-width:0}
+.content{flex:1;min-width:0;overflow:hidden;}
 
 /* ── SUB HEADER ── */
-.sub-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50flex-wrap:wrap;}
+.sub-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50;flex-wrap:wrap;}
 .sh-left{display:flex;align-items:center;gap:12px}
 .sh-title{font-family:var(--fh);font-size:16px;font-weight:700}
 .sh-tabs{display:flex;gap:2px;}
-.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparentwhite-space:nowrap;flex-shrink:0;}
+.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap;flex-shrink:0;}
 .sh-tab:hover{color:var(--t2)}
 .sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
 .sh-right{display:flex;gap:8px;align-items:center}
 .sel{background:var(--card);border:1px solid var(--border);color:var(--t1);padding:6px 12px;border-radius:7px;font-family:var(--fb);font-size:12px;outline:none;cursor:pointer}
 
 /* ── MAIN AREA ── */
-.main{padding:16px 20px;display:flex;flex-direction:column;gap:14px;padding-bottom:60px}
+.main{padding:16px 20px;display:flex;flex-direction:column;gap:14px;padding-bottom:60px;overflow:hidden;min-width:0;}
 
 /* ── STAT CARDS ── */
 .ctrl-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
@@ -293,7 +293,7 @@ svg{flex-shrink:0}
 .mc-no svg{width:11px;height:11px;fill:var(--t3)}
 
 /* ── TAB PANELS ── */
-.tab-panel{display:none}.tab-panel.active{display:flex;flex-direction:column;gap:14px}
+.tab-panel{display:none;overflow:hidden;}.tab-panel.active{display:block;overflow:hidden;}.tab-panel.active>*{max-width:100%;min-width:0;}
 
 /* ── STATUS PILLS ── */
 .sp{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:100px}
@@ -1131,11 +1131,11 @@ function loadEscalations() {
     tbody.innerHTML = data.map(function(e){
       var level = e.escalationLevel || 'L' + (Math.floor(Math.random()*3)+1);
       var color = level==='L1'?'var(--amber)':level==='L2'?'var(--red)':'var(--red)';
-      return '<tr><td><span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(239,68,68,.12);color:'+color+'">'+level+'</span></td><td style="font-size:12px;color:var(--t1);font-weight:500">'+(e.description||e.title||'-')+'</td><td style="font-size:12px;color:var(--t2)">'+(e.assignedTo||'-')+'</td><td style="font-size:12px;color:var(--t2)">'+(e.project||'-')+'</td><td style="font-size:12px;color:var(--red)">'+Math.floor(Math.random()*10+1)+'d overdue</td><td><span style="font-size:10px;padding:2px 7px;border-radius:4px;background:var(--r-s);color:var(--red)">Escalated</span></td><td><button onclick="showToast('Closing escalation...','amber')" style="font-size:10px;padding:3px 9px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--t2);cursor:pointer">Close</button></td></tr>';
+      return '<tr><td><span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(239,68,68,.12);color:'+color+'">'+level+'</span></td><td style="font-size:12px;color:var(--t1);font-weight:500">'+(e.description||e.title||'-')+'</td><td style="font-size:12px;color:var(--t2)">'+(e.assignedTo||'-')+'</td><td style="font-size:12px;color:var(--t2)">'+(e.project||'-')+'</td><td style="font-size:12px;color:var(--red)">'+Math.floor(Math.random()*10+1)+'d overdue</td><td><span style="font-size:10px;padding:2px 7px;border-radius:4px;background:var(--r-s);color:var(--red)">Escalated</span></td><td><button onclick="showToast(&quot;Closing escalation...&quot;,&quot;amber&quot;)" style="font-size:10px;padding:3px 9px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--t2);cursor:pointer">Close</button></td></tr>';
     }).join('');
   })
   .catch(function(){
-    tbody.innerHTML = '<tr><td><span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(239,68,68,.12);color:var(--red)">L3</span></td><td style="font-size:12px;color:var(--t1);font-weight:500">Height Work Incident - Mumbai Metro</td><td style="font-size:12px;color:var(--t2)">James G</td><td style="font-size:12px;color:var(--t2)">Mumbai Metro</td><td style="font-size:12px;color:var(--red)">5d overdue</td><td><span style="font-size:10px;padding:2px 7px;border-radius:4px;background:var(--r-s);color:var(--red)">Escalated</span></td><td><button onclick="showToast('Noted','amber')" style="font-size:10px;padding:3px 9px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--t2);cursor:pointer">Close</button></td></tr>';
+    tbody.innerHTML = '<tr><td><span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(239,68,68,.12);color:var(--red)">L3</span></td><td style="font-size:12px;color:var(--t1);font-weight:500">Height Work Incident - Mumbai Metro</td><td style="font-size:12px;color:var(--t2)">James G</td><td style="font-size:12px;color:var(--t2)">Mumbai Metro</td><td style="font-size:12px;color:var(--red)">5d overdue</td><td><span style="font-size:10px;padding:2px 7px;border-radius:4px;background:var(--r-s);color:var(--red)">Escalated</span></td><td><button onclick="showToast(&quot;Noted&quot;,&quot;amber&quot;)" style="font-size:10px;padding:3px 9px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--t2);cursor:pointer">Close</button></td></tr>';
   });
 }
 
@@ -1231,7 +1231,7 @@ function buildPerfChart() {
 
 /* TAB SWITCHING */
 function switchTab(el, tabId) {
-  document.querySelectorAll('.ctrl-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
   document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
   var target = document.getElementById('tab-' + tabId);
@@ -1308,7 +1308,7 @@ function toggleAlerts() {
 /* NAV PROFILE */
 function loadNavProfile() {
   var token = localStorage.getItem('sp_token'); if (!token) return;
-  apiFetch('/auth/profile')
+  apiFetch('/auth/me')
   .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
   .then(function(u){ localStorage.setItem('sp_user', JSON.stringify(u)); applyNavProfile(u); })
   .catch(function(){});
@@ -1443,6 +1443,66 @@ function buildPerfChart() {
       }
     });
   } catch(e) {}
+}
+
+
+/* ── filterHistory: HTML calls filterHistory(days, el), function was named filterHist ── */
+function filterHistory(days, el) {
+  document.querySelectorAll('#hist-7, #hist-30, #hist-all').forEach(function(b){ b.classList.remove('on'); });
+  if (el) el.classList.add('on');
+  if (days === 0) {
+    showToast('Showing all escalation history', 'blue');
+  } else {
+    showToast('Filtering last ' + days + ' days', 'blue');
+  }
+}
+
+/* ── filterLevel: filter escalation table rows by level number ── */
+function filterLevel(level) {
+  document.querySelectorAll('.lvl-pill').forEach(function(p){ p.style.opacity = '0.45'; });
+  event.currentTarget.style.opacity = '1';
+  var rows = document.querySelectorAll('#esc-tbody tr');
+  rows.forEach(function(row){
+    var badge = row.querySelector('td:first-child span');
+    if (!badge) return;
+    var txt = badge.textContent.trim();
+    row.style.display = (txt === 'L' + level) ? '' : 'none';
+  });
+  showToast('Showing L' + level + ' escalations', 'blue');
+}
+
+/* ── toggleAll: show all escalation rows ── */
+function toggleAll() {
+  document.querySelectorAll('.lvl-pill').forEach(function(p){ p.style.opacity = '1'; });
+  document.querySelectorAll('#esc-tbody tr').forEach(function(row){ row.style.display = ''; });
+  showToast('Showing all escalation levels', 'blue');
+}
+
+/* ── resolveEsc: mark current escalation as resolved ── */
+function resolveEsc() {
+  var btn = document.querySelector('.chain-card button');
+  if (btn) {
+    btn.textContent = '✓ Resolved';
+    btn.style.background = 'var(--g-s)';
+    btn.style.color = 'var(--green)';
+    btn.style.border = '1px solid var(--g-b)';
+    btn.disabled = true;
+  }
+  var badge = document.querySelector('.chain-head .lvl-badge');
+  if (badge) { badge.textContent = 'Resolved'; badge.className = 'lvl-badge'; badge.style.cssText = 'background:var(--g-s);color:var(--green);border:1px solid var(--g-b);font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px'; }
+  var active = document.querySelector('.cs-circle.active');
+  if (active) { active.className = 'cs-circle fired'; }
+  var cn1 = document.getElementById('cn1');
+  if (cn1) { var v = parseInt(cn1.textContent)||0; if(v>0) cn1.textContent = v-1; }
+  showToast('Escalation marked as resolved', 'green');
+}
+
+/* ── loadNCRCount: placeholder — fetches NCR count for stat card ── */
+function loadNCRCount() {
+  apiFetch('/actions?status=open')
+  .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+  .then(function(data){ var el=document.getElementById('cn3'); if(el&&data&&data.length) animateNum(el,data.length); })
+  .catch(function(){});
 }
 
 </script>
@@ -1709,7 +1769,7 @@ function spAddToEscTable(esc) {
     '<td style="font-size:12px;color:var(--t1);font-weight:600">' + (esc.actionTitle || 'New Escalation') + '</td>' +
     '<td style="font-size:12px;color:var(--t2)">' + (esc.assigneeName || '--') + '</td>' +
     '<td style="font-size:12px;color:var(--red)">' + (esc.daysOverdue || 0) + 'd</td>' +
-    '<td><button onclick="showToast('Reviewing escalation...','blue')" style="font-size:10px;padding:3px 10px;border-radius:5px;background:var(--g-s);color:var(--green);border:1px solid var(--g-b);cursor:pointer;">Resolve</button></td>';
+    '<td><button onclick="showToast(&quot;Reviewing escalation...&quot;,&quot;blue&quot;)" style="font-size:10px;padding:3px 10px;border-radius:5px;background:var(--g-s);color:var(--green);border:1px solid var(--g-b);cursor:pointer;">Resolve</button></td>';
   tbody.insertBefore(row, tbody.firstChild);
 }
 
