@@ -105,7 +105,7 @@ svg{flex-shrink:0}
 .main{padding:16px 20px;display:flex;flex-direction:column;gap:14px;padding-bottom:60px;overflow:hidden;min-width:0;}
 
 /* ── STAT CARDS ── */
-.ctrl-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.ctrl-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
 .cs-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden;cursor:pointer;transition:all .2s}
 .cs-card:hover{transform:translateY(-2px)}
 .cs-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:12px 12px 0 0}
@@ -618,8 +618,20 @@ svg{flex-shrink:0}
 /* WebSocket real-time fade-in animation */
 @keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 
+
+/* ── Layout overflow protection ── */
+.content { min-width: 0; overflow-x: hidden; }
+.main { min-width: 0; overflow-x: hidden; }
+.esc-grid { min-width: 0; }
+.esc-grid > * { min-width: 0; overflow: hidden; }
+.card { min-width: 0; }
+.card-head { flex-wrap: wrap; }
+.tab-panel { min-width: 0; overflow-x: hidden; }
+table { width: 100%; }
+.etbl, .matrix { table-layout: fixed; word-wrap: break-word; }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 </head>
 <body>
 <div class="app">
@@ -1044,7 +1056,85 @@ svg{flex-shrink:0}
       </div>
     </div>
 
-  </div>
+  
+
+      <!-- ══ SCENARIO PLANNER TAB ══ -->
+      <div class="tab-panel" id="tab-scenario" class="tab-panel">
+        <div style="display:grid;grid-template-columns:clamp(240px,300px,100%) 1fr;gap:16px;flex-wrap:wrap;">
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="card">
+              <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:14px;">Adjust Parameters</div>
+              <div style="display:flex;flex-direction:column;gap:14px;">
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">Incident rate change</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-inc-val">+20%</span></div>
+                  <input type="range" min="-50" max="100" value="20" style="width:100%;" oninput="scUpdate()" id="sc-inc">
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">NCR closure rate</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-ncr-val">78%</span></div>
+                  <input type="range" min="40" max="100" value="78" style="width:100%;" oninput="scUpdate()" id="sc-ncr">
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">Training completion</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-train-val">83%</span></div>
+                  <input type="range" min="40" max="100" value="83" style="width:100%;" oninput="scUpdate()" id="sc-train">
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">Additional HSE officers</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-off-val">0</span></div>
+                  <input type="range" min="0" max="5" value="0" style="width:100%;" oninput="scUpdate()" id="sc-off">
+                </div>
+              </div>
+            </div>
+            <div class="card" style="background:rgba(59,130,246,.04);border:1px solid rgba(59,130,246,.15);">
+              <div style="font-size:10px;color:var(--blue);font-family:var(--fh);font-weight:700;margin-bottom:8px;">NOTE</div>
+              <div style="font-size:10px;color:var(--t3);line-height:1.7;">Formula-based projections using industry benchmarks. AI predictions available after 6+ months of platform data.</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="card">
+              <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:14px;">Projected Impact — Next 90 Days</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;">
+                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
+                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Projected Incidents</div>
+                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-proj-inc"><span style="color:var(--red);">+4</span></div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">vs current baseline</div>
+                </div>
+                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
+                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Escalation Risk</div>
+                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-esc-risk"><span style="color:var(--red);">High</span></div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">L3+ probability</div>
+                </div>
+                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
+                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Maturity Impact</div>
+                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-mat-imp"><span style="color:var(--amber);">&#8595; 0.3</span></div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">Score change</div>
+                </div>
+                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
+                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Cost Projection</div>
+                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-cost"><span style="color:var(--red);">+&#8377;2.1L</span></div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">Additional cost</div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:12px;">Recommended Actions</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;gap:10px;padding:10px 12px;background:rgba(239,68,68,.05);border-radius:8px;border:1px solid rgba(239,68,68,.15);">
+                  <div style="width:6px;height:6px;border-radius:50%;background:var(--red);margin-top:4px;flex-shrink:0;"></div>
+                  <div style="font-size:11px;color:var(--t2);">Immediately close overdue NCRs — escalation risk critical within 72 hours</div>
+                </div>
+                <div style="display:flex;gap:10px;padding:10px 12px;background:rgba(245,158,11,.05);border-radius:8px;border:1px solid rgba(245,158,11,.15);">
+                  <div style="width:6px;height:6px;border-radius:50%;background:var(--amber);margin-top:4px;flex-shrink:0;"></div>
+                  <div style="font-size:11px;color:var(--t2);">Schedule emergency toolbox talk — height work and PPE violations trending up</div>
+                </div>
+                <div style="display:flex;gap:10px;padding:10px 12px;background:rgba(59,130,246,.05);border-radius:8px;border:1px solid rgba(59,130,246,.15);">
+                  <div style="width:6px;height:6px;border-radius:50%;background:var(--blue);margin-top:4px;flex-shrink:0;"></div>
+                  <div style="font-size:11px;color:var(--t2);">Increase inspection frequency — 3 incidents flagged at highest risk site this week</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
 </div>
 </div>
 </div>
@@ -1811,82 +1901,6 @@ window.addEventListener('beforeunload', function() {
 </script>
 
 
-      <!-- ══ SCENARIO PLANNER TAB ══ -->
-      <div class="tab-panel" id="tab-scenario" style="display:none;">
-        <div style="display:grid;grid-template-columns:300px 1fr;gap:16px;flex-wrap:wrap;">
-          <div style="display:flex;flex-direction:column;gap:12px;">
-            <div class="card">
-              <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:14px;">Adjust Parameters</div>
-              <div style="display:flex;flex-direction:column;gap:14px;">
-                <div>
-                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">Incident rate change</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-inc-val">+20%</span></div>
-                  <input type="range" min="-50" max="100" value="20" style="width:100%;" oninput="scUpdate()" id="sc-inc">
-                </div>
-                <div>
-                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">NCR closure rate</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-ncr-val">78%</span></div>
-                  <input type="range" min="40" max="100" value="78" style="width:100%;" oninput="scUpdate()" id="sc-ncr">
-                </div>
-                <div>
-                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">Training completion</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-train-val">83%</span></div>
-                  <input type="range" min="40" max="100" value="83" style="width:100%;" oninput="scUpdate()" id="sc-train">
-                </div>
-                <div>
-                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">Additional HSE officers</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-off-val">0</span></div>
-                  <input type="range" min="0" max="5" value="0" style="width:100%;" oninput="scUpdate()" id="sc-off">
-                </div>
-              </div>
-            </div>
-            <div class="card" style="background:rgba(59,130,246,.04);border:1px solid rgba(59,130,246,.15);">
-              <div style="font-size:10px;color:var(--blue);font-family:var(--fh);font-weight:700;margin-bottom:8px;">NOTE</div>
-              <div style="font-size:10px;color:var(--t3);line-height:1.7;">Formula-based projections using industry benchmarks. AI predictions available after 6+ months of platform data.</div>
-            </div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:12px;">
-            <div class="card">
-              <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:14px;">Projected Impact — Next 90 Days</div>
-              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;">
-                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
-                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Projected Incidents</div>
-                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-proj-inc"><span style="color:var(--red);">+4</span></div>
-                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">vs current baseline</div>
-                </div>
-                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
-                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Escalation Risk</div>
-                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-esc-risk"><span style="color:var(--red);">High</span></div>
-                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">L3+ probability</div>
-                </div>
-                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
-                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Maturity Impact</div>
-                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-mat-imp"><span style="color:var(--amber);">&#8595; 0.3</span></div>
-                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">Score change</div>
-                </div>
-                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
-                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Cost Projection</div>
-                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-cost"><span style="color:var(--red);">+&#8377;2.1L</span></div>
-                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">Additional cost</div>
-                </div>
-              </div>
-            </div>
-            <div class="card">
-              <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:12px;">Recommended Actions</div>
-              <div style="display:flex;flex-direction:column;gap:8px;">
-                <div style="display:flex;gap:10px;padding:10px 12px;background:rgba(239,68,68,.05);border-radius:8px;border:1px solid rgba(239,68,68,.15);">
-                  <div style="width:6px;height:6px;border-radius:50%;background:var(--red);margin-top:4px;flex-shrink:0;"></div>
-                  <div style="font-size:11px;color:var(--t2);">Immediately close overdue NCRs — escalation risk critical within 72 hours</div>
-                </div>
-                <div style="display:flex;gap:10px;padding:10px 12px;background:rgba(245,158,11,.05);border-radius:8px;border:1px solid rgba(245,158,11,.15);">
-                  <div style="width:6px;height:6px;border-radius:50%;background:var(--amber);margin-top:4px;flex-shrink:0;"></div>
-                  <div style="font-size:11px;color:var(--t2);">Schedule emergency toolbox talk — height work and PPE violations trending up</div>
-                </div>
-                <div style="display:flex;gap:10px;padding:10px 12px;background:rgba(59,130,246,.05);border-radius:8px;border:1px solid rgba(59,130,246,.15);">
-                  <div style="width:6px;height:6px;border-radius:50%;background:var(--blue);margin-top:4px;flex-shrink:0;"></div>
-                  <div style="font-size:11px;color:var(--t2);">Increase inspection frequency — 3 incidents flagged at highest risk site this week</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
 
 <script>
