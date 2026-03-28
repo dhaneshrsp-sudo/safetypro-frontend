@@ -753,22 +753,42 @@ if (urlParams.get('logout') === '1') {
   localStorage.removeItem('sp_user');
 }
 
-// Already logged in - redirect based on stored role
-if (localStorage.getItem('sp_token')) {
-  try {
-    var storedUser = JSON.parse(localStorage.getItem('sp_user') || '{}');
-    var userRole = storedUser.role || '';
-    if (userRole === 'CLIENT_VIEWER') {
-      window.location.replace('safetypro_auditor.html');
-    } else if (userRole === 'SUPER_ADMIN') {
-      window.location.replace('safetypro_superadmin.html');
+// Already logged in — VALIDATE token before redirecting (prevents flash-redirect on expired tokens)
+(function() {
+  var token = localStorage.getItem('sp_token');
+  if (!token) return; // No token — show login form normally
+
+  // Validate token against backend
+  fetch(API_BASE + '/auth/profile', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+  .then(function(res) {
+    if (res.ok) {
+      // Token is valid — redirect based on role
+      return res.json().then(function(user) {
+        var role = (user && user.role) ? user.role : '';
+        // Update stored user with fresh data
+        try { localStorage.setItem('sp_user', JSON.stringify(user)); } catch(e) {}
+        if (role === 'CLIENT_VIEWER') {
+          window.location.replace('safetypro_auditor.html');
+        } else if (role === 'SUPER_ADMIN') {
+          window.location.replace('safetypro_superadmin.html');
+        } else {
+          window.location.replace('safetypro_v2.html');
+        }
+      });
     } else {
-      window.location.replace('safetypro_v2.html');
+      // Token invalid or expired — clear and show login form
+      localStorage.removeItem('sp_token');
+      localStorage.removeItem('sp_user');
     }
-  } catch(e) {
-    window.location.replace('safetypro_v2.html');
-  }
-}
+  })
+  .catch(function() {
+    // Network error — clear token and show login form (safe fallback)
+    localStorage.removeItem('sp_token');
+    localStorage.removeItem('sp_user');
+  });
+})();
 
 /* -- Toggle Password Visibility -- */
 function togglePwd() {
@@ -849,7 +869,15 @@ function doLogin() {
     }
     try { localStorage.setItem('sp_token', result.data.accessToken); } catch(e) {}
     try { if (result.data.user) localStorage.setItem('sp_user', JSON.stringify(result.data.user)); } catch(e) {}
-    window.location.replace('safetypro_v2.html');
+    // Role-based redirect after login
+    var role = (result.data.user && result.data.user.role) ? result.data.user.role : '';
+    if (role === 'CLIENT_VIEWER') {
+      window.location.replace('safetypro_auditor.html');
+    } else if (role === 'SUPER_ADMIN') {
+      window.location.replace('safetypro_superadmin.html');
+    } else {
+      window.location.replace('safetypro_v2.html');
+    }
   })
   .catch(function() {
     showError('Connection failed. Please check your internet and try again.');

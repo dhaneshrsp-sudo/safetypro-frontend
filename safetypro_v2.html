@@ -631,9 +631,9 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
     <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
       <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More&#9660;
       <div class="more-menu" id="more-menu">
-        <a class="mm-item" href="safetypro_reports.html" onclick="event.preventDefault();showToast('Audit & Compliance - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/></svg>Audit &amp; Compliance</a>
-        <a class="mm-item" href="safetypro_field.html" onclick="event.preventDefault();showToast('Site & Field Tools - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
-        <a class="mm-item" href="safetypro_ai.html" onclick="event.preventDefault();showToast('AI Intelligence - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="safetypro_field.html"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="safetypro_ai.html"><svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg>AI Intelligence</a>
         <div class="mm-divider"></div>
         <a class="mm-item mm-admin" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09"/></svg>Admin &amp; Configuration</a>
       </div>
@@ -645,7 +645,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
       <div class="red-dot" id="alert-dot"></div>
     </div>
     <div class="user-pill" onclick="toggleProfileMenu()" id="user-pill-btn">
-      <div class="ua" id="nav-initials">DC</div>
+      <div class="ua" id="nav-initials">--</div>
       <div class="un">
         <div class="un-name" id="nav-username">Loading...</div>
         <div class="un-role" id="nav-role">HSE Officer</div>
@@ -667,7 +667,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 <!-- ══ PROFILE DROPDOWN ══ -->
 <div id="profile-dropdown" class="profile-dd">
   <div class="pd-header">
-    <div class="pd-avatar" id="pd-initials">DC</div>
+    <div class="pd-avatar" id="pd-initials">--</div>
     <div>
       <div class="pd-name" id="profile-name">Loading...</div>
       <div class="pd-email" id="profile-email"></div>
@@ -694,8 +694,8 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
   <div class="sidebar">
     <div class="sb-section">Main</div>
     <a class="sb-item active" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
-    <a class="sb-item" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations<span class="sb-badge amber">12</span></a>
-    <a class="sb-item" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control<span class="sb-badge red">5</span></a>
+    <a class="sb-item" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations<span class="sb-badge amber" id="sb-badge-ops" style="display:none">0</span></a>
+    <a class="sb-item" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control<span class="sb-badge red" id="sb-badge-ctrl" style="display:none">0</span></a>
     <a class="sb-item" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2"/></svg>Reports</a>
     <div class="sb-sep"></div>
     <div class="sb-section">Tools</div>
@@ -1495,6 +1495,19 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 <script>
 var API_BASE = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
 
+/* AUTH FETCH WRAPPER — auto-redirects to login on 401 */
+function spFetch(url, opts) {
+  return fetch(url, opts).then(function(r) {
+    if (r.status === 401) {
+      localStorage.removeItem('sp_token');
+      localStorage.removeItem('sp_user');
+      window.location.replace('safetypro_login.html?logout=1');
+      throw new Error('401');
+    }
+    return r;
+  });
+}
+
 /* AUTH GUARD */
 (function(){
   var token = localStorage.getItem('sp_token');
@@ -1505,6 +1518,7 @@ var API_BASE = 'https://distinguished-serenity-production-37d1.up.railway.app/ap
   } catch(e){}
   setTimeout(loadNavProfile, 600);
   setTimeout(loadDashboardData, 900);
+  setTimeout(loadProjectOptions, 1100);
 })();
 
 /* CHART */
@@ -1659,6 +1673,11 @@ function loadDashboardData(projectId) {
     var month = document.getElementById('stat-month');
     if (month && kpis.monthIncidents) animateNum(month, kpis.monthIncidents);
     if (kpis.escalated > 0) { var dot = document.getElementById('alert-dot'); if (dot) dot.style.display = 'block'; }
+    // Update sidebar live badges
+    var sbOps = document.getElementById('sb-badge-ops');
+    if (sbOps && kpis.pending > 0) { sbOps.textContent = kpis.pending; sbOps.style.display = 'inline-flex'; }
+    var sbCtrl = document.getElementById('sb-badge-ctrl');
+    if (sbCtrl && kpis.escalated > 0) { sbCtrl.textContent = kpis.escalated; sbCtrl.style.display = 'inline-flex'; }
     if (document.getElementById('rc-critical')) animateNum(document.getElementById('rc-critical'), kpis.escalated || 5);
   })
   .catch(function() { setFallbackKPIs(); });
@@ -1689,7 +1708,7 @@ window.addEventListener('load', function() {
 /* NAV PROFILE */
 function loadNavProfile() {
   var token = localStorage.getItem('sp_token'); if (!token) return;
-  fetch(API_BASE + '/auth/profile', { headers:{ 'Authorization':'Bearer ' + token } })
+  spFetch(API_BASE + '/auth/profile', { headers:{ 'Authorization':'Bearer ' + token } })
   .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
   .then(function(u) { localStorage.setItem('sp_user', JSON.stringify(u)); applyNavProfile(u); })
   .catch(function(){});
@@ -1729,7 +1748,7 @@ function loadAlerts() {
   var list = document.getElementById('alert-list'); if (!list) return;
   var token = localStorage.getItem('sp_token');
   if (!token) { list.innerHTML = '<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Please login</div>'; return; }
-  fetch(API_BASE + '/dashboard/kpis', { headers:{ 'Authorization':'Bearer ' + token } })
+  spFetch(API_BASE + '/dashboard/kpis', { headers:{ 'Authorization':'Bearer ' + token } })
   .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
   .then(function(data) {
     var html = '';
@@ -1791,6 +1810,29 @@ function showToast(msg, type) {
   t.classList.add('show');
   setTimeout(function(){ t.classList.remove('show'); }, 3000);
 }
+/* LOAD PROJECTS FOR DROPDOWNS */
+function loadProjectOptions() {
+  var token = localStorage.getItem('sp_token'); if (!token) return;
+  spFetch(API_BASE + '/projects', { headers:{ 'Authorization':'Bearer ' + token } })
+  .then(function(r) { return r.ok ? r.json() : null; })
+  .then(function(data) {
+    if (!data) return;
+    var projects = Array.isArray(data) ? data : (data.data || data.projects || []);
+    if (!projects.length) return;
+    var opts = '<option value="">Select Project</option>' + 
+      projects.map(function(p){ return '<option value="'+p.id+'">'+(p.name||p.title||p.id)+'</option>'; }).join('');
+    // Populate modal dropdowns
+    ['inc-project','ncr-project'].forEach(function(id){
+      var el = document.getElementById(id); if (el) el.innerHTML = opts;
+    });
+    // Populate filter dropdown
+    var fp = document.getElementById('filter-project');
+    if (fp) fp.innerHTML = '<option value="">All Projects</option>' + 
+      projects.map(function(p){ return '<option value="'+p.id+'">'+(p.name||p.title||p.id)+'</option>'; }).join('');
+  })
+  .catch(function(){});
+}
+
 function signOut() {
   localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); localStorage.removeItem('sp_company');
   window.location.href = 'safetypro_login.html?logout=1';
@@ -1809,7 +1851,7 @@ function loadUsers() {
   var wrap = document.getElementById('users-table-wrap'); if (!wrap) return;
   var token = localStorage.getItem('sp_token');
   if (!token) { wrap.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3)">Not authenticated</div>'; return; }
-  fetch(API_BASE + '/users', { headers:{ 'Authorization':'Bearer ' + token } })
+  spFetch(API_BASE + '/users', { headers:{ 'Authorization':'Bearer ' + token } })
   .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
   .then(function(users) {
     if (!users||!users.length) { wrap.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3)">No users found</div>'; return; }
@@ -1825,7 +1867,7 @@ function submitIncident() {
   var token = localStorage.getItem('sp_token'); if (!token) { showDashToast('Not authenticated','red'); return; }
   var project = document.getElementById('inc-project').value; var desc = document.getElementById('inc-desc').value;
   if (!desc || !project) { showDashToast('Fill all required fields','amber'); return; }
-  fetch(API_BASE + '/incidents', { method:'POST', headers:{ 'Authorization':'Bearer '+token, 'Content-Type':'application/json' }, body:JSON.stringify({ type:document.getElementById('inc-type').value, severity:document.getElementById('inc-severity').value, projectId:project, description:desc, reportedBy:document.getElementById('inc-reporter').value }) })
+  spFetch(API_BASE + '/incidents', { method:'POST', headers:{ 'Authorization':'Bearer '+token, 'Content-Type':'application/json' }, body:JSON.stringify({ type:document.getElementById('inc-type').value, severity:document.getElementById('inc-severity').value, projectId:project, description:desc, reportedBy:document.getElementById('inc-reporter').value }) })
   .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
   .then(function() { closeModal('incident-modal'); showDashToast('Incident reported successfully','green'); setTimeout(loadDashboardData,1000); })
   .catch(function() { closeModal('incident-modal'); showDashToast('Incident logged (offline mode)','amber'); });
@@ -1835,7 +1877,7 @@ function submitNcr() {
   var token = localStorage.getItem('sp_token'); if (!token) { showDashToast('Not authenticated','red'); return; }
   var project = document.getElementById('ncr-project').value; var desc = document.getElementById('ncr-desc').value;
   if (!desc || !project) { showDashToast('Fill all required fields','amber'); return; }
-  fetch(API_BASE + '/ncrs', { method:'POST', headers:{ 'Authorization':'Bearer '+token, 'Content-Type':'application/json' }, body:JSON.stringify({ category:document.getElementById('ncr-cat').value, priority:document.getElementById('ncr-priority').value, projectId:project, description:desc, correctiveAction:document.getElementById('ncr-action').value }) })
+  spFetch(API_BASE + '/ncrs', { method:'POST', headers:{ 'Authorization':'Bearer '+token, 'Content-Type':'application/json' }, body:JSON.stringify({ category:document.getElementById('ncr-cat').value, priority:document.getElementById('ncr-priority').value, projectId:project, description:desc, correctiveAction:document.getElementById('ncr-action').value }) })
   .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
   .then(function() { closeModal('ncr-modal'); showDashToast('NCR logged successfully','green'); setTimeout(loadDashboardData,1000); })
   .catch(function() { closeModal('ncr-modal'); showDashToast('NCR logged (offline mode)','amber'); });
@@ -1869,7 +1911,7 @@ function showDashToast(msg, type) {
 var SP_SOCKET = null;
 var SP_WS_URL = 'https://distinguished-serenity-production-37d1.up.railway.app';
 var SP_RECONNECT_ATTEMPTS = 0;
-var SP_MAX_RECONNECT = 5;
+var SP_MAX_RECONNECT = 3;
 var SP_TOAST_FN = 'showDashToast';
 
 /*  INIT: connect on page load  */
