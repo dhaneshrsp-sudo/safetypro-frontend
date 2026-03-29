@@ -1563,7 +1563,7 @@ svg{flex-shrink:0}
 
 
 <script>
-var API_BASE = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
+var API_BASE = 'https://safetypro-backend-production.up.railway.app/api/v1';
 
 /* AUTH GUARD */
 (function(){
@@ -1723,7 +1723,7 @@ function showToast(msg){
 
 
 /* == ADMIN API == */
-var ADMIN_API = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
+var ADMIN_API = 'https://safetypro-backend-production.up.railway.app/api/v1';
 function getAdminToken(){ return localStorage.getItem('sp_token'); }
 
 function adminFetch(path, opts={}){
@@ -1913,7 +1913,7 @@ function updateLabel(level) {
   var days = {l2:'3 days', l3:'5 days', l4:'7 days', l5:'10 days'};
   label.textContent = input.value.trim() || days[level];
 }
-var ACT_API = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
+var ACT_API = 'https://safetypro-backend-production.up.railway.app/api/v1';
 
 function actGetToken() {
   return localStorage.getItem('sp_token') || localStorage.getItem('token') || '';
@@ -2290,7 +2290,7 @@ function closeSidebar() {
 /*  SOCKET.IO CDN is loaded before this script  */
 
 var SP_SOCKET = null;
-var SP_WS_URL = 'https://distinguished-serenity-production-37d1.up.railway.app';
+var SP_WS_URL = 'https://safetypro-backend-production.up.railway.app';
 var SP_RECONNECT_ATTEMPTS = 0;
 var SP_MAX_RECONNECT = 5;
 var SP_TOAST_FN = 'showToast';
@@ -2620,7 +2620,7 @@ function saveNotificationSettings() {
   var token = localStorage.getItem('sp_token');
   if (!token) { showToast('Not authenticated'); return; }
   showToast('Saving settings...','blue');
-  fetch('https://distinguished-serenity-production-37d1.up.railway.app/api/v1/settings/notifications', {
+  fetch('https://safetypro-backend-production.up.railway.app/api/v1/settings/notifications', {
     method: 'PUT',
     headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
     body: JSON.stringify({ enableIncidentAlert: true, enableEscalationAlert: true, enableOverdueReminder: true, enableDailySummary: true })
