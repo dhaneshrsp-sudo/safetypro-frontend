@@ -1708,7 +1708,7 @@ window.addEventListener('load', function() {
 /* NAV PROFILE */
 function loadNavProfile() {
   var token = localStorage.getItem('sp_token'); if (!token) return;
-  spFetch(API_BASE + '/auth/profile', { headers:{ 'Authorization':'Bearer ' + token } })
+  spFetch(API_BASE + '/auth/me', { headers:{ 'Authorization':'Bearer ' + token } })
   .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
   .then(function(u) { localStorage.setItem('sp_user', JSON.stringify(u)); applyNavProfile(u); })
   .catch(function(){});
@@ -2271,4 +2271,5 @@ window.addEventListener('beforeunload', function() {
 </script>
 </body>
 </html>
+
 

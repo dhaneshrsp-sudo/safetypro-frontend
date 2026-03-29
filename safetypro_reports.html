@@ -1775,7 +1775,7 @@ function loadAlerts() {
 
 /* NAV PROFILE */
 function loadNavProfile() {
-  apiFetch('/auth/profile')
+  apiFetch('/auth/me')
   .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
   .then(function(u) { localStorage.setItem('sp_user', JSON.stringify(u)); applyNavProfile(u); })
   .catch(function(){});
@@ -2118,3 +2118,4 @@ window.addEventListener('beforeunload', function() {
 </script>
 </body>
 </html>
+
