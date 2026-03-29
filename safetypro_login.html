@@ -1,426 +1,198 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SafetyPro AI - Sign In</title>
+<title>SafetyPro AI — Sign In</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  background:#0B0F14;
-  font-family:'Roboto',sans-serif;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  position:relative;
-  overflow:hidden;
-}
-
-/* Subtle background grid pattern */
-body::before{
-  content:'';
-  position:fixed;
-  inset:0;
-  background-image:
-    linear-gradient(rgba(34,197,94,.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(34,197,94,.03) 1px, transparent 1px);
-  background-size:40px 40px;
-  pointer-events:none;
-}
-
-/* Green glow top */
-body::after{
-  content:'';
-  position:fixed;
-  top:-200px;
-  left:50%;
-  transform:translateX(-50%);
-  width:600px;
-  height:400px;
-  background:radial-gradient(ellipse, rgba(34,197,94,.07) 0%, transparent 70%);
-  pointer-events:none;
-}
-
-.wrap{width:100%;max-width:440px;position:relative;z-index:1;}
-
-/* -- LOGO -- */
-.logo{text-align:center;margin-bottom:36px;}
-.logo-icon{
-  width:56px;height:56px;
-  background:rgba(34,197,94,.12);
-  border:1.5px solid rgba(34,197,94,.35);
-  border-radius:14px;
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 14px;
-  box-shadow:0 0 24px rgba(34,197,94,.15);
-}
-.logo-icon svg{width:28px;height:28px;fill:#22C55E;}
-.logo-text{
-  font-family:'Montserrat',sans-serif;
-  font-size:28px;
-  font-weight:800;
-  color:#E6EDF3;
-  letter-spacing:-0.5px;
-}
-.logo-text span{color:#22C55E;}
-.logo-sub{font-size:12px;color:#64748B;margin-top:6px;font-weight:400;letter-spacing:0.3px;}
-
-/* -- CARD -- */
-.card{
-  background:#111926;
-  border:1px solid #1E293B;
-  border-radius:20px;
-  padding:36px;
-  box-shadow:0 8px 40px rgba(0,0,0,.4);
-}
-.card-title{
-  font-family:'Montserrat',sans-serif;
-  font-size:22px;
-  font-weight:700;
-  color:#E6EDF3;
-  margin-bottom:6px;
-  letter-spacing:-0.3px;
-}
-.card-sub{font-size:13px;color:#64748B;margin-bottom:32px;font-weight:400;line-height:1.5;}
-
-/* -- FORM GROUPS -- */
+html,body{height:100%;overflow:hidden;}
+body{background:#0B0F14;font-family:'Roboto',sans-serif;display:flex;min-height:100vh;}
+.left{width:52%;background:linear-gradient(135deg,#0B0F14 0%,#0D1520 50%,#0B1218 100%);padding:48px 52px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;border-right:1px solid #1E293B;}
+.left::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(ellipse,rgba(34,197,94,.06) 0%,transparent 70%);pointer-events:none;}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:48px;}
+.brand-icon{width:40px;height:40px;background:#22C55E;border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.brand-icon svg{width:22px;height:22px;fill:#0B0E12;}
+.brand-name{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:800;color:#E6EDF3;}
+.brand-name span{color:#22C55E;}
+.live-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.22);border-radius:100px;padding:5px 14px;font-size:11px;font-weight:600;color:#22C55E;letter-spacing:.5px;margin-bottom:24px;width:fit-content;}
+.badge-dot{width:6px;height:6px;background:#22C55E;border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4);}70%{box-shadow:0 0 0 6px rgba(34,197,94,0);}}
+.hero{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 0;}
+.hero h1{font-family:'Montserrat',sans-serif;font-size:clamp(28px,3.5vw,42px);font-weight:800;line-height:1.2;color:#E6EDF3;margin-bottom:16px;letter-spacing:-0.5px;}
+.hero h1 span{color:#22C55E;}
+.hero p{font-size:14px;color:#94A3B8;line-height:1.7;margin-bottom:36px;max-width:380px;}
+.stats{display:flex;gap:0;margin-bottom:0;}
+.stat{flex:1;padding:16px 20px;background:rgba(255,255,255,.02);border:1px solid #1E293B;border-right:none;}
+.stat:first-child{border-radius:10px 0 0 10px;}
+.stat:last-child{border-radius:0 10px 10px 0;border-right:1px solid #1E293B;}
+.stat-num{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:800;color:#22C55E;line-height:1;margin-bottom:4px;}
+.stat-label{font-size:10px;color:#64748B;font-weight:500;text-transform:uppercase;letter-spacing:.5px;line-height:1.3;}
+.industries{display:flex;gap:8px;flex-wrap:wrap;margin-top:32px;}
+.ind{font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.03);border:1px solid #1E293B;color:#64748B;font-weight:500;}
+.right{width:48%;display:flex;align-items:center;justify-content:center;padding:48px 52px;background:#0B0F14;position:relative;}
+.right::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background-image:linear-gradient(rgba(34,197,94,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.02) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;}
+.form-wrap{width:100%;max-width:380px;position:relative;z-index:1;}
+.form-title{font-family:'Montserrat',sans-serif;font-size:26px;font-weight:800;color:#E6EDF3;margin-bottom:6px;letter-spacing:-0.3px;}
+.form-sub{font-size:13px;color:#64748B;margin-bottom:36px;line-height:1.5;}
 .group{margin-bottom:20px;}
-.label{
-  font-family:'Montserrat',sans-serif;
-  font-size:11px;
-  font-weight:600;
-  color:#94A3B8;
-  text-transform:uppercase;
-  letter-spacing:.8px;
-  margin-bottom:8px;
-  display:block;
-}
+.label{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;display:block;}
 .input-wrap{position:relative;}
-.input-icon{
-  position:absolute;
-  left:13px;top:50%;transform:translateY(-50%);
-  width:16px;height:16px;
-  stroke:#3D5068;fill:none;
-  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
-  transition:stroke .15s;
-  pointer-events:none;
-}
-.input{
-  width:100%;
-  background:#16212B;
-  border:1.5px solid #1E293B;
-  border-radius:10px;
-  padding:12px 14px 12px 40px;
-  font-family:'Roboto',sans-serif;
-  font-size:14px;
-  color:#E6EDF3;
-  outline:none;
-  transition:border-color .15s, box-shadow .15s;
-}
-.input:focus{
-  border-color:#22C55E;
-  box-shadow:0 0 0 3px rgba(34,197,94,.1);
-}
-.input:focus + .input-icon, .input-wrap:focus-within .input-icon{stroke:#22C55E;}
-.input::placeholder{color:#3D5068;}
-
-/* Password toggle */
-.pwd-toggle{
-  position:absolute;
-  right:13px;top:50%;transform:translateY(-50%);
-  background:none;border:none;cursor:pointer;
-  padding:4px;color:#3D5068;
-  display:flex;align-items:center;
-}
-.pwd-toggle:hover{color:#94A3B8;}
-.pwd-toggle svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
-
-/* -- BUTTON -- */
-.btn{
-  width:100%;
-  padding:14px;
-  border-radius:10px;
-  border:none;
-  background:linear-gradient(135deg,#22C55E,#16A34A);
-  color:#0B0E12;
-  font-family:'Montserrat',sans-serif;
-  font-size:14px;
-  font-weight:700;
-  cursor:pointer;
-  transition:all .2s;
-  margin-top:8px;
-  letter-spacing:0.3px;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.btn:hover{
-  background:linear-gradient(135deg,#16A34A,#15803D);
-  box-shadow:0 6px 20px rgba(34,197,94,.35);
-  transform:translateY(-1px);
-}
-.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
-
-/* -- STATES -- */
-.error{
-  background:rgba(239,68,68,.08);
-  border:1px solid rgba(239,68,68,.25);
-  border-radius:10px;
-  padding:11px 14px;
-  font-size:13px;
-  color:#EF4444;
-  margin-top:14px;
-  display:none;
-  font-weight:400;
-}
-.loading{
-  display:none;
-  text-align:center;
-  color:#64748B;
-  font-size:13px;
-  margin-top:10px;
-}
-.loading-spinner{
-  display:inline-block;
-  width:14px;height:14px;
-  border:2px solid #1E293B;
-  border-top-color:#22C55E;
-  border-radius:50%;
-  animation:spin .7s linear infinite;
-  margin-right:6px;
-  vertical-align:middle;
-}
+.input-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:#3D5068;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;transition:stroke .15s;}
+.inp{width:100%;background:#16212B;border:1.5px solid #1E293B;border-radius:10px;padding:12px 14px 12px 40px;font-family:'Roboto',sans-serif;font-size:14px;color:#E6EDF3;outline:none;transition:border-color .15s,box-shadow .15s;}
+.inp:focus{border-color:#22C55E;box-shadow:0 0 0 3px rgba(34,197,94,.1);}
+.inp:focus ~ .input-icon,.input-wrap:focus-within .input-icon{stroke:#22C55E;}
+.inp::placeholder{color:#3D5068;}
+.eye-btn{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#3D5068;display:flex;align-items:center;padding:4px;transition:color .15s;}
+.eye-btn:hover{color:#94A3B8;}
+.eye-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+.forgot-row{display:flex;justify-content:flex-end;margin-top:-12px;margin-bottom:20px;}
+.forgot{font-size:12px;color:#64748B;text-decoration:none;}
+.forgot:hover{color:#22C55E;}
+.btn-login{width:100%;padding:14px;border-radius:10px;border:none;background:#22C55E;color:#0B0E12;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:0.2px;}
+.btn-login:hover{background:#16A34A;box-shadow:0 6px 20px rgba(34,197,94,.3);transform:translateY(-1px);}
+.btn-login:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+.spinner{display:none;width:15px;height:15px;border:2px solid rgba(11,14,18,.3);border-top-color:#0B0E12;border-radius:50%;animation:spin .6s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* -- DIVIDER -- */
-.divider{
-  display:flex;align-items:center;gap:12px;
-  margin:24px 0 0;
-}
-.divider-line{flex:1;height:1px;background:#1E293B;}
-.divider-text{font-size:11px;color:#3D5068;font-weight:500;}
-
-/* -- HELP LINK -- */
-.help-link{
-  text-align:center;
-  font-size:13px;
-  color:#64748B;
-  margin-top:20px;
-  font-weight:400;
-}
-.help-link a{color:#22C55E;text-decoration:none;font-weight:500;}
-.help-link a:hover{text-decoration:underline;}
-
-/* -- BADGES -- */
-.badges{
-  display:flex;gap:6px;justify-content:center;
-  margin-top:24px;flex-wrap:wrap;
-}
-.badge{
-  font-size:10px;
-  font-family:'Montserrat',sans-serif;
-  font-weight:500;
-  padding:4px 9px;
-  border-radius:5px;
-  background:#111926;
-  border:1px solid #1E293B;
-  color:#475569;
-  letter-spacing:0.3px;
-}
-
-/* -- VERSION TAG -- */
-.version{
-  text-align:center;
-  font-size:11px;
-  color:#334155;
-  margin-top:16px;
-  font-weight:400;
-}
+.err-box{display:none;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:10px 14px;font-size:13px;color:#EF4444;margin-top:14px;align-items:center;gap:8px;}
+.divider{display:flex;align-items:center;gap:12px;margin:24px 0;}
+.div-line{flex:1;height:1px;background:#1E293B;}
+.div-text{font-size:11px;color:#2D3D52;}
+.trial-link{text-align:center;font-size:13px;color:#64748B;margin-top:20px;}
+.trial-link a{color:#22C55E;text-decoration:none;font-weight:600;}
+.trial-link a:hover{text-decoration:underline;}
+.ver{text-align:center;font-size:11px;color:#2D3D52;margin-top:16px;}
+.comp-badges{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
+.comp-b{font-size:10px;font-family:'Montserrat',sans-serif;font-weight:500;padding:3px 8px;border-radius:4px;background:rgba(255,255,255,.02);border:1px solid #1E293B;color:#334155;letter-spacing:.3px;}
+@media(max-width:768px){body{flex-direction:column;overflow:auto;}html,body{height:auto;}.left{width:100%;padding:32px 24px;border-right:none;border-bottom:1px solid #1E293B;}.right{width:100%;padding:32px 24px;}}
 </style>
 </head>
 <body>
-<div class="wrap">
-
-  <!-- LOGO -->
-  <div class="logo">
-    <div class="logo-icon">
-      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+<div class="left">
+  <div>
+    <div class="brand">
+      <div class="brand-icon"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
+      <div class="brand-name">Safety<span>Pro</span> AI</div>
     </div>
-    <div class="logo-text">Safety<span>Pro</span> AI</div>
-    <div class="logo-sub">Real-Time Safety Execution &nbsp;·&nbsp; Control &nbsp;·&nbsp; Intelligence</div>
+    <div class="live-badge"><div class="badge-dot"></div>LIVE BETA &nbsp;·&nbsp; ISO 45001 READY</div>
+    <div class="hero">
+      <h1>Real-Time<br><span>HSE Intelligence</span><br>for Every Industry</h1>
+      <p>From incident to resolution in minutes. Automated escalation, live dashboards, and full audit trails — across construction, manufacturing, oil &amp; gas, and more.</p>
+      <div class="stats">
+        <div class="stat"><div class="stat-num">40%</div><div class="stat-label">Faster Incident<br>Reporting</div></div>
+        <div class="stat"><div class="stat-num">L1–L5</div><div class="stat-label">Auto Escalation<br>Chain</div></div>
+        <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Audit Trail<br>Coverage</div></div>
+      </div>
+      <div class="industries">
+        <div class="ind">🏗️ Construction</div>
+        <div class="ind">🏭 Manufacturing</div>
+        <div class="ind">⚡ Power &amp; Energy</div>
+        <div class="ind">🛢️ Oil &amp; Gas</div>
+        <div class="ind">⛏️ Mining</div>
+        <div class="ind">🏥 Pharma</div>
+      </div>
+    </div>
   </div>
-
-  <!-- CARD -->
-  <div class="card">
-    <div class="card-title">Welcome back</div>
-    <div class="card-sub">Sign in to access your HSE management platform</div>
-
-    <!-- Company ID -->
+  <div class="comp-badges">
+    <div class="comp-b">ISO 45001</div><div class="comp-b">OSHA</div><div class="comp-b">HSE UK</div>
+    <div class="comp-b">BOCW 1996</div><div class="comp-b">DGFASLI</div><div class="comp-b">ILO</div>
+    <div class="comp-b">OSHAD SF</div><div class="comp-b">API RP 75</div>
+  </div>
+</div>
+<div class="right">
+  <div class="form-wrap">
+    <div class="form-title">Welcome back</div>
+    <div class="form-sub">Sign in to your HSE management platform</div>
     <div class="group">
       <label class="label" for="companyId">Company ID</label>
       <div class="input-wrap">
-        <input class="input" id="companyId" type="text"
-          placeholder="e.g. ieccl-demo"
-          autocomplete="organization"/>
-        <svg class="input-icon" viewBox="0 0 24 24">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-          <polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
+        <input class="inp" id="companyId" type="text" placeholder="e.g. ieccl-demo"/>
+        <svg class="input-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       </div>
     </div>
-
-    <!-- Email -->
     <div class="group">
       <label class="label" for="email">Email Address</label>
       <div class="input-wrap">
-        <input class="input" id="email" type="email"
-          placeholder="you@company.com"
-          autocomplete="email"/>
-        <svg class="input-icon" viewBox="0 0 24 24">
-          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-          <polyline points="22,6 12,13 2,6"/>
-        </svg>
+        <input class="inp" id="email" type="email" placeholder="you@company.com"/>
+        <svg class="input-icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </div>
     </div>
-
-    <!-- Password -->
     <div class="group">
       <label class="label" for="password">Password</label>
       <div class="input-wrap">
-        <input class="input" id="password" type="password"
-          placeholder="Enter your password"
-          autocomplete="current-password"/>
-        <svg class="input-icon" viewBox="0 0 24 24">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-        </svg>
-        <button class="pwd-toggle" type="button" onclick="togglePwd()" title="Show/hide password">
-          <svg id="eye-icon" viewBox="0 0 24 24" stroke-linejoin="round">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-            <circle cx="12" cy="12" r="3"/>
-          </svg>
-        </button>
+        <input class="inp" id="password" type="password" placeholder="Enter your password"/>
+        <svg class="input-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <button class="eye-btn" type="button" onclick="togglePwd()"><svg id="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
       </div>
     </div>
-
-    <button class="btn" id="login-btn" onclick="doLogin()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
-        <polyline points="10 17 15 12 10 7"/>
-        <line x1="15" y1="12" x2="3" y2="12"/>
-      </svg>
-      Sign In
+    <div class="forgot-row"><a href="#" class="forgot" onclick="showForgot(event)">Forgot password?</a></div>
+    <button class="btn-login" id="login-btn" onclick="doLogin()">
+      <div class="spinner" id="btn-spinner"></div>
+      <svg id="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+      <span id="btn-text">Sign In</span>
     </button>
-
-    <div class="loading" id="loading">
-      <span class="loading-spinner"></span>Signing in...
-    </div>
-    <div class="error" id="error-box"></div>
+    <div class="err-box" id="error-box"></div>
+    <div class="divider"><div class="div-line"></div><div class="div-text">New to SafetyPro?</div><div class="div-line"></div></div>
+    <div class="trial-link"><a href="safetypro_landing.html">Request a 30-day free trial &rarr;</a></div>
+    <div class="ver">v1.0 &nbsp;·&nbsp; Live Beta</div>
   </div>
-
-  <!-- HELP -->
-  <div class="help-link">
-    Don't have an account?&nbsp;<a href="safetypro_landing.html">Request access &rarr;</a>
-  </div>
-
-  <!-- COMPLIANCE BADGES -->
-  <div class="badges">
-    <div class="badge">ISO 45001</div>
-    <div class="badge">OSHA</div>
-    <div class="badge">HSE UK</div>
-    <div class="badge">BOCW 1996</div>
-    <div class="badge">DGFASLI</div>
-    <div class="badge">ILO</div>
-  </div>
-
-  <div class="version">SafetyPro AI &nbsp;·&nbsp; Beta v1.0 &nbsp;·&nbsp; IECCL Private</div>
 </div>
-
 <script>
 var API_BASE = 'https://safetypro-backend-production.up.railway.app/api/v1';
-
-// Handle logout param
 var urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get('logout') === '1') {
-  localStorage.removeItem('sp_token');
-  localStorage.removeItem('sp_user');
-}
-
-// Already logged in - go to dashboard
-if (localStorage.getItem('sp_token')) {
-  window.location.replace('safetypro_v2.html');
-}
-
-// Show/hide password
+if (urlParams.get('logout') === '1') { localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); }
+(function() {
+  var token = localStorage.getItem('sp_token');
+  if (!token) return;
+  fetch(API_BASE + '/auth/profile', { headers: { 'Authorization': 'Bearer ' + token } })
+  .then(function(res) {
+    if (res.ok) { return res.json().then(function(user) {
+      var role = (user && user.role) ? user.role : '';
+      try { localStorage.setItem('sp_user', JSON.stringify(user)); } catch(e) {}
+      if (role === 'CLIENT_VIEWER') { window.location.replace('safetypro_auditor.html'); }
+      else if (role === 'SUPER_ADMIN') { window.location.replace('safetypro_superadmin.html'); }
+      else { window.location.replace('safetypro_v2.html'); }
+    }); } else { localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); }
+  }).catch(function() { localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); });
+})();
 function togglePwd() {
   var inp = document.getElementById('password');
   var icon = document.getElementById('eye-icon');
-  if (inp.type === 'password') {
-    inp.type = 'text';
-    icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
-  } else {
-    inp.type = 'password';
-    icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
-  }
+  if (inp.type === 'password') { inp.type = 'text'; icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>'; }
+  else { inp.type = 'password'; icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'; }
 }
-
+function showForgot(e) { e.preventDefault(); showError('Password reset: contact support@safetyproworld.com'); }
+function setLoading(l) {
+  var btn=document.getElementById('login-btn'),sp=document.getElementById('btn-spinner'),ic=document.getElementById('btn-icon'),tx=document.getElementById('btn-text');
+  btn.disabled=l; sp.style.display=l?'block':'none'; ic.style.display=l?'none':'block'; tx.textContent=l?'Signing in...':'Sign In';
+}
+function showError(msg) { var b=document.getElementById('error-box'); b.textContent=msg; b.style.display='flex'; }
+function hideError() { document.getElementById('error-box').style.display='none'; }
 function doLogin() {
-  var email     = document.getElementById('email').value.trim();
-  var password  = document.getElementById('password').value;
-  var companyId = document.getElementById('companyId').value.trim();
-  var btn       = document.getElementById('login-btn');
-  var loading   = document.getElementById('loading');
-  var errorBox  = document.getElementById('error-box');
-
-  if (!email || !password || !companyId) {
-    showError('Please fill in all fields');
-    return;
-  }
-
-  btn.disabled = true;
-  loading.style.display = 'block';
-  errorBox.style.display = 'none';
-
-  fetch(API_BASE + '/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: email, password: password, companyId: companyId })
-  })
-  .then(function(res) {
-    return res.json().then(function(data) {
-      return { ok: res.ok, data: data };
-    });
-  })
+  var email=document.getElementById('email').value.trim();
+  var password=document.getElementById('password').value;
+  var companyId=document.getElementById('companyId').value.trim();
+  hideError();
+  if (!companyId) { showError('Please enter your Company ID.'); return; }
+  if (!email) { showError('Please enter your email address.'); return; }
+  if (!password) { showError('Please enter your password.'); return; }
+  setLoading(true);
+  fetch(API_BASE + '/auth/login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:email,password:password,companyId:companyId}) })
+  .then(function(res) { return res.json().then(function(data) { return {ok:res.ok,data:data}; }); })
   .then(function(result) {
-    if (!result.ok) {
-      var msg = result.data.message;
-      if (Array.isArray(msg)) msg = msg.join(', ');
-      throw new Error(msg || 'Invalid credentials');
-    }
-    localStorage.setItem('sp_token', result.data.accessToken);
-    if (result.data.user) {
-      localStorage.setItem('sp_user', JSON.stringify(result.data.user));
-    }
-    window.location.replace('safetypro_v2.html');
+    if (!result.ok) { var msg=result.data.message; if(Array.isArray(msg)) msg=msg.join(', '); showError(msg||'Invalid credentials.'); setLoading(false); return; }
+    try { localStorage.setItem('sp_token', result.data.accessToken); } catch(e) {}
+    try { if(result.data.user) localStorage.setItem('sp_user', JSON.stringify(result.data.user)); } catch(e) {}
+    var role=(result.data.user&&result.data.user.role)?result.data.user.role:'';
+    if(role==='CLIENT_VIEWER'){window.location.replace('safetypro_auditor.html');}
+    else if(role==='SUPER_ADMIN'){window.location.replace('safetypro_superadmin.html');}
+    else{window.location.replace('safetypro_v2.html');}
   })
-  .catch(function(err) {
-    showError(err.message || 'Login failed. Please check your credentials.');
-    btn.disabled = false;
-    loading.style.display = 'none';
-  });
+  .catch(function() { showError('Connection failed. Please check your internet.'); setLoading(false); });
 }
-
-function showError(msg) {
-  var el = document.getElementById('error-box');
-  el.textContent = msg;
-  el.style.display = 'block';
-}
-
-// Enter key to submit
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') doLogin();
-});
+['companyId','email','password'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',hideError);});
+document.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
 </script>
 </body>
 </html>
