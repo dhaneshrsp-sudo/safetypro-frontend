@@ -1240,12 +1240,13 @@ function switchTab(el, tabId) {
   document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
   var target = document.getElementById('tab-' + tabId);
   if (target) target.classList.add('active');
-  var m = document.querySelector('.main');
-  if (m) {
+  var mn = document.querySelector('.main');
+  if (mn) {
+    mn.scrollTop = 0;
     if (tabId === 'scenario' || tabId === 'team' || tabId === 'accountability') {
-      m.classList.add('hide-stats');
+      mn.classList.add('hide-stats');
     } else {
-      m.classList.remove('hide-stats');
+      mn.classList.remove('hide-stats');
     }
   }
 }
