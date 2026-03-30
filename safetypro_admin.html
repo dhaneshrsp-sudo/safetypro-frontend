@@ -65,7 +65,7 @@ svg{flex-shrink:0}
 .sh-left{display:flex;align-items:center;gap:12px}
 .sh-title{font-family:var(--fh);font-size:16px;font-weight:700}
 .sh-tabs{display:flex;gap:2px;}
-.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparentwhite-space:nowrap;flex-shrink:0;}
+.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap;flex-shrink:0;}
 .sh-tab:hover{color:var(--t2)}
 .sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
 
@@ -503,6 +503,35 @@ svg{flex-shrink:0}
 /* WebSocket real-time fade-in animation */
 @keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 
+
+/* ══ STANDARD LOGO SHIELD (shared) ══ */
+.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35);}
+.logo-shield svg{width:15px;height:15px;fill:#fff;}
+/* ══ STANDARD PROFILE DROPDOWN (shared) ══ */
+.profile-dd{display:none;position:fixed;top:calc(var(--nav-h,52px) + 6px);right:12px;width:252px;background:#0C1824;border:1px solid var(--border);border-radius:13px;box-shadow:0 16px 48px rgba(0,0,0,.7);z-index:9999;overflow:hidden;}
+.pd-header{padding:14px 16px;background:linear-gradient(135deg,rgba(34,197,94,.07),transparent);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.pd-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh,'Montserrat',sans-serif);font-size:13px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 0 14px rgba(34,197,94,.25);}
+.pd-name{font-size:12px;font-weight:700;color:var(--t1,#EBF4FF);}
+.pd-email{font-size:10px;color:var(--t3,#2E4A66);margin-top:1px;}
+.pd-role-badge{display:inline-block;font-size:9px;font-weight:600;color:var(--green,#22C55E);background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.18);border-radius:4px;padding:2px 7px;margin-top:4px;}
+.pd-menu{padding:4px 0;}
+.pd-item{padding:9px 14px;font-size:12px;color:var(--t2,#7A9BBF);cursor:pointer;display:flex;align-items:center;gap:10px;transition:.12s;text-decoration:none;}
+.pd-item:hover{background:var(--elevated,#142030);color:var(--t1,#EBF4FF);}
+.pd-item svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;}
+.pd-sep{height:1px;background:var(--border,#162236);margin:4px 0;}
+.pd-signout{margin:5px 10px 10px;padding:10px 14px;font-size:12px;font-weight:700;color:#fff;background:linear-gradient(135deg,#EF4444,#DC2626);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:8px;transition:.15s;}
+.pd-signout:hover{opacity:.85;transform:translateY(-1px);}
+.pd-signout svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;}
+/* ══ STANDARD FOOTER (shared) ══ */
+.sp-footer{flex-shrink:0;background:var(--sidebar,#080F18);border-top:1px solid var(--border,#162236);padding:7px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--t3,#2E4A66);z-index:10;}
+.sp-footer-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.sp-footer-center{display:flex;align-items:center;gap:14px;}
+.sp-footer-center a{color:var(--t3,#2E4A66);text-decoration:none;transition:.15s;}
+.sp-footer-center a:hover{color:var(--t2,#7A9BBF);}
+.sp-footer-right{display:flex;align-items:center;gap:6px;}
+.sp-footer-status-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;flex-shrink:0;}
+.sp-footer-sep{opacity:.3;}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
@@ -511,63 +540,78 @@ svg{flex-shrink:0}
 
 <!-- TOP NAV -->
 <nav class="topnav">
-  <a class="logo" href="safetypro_v2.html" title="Dashboard">
-    <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
+  <a class="logo" href="safetypro_v2.html">
+    <div class="logo-shield"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
     <span class="logo-text">SafetyPro <span>AI</span></span>
   </a>
-  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
   <div class="nav-links">
     <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
-    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>Operations</a>
+    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations</a>
     <a class="nl" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
-    <a class="nl" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>Reports</a>
-    <div class="nl more-wrap active" id="more-btn" onclick="toggleMore(event)">
-      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More<span class="arr">▾</span>
+    <a class="nl" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2"/></svg>Reports</a>
+    <a class="nl active" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>Admin</a>
+    <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More&#9660;
       <div class="more-menu" id="more-menu">
-        <a class="mm-item" href="#" onclick="event.preventDefault();showToast('Audit & Compliance - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
-        <a class="mm-item" href="safetypro_documents.html" onclick="event.preventDefault();showToast('Documents & Records - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
-        <a class="mm-item" href="safetypro_field.html" onclick="event.preventDefault();showToast('Site & Field Tools - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
-        <a class="mm-item" href="safetypro_ai.html" onclick="event.preventDefault();showToast('AI Intelligence - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
-        <a class="mm-item" href="safetypro_auditor.html" onclick="event.preventDefault();showToast('Auditor Verification - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
+        <a class="mm-item" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="safetypro_field.html"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="safetypro_ai.html"><svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_documents.html"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
         <div class="mm-divider"></div>
-        <a class="mm-item mm-admin" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Admin &amp; Configuration</a>
+        <a class="mm-item mm-admin" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09"/></svg>Admin &amp; Configuration</a>
       </div>
     </div>
   </div>
   <div class="nav-right">
-    <div class="icon-btn" id="alert-btn" onclick="toggleAlerts()" title="Alerts" style="position:relative"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><div class="red-dot" id="alert-dot" style="display:none"></div></div>
-    <div class="user-pill" id="user-pill-btn" onclick="toggleProfileMenu()">
-      <div class="ua" id="nav-initials">DK</div>
-      <div><div class="un-name" id="nav-username">Dhanesh CK</div><div class="un-role" id="nav-role">Admin</div></div>
-      <span style="color:var(--t3);font-size:10px;margin-left:6px">▾</span>
+    <div class="icon-btn" onclick="toggleAlerts()" id="alert-btn" title="Alerts">
+      <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+      <div class="red-dot" id="alert-dot"></div>
+    </div>
+    <div class="user-pill" onclick="toggleProfileMenu()" id="user-pill-btn">
+      <div class="ua" id="nav-initials">--</div>
+      <div class="un">
+        <div class="un-name" id="nav-username">Loading...</div>
+        <div class="un-role" id="nav-role">HSE Officer</div>
+      </div>
+      <span style="color:var(--t3);font-size:9px;margin-left:3px">&#9660;</span>
     </div>
   </div>
 </nav>
-<!-- PROFILE DROPDOWN -->
-<div id="profile-dropdown" style="display:none;position:fixed;top:58px;right:12px;width:252px;background:#0C1824;border:1px solid #1E293B;border-radius:13px;box-shadow:0 16px 48px rgba(0,0,0,.7);z-index:9999;overflow:hidden;">
-  <div style="padding:14px 16px;background:linear-gradient(135deg,rgba(34,197,94,.07),transparent);border-bottom:1px solid #1E293B;display:flex;align-items:center;gap:12px;">
-    <div id="pd-initials" style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;">DK</div>
+
+<!-- ══ ALERT DROPDOWN ══ -->
+<div id="alert-dropdown" class="alert-dropdown" style="display:none">
+  <div class="alert-head">Live Alerts</div>
+  <div id="alert-list"><div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Loading...</div></div>
+</div>
+
+<!-- ══ PROFILE DROPDOWN ══ -->
+<div id="profile-dropdown" class="profile-dd">
+  <div class="pd-header">
+    <div class="pd-avatar" id="pd-initials">--</div>
     <div>
-      <div id="profile-name" style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;color:#EBF4FF;">Dhanesh CK</div>
-      <div id="profile-email" style="font-size:10px;color:#2E4A66;margin-top:1px;"></div>
-      <div id="profile-role-badge" style="display:inline-block;font-size:9px;font-family:'Montserrat',sans-serif;font-weight:600;color:#22C55E;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.18);border-radius:4px;padding:2px 7px;margin-top:4px;">Admin</div>
+      <div class="pd-name" id="profile-name">Loading...</div>
+      <div class="pd-email" id="profile-email"></div>
+      <div class="pd-role-badge" id="profile-role-badge">HSE Officer</div>
     </div>
   </div>
-  <div style="padding:4px 0;">
-    <div onclick="window.location.href='safetypro_v2.html'" style="padding:9px 14px;font-size:12px;color:#7A9BBF;cursor:pointer;display:flex;align-items:center;gap:10px;transition:.12s;" onmouseover="this.style.background='#142030';this.style.color='#EBF4FF'" onmouseout="this.style.background='';this.style.color='#7A9BBF'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
-    <div onclick="goToSettings()" style="padding:9px 14px;font-size:12px;color:#7A9BBF;cursor:pointer;display:flex;align-items:center;gap:10px;transition:.12s;" onmouseover="this.style.background='#142030';this.style.color='#EBF4FF'" onmouseout="this.style.background='';this.style.color='#7A9BBF'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4"/></svg>Settings</div>
-    <div onclick="changePassword()" style="padding:9px 14px;font-size:12px;color:#7A9BBF;cursor:pointer;display:flex;align-items:center;gap:10px;transition:.12s;" onmouseover="this.style.background='#142030';this.style.color='#EBF4FF'" onmouseout="this.style.background='';this.style.color='#7A9BBF'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Change Password</div>
-    <div style="height:1px;background:#1E293B;margin:4px 0;"></div>
-    <div onclick="signOut()" style="margin:5px 10px 10px;padding:10px 14px;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;color:#fff;background:linear-gradient(135deg,#EF4444,#DC2626);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:8px;transition:.15s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out</div>
+  <div class="pd-menu">
+    <a class="pd-item" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+    <div class="pd-item" onclick="openManageUsers()"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Manage Users</div>
+    <div class="pd-item" onclick="goToSettings()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4"/></svg>Settings</div>
+    <div class="pd-item" onclick="changePassword()"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Change Password</div>
+    <div class="pd-sep"></div>
+    <div class="pd-signout" onclick="signOut()">
+      <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign Out
+    </div>
   </div>
 </div>
 
 <!-- ALERT DROPDOWN -->
-<div id="alert-dropdown" style="display:none;position:fixed;top:58px;right:12px;width:300px;background:#0C1824;border:1px solid #1E293B;border-radius:12px;box-shadow:0 16px 48px rgba(0,0,0,.7);z-index:9999;overflow:hidden;">
-  <div style="padding:11px 14px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:#7A9BBF;letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid #1E293B;display:flex;align-items:center;gap:7px;">
-    <div style="width:6px;height:6px;border-radius:50%;background:#EF4444;flex-shrink:0;"></div>Live Alerts
-  </div>
-  <div id="alert-list"><div style="padding:14px;text-align:center;color:#2E4A66;font-size:12px">Loading...</div></div>
+<div id="alert-dropdown" class="alert-dropdown" style="display:none">
+  <div class="alert-head">Live Alerts</div>
+  <div id="alert-list"><div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Loading...</div></div>
 </div>
 
 <div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
@@ -1174,7 +1218,7 @@ svg{flex-shrink:0}
 
 
           <!-- ══ INTEGRATIONS TAB ══ -->
-          <div class="tab-panel" id="tab-integrations" style="display:none;">
+          <div class="tab-panel" id="tab-integrations">
 
             <div style="padding:0 0 14px;border-bottom:1px solid var(--border);margin-bottom:18px;">
               <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);">Integration Ecosystem</div>
@@ -1357,11 +1401,7 @@ svg{flex-shrink:0}
           
 
           <!-- INTEGRATIONS TAB -->
-          <div class="tab-panel" id="tab-integrations" style="display:none;">
-            <div style="padding:0 0 14px;border-bottom:1px solid var(--border);margin-bottom:18px;">
-              <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);">Integration Ecosystem</div>
-              <div style="font-size:11px;color:var(--t3);margin-top:3px;">Connect SafetyPro AI with your existing tools and enterprise systems</div>
-            </div>
+          </div>
             <!-- CONNECTED -->
             <div style="margin-bottom:20px;">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
@@ -1670,8 +1710,29 @@ var currentTemplate = 'Incident Report';
 var currentFields = [...allTemplates[currentTemplate]];
 
 function renderFields(){
-  document.getElementById('field-builder').innerHTML = currentFields.map(function((f,i){ return '\n    <div class="field-item">\n      <div class="fi-drag"></div>\n      <span class="fi-type">' + (f.type) + '</span>\n      <span class="fi-name">' + (f.name) + '</span>\n      <span class="fi-req ' + (f.req?'req-y':'req-n') + '">' + (f.req?'Required':'Optional') + '</span>\n      <div class="fi-actions">\n        <div class="fia" title="Edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>\n        <div class="fia" title="Delete" onclick="removeField(' + (i) + ')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/></svg></div>\n      </div>\n    </div>').join(''); };
-  // Update field count badge
+  var container = document.getElementById('field-builder');
+  if (!container) return;
+  container.innerHTML = '';
+  currentFields.forEach(function(f, i){
+    var div = document.createElement('div');
+    div.className = 'field-item';
+    var reqCls = f.req ? 'req-y' : 'req-n';
+    var reqTxt = f.req ? 'Required' : 'Optional';
+    div.innerHTML =
+      '<div class="fi-drag"></div>' +
+      '<span class="fi-type">' + f.type + '</span>' +
+      '<span class="fi-name">' + f.name + '</span>' +
+      '<span class="fi-req ' + reqCls + '">' + reqTxt + '</span>' +
+      '<div class="fi-actions">' +
+        '<div class="fia" title="Edit" onclick="editField(' + i + ')">' +
+          '<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>' +
+        '</div>' +
+        '<div class="fia" title="Delete" onclick="removeField(' + i + ')">' +
+          '<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/></svg>' +
+        '</div>' +
+      '</div>';
+    container.appendChild(div);
+  });
   var badge = document.getElementById('field-count');
   if(badge) badge.textContent = currentFields.length + ' fields';
 }
@@ -1690,10 +1751,46 @@ var rolesData=[
   {name:'Priya R.',email:'priya.r@ieccl.co.in',color:'#0EA5E9',ini:'PR',role:'Site User',projects:'Site Alpha',status:'Inactive'},
 ];
 var roleColors={Admin:'var(--p-s),var(--purple)',HSEHead:'var(--g-s),var(--green)','HSE Head':'var(--g-s),var(--green)',Manager:'var(--a-s),var(--amber)','Site User':'var(--b-s),var(--blue)',Auditor:'rgba(20,184,166,.12),#14B8A6'};
-document.getElementById('roles-tbody').innerHTML=rolesData.map(function(r){
-  var rc=(roleColors[r.role]||'var(--b-s),var(--blue)').split(',');
-  return'<tr>\n    <td><div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:' + (r.color) + ';display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff">' + (r.ini) + '</div><span style="font-size:12px;font-weight:600;color:var(--t1)">' + (r.name) + '</span></div></td>\n    <td style="font-size:11px;color:var(--t3)">' + (r.email) + '</td>\n    <td><span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;background:' + (rc[0]) + ';color:' + (rc[1]) + ';border:1px solid ' + (rc[1].replace(')',',0.3)').replace('var(','rgba(')) + '">' + (r.role) + '</span></td>\n    <td style="font-size:11px;color:var(--t2)">' + (r.projects) + '</td>\n    <td><span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;' + (r.status==='Active'?'background:var(--g-s);color:var(--green);border:1px solid var(--g-b)':'background:var(--raised);color:var(--t3);border:1px solid var(--border)') + '">' + (r.status) + '</span></td>\n    <td><div style="display:flex;gap:4px">\n      <div style="width:22px;height:22px;border-radius:4px;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer" onclick="showToast('Edit ' + (r.name) + '')"><svg style="width:10px;height:10px;fill:var(--t3)" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>\n    </div></td>\n  </tr>';
-}).join('');
+(function renderRolesTable(){
+  var tbody = document.getElementById('roles-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  rolesData.forEach(function(r) {
+    var rc = (roleColors[r.role] || 'var(--b-s),var(--blue)').split(',');
+    var bgCol = rc[0] || 'var(--b-s)';
+    var txtCol = rc[1] || 'var(--blue)';
+    var isActive = r.status === 'Active';
+    var statusStyle = isActive
+      ? 'background:var(--g-s);color:var(--green);border:1px solid var(--g-b)'
+      : 'background:var(--raised);color:var(--t3);border:1px solid var(--border)';
+    var tr = document.createElement('tr');
+    var td1 = document.createElement('td');
+    td1.innerHTML =
+      '<div style="display:flex;align-items:center;gap:8px">' +
+        '<div style="width:28px;height:28px;border-radius:50%;background:' + r.color + ';display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff">' + r.ini + '</div>' +
+        '<span style="font-size:12px;font-weight:600;color:var(--t1)">' + r.name + '</span>' +
+      '</div>';
+    var td2 = document.createElement('td');
+    td2.style.cssText = 'font-size:11px;color:var(--t3)';
+    td2.textContent = r.email;
+    var td3 = document.createElement('td');
+    td3.innerHTML = '<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;background:' + bgCol + ';color:' + txtCol + '">' + r.role + '</span>';
+    var td4 = document.createElement('td');
+    td4.style.cssText = 'font-size:11px;color:var(--t2)';
+    td4.textContent = r.projects;
+    var td5 = document.createElement('td');
+    td5.innerHTML = '<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;' + statusStyle + '">' + r.status + '</span>';
+    var td6 = document.createElement('td');
+    var editBtn = document.createElement('div');
+    editBtn.style.cssText = 'width:22px;height:22px;border-radius:4px;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer';
+    editBtn.innerHTML = '<svg style="width:10px;height:10px;fill:var(--t3)" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+    editBtn.onclick = function() { showToast('Edit ' + r.name); };
+    td6.appendChild(editBtn);
+    tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
+    tr.appendChild(td4); tr.appendChild(td5); tr.appendChild(td6);
+    tbody.appendChild(tr);
+  });
+})();
 
 /* TOGGLE */
 function toggleSwitch(el){
@@ -1703,7 +1800,7 @@ function toggleSwitch(el){
 
 /* COLOR SELECT */
 function selectColor(el,hex){
-  document.querySelectorAll('.co').forEach(function(c){ return c.classList.remove('selected'));
+  document.querySelectorAll('.co').forEach(function(c){ c.classList.remove('selected'); });
   el.classList.add('selected');
   document.getElementById('color-input').value=hex;
   document.getElementById('preview-logo').style.background=hex;
@@ -1718,7 +1815,7 @@ function showToast(msg){
   var t=document.getElementById('toast');
   document.getElementById('toast-msg').textContent=msg;
   t.style.transform='translateX(-50%) translateY(0)';
-  setTimeout(function(){(){t.style.transform='translateX(-50%) translateY(100px)'},3000);
+  setTimeout(function(){ t.style.transform='translateX(-50%) translateY(100px)'; }, 3000);
 }
 
 
@@ -1809,7 +1906,25 @@ function loadUsers(){
     }
     var roleColors = {ADMIN:'#22C55E',HSE_HEAD:'#3B82F6',MANAGER:'#F59E0B',AUDITOR:'#8B5CF6',SITE_USER:'#64748B'};
     var roleLabels = {ADMIN:'Admin',HSE_HEAD:'HSE Head',MANAGER:'Manager',AUDITOR:'Auditor',SITE_USER:'Site User'};
-    tbody.innerHTML = users.map(function(u){ return '\n      <tr style="border-bottom:1px solid var(--border)">\n        <td style="padding:10px 14px">\n          <div style="display:flex;align-items:center;gap:9px">\n            <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#0B0E12;flex-shrink:0">\n              ' + (u.name.split(' ').map(function(n){ return n[0]).join('').substring(0,2)) + '\n            </div>\n            <span style="font-size:13px;font-weight:500;color:var(--t1)">' + (u.name) + '</span>\n          </div>\n        </td>\n        <td style="padding:10px 14px;font-size:12px;color:var(--t2)">' + (u.email) + '</td>\n        <td style="padding:10px 14px">\n          <span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;background:' + (roleColors[u.role]||'#64748B') + '22;color:' + (roleColors[u.role]||'#64748B') + ';border:1px solid ' + (roleColors[u.role]||'#64748B') + '44">\n            ' + (roleLabels[u.role]||u.role) + '\n          </span>\n        </td>\n        <td style="padding:10px 14px;font-size:12px;color:var(--t3)">' + (u.lastLogin ? new Date(u.lastLogin).toLocaleDateString('en-IN') : 'Never') + '</td>\n        <td style="padding:10px 14px"><span style="font-size:10px;color:#22C55E"> Active</span></td>\n      </tr>').join('');
+    tbody.innerHTML = '';
+    users.forEach(function(u) {
+      var ini = u.name.split(' ').map(function(n){ return n[0] || ''; }).join('').substring(0,2).toUpperCase();
+      var col = roleColors[u.role] || '#64748B';
+      var lbl = roleLabels[u.role] || u.role;
+      var lastLogin = u.lastLogin ? new Date(u.lastLogin).toLocaleDateString('en-IN') : 'Never';
+      var tr = document.createElement('tr');
+      tr.style.borderBottom = '1px solid var(--border)';
+      tr.innerHTML =
+        '<td style="padding:10px 14px"><div style="display:flex;align-items:center;gap:9px">' +
+          '<div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#0B0E12;flex-shrink:0">' + ini + '</div>' +
+          '<span style="font-size:13px;font-weight:500;color:var(--t1)">' + u.name + '</span>' +
+        '</div></td>' +
+        '<td style="padding:10px 14px;font-size:12px;color:var(--t2)">' + u.email + '</td>' +
+        '<td style="padding:10px 14px"><span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;background:' + col + '22;color:' + col + ';border:1px solid ' + col + '44">' + lbl + '</span></td>' +
+        '<td style="padding:10px 14px;font-size:12px;color:var(--t3)">' + lastLogin + '</td>' +
+        '<td style="padding:10px 14px"><span style="font-size:10px;color:#22C55E"> Active</span></td>';
+      tbody.appendChild(tr);
+    });
   } catch(e){
     tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--t3);font-size:13px">Could not load users</td></tr>';
   }
@@ -1853,12 +1968,12 @@ document.addEventListener('click',function(){
   }
 
   // Wire sidebar items
-  document.querySelectorAll('.sb-item').forEach(function(el){ return  {
+  document.querySelectorAll('.sb-item').forEach(function(el){
     var label = el.textContent.trim().replace(/\d+/g,'').trim();
     var dest = pages[label];
     if(dest){
       el.style.cursor = 'pointer';
-      el.addEventListener('click', function(e){ return  {
+      el.addEventListener('click', function(e){
         e.preventDefault();
         window.location.href = dest;
       });
@@ -1866,12 +1981,12 @@ document.addEventListener('click',function(){
   });
 
   // Wire topnav links
-  document.querySelectorAll('.nl').forEach(function(el){ return  {
+  document.querySelectorAll('.nl').forEach(function(el){
     var label = el.textContent.trim().replace(/[]/g,'').trim();
     var dest = pages[label];
     if(dest && !el.classList.contains('more-wrap')){
       el.style.cursor = 'pointer';
-      el.addEventListener('click', function(e){ return  {
+      el.addEventListener('click', function(e){
         e.preventDefault();
         window.location.href = dest;
       });
@@ -1879,12 +1994,12 @@ document.addEventListener('click',function(){
   });
 
   // Wire More menu items
-  document.querySelectorAll('.mm-item').forEach(function(el){ return  {
+  document.querySelectorAll('.mm-item').forEach(function(el){
     var label = el.textContent.trim();
     var dest = pages[label];
     if(dest){
       el.style.cursor = 'pointer';
-      el.addEventListener('click', function(e){ return  {
+      el.addEventListener('click', function(e){
         e.preventDefault();
         window.location.href = dest;
       });
@@ -1895,7 +2010,7 @@ document.addEventListener('click',function(){
   var logo = document.querySelector('.logo');
   if(logo){
     logo.style.cursor = 'pointer';
-    logo.addEventListenerfunction('click', (){ window.location.href = 'safetypro_v2.html'; });
+    logo.addEventListener('click', function(){ window.location.href = 'safetypro_v2.html'; });
   }
 })();
 
@@ -1931,7 +2046,7 @@ function actFetch(path, opts = {}) {
   });
   if (res.status === 401) {
     showToast('Session expired - please login again');
-    setTimeout(function(){(){ return window.location.href = 'safetypro_login.html', 1500); };
+    setTimeout(function(){ window.location.href = 'safetypro_login.html'; }, 1500);
     throw new Error('Unauthorized');
   }
   var data = res.json();
@@ -1947,7 +2062,7 @@ function actShowResult(id, msg, ok = true) {
   el.style.border = ok ? '1px solid rgba(34,197,94,.3)' : '1px solid rgba(239,68,68,.3)';
   el.style.color = ok ? '#22C55E' : '#EF4444';
   el.textContent = msg;
-  if (ok) setTimeout(function(){(){ return el.style.display = 'none', 3000); };
+  if (ok) setTimeout(function(){ el.style.display = 'none'; }, 3000);
 }
 
 /* -- ESCALATION LADDER -------------------------- */
@@ -1965,12 +2080,12 @@ function loadLadder() {
       'l5-designation': h.ceoName || '',
       'l5-email':       h.ceoEmail || '',
     };
-    Object.entries(map).forEachfunction(([id, val]){
+    Object.entries(map).forEach(function(entry){ var id=entry[0], val=entry[1];
       var el = document.getElementById(id);
       if (el) el.value = val;
     });
     // Update dynamic labels
-    ['l2','l3','l4','l5'].forEach(function(l){ return updateLabel(l));
+    ['l2','l3','l4','l5'].forEach(function(l){ updateLabel(l); });
   } catch (e) {
     console.warn('Ladder load error:', e.message);
   }
@@ -2026,13 +2141,37 @@ function loadProjectsForActivities() {
 
     // Populate project dropdowns
     var opts = '<option value="">Select Project...</option>' +
-      projects.map(function(p){ return '<option value="' + (p.id) + '">' + (p.name) + '</option>').join('');
+      projects.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
     if (sel1) sel1.innerHTML = opts;
     if (sel2) sel2.innerHTML = opts;
 
     // Render project head rows
     if (phList) {
-      phList.innerHTML = projects.map(function(p){ return '\n        <div style="display:grid;grid-template-columns:180px 40px 1fr 1fr 90px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--div)">\n          <div style="font-size:13px;font-weight:600;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (p.name) + '</div>\n          <div style="text-align:center;color:var(--t3)"></div>\n          <input class="fi" type="text" id="ph-des-' + (p.id) + '" value="' + (p.projectHeadName || '') + '" placeholder="Designation" style="margin:0;font-size:12px"/>\n          <input class="fi" type="email" id="ph-email-' + (p.id) + '" value="' + (p.projectHeadEmail || '') + '" placeholder="Email (overrides L2)" style="margin:0;font-size:12px"/>\n          <button onclick="saveProjectHead('' + (p.id) + '')" style="padding:7px;border-radius:6px;border:none;background:var(--green);color:#0B0E12;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap">Save</button>\n        </div>').join('');
+      phList.innerHTML = '';
+      projects.forEach(function(p) {
+        var div = document.createElement('div');
+        div.style.cssText = 'display:grid;grid-template-columns:180px 40px 1fr 1fr 90px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--div)';
+        var nameDiv = document.createElement('div');
+        nameDiv.style.cssText = 'font-size:13px;font-weight:600;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
+        nameDiv.textContent = p.name;
+        var sep = document.createElement('div');
+        sep.style.cssText = 'text-align:center;color:var(--t3)';
+        var inp1 = document.createElement('input');
+        inp1.className = 'fi'; inp1.type = 'text'; inp1.id = 'ph-des-' + p.id;
+        inp1.value = p.projectHeadName || ''; inp1.placeholder = 'Designation';
+        inp1.style.cssText = 'margin:0;font-size:12px';
+        var inp2 = document.createElement('input');
+        inp2.className = 'fi'; inp2.type = 'email'; inp2.id = 'ph-email-' + p.id;
+        inp2.value = p.projectHeadEmail || ''; inp2.placeholder = 'Email (overrides L2)';
+        inp2.style.cssText = 'margin:0;font-size:12px';
+        var btn = document.createElement('button');
+        btn.style.cssText = 'padding:7px;border-radius:6px;border:none;background:var(--green);color:#0B0E12;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap';
+        btn.textContent = 'Save';
+        btn.onclick = (function(pid){ return function(){ saveProjectHead(pid); }; })(p.id);
+        div.appendChild(nameDiv); div.appendChild(sep); div.appendChild(inp1);
+        div.appendChild(inp2); div.appendChild(btn);
+        phList.appendChild(div);
+      });
     }
 
     // Load ladder
@@ -2069,8 +2208,26 @@ function loadActivities(projectId) {
       container.innerHTML = '<div style="text-align:center;color:var(--t3);font-size:13px;padding:16px">No activities yet - click + Add Activity</div>';
       return;
     }
-    container.innerHTML = '\n      <div style="display:grid;grid-template-columns:180px 40px 1fr 1fr 80px;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);margin-bottom:4px">\n        <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase">ACTIVITY</div>\n        <div></div>\n        <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase">HEAD NAME</div>\n        <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase">HEAD EMAIL (L1)</div>\n        <div></div>\n      </div>' +
-      acts.map(function(a){ return '\n        <div style="display:grid;grid-template-columns:180px 40px 1fr 1fr 80px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--div)">\n          <div>\n            <div style="font-size:13px;font-weight:600;color:var(--green)">' + (a.name) + '</div>\n            <div style="font-size:10px;color:var(--t3)">L1 Escalation</div>\n          </div>\n          <div style="text-align:center;color:var(--t3)"></div>\n          <div style="font-size:12px;color:var(--t2)">' + (a.headName || '-') + '</div>\n          <div style="font-size:12px;color:var(--t2)">' + (a.headEmail || '-') + '</div>\n          <button onclick="removeActivity('' + (a.id) + '')" style="padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:transparent;color:#EF4444;font-size:11px;cursor:pointer">Remove</button>\n        </div>').join('');
+    container.innerHTML = '';
+    var hdr = document.createElement('div');
+    hdr.style.cssText = 'display:grid;grid-template-columns:180px 40px 1fr 1fr 80px;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);margin-bottom:4px';
+    hdr.innerHTML = '<div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase">ACTIVITY</div><div></div><div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase">HEAD NAME</div><div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase">HEAD EMAIL (L1)</div><div></div>';
+    container.appendChild(hdr);
+    acts.forEach(function(a) {
+      var row = document.createElement('div');
+      row.style.cssText = 'display:grid;grid-template-columns:180px 40px 1fr 1fr 80px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--div)';
+      var rmBtn = document.createElement('button');
+      rmBtn.style.cssText = 'padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:transparent;color:#EF4444;font-size:11px;cursor:pointer';
+      rmBtn.textContent = 'Remove';
+      rmBtn.onclick = (function(id){ return function(){ removeActivity(id); }; })(a.id);
+      row.innerHTML =
+        '<div><div style="font-size:13px;font-weight:600;color:var(--green)">' + a.name + '</div><div style="font-size:10px;color:var(--t3)">L1 Escalation</div></div>' +
+        '<div style="text-align:center;color:var(--t3)"></div>' +
+        '<div style="font-size:12px;color:var(--t2)">' + (a.headName || '-') + '</div>' +
+        '<div style="font-size:12px;color:var(--t2)">' + (a.headEmail || '-') + '</div>';
+      row.appendChild(rmBtn);
+      container.appendChild(row);
+    });
   } catch (e) {
     container.innerHTML = '<div style="color:#EF4444;font-size:13px;padding:10px"> Error: ' + (e.message) + '</div>';
   }
@@ -2116,7 +2273,7 @@ function saveActivity() {
       body: JSON.stringify({ projectId, name, headName, headEmail })
     });
     actShowResult('act-result', ' Activity added successfully!', true);
-    setTimeout(function(){(){
+    setTimeout(function(){
       hideAddActivityModal();
       loadActivities(projectId);
       // Update main project selector to show new activity
@@ -2148,7 +2305,7 @@ function showAddActivityModal() {
   var modalSel = document.getElementById('act-proj');
   if (modalSel && _actProjects && _actProjects.length) {
     modalSel.innerHTML = '<option value="">Select Project...</option>' +
-      _actProjects.map(function(p){ return '<option value="' + (p.id) + '"' + (mainSel&&mainSel.value===p.id?' selected':'') + '>' + (p.name) + '</option>').join('');
+      _actProjects.map(function(p){ return '<option value="' + p.id + '"' + (mainSel&&mainSel.value===p.id?' selected':'') + '>' + p.name + '</option>'; }).join('');
   }
   var overlay = document.getElementById('add-act-overlay');
   if (overlay) overlay.style.display = 'flex';
@@ -2516,7 +2673,7 @@ window.addEventListener('beforeunload', function() {
 
 
       <!-- ══ ACCESS REQUESTS TAB ══ -->
-      <div class="tab-panel" id="tab-accessreq" style="display:none;">
+      <div class="tab-panel" id="tab-accessreq">
 
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:20px;">
           <div class="card" style="text-align:center;border:1px solid rgba(239,68,68,.2);">
@@ -2652,6 +2809,122 @@ function loadIntegrationsVisibility() {
   } catch(e) {}
 }
 loadIntegrationsVisibility();
+</script>
+<script>
+
+/* ══ SHARED TOPBAR FUNCTIONS ══ */
+function closeAllDropdowns(){
+  var d=document.getElementById('profile-dropdown');
+  var a=document.getElementById('alert-dropdown');
+  if(d) d.style.display='none';
+  if(a) a.style.display='none';
+}
+function toggleProfileMenu(){
+  var d=document.getElementById('profile-dropdown');
+  var a=document.getElementById('alert-dropdown');
+  if(a) a.style.display='none';
+  if(d) d.style.display=d.style.display==='block'?'none':'block';
+}
+function toggleAlerts(){
+  var d=document.getElementById('alert-dropdown');
+  var p=document.getElementById('profile-dropdown');
+  if(p) p.style.display='none';
+  if(!d) return;
+  d.style.display=d.style.display==='block'?'none':'block';
+  if(d.style.display==='block') spLoadAlerts();
+}
+function spLoadAlerts(){
+  var list=document.getElementById('alert-list'); if(!list) return;
+  var token=localStorage.getItem('sp_token');
+  if(!token){list.innerHTML='<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Please login</div>';return;}
+  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
+  fetch(API+'/dashboard/kpis',{headers:{'Authorization':'Bearer '+token}})
+    .then(function(r){if(!r.ok)throw new Error();return r.json();})
+    .then(function(data){
+      var html='';
+      if(data.escalated>0) html+='<div class="alert-item"><div class="alert-dot" style="background:var(--red)"></div><div><div class="alert-title">'+data.escalated+' Escalated Actions</div><div class="alert-sub">Require immediate attention</div></div></div>';
+      if(data.openNCRs>0) html+='<div class="alert-item"><div class="alert-dot" style="background:var(--amber)"></div><div><div class="alert-title">'+data.openNCRs+' Open NCRs</div><div class="alert-sub">Pending closure</div></div></div>';
+      if(data.overdueActions>0) html+='<div class="alert-item"><div class="alert-dot" style="background:var(--purple,#8B5CF6)"></div><div><div class="alert-title">'+data.overdueActions+' Overdue Actions</div><div class="alert-sub">Past due date</div></div></div>';
+      list.innerHTML=html||'<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">No active alerts</div>';
+    })
+    .catch(function(){list.innerHTML='<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Unable to load alerts</div>';});
+}
+function toggleMore(e){e.stopPropagation();document.getElementById('more-btn').classList.toggle('open');}
+function signOut(){localStorage.removeItem('sp_token');localStorage.removeItem('sp_user');localStorage.removeItem('sp_company');window.location.href='safetypro_login.html?logout=1';}
+function goToSettings(){closeAllDropdowns();if(typeof showToast==='function')showToast('Settings coming soon','blue');}
+function changePassword(){closeAllDropdowns();if(typeof showToast==='function')showToast('Email: support@safetyproworld.com','blue');}
+function openManageUsers(){closeAllDropdowns();var m=document.getElementById('users-modal');if(m){m.classList.add('open');if(typeof loadUsers==='function')loadUsers();}else{if(typeof showToast==='function')showToast('User management available in Admin page','blue');}}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('#alert-btn')&&!e.target.closest('#alert-dropdown')){var d=document.getElementById('alert-dropdown');if(d)d.style.display='none';}
+  if(!e.target.closest('#user-pill-btn')&&!e.target.closest('#profile-dropdown')){var d=document.getElementById('profile-dropdown');if(d)d.style.display='none';}
+  if(!e.target.closest('#more-btn')){var m=document.getElementById('more-btn');if(m)m.classList.remove('open');}
+});
+/* ══ INIT USER IN TOPBAR ══ */
+(function spInitTopbar(){
+  var u=localStorage.getItem('sp_user');
+  if(!u)return;
+  try{
+    var obj=JSON.parse(u);
+    var name=obj.name||obj.fullName||obj.username||'User';
+    var role=obj.role||obj.designation||'HSE Officer';
+    var initials=name.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
+    var ni=document.getElementById('nav-initials');var nu=document.getElementById('nav-username');var nr=document.getElementById('nav-role');
+    var pi=document.getElementById('pd-initials');var pn=document.getElementById('profile-name');var pe=document.getElementById('profile-email');var prb=document.getElementById('profile-role-badge');
+    if(ni)ni.textContent=initials;
+    if(nu)nu.textContent=name;
+    if(nr)nr.textContent=role;
+    if(pi)pi.textContent=initials;
+    if(pn)pn.textContent=name;
+    if(pe)pe.textContent=obj.email||'';
+    if(prb)prb.textContent=role;
+  }catch(e){}
+})();
+</script>
+
+<!-- ══ STANDARD FOOTER ══ -->
+<footer class="sp-footer">
+  <div class="sp-footer-left">
+    <span>&#169; 2026 SafetyPro AI</span>
+    <span class="sp-footer-sep">|</span>
+    <span id="sp-footer-version">v1.3.2</span>
+    <span class="sp-footer-sep">|</span>
+    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
+  </div>
+  <div class="sp-footer-center">
+    <a href="mailto:support@safetyproworld.com">Help</a>
+    <a href="mailto:support@safetyproworld.com">Support</a>
+    <a href="safetypro_v2.html">Docs</a>
+  </div>
+  <div class="sp-footer-right">
+    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
+    <span id="sp-status-text" style="color:#22C55E">Operational</span>
+  </div>
+</footer>
+<script>
+(function spFooterInit(){
+  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
+  function updateFooter(d){
+    var v=document.getElementById('sp-footer-version');
+    var s=document.getElementById('sp-footer-sync');
+    var dot=document.getElementById('sp-status-dot');
+    var txt=document.getElementById('sp-status-text');
+    if(!v)return;
+    if(d.version)v.textContent=d.version;
+    if(d.lastSync){try{s.textContent=new Date(d.lastSync).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}}
+    var status=d.status||'operational';
+    var colors={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'};
+    if(dot)dot.style.background=colors[status]||'#22C55E';
+    if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#22C55E';}
+  }
+  function fetchStatus(){
+    fetch(API+'/api/system/status')
+      .then(function(r){return r.json();})
+      .then(updateFooter)
+      .catch(function(){updateFooter({status:'operational',version:'v1.3.2',lastSync:new Date().toISOString()});});
+  }
+  fetchStatus();
+  setInterval(fetchStatus,30000);
+})();
 </script>
 </body>
 </html>
