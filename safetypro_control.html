@@ -73,7 +73,7 @@ svg{flex-shrink:0}
 .un-role{font-size:9px;color:var(--t3)}
 
 /* ── BODY ── */
-.body{display:flex;flex:1}
+.body{height:calc(100vh - 52px);overflow:hidden;display:flex;flex:1}
 
 /* ── SIDEBAR ── */
 .sidebar{width:195px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:14px 8px;min-height:calc(100vh - 52px);position:sticky;top:52px;align-self:flex-start}
@@ -88,7 +88,7 @@ svg{flex-shrink:0}
 .sidebar-foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--border)}
 
 /* ── CONTENT ── */
-.content{flex:1;min-width:0;overflow:hidden;}
+.content{flex:1;min-width:0;overflow-y:auto;overflow-x:hidden;}
 
 /* ── SUB HEADER ── */
 .sub-header{padding:0 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50;flex-wrap:nowrap;height:52px;gap:12px;}
@@ -102,7 +102,7 @@ svg{flex-shrink:0}
 .sel{background:var(--card);border:1px solid var(--border);color:var(--t1);padding:6px 12px;border-radius:7px;font-family:var(--fb);font-size:12px;outline:none;cursor:pointer}
 
 /* ── MAIN AREA ── */
-.main{padding:68px 20px 60px 20px;display:flex;flex-direction:column;gap:14px;overflow:hidden;min-width:0;}
+.main{padding:68px 20px 60px 20px;display:flex;flex-direction:column;gap:14px;overflow:visible;min-width:0;}
 
 /* ── STAT CARDS ── */
 .ctrl-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
