@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -488,7 +488,7 @@ svg{flex-shrink:0}
   .card-btns{flex-wrap:wrap !important; gap:4px !important;}
 
   /* ── Tab panels ── */
-  .tab-panel{width:100% !important; overflow-x:hidden !important;}
+  .tab-panel{width:100% !important;}
 
   /* ── Inputs full width ── */
   .form-group{margin-bottom:12px !important;}
@@ -554,7 +554,7 @@ svg{flex-shrink:0}
 *, *::before, *::after { box-sizing: border-box; }
 body { overflow-x: hidden; }
 .content, .main { min-width: 0; overflow-x: hidden; }
-.tab-panel { min-width: 0; overflow-x: hidden; }
+.tab-panel { min-width: 0; }
 .card { min-width: 0; overflow: hidden; }
 .card-head { flex-wrap: wrap; gap: 6px; }
 
@@ -1580,9 +1580,7 @@ function animateNum(el, target) {
 function switchTab(el, tabId) {
   document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
-  document.querySelectorAll('.tab-panel').forEach(function(p) {
-    p.style.display = 'none'; p.classList.remove('active');
-  });
+  var main=document.querySelector('.main');if(main){Array.from(main.children).forEach(function(p){if(p.classList.contains('tab-panel')){p.style.display='none';p.classList.remove('active');}});}
   var target = document.getElementById('tab-' + tabId);
   if (target) { target.style.display = 'block'; target.classList.add('active'); }
   if (tabId === 'objectives') initObjCharts();
@@ -2286,5 +2284,4 @@ document.addEventListener('click',function(e){
 })();
 </script>
 </body>
-</html>
-
+                                                                                                                                                               </html>
