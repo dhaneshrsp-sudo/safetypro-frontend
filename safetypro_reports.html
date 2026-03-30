@@ -60,12 +60,12 @@ svg{flex-shrink:0}
 .sidebar-foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--border)}
 
 /* CONTENT */
-.content{flex:1;min-width:0}
-.sub-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50flex-wrap:wrap;}
+.content{flex:1;min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column;}
+.sub-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50;flex-wrap:wrap;}
 .sh-left{display:flex;align-items:center;gap:12px}
 .sh-title{font-family:var(--fh);font-size:16px;font-weight:700}
 .sh-tabs{display:flex;gap:2px;}
-.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparentwhite-space:nowrap;flex-shrink:0;}
+.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap;flex-shrink:0;}
 .sh-tab:hover{color:var(--t2)}
 .sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
 .sh-right{display:flex;gap:8px;align-items:center}
@@ -75,7 +75,7 @@ svg{flex-shrink:0}
 .btn-export svg{width:12px;height:12px;fill:#0B0E12}
 
 /* MAIN */
-.main{padding:16px 20px;display:flex;flex-direction:column;gap:14px;padding-bottom:60px}
+.main{padding:16px 20px;display:flex;flex-direction:column;gap:14px;padding-bottom:80px;overflow-y:auto;min-width:0;flex:1;min-height:0;scroll-padding-top:52px;}
 
 /* TAB PANELS */
 .tab-panel{display:none}.tab-panel.active{display:flex;flex-direction:column;gap:14px}
@@ -590,6 +590,15 @@ body { overflow-x: hidden; }
 
 /* ══ NAV-LINKS (shared topbar) ══ */
 .nav-links{display:flex;align-items:center;gap:1px;flex:1;}
+
+/* ══ ANTI-BLEED FIXES ══ */
+.card{overflow:hidden;word-break:break-word;}
+.tab-panel{min-width:0;}
+.tab-panel.active{min-width:0;overflow:hidden;}
+.main *{max-width:100%;box-sizing:border-box;}
+.sh-tabs{max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;}
+.sh-tabs::-webkit-scrollbar{display:none;}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
@@ -2234,16 +2243,16 @@ document.addEventListener('click',function(e){
 <!-- ══ STANDARD FOOTER ══ -->
 <footer class="sp-footer">
   <div class="sp-footer-left">
-    <span>&#169; 2026 SafetyPro AI</span>
+    <span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF)">Reports</span>
     <span class="sp-footer-sep">|</span>
     <span id="sp-footer-version">v1.3.2</span>
     <span class="sp-footer-sep">|</span>
     <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
   </div>
   <div class="sp-footer-center">
-    <a href="mailto:support@safetyproworld.com">Help</a>
-    <a href="mailto:support@safetyproworld.com">Support</a>
-    <a href="safetypro_v2.html">Docs</a>
+    <a href="mailto:support@safetyproworld.com">Export Guide</a>
+    <a href="mailto:support@safetyproworld.com">Analytics Help</a>
+    <a href="mailto:support@safetyproworld.com">Report Issue</a>
   </div>
   <div class="sp-footer-right">
     <div class="sp-footer-status-dot" id="sp-status-dot"></div>

@@ -627,6 +627,15 @@ svg{flex-shrink:0}
 
 /* ══ NAV-LINKS (shared topbar) ══ */
 .nav-links{display:flex;align-items:center;gap:1px;flex:1;}
+
+/* ══ ANTI-BLEED FIXES ══ */
+.card{overflow:hidden;word-break:break-word;}
+.tab-panel{min-width:0;}
+.tab-panel.active{min-width:0;overflow:hidden;}
+.main *{max-width:100%;box-sizing:border-box;}
+.sh-tabs{max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;}
+.sh-tabs::-webkit-scrollbar{display:none;}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
@@ -2019,16 +2028,16 @@ document.addEventListener('click',function(e){
 <!-- ══ STANDARD FOOTER ══ -->
 <footer class="sp-footer">
   <div class="sp-footer-left">
-    <span>&#169; 2026 SafetyPro AI</span>
+    <span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF)">Control</span>
     <span class="sp-footer-sep">|</span>
     <span id="sp-footer-version">v1.3.2</span>
     <span class="sp-footer-sep">|</span>
     <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
   </div>
   <div class="sp-footer-center">
-    <a href="mailto:support@safetyproworld.com">Help</a>
-    <a href="mailto:support@safetyproworld.com">Support</a>
-    <a href="safetypro_v2.html">Docs</a>
+    <a href="mailto:support@safetyproworld.com">Escalation Guide</a>
+    <a href="mailto:support@safetyproworld.com">Control Help</a>
+    <a href="mailto:support@safetyproworld.com">Report Issue</a>
   </div>
   <div class="sp-footer-right">
     <div class="sp-footer-status-dot" id="sp-status-dot"></div>
