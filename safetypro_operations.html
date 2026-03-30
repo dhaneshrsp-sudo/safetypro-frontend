@@ -681,7 +681,7 @@ flex-wrap:wrap;}
     font-size:11px !important;
   }
 
-  /* â”€â”€ Main 2-col layout â†’ single col â”€â”€ */
+  /* â”€â”€ Main 2-col layout →’ single col â”€â”€ */
   .ops-grid{
     grid-template-columns:1fr !important;
     display:flex !important;
@@ -885,7 +885,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     <a class="nl" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
     <a class="nl" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>Reports</a>
     <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
-      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More<span class="arr">â–¾</span>
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More<span class="arr">▾</span>
       <div class="more-menu" id="more-menu">
         <a class="mm-item" href="#" onclick="event.preventDefault();showToast('Audit & Compliance - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
         <a class="mm-item" href="safetypro_documents.html" onclick="event.preventDefault();showToast('Documents & Records - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
@@ -902,7 +902,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     <div class="user-pill">
       <div class="ua">DK</div>
       <div><div class="un-name">Dhanesh CK</div><div class="un-role">HSE Head</div></div>
-      <span style="color:var(--t3);font-size:10px;margin-left:6px">â–¾</span>
+      <span style="color:var(--t3);font-size:10px;margin-left:6px">▾</span>
     </div>
   </div>
 </nav>
@@ -1042,7 +1042,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
         <span><b>3 actions are overdue</b> â€” escalation will trigger in</span>
         <span class="ob-count" id="esc-timer">4h 22m</span>
         <span>if not closed</span>
-        <span style="margin-left:auto;font-size:11px;padding:3px 10px;border:1px solid var(--r-b);border-radius:5px;cursor:pointer" onclick="viewOverdueActions()">View Overdue â†’</span>
+        <span style="margin-left:auto;font-size:11px;padding:3px 10px;border:1px solid var(--r-b);border-radius:5px;cursor:pointer" onclick="viewOverdueActions()">View Overdue →’</span>
       </div>
 
       <!-- MAIN GRID -->
@@ -1053,7 +1053,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
           <div id="tab-tracker" class="card">
             <div class="card-head">
               <div>
-                <div class="card-title">Action Tracker â˜…</div>
+                <div class="card-title">Action Tracker ★</div>
                 <div class="card-sub">All sources â€” Incident · NCR · Audit · Investigation</div>
               </div>
               <div class="card-btns">
@@ -1073,7 +1073,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
                 <svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
                 Assigned to me
               </div>
-              <div class="filter-chip" id="sort-btn" onclick="toggleSort(this)">Sort: Deadline â†‘</div>
+              <div class="filter-chip" id="sort-btn" onclick="toggleSort(this)">Sort: Deadline →‘</div>
               <div class="search-box">
                 <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
                 <input type="text" placeholder="Search actions..."/>
@@ -1127,7 +1127,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
                   <div class="ma-meta"><span class="src-badge src-n">NCR</span><span class="ma-site">Site Alpha â€” Mumbai</span></div>
                 </div>
                 <div class="ma-right">
-                  <div class="ma-due over">âš  Overdue 2 days</div>
+                  <div class="ma-due over">⚠  Overdue 2 days</div>
                   <div class="status-pill sp-over"><div class="sp-dot"></div>Overdue</div>
                 </div>
               </div>
@@ -1289,7 +1289,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
               </div>
               <div class="gps-row" onclick="refreshGPS()">
                 <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                <span class="gps-text">GPS: <span id="gps-coords">25.5941Â° N, 85.1376Â° E</span></span>
+                <span class="gps-text">GPS: <span id="gps-coords">25.5941° N, 85.1376° E</span></span>
                 <div class="gps-pulse"></div>
               </div>
               <button class="submit-btn" onclick="submitIncident()">
@@ -1304,7 +1304,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
                 <label class="form-label">Observation Type</label>
                 <div class="ncr-types">
                   <div class="ncr-type active" onclick="setNcrType(this)">
-                    <div class="ncr-type-icon">âš ï¸</div>
+                    <div class="ncr-type-icon">⚠ ï¸</div>
                     <div class="ncr-type-label">Unsafe Act</div>
                   </div>
                   <div class="ncr-type" onclick="setNcrType(this)">
@@ -1373,7 +1373,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
           <div class="card">
             <div class="card-head">
               <div><div class="card-title">Recent Incidents</div><div class="card-sub">Last 7 days â€” this project</div></div>
-              <div class="cbtn">View All â†’</div>
+              <div class="cbtn">View All →’</div>
             </div>
             <div style="display:flex;flex-direction:column">
               <div class="ttalk-item">
@@ -1524,7 +1524,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       </div>
       <div class="gps-row">
         <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-        <span class="gps-text">GPS auto-captured: <span>25.5941Â° N, 85.1376Â° E â€” Patna, Bihar</span></span>
+        <span class="gps-text">GPS auto-captured: <span>25.5941° N, 85.1376° E â€” Patna, Bihar</span></span>
         <div class="gps-pulse"></div>
       </div>
       <div style="background:var(--g-s);border:1px solid var(--g-b);border-radius:8px;padding:10px 12px;margin-top:10px">
@@ -2040,13 +2040,13 @@ window.addEventListener('resize', function() { closeAllDropdowns(); });
   <div class="modal" style="max-width:540px">
     <div class="modal-head">
       <div class="modal-title">Raise NCR / Observation</div>
-      <div class="modal-close" onclick="closeModal('modal-ncr')">âœ•</div>
+      <div class="modal-close" onclick="closeModal('modal-ncr')">✕</div>
     </div>
     <div style="padding:16px;display:flex;flex-direction:column;gap:12px;max-height:80vh;overflow-y:auto">
       <div>
         <div class="fi-label">Observation Type *</div>
         <div style="display:flex;gap:8px;margin-top:4px">
-          <div class="ncr-type-btn active" onclick="setNcrModalType(this,'Unsafe Act')" style="flex:1;padding:8px;border-radius:8px;border:1px solid var(--green);background:rgba(34,197,94,.1);text-align:center;cursor:pointer;font-size:12px;color:var(--green);font-weight:600">âš ï¸ Unsafe Act</div>
+          <div class="ncr-type-btn active" onclick="setNcrModalType(this,'Unsafe Act')" style="flex:1;padding:8px;border-radius:8px;border:1px solid var(--green);background:rgba(34,197,94,.1);text-align:center;cursor:pointer;font-size:12px;color:var(--green);font-weight:600">⚠ ï¸ Unsafe Act</div>
           <div class="ncr-type-btn" onclick="setNcrModalType(this,'Unsafe Condition')" style="flex:1;padding:8px;border-radius:8px;border:1px solid var(--border);background:transparent;text-align:center;cursor:pointer;font-size:12px;color:var(--t2);font-weight:600">ðŸ—ï¸ Unsafe Condition</div>
           <div class="ncr-type-btn" onclick="setNcrModalType(this,'Near Miss')" style="flex:1;padding:8px;border-radius:8px;border:1px solid var(--border);background:transparent;text-align:center;cursor:pointer;font-size:12px;color:var(--t2);font-weight:600">ðŸ’¨ Near Miss</div>
         </div>
@@ -2117,7 +2117,7 @@ window.addEventListener('resize', function() { closeAllDropdowns(); });
   <div class="modal">
     <div class="modal-head">
       <div class="modal-title">Record Toolbox Talk</div>
-      <div class="modal-close" onclick="closeModal('modal-toolbox')">âœ•</div>
+      <div class="modal-close" onclick="closeModal('modal-toolbox')">✕</div>
     </div>
     <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
       <div>
@@ -2176,7 +2176,7 @@ window.addEventListener('resize', function() { closeAllDropdowns(); });
   <div class="modal">
     <div class="modal-head">
       <div class="modal-title">Create Permit to Work</div>
-      <div class="modal-close" onclick="closeModal('modal-ptw')">âœ•</div>
+      <div class="modal-close" onclick="closeModal('modal-ptw')">✕</div>
     </div>
     <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
       <div>
