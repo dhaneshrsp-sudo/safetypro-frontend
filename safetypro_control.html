@@ -5,32 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>SafetyPro AI — Control</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<script>
-/* == DROPDOWN SYSTEM - responsive fix == */
-function closeAllDropdowns() {
-  var pd = document.getElementById('profile-dropdown');
-  var ad = document.getElementById('alert-dropdown');
-  if (pd) pd.style.display = 'none';
-  if (ad) ad.style.display = 'none';
-}
-
-function positionDropdown(dropdown, trigger) {
-  if (!dropdown || !trigger) return;
-  var tr = trigger.getBoundingClientRect();
-  var vw = window.innerWidth;
-  var dw = Math.min(dropdown.offsetWidth || 260, vw - 16);
-  var right = vw - tr.right;
-  if (right < 8) right = 8;
-  dropdown.style.right = right + 'px';
-  dropdown.style.left = 'auto';
-  dropdown.style.top = (tr.bottom + 6) + 'px';
-  dropdown.style.width = (vw <= 480 ? vw - 12 : vw <= 768 ? Math.min(dw, vw - 16) : dw) + 'px';
-}
-
-document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeAllDropdowns(); });
-window.addEventListener('resize', function() { closeAllDropdowns(); });
-
-</script>
 <style>
 :root{
   --bg:#0B0F14;--card:#131C26;--raised:#16212B;--sidebar:#0F1720;--border:#1E293B;--div:rgba(255,255,255,0.05);
@@ -620,7 +594,7 @@ svg{flex-shrink:0}
 
 
 .hide-stats .ctrl-stats{display:none !important;}
-.main{padding-top:56px !important;}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
