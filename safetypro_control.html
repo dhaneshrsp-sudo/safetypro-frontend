@@ -2076,3 +2076,15 @@ document.addEventListener('click',function(e){
 <style>
 .sub-header{flex-wrap:nowrap !important;height:auto !important;min-height:48px !important;padding:8px 16px !important;}.sh-left{flex:1;min-width:0;overflow:hidden;}.sh-tabs{overflow-x:auto;scrollbar-width:none;}.sh-right{flex-shrink:0;}
 </style>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var sh=document.querySelector('.sub-header');
+  if(sh){sh.style.flexWrap='nowrap';sh.style.padding='8px 16px';}
+  var sl=document.querySelector('.sh-left');
+  if(sl){sl.style.flex='1';sl.style.minWidth='0';sl.style.overflow='hidden';}
+  var st=document.querySelector('.sh-tabs');
+  if(st){st.style.overflowX='auto';st.style.flexShrink='1';}
+  var sr=document.querySelector('.sh-right');
+  if(sr){sr.style.flexShrink='0';}
+});
+</script>
