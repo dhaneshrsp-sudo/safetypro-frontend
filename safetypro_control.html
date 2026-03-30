@@ -1243,6 +1243,7 @@ function switchTab(el, tabId) {
   var mn = document.querySelector('.main');
   if (mn) {
     mn.scrollTop = 0;
+    window.scrollTo({top:0,behavior:'instant'});
     if (tabId === 'scenario' || tabId === 'team' || tabId === 'accountability') {
       mn.classList.add('hide-stats');
     } else {
