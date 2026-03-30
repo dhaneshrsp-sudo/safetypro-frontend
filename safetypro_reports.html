@@ -587,6 +587,9 @@ body { overflow-x: hidden; }
 .sp-footer-status-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;flex-shrink:0;}
 .sp-footer-sep{opacity:.3;}
 
+
+/* ══ NAV-LINKS (shared topbar) ══ */
+.nav-links{display:flex;align-items:center;gap:1px;flex:1;}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
@@ -662,11 +665,6 @@ body { overflow-x: hidden; }
     </div>
   </div>
 </div>
-<!-- ALERT DROPDOWN -->
-
-    Live Alerts
-  </div>
-  <div id="alert-list"><div style="padding:14px;text-align:center;color:#64748B;font-size:12px">Loading...</div></div>
 <div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
 <div class="body">
 <!-- SIDEBAR -->
@@ -1507,6 +1505,7 @@ body { overflow-x: hidden; }
   </div>
 
 <!-- TOAST -->
+</div>
 <div id="toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--raised);border:1px solid var(--g-b);border-radius:10px;padding:10px 18px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;color:var(--t1);box-shadow:0 8px 24px rgba(0,0,0,.4);transition:transform .3s;z-index:9999;white-space:nowrap">
   <div style="width:26px;height:26px;border-radius:7px;background:var(--g-s);border:1px solid var(--g-b);display:flex;align-items:center;justify-content:center"><svg style="width:13px;height:13px;fill:var(--green)" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
   <span id="toast-msg">Done</span>
