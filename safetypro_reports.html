@@ -1583,6 +1583,7 @@ function switchTab(el, tabId) {
   var main=document.querySelector('.main');if(main){Array.from(main.children).forEach(function(p){if(p.classList.contains('tab-panel')){p.style.display='none';p.classList.remove('active');}});}
   if(['objectives','roi','maturity','calendar'].indexOf(tabId)>-1){var tr=document.getElementById('tab-trophy');if(tr)tr.style.display='block';}
   if(['objectives','roi','maturity','calendar'].indexOf(tabId)>-1){var _tr=document.getElementById('tab-trophy');if(_tr)_tr.style.display='block';}
+  if(['objectives','roi','maturity','calendar'].indexOf(tabId)>-1){var _tr=document.getElementById('tab-trophy');if(_tr)_tr.style.display='block';}
   var target = document.getElementById('tab-' + tabId);
   if (target) { target.style.display = 'block'; target.classList.add('active'); }
   if (tabId === 'objectives') initObjCharts();
