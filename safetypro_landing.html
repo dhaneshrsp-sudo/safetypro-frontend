@@ -109,8 +109,8 @@ h1 span{color:var(--green);}
 .why-icon svg{width:20px;height:20px;fill:var(--green);}
 .why-title{font-family:var(--fh);font-size:16px;font-weight:700;color:var(--t1);margin-bottom:8px;}
 .why-desc{font-size:13px;color:var(--t2);line-height:1.6;}
-.stats-bar{display:flex;gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-.stat-block{flex:1;padding:36px 20px;text-align:center;border-right:1px solid var(--border);background:var(--card);}
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:24px 60px;background:var(--bg);}
+.stat-block{padding:36px 24px;text-align:center;background:var(--card);border:1px solid var(--border);border-radius:14px;}
 
 .stat-num{font-family:'Montserrat',sans-serif;font-weight:800;font-size:56px;letter-spacing:2px;line-height:1;}
 .stat-label{font-size:13px;color:var(--t2);margin-top:8px;}
@@ -349,6 +349,8 @@ h1{font-size:28px;}
       <div class="why-card"><div class="why-icon"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><div class="why-title">Audit Ready in Hours</div><div class="why-desc">Every action, incident, and escalation creates an immutable audit trail. ISO 45001 &amp; industry-specific audit preparation reduced from weeks to hours.</div></div>
         <div class="comp-card"><div class="comp-region">Industry Standards</div><div class="comp-item"><div class="comp-dot"></div>ISO 9001:2015 &mdash; Quality Systems</div><div class="comp-item"><div class="comp-dot"></div>API RP 75 &mdash; Oil &amp; Gas HSE</div><div class="comp-item"><div class="comp-dot"></div>NFPA 70E &mdash; Electrical Safety</div><div class="comp-item"><div class="comp-dot"></div>GMP &mdash; Pharma Safety</div><div class="comp-item"><div class="comp-dot"></div>LOTO &mdash; Machine Safety</div></div>
   </div>
+</div>
+
 </div>
 
 <div class="stats-bar">
