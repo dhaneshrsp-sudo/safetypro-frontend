@@ -1589,6 +1589,14 @@ function switchTab(el, tabId) {
       }
     });
   }
+  // Show trophy container for nested tabs, hide its own card
+  var nested = ['objectives','roi','maturity','calendar'];
+  if(nested.indexOf(tabId) > -1) {
+    var trophy = document.getElementById('tab-trophy');
+    if(trophy){ trophy.style.display='block'; }
+    var tCard = document.querySelector('#tab-trophy > .card');
+    if(tCard) tCard.style.display='none';
+  }
   var target = document.getElementById('tab-' + tabId);
   if (target) { target.style.display = 'block'; target.classList.add('active'); }
   if (tabId === 'objectives') initObjCharts();
