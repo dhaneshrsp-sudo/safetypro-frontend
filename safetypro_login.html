@@ -4,11 +4,11 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>SafetyPro AI - Sign In</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{--navy:#0F1E35;--green:#22C55E;--green2:#16A34A;--gold:#C9A84C;--t1:#F0F6FF;--t2:#A8BDD4;--t3:#5A7A9A;--border:rgba(255,255,255,.08);--input:rgba(255,255,255,.06);}
-html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--t1);}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--navy);color:var(--t1);}
 .page{display:flex;height:100vh;width:100vw;}
 .left{flex:0 0 55%;background:linear-gradient(135deg,#0A1628 0%,#0F1E35 40%,#162640 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:48px 52px;}
 .left::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(34,197,94,.06) 0%,transparent 70%);top:-100px;left:-100px;pointer-events:none;}
@@ -17,18 +17,18 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--navy);co
 .brand{display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
 .brand-shield{width:44px;height:44px;background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(34,197,94,.3);}
 .brand-shield svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
-.brand-name{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--t1);}
+.brand-name{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:20px;font-weight:800;color:var(--t1);}
 .brand-name span{color:var(--green);}
 .badge{display:inline-flex;align-items:center;gap:8px;margin-top:40px;position:relative;z-index:1;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:100px;padding:6px 16px;font-size:11px;font-weight:600;letter-spacing:.8px;color:var(--green);text-transform:uppercase;}
 .badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
 .hero{margin-top:28px;position:relative;z-index:1;}
-.hero h1{font-family:'Syne',sans-serif;font-size:46px;font-weight:800;line-height:1.1;color:var(--t1);}
+.hero h1{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:36px;font-weight:800;line-height:1.15;color:var(--t1);}
 .hero h1 span{color:var(--green);}
 .hero p{margin-top:20px;font-size:15px;color:var(--t2);line-height:1.7;max-width:420px;}
 .stats{display:flex;gap:16px;margin-top:44px;position:relative;z-index:1;}
 .stat{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:18px 20px;}
-.stat-val{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--green);}
+.stat-val{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:26px;font-weight:800;color:var(--green);}
 .stat-val.gold{color:var(--gold);}
 .stat-val.white{color:var(--t1);}
 .stat-lbl{font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--t3);margin-top:4px;}
@@ -36,16 +36,16 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--navy);co
 .ind-label{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:12px;}
 .ind-list{display:flex;gap:8px;flex-wrap:wrap;}
 .ind-tag{font-size:11px;color:var(--t2);background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:6px;padding:4px 10px;}
-.right{flex:1;background:#111D2E;display:flex;align-items:center;justify-content:center;padding:48px 40px;position:relative;overflow-y:auto;}
+.right{flex:1;background:#111D2E;display:flex;align-items:flex-start;justify-content:center;padding:60px 40px 40px;position:relative;overflow-y:auto;}
 .right::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(34,197,94,.05) 0%,transparent 60%);pointer-events:none;}
-.form-card{width:100%;max-width:400px;position:relative;z-index:1;}
-.form-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--t1);margin-bottom:6px;}
+.form-card{width:100%;max-width:400px;position:relative;z-index:1;margin:auto;}
+.form-title{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:24px;font-weight:800;color:var(--t1);margin-bottom:6px;}
 .form-sub{font-size:14px;color:var(--t2);margin-bottom:36px;}
 .grp{margin-bottom:18px;}
 .grp label{display:block;font-size:11px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--t3);margin-bottom:8px;}
 .inp-wrap{position:relative;}
 .inp-wrap > svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--t3);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;}
-.inp-wrap input{width:100%;height:48px;background:var(--input);border:1px solid var(--border);border-radius:10px;padding:0 44px 0 42px;font-size:14px;color:var(--t1);outline:none;font-family:'DM Sans',sans-serif;transition:.2s;}
+.inp-wrap input{width:100%;height:48px;background:var(--input);border:1px solid var(--border);border-radius:10px;padding:0 44px 0 42px;font-size:14px;color:var(--t1);outline:none;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;transition:.2s;}
 .inp-wrap input::placeholder{color:var(--t3);}
 .inp-wrap input:focus{border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.04);box-shadow:0 0 0 3px rgba(34,197,94,.08);}
 .eye-btn{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;}
@@ -53,7 +53,7 @@ html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--navy);co
 .forgot-row{display:flex;justify-content:flex-end;margin-top:6px;}
 .forgot{font-size:12px;color:var(--t3);text-decoration:none;transition:.15s;}
 .forgot:hover{color:var(--green);}
-.btn-signin{width:100%;height:50px;margin-top:24px;background:var(--green);border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s;box-shadow:0 4px 20px rgba(34,197,94,.3);}
+.btn-signin{width:100%;height:50px;margin-top:24px;background:var(--green);border:none;border-radius:10px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;font-weight:600;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s;box-shadow:0 4px 20px rgba(34,197,94,.3);}
 .btn-signin:hover{background:var(--green2);}
 .btn-signin:disabled{opacity:.6;cursor:not-allowed;}
 .btn-signin svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
