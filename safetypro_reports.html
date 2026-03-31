@@ -1580,22 +1580,25 @@ function animateNum(el, target) {
 function switchTab(el, tabId) {
   document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
-  var main=document.querySelector('.main');if(main){Array.from(main.children).forEach(function(p){if(p.classList.contains('tab-panel')){p.style.display='none';p.classList.remove('active');}});}
-  if(['objectives','roi','maturity','calendar'].indexOf(tabId)>-1){var tr=document.getElementById('tab-trophy');if(tr)tr.style.display='block';}
-  if(['objectives','roi','maturity','calendar'].indexOf(tabId)>-1){var _tr=document.getElementById('tab-trophy');if(_tr)_tr.style.display='block';}
-  if(['objectives','roi','maturity','calendar'].indexOf(tabId)>-1){
-    var _tr=document.getElementById('tab-trophy');if(_tr)_tr.style.display='block';
-    var _tc=document.querySelector('#tab-trophy > .card');if(_tc)_tc.style.display='none';
+  var main=document.querySelector('.main');
+  if(main){Array.from(main.children).forEach(function(p){if(p.classList.contains('tab-panel')){p.style.display='none';p.classList.remove('active');}});}
+  var nestedTabs=['objectives','roi','maturity','calendar'];
+  if(nestedTabs.indexOf(tabId)>-1){
+    var tr=document.getElementById('tab-trophy');if(tr)tr.style.display='block';
+    var tc=document.querySelector('#tab-trophy > .card');if(tc)tc.style.display='none';
     ['tab-objectives','tab-roi','tab-maturity','tab-calendar'].forEach(function(id){var p=document.getElementById(id);if(p)p.style.display='none';});
   }
-  if(tabId==='trophy'){var _tc2=document.querySelector('#tab-trophy > .card');if(_tc2)_tc2.style.display='';}
-  var target = document.getElementById('tab-' + tabId);
-  if (target) { target.style.display = 'block'; target.classList.add('active'); }
-  if (tabId === 'objectives') initObjCharts();
-  if (tabId === 'stats') initStatsCharts();
-  if (tabId === 'benchmark') initBenchChart();
-  if (tabId === 'appraisal') { renderApr(); renderLb(); }
-  if (tabId === 'trophy') renderLb();
+  if(tabId==='trophy'){var tc2=document.querySelector('#tab-trophy > .card');if(tc2)tc2.style.display='';}
+  var target=document.getElementById('tab-'+tabId);
+  if(target){target.style.display='block';target.classList.add('active');}
+  var activeTab=document.querySelector('.sh-tab.active');
+  var shTabs=document.querySelector('.sh-tabs');
+  if(activeTab&&shTabs){shTabs.scrollTo({left:activeTab.offsetLeft-(shTabs.offsetWidth/2)+(activeTab.offsetWidth/2),behavior:'smooth'});}
+  if(tabId==='objectives')initObjCharts();
+  if(tabId==='stats')initStatsCharts();
+  if(tabId==='benchmark')initBenchChart();
+  if(tabId==='appraisal'){renderApr();renderLb();}
+  if(tabId==='trophy')renderLb();
 }
 
 /* FILTER OBJECTIVES */
