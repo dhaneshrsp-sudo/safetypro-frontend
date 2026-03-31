@@ -110,7 +110,7 @@ h1 span{color:var(--green);}
 .why-title{font-family:var(--fh);font-size:16px;font-weight:700;color:var(--t1);margin-bottom:8px;}
 .why-desc{font-size:13px;color:var(--t2);line-height:1.6;}
 .stats-bar{display:flex;gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-.stat-block{flex:1;padding:40px 20px;text-align:center;border-right:1px solid var(--border);}
+.stat-block{flex:1;padding:36px 20px;text-align:center;border-right:1px solid var(--border);background:var(--card);}
 .stat-block:last-child{border-right:none;}
 .stat-num{font-family:'Montserrat',sans-serif;font-weight:800;font-size:56px;letter-spacing:2px;line-height:1;}
 .stat-label{font-size:13px;color:var(--t2);margin-top:8px;}
@@ -261,7 +261,7 @@ h1{font-size:28px;}
 <body>
 
 <nav>
-  <a href="#" class="logo"><div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.35C17.25 23.15 21 18.25 21 13V7L12 2z"/></svg></div>SafetyPro <span>AI</span></a>
+  <a href="#" class="logo"><div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>SafetyPro <span>AI</span></a>
   <ul class="nav-links"><li><a href="#features">Features</a></li><li><a href="#markets">Markets</a></li><li><a href="#compliance">Compliance</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#contact">Contact</a></li></ul>
   <div class="nav-btns"><a href="safetypro_login.html" class="btn-ghost">Sign In</a><a href="#contact" class="btn-nav-cta" onclick="setTimeout(()=>document.getElementById('reg-name').focus(),400)">Free Trial</a></div>
   <div class="mobile-nav-right"><div class="mob-actions" id="mob-actions">
@@ -566,24 +566,7 @@ function toggleCurrency() {
 }
 
 // SCROLL REVEAL
-function revealOnScroll() {
-  document.querySelectorAll('.reveal').forEach(function(el) {
-    var rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight - 60) {
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-    }
-  });
-}
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.reveal').forEach(function(el) {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(14px)';
-    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-  });
-  revealOnScroll();
-});
-window.addEventListener('scroll', revealOnScroll);
+/* reveal disabled */
 window.addEventListener('load', revealOnScroll);
 
 // REGISTRATION FORM
