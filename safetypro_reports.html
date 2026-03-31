@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -1597,8 +1597,11 @@ function switchTab(el, tabId) {
     var tCard = document.querySelector('#tab-trophy > .card');
     if(tCard) tCard.style.display='none';
   }
+  var nested=['objectives','roi','maturity','calendar'];
+  if(nested.indexOf(tabId)>-1){var trophy=document.getElementById('tab-trophy');if(trophy){trophy.style.display='block';}var tc=document.querySelector('#tab-trophy > .card');if(tc)tc.style.display='none';}
   var target = document.getElementById('tab-' + tabId);
   if (target) { target.style.display = 'block'; target.classList.add('active'); }
+  if (tabId === 'trophy'){var tc2=document.querySelector('#tab-trophy > .card');if(tc2)tc2.style.display='';}
   if (tabId === 'objectives') initObjCharts();
   if (tabId === 'stats') initStatsCharts();
   if (tabId === 'benchmark') initBenchChart();
