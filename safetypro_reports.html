@@ -1586,6 +1586,7 @@ function switchTab(el, tabId) {
   if(['objectives','roi','maturity','calendar'].indexOf(tabId)>-1){
     var _tr=document.getElementById('tab-trophy');if(_tr)_tr.style.display='block';
     var _tc=document.querySelector('#tab-trophy > .card');if(_tc)_tc.style.display='none';
+    ['tab-objectives','tab-roi','tab-maturity','tab-calendar'].forEach(function(id){var p=document.getElementById(id);if(p)p.style.display='none';});
   }
   if(tabId==='trophy'){var _tc2=document.querySelector('#tab-trophy > .card');if(_tc2)_tc2.style.display='';}
   var target = document.getElementById('tab-' + tabId);
