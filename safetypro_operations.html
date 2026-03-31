@@ -167,7 +167,7 @@ flex-wrap:wrap;}
 .search-box input::placeholder{color:var(--t3)}
 
 .action-table{width:100%;border-collapse:collapse}
-.action-table th{padding:8px 14px;text-align:left;font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015)}
+.action-table th{padding:8px 10px;text-align:left;font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015);white-space:nowrap}
 .action-table td{padding:10px 14px;border-bottom:1px solid var(--div);vertical-align:middle}
 .action-table tr:last-child td{border-bottom:none}
 .action-table tr{transition:background .12s;cursor:pointer}
@@ -189,7 +189,7 @@ flex-wrap:wrap;}
 .sp-over{background:var(--r-s);color:var(--red);border:1px solid var(--r-b)}
 .sp-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
 
-.deadline{font-size:12px;color:var(--t2)}
+.deadline{font-size:12px;color:var(--t2);white-space:nowrap}
 .deadline.over{color:var(--red);font-weight:600}
 .deadline.soon{color:var(--amber);font-weight:600}
 
@@ -594,7 +594,7 @@ flex-wrap:wrap;}
   .sh-right select,.sh-right .sel{flex:1;min-width:100px;}
   /* action table scrollable */
   .action-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-  .action-table{min-width:600px;}
+  .action-table{min-width:720px;}
 
 }
 
@@ -743,7 +743,7 @@ flex-wrap:wrap;}
   .chart-wrap,[id$="Chart"]{height:160px !important;}
 
   /* â”€â”€ Action table â”€â”€ */
-  /* action-table font-size override removed */
+  
   .action-table th,.action-table td{padding:8px 10px !important;}
 }
 
@@ -1143,13 +1143,13 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
               <table class="action-table" id="action-table">
                 <thead>
                   <tr>
-                    <th style="width:40px"></th>
-                    <th>Action / Description</th>
-                    <th>Assigned To</th>
-                    <th>Deadline</th>
-                    <th>Status</th>
-                    <th>Progress</th>
-                    <th style="width:60px"></th>
+                    <th style="width:36px"></th>
+                    <th style="min-width:160px">Action / Description</th>
+                    <th style="min-width:120px">Assigned To</th>
+                    <th style="min-width:90px">Deadline</th>
+                    <th style="min-width:100px">Status</th>
+                    <th style="min-width:110px">Progress</th>
+                    <th style="width:44px"></th>
                   </tr>
                 </thead>
                 <tbody id="action-tbody">
