@@ -2061,7 +2061,7 @@ document.addEventListener('click',function(e){
     if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#22C55E';}
   }
   function fetchStatus(){
-    fetch(API+'/api/v1/system/status')
+    fetch(API+'/system/status')
       .then(function(r){return r.json();})
       .then(updateFooter)
       .catch(function(){updateFooter({status:'operational',version:'v1.3.2',lastSync:new Date().toISOString()});});
