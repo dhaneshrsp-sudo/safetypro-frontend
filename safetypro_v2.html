@@ -744,10 +744,14 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
     <a class="sb-item" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control<span class="sb-badge red" id="sb-badge-ctrl" style="display:none">0</span></a>
     <a class="sb-item" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2"/></svg>Reports</a>
     <div class="sb-sep"></div>
-    <div class="sb-section">Tools</div>
+    <div class="sb-more-btn" onclick="var i=document.getElementById('sb-more-items');var a=document.getElementById('sb-more-arr');var o=i.style.display==='block';i.style.display=o?'none':'block';a.style.transform=o?'':'rotate(180deg)';" style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;margin:2px 8px;border-radius:8px;cursor:pointer;color:var(--t2);font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;transition:.2s" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+      <span>More</span>
+      <svg id="sb-more-arr" viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div id="sb-more-items" style="display:none">
     <a class="sb-item" href="safetypro_reports.html" style="font-size:10px"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/></svg>Audit &amp; Compliance</a>
     <a class="sb-item" href="#" style="font-size:10px"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field</a>
-    <a class="sb-item" href="safetypro_admin.html" style="font-size:10px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4"/></svg>Admin</a>
+      <a class="sb-item" href="safetypro_admin.html" style="font-size:10px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4"/></svg>Admin</a>
   </div>
 
   <!-- CONTENT -->
@@ -1465,6 +1469,27 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
       </div>
 
     </div><!-- end .dash -->
+    </div><!-- /view-global -->
+    <div id="view-project" style="display:none">
+      <div class="dash">
+        <div class="grid-12">
+          <div class="col-12">
+            <div class="card" style="padding:40px;text-align:center">
+              <div style="font-size:52px;margin-bottom:16px">📊</div>
+              <div style="font-family:var(--fh);font-size:20px;font-weight:700;color:var(--t1);margin-bottom:8px">Project View</div>
+              <div style="font-size:14px;color:var(--t2);margin-bottom:24px">Select a project to view project-specific KPIs, incidents and escalations.</div>
+              <select onchange="onProjectChange(this.value)" style="background:var(--card);border:1px solid var(--border);color:var(--t1);padding:10px 20px;border-radius:8px;font-size:14px;cursor:pointer">
+                <option value="">-- Select Project --</option>
+                <option value="birpur">Birpur Dam</option>
+                <option value="mu">Mumbai Metro</option>
+                <option value="tirora">Tirora Plant</option>
+                <option value="delhi">Delhi NH-8</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /view-project -->
 
     <!-- ROW 8: QUICK ACTIONS BAR (col-12 full width, sticky bottom) -->
     <div class="qa-bar">
