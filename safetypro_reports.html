@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -61,7 +61,7 @@ svg{flex-shrink:0}
 
 /* CONTENT */
 .content{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;}
-.sub-header{padding:0 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50;height:52px;flex-shrink:0;flex-wrap:nowrap;gap:12px;}
+.sub-header{padding:0 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:50;height:52px;flex-shrink:0;flex-wrap:nowrap;gap:12px;}
 .sh-left{display:flex;align-items:center;gap:12px}
 .sh-title{font-family:var(--fh);font-size:16px;font-weight:700}
 .sh-tabs{display:flex;gap:2px;}
@@ -594,7 +594,7 @@ body { overflow-x: hidden; }
 /* ══ ANTI-BLEED FIXES ══ */
 .card{overflow:hidden;word-break:break-word;}
 .tab-panel{min-width:0;}
-.tab-panel.active{min-width:0;}
+.tab-panel.active{min-width:0;overflow:hidden;}
 .main *{max-width:100%;box-sizing:border-box;}
 .sh-tabs{max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;}
 .sh-tabs::-webkit-scrollbar{display:none;}
@@ -1580,7 +1580,15 @@ function animateNum(el, target) {
 function switchTab(el, tabId) {
   document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
-  var main=document.querySelector('.main');if(main){Array.from(main.children).forEach(function(p){if(p.classList.contains('tab-panel')){p.style.display='none';p.classList.remove('active');}});}
+  // Only hide TOP-LEVEL tab-panels (direct children of .main), not nested ones
+  var main = document.querySelector('.main');
+  if (main) {
+    Array.from(main.children).forEach(function(p) {
+      if (p.classList.contains('tab-panel')) {
+        p.style.display = 'none'; p.classList.remove('active');
+      }
+    });
+  }
   var target = document.getElementById('tab-' + tabId);
   if (target) { target.style.display = 'block'; target.classList.add('active'); }
   if (tabId === 'objectives') initObjCharts();
@@ -2284,4 +2292,6 @@ document.addEventListener('click',function(e){
 })();
 </script>
 </body>
-                                                                                                                                                               </html>
+</html>
+
+<!-- fix -->
