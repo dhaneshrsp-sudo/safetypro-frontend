@@ -752,6 +752,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
     <a class="sb-item" href="safetypro_reports.html" style="font-size:10px"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/></svg>Audit &amp; Compliance</a>
     <a class="sb-item" href="#" style="font-size:10px"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field</a>
       <a class="sb-item" href="safetypro_admin.html" style="font-size:10px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4"/></svg>Admin</a>
+    </div>
   </div>
 
   <!-- CONTENT -->
@@ -796,6 +797,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
     </div>
 
     <!-- DASHBOARD GRID -->
+    <div id="view-global">
     <div class="dash">
 
       <!-- ROW 1: GLOBAL HSE SCORE (col-12) -->
@@ -2421,8 +2423,8 @@ document.addEventListener('click',function(e){
     <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
   </div>
   <div class="sp-footer-center">
-    <a href="mailto:support@safetyproworld.com">Quick Help</a>
-    <a href="mailto:support@safetyproworld.com">Report Issue</a>
+    <a href="/cdn-cgi/l/email-protection#f98a8c8989968b8db98a989f9c8d80898b968e968b959dd79a9694">Quick Help</a>
+    <a href="/cdn-cgi/l/email-protection#8af9fffafae5f8fecaf9ebeceffef3faf8e5fde5f8e6eea4e9e5e7">Report Issue</a>
     <a href="https://safetypro-backend-production.up.railway.app/api">API Docs</a>
   </div>
   <div class="sp-footer-right">
@@ -2430,7 +2432,7 @@ document.addEventListener('click',function(e){
     <span id="sp-status-text" style="color:#22C55E">Operational</span>
   </div>
 </footer>
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function spFooterInit(){
   var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
   function updateFooter(d){
