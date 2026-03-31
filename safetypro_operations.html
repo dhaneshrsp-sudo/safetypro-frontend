@@ -2355,13 +2355,31 @@ function loadActions() {
   .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
   .then(function(data) {
     if (!data || !data.length) return;
-    var rows = data.map(function(a) {
-      var status = a.status || 'Open';
-      var color = status === 'Closed' ? 'var(--green)' : status === 'Overdue' ? 'var(--red)' : 'var(--amber)';
-      var due = a.dueDate ? new Date(a.dueDate).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) : '-';
-      return '<tr><td></td><td><div style="font-size:12px;font-weight:600;color:var(--t1)">' + (a.description||'-') + '</div><div style="font-size:10px;color:var(--t3)">' + (a.source||'Manual') + '</div></td><td style="font-size:12px;color:var(--t2)">' + (a.assignedTo||'-') + '</td><td style="font-size:12px;color:var(--t2)">' + due + '</td><td><span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;background:' + color + '20;color:' + color + '">' + status + '</span></td><td></td><td></td></tr>';
-    }).join('');
-    tbody.innerHTML = rows;
+    // Map API data to renderTable format so consistent styling is used
+    var mapped = data.map(function(a) {
+      var st = (a.status||'open').toLowerCase();
+      var stKey = st.indexOf('close') > -1 ? 'done' : st.indexOf('over') > -1 ? 'over' : st.indexOf('prog') > -1 ? 'prog' : 'open';
+      var src = (a.source||'Manual').substring(0,10);
+      var srcCls = src.toLowerCase().indexOf('incident') > -1 ? 'src-i' :
+                   src.toLowerCase().indexOf('ncr') > -1 ? 'src-n' :
+                   src.toLowerCase().indexOf('audit') > -1 ? 'src-au' : 'src-i';
+      var due = a.dueDate ? new Date(a.dueDate).toLocaleDateString('en-IN',{day:'numeric',month:'short'}) : '-';
+      var name = (a.assignedTo||'-');
+      var initials = name.split(' ').map(function(w){return w[0]||'';}).join('').substring(0,2).toUpperCase();
+      var colors = ['#22C55E','#3B82F6','#F59E0B','#EF4444','#8B5CF6'];
+      var color = colors[name.charCodeAt(0)%colors.length];
+      var prog = a.progress || 0;
+      return {
+        src: src, srcCls: srcCls,
+        title: a.description||'-', site: a.projectName||a.project||'',
+        initials: initials, person: name, color: color,
+        deadline: a.dueDate||'', status: stKey,
+        prog: prog
+      };
+    });
+    // Update global actions array so filters work
+    window.actions = mapped;
+    renderTable(mapped.slice(0, 8));
   })
   .catch(function(){});
 }
