@@ -404,7 +404,7 @@ flex-wrap:wrap;}
 .ob-count{font-family:var(--fh);font-size:16px;font-weight:800;margin:0 4px}
 
 /* PROGRESS BAR IN TABLE */
-.prog-wrap{height:3px;background:var(--border);border-radius:2px;width:60px;overflow:hidden}
+.prog-wrap{height:4px;background:var(--border);border-radius:2px;min-width:40px;overflow:hidden}
 .prog-bar{height:100%;border-radius:2px;background:var(--green)}
 
 /* TOOLBOX TALK CARD */
@@ -1628,7 +1628,7 @@ function dlClass(dl,status){
   return 'ok';
 }
 function dlLabel(dl,status){
-  if(status==='over') return ' Overdue';
+  if(status==='over') return 'Overdue';
   var date=new Date(dl);
   return date.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
 }
@@ -1650,8 +1650,7 @@ function renderTable(data){
       '<span style="font-size:11px;color:var(--t2)">'+a.person+'</span></div></td>'+
       '<td><span class="deadline '+dlClass(a.deadline,a.status)+'">'+dlLabel(a.deadline,a.status)+'</span></td>'+
       '<td>'+statusPill(a.status)+'</td>'+
-      '<td><div class="prog-wrap"><div class="prog-bar" style="width:'+a.prog+'%"></div></div>'+
-      '<div style="font-size:9px;color:var(--t3);margin-top:2px">'+a.prog+'%</div></td>'+
+      '<td><div style="display:flex;align-items:center;gap:6px"><div class="prog-wrap" style="flex:1"><div class="prog-bar" style="width:'+a.prog+'%;background:'+(a.status==='over'?'var(--red)':a.status==='done'?'var(--green)':'var(--amber)')+'"></div></div><span style="font-size:11px;font-weight:600;color:var(--t3);min-width:28px;text-align:right">'+a.prog+'%</span></div></td>'+
       '<td style="text-align:right"><div class="action-btn" title="Update status">'+
       '<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'+
       '</div></td>'+
