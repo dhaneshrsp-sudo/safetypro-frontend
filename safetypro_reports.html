@@ -61,8 +61,8 @@ svg{flex-shrink:0}
 
 /* CONTENT */
 .content{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;}
-.sub-header{padding:0 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:50;height:52px;flex-shrink:0;flex-wrap:nowrap;gap:12px;}
-.sh-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0;overflow:hidden;}
+.sub-header{padding:0 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50;height:52px;flex-shrink:0;flex-wrap:nowrap;gap:12px;}
+.sh-left{display:flex;align-items:center;gap:12px}
 .sh-title{font-family:var(--fh);font-size:16px;font-weight:700}
 .sh-tabs{display:flex;gap:2px;}
 .sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap;flex-shrink:0;}
@@ -594,7 +594,7 @@ body { overflow-x: hidden; }
 /* ══ ANTI-BLEED FIXES ══ */
 .card{overflow:hidden;word-break:break-word;}
 .tab-panel{min-width:0;}
-.tab-panel.active{min-width:0;overflow:hidden;}
+.tab-panel.active{min-width:0;}
 .main *{max-width:100%;box-sizing:border-box;}
 .sh-tabs{max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;}
 .sh-tabs::-webkit-scrollbar{display:none;}
@@ -1580,29 +1580,9 @@ function animateNum(el, target) {
 function switchTab(el, tabId) {
   document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
-  // Only hide TOP-LEVEL tab-panels (direct children of .main), not nested ones
-  var main = document.querySelector('.main');
-  if (main) {
-    Array.from(main.children).forEach(function(p) {
-      if (p.classList.contains('tab-panel')) {
-        p.style.display = 'none'; p.classList.remove('active');
-      }
-    });
-  }
-  // Show trophy container for nested tabs, hide its own card
-  var nested = ['objectives','roi','maturity','calendar'];
-  if(nested.indexOf(tabId) > -1) {
-    var trophy = document.getElementById('tab-trophy');
-    if(trophy){ trophy.style.display='block'; }
-    var tCard = document.querySelector('#tab-trophy > .card');
-    if(tCard) tCard.style.display='none';
-  }
-  var nested=['objectives','roi','maturity','calendar'];
-  if(nested.indexOf(tabId)>-1){var trophy=document.getElementById('tab-trophy');if(trophy){trophy.style.display='block';}var tc=document.querySelector('#tab-trophy > .card');if(tc)tc.style.display='none';}
-  var _nest=['objectives','roi','maturity','calendar'];if(_nest.indexOf(tabId)>-1){var _tr=document.getElementById('tab-trophy');if(_tr){_tr.style.display='block';}var _tc=document.querySelector('#tab-trophy > .card');if(_tc)_tc.style.display='none';}if(tabId==='trophy'){var _tc2=document.querySelector('#tab-trophy > .card');if(_tc2)_tc2.style.display='';}
+  var main=document.querySelector('.main');if(main){Array.from(main.children).forEach(function(p){if(p.classList.contains('tab-panel')){p.style.display='none';p.classList.remove('active');}});}
   var target = document.getElementById('tab-' + tabId);
   if (target) { target.style.display = 'block'; target.classList.add('active'); }
-  if (tabId === 'trophy'){var tc2=document.querySelector('#tab-trophy > .card');if(tc2)tc2.style.display='';}
   if (tabId === 'objectives') initObjCharts();
   if (tabId === 'stats') initStatsCharts();
   if (tabId === 'benchmark') initBenchChart();
@@ -2303,19 +2283,5 @@ document.addEventListener('click',function(e){
   setInterval(fetchStatus,30000);
 })();
 </script>
-<script>
-(function(){
-  var main=document.querySelector(".main");
-  if(!main)return;
-  ["tab-objectives","tab-roi","tab-maturity","tab-calendar"].forEach(function(id){
-    var p=document.getElementById(id);
-    if(p&&p.parentElement.id==="tab-trophy"){
-      main.appendChild(p);
-      p.style.display="none";
-    }
-  });
-})();
-</script></body>
-</html>
-
-<!-- fix -->
+</body>
+                                                                                                                                                               </html>
