@@ -2953,7 +2953,7 @@ function pvRenderActions(data) {
       var avColor = avColors[(assigned.charCodeAt(0)||65)%5];
 
       rows.push('<tr style="border-bottom:1px solid var(--divider);">' +
-        '<td style="padding:8px 10px;"><span style="font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;background:rgba(255,255,255,.05);color:' + srcColor + ';">' + src + '</span></td>' +
+        '<td style="padding:8px 10px;white-space:nowrap;width:80px;"><span style="font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;background:rgba(255,255,255,.05);color:' + srcColor + ';white-space:nowrap;">' + src + '</span></td>' +
         '<td style="padding:8px 10px;max-width:200px;overflow:hidden;"><div style="font-size:12px;font-weight:500;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + title + '</div></td>' +
         '<td style="padding:8px 10px;"><div style="display:flex;align-items:center;gap:6px;"><div style="width:22px;height:22px;border-radius:50%;background:' + avColor + ';display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0;">' + initials + '</div><span style="font-size:11px;color:var(--t2);">' + assigned + '</span></div></td>' +
         '<td style="padding:8px 10px;white-space:nowrap;"><span style="font-size:11px;color:' + dueColor + ';font-weight:' + (stKey==='over'?'700':'400') + ';">' + dueStr + '</span></td>' +
@@ -3257,3 +3257,4 @@ function pvDemoActions(proj) {
 <!-- schemafix-20260401105050 -->
 <!-- cleanfix-20260401110832 -->
 <!-- autofix-20260401203651 -->
+<!-- srcfix-20260401204502 -->
