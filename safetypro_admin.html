@@ -679,6 +679,7 @@ svg{flex-shrink:0}
         <div class="sh-tab" onclick="switchTab(this,'templates')">📋 Templates</div>
         <div class="sh-tab" onclick="switchTab(this,'workflow')">🔄 Workflow</div>
         <div class="sh-tab" onclick="switchTab(this,'roles')">👥 Roles</div>
+        <div class="sh-tab" onclick="switchTab(this,'projects')">🏗️ Projects</div>
         <div class="sh-tab" onclick="switchTab(this,'notifications')">🔔 Notifications</div>
         <div class="sh-tab" onclick="switchTab(this,'billing')">💳 Billing</div>
         <div class="sh-tab" onclick="switchTab(this,'activities')">🏗️ Activities</div>
@@ -1635,7 +1636,7 @@ function apiFetch(path, opts) {
 
 
 /* TABS */
-function switchTab(el,id){
+function switchTab(el,id){if(id==='projects')setTimeout(loadProjectsList,100);
   document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
   document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
@@ -2773,7 +2774,131 @@ window.addEventListener('beforeunload', function() {
         </div>
       </div>
 
+    <!-- ══ PROJECTS TAB ══ -->
+    <div class="tab-panel" id="tab-projects">
+
+      <div class="card" style="margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--t1);">Create New Project</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:2px;">Add a project to your SafetyPro workspace</div>
+          </div>
+          <button onclick="toggleCreateProject()" id="btn-toggle-create" style="background:var(--green);color:#050E07;border:none;border-radius:8px;padding:8px 16px;font-family:var(--fh);font-size:12px;font-weight:700;cursor:pointer;">+ New Project</button>
+        </div>
+        <div id="create-project-form" style="display:none;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">PROJECT NAME *</label><input id="proj-name" type="text" placeholder="e.g. Birpur Bihpur Road" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">SECTOR *</label><select id="proj-sector" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"><option value="HIGHWAY">Highway</option><option value="METRO">Metro Rail</option><option value="POWER">Power</option><option value="IRRIGATION">Irrigation / Dam</option><option value="OIL_GAS">Oil & Gas</option><option value="BUILDING">Building</option><option value="BRIDGE">Bridge</option><option value="WATER">Water Treatment</option><option value="OTHER">Other</option></select></div>
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">LOCATION *</label><input id="proj-location" type="text" placeholder="e.g. Birpur, Supaul" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">STATE</label><input id="proj-state" type="text" placeholder="e.g. Bihar" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">START DATE</label><input id="proj-start" type="date" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">END DATE</label><input id="proj-end" type="date" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">PROJECT HEAD NAME</label><input id="proj-head-name" type="text" placeholder="e.g. Rajesh Kumar" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">PROJECT HEAD EMAIL</label><input id="proj-head-email" type="email" placeholder="e.g. rajesh@ieccl.co.in" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;">
+            <button onclick="createProject()" style="background:var(--green);color:#050E07;border:none;border-radius:8px;padding:9px 24px;font-family:var(--fh);font-size:12px;font-weight:700;cursor:pointer;">✓ Create Project</button>
+            <button onclick="toggleCreateProject()" style="background:var(--elevated);color:var(--t2);border:1px solid var(--border);border-radius:8px;padding:9px 16px;font-family:var(--fh);font-size:12px;cursor:pointer;">Cancel</button>
+            <div id="proj-create-msg" style="font-size:12px;display:none;margin-left:8px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--t1);">All Projects</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:2px;">All projects in your workspace</div>
+          </div>
+          <button onclick="loadProjectsList()" style="background:var(--elevated);color:var(--t2);border:1px solid var(--border);border-radius:8px;padding:7px 14px;font-family:var(--fh);font-size:11px;cursor:pointer;">⟳ Refresh</button>
+        </div>
+        <div id="projects-list"><div style="text-align:center;padding:40px;color:var(--t3);font-size:12px;">Click Projects tab to load.</div></div>
+      </div>
+
+    </div>
+
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function toggleCreateProject() {
+  var form = document.getElementById('create-project-form');
+  var btn = document.getElementById('btn-toggle-create');
+  var showing = form.style.display !== 'none';
+  form.style.display = showing ? 'none' : 'block';
+  btn.textContent = showing ? '+ New Project' : '✕ Close';
+}
+
+function createProject() {
+  var name = (document.getElementById('proj-name').value||'').trim();
+  var sector = document.getElementById('proj-sector').value;
+  var location = (document.getElementById('proj-location').value||'').trim();
+  var state = (document.getElementById('proj-state').value||'').trim();
+  var startDate = document.getElementById('proj-start').value;
+  var endDate = document.getElementById('proj-end').value;
+  var headName = (document.getElementById('proj-head-name').value||'').trim();
+  var headEmail = (document.getElementById('proj-head-email').value||'').trim();
+  var msg = document.getElementById('proj-create-msg');
+  if (!name || !sector || !location) {
+    msg.style.display='block'; msg.style.color='var(--red)';
+    msg.textContent='✕ Name, sector and location are required.'; return;
+  }
+  var token = localStorage.getItem('sp_token');
+  msg.style.display='block'; msg.style.color='var(--t3)'; msg.textContent='Creating...';
+  var body = { name:name, sector:sector, location:location };
+  if(state) body.state=state;
+  if(startDate) body.startDate=startDate;
+  if(endDate) body.endDate=endDate;
+  if(headName) body.projectHeadName=headName;
+  if(headEmail) body.projectHeadEmail=headEmail;
+  fetch(API_BASE+'/projects', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+    body:JSON.stringify(body)
+  }).then(function(r){return r.json();}).then(function(d){
+    if(d.id){
+      msg.style.color='var(--green)'; msg.textContent='✓ Project "'+d.name+'" created!';
+      ['proj-name','proj-location','proj-state','proj-start','proj-end','proj-head-name','proj-head-email'].forEach(function(id){document.getElementById(id).value='';});
+      setTimeout(loadProjectsList, 600);
+    } else {
+      msg.style.color='var(--red)'; msg.textContent='✕ '+(d.message||'Error creating project');
+    }
+  }).catch(function(e){ msg.style.color='var(--red)'; msg.textContent='✕ Error: '+e.message; });
+}
+
+function loadProjectsList() {
+  var container = document.getElementById('projects-list');
+  if(!container) return;
+  var token = localStorage.getItem('sp_token');
+  container.innerHTML='<div style="text-align:center;padding:20px;color:var(--t3);font-size:12px;">Loading...</div>';
+  fetch(API_BASE+'/projects',{headers:{'Authorization':'Bearer '+token}})
+  .then(function(r){return r.json();})
+  .then(function(projects){
+    if(!projects||!projects.length){
+      container.innerHTML='<div style="text-align:center;padding:40px;color:var(--t3);font-size:12px;">No projects yet. Create your first project above.</div>';
+      return;
+    }
+    var icons={HIGHWAY:'🛣️',METRO:'🚇',POWER:'⚡',IRRIGATION:'🏗️',OIL_GAS:'🔥',BUILDING:'🏢',BRIDGE:'🌉',WATER:'💧',OTHER:'📋'};
+    container.innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;">'+
+    projects.map(function(p){
+      var icon=icons[p.sector]||'📋';
+      var date=p.startDate?new Date(p.startDate).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):'—';
+      return '<div style="background:var(--elevated);border:1px solid var(--border);border-radius:10px;padding:14px;">'+
+        '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">'+
+          '<div style="font-size:22px;">'+icon+'</div>'+
+          '<div><div style="font-size:13px;font-weight:700;color:var(--t1);">'+p.name+'</div>'+
+          '<div style="font-size:10px;color:var(--t3);">'+p.id.substring(0,16)+'...</div></div>'+
+        '</div>'+
+        '<div style="font-size:11px;color:var(--t2);margin-bottom:4px;">📍 '+(p.location||'—')+(p.state?', '+p.state:'')+'</div>'+
+        '<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">'+
+          '<span style="font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.05);color:var(--t3);">'+(p.sector||'—')+'</span>'+
+          '<span style="font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(34,197,94,.08);color:var(--green);">Started: '+date+'</span>'+
+          (p.projectHeadName?'<span style="font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.05);color:var(--t3);">👤 '+p.projectHeadName+'</span>':'')+
+        '</div>'+
+      '</div>';
+    }).join('')+'</div>';
+  }).catch(function(){
+    container.innerHTML='<div style="text-align:center;padding:20px;color:var(--red);font-size:12px;">Failed to load projects.</div>';
+  });
+}
+
 function arApprove() {
   if (confirm('Approve 2-hour access for SafetyPro Support? Every action will be logged.')) {
     showToast('Access approved. Session expires in 2 hours.', 'green');
@@ -2910,6 +3035,49 @@ document.addEventListener('click',function(e){
     <span id="sp-status-text" style="color:#22C55E">Operational</span>
   </div>
 </footer>
+    <!-- ══ PROJECTS TAB ══ -->
+    <div class="tab-panel" id="tab-projects">
+
+      <div class="card" style="margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--t1);">Create New Project</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:2px;">Add a project to your SafetyPro workspace</div>
+          </div>
+          <button onclick="toggleCreateProject()" id="btn-toggle-create" style="background:var(--green);color:#050E07;border:none;border-radius:8px;padding:8px 16px;font-family:var(--fh);font-size:12px;font-weight:700;cursor:pointer;">+ New Project</button>
+        </div>
+        <div id="create-project-form" style="display:none;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">PROJECT NAME *</label><input id="proj-name" type="text" placeholder="e.g. Birpur Bihpur Road" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">SECTOR *</label><select id="proj-sector" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"><option value="HIGHWAY">Highway</option><option value="METRO">Metro Rail</option><option value="POWER">Power</option><option value="IRRIGATION">Irrigation / Dam</option><option value="OIL_GAS">Oil & Gas</option><option value="BUILDING">Building</option><option value="BRIDGE">Bridge</option><option value="WATER">Water Treatment</option><option value="OTHER">Other</option></select></div>
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">LOCATION *</label><input id="proj-location" type="text" placeholder="e.g. Birpur, Supaul" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">STATE</label><input id="proj-state" type="text" placeholder="e.g. Bihar" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">START DATE</label><input id="proj-start" type="date" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">END DATE</label><input id="proj-end" type="date" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">PROJECT HEAD NAME</label><input id="proj-head-name" type="text" placeholder="e.g. Rajesh Kumar" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
+            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">PROJECT HEAD EMAIL</label><input id="proj-head-email" type="email" placeholder="e.g. rajesh@ieccl.co.in" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;">
+            <button onclick="createProject()" style="background:var(--green);color:#050E07;border:none;border-radius:8px;padding:9px 24px;font-family:var(--fh);font-size:12px;font-weight:700;cursor:pointer;">✓ Create Project</button>
+            <button onclick="toggleCreateProject()" style="background:var(--elevated);color:var(--t2);border:1px solid var(--border);border-radius:8px;padding:9px 16px;font-family:var(--fh);font-size:12px;cursor:pointer;">Cancel</button>
+            <div id="proj-create-msg" style="font-size:12px;display:none;margin-left:8px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--t1);">All Projects</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:2px;">All projects in your workspace</div>
+          </div>
+          <button onclick="loadProjectsList()" style="background:var(--elevated);color:var(--t2);border:1px solid var(--border);border-radius:8px;padding:7px 14px;font-family:var(--fh);font-size:11px;cursor:pointer;">⟳ Refresh</button>
+        </div>
+        <div id="projects-list"><div style="text-align:center;padding:40px;color:var(--t3);font-size:12px;">Click Projects tab to load.</div></div>
+      </div>
+
+    </div>
+
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function spFooterInit(){
   var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
@@ -2939,3 +3107,4 @@ document.addEventListener('click',function(e){
 </body>
 </html>
 
+<!-- projects-tab-20260401211550 -->
