@@ -74,7 +74,7 @@ svg{flex-shrink:0}
 .tab-panel{display:none}.tab-panel.active{display:block;padding-bottom:24px}
 
 /* CARD */
-.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:visible;margin-bottom:14px}
 .card-head{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--div)}
 .card-title{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1)}
 .card-sub{font-size:10px;color:var(--t3);margin-top:1px}
@@ -2939,8 +2939,9 @@ function loadIntegrationsVisibility() {
     if (connEl)  connEl.style.display   = isHSEHead ? '' : 'none';
     var tabBt
 
-    var tabBtn = document.getElementById('tab-integrations');
-    if(tabBtn) tabBtn.style.display = isAdmin ? '' : 'none';
+    // Tab always visible - role controls section visibility, not the whole tab
+    // var tabBtn = document.getElementById('tab-integrations');
+    // if(tabBtn) tabBtn.style.display = isAdmin ? '' : 'none';
   } catch(e) {}
 }
 loadIntegrationsVisibility();
@@ -3109,3 +3110,4 @@ document.addEventListener('click',function(e){
 
 <!-- projects-tab-20260401211550 -->
 <!-- adminfix-20260401224001 -->
+<!-- adminfix2-20260401224409 -->
