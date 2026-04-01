@@ -2997,7 +2997,8 @@ var PV_ICONS = {dam:'🏗️',metro:'🚇',plant:'⚡',highway:'🛣️',road:'�
 function pvGetIcon(name){var n=(name||'').toLowerCase();for(var k in PV_ICONS){if(n.indexOf(k)>-1)return PV_ICONS[k];}return PV_ICONS.default;}
 
 function pvLoadProjectBar(){
-  var bar=document.getElementById('pv-proj-bar');if(!bar)return;
+  var sel=document.getElementById('pv-proj-select');
+  if(!sel){pvRenderProjectBar(pvFallbackProjects());return;}
   var token=localStorage.getItem('sp_token');
   if(!token){pvRenderProjectBar(pvFallbackProjects());return;}
   fetch(API_BASE+'/projects',{headers:{'Authorization':'Bearer '+token}})
@@ -3258,3 +3259,4 @@ function pvDemoActions(proj) {
 <!-- cleanfix-20260401110832 -->
 <!-- autofix-20260401203651 -->
 <!-- srcfix-20260401204502 -->
+<!-- barfix-20260401205122 -->
