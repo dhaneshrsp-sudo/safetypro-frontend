@@ -2925,9 +2925,21 @@ function pvRenderActions(data) {
   if (sub) sub.textContent = data.length + ' project actions';
 
   try {
-    tbody.innerHTML = data.slice(0, 10).map(function(a) {
-      // Handle all backend field name variations
-      var statusRaw = a.status || a.Status || 'OPEN';
+    // Normalize data - ensure each item has the fields we need
+    var normalized = data.slice(0, 10).map(function(a) {
+      if (!a || typeof a !== 'object') return null;
+      return {
+        status: a.status || a.Status || a.actionStatus || 'OPEN',
+        description: a.description || a.title || a.name || a.actionTitle || a.subject || 'Action',
+        source: String(a.source || a.type || a.category || a.actionType || 'Action').substring(0, 12),
+        assignedTo: a.assignedTo || (a.assignedUser && (a.assignedUser.name || a.assignedUser.email)) || a.responsible || a.owner || '—',
+        dueDate: a.dueDate || a.deadline || a.targetDate || a.closureDate || a.endDate || '',
+        progress: typeof a.progress === 'number' ? a.progress : (typeof a.completionPercentage === 'number' ? a.completionPercentage : -1)
+      };
+    }).filter(function(a) { return a !== null; });
+    if (!normalized.length) { pvRenderActions(pvDemoActions(projectId)); return; }
+    tbody.innerHTML = normalized.map(function(a) {
+      var statusRaw = a.status;
       var st = statusRaw.toLowerCase();
       var stKey = st.indexOf('close') > -1 || st.indexOf('done') > -1 || st.indexOf('complet') > -1 ? 'done' :
                   st.indexOf('over') > -1 ? 'over' :
@@ -2946,7 +2958,7 @@ function pvRenderActions(data) {
       var initials = (name+'').split(' ').map(function(w){return w[0]||'';}).join('').substring(0,2).toUpperCase() || '??';
       var avColors = ['#22C55E','#3B82F6','#F59E0B','#8B5CF6','#EF4444'];
       var avColor = avColors[(name.charCodeAt(0)||65)%avColors.length];
-      var prog = typeof a.progress === 'number' ? a.progress :
+      var prog = a.progress >= 0 ? a.progress :
                  (stKey==='done'?100:stKey==='over'?20:stKey==='prog'?50:0);
       var progColor = stKey==='over'?'var(--red)':stKey==='done'?'var(--green)':'var(--amber)';
 
@@ -3140,6 +3152,8 @@ function loadProjectView(projectId) {
   })
   .then(function(r) { return r.ok ? r.json() : null; })
   .then(function(data) {
+    // Store raw response for debugging
+    window._pvLastActionsRaw = data;
     // Handle ALL backend response shapes
     var items = null;
     if (Array.isArray(data)) { items = data; }
@@ -3148,16 +3162,21 @@ function loadProjectView(projectId) {
     else if (data && Array.isArray(data.actions)) { items = data.actions; }
     else if (data && Array.isArray(data.results)) { items = data.results; }
     else if (data && data.total !== undefined) {
-      // Paginated response - try all array fields
       for (var k in data) { if (Array.isArray(data[k]) && data[k].length > 0) { items = data[k]; break; } }
     }
     if (items && items.length) {
+      // Store first item keys for debugging
+      window._pvActionsFirstKeys = Object.keys(items[0] || {}).join(', ');
       pvRenderActions(items);
     } else {
+      // API returned nothing - use demo data
       pvRenderActions(pvDemoActions(projectId));
     }
   })
-  .catch(function(e) { pvRenderActions(pvDemoActions(projectId)); });
+  .catch(function(e) {
+    window._pvActionsError = e.message;
+    pvRenderActions(pvDemoActions(projectId));
+  });
 }
 
 /* Fallback demo data per project */
@@ -3237,3 +3256,4 @@ function pvDemoActions(proj) {
 <!-- dropdown-fix-20260401093347 -->
 <!-- actionfix-20260401094954 -->
 <!-- shapefix-20260401100327 -->
+<!-- robust-20260401100922 -->
