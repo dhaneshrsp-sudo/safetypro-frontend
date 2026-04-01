@@ -2751,7 +2751,26 @@ function pvAnimate(el, val, suffix) {
 }
 
 function pvRenderHero(proj, kpis) {
-  var p = PV_PROJECTS[proj];
+  // Use live API data first, fall back to hardcoded PV_PROJECTS
+  var liveP = _pvProjectsMap[proj];
+  var p = PV_PROJECTS[proj] || (liveP ? {
+    name: liveP.name,
+    icon: pvGetIcon(liveP.name + ' ' + (liveP.sector||'')),
+    location: liveP.location || liveP.state || '',
+    contractor: 'IECCL',
+    phase: liveP.sector || 'Active',
+    phaseColor: 'var(--blue)',
+    completion: 65,
+    safeDays: 0,
+    daysLeft: 0,
+    manpower: 0,
+    safeManHrs: '—',
+    scoreColor: 'var(--green)',
+    compliance: [
+      {label:'ISO 45001',pct:80},{label:'BOCW 1996',pct:85},
+      {label:'DGFASLI',pct:78},{label:'Factories Act',pct:82},{label:'IMS',pct:75}
+    ]
+  } : null);
   if (!p) return;
 
   // Icon + glow
@@ -2814,7 +2833,8 @@ function pvRenderHero(proj, kpis) {
 }
 
 function pvRenderKPIs(proj, kpis) {
-  var p = PV_PROJECTS[proj];
+  var liveP = _pvProjectsMap[proj];
+  var p = PV_PROJECTS[proj] || (liveP ? {manpower:0, safeManHrs:'—'} : null);
   if (!p) return;
 
   pvAnimate(document.getElementById('pv-k1'), kpis ? (kpis.pending || 0) : 0);
@@ -2915,7 +2935,14 @@ function pvRenderActions(data) {
 }
 
 function pvRenderCompliance(proj) {
-  var p = PV_PROJECTS[proj];
+  var liveP = _pvProjectsMap[proj];
+  var p = PV_PROJECTS[proj] || (liveP ? {
+    name: liveP.name,
+    compliance: [
+      {label:'ISO 45001',pct:80},{label:'BOCW 1996',pct:85},
+      {label:'DGFASLI',pct:78},{label:'Factories Act',pct:82},{label:'IMS',pct:75}
+    ]
+  } : null);
   if (!p) return;
   var grid = document.getElementById('pv-compliance-grid');
   var title = document.getElementById('pv-compliance-title');
@@ -2956,8 +2983,14 @@ function pvFallbackProjects(){
     {id:'delhi',name:'Delhi NH-8',location:'Delhi-Gurugram, NCR',sector:'Highway'}];
 }
 
+// Live project map: id → project data (works with both real cuid & fallback keys)
+var _pvProjectsMap = {};
+
 function pvRenderProjectBar(projects){
   var bar=document.getElementById('pv-proj-bar');if(!bar)return;
+  // Build live map so pvRenderHero can look up by real ID
+  _pvProjectsMap = {};
+  projects.forEach(function(p){ _pvProjectsMap[p.id] = p; });
   bar.innerHTML=projects.map(function(p){
     var icon=pvGetIcon(p.name+' '+(p.sector||''));
     return '<div class="pv-proj-btn" onclick="pvSelectProject(this,\''+p.id+'\')" data-proj="'+p.id+'" title="'+(p.location||'')+'" '+
@@ -3123,3 +3156,4 @@ function pvDemoActions(proj) {
 <!-- pv-fix2-20260401063836 -->
 <!-- projects-api-live-20260401090400 -->
 <!-- dynproj-20260401091521 -->
+<!-- idfix-20260401091930 -->
