@@ -71,10 +71,10 @@ svg{flex-shrink:0}
 
 /* MAIN */
 .main{padding:16px 20px;display:flex;flex-direction:column;gap:14px;padding-bottom:60px}
-.tab-panel{display:none}.tab-panel.active{display:flex;flex-direction:column;gap:14px}
+.tab-panel{display:none}.tab-panel.active{display:block;padding-bottom:24px}
 
 /* CARD */
-.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px}
 .card-head{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--div)}
 .card-title{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1)}
 .card-sub{font-size:10px;color:var(--t3);margin-top:1px}
@@ -161,7 +161,7 @@ svg{flex-shrink:0}
 .wf-badge{font-size:9px;padding:1px 6px;border-radius:3px;font-weight:600}
 
 /* NOTIFICATIONS */
-.notif-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.notif-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
 .notif-channel{background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:16px}
 .nc-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .nc-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center}
@@ -1230,8 +1230,8 @@ svg{flex-shrink:0}
 
           <!-- ══ INTEGRATIONS TAB ══ -->
           <div class="tab-panel" id="tab-integrations">
-
-            <div style="padding:0 0 14px;border-bottom:1px solid var(--border);margin-bottom:18px;">
+  <div class="card" style="padding:20px;">
+    <div style="padding:0 0 14px;border-bottom:1px solid var(--border);margin-bottom:18px;">
               <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);">Integration Ecosystem</div>
               <div style="font-size:11px;color:var(--t3);margin-top:3px;">Connect SafetyPro AI with your existing tools and enterprise systems</div>
             </div>
@@ -2777,7 +2777,7 @@ window.addEventListener('beforeunload', function() {
     <!-- ══ PROJECTS TAB ══ -->
     <div class="tab-panel" id="tab-projects">
 
-      <div class="card" style="margin-bottom:16px;">
+      <div class="card" style="padding:16px;margin-bottom:0;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
           <div>
             <div style="font-size:14px;font-weight:700;color:var(--t1);">Create New Project</div>
@@ -2804,7 +2804,7 @@ window.addEventListener('beforeunload', function() {
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" style="padding:16px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
           <div>
             <div style="font-size:14px;font-weight:700;color:var(--t1);">All Projects</div>
@@ -3038,7 +3038,7 @@ document.addEventListener('click',function(e){
     <!-- ══ PROJECTS TAB ══ -->
     <div class="tab-panel" id="tab-projects">
 
-      <div class="card" style="margin-bottom:16px;">
+      <div class="card" style="padding:16px;margin-bottom:0;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
           <div>
             <div style="font-size:14px;font-weight:700;color:var(--t1);">Create New Project</div>
@@ -3065,7 +3065,7 @@ document.addEventListener('click',function(e){
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" style="padding:16px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
           <div>
             <div style="font-size:14px;font-weight:700;color:var(--t1);">All Projects</div>
@@ -3108,3 +3108,4 @@ document.addEventListener('click',function(e){
 </html>
 
 <!-- projects-tab-20260401211550 -->
+<!-- adminfix-20260401224001 -->
