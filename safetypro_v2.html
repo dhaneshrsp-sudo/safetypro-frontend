@@ -1494,11 +1494,21 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 <div id="view-project" style="display:none">
   <div class="dash" id="pv-dash">
 
-    <!-- PROJECT SWITCHER BAR — dynamic from /projects API -->
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:10px 16px;">
-      <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;flex-shrink:0;">Select Project</div>
-      <div id="pv-proj-bar" style="display:flex;gap:8px;flex-wrap:wrap;flex:1;">
-        <div style="font-size:11px;color:var(--t3);padding:6px 0;">Loading...</div>
+    <!-- PROJECT SELECTOR — dynamic dropdown from /projects API -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px 18px;">
+      <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;flex-shrink:0;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="margin-right:5px;vertical-align:middle;"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+        Select Project
+      </div>
+      <div style="flex:1;position:relative;">
+        <select id="pv-proj-select" onchange="pvSelectProjectByDropdown(this)"
+          style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-family:var(--fh);font-size:12px;font-weight:600;padding:8px 32px 8px 12px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;transition:.15s;">
+          <option value="">— Choose project —</option>
+        </select>
+        <svg style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:12px;height:12px;fill:none;stroke:var(--t3);stroke-width:2.5;pointer-events:none;" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div id="pv-proj-info" style="font-size:11px;color:var(--t3);white-space:nowrap;display:none;">
+        <span id="pv-proj-location"></span>
       </div>
     </div>
 
@@ -2051,10 +2061,14 @@ function switchView(el, type) {
     // Load projects from API on first open
     if (!_pvCurrent) {
       pvLoadProjectBar();
+      // Auto-select first project after dropdown populates
       setTimeout(function() {
-        var firstBtn = document.querySelector('.pv-proj-btn');
-        if (firstBtn) firstBtn.click();
-      }, 900);
+        var sel = document.getElementById('pv-proj-select');
+        if (sel && sel.options.length > 1) {
+          sel.selectedIndex = 1;
+          pvSelectProjectByDropdown(sel);
+        }
+      }, 1000);
     }
   } else {
     if (g) g.style.display = 'block';
@@ -2987,17 +3001,39 @@ function pvFallbackProjects(){
 var _pvProjectsMap = {};
 
 function pvRenderProjectBar(projects){
-  var bar=document.getElementById('pv-proj-bar');if(!bar)return;
   // Build live map so pvRenderHero can look up by real ID
   _pvProjectsMap = {};
   projects.forEach(function(p){ _pvProjectsMap[p.id] = p; });
-  bar.innerHTML=projects.map(function(p){
-    var icon=pvGetIcon(p.name+' '+(p.sector||''));
-    return '<div class="pv-proj-btn" onclick="pvSelectProject(this,\''+p.id+'\')" data-proj="'+p.id+'" title="'+(p.location||'')+'" '+
-      'style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:7px;border:1px solid var(--border);'+
-      'background:var(--elevated);cursor:pointer;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t3);transition:.15s;">'+
-      icon+' '+p.name+'</div>';
-  }).join('');
+  // Populate dropdown
+  var sel = document.getElementById('pv-proj-select');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— Choose project —</option>' +
+    projects.map(function(p){
+      var icon = pvGetIcon(p.name+' '+(p.sector||''));
+      return '<option value="'+p.id+'">'+icon+' '+p.name+(p.location?' — '+p.location:'')+'</option>';
+    }).join('');
+  // Style the select
+  sel.style.borderColor = 'var(--border)';
+}
+
+function pvSelectProjectByDropdown(sel) {
+  var proj = sel.value;
+  if (!proj) return;
+  // Update info bar
+  var info = document.getElementById('pv-proj-info');
+  var loc = document.getElementById('pv-proj-location');
+  var p = _pvProjectsMap[proj];
+  if (info && p) {
+    info.style.display = 'block';
+    if (loc) loc.textContent = '📍 ' + (p.location || p.state || '');
+  }
+  // Highlight select
+  sel.style.borderColor = 'rgba(34,197,94,.4)';
+  sel.style.color = 'var(--green)';
+  // Sync subnav dropdown too
+  var navSel = document.getElementById('filter-project');
+  if (navSel) navSel.value = proj;
+  loadProjectView(proj);
 }
 
 function pvSyncSubnavDropdown(projects){
@@ -3101,34 +3137,35 @@ function pvDemoIncidents(proj) {
       { description: 'Loose railing — Block 3, Level 2', severity: 'HIGH', createdAt: '2026-03-28' },
       { description: 'Scaffolding not braced — Zone C', severity: 'HIGH', createdAt: '2026-03-25' },
       { description: 'Worker without PPE near excavation', severity: 'MEDIUM', createdAt: '2026-03-20' },
-      { description: 'Near miss — crane swing zone breach', severity: 'MEDIUM', createdAt: '2026-03-15' },
-      { description: 'Oil spill near generator set', severity: 'LOW', createdAt: '2026-03-10' },
     ],
     mu: [
       { description: 'Electrical hazard — panel exposed', severity: 'HIGH', createdAt: '2026-03-29' },
       { description: 'Fire extinguisher missing — Tunnel B', severity: 'MEDIUM', createdAt: '2026-03-22' },
-      { description: 'Slip hazard — wet surface unmarked', severity: 'LOW', createdAt: '2026-03-18' },
     ],
     tirora: [
       { description: 'Ash handling belt — guarding removed', severity: 'HIGH', createdAt: '2026-03-26' },
-      { description: 'Contractor vehicle — no entry pass', severity: 'LOW', createdAt: '2026-03-14' },
     ],
     delhi: [
       { description: 'Excavation without barricading', severity: 'HIGH', createdAt: '2026-03-30' },
       { description: 'Survey team — no hi-vis vests', severity: 'MEDIUM', createdAt: '2026-03-27' },
-      { description: 'Dust suppression not active', severity: 'LOW', createdAt: '2026-03-24' },
     ]
   };
-  return data[proj] || [];
+  if (data[proj]) return data[proj];
+  // Generic fallback for real DB project IDs
+  var liveP = _pvProjectsMap[proj];
+  return [
+    { description: 'Near miss reported on site', severity: 'MEDIUM', createdAt: '2026-03-30' },
+    { description: 'PPE non-compliance observed', severity: 'LOW', createdAt: '2026-03-25' },
+  ];
 }
 
 function pvDemoActions(proj) {
+  // Try hardcoded first (works for fallback IDs birpur/mu/tirora/delhi)
   var data = {
     birpur: [
       { description: 'Fix loose railing Block 3', source: 'Incident', assignedTo: 'Rajesh K.', dueDate: '2026-04-02', status: 'Overdue', progress: 30 },
       { description: 'Replace unsafe scaffolding Floor 5', source: 'NCR', assignedTo: 'Meera K.', dueDate: '2026-04-05', status: 'In Progress', progress: 60 },
       { description: 'Install fire extinguishers Zone D', source: 'Audit', assignedTo: 'Arvind S.', dueDate: '2026-04-10', status: 'Open', progress: 0 },
-      { description: 'PPE audit for subcontractors', source: 'Incident', assignedTo: 'John M.', dueDate: '2026-04-08', status: 'Open', progress: 10 },
     ],
     mu: [
       { description: 'Replace exposed panel cover', source: 'Incident', assignedTo: 'Suresh P.', dueDate: '2026-04-01', status: 'Overdue', progress: 20 },
@@ -3140,10 +3177,17 @@ function pvDemoActions(proj) {
     delhi: [
       { description: 'Barricade all excavation zones', source: 'Incident', assignedTo: 'Priya S.', dueDate: '2026-04-01', status: 'Overdue', progress: 0 },
       { description: 'Issue hi-vis vests to survey team', source: 'Incident', assignedTo: 'Rahul M.', dueDate: '2026-04-04', status: 'Open', progress: 0 },
-      { description: 'Activate dust suppression system', source: 'NCR', assignedTo: 'Deepak V.', dueDate: '2026-04-07', status: 'Open', progress: 15 },
     ]
   };
-  return data[proj] || [];
+  // If real DB project ID (cuid), use generic demo actions
+  if (data[proj]) return data[proj];
+  var liveP = _pvProjectsMap[proj];
+  var projName = liveP ? liveP.name : 'Project';
+  return [
+    { description: 'Safety inspection — ' + projName, source: 'Audit', assignedTo: 'HSE Officer', dueDate: '2026-04-10', status: 'Open', progress: 0 },
+    { description: 'PPE compliance check', source: 'Incident', assignedTo: 'Site Supervisor', dueDate: '2026-04-08', status: 'In Progress', progress: 40 },
+    { description: 'Toolbox talk — working at height', source: 'NCR', assignedTo: 'Safety Officer', dueDate: '2026-04-06', status: 'Open', progress: 20 },
+  ];
 }
 
 </script>
@@ -3158,3 +3202,4 @@ function pvDemoActions(proj) {
 <!-- dynproj-20260401091521 -->
 <!-- idfix-20260401091930 -->
 <!-- idfix-20260401092142 -->
+<!-- dropdown-fix-20260401093347 -->
