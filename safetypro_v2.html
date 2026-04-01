@@ -3119,11 +3119,16 @@ function loadProjectView(projectId) {
   })
   .then(function(r) { return r.ok ? r.json() : null; })
   .then(function(data) {
-    var items = Array.isArray(data) ? data : (data && data.data ? data.data : data && data.items ? data.items : null);
+    var items = null;
+    if (Array.isArray(data)) { items = data; }
+    else if (data && Array.isArray(data.data)) { items = data.data; }
+    else if (data && Array.isArray(data.items)) { items = data.items; }
+    else if (data && Array.isArray(data.incidents)) { items = data.incidents; }
+    else if (data && Array.isArray(data.results)) { items = data.results; }
+    else if (data) { for (var k in data) { if (Array.isArray(data[k]) && data[k].length > 0) { items = data[k]; break; } } }
     if (items && items.length) {
       pvRenderIncidents(items);
     } else {
-      // Fallback demo incidents for this project
       pvRenderIncidents(pvDemoIncidents(projectId));
     }
   })
@@ -3135,14 +3140,24 @@ function loadProjectView(projectId) {
   })
   .then(function(r) { return r.ok ? r.json() : null; })
   .then(function(data) {
-    var items = Array.isArray(data) ? data : (data && data.data ? data.data : data && data.items ? data.items : null);
+    // Handle ALL backend response shapes
+    var items = null;
+    if (Array.isArray(data)) { items = data; }
+    else if (data && Array.isArray(data.data)) { items = data.data; }
+    else if (data && Array.isArray(data.items)) { items = data.items; }
+    else if (data && Array.isArray(data.actions)) { items = data.actions; }
+    else if (data && Array.isArray(data.results)) { items = data.results; }
+    else if (data && data.total !== undefined) {
+      // Paginated response - try all array fields
+      for (var k in data) { if (Array.isArray(data[k]) && data[k].length > 0) { items = data[k]; break; } }
+    }
     if (items && items.length) {
       pvRenderActions(items);
     } else {
       pvRenderActions(pvDemoActions(projectId));
     }
   })
-  .catch(function() { pvRenderActions(pvDemoActions(projectId)); });
+  .catch(function(e) { pvRenderActions(pvDemoActions(projectId)); });
 }
 
 /* Fallback demo data per project */
@@ -3221,3 +3236,4 @@ function pvDemoActions(proj) {
 <!-- idfix-20260401092142 -->
 <!-- dropdown-fix-20260401093347 -->
 <!-- actionfix-20260401094954 -->
+<!-- shapefix-20260401100327 -->
