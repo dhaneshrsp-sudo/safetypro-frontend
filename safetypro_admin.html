@@ -162,7 +162,7 @@ svg{flex-shrink:0}
 
 /* NOTIFICATIONS */
 .notif-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.notif-channel{background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:16px}
+.notif-channel{background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:hidden}
 .nc-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .nc-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center}
 .nc-icon svg{width:18px;height:18px}
@@ -1217,18 +1217,7 @@ svg{flex-shrink:0}
         </div>
       </div>
 
-    </div>
-
-
-
-
-  </div>
-</div>
-</div>
-</div>
-
-
-          <!-- ══ INTEGRATIONS TAB ══ -->
+<!-- ══ INTEGRATIONS TAB ══ -->
           <div class="tab-panel" id="tab-integrations">
   <div class="card" style="padding:20px;">
     <div style="padding:0 0 14px;border-bottom:1px solid var(--border);margin-bottom:18px;">
@@ -2816,8 +2805,18 @@ window.addEventListener('beforeunload', function() {
       </div>
 
     </div>
+    </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+
+
+  </div>
+</div>
+</div>
+</div>
+
+
+          <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function toggleCreateProject() {
   var form = document.getElementById('create-project-form');
   var btn = document.getElementById('btn-toggle-create');
@@ -3112,3 +3111,4 @@ document.addEventListener('click',function(e){
 <!-- adminfix-20260401224001 -->
 <!-- adminfix2-20260401224409 -->
 <!-- cssfix-20260401224900 -->
+<!-- domfix-20260401225423 -->
