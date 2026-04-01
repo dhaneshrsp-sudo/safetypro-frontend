@@ -2912,42 +2912,57 @@ function pvRenderActions(data) {
     return;
   }
 
-  var open = data.filter(function(a){ var s=(a.status||'').toLowerCase(); return s!=='closed'&&s!=='done'&&s!=='completed'; }).length;
-  var over = data.filter(function(a){ return (a.status||'').toLowerCase().indexOf('over')>-1; }).length;
+  // Count open/overdue
+  var open = data.filter(function(a){
+    var s = (a.status||'').toLowerCase();
+    return s !== 'closed' && s !== 'done' && s !== 'completed' && s !== 'close';
+  }).length;
+  var over = data.filter(function(a){
+    return (a.status||'').toLowerCase().indexOf('over') > -1;
+  }).length;
   if (openEl) openEl.textContent = open + ' open';
   if (overEl && over > 0) overEl.textContent = over + ' overdue';
   if (sub) sub.textContent = data.length + ' project actions';
 
-  tbody.innerHTML = data.slice(0, 10).map(function(a) {
-    var st = (a.status || 'open').toLowerCase();
-    var stKey = st.indexOf('close') > -1 || st.indexOf('done') > -1 || st.indexOf('complete') > -1 ? 'done' :
-                st.indexOf('over') > -1 ? 'over' :
-                st.indexOf('prog') > -1 || st.indexOf('progress') > -1 ? 'prog' : 'open';
-    var pillBg = stKey==='done'?'var(--green-dim)':stKey==='over'?'var(--red-dim)':stKey==='prog'?'var(--amber-dim)':'var(--blue-dim)';
-    var pillColor = stKey==='done'?'var(--green)':stKey==='over'?'var(--red)':stKey==='prog'?'var(--amber)':'var(--blue)';
-    var pillText = stKey==='done'?'Closed':stKey==='over'?'Overdue':stKey==='prog'?'In Progress':'Open';
-    var src = (a.source||a.type||'Action').substring(0,10);
-    var srcColor = src.toLowerCase().indexOf('incident')>-1?'var(--red)':src.toLowerCase().indexOf('ncr')>-1?'var(--amber)':'var(--blue)';
-    var due = a.dueDate || a.deadline || '';
-    var dueStr = due ? new Date(due).toLocaleDateString('en-IN',{day:'numeric',month:'short'}) : '—';
-    var prog = a.progress || (stKey==='done'?100:stKey==='over'?30:stKey==='prog'?60:0);
-    var progColor = stKey==='over'?'var(--red)':stKey==='done'?'var(--green)':'var(--amber)';
-    var name = a.assignedTo || '—';
-    var initials = name.split(' ').map(function(w){return w[0]||'';}).join('').substring(0,2).toUpperCase();
-    var avColors = ['#22C55E','#3B82F6','#F59E0B','#8B5CF6','#EF4444'];
-    var avColor = avColors[name.charCodeAt(0)%avColors.length];
+  try {
+    tbody.innerHTML = data.slice(0, 10).map(function(a) {
+      // Handle all backend field name variations
+      var statusRaw = a.status || a.Status || 'OPEN';
+      var st = statusRaw.toLowerCase();
+      var stKey = st.indexOf('close') > -1 || st.indexOf('done') > -1 || st.indexOf('complet') > -1 ? 'done' :
+                  st.indexOf('over') > -1 ? 'over' :
+                  st.indexOf('prog') > -1 || st.indexOf('progress') > -1 ? 'prog' : 'open';
+      var pillBg = stKey==='done'?'var(--green-dim)':stKey==='over'?'var(--red-dim)':stKey==='prog'?'var(--amber-dim)':'var(--blue-dim)';
+      var pillColor = stKey==='done'?'var(--green)':stKey==='over'?'var(--red)':stKey==='prog'?'var(--amber)':'var(--blue)';
+      var pillText = stKey==='done'?'Closed':stKey==='over'?'Overdue':stKey==='prog'?'In Progress':'Open';
 
-    return '<tr style="border-bottom:1px solid var(--divider);cursor:pointer;" onmouseover="this.style.background=\'rgba(255,255,255,.02)\'" onmouseout="this.style.background=\'\'">' +
-      '<td style="padding:8px 10px;"><span style="font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;background:rgba(255,255,255,.05);color:' + srcColor + ';">' + src + '</span></td>' +
-      '<td style="padding:8px 10px;overflow:hidden;"><div style="font-size:12px;font-weight:500;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (a.description||a.title||'Action') + '</div></td>' +
-      '<td style="padding:8px 10px;"><div style="display:flex;align-items:center;gap:6px;"><div style="width:22px;height:22px;border-radius:50%;background:' + avColor + ';display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0;">' + initials + '</div><span style="font-size:11px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + name + '</span></div></td>' +
-      '<td style="padding:8px 10px;white-space:nowrap;"><span style="font-size:11px;color:' + (stKey==='over'?'var(--red)':stKey==='prog'?'var(--amber)':'var(--t2)') + ';font-weight:' + (stKey==='over'?'700':'400') + ';">' + dueStr + '</span></td>' +
-      '<td style="padding:8px 10px;white-space:nowrap;"><span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:100px;background:' + pillBg + ';color:' + pillColor + ';"><span style="width:4px;height:4px;border-radius:50%;background:currentColor;flex-shrink:0;"></span>' + pillText + '</span></td>' +
-      '<td style="padding:8px 10px;"><div style="display:flex;align-items:center;gap:5px;"><div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;"><div style="height:100%;border-radius:2px;width:' + prog + '%;background:' + progColor + ';"></div></div><span style="font-size:10px;font-weight:600;color:var(--t3);min-width:24px;text-align:right;">' + prog + '%</span></div></td>' +
-    '</tr>';
-  }).join('');
+      // Field name variations
+      var desc = a.description || a.title || a.name || a.actionTitle || 'Untitled Action';
+      var src = (a.source || a.type || a.category || a.actionType || 'Action').toString().substring(0,12);
+      var srcColor = src.toLowerCase().indexOf('incident')>-1?'var(--red)':src.toLowerCase().indexOf('ncr')>-1?'var(--amber)':'var(--blue)';
+      var due = a.dueDate || a.deadline || a.targetDate || a.closureDate || '';
+      var dueStr = due ? new Date(due).toLocaleDateString('en-IN',{day:'numeric',month:'short'}) : '—';
+      var name = a.assignedTo || (a.assignedUser ? (a.assignedUser.name||a.assignedUser.email||'') : '') || a.responsible || '—';
+      var initials = (name+'').split(' ').map(function(w){return w[0]||'';}).join('').substring(0,2).toUpperCase() || '??';
+      var avColors = ['#22C55E','#3B82F6','#F59E0B','#8B5CF6','#EF4444'];
+      var avColor = avColors[(name.charCodeAt(0)||65)%avColors.length];
+      var prog = typeof a.progress === 'number' ? a.progress :
+                 (stKey==='done'?100:stKey==='over'?20:stKey==='prog'?50:0);
+      var progColor = stKey==='over'?'var(--red)':stKey==='done'?'var(--green)':'var(--amber)';
+
+      return '<tr style="border-bottom:1px solid var(--divider);cursor:pointer;" onmouseover="this.style.background='rgba(255,255,255,.02)'" onmouseout="this.style.background=''">' +
+        '<td style="padding:8px 10px;"><span style="font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;background:rgba(255,255,255,.05);color:'+srcColor+';">'+src+'</span></td>' +
+        '<td style="padding:8px 10px;overflow:hidden;"><div style="font-size:12px;font-weight:500;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+desc+'</div></td>' +
+        '<td style="padding:8px 10px;"><div style="display:flex;align-items:center;gap:6px;"><div style="width:22px;height:22px;border-radius:50%;background:'+avColor+';display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0;">'+initials+'</div><span style="font-size:11px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+name+'</span></div></td>' +
+        '<td style="padding:8px 10px;white-space:nowrap;"><span style="font-size:11px;color:'+(stKey==='over'?'var(--red)':stKey==='prog'?'var(--amber)':'var(--t2)')+';font-weight:'+(stKey==='over'?'700':'400')+';">'+dueStr+'</span></td>' +
+        '<td style="padding:8px 10px;white-space:nowrap;"><span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:100px;background:'+pillBg+';color:'+pillColor+';"><span style="width:4px;height:4px;border-radius:50%;background:currentColor;flex-shrink:0;"></span>'+pillText+'</span></td>' +
+        '<td style="padding:8px 10px;"><div style="display:flex;align-items:center;gap:5px;"><div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;"><div style="height:100%;border-radius:2px;width:'+prog+'%;background:'+progColor+';"></div></div><span style="font-size:10px;font-weight:600;color:var(--t3);min-width:24px;text-align:right;">'+prog+'%</span></div></td>' +
+      '</tr>';
+    }).join('');
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--t3);font-size:12px;">Unable to render actions</td></tr>';
+  }
 }
-
 function pvRenderCompliance(proj) {
   var liveP = _pvProjectsMap[proj];
   var p = PV_PROJECTS[proj] || (liveP ? {
@@ -3179,14 +3194,16 @@ function pvDemoActions(proj) {
       { description: 'Issue hi-vis vests to survey team', source: 'Incident', assignedTo: 'Rahul M.', dueDate: '2026-04-04', status: 'Open', progress: 0 },
     ]
   };
-  // If real DB project ID (cuid), use generic demo actions
+  // For real DB project IDs (cuid format) - use project name from live map
   if (data[proj]) return data[proj];
-  var liveP = _pvProjectsMap[proj];
-  var projName = liveP ? liveP.name : 'Project';
+  var liveP = _pvProjectsMap[proj] || {};
+  var projName = liveP.name || 'This Project';
+  var sector = liveP.sector || '';
   return [
-    { description: 'Safety inspection — ' + projName, source: 'Audit', assignedTo: 'HSE Officer', dueDate: '2026-04-10', status: 'Open', progress: 0 },
-    { description: 'PPE compliance check', source: 'Incident', assignedTo: 'Site Supervisor', dueDate: '2026-04-08', status: 'In Progress', progress: 40 },
-    { description: 'Toolbox talk — working at height', source: 'NCR', assignedTo: 'Safety Officer', dueDate: '2026-04-06', status: 'Open', progress: 20 },
+    { description: 'HSE inspection — ' + projName, source: 'Audit', assignedTo: 'HSE Officer', dueDate: '2026-04-15', status: 'Open', progress: 0 },
+    { description: 'PPE compliance check — ' + sector, source: 'NCR', assignedTo: 'Site Supervisor', dueDate: '2026-04-12', status: 'In Progress', progress: 35 },
+    { description: 'Toolbox talk — working at height', source: 'Incident', assignedTo: 'Safety Officer', dueDate: '2026-04-10', status: 'Open', progress: 20 },
+    { description: 'Emergency drill documentation', source: 'Audit', assignedTo: 'HSE Manager', dueDate: '2026-04-20', status: 'Open', progress: 0 },
   ];
 }
 
@@ -3203,3 +3220,4 @@ function pvDemoActions(proj) {
 <!-- idfix-20260401091930 -->
 <!-- idfix-20260401092142 -->
 <!-- dropdown-fix-20260401093347 -->
+<!-- actionfix-20260401094954 -->
