@@ -2945,11 +2945,11 @@ function pvRenderActions(data) {
       else if (a.type) src = String(a.type).substring(0,12);
       return {
         status: a.status || a.Status || a.actionStatus || 'OPEN',
-        description: a.description || a.title || a.name || a.actionTitle || a.subject || 'Action',
+        description: a.title || a.description || a.name || a.actionTitle || a.subject || 'Action',
         source: src,
         assignedTo: assignedName,
         dueDate: a.dueDate || a.deadline || a.targetDate || a.closureDate || a.endDate || '',
-        progress: typeof a.progress === 'number' ? a.progress : (typeof a.completionPercentage === 'number' ? a.completionPercentage : -1)
+        progress: typeof a.progressPct === 'number' ? a.progressPct : (typeof a.progress === 'number' ? a.progress : (typeof a.completionPercentage === 'number' ? a.completionPercentage : -1))
       };
     }).filter(function(a) { return a !== null; });
     if (!normalized.length) { pvRenderActions(pvDemoActions(projectId)); return; }
@@ -3273,3 +3273,4 @@ function pvDemoActions(proj) {
 <!-- shapefix-20260401100327 -->
 <!-- robust-20260401100922 -->
 <!-- nestedfix-20260401102002 -->
+<!-- fieldfix-20260401102958 -->
