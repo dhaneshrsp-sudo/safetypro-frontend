@@ -71,10 +71,10 @@ svg{flex-shrink:0}
 
 /* MAIN */
 .main{padding:16px 20px;display:flex;flex-direction:column;gap:14px;padding-bottom:60px}
-.tab-panel{display:none}.tab-panel.active{display:block;padding-bottom:24px;overflow:visible!important}
+.tab-panel{display:none}.tab-panel.active{display:block;padding-bottom:24px}
 
 /* CARD */
-.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:visible;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px}
 .card-head{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--div)}
 .card-title{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1)}
 .card-sub{font-size:10px;color:var(--t3);margin-top:1px}
@@ -161,8 +161,8 @@ svg{flex-shrink:0}
 .wf-badge{font-size:9px;padding:1px 6px;border-radius:3px;font-weight:600}
 
 /* NOTIFICATIONS */
-.notif-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.notif-channel{background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:16px;overflow:hidden}
+.notif-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.notif-channel{background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:16px}
 .nc-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .nc-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center}
 .nc-icon svg{width:18px;height:18px}
@@ -536,7 +536,7 @@ svg{flex-shrink:0}
 /* ══ ANTI-BLEED FIXES ══ */
 .card{overflow:hidden;word-break:break-word;}
 .tab-panel{min-width:0;}
-.tab-panel.active{min-width:0;}
+.tab-panel.active{min-width:0;overflow:hidden;}
 .main *{max-width:100%;box-sizing:border-box;}
 .sh-tabs{max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;}
 .sh-tabs::-webkit-scrollbar{display:none;}
@@ -1217,7 +1217,18 @@ svg{flex-shrink:0}
         </div>
       </div>
 
-<!-- ══ INTEGRATIONS TAB ══ -->
+    </div>
+
+
+
+
+  </div>
+</div>
+</div>
+</div>
+
+
+          <!-- ══ INTEGRATIONS TAB ══ -->
           <div class="tab-panel" id="tab-integrations">
   <div class="card" style="padding:20px;">
     <div style="padding:0 0 14px;border-bottom:1px solid var(--border);margin-bottom:18px;">
@@ -2763,7 +2774,6 @@ window.addEventListener('beforeunload', function() {
         </div>
       </div>
 
-    </div>
     <!-- ══ PROJECTS TAB ══ -->
     <div class="tab-panel" id="tab-projects">
 
@@ -2806,18 +2816,8 @@ window.addEventListener('beforeunload', function() {
       </div>
 
     </div>
-    </div>
 
-
-
-
-  </div>
-</div>
-</div>
-</div>
-
-
-          <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function toggleCreateProject() {
   var form = document.getElementById('create-project-form');
   var btn = document.getElementById('btn-toggle-create');
@@ -2939,9 +2939,8 @@ function loadIntegrationsVisibility() {
     if (connEl)  connEl.style.display   = isHSEHead ? '' : 'none';
     var tabBt
 
-    // Tab always visible - role controls section visibility, not the whole tab
-    // var tabBtn = document.getElementById('tab-integrations');
-    // if(tabBtn) tabBtn.style.display = isAdmin ? '' : 'none';
+    var tabBtn = document.getElementById('tab-integrations');
+    if(tabBtn) tabBtn.style.display = isAdmin ? '' : 'none';
   } catch(e) {}
 }
 loadIntegrationsVisibility();
@@ -3109,8 +3108,3 @@ document.addEventListener('click',function(e){
 </html>
 
 <!-- projects-tab-20260401211550 -->
-<!-- adminfix-20260401224001 -->
-<!-- adminfix2-20260401224409 -->
-<!-- cssfix-20260401224900 -->
-<!-- domfix-20260401225423 -->
-<!-- divfix-20260401230317 -->
