@@ -2912,80 +2912,54 @@ function pvRenderActions(data) {
     return;
   }
 
-  // Count open/overdue
-  var open = data.filter(function(a){
-    var s = (a.status||'').toLowerCase();
-    return s !== 'closed' && s !== 'done' && s !== 'completed' && s !== 'close';
-  }).length;
-  var over = data.filter(function(a){
-    return (a.status||'').toLowerCase().indexOf('over') > -1;
-  }).length;
+  var open = 0, over = 0;
+  data.forEach(function(a) {
+    var s = String(a.status || '').toLowerCase();
+    if (s !== 'closed') open++;
+    if (s === 'overdue') over++;
+  });
   if (openEl) openEl.textContent = open + ' open';
-  if (overEl && over > 0) overEl.textContent = over + ' overdue';
+  if (over > 0 && overEl) overEl.textContent = over + ' overdue';
   if (sub) sub.textContent = data.length + ' project actions';
 
-  try {
-    // Normalize data - ensure each item has the fields we need
-    var normalized = data.slice(0, 10).map(function(a) {
-      if (!a || typeof a !== 'object') return null;
-      // Extract assignedTo name from nested object { name, email } or string
-      var assignedName = '—';
-      try {
-        if (a.assignedTo) {
-          assignedName = (typeof a.assignedTo === 'string') ? a.assignedTo : (a.assignedTo.name || a.assignedTo.email || '—');
-        }
-      } catch(e2) { assignedName = '—'; }
-      // Source: INCIDENT/NCR/AUDIT/INVESTIGATION/MANUAL enum
-      var srcRaw = String(a.source || 'MANUAL');
-      var srcLabel = srcRaw === 'INCIDENT' ? 'Incident' : srcRaw === 'NCR' ? 'NCR' : srcRaw === 'AUDIT' ? 'Audit' : srcRaw === 'INVESTIGATION' ? 'Investigation' : 'Manual';
-      return {
-        status: String(a.status || 'OPEN'),
-        description: String(a.title || a.description || 'Untitled Action'),
-        source: srcLabel,
-        assignedTo: assignedName,
-        dueDate: a.dueDate || a.closedAt || '',
-        progress: typeof a.progressPct === 'number' ? a.progressPct : 0
-      };
-    }).filter(function(a) { return a !== null; });
-    if (!normalized.length) { pvRenderActions(pvDemoActions(projectId)); return; }
-    tbody.innerHTML = normalized.map(function(a) {
-      var statusRaw = a.status;
+  var rows = [];
+  data.slice(0, 10).forEach(function(a) {
+    try {
+      // Normalize fields using exact Prisma schema names
+      var title = String(a.title || a.description || 'Untitled');
+      var statusRaw = String(a.status || 'OPEN');
       var st = statusRaw.toLowerCase();
-      var stKey = st.indexOf('close') > -1 || st.indexOf('done') > -1 || st.indexOf('complet') > -1 ? 'done' :
-                  st.indexOf('over') > -1 ? 'over' :
-                  st.indexOf('prog') > -1 || st.indexOf('progress') > -1 ? 'prog' : 'open';
-      var pillBg = stKey==='done'?'var(--green-dim)':stKey==='over'?'var(--red-dim)':stKey==='prog'?'var(--amber-dim)':'var(--blue-dim)';
-      var pillColor = stKey==='done'?'var(--green)':stKey==='over'?'var(--red)':stKey==='prog'?'var(--amber)':'var(--blue)';
+      var stKey = (st === 'closed') ? 'done' : (st === 'overdue') ? 'over' : (st === 'in_progress') ? 'prog' : 'open';
+      var pillBg = stKey==='done'?'var(--green-dim)':stKey==='over'?'var(--red-dim)':stKey==='prog'?'var(--blue-dim)':'rgba(255,255,255,.06)';
+      var pillColor = stKey==='done'?'var(--green)':stKey==='over'?'var(--red)':stKey==='prog'?'var(--blue)':'var(--t2)';
       var pillText = stKey==='done'?'Closed':stKey==='over'?'Overdue':stKey==='prog'?'In Progress':'Open';
-
-      // Field name variations
-      var desc = a.description || a.title || a.name || a.actionTitle || 'Untitled Action';
-      var src = (a.source || a.type || a.category || a.actionType || 'Action').toString().substring(0,12);
-      var srcColor = src.toLowerCase().indexOf('incident')>-1?'var(--red)':src.toLowerCase().indexOf('ncr')>-1?'var(--amber)':'var(--blue)';
-      var due = a.dueDate || a.deadline || a.targetDate || a.closureDate || '';
-      var dueStr = due ? new Date(due).toLocaleDateString('en-IN',{day:'numeric',month:'short'}) : '—';
-      var name = a.assignedTo || (a.assignedUser ? (a.assignedUser.name||a.assignedUser.email||'') : '') || a.responsible || '—';
-      var initials = (name+'').split(' ').map(function(w){return w[0]||'';}).join('').substring(0,2).toUpperCase() || '??';
-      var avColors = ['#22C55E','#3B82F6','#F59E0B','#8B5CF6','#EF4444'];
-      var avColor = avColors[(name.charCodeAt(0)||65)%avColors.length];
-      var prog = a.progress >= 0 ? a.progress :
-                 (stKey==='done'?100:stKey==='over'?20:stKey==='prog'?50:0);
+      var srcRaw = String(a.source || 'MANUAL');
+      var src = srcRaw==='INCIDENT'?'Incident':srcRaw==='NCR'?'NCR':srcRaw==='AUDIT'?'Audit':srcRaw==='INVESTIGATION'?'Investigation':'Manual';
+      var srcColor = srcRaw==='INCIDENT'?'var(--red)':srcRaw==='NCR'?'var(--amber)':'var(--blue)';
+      var assigned = '—';
+      if (a.assignedTo) { assigned = typeof a.assignedTo === 'string' ? a.assignedTo : (a.assignedTo.name || a.assignedTo.email || '—'); }
+      var due = a.dueDate || '';
+      var dueStr = due ? new Date(due).toLocaleDateString('en-IN', {day:'numeric', month:'short'}) : '—';
+      var dueColor = stKey === 'over' ? 'var(--red)' : 'var(--t2)';
+      var prog = typeof a.progressPct === 'number' ? a.progressPct : 0;
       var progColor = stKey==='over'?'var(--red)':stKey==='done'?'var(--green)':'var(--amber)';
+      var initials = assigned.split(' ').map(function(w){return w[0]||'';}).join('').substring(0,2).toUpperCase()||'??';
+      var avColors = ['#22C55E','#3B82F6','#F59E0B','#8B5CF6','#EF4444'];
+      var avColor = avColors[(assigned.charCodeAt(0)||65)%5];
 
-      return '<tr style="border-bottom:1px solid var(--divider);cursor:pointer;" onmouseover="this.style.background='rgba(255,255,255,.02)'" onmouseout="this.style.background=''">' +
-        '<td style="padding:8px 10px;"><span style="font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;background:rgba(255,255,255,.05);color:'+srcColor+';">'+src+'</span></td>' +
-        '<td style="padding:8px 10px;overflow:hidden;"><div style="font-size:12px;font-weight:500;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+desc+'</div></td>' +
-        '<td style="padding:8px 10px;"><div style="display:flex;align-items:center;gap:6px;"><div style="width:22px;height:22px;border-radius:50%;background:'+avColor+';display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0;">'+initials+'</div><span style="font-size:11px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+name+'</span></div></td>' +
-        '<td style="padding:8px 10px;white-space:nowrap;"><span style="font-size:11px;color:'+(stKey==='over'?'var(--red)':stKey==='prog'?'var(--amber)':'var(--t2)')+';font-weight:'+(stKey==='over'?'700':'400')+';">'+dueStr+'</span></td>' +
-        '<td style="padding:8px 10px;white-space:nowrap;"><span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:100px;background:'+pillBg+';color:'+pillColor+';"><span style="width:4px;height:4px;border-radius:50%;background:currentColor;flex-shrink:0;"></span>'+pillText+'</span></td>' +
-        '<td style="padding:8px 10px;"><div style="display:flex;align-items:center;gap:5px;"><div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;"><div style="height:100%;border-radius:2px;width:'+prog+'%;background:'+progColor+';"></div></div><span style="font-size:10px;font-weight:600;color:var(--t3);min-width:24px;text-align:right;">'+prog+'%</span></div></td>' +
-      '</tr>';
-    }).join('');
-  } catch(e) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--t3);font-size:12px;">Unable to render actions</td></tr>';
-  }
-}
-function pvRenderCompliance(proj) {
+      rows.push('<tr style="border-bottom:1px solid var(--divider);">' +
+        '<td style="padding:8px 10px;"><span style="font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;background:rgba(255,255,255,.05);color:' + srcColor + ';">' + src + '</span></td>' +
+        '<td style="padding:8px 10px;max-width:200px;overflow:hidden;"><div style="font-size:12px;font-weight:500;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + title + '</div></td>' +
+        '<td style="padding:8px 10px;"><div style="display:flex;align-items:center;gap:6px;"><div style="width:22px;height:22px;border-radius:50%;background:' + avColor + ';display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0;">' + initials + '</div><span style="font-size:11px;color:var(--t2);">' + assigned + '</span></div></td>' +
+        '<td style="padding:8px 10px;white-space:nowrap;"><span style="font-size:11px;color:' + dueColor + ';font-weight:' + (stKey==='over'?'700':'400') + ';">' + dueStr + '</span></td>' +
+        '<td style="padding:8px 10px;white-space:nowrap;"><span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:100px;background:' + pillBg + ';color:' + pillColor + ';">' + pillText + '</span></td>' +
+        '<td style="padding:8px 10px;"><div style="display:flex;align-items:center;gap:5px;"><div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;"><div style="height:100%;border-radius:2px;width:' + prog + '%;background:' + progColor + ';"></div></div><span style="font-size:10px;color:var(--t3);min-width:24px;text-align:right;">' + prog + '%</span></div></td>' +
+        '</tr>');
+    } catch(e) {}
+  });
+
+  tbody.innerHTML = rows.length ? rows.join('') : '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--t3);">No actions to display</td></tr>';
+}function pvRenderCompliance(proj) {
   var liveP = _pvProjectsMap[proj];
   var p = PV_PROJECTS[proj] || (liveP ? {
     name: liveP.name,
@@ -3271,3 +3245,4 @@ function pvDemoActions(proj) {
 <!-- fieldfix-20260401102958 -->
 <!-- schemafix-20260401103905 -->
 <!-- schemafix-20260401105050 -->
+<!-- cleanfix-20260401110832 -->
