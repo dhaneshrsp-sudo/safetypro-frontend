@@ -2928,28 +2928,23 @@ function pvRenderActions(data) {
     // Normalize data - ensure each item has the fields we need
     var normalized = data.slice(0, 10).map(function(a) {
       if (!a || typeof a !== 'object') return null;
-      // assignedTo can be a string OR a nested object {name, email, phone}
+      // Extract assignedTo name from nested object { name, email } or string
       var assignedName = '—';
-      if (a.assignedTo) {
-        if (typeof a.assignedTo === 'string') assignedName = a.assignedTo;
-        else if (a.assignedTo.name) assignedName = a.assignedTo.name;
-        else if (a.assignedTo.email) assignedName = a.assignedTo.email;
-      } else if (a.assignedUser) {
-        assignedName = a.assignedUser.name || a.assignedUser.email || '—';
-      } else if (a.responsible) { assignedName = a.responsible; }
-      // source: check if it came from incident or ncr
-      var src = 'Action';
-      if (a.incident) src = 'Incident';
-      else if (a.ncr) src = 'NCR';
-      else if (a.source) src = String(a.source).substring(0,12);
-      else if (a.type) src = String(a.type).substring(0,12);
+      try {
+        if (a.assignedTo) {
+          assignedName = (typeof a.assignedTo === 'string') ? a.assignedTo : (a.assignedTo.name || a.assignedTo.email || '—');
+        }
+      } catch(e2) { assignedName = '—'; }
+      // Source: INCIDENT/NCR/AUDIT/INVESTIGATION/MANUAL enum
+      var srcRaw = String(a.source || 'MANUAL');
+      var srcLabel = srcRaw === 'INCIDENT' ? 'Incident' : srcRaw === 'NCR' ? 'NCR' : srcRaw === 'AUDIT' ? 'Audit' : srcRaw === 'INVESTIGATION' ? 'Investigation' : 'Manual';
       return {
-        status: a.status || a.Status || a.actionStatus || 'OPEN',
-        description: a.title || a.description || a.name || a.actionTitle || a.subject || 'Action',
-        source: src,
+        status: String(a.status || 'OPEN'),
+        description: String(a.title || a.description || 'Untitled Action'),
+        source: srcLabel,
         assignedTo: assignedName,
-        dueDate: a.dueDate || a.deadline || a.targetDate || a.closureDate || a.endDate || '',
-        progress: typeof a.progressPct === 'number' ? a.progressPct : (typeof a.progress === 'number' ? a.progress : (typeof a.completionPercentage === 'number' ? a.completionPercentage : -1))
+        dueDate: a.dueDate || a.closedAt || '',
+        progress: typeof a.progressPct === 'number' ? a.progressPct : 0
       };
     }).filter(function(a) { return a !== null; });
     if (!normalized.length) { pvRenderActions(pvDemoActions(projectId)); return; }
@@ -3274,3 +3269,4 @@ function pvDemoActions(proj) {
 <!-- robust-20260401100922 -->
 <!-- nestedfix-20260401102002 -->
 <!-- fieldfix-20260401102958 -->
+<!-- schemafix-20260401103905 -->
