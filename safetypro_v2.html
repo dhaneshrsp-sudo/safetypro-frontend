@@ -2928,11 +2928,26 @@ function pvRenderActions(data) {
     // Normalize data - ensure each item has the fields we need
     var normalized = data.slice(0, 10).map(function(a) {
       if (!a || typeof a !== 'object') return null;
+      // assignedTo can be a string OR a nested object {name, email, phone}
+      var assignedName = '—';
+      if (a.assignedTo) {
+        if (typeof a.assignedTo === 'string') assignedName = a.assignedTo;
+        else if (a.assignedTo.name) assignedName = a.assignedTo.name;
+        else if (a.assignedTo.email) assignedName = a.assignedTo.email;
+      } else if (a.assignedUser) {
+        assignedName = a.assignedUser.name || a.assignedUser.email || '—';
+      } else if (a.responsible) { assignedName = a.responsible; }
+      // source: check if it came from incident or ncr
+      var src = 'Action';
+      if (a.incident) src = 'Incident';
+      else if (a.ncr) src = 'NCR';
+      else if (a.source) src = String(a.source).substring(0,12);
+      else if (a.type) src = String(a.type).substring(0,12);
       return {
         status: a.status || a.Status || a.actionStatus || 'OPEN',
         description: a.description || a.title || a.name || a.actionTitle || a.subject || 'Action',
-        source: String(a.source || a.type || a.category || a.actionType || 'Action').substring(0, 12),
-        assignedTo: a.assignedTo || (a.assignedUser && (a.assignedUser.name || a.assignedUser.email)) || a.responsible || a.owner || '—',
+        source: src,
+        assignedTo: assignedName,
         dueDate: a.dueDate || a.deadline || a.targetDate || a.closureDate || a.endDate || '',
         progress: typeof a.progress === 'number' ? a.progress : (typeof a.completionPercentage === 'number' ? a.completionPercentage : -1)
       };
@@ -3257,4 +3272,4 @@ function pvDemoActions(proj) {
 <!-- actionfix-20260401094954 -->
 <!-- shapefix-20260401100327 -->
 <!-- robust-20260401100922 -->
-<!-- nestedfix-20260401101818 -->
+<!-- nestedfix-20260401102002 -->
