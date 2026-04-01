@@ -2061,14 +2061,19 @@ function switchView(el, type) {
     // Load projects from API on first open
     if (!_pvCurrent) {
       pvLoadProjectBar();
-      // Auto-select first project after dropdown populates
-      setTimeout(function() {
+      // Auto-select first project after dropdown populates - retry up to 3 times
+      var _pvAutoTries = 0;
+      var _pvAutoTimer = setInterval(function() {
+        _pvAutoTries++;
         var sel = document.getElementById('pv-proj-select');
         if (sel && sel.options.length > 1) {
+          clearInterval(_pvAutoTimer);
           sel.selectedIndex = 1;
           pvSelectProjectByDropdown(sel);
+        } else if (_pvAutoTries >= 5) {
+          clearInterval(_pvAutoTimer);
         }
-      }, 1000);
+      }, 600);
     }
   } else {
     if (g) g.style.display = 'block';
@@ -3025,6 +3030,11 @@ function pvRenderProjectBar(projects){
     }).join('');
   // Style the select
   sel.style.borderColor = 'var(--border)';
+  // If no project loaded yet, auto-select first
+  if (!_pvCurrent && sel.options.length > 1) {
+    sel.selectedIndex = 1;
+    pvSelectProjectByDropdown(sel);
+  }
 }
 
 function pvSelectProjectByDropdown(sel) {
@@ -3246,3 +3256,4 @@ function pvDemoActions(proj) {
 <!-- schemafix-20260401103905 -->
 <!-- schemafix-20260401105050 -->
 <!-- cleanfix-20260401110832 -->
+<!-- autofix-20260401203651 -->
