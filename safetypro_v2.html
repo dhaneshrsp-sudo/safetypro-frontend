@@ -641,7 +641,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 
 
 /* ══ ANTI-BLEED FIXES ══ */
-.card{overflow:hidden;word-break:break-word;}
+.card{overflow:hidden;word-break:break-word;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;}
 .tab-panel{min-width:0;}
 .tab-panel.active{min-width:0;overflow:hidden;}
 .main *{max-width:100%;box-sizing:border-box;}
@@ -1494,6 +1494,17 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 <div id="view-project" style="display:none">
   <div class="dash" id="pv-dash">
 
+    <!-- PROJECT SWITCHER BAR -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:10px 16px;">
+      <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;">Select Project</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;flex:1;">
+        <div class="pv-proj-btn" onclick="pvSelectProject(this,'birpur')" data-proj="birpur" style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:7px;border:1px solid var(--border);background:var(--elevated);cursor:pointer;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t3);transition:.15s;">🏗️ Birpur Dam</div>
+        <div class="pv-proj-btn" onclick="pvSelectProject(this,'mu')" data-proj="mu" style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:7px;border:1px solid var(--border);background:var(--elevated);cursor:pointer;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t3);transition:.15s;">🚇 Mumbai Metro</div>
+        <div class="pv-proj-btn" onclick="pvSelectProject(this,'tirora')" data-proj="tirora" style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:7px;border:1px solid var(--border);background:var(--elevated);cursor:pointer;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t3);transition:.15s;">⚡ Tirora Plant</div>
+        <div class="pv-proj-btn" onclick="pvSelectProject(this,'delhi')" data-proj="delhi" style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:7px;border:1px solid var(--border);background:var(--elevated);cursor:pointer;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t3);transition:.15s;">🛣️ Delhi NH-8</div>
+      </div>
+    </div>
+
     <!-- PROJECT HERO HEADER -->
     <div class="grid-12">
       <div class="col-12">
@@ -2040,6 +2051,13 @@ function switchView(el, type) {
   if (type === 'project') {
     if (g) g.style.display = 'none';
     if (p) p.style.display = 'block';
+    // Auto-load first project if none loaded yet
+    if (!_pvCurrent) {
+      var sel = document.getElementById('filter-project');
+      var firstVal = sel && sel.options[1] ? sel.options[1].value : 'birpur';
+      if (sel) sel.value = firstVal;
+      loadProjectView(firstVal);
+    }
   } else {
     if (g) g.style.display = 'block';
     if (p) p.style.display = 'none';
@@ -2919,9 +2937,33 @@ function pvRenderCompliance(proj) {
   }).join('');
 }
 
+function pvSelectProject(el, proj) {
+  // Highlight active button
+  document.querySelectorAll('.pv-proj-btn').forEach(function(b) {
+    b.style.background = 'var(--elevated)';
+    b.style.color = 'var(--t3)';
+    b.style.borderColor = 'var(--border)';
+  });
+  el.style.background = 'var(--green-dim)';
+  el.style.color = 'var(--green)';
+  el.style.borderColor = 'rgba(34,197,94,.3)';
+  // Sync subnav dropdown
+  var sel = document.getElementById('filter-project');
+  if (sel) sel.value = proj;
+  // Load project
+  loadProjectView(proj);
+}
+
 function loadProjectView(projectId) {
   if (!projectId) return;
   _pvCurrent = projectId;
+  // Sync project switcher buttons
+  document.querySelectorAll('.pv-proj-btn').forEach(function(b) {
+    var isActive = b.getAttribute('data-proj') === projectId;
+    b.style.background = isActive ? 'var(--green-dim)' : 'var(--elevated)';
+    b.style.color = isActive ? 'var(--green)' : 'var(--t3)';
+    b.style.borderColor = isActive ? 'rgba(34,197,94,.3)' : 'var(--border)';
+  });
   var token = localStorage.getItem('sp_token');
   if (!token) return;
   var API = API_BASE;
@@ -3041,3 +3083,4 @@ function pvDemoActions(proj) {
 
 
 <!-- pv-phase1-20260401062307 -->
+<!-- pv-fix2-20260401063836 -->
