@@ -1494,14 +1494,11 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 <div id="view-project" style="display:none">
   <div class="dash" id="pv-dash">
 
-    <!-- PROJECT SWITCHER BAR -->
+    <!-- PROJECT SWITCHER BAR — dynamic from /projects API -->
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:10px 16px;">
-      <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;">Select Project</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;flex:1;">
-        <div class="pv-proj-btn" onclick="pvSelectProject(this,'birpur')" data-proj="birpur" style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:7px;border:1px solid var(--border);background:var(--elevated);cursor:pointer;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t3);transition:.15s;">🏗️ Birpur Dam</div>
-        <div class="pv-proj-btn" onclick="pvSelectProject(this,'mu')" data-proj="mu" style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:7px;border:1px solid var(--border);background:var(--elevated);cursor:pointer;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t3);transition:.15s;">🚇 Mumbai Metro</div>
-        <div class="pv-proj-btn" onclick="pvSelectProject(this,'tirora')" data-proj="tirora" style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:7px;border:1px solid var(--border);background:var(--elevated);cursor:pointer;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t3);transition:.15s;">⚡ Tirora Plant</div>
-        <div class="pv-proj-btn" onclick="pvSelectProject(this,'delhi')" data-proj="delhi" style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:7px;border:1px solid var(--border);background:var(--elevated);cursor:pointer;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t3);transition:.15s;">🛣️ Delhi NH-8</div>
+      <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;flex-shrink:0;">Select Project</div>
+      <div id="pv-proj-bar" style="display:flex;gap:8px;flex-wrap:wrap;flex:1;">
+        <div style="font-size:11px;color:var(--t3);padding:6px 0;">Loading...</div>
       </div>
     </div>
 
@@ -2051,12 +2048,13 @@ function switchView(el, type) {
   if (type === 'project') {
     if (g) g.style.display = 'none';
     if (p) p.style.display = 'block';
-    // Auto-load first project if none loaded yet
+    // Load projects from API on first open
     if (!_pvCurrent) {
-      var sel = document.getElementById('filter-project');
-      var firstVal = sel && sel.options[1] ? sel.options[1].value : 'birpur';
-      if (sel) sel.value = firstVal;
-      loadProjectView(firstVal);
+      pvLoadProjectBar();
+      setTimeout(function() {
+        var firstBtn = document.querySelector('.pv-proj-btn');
+        if (firstBtn) firstBtn.click();
+      }, 900);
     }
   } else {
     if (g) g.style.display = 'block';
@@ -2935,6 +2933,45 @@ function pvRenderCompliance(proj) {
       '</div>' +
     '</div>';
   }).join('');
+}
+
+/* ── Dynamic project bar ── */
+var PV_ICONS = {dam:'🏗️',metro:'🚇',plant:'⚡',highway:'🛣️',road:'🛣️',power:'⚡',water:'💧',building:'🏢',default:'📋'};
+function pvGetIcon(name){var n=(name||'').toLowerCase();for(var k in PV_ICONS){if(n.indexOf(k)>-1)return PV_ICONS[k];}return PV_ICONS.default;}
+
+function pvLoadProjectBar(){
+  var bar=document.getElementById('pv-proj-bar');if(!bar)return;
+  var token=localStorage.getItem('sp_token');
+  if(!token){pvRenderProjectBar(pvFallbackProjects());return;}
+  fetch(API_BASE+'/projects',{headers:{'Authorization':'Bearer '+token}})
+  .then(function(r){return r.ok?r.json():null;})
+  .then(function(p){pvRenderProjectBar(p&&p.length?p:pvFallbackProjects());if(p&&p.length)pvSyncSubnavDropdown(p);})
+  .catch(function(){pvRenderProjectBar(pvFallbackProjects());});
+}
+
+function pvFallbackProjects(){
+  return [{id:'birpur',name:'Birpur Dam',location:'Birpur, Jharkhand',sector:'Dam'},
+    {id:'mu',name:'Mumbai Metro',location:'Mumbai, Maharashtra',sector:'Metro'},
+    {id:'tirora',name:'Tirora Plant',location:'Tirora, Maharashtra',sector:'Power Plant'},
+    {id:'delhi',name:'Delhi NH-8',location:'Delhi-Gurugram, NCR',sector:'Highway'}];
+}
+
+function pvRenderProjectBar(projects){
+  var bar=document.getElementById('pv-proj-bar');if(!bar)return;
+  bar.innerHTML=projects.map(function(p){
+    var icon=pvGetIcon(p.name+' '+(p.sector||''));
+    return '<div class="pv-proj-btn" onclick="pvSelectProject(this,\''+p.id+'\')" data-proj="'+p.id+'" title="'+(p.location||'')+'" '+
+      'style="display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:7px;border:1px solid var(--border);'+
+      'background:var(--elevated);cursor:pointer;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t3);transition:.15s;">'+
+      icon+' '+p.name+'</div>';
+  }).join('');
+}
+
+function pvSyncSubnavDropdown(projects){
+  var sel=document.getElementById('filter-project');if(!sel)return;
+  var cur=sel.value;
+  sel.innerHTML='<option value="">All Projects</option>'+
+    projects.map(function(p){return '<option value="'+p.id+'"'+(p.id===cur?' selected':'')+'>'+p.name+'</option>';}).join('');
 }
 
 function pvSelectProject(el, proj) {
