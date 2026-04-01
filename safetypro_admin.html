@@ -71,7 +71,7 @@ svg{flex-shrink:0}
 
 /* MAIN */
 .main{padding:16px 20px;display:flex;flex-direction:column;gap:14px;padding-bottom:60px}
-.tab-panel{display:none}.tab-panel.active{display:block;padding-bottom:24px}
+.tab-panel{display:none}.tab-panel.active{display:block;padding-bottom:24px;overflow:visible!important}
 
 /* CARD */
 .card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:visible;margin-bottom:14px}
@@ -161,7 +161,7 @@ svg{flex-shrink:0}
 .wf-badge{font-size:9px;padding:1px 6px;border-radius:3px;font-weight:600}
 
 /* NOTIFICATIONS */
-.notif-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.notif-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
 .notif-channel{background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:16px}
 .nc-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .nc-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center}
@@ -536,7 +536,7 @@ svg{flex-shrink:0}
 /* ══ ANTI-BLEED FIXES ══ */
 .card{overflow:hidden;word-break:break-word;}
 .tab-panel{min-width:0;}
-.tab-panel.active{min-width:0;overflow:hidden;}
+.tab-panel.active{min-width:0;}
 .main *{max-width:100%;box-sizing:border-box;}
 .sh-tabs{max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;}
 .sh-tabs::-webkit-scrollbar{display:none;}
@@ -3111,3 +3111,4 @@ document.addEventListener('click',function(e){
 <!-- projects-tab-20260401211550 -->
 <!-- adminfix-20260401224001 -->
 <!-- adminfix2-20260401224409 -->
+<!-- cssfix-20260401224900 -->
