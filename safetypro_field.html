@@ -1097,7 +1097,7 @@ flex-wrap:wrap;}
               </div>
 
               <!-- STATUS OVERLAY -->
-              <div id="sa-status-overlay" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.8));padding:12px 14px;">
+              <div id="sa-status-overlay" style="display:none;position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.8));padding:12px 14px;">
                 <div id="sa-status-text" style="font-size:11px;font-weight:700;color:var(--green);font-family:var(--fh);">● Camera Ready — Position your face in the oval</div>
               </div>
 
@@ -2629,9 +2629,11 @@ function saStartCamera() {
       var video = document.getElementById('sa-video');
       video.srcObject = stream;
       video.style.display = 'block';
-      // Hide prompt
+      // Hide prompt, show status overlay
       if(prompt) prompt.style.display = 'none';
       document.getElementById('sa-face-guide').style.display = 'flex';
+      var statusOv = document.getElementById('sa-status-overlay');
+      if(statusOv) statusOv.style.display = 'block';
       document.getElementById('sa-status-text').textContent = '● Camera Ready — Position your face in the oval';
       document.getElementById('sa-status-text').style.color = 'var(--green)';
       saGetGPS();
@@ -2793,7 +2795,8 @@ function saProcessAttendance(actionType, confidence) {
         var prompt = document.getElementById('sa-start-prompt'); if(prompt) prompt.style.display = 'none';
         var vid = document.getElementById('sa-video'); if(vid) vid.style.display = 'block';
         var guide = document.getElementById('sa-face-guide'); if(guide) guide.style.display = 'flex';
-        navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:640},height:{ideal:480}},audio:false})
+        var statusOv = document.getElementById('sa-status-overlay'); if(statusOv) statusOv.style.display = 'block';
+        navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'user'},width:{ideal:640},height:{ideal:480}},audio:false})
           .then(function(stream){
             window.saStream = stream;
             var v = document.getElementById('sa-video');
@@ -3295,11 +3298,12 @@ function saAutoFire(){if(window.saHasCaptured)return;window.saHasCaptured=true;i
   var cir=document.getElementById("sa-cd-circle");if(cir){cir.style.transition="none";cir.style.strokeDashoffset="220";}
   // Hide start prompt — stay in camera mode (black window + oval)
   var prompt=document.getElementById("sa-start-prompt");if(prompt)prompt.style.display="none";
-  // Show video + oval guide immediately
+  // Show video + oval guide + status overlay immediately
   var vid=document.getElementById("sa-video");if(vid)vid.style.display="block";
   var guide=document.getElementById("sa-face-guide");if(guide)guide.style.display="flex";
+  var statusOv2=document.getElementById("sa-status-overlay");if(statusOv2)statusOv2.style.display="block";
   // Request new stream directly — no prompt screen
-  navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:640},height:{ideal:480}},audio:false})
+  navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'user'},width:{ideal:640},height:{ideal:480}},audio:false})
     .then(function(stream){
       window.saStream=stream;
       var v=document.getElementById("sa-video");
