@@ -2781,7 +2781,7 @@ function saProcessAttendance(actionType, confidence) {
       // Add to feed
       saAddToFeed(workerName, actionType, timeStr, zone, confidence, gpsStr, 'selfie');
 
-      // AUTO-RESTART CAMERA after 3s — return to initial live feed state
+      // AUTO-RESTART CAMERA after 3s — show tap prompt (iOS-safe, requires user gesture)
       setTimeout(function(){
         successCard.style.display = 'none';
         window.saHasCaptured = false;
@@ -2791,19 +2791,17 @@ function saProcessAttendance(actionType, confidence) {
         var st = document.getElementById('sa-auto-status'); if(st){ st.textContent = 'ALIGN FACE'; st.style.color = 'rgba(34,197,94,0.8)'; }
         var rng = document.getElementById('sa-countdown-ring'); if(rng) rng.classList.remove('active');
         var num = document.getElementById('sa-countdown-num'); if(num) num.textContent = '';
-        var cir = document.getElementById('sa-cd-circle'); if(cir){ cir.style.transition = 'none'; cir.style.strokeDashoffset = '220'; }
-        var prompt = document.getElementById('sa-start-prompt'); if(prompt) prompt.style.display = 'none';
-        var vid = document.getElementById('sa-video'); if(vid) vid.style.display = 'block';
-        var guide = document.getElementById('sa-face-guide'); if(guide) guide.style.display = 'flex';
-        var statusOv = document.getElementById('sa-status-overlay'); if(statusOv) statusOv.style.display = 'block';
-        navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'user'},width:{ideal:640},height:{ideal:480}},audio:false})
-          .then(function(stream){
-            window.saStream = stream;
-            var v = document.getElementById('sa-video');
-            if(v){ v.srcObject = stream; v.play(); }
-            setTimeout(saStartAutoCapture, 800);
-          })
-          .catch(function(){ saStartCamera(); });
+        var cir = document.getElementById('sa-cd-circle'); if(cir){ cir.style.transition='none'; cir.style.strokeDashoffset='220'; }
+        // Show ready-for-next prompt (tap triggers saStartCamera with user gesture — iOS safe)
+        var prompt = document.getElementById('sa-start-prompt');
+        if(prompt){
+          prompt.style.display = 'flex';
+          prompt.innerHTML =
+            '<div style="font-size:36px;margin-bottom:6px;">✅</div>' +
+            '<div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--green);margin-bottom:3px;">Attendance Recorded!</div>' +
+            '<div style="font-size:10px;color:var(--t3);">Tap to scan next person</div>' +
+            '<div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);padding:7px 22px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:11px;font-weight:800;font-family:var(--fh);white-space:nowrap;">📸 Scan Next</div>';
+        }
       }, 3000);
     }
   }
