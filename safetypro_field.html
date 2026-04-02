@@ -2614,66 +2614,43 @@ function saSetMode(mode) {
 }
 
 function saStartCamera() {
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    document.getElementById('sa-status-text').textContent = '❌ Camera not supported on this device';
-    return;
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    document.getElementById('sa-status-text').textContent='❌ Camera not supported';return;
   }
-  var prompt = document.getElementById('sa-start-prompt');
-  if(prompt) {
-    prompt.innerHTML = '<div style="font-size:32px;margin-bottom:10px;">⏳</div><div style="font-family:var(--fh);font-size:12px;color:var(--t2);">Starting camera...</div>';
-  }
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: {ideal:'user'}, width: {ideal:640}, height: {ideal:480} }, audio: false })
-    .then(function(stream) {
-      saStream = stream;
-      var video = document.getElementById('sa-video');
-      video.srcObject = stream;
+  var prompt=document.getElementById('sa-start-prompt');
+  if(prompt)prompt.innerHTML='<div style="font-size:32px;margin-bottom:10px;">⏳</div><div style="font-family:var(--fh);font-size:12px;color:var(--t2);">Starting camera...</div>';
+  navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'user'},width:{ideal:640},height:{ideal:480}},audio:false})
+    .then(function(stream){
+      window.saStream=stream;
+      var video=document.getElementById('sa-video');
+      video.srcObject=stream;
       video.play();
-      // PRECISION FIX: show video only when real frame arrives — not black
-      // Checks brightness every 100ms, shows when >15 (real content) or 3s timeout
-      var _canvas = document.createElement('canvas');
-      _canvas.width=32;_canvas.height=32;
-      var _ctx = _canvas.getContext('2d');
-      var _checks = 0;
-      var _checkFrame = setInterval(function(){
-        _checks++;
-        try{
-          _ctx.drawImage(video,0,0,32,32);
-          var _px=_ctx.getImageData(0,0,32,32).data,_sum=0;
-          for(var _i=0;_i<_px.length;_i+=4)_sum+=(_px[_i]+_px[_i+1]+_px[_i+2]);
-          var _bright=_sum/(_px.length/4*3);
-          if(_bright>15||_checks>30){
-            clearInterval(_checkFrame);
-            video.style.display='block';
-            if(prompt)prompt.style.display='none';
-            document.getElementById('sa-face-guide').style.display='flex';
-            var statusOv=document.getElementById('sa-status-overlay');
-            if(statusOv)statusOv.style.display='block';
-            document.getElementById('sa-status-text').textContent='● Camera Ready — Position your face in the oval';
-            document.getElementById('sa-status-text').style.color='var(--green)';
-            saGetGPS();
-            setTimeout(saStartAutoCapture,400);
-          }
-        }catch(e){if(_checks>30)clearInterval(_checkFrame);}
+      var _c=document.createElement('canvas');_c.width=32;_c.height=32;
+      var _ctx=_c.getContext('2d'),_n=0;
+      var _chk=setInterval(function(){
+        _n++;
+        var _b=0;
+        try{_ctx.drawImage(video,0,0,32,32);var _px=_ctx.getImageData(0,0,32,32).data,_s=0;for(var _i=0;_i<_px.length;_i+=4)_s+=_px[_i]+_px[_i+1]+_px[_i+2];_b=_s/(_px.length/4*3);}catch(e){}
+        if(_b>15||_n>30){
+          clearInterval(_chk);
+          video.style.display='block';
+          if(prompt)prompt.style.display='none';
+          var _g=document.getElementById('sa-face-guide');if(_g)_g.style.display='flex';
+          var _so=document.getElementById('sa-status-overlay');if(_so)_so.style.display='block';
+          var _st=document.getElementById('sa-status-text');if(_st){_st.textContent='● Camera Ready — Position your face in the oval';_st.style.color='var(--green)';}
+          if(typeof saGetGPS==='function')saGetGPS();
+          setTimeout(function(){if(typeof saStartAutoCapture==='function')saStartAutoCapture();},400);
+        }
       },100);
     })
-    .catch(function(err) {
-      var prompt = document.getElementById('sa-start-prompt');
-      var msg = '';
-      if(err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
-        msg = '❌ No camera found — use QR or Manual mode';
-        if(prompt) { prompt.innerHTML = '<div style="font-size:32px">😕</div><div style="font-family:var(--fh);font-size:11px;color:var(--red);margin-top:8px;">No camera found</div><div style="font-size:10px;color:var(--t3);margin-top:4px;">Use QR or Manual mode instead</div>'; }
-      } else if(err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-        msg = '❌ Camera permission denied';
-        if(prompt) { prompt.innerHTML = '<div style="font-size:32px">🔒</div><div style="font-family:var(--fh);font-size:11px;color:var(--red);margin-top:8px;">Camera Blocked</div><div style="font-size:10px;color:var(--t3);margin-top:4px;">Click 🔒 in address bar → Allow camera → Reload</div><button onclick="location.reload()" style="margin-top:10px;padding:6px 14px;background:var(--green);border:none;border-radius:6px;color:#0B0F14;font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">Reload Page</button>'; }
-      } else if(err.name === 'NotReadableError') {
-        msg = '❌ Camera in use by another app';
-        if(prompt) { prompt.innerHTML = '<div style="font-size:32px">📵</div><div style="font-family:var(--fh);font-size:11px;color:var(--amber);margin-top:8px;">Camera Busy</div><div style="font-size:10px;color:var(--t3);margin-top:4px;">Close Teams/Zoom/other apps using camera</div><button onclick="saStartCamera()" style="margin-top:10px;padding:6px 14px;background:var(--blue);border:none;border-radius:6px;color:#fff;font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">Try Again</button>'; }
+    .catch(function(err){
+      if(err.name==='NotAllowedError'||err.name==='PermissionDeniedError'){
+        if(prompt)prompt.innerHTML='<div style="font-size:32px">🔒</div><div style="font-family:var(--fh);font-size:11px;color:var(--red);margin-top:8px;">Camera Blocked</div><div style="font-size:10px;color:var(--t3);margin-top:4px;">Click 🔒 in address bar → Allow camera → Reload</div><button onclick="location.reload()" style="margin-top:10px;padding:6px 14px;background:var(--green);border:none;border-radius:6px;color:#0B0F14;font-size:10px;font-weight:700;cursor:pointer;">Reload</button>';
+      } else if(err.name==='NotReadableError'){
+        if(prompt)prompt.innerHTML='<div style="font-size:32px">📵</div><div style="font-family:var(--fh);font-size:11px;color:var(--amber);margin-top:8px;">Camera Busy</div><div style="font-size:10px;color:var(--t3);margin-top:4px;">Close other apps using camera</div><button onclick="saStartCamera()" style="margin-top:10px;padding:6px 14px;background:var(--blue);border:none;border-radius:6px;color:#fff;font-size:10px;cursor:pointer;">Try Again</button>';
       } else {
-        msg = '❌ Camera error: ' + err.name;
-        if(prompt) { prompt.innerHTML = '<div style="font-size:32px">⚠️</div><div style="font-family:var(--fh);font-size:11px;color:var(--red);margin-top:8px;">' + err.name + '</div><button onclick="saStartCamera()" style="margin-top:10px;padding:6px 14px;background:var(--blue);border:none;border-radius:6px;color:#fff;font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">Try Again</button>'; }
+        if(prompt)prompt.innerHTML='<div style="font-size:32px">⚠️</div><div style="font-family:var(--fh);font-size:11px;color:var(--red);margin-top:8px;">'+err.name+'</div><button onclick="saStartCamera()" style="margin-top:10px;padding:6px 14px;background:var(--blue);border:none;border-radius:6px;color:#fff;font-size:10px;cursor:pointer;">Try Again</button>';
       }
-      document.getElementById('sa-status-text').textContent = msg;
-      document.getElementById('sa-status-text').style.color = 'var(--red)';
     });
 }
 
