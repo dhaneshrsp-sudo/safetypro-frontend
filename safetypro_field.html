@@ -57,7 +57,7 @@ svg{flex-shrink:0}
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none;width:195px;flex-shrink:0;padding:0 16px 0 18px;border-right:1px solid var(--border)}
 .logo-mark{width:28px;height:28px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(34,197,94,.4)}
 .logo-mark svg{width:16px;height:16px;fill:#fff}
-.logo{color:var(--t1)!important;text-decoration:none!important;}.logo-text{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1)!important;}
+.logo-text{font-family:var(--fh);font-size:15px;font-weight:700}
 .logo-text span{color:var(--green)}
 .nav-links{display:flex;align-items:center;gap:2px;flex:1;padding:0 12px}
 .nl{display:flex;align-items:center;gap:6px;padding:6px 13px;border-radius:7px;font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s;text-decoration:none}
@@ -792,6 +792,10 @@ flex-wrap:wrap;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 
 
+.logo{color:var(--t1,#E6EDF3)!important;text-decoration:none!important;}
+.logo-text{color:var(--t1,#E6EDF3)!important;font-size:15px;font-weight:800;letter-spacing:-.3px;}
+.logo-text span{color:var(--green,#22C55E)!important;}
+
 .sp-footer{height:38px;background:var(--sidebar);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;}
 .sp-footer-left,.sp-footer-right{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--t3);}
 .sp-footer-sep{color:var(--border);}
@@ -835,41 +839,14 @@ flex-wrap:wrap;}
   </div>
 </nav>
   <!-- Profile Dropdown -->
-  <div id="profile-dropdown" style="display:none;position:fixed;top:52px;right:16px;width:240px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:9999;overflow:hidden">
-    <!-- Profile Header -->
-    <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
-      <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;font-family:var(--fh)">DK</div>
-      <div>
-        <div style="font-size:13px;font-weight:700;color:var(--t1)">Dhanesh CK</div>
-        <div style="font-size:10px;color:var(--t3)">dhanesh.ck@ieccl.co.in</div>
-        <div style="font-size:10px;color:var(--green);margin-top:2px;font-weight:600">● HSE Head</div>
-      </div>
+  <div id="profile-dropdown" style="display:none;position:fixed;top:52px;right:16px;width:220px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:9999;overflow:hidden">
+    <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
+      <div style="font-size:13px;font-weight:700;color:var(--t1)" id="profile-name">-</div>
+      <div style="font-size:11px;color:var(--t3)" id="profile-email">-</div>
+      <div style="font-size:10px;color:var(--green);margin-top:2px;font-weight:600" id="profile-role-badge">-</div>
     </div>
-    <!-- Menu Items -->
-    <div style="padding:6px 0">
-      <div onclick="fieldToast('My Profile — coming soon','blue')" style="padding:9px 16px;font-size:12px;color:var(--t1);cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        My Profile
-      </div>
-      <div onclick="fieldToast('Account Settings — coming soon','blue')" style="padding:9px 16px;font-size:12px;color:var(--t1);cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-        Account Settings
-      </div>
-      <div onclick="fieldToast('Notifications settings — coming soon','blue')" style="padding:9px 16px;font-size:12px;color:var(--t1);cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
-        Notifications
-      </div>
-      <div onclick="changePassword()" style="padding:9px 16px;font-size:12px;color:var(--t1);cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-        Change Password
-      </div>
-      <div style="height:1px;background:var(--border);margin:6px 0"></div>
-      <div onclick="window.location.href='safetypro_admin'" style="padding:9px 16px;font-size:12px;color:var(--t1);cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Admin Panel
-      </div>
-      <div style="height:1px;background:var(--border);margin:6px 0"></div>
-      <div onclick="signOut()" style="padding:9px 16px;font-size:12px;color:#EF4444;cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.background='rgba(239,68,68,.08)'" onmouseout="this.style.background='transparent'">
+    <div style="padding:8px 0">
+      <div onclick="signOut()" style="padding:10px 16px;font-size:13px;color:#EF4444;cursor:pointer;display:flex;align-items:center;gap:8px" onmouseover="this.style.background='rgba(239,68,68,.08)'" onmouseout="this.style.background='transparent'">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
         Sign Out
       </div>
@@ -877,7 +854,7 @@ flex-wrap:wrap;}
   </div>
 
 <!-- ══ BODY ══ -->
-<div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
+<div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div></div>
 <div class="body">
 
   <!-- SIDEBAR -->
@@ -896,8 +873,7 @@ flex-wrap:wrap;}
       Reports
     </a>
     <div style="height:1px;background:#1E293B;margin:10px 2px 6px"></div>
-    <div onclick="toggleSidebarMore(this)" style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:2px 10px 6px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;">MORE<span style="font-size:10px;transition:transform .2s;display:inline-block;" id="sb-chev">&#9660;</span></div>
-    <div id="sb-more-items" style="overflow:hidden;max-height:600px;transition:max-height .25s ease,opacity .2s;opacity:1;">
+    <div onclick="toggleSidebarMore()" style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:2px 10px 6px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;">MORE<span id="sb-chev" style="font-size:10px;transition:transform .25s;">&#9660;</span></div><div id="sb-more-items" style="overflow:hidden;max-height:500px;transition:max-height .3s ease,opacity .3s;opacity:1;">
     <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_reports.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
       Audit &amp; Compliance
@@ -923,8 +899,7 @@ flex-wrap:wrap;}
       <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#22C55E"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
       Admin &amp; Configuration
     </a>
-  
-    </div></div>
+  </div>
 
   <!-- CONTENT -->
   <div class="content">
@@ -3003,6 +2978,16 @@ function saveTraining() {
   toggleTrainingForm();
   fieldToast('Training record saved — "' + topic.substring(0,25) + '..." · ' + trAttendance + ' attended', 'success');
 }
+
+function toggleSidebarMore() {
+  var el = document.getElementById('sb-more-items');
+  var ch = document.getElementById('sb-chev');
+  if(!el) return;
+  var isOpen = el.style.maxHeight !== '0px';
+  el.style.maxHeight = isOpen ? '0px' : '500px';
+  el.style.opacity = isOpen ? '0' : '1';
+  if(ch) ch.style.transform = isOpen ? 'rotate(-90deg)' : 'rotate(0deg)';
+}
 </script>
 
   </div>
@@ -3118,19 +3103,19 @@ function saveTraining() {
 
 <footer class="sp-footer">
   <div class="sp-footer-left">
-    <span>&copy; 2026 SafetyPro AI</span>
+    <span>&#169; 2026 SafetyPro AI</span>
     <span class="sp-footer-sep">|</span>
     <span style="color:var(--t2)">Site &amp; Field Tools</span>
     <span class="sp-footer-sep">|</span>
     <span style="color:var(--t2)">v1.3.2</span>
   </div>
   <div class="sp-footer-right">
-    <span style="cursor:pointer" onclick="fieldToast('Help docs coming soon','blue')">Quick Help</span>
+    <span style="cursor:pointer;color:var(--t3)">Quick Help</span>
     <span class="sp-footer-sep">|</span>
-    <span style="cursor:pointer" onclick="fieldToast('Issue reported to support@safetyproworld.com','success')">Report Issue</span>
+    <span style="cursor:pointer;color:var(--t3)">Report Issue</span>
     <span class="sp-footer-sep">|</span>
-    <div style="width:6px;height:6px;border-radius:50%;background:#22C55E;display:inline-block;margin-right:2px;"></div>
-    <span style="color:#22C55E">Operational</span>
+    <div style="width:6px;height:6px;border-radius:50%;background:#22C55E;display:inline-block;margin-right:4px;"></div>
+    <span style="color:#22C55E">&#9679; Operational</span>
   </div>
 </footer>
 </body>
