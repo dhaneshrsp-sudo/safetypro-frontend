@@ -796,8 +796,20 @@ flex-wrap:wrap;}
 .logo-text{color:var(--t1,#E6EDF3)!important;font-size:15px;font-weight:800;letter-spacing:-.3px;}
 .logo-text span{color:var(--green,#22C55E)!important;}
 
-.logo-text{color:#E6EDF3!important;font-size:15px;font-weight:800;}.logo-text span{color:#22C55E!important;}
-.content{padding:0 !important;}[id^="field-tab-"]{padding:16px 20px 20px 20px !important;}.sp-footer{display:flex;align-items:center;justify-content:space-between;height:28px;background:#080F18;border-top:1px solid var(--border);padding:7px 20px;flex-shrink:0;z-index:10;}.sp-footer-left,.sp-footer-center,.sp-footer-right{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--t3);}.sp-footer-sep{color:var(--border);}.sp-footer-status-dot{width:6px;height:6px;border-radius:50%;background:#22C55E;display:inline-block;}</style>
+
+.sp-footer-left,
+
+
+/* ══ STANDARD FOOTER — exact match dashboard ══ */
+.sp-footer{flex-shrink:0;background:var(--sidebar,#080F18);border-top:1px solid var(--border,#162236);padding:7px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--t3,#2E4A66);z-index:10;}
+.sp-footer-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.sp-footer-center{display:flex;align-items:center;gap:14px;}
+.sp-footer-center a{color:var(--t3,#2E4A66);text-decoration:none;transition:.15s;}
+.sp-footer-center a:hover{color:var(--t2,#7A9BBF);}
+.sp-footer-right{display:flex;align-items:center;gap:6px;}
+.sp-footer-status-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;flex-shrink:0;}
+.sp-footer-sep{opacity:.3;}
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
 <body>
@@ -864,8 +876,8 @@ flex-wrap:wrap;}
       Reports
     </a>
     <div style="height:1px;background:#1E293B;margin:10px 2px 6px"></div>
-    <div onclick="toggleSidebarMore()" style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border-radius:4px;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">MORE<span id="sb-chev" style="transition:transform .25s;font-size:9px;">&#9660;</span></div><div id="sb-more-items" style="overflow:hidden;max-height:500px;opacity:1;transition:max-height .3s,opacity .3s;">
-
+    <div id="sb-more-hdr" onclick="toggleSidebarMore()" style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:6px 10px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border-radius:4px;" onmouseover="this.style.background='rgba(255,255,255,0.04)'" onmouseout="this.style.background='transparent'">MORE <span id="sb-chev" style="font-size:10px;transition:transform .25s;display:inline-block;">&#9660;</span></div>
+<div id="sb-more-items" style="overflow:hidden;max-height:500px;opacity:1;transition:max-height .3s ease,opacity .3s;">
     <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_reports.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
       Audit &amp; Compliance
@@ -2459,8 +2471,54 @@ flex-wrap:wrap;}
     
 
 
-
-<footer class="sp-footer"><div class="sp-footer-left"><span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2);font-weight:600">Site &amp; Field Tools</span><span class="sp-footer-sep">|</span><span>v1.3.2</span><span class="sp-footer-sep">|</span><span>Last Sync: 11:50 AM</span></div><div class="sp-footer-center"><span style="cursor:pointer" onclick="fieldToast('Opening Field Guide','blue')">Field Guide</span><span class="sp-footer-sep">|</span><span style="cursor:pointer" onclick="fieldToast('Opening PTW Help','blue')">PTW Help</span><span class="sp-footer-sep">|</span><span style="cursor:pointer" onclick="fieldToast('Issue reported','success')">Report Issue</span></div><div class="sp-footer-right"><div style="width:6px;height:6px;border-radius:50%;background:#22C55E;display:inline-block;"></div><span style="color:#22C55E">Operational</span></div></footer></div>
+<!-- ══ STANDARD FOOTER ══ -->
+<footer class="sp-footer">
+  <div class="sp-footer-left">
+    <span>&#169; 2026 SafetyPro AI</span>
+    <span class="sp-footer-sep">|</span>
+    <span style="color:var(--t2,#7A9BBF)">Site &amp; Field Tools</span>
+    <span class="sp-footer-sep">|</span>
+    <span id="sp-footer-version">v1.3.2</span>
+    <span class="sp-footer-sep">|</span>
+    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
+  </div>
+  <div class="sp-footer-center">
+    <a href="mailto:support@safetyproworld.com">Field Guide</a>
+    <a href="mailto:support@safetyproworld.com">PTW Help</a>
+    <a href="mailto:support@safetyproworld.com">Report Issue</a>
+  </div>
+  <div class="sp-footer-right">
+    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
+    <span id="sp-status-text" style="color:#22C55E">Operational</span>
+  </div>
+</footer>
+<script>
+(function spFooterInit(){
+  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
+  function updateFooter(d){
+    var v=document.getElementById('sp-footer-version');
+    var s=document.getElementById('sp-footer-sync');
+    var dot=document.getElementById('sp-status-dot');
+    var txt=document.getElementById('sp-status-text');
+    if(!v)return;
+    if(d.version)v.textContent=d.version;
+    if(d.lastSync){try{s.textContent=new Date(d.lastSync).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}}
+    var status=d.status||'operational';
+    var colors={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'};
+    if(dot)dot.style.background=colors[status]||'#22C55E';
+    if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#22C55E';}
+  }
+  function fetchStatus(){
+    fetch(API+'/api/system/status')
+      .then(function(r){return r.json();})
+      .then(updateFooter)
+      .catch(function(){updateFooter({status:'operational',version:'v1.3.2',lastSync:new Date().toISOString()});});
+  }
+  fetchStatus();
+  setInterval(fetchStatus,30000);
+})();
+</script>
+</div>
 
 
 
@@ -2736,7 +2794,6 @@ function saExportBOCW() {
 
 
 
-function toggleSidebarMore(){var el=document.getElementById('sb-more-items'),ch=document.getElementById('sb-chev');if(!el)return;var o=el.style.maxHeight!='0px';el.style.maxHeight=o?'0px':'500px';el.style.opacity=o?'0':'1';if(ch)ch.style.transform=o?'rotate(-90deg)':'rotate(0deg)';}
 function switchFieldTab(el, id) {
   document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
