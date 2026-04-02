@@ -564,7 +564,7 @@ svg{flex-shrink:0}
       <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More&#9660;
       <div class="more-menu" id="more-menu">
         <a class="mm-item" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
-        <a class="mm-item" href="safetypro_field.html"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="safetypro_field"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
         <a class="mm-item" href="safetypro_ai.html"><svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg>AI Intelligence</a>
         <a class="mm-item" href="safetypro_documents.html"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
         <div class="mm-divider"></div>
@@ -649,7 +649,7 @@ svg{flex-shrink:0}
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
         Audit &amp; Compliance
       </a>
-      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field.html">
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         Site &amp; Field Tools
       </a>
@@ -1228,7 +1228,9 @@ svg{flex-shrink:0}
 </div>
 
 
-          <!-- ══ INTEGRATIONS TAB ══ -->
+
+
+    <!-- ══ INTEGRATIONS TAB ══ -->
           <div class="tab-panel" id="tab-integrations">
   <div class="card" style="padding:20px;">
     <div style="padding:0 0 14px;border-bottom:1px solid var(--border);margin-bottom:18px;">
@@ -1411,8 +1413,7 @@ svg{flex-shrink:0}
 
           
 
-          <!-- INTEGRATIONS TAB -->
-          </div>
+          
             <!-- CONNECTED -->
             <div style="margin-bottom:20px;">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
@@ -2682,8 +2683,7 @@ window.addEventListener('beforeunload', function() {
 
 </script>
 
-
-      <!-- ══ ACCESS REQUESTS TAB ══ -->
+    <!-- ══ ACCESS REQUESTS TAB ══ -->
       <div class="tab-panel" id="tab-accessreq">
 
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:20px;">
@@ -3035,76 +3035,91 @@ document.addEventListener('click',function(e){
     <span id="sp-status-text" style="color:#22C55E">Operational</span>
   </div>
 </footer>
-    <!-- ══ PROJECTS TAB ══ -->
-    <div class="tab-panel" id="tab-projects">
 
-      <div class="card" style="padding:16px;margin-bottom:0;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-          <div>
-            <div style="font-size:14px;font-weight:700;color:var(--t1);">Create New Project</div>
-            <div style="font-size:11px;color:var(--t3);margin-top:2px;">Add a project to your SafetyPro workspace</div>
-          </div>
-          <button onclick="toggleCreateProject()" id="btn-toggle-create" style="background:var(--green);color:#050E07;border:none;border-radius:8px;padding:8px 16px;font-family:var(--fh);font-size:12px;font-weight:700;cursor:pointer;">+ New Project</button>
-        </div>
-        <div id="create-project-form" style="display:none;">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
-            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">PROJECT NAME *</label><input id="proj-name" type="text" placeholder="e.g. Birpur Bihpur Road" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
-            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">SECTOR *</label><select id="proj-sector" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"><option value="HIGHWAY">Highway</option><option value="METRO">Metro Rail</option><option value="POWER">Power</option><option value="IRRIGATION">Irrigation / Dam</option><option value="OIL_GAS">Oil & Gas</option><option value="BUILDING">Building</option><option value="BRIDGE">Bridge</option><option value="WATER">Water Treatment</option><option value="OTHER">Other</option></select></div>
-            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">LOCATION *</label><input id="proj-location" type="text" placeholder="e.g. Birpur, Supaul" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
-            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">STATE</label><input id="proj-state" type="text" placeholder="e.g. Bihar" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
-            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">START DATE</label><input id="proj-start" type="date" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
-            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">END DATE</label><input id="proj-end" type="date" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
-            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">PROJECT HEAD NAME</label><input id="proj-head-name" type="text" placeholder="e.g. Rajesh Kumar" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
-            <div><label style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">PROJECT HEAD EMAIL</label><input id="proj-head-email" type="email" placeholder="e.g. rajesh@ieccl.co.in" style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;outline:none;box-sizing:border-box;"></div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:center;">
-            <button onclick="createProject()" style="background:var(--green);color:#050E07;border:none;border-radius:8px;padding:9px 24px;font-family:var(--fh);font-size:12px;font-weight:700;cursor:pointer;">✓ Create Project</button>
-            <button onclick="toggleCreateProject()" style="background:var(--elevated);color:var(--t2);border:1px solid var(--border);border-radius:8px;padding:9px 16px;font-family:var(--fh);font-size:12px;cursor:pointer;">Cancel</button>
-            <div id="proj-create-msg" style="font-size:12px;display:none;margin-left:8px;"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card" style="padding:16px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-          <div>
-            <div style="font-size:14px;font-weight:700;color:var(--t1);">All Projects</div>
-            <div style="font-size:11px;color:var(--t3);margin-top:2px;">All projects in your workspace</div>
-          </div>
-          <button onclick="loadProjectsList()" style="background:var(--elevated);color:var(--t2);border:1px solid var(--border);border-radius:8px;padding:7px 14px;font-family:var(--fh);font-size:11px;cursor:pointer;">⟳ Refresh</button>
-        </div>
-        <div id="projects-list"><div style="text-align:center;padding:40px;color:var(--t3);font-size:12px;">Click Projects tab to load.</div></div>
-      </div>
-
-    </div>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-(function spFooterInit(){
-  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
-  function updateFooter(d){
-    var v=document.getElementById('sp-footer-version');
-    var s=document.getElementById('sp-footer-sync');
-    var dot=document.getElementById('sp-status-dot');
-    var txt=document.getElementById('sp-status-text');
-    if(!v)return;
-    if(d.version)v.textContent=d.version;
-    if(d.lastSync){try{s.textContent=new Date(d.lastSync).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}}
-    var status=d.status||'operational';
-    var colors={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'};
-    if(dot)dot.style.background=colors[status]||'#22C55E';
-    if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#22C55E';}
+  </div>
+<footer class="sp-footer">
+  <div class="sp-footer-left">
+    <span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF)">Admin</span>
+    <span class="sp-footer-sep">|</span>
+    <span id="sp-footer-version">v1.3.2</span>
+    <span class="sp-footer-sep">|</span>
+    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
+  </div>
+  <div class="sp-footer-center">
+    <a href="/cdn-cgi/l/email-protection#4b383e3b3b24393f0b382a2d2e3f323b39243c2439272f65282426">Admin Guide</a>
+    <a href="/cdn-cgi/l/email-protection#196a6c6969766b6d596a787f7c6d60696b766e766b757d377a7674">User Management</a>
+    <a href="/cdn-cgi/l/email-protection#bccfc9ccccd3cec8fccfdddad9c8c5ccced3cbd3ced0d892dfd3d1">Report Issue</a>
+  </div>
+  <div class="sp-footer-right">
+    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
+    <span id="sp-status-text" style="color:#22C55E">Operational</span>
+  </div>
+</footer>
+<script>
+function fixAdminPanels(){
+  var main = document.querySelector('.main');
+  if(!main) return;
+  var move = ['tab-integrations','tab-accessreq','tab-projects'];
+  var seen = {};
+  move.forEach(function(id){
+    var all = document.querySelectorAll('#'+id);
+    all.forEach(function(el, i){
+      if(i === 0 && !seen[id]){
+        seen[id] = true;
+        if(el.parentElement !== main) main.appendChild(el);
+      } else {
+        el.remove(); // remove duplicates
+      }
+    });
+  });
+  // FIX: remove duplicate Connected section inside integration card
+  var intCard = document.querySelector('#tab-integrations .card');
+  if(intCard && intCard.children.length > 2) {
+    var connectedDivs = [];
+    for(var ci=0;ci<intCard.children.length;ci++){
+      var ch = intCard.children[ci];
+      if(ch.textContent.trim().substring(0,9) === 'Connected') {
+        connectedDivs.push(ch);
+      }
+    }
+    // Remove all but the first Connected section
+    for(var di=1;di<connectedDivs.length;di++) connectedDivs[di].remove();
+    // Also remove toast, overlay, scripts, footer from inside card
+    ['toast','add-act-overlay','sp-footer'].forEach(function(id){
+      var el = intCard.querySelector('#'+id) || intCard.querySelector('.'+id);
+      if(el) el.remove();
+    });
+    intCard.querySelectorAll('script').forEach(function(s){ s.remove(); });
+    intCard.querySelectorAll('footer').forEach(function(f){ f.remove(); });
   }
-  function fetchStatus(){
-    fetch(API+'/system/status')
-      .then(function(r){return r.json();})
-      .then(updateFooter)
-      .catch(function(){updateFooter({status:'operational',version:'v1.3.2',lastSync:new Date().toISOString()});});
+  // FIX: move WhatsApp guide out of email nc-icon if it got nested there
+  var emailCh = document.querySelector('#tab-notifications .notif-grid .notif-channel:last-child');
+  if(emailCh) {
+    var ncIcon = emailCh.querySelector('.nc-icon');
+    var ncHead = emailCh.querySelector('.nc-header');
+    if(ncIcon && ncIcon.children.length > 1) {
+      // move all children except the first (SVG) out to after nc-header
+      while(ncIcon.children.length > 1) {
+        var child = ncIcon.children[1];
+        emailCh.insertBefore(child, ncHead.nextSibling);
+      }
+      ncIcon.style.cssText = 'width:36px;height:36px;flex-shrink:0';
+    }
   }
-  fetchStatus();
-  setInterval(fetchStatus,30000);
-})();
-</script>
-</body>
+  // restore default tab if current active is broken
+  var active = document.querySelector('.tab-panel.active');
+  if(!active || active.scrollHeight === 0){
+    // default tab handled by HTML active class
+  }
+}
+document.addEventListener('DOMContentLoaded', fixAdminPanels); window.addEventListener('load', fixAdminPanels);
+var _origSwitchTab = window.switchTab;
+window.switchTab = function(el, id) { fixAdminPanels(); _origSwitchTab.call(this, el, id); var t = document.getElementById('tab-'+id); if(t) t.style.removeProperty('display'); };
+</script></body>
 </html>
 
 <!-- projects-tab-20260401211550 -->
+
+<!-- v-notif-fix -->
+
+<!-- v-notif-fix -->
