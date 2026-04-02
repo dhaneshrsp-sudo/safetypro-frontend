@@ -809,7 +809,7 @@ flex-wrap:wrap;}
 .sp-footer-right{display:flex;align-items:center;gap:6px;}
 .sp-footer-status-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;flex-shrink:0;}
 .sp-footer-sep{opacity:.3;}
-</style>
+#field-tab-checkin,#field-tab-heatmap,#field-tab-checklist,#field-tab-attendance,#field-tab-ptw,#field-tab-emergency,#field-tab-induction{padding:16px 20px 20px 20px !important;}#field-tab-checkin,#field-tab-heatmap,#field-tab-checklist,#field-tab-attendance,#field-tab-ptw,#field-tab-emergency,#field-tab-induction{padding:16px 20px 20px 20px !important;}</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
 <body>
@@ -2471,53 +2471,7 @@ flex-wrap:wrap;}
     
 
 
-<!-- ══ STANDARD FOOTER ══ -->
-<footer class="sp-footer">
-  <div class="sp-footer-left">
-    <span>&#169; 2026 SafetyPro AI</span>
-    <span class="sp-footer-sep">|</span>
-    <span style="color:var(--t2,#7A9BBF)">Site &amp; Field Tools</span>
-    <span class="sp-footer-sep">|</span>
-    <span id="sp-footer-version">v1.3.2</span>
-    <span class="sp-footer-sep">|</span>
-    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
-  </div>
-  <div class="sp-footer-center">
-    <a href="mailto:support@safetyproworld.com">Field Guide</a>
-    <a href="mailto:support@safetyproworld.com">PTW Help</a>
-    <a href="mailto:support@safetyproworld.com">Report Issue</a>
-  </div>
-  <div class="sp-footer-right">
-    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
-    <span id="sp-status-text" style="color:#22C55E">Operational</span>
-  </div>
-</footer>
-<script>
-(function spFooterInit(){
-  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
-  function updateFooter(d){
-    var v=document.getElementById('sp-footer-version');
-    var s=document.getElementById('sp-footer-sync');
-    var dot=document.getElementById('sp-status-dot');
-    var txt=document.getElementById('sp-status-text');
-    if(!v)return;
-    if(d.version)v.textContent=d.version;
-    if(d.lastSync){try{s.textContent=new Date(d.lastSync).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}}
-    var status=d.status||'operational';
-    var colors={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'};
-    if(dot)dot.style.background=colors[status]||'#22C55E';
-    if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#22C55E';}
-  }
-  function fetchStatus(){
-    fetch(API+'/api/system/status')
-      .then(function(r){return r.json();})
-      .then(updateFooter)
-      .catch(function(){updateFooter({status:'operational',version:'v1.3.2',lastSync:new Date().toISOString()});});
-  }
-  fetchStatus();
-  setInterval(fetchStatus,30000);
-})();
-</script>
+
 </div>
 
 
@@ -3146,6 +3100,52 @@ function toggleSidebarMore(){var el=document.getElementById("sb-more-items"),ch=
     </div>
   </div>
 
-</body>
+<!-- ══ STANDARD FOOTER ══ -->
+<footer class="sp-footer">
+  <div class="sp-footer-left">
+    <span>&#169; 2026 SafetyPro AI</span>
+    <span class="sp-footer-sep">|</span>
+    <span style="color:var(--t2,#7A9BBF)">Site &amp; Field Tools</span>
+    <span class="sp-footer-sep">|</span>
+    <span id="sp-footer-version">v1.3.2</span>
+    <span class="sp-footer-sep">|</span>
+    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
+  </div>
+  <div class="sp-footer-center">
+    <a href="mailto:support@safetyproworld.com">Field Guide</a>
+    <a href="mailto:support@safetyproworld.com">PTW Help</a>
+    <a href="mailto:support@safetyproworld.com">Report Issue</a>
+  </div>
+  <div class="sp-footer-right">
+    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
+    <span id="sp-status-text" style="color:#22C55E">Operational</span>
+  </div>
+</footer>
+<script>
+(function spFooterInit(){
+  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
+  function updateFooter(d){
+    var v=document.getElementById('sp-footer-version');
+    var s=document.getElementById('sp-footer-sync');
+    var dot=document.getElementById('sp-status-dot');
+    var txt=document.getElementById('sp-status-text');
+    if(!v)return;
+    if(d.version)v.textContent=d.version;
+    if(d.lastSync){try{s.textContent=new Date(d.lastSync).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}}
+    var status=d.status||'operational';
+    var colors={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'};
+    if(dot)dot.style.background=colors[status]||'#22C55E';
+    if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#22C55E';}
+  }
+  function fetchStatus(){
+    fetch(API+'/api/system/status')
+      .then(function(r){return r.json();})
+      .then(updateFooter)
+      .catch(function(){updateFooter({status:'operational',version:'v1.3.2',lastSync:new Date().toISOString()});});
+  }
+  fetchStatus();
+  setInterval(fetchStatus,30000);
+})();
+</script></body>
 </html>
 
