@@ -2624,6 +2624,7 @@ function saStartCamera() {
       window.saStream=stream;
       var video=document.getElementById('sa-video');
       video.srcObject=stream;
+      video.style.display='block';
       video.play();
       var _c=document.createElement('canvas');_c.width=32;_c.height=32;
       var _ctx=_c.getContext('2d'),_n=0;
@@ -2631,9 +2632,8 @@ function saStartCamera() {
         _n++;
         var _b=0;
         try{_ctx.drawImage(video,0,0,32,32);var _px=_ctx.getImageData(0,0,32,32).data,_s=0;for(var _i=0;_i<_px.length;_i+=4)_s+=_px[_i]+_px[_i+1]+_px[_i+2];_b=_s/(_px.length/4*3);}catch(e){}
-        if(_b>15||_n>30){
+        if(_b>10||_n>40){
           clearInterval(_chk);
-          video.style.display='block';
           if(prompt)prompt.style.display='none';
           var _g=document.getElementById('sa-face-guide');if(_g)_g.style.display='flex';
           var _so=document.getElementById('sa-status-overlay');if(_so)_so.style.display='block';
@@ -2645,9 +2645,9 @@ function saStartCamera() {
     })
     .catch(function(err){
       if(err.name==='NotAllowedError'||err.name==='PermissionDeniedError'){
-        if(prompt)prompt.innerHTML='<div style="font-size:32px">🔒</div><div style="font-family:var(--fh);font-size:11px;color:var(--red);margin-top:8px;">Camera Blocked</div><div style="font-size:10px;color:var(--t3);margin-top:4px;">Click 🔒 in address bar → Allow camera → Reload</div><button onclick="location.reload()" style="margin-top:10px;padding:6px 14px;background:var(--green);border:none;border-radius:6px;color:#0B0F14;font-size:10px;font-weight:700;cursor:pointer;">Reload</button>';
+        if(prompt)prompt.innerHTML='<div style="font-size:32px">🔒</div><div style="font-family:var(--fh);font-size:11px;color:var(--red);margin-top:8px;">Camera Blocked</div><div style="font-size:10px;color:var(--t3);margin-top:4px;">Click 🔒 → Allow camera → Reload</div><button onclick="location.reload()" style="margin-top:10px;padding:6px 14px;background:var(--green);border:none;border-radius:6px;color:#0B0F14;font-size:10px;cursor:pointer;">Reload</button>';
       } else if(err.name==='NotReadableError'){
-        if(prompt)prompt.innerHTML='<div style="font-size:32px">📵</div><div style="font-family:var(--fh);font-size:11px;color:var(--amber);margin-top:8px;">Camera Busy</div><div style="font-size:10px;color:var(--t3);margin-top:4px;">Close other apps using camera</div><button onclick="saStartCamera()" style="margin-top:10px;padding:6px 14px;background:var(--blue);border:none;border-radius:6px;color:#fff;font-size:10px;cursor:pointer;">Try Again</button>';
+        if(prompt)prompt.innerHTML='<div style="font-size:32px">📵</div><div style="font-family:var(--fh);font-size:11px;color:var(--amber);margin-top:8px;">Camera Busy</div><button onclick="saStartCamera()" style="margin-top:10px;padding:6px 14px;background:var(--blue);border:none;border-radius:6px;color:#fff;font-size:10px;cursor:pointer;">Try Again</button>';
       } else {
         if(prompt)prompt.innerHTML='<div style="font-size:32px">⚠️</div><div style="font-family:var(--fh);font-size:11px;color:var(--red);margin-top:8px;">'+err.name+'</div><button onclick="saStartCamera()" style="margin-top:10px;padding:6px 14px;background:var(--blue);border:none;border-radius:6px;color:#fff;font-size:10px;cursor:pointer;">Try Again</button>';
       }
