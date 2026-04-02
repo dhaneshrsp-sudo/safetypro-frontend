@@ -57,7 +57,7 @@ svg{flex-shrink:0}
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none;width:195px;flex-shrink:0;padding:0 16px 0 18px;border-right:1px solid var(--border)}
 .logo-mark{width:28px;height:28px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(34,197,94,.4)}
 .logo-mark svg{width:16px;height:16px;fill:#fff}
-.logo-text{font-family:var(--fh);font-size:15px;font-weight:700}
+.logo{color:var(--t1)!important;text-decoration:none!important;}.logo-text{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1)!important;}
 .logo-text span{color:var(--green)}
 .nav-links{display:flex;align-items:center;gap:2px;flex:1;padding:0 12px}
 .nl{display:flex;align-items:center;gap:6px;padding:6px 13px;border-radius:7px;font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s;text-decoration:none}
@@ -730,7 +730,7 @@ flex-wrap:wrap;}
   .card-btns{flex-wrap:wrap !important; gap:4px !important;}
 
   /* ── Tab panels ── */
-  .tab-panel{width:100% !important; overflow-x:hidden !important;}.tab-panel[style*="display:block"],.tab-panel.active{padding-top:16px !important}
+  .tab-panel{width:100% !important; overflow-x:hidden !important;}
 
   /* ── Inputs full width ── */
   .form-group{margin-bottom:12px !important;}
@@ -792,13 +792,9 @@ flex-wrap:wrap;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 
 
-.tab-panel[style*=block], [id^=field-tab-]{padding-top:16px !important;}
-
-.tab-panel[style*=block], [id^=field-tab-]{padding-top:16px !important;}
-
-.logo{color:var(--t1,#E6EDF3)!important;text-decoration:none!important;}.logo-text{color:var(--t1,#E6EDF3)!important;font-size:15px;font-weight:800;letter-spacing:-.3px;}.logo-text span{color:var(--green,#22C55E)!important;}
-
-.sp-footer{height:38px;background:var(--sidebar);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;}.sp-footer-left,.sp-footer-right{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--t3);}.sp-footer-sep{color:var(--border);}
+.sp-footer{height:38px;background:var(--sidebar);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;}
+.sp-footer-left,.sp-footer-right{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--t3);}
+.sp-footer-sep{color:var(--border);}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
@@ -821,7 +817,7 @@ flex-wrap:wrap;}
       <div class="more-menu" id="more-menu">
         <a class="mm-item" href="#" onclick="event.preventDefault();showToast('Audit & Compliance - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
         <a class="mm-item" href="safetypro_documents.html" onclick="event.preventDefault();showToast('Documents & Records - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
-        <a class="mm-item" href="safetypro_field" onclick="event.preventDefault();showToast('Site & Field Tools - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="safetypro_field.html" onclick="event.preventDefault();showToast('Site & Field Tools - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
         <a class="mm-item" href="safetypro_ai.html" onclick="event.preventDefault();showToast('AI Intelligence - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
         <a class="mm-item" href="safetypro_auditor.html" onclick="event.preventDefault();showToast('Auditor Verification - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
         <div class="mm-divider"></div>
@@ -839,14 +835,41 @@ flex-wrap:wrap;}
   </div>
 </nav>
   <!-- Profile Dropdown -->
-  <div id="profile-dropdown" style="display:none;position:fixed;top:52px;right:16px;width:220px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:9999;overflow:hidden">
-    <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
-      <div style="font-size:13px;font-weight:700;color:var(--t1)" id="profile-name">-</div>
-      <div style="font-size:11px;color:var(--t3)" id="profile-email">-</div>
-      <div style="font-size:10px;color:var(--green);margin-top:2px;font-weight:600" id="profile-role-badge">-</div>
+  <div id="profile-dropdown" style="display:none;position:fixed;top:52px;right:16px;width:240px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:9999;overflow:hidden">
+    <!-- Profile Header -->
+    <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+      <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;font-family:var(--fh)">DK</div>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--t1)">Dhanesh CK</div>
+        <div style="font-size:10px;color:var(--t3)">dhanesh.ck@ieccl.co.in</div>
+        <div style="font-size:10px;color:var(--green);margin-top:2px;font-weight:600">● HSE Head</div>
+      </div>
     </div>
-    <div style="padding:8px 0">
-      <div onclick="signOut()" style="padding:10px 16px;font-size:13px;color:#EF4444;cursor:pointer;display:flex;align-items:center;gap:8px" onmouseover="this.style.background='rgba(239,68,68,.08)'" onmouseout="this.style.background='transparent'">
+    <!-- Menu Items -->
+    <div style="padding:6px 0">
+      <div onclick="fieldToast('My Profile — coming soon','blue')" style="padding:9px 16px;font-size:12px;color:var(--t1);cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        My Profile
+      </div>
+      <div onclick="fieldToast('Account Settings — coming soon','blue')" style="padding:9px 16px;font-size:12px;color:var(--t1);cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Account Settings
+      </div>
+      <div onclick="fieldToast('Notifications settings — coming soon','blue')" style="padding:9px 16px;font-size:12px;color:var(--t1);cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+        Notifications
+      </div>
+      <div onclick="changePassword()" style="padding:9px 16px;font-size:12px;color:var(--t1);cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Change Password
+      </div>
+      <div style="height:1px;background:var(--border);margin:6px 0"></div>
+      <div onclick="window.location.href='safetypro_admin'" style="padding:9px 16px;font-size:12px;color:var(--t1);cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Admin Panel
+      </div>
+      <div style="height:1px;background:var(--border);margin:6px 0"></div>
+      <div onclick="signOut()" style="padding:9px 16px;font-size:12px;color:#EF4444;cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.background='rgba(239,68,68,.08)'" onmouseout="this.style.background='transparent'">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
         Sign Out
       </div>
@@ -873,7 +896,8 @@ flex-wrap:wrap;}
       Reports
     </a>
     <div style="height:1px;background:#1E293B;margin:10px 2px 6px"></div>
-    <div onclick="toggleSidebarMore()" style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:2px 10px 6px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;">MORE<span id="sb-chev" style="font-size:10px;transition:transform .25s;">&#9660;</span></div><div id="sb-more-items" style="overflow:hidden;max-height:500px;transition:max-height .25s ease,opacity .25s;opacity:1;">
+    <div onclick="toggleSidebarMore(this)" style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:2px 10px 6px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;">MORE<span style="font-size:10px;transition:transform .2s;display:inline-block;" id="sb-chev">&#9660;</span></div>
+    <div id="sb-more-items" style="overflow:hidden;max-height:600px;transition:max-height .25s ease,opacity .2s;opacity:1;">
     <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_reports.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
       Audit &amp; Compliance
@@ -882,7 +906,7 @@ flex-wrap:wrap;}
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
       Documents & Records
     </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field.html">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
       Site & Field Tools
     </a>
@@ -899,7 +923,8 @@ flex-wrap:wrap;}
       <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#22C55E"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
       Admin &amp; Configuration
     </a>
-  </div>
+  
+    </div></div>
 
   <!-- CONTENT -->
   <div class="content">
@@ -976,7 +1001,14 @@ flex-wrap:wrap;}
           <div id="sa-mode-selfie" style="padding:20px;">
             <!-- CAMERA VIEWFINDER -->
             <div style="position:relative;width:100%;aspect-ratio:4/3;background:#000;border-radius:12px;overflow:hidden;border:2px solid var(--border);margin-bottom:14px;" id="sa-camera-container">
-              <video id="sa-video" style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:none;" autoplay playsinline muted></video><div id="sa-start-prompt" onclick="saStartCamera()" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--raised);border-radius:12px;"><div style="font-size:52px;margin-bottom:12px;">📸</div><div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);margin-bottom:6px;">Tap to Start Camera</div><div style="font-size:10px;color:var(--t3);">Allow camera permission when asked</div><div style="margin-top:14px;padding:9px 24px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:12px;font-weight:800;font-family:var(--fh);">Enable Camera</div></div>
+              <video id="sa-video" style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:none;" autoplay playsinline muted></video>
+              <!-- Start camera prompt -->
+              <div id="sa-start-prompt" onclick="saStartCamera()" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--raised);">
+                <div style="font-size:52px;margin-bottom:12px;">📸</div>
+                <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);margin-bottom:6px;">Tap to Start Camera</div>
+                <div style="font-size:10px;color:var(--t3);">Chrome will ask for camera permission</div>
+                <div style="margin-top:14px;padding:8px 20px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:12px;font-weight:800;font-family:var(--fh);">Enable Camera</div>
+              </div>
               <canvas id="sa-canvas" style="display:none;"></canvas>
               
               <!-- FACE GUIDE OVERLAY -->
@@ -2504,21 +2536,60 @@ function saStartCamera() {
     document.getElementById('sa-status-text').textContent = '❌ Camera not supported on this device';
     return;
   }
+  // Hide start prompt, show loading indicator
+  var prompt = document.getElementById('sa-start-prompt');
+  if(prompt) {
+    prompt.innerHTML = '<div style="font-size:32px;margin-bottom:10px;">⏳</div><div style="font-family:var(--fh);font-size:12px;color:var(--t2);">Starting camera...</div>';
+  }
   navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 640, height: 480 } })
     .then(function(stream) {
       saStream = stream;
       var video = document.getElementById('sa-video');
       video.srcObject = stream;
       video.style.display = 'block';
-      var p=document.getElementById('sa-start-prompt');if(p)p.style.display='none';
-      var p=document.getElementById('sa-start-prompt');if(p)p.style.display='none';
+      // Hide prompt
+      if(prompt) prompt.style.display = 'none';
       document.getElementById('sa-face-guide').style.display = 'flex';
       document.getElementById('sa-status-text').textContent = '● Camera Ready — Position your face in the oval';
       document.getElementById('sa-status-text').style.color = 'var(--green)';
       saGetGPS();
     })
     .catch(function(err) {
-      document.getElementById('sa-status-text').textContent = '❌ Camera blocked — Allow camera access';
+      var prompt = document.getElementById('sa-start-prompt');
+      var msg = '';
+      if(err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+        msg = '❌ No camera found — use QR or Manual mode';
+        if(prompt) { prompt.innerHTML = '<div style="font-size:32px">😕</div><div style="font-family:var(--fh);font-size:11px;color:var(--red);margin-top:8px;">No camera found</div><div style="font-size:10px;color:var(--t3);margin-top:4px;">Use QR or Manual mode instead</div>'; }
+      } else if(err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+        msg = '❌ Camera permission denied';
+        if(prompt) { prompt.innerHTML = '<div style="font-size:32px">🔒</div><div style="font-family:var(--fh);font-size:11px;color:var(--red);margin-top:8px;">Camera Blocked</div><div style="font-size:10px;color:var(--t3);margin-top:4px;">Click 🔒 in address bar → Allow camera → Reload</div><button onclick="location.reload()" style="margin-top:10px;padding:6px 14px;background:var(--green);border:none;border-radius:6px;color:#0B0F14;font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">Reload Page</button>'; }
+      } else if(err.name === 'NotReadableError') {
+        msg = '❌ Camera in use by another app';
+        if(prompt) { prompt.innerHTML = '<div style="font-size:32px">📵</div><div style="font-family:var(--fh);font-size:11px;color:var(--amber);margin-top:8px;">Camera Busy</div><div style="font-size:10px;color:var(--t3);margin-top:4px;">Close Teams/Zoom/other apps using camera</div><button onclick="saStartCamera()" style="margin-top:10px;padding:6px 14px;background:var(--blue);border:none;border-radius:6px;color:#fff;font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">Try Again</button>'; }
+      } else {
+        msg = '❌ Camera error: ' + err.name;
+        if(prompt) { prompt.innerHTML = '<div style="font-size:32px">⚠️</div><div style="font-family:var(--fh);font-size:11px;color:var(--red);margin-top:8px;">' + err.name + '</div><button onclick="saStartCamera()" style="margin-top:10px;padding:6px 14px;background:var(--blue);border:none;border-radius:6px;color:#fff;font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">Try Again</button>'; }
+      }
+      document.getElementById('sa-status-text').textContent = msg;
+      document.getElementById('sa-status-text').style.color = 'var(--red)';
+      // Show helpful instructions
+      var container = document.getElementById('sa-camera-container');
+      if(container) {
+        var guide = document.createElement('div');
+        guide.style.cssText = 'position:absolute;inset:0;background:rgba(11,15,20,0.95);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;border-radius:12px;';
+        guide.innerHTML = '<div style="font-size:32px;margin-bottom:12px;">📷</div>'
+          + '<div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--red);margin-bottom:10px;">Camera Access Blocked</div>'
+          + '<div style="font-size:11px;color:var(--t2);line-height:1.7;margin-bottom:14px;">To enable selfie attendance:<br>'
+          + '1. Click the 🔒 lock icon in the address bar<br>'
+          + '2. Set Camera → <strong style=\"color:var(--green)\">Allow</strong><br>'
+          + '3. Refresh this page</div>'
+          + '<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">'
+          + '<button onclick="saStartCamera()" style="padding:8px 16px;background:var(--green);border:none;border-radius:7px;color:#0B0F14;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">🔄 Try Again</button>'
+          + '<button onclick="saSetMode(\'qr\')" style="padding:8px 16px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">📷 Use QR Instead</button>'
+          + '<button onclick="saSetMode(\'manual\')" style="padding:8px 16px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">✏️ Manual Entry</button>'
+          + '</div>';
+        container.appendChild(guide);
+      }
       document.getElementById('sa-status-text').style.color = 'var(--red)';
     });
 }
@@ -2690,7 +2761,7 @@ function saExportBOCW() {
   fieldToast('BOCW Form XIII exported — muster_roll_' + new Date().toISOString().slice(0,10) + '.xlsx', 'success');
 }
 
-// Camera starts only on explicit user tap
+// Camera starts only on user gesture (Selfie button click)
 
 
 
@@ -2932,8 +3003,6 @@ function saveTraining() {
   toggleTrainingForm();
   fieldToast('Training record saved — "' + topic.substring(0,25) + '..." · ' + trAttendance + ' attended', 'success');
 }
-
-function toggleSidebarMore(){var el=document.getElementById('sb-more-items'),ch=document.getElementById('sb-chev');if(!el)return;var open=el.style.maxHeight!=='0px';el.style.maxHeight=open?'0px':'500px';el.style.opacity=open?'0':'1';if(ch)ch.style.transform=open?'rotate(-90deg)':'rotate(0deg)';}
 </script>
 
   </div>
@@ -3046,9 +3115,24 @@ function toggleSidebarMore(){var el=document.getElementById('sb-more-items'),ch=
     </div>
   </div>
 
-<footer class="sp-footer"><div class="sp-footer-left"><span>&copy; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2)">Site &amp; Field Tools</span><span class="sp-footer-sep">|</span><span style="color:var(--t2)">v1.3.2</span></div><div class="sp-footer-right"><span style="cursor:pointer;color:var(--t3)">Quick Help</span><span class="sp-footer-sep">|</span><span style="cursor:pointer;color:var(--t3)">Report Issue</span><span class="sp-footer-sep">|</span><div style="width:6px;height:6px;border-radius:50%;background:#22C55E;display:inline-block;margin-right:4px;"></div><span style="color:#22C55E">Operational</span></div></footer>
+
+<footer class="sp-footer">
+  <div class="sp-footer-left">
+    <span>&copy; 2026 SafetyPro AI</span>
+    <span class="sp-footer-sep">|</span>
+    <span style="color:var(--t2)">Site &amp; Field Tools</span>
+    <span class="sp-footer-sep">|</span>
+    <span style="color:var(--t2)">v1.3.2</span>
+  </div>
+  <div class="sp-footer-right">
+    <span style="cursor:pointer" onclick="fieldToast('Help docs coming soon','blue')">Quick Help</span>
+    <span class="sp-footer-sep">|</span>
+    <span style="cursor:pointer" onclick="fieldToast('Issue reported to support@safetyproworld.com','success')">Report Issue</span>
+    <span class="sp-footer-sep">|</span>
+    <div style="width:6px;height:6px;border-radius:50%;background:#22C55E;display:inline-block;margin-right:2px;"></div>
+    <span style="color:#22C55E">Operational</span>
+  </div>
+</footer>
 </body>
 </html>
 
-
-<!-- cam-fix-v2 -->
