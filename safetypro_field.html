@@ -2618,7 +2618,6 @@ function saStartCamera() {
     document.getElementById('sa-status-text').textContent = '❌ Camera not supported on this device';
     return;
   }
-  // Hide start prompt, show loading indicator
   var prompt = document.getElementById('sa-start-prompt');
   if(prompt) {
     prompt.innerHTML = '<div style="font-size:32px;margin-bottom:10px;">⏳</div><div style="font-family:var(--fh);font-size:12px;color:var(--t2);">Starting camera...</div>';
@@ -2629,8 +2628,8 @@ function saStartCamera() {
       var video = document.getElementById('sa-video');
       video.srcObject = stream;
       video.play();
-      // Wait for first actual frame before showing — prevents black window on second scan
-      video.onloadeddata = function(){
+      // Wait 800ms for camera hardware to warm up — prevents black window on 2nd scan
+      setTimeout(function(){
         video.style.display = 'block';
         if(prompt) prompt.style.display = 'none';
         document.getElementById('sa-face-guide').style.display = 'flex';
@@ -2639,18 +2638,8 @@ function saStartCamera() {
         document.getElementById('sa-status-text').textContent = '● Camera Ready — Position your face in the oval';
         document.getElementById('sa-status-text').style.color = 'var(--green)';
         saGetGPS();
-      };
-      // Fallback: show after 1.5s even if onloadeddata doesn't fire
-      setTimeout(function(){
-        if(video.style.display !== 'block'){
-          video.style.display = 'block';
-          if(prompt) prompt.style.display = 'none';
-          document.getElementById('sa-face-guide').style.display = 'flex';
-          var statusOv = document.getElementById('sa-status-overlay');
-          if(statusOv) statusOv.style.display = 'block';
-          saGetGPS();
-        }
-      }, 1500);
+        setTimeout(saStartAutoCapture, 400);
+      }, 800);
     })
     .catch(function(err) {
       var prompt = document.getElementById('sa-start-prompt');
@@ -2669,25 +2658,6 @@ function saStartCamera() {
         if(prompt) { prompt.innerHTML = '<div style="font-size:32px">⚠️</div><div style="font-family:var(--fh);font-size:11px;color:var(--red);margin-top:8px;">' + err.name + '</div><button onclick="saStartCamera()" style="margin-top:10px;padding:6px 14px;background:var(--blue);border:none;border-radius:6px;color:#fff;font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">Try Again</button>'; }
       }
       document.getElementById('sa-status-text').textContent = msg;
-      document.getElementById('sa-status-text').style.color = 'var(--red)';
-      // Show helpful instructions
-      var container = document.getElementById('sa-camera-container');
-      if(container) {
-        var guide = document.createElement('div');
-        guide.style.cssText = 'position:absolute;inset:0;background:rgba(11,15,20,0.95);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;border-radius:12px;';
-        guide.innerHTML = '<div style="font-size:32px;margin-bottom:12px;">📷</div>'
-          + '<div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--red);margin-bottom:10px;">Camera Access Blocked</div>'
-          + '<div style="font-size:11px;color:var(--t2);line-height:1.7;margin-bottom:14px;">To enable selfie attendance:<br>'
-          + '1. Click the 🔒 lock icon in the address bar<br>'
-          + '2. Set Camera → <strong style=\"color:var(--green)\">Allow</strong><br>'
-          + '3. Refresh this page</div>'
-          + '<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">'
-          + '<button onclick="saStartCamera()" style="padding:8px 16px;background:var(--green);border:none;border-radius:7px;color:#0B0F14;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">🔄 Try Again</button>'
-          + '<button onclick="saSetMode(\'qr\')" style="padding:8px 16px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">📷 Use QR Instead</button>'
-          + '<button onclick="saSetMode(\'manual\')" style="padding:8px 16px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">✏️ Manual Entry</button>'
-          + '</div>';
-        container.appendChild(guide);
-      }
       document.getElementById('sa-status-text').style.color = 'var(--red)';
     });
 }
@@ -3296,34 +3266,7 @@ async function saDetectFace(){var video=document.getElementById("sa-video");if(!
 function saUpdateOvalState(f){var o=document.getElementById("sa-oval"),s=document.getElementById("sa-auto-status");if(!o)return;o.className="sa-oval"+(f?(saCountingDown?" countdown":" detecting"):"");if(s){if(f&&saCountingDown){s.style.color="#22C55E";}else if(f){s.textContent="Face detected — hold still";s.style.color="#F59E0B";}else{s.textContent="ALIGN FACE";s.style.color="rgba(34,197,94,0.8)";}}}
 function saStartCountdownAuto(){if(saCountingDown)return;saCountingDown=true;var ring=document.getElementById("sa-countdown-ring"),num=document.getElementById("sa-countdown-num"),circle=document.getElementById("sa-cd-circle"),s=document.getElementById("sa-auto-status");if(ring)ring.classList.add("active");if(num)num.textContent="3";if(s){s.textContent="Hold still... 3";s.style.color="#22C55E";}if(circle){circle.style.transition="stroke-dashoffset 3s linear";circle.style.strokeDashoffset="0";}saCountdownTimer=setTimeout(function(){if(saCountingDown){if(num)num.textContent="2";if(s)s.textContent="Hold still... 2";setTimeout(function(){if(saCountingDown){if(num)num.textContent="1";if(s)s.textContent="Hold still... 1";setTimeout(function(){if(saCountingDown)saAutoFire();},1000);}},1000);}},1000);}
 function saResetCountdown(){if(!saCountingDown)return;saCountingDown=false;clearTimeout(saCountdownTimer);var ring=document.getElementById("sa-countdown-ring"),circle=document.getElementById("sa-cd-circle"),s=document.getElementById("sa-auto-status");if(ring)ring.classList.remove("active");if(circle){circle.style.transition="none";circle.style.strokeDashoffset="220";}if(s){s.textContent="ALIGN FACE";s.style.color="rgba(34,197,94,0.8)";}var o=document.getElementById("sa-oval");if(o)o.className="sa-oval";}
-function saAutoFire(){if(window.saHasCaptured)return;window.saHasCaptured=true;if(typeof saStopAutoCapture==="function")saStopAutoCapture();var _v=document.getElementById("sa-video");if(_v)_v.style.display="none";var o=document.getElementById("sa-oval"),s=document.getElementById("sa-auto-status");if(o)o.classList.add("captured");if(s){s.textContent="Face captured!";s.style.color="#22C55E";}var con=document.getElementById("sa-camera-container");if(!con)return;var old=document.getElementById("sa-choice-overlay");if(old)old.remove();var d=document.createElement("div");d.id="sa-choice-overlay";d.style.cssText="position:absolute;inset:0;background:rgba(11,15,20,0.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:12px;z-index:20;padding:20px;";var ic=document.createElement("div");ic.style.cssText="width:44px;height:44px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:22px;color:#0B0F14;";ic.textContent="✓";var ti=document.createElement("div");ti.style.cssText="font-size:12px;font-weight:700;color:var(--t1);font-family:var(--fh);text-align:center;";ti.textContent="Face Verified — Mark Attendance";var gr=document.createElement("div");gr.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;";var bI=document.createElement("button");bI.style.cssText="padding:12px 8px;background:var(--green);border:none;border-radius:10px;color:#0B0F14;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;";var s1=document.createElement("span");s1.style.fontSize="18px";s1.textContent="→";var s2=document.createElement("span");s2.style.cssText="font-family:var(--fh);font-size:13px;font-weight:800;";s2.textContent="Check IN";var s3=document.createElement("span");s3.style.cssText="font-size:9px;opacity:0.7;";s3.textContent="Arriving";bI.appendChild(s1);bI.appendChild(s2);bI.appendChild(s3);bI.onclick=function(){saMarkAttendance("in");};var bO=document.createElement("button");bO.style.cssText="padding:12px 8px;background:rgba(239,68,68,0.1);border:2px solid rgba(239,68,68,0.4);border-radius:10px;color:var(--red);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;";var s4=document.createElement("span");s4.style.fontSize="18px";s4.textContent="←";var s5=document.createElement("span");s5.style.cssText="font-family:var(--fh);font-size:13px;font-weight:800;";s5.textContent="Check OUT";var s6=document.createElement("span");s6.style.cssText="font-size:9px;";s6.style.color="var(--t3)";s6.textContent="Leaving";bO.appendChild(s4);bO.appendChild(s5);bO.appendChild(s6);bO.onclick=function(){saMarkAttendance("out");};gr.appendChild(bI);gr.appendChild(bO);var bk=document.createElement("button");bk.style.cssText="padding:5px 16px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--t3);font-size:10px;font-weight:600;font-family:var(--fh);cursor:pointer;";bk.textContent="↩ Back";bk.onclick=function(){
-  // Remove choice overlay
-  var c=document.getElementById("sa-choice-overlay");if(c)c.remove();
-  // Reset flags
-  window.saHasCaptured=false;window.saCountingDown=false;
-  if(window.saCountdownTimer)clearTimeout(window.saCountdownTimer);
-  // Reset oval UI
-  var ov=document.getElementById("sa-oval");if(ov)ov.className="sa-oval";
-  var st=document.getElementById("sa-auto-status");if(st){st.textContent="ALIGN FACE";st.style.color="rgba(34,197,94,0.8)";}
-  var rng=document.getElementById("sa-countdown-ring");if(rng)rng.classList.remove("active");
-  var num=document.getElementById("sa-countdown-num");if(num)num.textContent="";
-  var cir=document.getElementById("sa-cd-circle");if(cir){cir.style.transition="none";cir.style.strokeDashoffset="220";}
-  // Hide start prompt — stay in camera mode (black window + oval)
-  var prompt=document.getElementById("sa-start-prompt");if(prompt)prompt.style.display="none";
-  // Show video + oval guide + status overlay immediately
-  var vid=document.getElementById("sa-video");if(vid)vid.style.display="block";
-  var guide=document.getElementById("sa-face-guide");if(guide)guide.style.display="flex";
-  var statusOv2=document.getElementById("sa-status-overlay");if(statusOv2)statusOv2.style.display="block";
-  // Request new stream directly — no prompt screen
-  navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'user'},width:{ideal:640},height:{ideal:480}},audio:false})
-    .then(function(stream){
-      window.saStream=stream;
-      var v=document.getElementById("sa-video");
-      if(v){v.srcObject=stream;v.play();}
-      setTimeout(saStartAutoCapture,800);
-    })
-    .catch(function(){saStartCamera();});
-};d.appendChild(ic);d.appendChild(ti);d.appendChild(gr);d.appendChild(bk);con.appendChild(d);}
+function saAutoFire(){if(window.saHasCaptured)return;window.saHasCaptured=true;if(typeof saStopAutoCapture==="function")saStopAutoCapture();if(saStream){saStream.getTracks().forEach(function(t){t.stop();});saStream=null;}var _v=document.getElementById("sa-video");if(_v)_v.style.display="none";var o=document.getElementById("sa-oval"),s=document.getElementById("sa-auto-status");if(o)o.classList.add("captured");if(s){s.textContent="Face captured!";s.style.color="#22C55E";}var con=document.getElementById("sa-camera-container");if(!con)return;var old=document.getElementById("sa-choice-overlay");if(old)old.remove();var d=document.createElement("div");d.id="sa-choice-overlay";d.style.cssText="position:absolute;inset:0;background:rgba(11,15,20,0.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:12px;z-index:20;padding:20px;";var ic=document.createElement("div");ic.style.cssText="width:44px;height:44px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:22px;color:#0B0F14;";ic.textContent="✓";var ti=document.createElement("div");ti.style.cssText="font-size:12px;font-weight:700;color:var(--t1);font-family:var(--fh);text-align:center;";ti.textContent="Face Verified — Mark Attendance";var gr=document.createElement("div");gr.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;";var bI=document.createElement("button");bI.style.cssText="padding:12px 8px;background:var(--green);border:none;border-radius:10px;color:#0B0F14;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;";var s1=document.createElement("span");s1.style.fontSize="18px";s1.textContent="→";var s2=document.createElement("span");s2.style.cssText="font-family:var(--fh);font-size:13px;font-weight:800;";s2.textContent="Check IN";var s3=document.createElement("span");s3.style.cssText="font-size:9px;opacity:0.7;";s3.textContent="Arriving";bI.appendChild(s1);bI.appendChild(s2);bI.appendChild(s3);bI.onclick=function(){saMarkAttendance("in");};var bO=document.createElement("button");bO.style.cssText="padding:12px 8px;background:rgba(239,68,68,0.1);border:2px solid rgba(239,68,68,0.4);border-radius:10px;color:var(--red);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;";var s4=document.createElement("span");s4.style.fontSize="18px";s4.textContent="←";var s5=document.createElement("span");s5.style.cssText="font-family:var(--fh);font-size:13px;font-weight:800;";s5.textContent="Check OUT";var s6=document.createElement("span");s6.style.cssText="font-size:9px;";s6.style.color="var(--t3)";s6.textContent="Leaving";bO.appendChild(s4);bO.appendChild(s5);bO.appendChild(s6);bO.onclick=function(){saMarkAttendance("out");};gr.appendChild(bI);gr.appendChild(bO);var bk=document.createElement("button");bk.style.cssText="padding:5px 16px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--t3);font-size:10px;font-weight:600;font-family:var(--fh);cursor:pointer;";bk.textContent="↩ Back";bk.onclick=function(){saStartCamera();};d.appendChild(ic);d.appendChild(ti);d.appendChild(gr);d.appendChild(bk);con.appendChild(d);}
 function saMarkAttendance(t){
   window.saHasCaptured=false;
   // Remove choice overlay
@@ -3426,8 +3369,6 @@ function saRestartCamera(){
     }
   }
 }
-var _oSC=saStartCamera;window.saStartCamera=function(){_oSC.call(this);var chk=setInterval(function(){if(saStream){clearInterval(chk);setTimeout(saStartAutoCapture,800);}},300);};
-
 // SA PROJECT NAME PILL SYNC — surgical add
 (function(){
   var sel=document.getElementById("field-project");
