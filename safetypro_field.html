@@ -3316,6 +3316,9 @@ function saMarkAttendance(t){
   var c=document.getElementById("sa-choice-overlay");if(c)c.remove();
   saActionType=t;
 
+  // Hide face guide + oval so it doesn't show over success overlay
+  var guide=document.getElementById('sa-face-guide');if(guide)guide.style.display='none';
+
   // Build instant success overlay inside camera container
   var con=document.getElementById("sa-camera-container");if(!con)return;
   var old=document.getElementById("sa-success-overlay");if(old)old.remove();
