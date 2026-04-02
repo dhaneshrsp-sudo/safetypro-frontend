@@ -3316,8 +3316,9 @@ function saMarkAttendance(t){
   var c=document.getElementById("sa-choice-overlay");if(c)c.remove();
   saActionType=t;
 
-  // Hide face guide + oval so it doesn't show over success overlay
+  // Hide face guide + oval + status overlay so they don't show over success overlay
   var guide=document.getElementById('sa-face-guide');if(guide)guide.style.display='none';
+  var statusOv0=document.getElementById('sa-status-overlay');if(statusOv0)statusOv0.style.display='none';
 
   // Build instant success overlay inside camera container
   var con=document.getElementById("sa-camera-container");if(!con)return;
@@ -3335,7 +3336,7 @@ function saMarkAttendance(t){
 
   var d=document.createElement('div');
   d.id='sa-success-overlay';
-  d.style.cssText='position:absolute;inset:0;background:'+bgColor+';display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:12px;z-index:25;padding:20px;text-align:center;';
+  d.style.cssText='position:absolute;inset:0;background:'+bgColor+';display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:12px;z-index:30;padding:20px;text-align:center;';
 
   // Icon
   var ic=document.createElement('div');
@@ -3406,8 +3407,8 @@ function saRestartCamera(){
   var statusOv=document.getElementById('sa-status-overlay');if(statusOv)statusOv.style.display='none';
   var prompt=document.getElementById('sa-start-prompt');
   if(prompt){
-    prompt.innerHTML='<div style="font-size:28px;margin-bottom:5px;">📸</div><div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);margin-bottom:3px;">Tap to Start Camera</div><div style="font-size:9px;color:var(--t3);">Camera permission required</div><div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);padding:7px 22px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:11px;font-weight:800;font-family:var(--fh);white-space:nowrap;pointer-events:auto;">Enable Camera</div>';
-    prompt.style.display='flex';
+    prompt.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--raised);z-index:10;';
+    prompt.innerHTML='<div style="font-size:28px;margin-bottom:5px;">📸</div><div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);margin-bottom:3px;">Tap to Start Camera</div><div style="font-size:9px;color:var(--t3);">Camera permission required</div><div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);padding:7px 22px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:11px;font-weight:800;font-family:var(--fh);white-space:nowrap;pointer-events:auto;" onclick="saStartCamera()">Enable Camera</div>';
   }
 }
 var _oSC=saStartCamera;window.saStartCamera=function(){_oSC.call(this);var chk=setInterval(function(){if(saStream){clearInterval(chk);setTimeout(saStartAutoCapture,800);}},300);};
