@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -990,9 +990,9 @@ flex-wrap:wrap;}
               <video id="sa-video" style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:none;" autoplay playsinline muted></video>
               <!-- Start camera prompt -->
               <div id="sa-start-prompt" onclick="saStartCamera()" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--raised);">
-                <div style="font-size:52px;margin-bottom:12px;">📸</div>
+                <div style="font-size:28px;margin-bottom:12px;">📸</div>
                 <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);margin-bottom:6px;">Tap to Start Camera</div>
-                <div style="font-size:10px;color:var(--t3);">Chrome will ask for camera permission</div>
+                <div style="font-size:10px;color:var(--t3);">Camera permission required</div>
                 <div style="margin-top:14px;padding:8px 20px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:12px;font-weight:800;font-family:var(--fh);">Enable Camera</div>
               </div>
               <canvas id="sa-canvas" style="display:none;"></canvas>
@@ -1037,13 +1037,12 @@ flex-wrap:wrap;}
             </div>
 
             <!-- WORKER ID (pre-fill or type) -->
-            <div style="margin-bottom:12px;">
-              <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;">Worker ID / Name</div>
+            <div style="display:none;margin-bottom:12px;"><div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;">Worker ID / Name</div>
               <input id="sa-worker-id" type="text" placeholder="Scan badge or type Worker ID..." style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:12px;font-family:var(--fb);" />
             </div>
 
             <!-- CHECK IN / OUT BUTTONS -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div style="display:none;grid-template-columns:1fr 1fr;gap:10px;">
               <button id="sa-checkin-btn" onclick="saCapture('in')" style="padding:13px;background:var(--green);border:none;border-radius:10px;color:#0B0F14;font-size:13px;font-weight:800;font-family:var(--fh);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
                 Check IN
@@ -3110,7 +3109,7 @@ function saResetToTapScreen() {
   if(guide) guide.style.display = 'none';
   if(prompt) {
     prompt.style.cssText = 'position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--raised);border-radius:12px;';
-    prompt.innerHTML = '<div style="font-size:52px;margin-bottom:12px;">📸</div>'
+    prompt.innerHTML = '<div style="font-size:28px;margin-bottom:12px;">📸</div>'
       + '<div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);margin-bottom:6px;">Tap to Start Camera</div>'
       + '<div style="font-size:10px;color:var(--t3);">Ready for next worker</div>'
       + '<div style="margin-top:14px;padding:9px 24px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:12px;font-weight:800;font-family:var(--fh);">Enable Camera</div>';
