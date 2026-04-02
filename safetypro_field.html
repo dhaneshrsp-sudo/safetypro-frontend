@@ -3310,7 +3310,91 @@ function saAutoFire(){if(window.saHasCaptured)return;window.saHasCaptured=true;i
     })
     .catch(function(){saStartCamera();});
 };d.appendChild(ic);d.appendChild(ti);d.appendChild(gr);d.appendChild(bk);con.appendChild(d);}
-function saMarkAttendance(t){window.saHasCaptured=false;var c=document.getElementById("sa-choice-overlay");if(c)c.remove();saActionType=t;saProcessAttendance(t,Math.floor(85+Math.random()*14)+0.1);}
+function saMarkAttendance(t){
+  window.saHasCaptured=false;
+  // Remove choice overlay
+  var c=document.getElementById("sa-choice-overlay");if(c)c.remove();
+  saActionType=t;
+
+  // Build instant success overlay inside camera container
+  var con=document.getElementById("sa-camera-container");if(!con)return;
+  var old=document.getElementById("sa-success-overlay");if(old)old.remove();
+
+  // Get time + GPS
+  var now=new Date();
+  var timeStr=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+  var gpsLine=saGPS?(saGPS.lat.toFixed(4)+'°N, '+saGPS.lng.toFixed(4)+'°E'):'GPS pending...';
+  var zone=(document.getElementById('sa-gps-zone')||{}).textContent||'Zone A';
+  var isIn=(t==='in');
+  var label=isIn?'Checked IN ✓':'Checked OUT ✓';
+  var bgColor=isIn?'rgba(11,15,20,0.95)':'rgba(11,15,20,0.95)';
+  var accentColor=isIn?'#22C55E':'#EF4444';
+
+  var d=document.createElement('div');
+  d.id='sa-success-overlay';
+  d.style.cssText='position:absolute;inset:0;background:'+bgColor+';display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:12px;z-index:25;padding:20px;text-align:center;';
+
+  // Icon
+  var ic=document.createElement('div');
+  ic.style.cssText='width:52px;height:52px;border-radius:50%;background:'+accentColor+';display:flex;align-items:center;justify-content:center;font-size:26px;';
+  ic.textContent=isIn?'✓':'✗';
+
+  // Status label
+  var lb=document.createElement('div');
+  lb.style.cssText='font-family:var(--fh);font-size:16px;font-weight:800;color:'+accentColor+';';
+  lb.textContent=label;
+
+  // Time + GPS details
+  var info=document.createElement('div');
+  info.style.cssText='font-size:11px;color:var(--t2);line-height:1.7;';
+  info.innerHTML='🕐 '+timeStr+'<br>📍 '+zone+'<br><span style="font-size:10px;color:var(--t3)">'+gpsLine+'</span>';
+
+  // Countdown bar
+  var bar=document.createElement('div');
+  bar.style.cssText='width:80%;height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:4px;';
+  var fill=document.createElement('div');
+  fill.style.cssText='height:100%;width:100%;background:'+accentColor+';border-radius:2px;transition:width 2.5s linear;';
+  bar.appendChild(fill);
+
+  // Scan Next button
+  var btn=document.createElement('button');
+  btn.style.cssText='margin-top:4px;padding:8px 20px;background:'+accentColor+';border:none;border-radius:8px;color:#0B0F14;font-size:12px;font-weight:800;font-family:var(--fh);cursor:pointer;';
+  btn.textContent='📷 Scan Next';
+  btn.onclick=function(){saRestartCamera();};
+
+  d.appendChild(ic);d.appendChild(lb);d.appendChild(info);d.appendChild(bar);d.appendChild(btn);
+  con.appendChild(d);
+
+  // Start countdown bar animation
+  requestAnimationFrame(function(){fill.style.width='0%';});
+
+  // Add to feed
+  var workerName='Site Worker';
+  var gpsStr=gpsLine;
+  var confidence=Math.floor(85+Math.random()*14)+0.1;
+  saAddToFeed(workerName,t,timeStr,zone,confidence,gpsStr,'selfie');
+
+  // Auto-restart after 2.5s
+  setTimeout(function(){saRestartCamera();}, 2500);
+}
+
+function saRestartCamera(){
+  var ov=document.getElementById('sa-success-overlay');if(ov)ov.remove();
+  window.saHasCaptured=false;window.saCountingDown=false;
+  if(window.saCountdownTimer)clearTimeout(window.saCountdownTimer);
+  var oval=document.getElementById('sa-oval');if(oval)oval.className='sa-oval';
+  var st=document.getElementById('sa-auto-status');if(st){st.textContent='ALIGN FACE';st.style.color='rgba(34,197,94,0.8)';}
+  var rng=document.getElementById('sa-countdown-ring');if(rng)rng.classList.remove('active');
+  var num=document.getElementById('sa-countdown-num');if(num)num.textContent='';
+  var cir=document.getElementById('sa-cd-circle');if(cir){cir.style.transition='none';cir.style.strokeDashoffset='220';}
+  var prompt=document.getElementById('sa-start-prompt');if(prompt)prompt.style.display='none';
+  var vid=document.getElementById('sa-video');if(vid)vid.style.display='block';
+  var guide=document.getElementById('sa-face-guide');if(guide)guide.style.display='flex';
+  var statusOv=document.getElementById('sa-status-overlay');if(statusOv)statusOv.style.display='block';
+  navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'user'},width:{ideal:640},height:{ideal:480}},audio:false})
+    .then(function(stream){window.saStream=stream;var v=document.getElementById('sa-video');if(v){v.srcObject=stream;v.play();}setTimeout(saStartAutoCapture,800);})
+    .catch(function(){saStartCamera();});
+}
 var _oSC=saStartCamera;window.saStartCamera=function(){_oSC.call(this);var chk=setInterval(function(){if(saStream){clearInterval(chk);setTimeout(saStartAutoCapture,800);}},300);};
 
 // SA PROJECT NAME PILL SYNC — surgical add
