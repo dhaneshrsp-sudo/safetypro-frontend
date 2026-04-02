@@ -2628,18 +2628,33 @@ function saStartCamera() {
       var video = document.getElementById('sa-video');
       video.srcObject = stream;
       video.play();
-      // Wait 800ms for camera hardware to warm up — prevents black window on 2nd scan
-      setTimeout(function(){
-        video.style.display = 'block';
-        if(prompt) prompt.style.display = 'none';
-        document.getElementById('sa-face-guide').style.display = 'flex';
-        var statusOv = document.getElementById('sa-status-overlay');
-        if(statusOv) statusOv.style.display = 'block';
-        document.getElementById('sa-status-text').textContent = '● Camera Ready — Position your face in the oval';
-        document.getElementById('sa-status-text').style.color = 'var(--green)';
-        saGetGPS();
-        setTimeout(saStartAutoCapture, 400);
-      }, 800);
+      // PRECISION FIX: show video only when real frame arrives — not black
+      // Checks brightness every 100ms, shows when >15 (real content) or 3s timeout
+      var _canvas = document.createElement('canvas');
+      _canvas.width=32;_canvas.height=32;
+      var _ctx = _canvas.getContext('2d');
+      var _checks = 0;
+      var _checkFrame = setInterval(function(){
+        _checks++;
+        try{
+          _ctx.drawImage(video,0,0,32,32);
+          var _px=_ctx.getImageData(0,0,32,32).data,_sum=0;
+          for(var _i=0;_i<_px.length;_i+=4)_sum+=(_px[_i]+_px[_i+1]+_px[_i+2]);
+          var _bright=_sum/(_px.length/4*3);
+          if(_bright>15||_checks>30){
+            clearInterval(_checkFrame);
+            video.style.display='block';
+            if(prompt)prompt.style.display='none';
+            document.getElementById('sa-face-guide').style.display='flex';
+            var statusOv=document.getElementById('sa-status-overlay');
+            if(statusOv)statusOv.style.display='block';
+            document.getElementById('sa-status-text').textContent='● Camera Ready — Position your face in the oval';
+            document.getElementById('sa-status-text').style.color='var(--green)';
+            saGetGPS();
+            setTimeout(saStartAutoCapture,400);
+          }
+        }catch(e){if(_checks>30)clearInterval(_checkFrame);}
+      },100);
     })
     .catch(function(err) {
       var prompt = document.getElementById('sa-start-prompt');
