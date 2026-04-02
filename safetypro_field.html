@@ -796,13 +796,8 @@ flex-wrap:wrap;}
 .logo-text{color:var(--t1,#E6EDF3)!important;font-size:15px;font-weight:800;letter-spacing:-.3px;}
 .logo-text span{color:var(--green,#22C55E)!important;}
 
-.sp-footer{height:38px;background:var(--sidebar);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;}
-.sp-footer-left,.sp-footer-right{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--t3);}
-.sp-footer-sep{color:var(--border);}
-
-.logo{color:#E6EDF3!important;text-decoration:none!important;}.logo-text{color:#E6EDF3!important;font-size:15px;font-weight:800;}.logo-text span{color:#22C55E!important;}
-.sp-footer{position:fixed;bottom:0;left:0;right:0;height:38px;background:var(--sidebar);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:90;}.sp-footer-left,.sp-footer-right{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--t3);}.sp-footer-sep{color:var(--border);}
-[id^="field-tab-"]{padding-top:16px !important;}</style>
+.logo-text{color:#E6EDF3!important;font-size:15px;font-weight:800;}.logo-text span{color:#22C55E!important;}
+.content{padding:0 !important;}[id^="field-tab-"]{padding:16px 20px 20px 20px !important;}.sp-footer{display:flex;align-items:center;justify-content:space-between;height:28px;background:#080F18;border-top:1px solid var(--border);padding:7px 20px;flex-shrink:0;z-index:10;}.sp-footer-left,.sp-footer-center,.sp-footer-right{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--t3);}.sp-footer-sep{color:var(--border);}.sp-footer-status-dot{width:6px;height:6px;border-radius:50%;background:#22C55E;display:inline-block;}</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
 <body>
@@ -2464,8 +2459,8 @@ flex-wrap:wrap;}
     
 
 
-<footer class="sp-footer"><div class="sp-footer-left"><span>© 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2)">Site &amp; Field Tools</span><span class="sp-footer-sep">|</span><span style="color:var(--t2)">v1.3.2</span></div><div class="sp-footer-right"><span style="color:var(--t3)">Quick Help</span><span class="sp-footer-sep">|</span><span style="color:var(--t3)">Report Issue</span><span class="sp-footer-sep">|</span><div style="width:6px;height:6px;border-radius:50%;background:#22C55E;display:inline-block;"></div><span style="color:#22C55E">Operational</span></div></footer>
-</div>
+
+<footer class="sp-footer"><div class="sp-footer-left"><span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2)">Site &amp; Field Tools</span><span class="sp-footer-sep">|</span><span style="color:var(--t2)">v1.3.2</span><span class="sp-footer-sep">|</span><span style="color:var(--t3)">Last Sync: 11:46 AM</span></div><div class="sp-footer-center"><span style="cursor:pointer;color:var(--t3)" onclick="fieldToast('Help docs coming soon','blue')">Quick Help</span><span class="sp-footer-sep">|</span><span style="cursor:pointer;color:var(--t3)" onclick="fieldToast('Issue reported','success')">Report Issue</span><span class="sp-footer-sep">|</span><span style="color:var(--t3)">API Docs</span></div><div class="sp-footer-right"><div class="sp-footer-status-dot"></div><span id="sp-status-text" style="color:#22C55E">Operational</span></div></footer></div>
 
 
 
