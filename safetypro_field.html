@@ -968,7 +968,7 @@ flex-wrap:wrap;}
           <div id="sa-mode-selfie" style="padding:20px;">
             <!-- CAMERA VIEWFINDER -->
             <div style="position:relative;width:100%;aspect-ratio:4/3;background:#000;border-radius:12px;overflow:hidden;border:2px solid var(--border);margin-bottom:14px;" id="sa-camera-container">
-              <video id="sa-video" style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:block;" autoplay playsinline muted></video>
+              <video id="sa-video" style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:none;" autoplay playsinline muted></video><div id="sa-start-prompt" onclick="saStartCamera()" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--raised);border-radius:12px;"><div style="font-size:52px;margin-bottom:12px;">📸</div><div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);margin-bottom:6px;">Tap to Start Camera</div><div style="font-size:10px;color:var(--t3);">Allow camera permission when asked</div><div style="margin-top:14px;padding:9px 24px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:12px;font-weight:800;font-family:var(--fh);">Enable Camera</div></div>
               <canvas id="sa-canvas" style="display:none;"></canvas>
               
               <!-- FACE GUIDE OVERLAY -->
@@ -2502,6 +2502,7 @@ function saStartCamera() {
       var video = document.getElementById('sa-video');
       video.srcObject = stream;
       video.style.display = 'block';
+      var p=document.getElementById('sa-start-prompt');if(p)p.style.display='none';
       document.getElementById('sa-face-guide').style.display = 'flex';
       document.getElementById('sa-status-text').textContent = '● Camera Ready — Position your face in the oval';
       document.getElementById('sa-status-text').style.color = 'var(--green)';
@@ -2680,12 +2681,7 @@ function saExportBOCW() {
   fieldToast('BOCW Form XIII exported — muster_roll_' + new Date().toISOString().slice(0,10) + '.xlsx', 'success');
 }
 
-// Auto-start camera when page loads
-window.addEventListener('load', function() {
-  if(document.getElementById('sa-video')) {
-    setTimeout(saStartCamera, 800);
-  }
-});
+// Camera starts only on explicit user tap
 
 
 
