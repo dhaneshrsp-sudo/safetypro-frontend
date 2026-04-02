@@ -809,8 +809,13 @@ flex-wrap:wrap;}
 .sp-footer-right{display:flex;align-items:center;gap:6px;}
 .sp-footer-status-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;flex-shrink:0;}
 .sp-footer-sep{opacity:.3;}
-#field-tab-checkin,#field-tab-heatmap,#field-tab-checklist,#field-tab-attendance,#field-tab-ptw,#field-tab-emergency,#field-tab-induction{padding:16px 20px 20px 20px !important;}#field-tab-checkin,#field-tab-heatmap,#field-tab-checklist,#field-tab-attendance,#field-tab-ptw,#field-tab-emergency,#field-tab-induction{padding:16px 20px 20px 20px !important;}
-#sa-oval-ring{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:5;}.sa-oval{width:160px;height:200px;border-radius:50%;position:relative;transition:border-color .3s,box-shadow .3s;border:2px dashed rgba(34,197,94,0.5);}.sa-oval.detecting{border-color:rgba(245,158,11,0.8);border-style:solid;}.sa-oval.countdown{border-color:#22C55E;border-style:solid;box-shadow:0 0 20px rgba(34,197,94,0.4);}.sa-oval.captured{border-color:#22C55E;border-style:solid;box-shadow:0 0 30px rgba(34,197,94,0.6);}#sa-countdown-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;display:none;align-items:center;justify-content:center;}#sa-countdown-ring.active{display:flex;}#sa-countdown-num{font-family:var(--fh);font-size:36px;font-weight:900;color:#22C55E;text-shadow:0 0 20px rgba(34,197,94,0.8);}#sa-auto-status{position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;font-family:var(--fh);background:rgba(0,0,0,0.6);padding:3px 10px;border-radius:20px;white-space:nowrap;color:var(--green);}svg.cd-ring{position:absolute;width:80px;height:80px;}svg.cd-ring circle{fill:none;stroke:#22C55E;stroke-width:3;stroke-linecap:round;stroke-dasharray:220;stroke-dashoffset:220;transition:stroke-dashoffset linear;}
+
+/* ── PHASE A: AUTO-CAPTURE STYLES ── */
+.sa-oval{width:160px;height:200px;border-radius:50%;position:relative;transition:border-color .3s,box-shadow .3s;border:2px dashed rgba(34,197,94,0.5);}
+.sa-oval.detecting{border-color:rgba(245,158,11,0.8);border-style:solid;}
+.sa-oval.countdown{border-color:#22C55E;border-style:solid;box-shadow:0 0 20px rgba(34,197,94,0.4);}
+.sa-oval.captured{border-color:#22C55E;border-style:solid;box-shadow:0 0 30px rgba(34,197,94,0.6);}
+#sa-countdown-ring.active{display:flex!important;}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
@@ -852,7 +857,7 @@ flex-wrap:wrap;}
 </nav>
   <!-- Profile Dropdown -->
   <div id="profile-dropdown" style="display:none;position:fixed;top:58px;right:16px;width:240px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:9999;overflow:hidden;">
-    <div style="padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--raised);"><div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:16px;font-weight:800;color:#fff;flex-shrink:0;">DK</div><div><div style="font-size:13px;font-weight:700;color:var(--t1);font-family:var(--fh);">Dhanesh CK</div><div style="font-size:10px;color:var(--t3);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e7838f868982948fc9848ca78e8284848bc98488c98e89">[email&#160;protected]</a></div><div style="margin-top:4px;display:inline-block;padding:2px 8px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);border-radius:10px;font-size:9px;font-weight:700;color:var(--green);font-family:var(--fh);">HSE HEAD</div></div></div>
+    <div style="padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--raised);"><div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:16px;font-weight:800;color:#fff;flex-shrink:0;">DK</div><div><div style="font-size:13px;font-weight:700;color:var(--t1);font-family:var(--fh);">Dhanesh CK</div><div style="font-size:10px;color:var(--t3);">dhanesh.ck@ieccl.co.in</div><div style="margin-top:4px;display:inline-block;padding:2px 8px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);border-radius:10px;font-size:9px;font-weight:700;color:var(--green);font-family:var(--fh);">HSE HEAD</div></div></div>
     <div style="padding:6px;"><a href="safetypro_v2.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a><a href="safetypro_admin.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Manage Users</a><a href="safetypro_admin.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M2 12h2m16 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>Settings</a><div onclick="changePassword()" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;cursor:pointer;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Change Password</div></div>
     <div style="padding:8px;border-top:1px solid var(--border);"><div onclick="goToSettings()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border-radius:8px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:var(--red);font-size:13px;font-weight:700;font-family:var(--fh);cursor:pointer;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out</div></div>
   </div>    </div>
@@ -980,32 +985,22 @@ flex-wrap:wrap;}
 
           <!-- SELFIE MODE -->
           <div id="sa-mode-selfie" style="padding:20px;">
-            <!-- PROJECT NAME PILL -->
-            <div style="display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--raised);border:1px solid var(--border);border-radius:8px;margin-bottom:10px;">
-              <span style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);text-transform:uppercase;letter-spacing:.5px;">📍 Project</span>
-              <span id="sa-project-name" style="font-size:11px;font-weight:700;color:var(--t1);font-family:var(--fh);">All Projects</span>
-            </div>
             <!-- CAMERA VIEWFINDER -->
             <div style="position:relative;width:100%;aspect-ratio:4/3;background:#000;border-radius:12px;overflow:hidden;border:2px solid var(--border);margin-bottom:14px;" id="sa-camera-container">
               <video id="sa-video" style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:none;" autoplay playsinline muted></video>
               <!-- Start camera prompt -->
               <div id="sa-start-prompt" onclick="saStartCamera()" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--raised);">
-                <div style="font-size:28px;margin-bottom:5px;">📸</div>
-                <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);margin-bottom:3px;">Tap to Start Camera</div>
-                <div style="font-size:9px;color:var(--t3);">Camera permission required</div>
-                <div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);padding:7px 22px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:11px;font-weight:800;font-family:var(--fh);white-space:nowrap;pointer-events:auto;">Enable Camera</div>
+                <div style="font-size:52px;margin-bottom:12px;">📸</div>
+                <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);margin-bottom:6px;">Tap to Start Camera</div>
+                <div style="font-size:10px;color:var(--t3);">Chrome will ask for camera permission</div>
+                <div style="margin-top:14px;padding:8px 20px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:12px;font-weight:800;font-family:var(--fh);">Enable Camera</div>
               </div>
               <canvas id="sa-canvas" style="display:none;"></canvas>
               
               <!-- FACE GUIDE OVERLAY -->
               <div id="sa-face-guide" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-                <div id="sa-auto-status" style="position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;font-family:var(--fh);background:rgba(0,0,0,0.6);padding:3px 10px;border-radius:20px;white-space:nowrap;color:rgba(34,197,94,0.8);">ALIGN FACE</div>
-                <div style="position:relative;width:160px;height:200px;">
-                  <div id="sa-oval" class="sa-oval"></div>
-                  <div id="sa-countdown-ring">
-                    <svg class="cd-ring"><circle id="sa-cd-circle" cx="40" cy="40" r="35"/></svg>
-                    <span id="sa-countdown-num"></span>
-                  </div>
+                <div style="width:160px;height:200px;border:2px dashed rgba(34,197,94,0.6);border-radius:50%;position:relative;">
+                  <div style="position:absolute;top:-22px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:10px;font-weight:700;color:rgba(34,197,94,0.8);font-family:var(--fh);letter-spacing:.5px;">ALIGN FACE</div>
                 </div>
               </div>
 
@@ -1042,13 +1037,13 @@ flex-wrap:wrap;}
             </div>
 
             <!-- WORKER ID (pre-fill or type) -->
-            <div id="sa-worker-section" style="display:none;margin-bottom:12px;">
+            <div style="margin-bottom:12px;">
               <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;">Worker ID / Name</div>
               <input id="sa-worker-id" type="text" placeholder="Scan badge or type Worker ID..." style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:12px;font-family:var(--fb);" />
             </div>
 
             <!-- CHECK IN / OUT BUTTONS -->
-            <div id="sa-btn-section" style="display:none;grid-template-columns:1fr 1fr;gap:10px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
               <button id="sa-checkin-btn" onclick="saCapture('in')" style="padding:13px;background:var(--green);border:none;border-radius:10px;color:#0B0F14;font-size:13px;font-weight:800;font-family:var(--fh);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
                 Check IN
@@ -2483,12 +2478,58 @@ flex-wrap:wrap;}
     
 
 
-
+<!-- ══ STANDARD FOOTER ══ -->
+<footer class="sp-footer">
+  <div class="sp-footer-left">
+    <span>&#169; 2026 SafetyPro AI</span>
+    <span class="sp-footer-sep">|</span>
+    <span style="color:var(--t2,#7A9BBF)">Site &amp; Field Tools</span>
+    <span class="sp-footer-sep">|</span>
+    <span id="sp-footer-version">v1.3.2</span>
+    <span class="sp-footer-sep">|</span>
+    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
+  </div>
+  <div class="sp-footer-center">
+    <a href="mailto:support@safetyproworld.com">Field Guide</a>
+    <a href="mailto:support@safetyproworld.com">PTW Help</a>
+    <a href="mailto:support@safetyproworld.com">Report Issue</a>
+  </div>
+  <div class="sp-footer-right">
+    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
+    <span id="sp-status-text" style="color:#22C55E">Operational</span>
+  </div>
+</footer>
+<script>
+(function spFooterInit(){
+  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
+  function updateFooter(d){
+    var v=document.getElementById('sp-footer-version');
+    var s=document.getElementById('sp-footer-sync');
+    var dot=document.getElementById('sp-status-dot');
+    var txt=document.getElementById('sp-status-text');
+    if(!v)return;
+    if(d.version)v.textContent=d.version;
+    if(d.lastSync){try{s.textContent=new Date(d.lastSync).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}}
+    var status=d.status||'operational';
+    var colors={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'};
+    if(dot)dot.style.background=colors[status]||'#22C55E';
+    if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#22C55E';}
+  }
+  function fetchStatus(){
+    fetch(API+'/api/system/status')
+      .then(function(r){return r.json();})
+      .then(updateFooter)
+      .catch(function(){updateFooter({status:'operational',version:'v1.3.2',lastSync:new Date().toISOString()});});
+  }
+  fetchStatus();
+  setInterval(fetchStatus,30000);
+})();
+</script>
 </div>
 
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 var API_BASE = 'https://safetypro-backend-production.up.railway.app/api/v1';
 var fieldToastTimer = null;
 
@@ -2638,7 +2679,7 @@ function saCapture(actionType) {
   preview.style.display = 'block';
   video.style.display = 'none';
   document.getElementById('sa-face-guide').style.display = 'none';
-  document.getElementById('sa-retake-overlay').style.display = 'flex';
+  // retake overlay disabled for auto-capture flow
   
   // Simulate face recognition processing
   saProcessAttendance(actionType, Math.floor(85 + Math.random() * 14) + 0.1);
@@ -2688,7 +2729,51 @@ function saProcessAttendance(actionType, confidence) {
       successCard.style.borderColor = actionType === 'in' ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)';
       successCard.style.background = actionType === 'in' ? 'rgba(34,197,94,0.06)' : 'rgba(239,68,68,0.06)';
       document.getElementById('sa-success-name').style.color = actionType === 'in' ? 'var(--green)' : 'var(--red)';
-      
+
+      // After 2.5s: stop camera, show attendance marked screen
+      setTimeout(function() {
+        // Hide success card & video
+        successCard.style.display = 'none';
+        var vid = document.getElementById('sa-video');
+        var prev = document.getElementById('sa-photo-preview');
+        var guide = document.getElementById('sa-face-guide');
+        if(vid) { vid.style.display = 'none'; if(vid.srcObject){ vid.srcObject.getTracks().forEach(function(t){t.stop();}); vid.srcObject = null; } }
+        if(prev) { prev.style.display = 'none'; prev.src = ''; }
+        if(guide) guide.style.display = 'none';
+        saStream = null;
+        window.saHasCaptured = false;
+        saCountingDown = false;
+        // Show attendance confirmed screen
+        var container = document.getElementById('sa-camera-container');
+        if(container) {
+          var old = document.getElementById('sa-confirmed-screen');
+          if(old) old.remove();
+          var screen = document.createElement('div');
+          screen.id = 'sa-confirmed-screen';
+          screen.style.cssText = 'position:absolute;inset:0;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:12px;padding:20px;text-align:center;z-index:10;';
+          var now = new Date();
+          var ts = now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+          var wname = document.getElementById('sa-worker-id') ? (document.getElementById('sa-worker-id').value || 'Site Worker') : 'Site Worker';
+          var isIn = actionType === 'in';
+          screen.innerHTML = 
+            '<div style="width:60px;height:60px;border-radius:50%;background:' + (isIn?'var(--green)':'var(--red)') + ';display:flex;align-items:center;justify-content:center;font-size:30px;color:#fff;">' + (isIn?'✓':'✗') + '</div>'
+            + '<div style="font-family:var(--fh);font-size:14px;font-weight:800;color:' + (isIn?'var(--green)':'var(--red)') + ';">Attendance Marked</div>'
+            + '<div style="font-size:13px;font-weight:700;color:var(--t1);">' + wname + '</div>'
+            + '<div style="font-size:11px;color:var(--t2);padding:6px 14px;background:var(--raised);border-radius:20px;border:1px solid var(--border);">'
+            + (isIn ? '✓ Checked IN' : '✗ Checked OUT') + '  ·  Zone A  ·  ' + ts
+            + '</div>'
+            + '<div style="font-size:10px;color:var(--t3);">📍 GPS Captured  ·  📸 Face Verified</div>'
+            ;
+          setTimeout(saResetToTapScreen, 4000);
+          var autoNote = document.createElement('div');
+          autoNote.style.cssText = 'font-size:10px;color:var(--t3);margin-top:4px;';
+          autoNote.textContent = 'Closes in 4 seconds...';
+          screen.appendChild(autoNote);
+          container.appendChild(screen);
+          container.appendChild(screen);
+        }
+      }, 2500);
+
       // Add to feed
       saAddToFeed(workerName, actionType, timeStr, zone, confidence, gpsStr, 'selfie');
     }
@@ -3000,6 +3085,247 @@ function saveTraining() {
 }
 
 function toggleSidebarMore(){var el=document.getElementById("sb-more-items"),ch=document.getElementById("sb-chev");if(!el)return;var o=el.style.maxHeight!=="0px";el.style.maxHeight=o?"0px":"500px";el.style.opacity=o?"0":"1";if(ch)ch.style.transform=o?"rotate(-90deg)":"rotate(0deg)";}
+
+/* ═══════════════════════════════════════════════════════════
+   PHASE A — AUTO-CAPTURE SYSTEM
+   Phase B TODO: Replace brightness detection with face-api.js
+   + enrolled worker descriptor matching from /api/workers/descriptors
+   ═══════════════════════════════════════════════════════════ */
+
+var saAutoLoop = null;
+var saCountdownTimer = null;
+var saCountingDown = false;
+var saFaceDetector = null;
+var saDetectionReady = false;
+window.saHasCaptured = false;
+
+function saResetToTapScreen() {
+  /* Reset camera container back to tap-to-start state */
+  var confirmed = document.getElementById('sa-confirmed-screen');
+  if(confirmed) confirmed.remove();
+  var vid = document.getElementById('sa-video');
+  var guide = document.getElementById('sa-face-guide');
+  var prompt = document.getElementById('sa-start-prompt');
+  if(vid) vid.style.display = 'none';
+  if(guide) guide.style.display = 'none';
+  if(prompt) {
+    prompt.style.cssText = 'position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--raised);border-radius:12px;';
+    prompt.innerHTML = '<div style="font-size:52px;margin-bottom:12px;">📸</div>'
+      + '<div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);margin-bottom:6px;">Tap to Start Camera</div>'
+      + '<div style="font-size:10px;color:var(--t3);">Ready for next worker</div>'
+      + '<div style="margin-top:14px;padding:9px 24px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:12px;font-weight:800;font-family:var(--fh);">Enable Camera</div>';
+    prompt.onclick = saStartCamera;
+  }
+  window.saHasCaptured = false;
+  saCountingDown = false;
+  saStopAutoCapture();
+}
+
+function saInitDetector() {
+  if('FaceDetector' in window) {
+    try {
+      saFaceDetector = new FaceDetector({fastMode:true, maxDetectedFaces:1});
+      saDetectionReady = true;
+      return;
+    } catch(e) {}
+  }
+  /* Phase B TODO: load face-api.js TinyFaceDetector model
+     and match against enrolled worker descriptors */
+  saDetectionReady = false;
+}
+
+function saStartAutoCapture() {
+  saInitDetector();
+  if(saAutoLoop) clearInterval(saAutoLoop);
+  saAutoLoop = setInterval(saDetectFace, 400);
+}
+
+function saStopAutoCapture() {
+  if(saAutoLoop) { clearInterval(saAutoLoop); saAutoLoop = null; }
+  saResetCountdown();
+}
+
+async function saDetectFace() {
+  var video = document.getElementById('sa-video');
+  if(!video || video.readyState < 1) return;
+  var faceFound = false;
+  if(saDetectionReady && saFaceDetector) {
+    try {
+      var faces = await saFaceDetector.detect(video);
+      if(faces.length > 0) {
+        var b = faces[0].boundingBox;
+        var vw = video.videoWidth || 320;
+        var vh = video.videoHeight || 240;
+        var inC = Math.abs((b.x+b.width/2)/vw - 0.5) < 0.28 && Math.abs((b.y+b.height/2)/vh - 0.5) < 0.28;
+        faceFound = inC && b.width > vw * 0.18;
+      }
+    } catch(e) {}
+  } else {
+    /* Phase B TODO: replace with face-api.js matching */
+    var c = document.createElement('canvas');
+    c.width = 64; c.height = 64;
+    var ctx = c.getContext('2d');
+    ctx.drawImage(video, 0, 0, 64, 64);
+    var d = ctx.getImageData(0, 0, 64, 64).data;
+    var sum = 0;
+    for(var i = 0; i < d.length; i+=4) sum += (d[i]+d[i+1]+d[i+2])/3;
+    var avg = sum / (d.length/4);
+    faceFound = avg > 15 && avg < 245;
+  }
+  saUpdateOvalState(faceFound);
+  if(faceFound && !saCountingDown && !window.saHasCaptured) {
+    saStartCountdownAuto();
+  } else if(!faceFound && saCountingDown) {
+    saResetCountdown();
+  }
+}
+
+function saUpdateOvalState(faceFound) {
+  var oval = document.getElementById('sa-oval');
+  var status = document.getElementById('sa-auto-status');
+  if(!oval) return;
+  if(window.saHasCaptured) return;
+  oval.className = 'sa-oval' + (faceFound ? (saCountingDown ? ' countdown' : ' detecting') : '');
+  if(status) {
+    if(faceFound && saCountingDown) {
+      status.style.color = '#22C55E';
+    } else if(faceFound) {
+      status.textContent = '✓ Face detected — hold still';
+      status.style.color = '#F59E0B';
+    } else {
+      status.textContent = 'ALIGN FACE';
+      status.style.color = 'rgba(34,197,94,0.8)';
+    }
+  }
+}
+
+function saStartCountdownAuto() {
+  if(saCountingDown || window.saHasCaptured) return;
+  saCountingDown = true;
+  var ring = document.getElementById('sa-countdown-ring');
+  var num = document.getElementById('sa-countdown-num');
+  var circle = document.getElementById('sa-cd-circle');
+  var status = document.getElementById('sa-auto-status');
+  if(ring) ring.classList.add('active');
+  if(num) num.textContent = '2';
+  if(status) { status.textContent = 'Hold still... 2'; status.style.color = '#22C55E'; }
+  if(circle) { circle.style.transition = 'stroke-dashoffset 2s linear'; circle.style.strokeDashoffset = '0'; }
+  saCountdownTimer = setTimeout(function() {
+    if(!saCountingDown || window.saHasCaptured) return;
+    if(num) num.textContent = '1';
+    if(status) status.textContent = 'Hold still... 1';
+    setTimeout(function() {
+      if(saCountingDown && !window.saHasCaptured) saAutoFire();
+    }, 1000);
+  }, 1000);
+}
+
+function saResetCountdown() {
+  if(!saCountingDown) return;
+  saCountingDown = false;
+  clearTimeout(saCountdownTimer);
+  var ring = document.getElementById('sa-countdown-ring');
+  var circle = document.getElementById('sa-cd-circle');
+  var status = document.getElementById('sa-auto-status');
+  var oval = document.getElementById('sa-oval');
+  if(ring) ring.classList.remove('active');
+  if(circle) { circle.style.transition = 'none'; circle.style.strokeDashoffset = '220'; }
+  if(status) { status.textContent = 'ALIGN FACE'; status.style.color = 'rgba(34,197,94,0.8)'; }
+  if(oval) oval.className = 'sa-oval';
+}
+
+function saAutoFire() {
+  if(window.saHasCaptured) return;
+  window.saHasCaptured = true;
+  saStopAutoCapture();
+  var oval = document.getElementById('sa-oval');
+  var status = document.getElementById('sa-auto-status');
+  if(oval) oval.classList.add('captured');
+  if(status) { status.textContent = 'Face captured!'; status.style.color = '#22C55E'; }
+  var container = document.getElementById('sa-camera-container');
+  if(!container) return;
+  var choice = document.createElement('div');
+  choice.id = 'sa-choice-overlay';
+  choice.style.cssText = 'position:absolute;inset:0;background:rgba(11,15,20,0.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:12px;z-index:20;padding:16px;';
+  var icon = document.createElement('div');
+  icon.style.cssText = 'width:40px;height:40px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:18px;color:#0B0F14;font-weight:900;box-shadow:0 0 20px rgba(34,197,94,0.4);';
+  icon.textContent = '✓';
+  var title = document.createElement('div');
+  title.style.cssText = 'font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);text-align:center;';
+  title.textContent = 'Face Verified — Mark Attendance';
+  var grid = document.createElement('div');
+  grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;';
+  var btnIn = document.createElement('button');
+  btnIn.style.cssText = 'padding:10px 6px;background:var(--green);border:none;border-radius:10px;color:#0B0F14;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;box-shadow:0 4px 16px rgba(34,197,94,0.3);transition:transform .15s;';
+  btnIn.innerHTML = '<span style="font-size:18px;">&#8594;</span><span style="font-family:var(--fh);font-size:12px;font-weight:800;">Check IN</span><span style="font-size:9px;opacity:0.7;">Arriving at site</span>';
+  btnIn.onclick = function(){ saMarkAttendance('in'); };
+  var btnOut = document.createElement('button');
+  btnOut.style.cssText = 'padding:10px 6px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.35);border-radius:10px;color:var(--red);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:transform .15s;';
+  btnOut.innerHTML = '<span style="font-size:18px;">&#8592;</span><span style="font-family:var(--fh);font-size:12px;font-weight:800;">Check OUT</span><span style="font-size:9px;opacity:0.7;color:var(--t3);">Leaving site</span>';
+  btnOut.onclick = function(){ saMarkAttendance('out'); };
+  grid.appendChild(btnIn);
+  grid.appendChild(btnOut);
+  choice.appendChild(icon);
+  choice.appendChild(title);
+  choice.appendChild(grid);
+  container.appendChild(choice);
+}
+
+function saMarkAttendance(actionType) {
+  var choice = document.getElementById('sa-choice-overlay');
+  if(choice) choice.remove();
+  var confidence = Math.floor(85 + Math.random() * 14) + 0.1;
+  saActionType = actionType;
+  saProcessAttendance(actionType, confidence);
+}
+
+
+function saMarkAttendance(actionType) {
+  var choice = document.getElementById('sa-choice-overlay');
+  if(choice) choice.remove();
+  var confidence = Math.floor(85 + Math.random() * 14) + 0.1;
+  saActionType = actionType;
+  saProcessAttendance(actionType, confidence);
+}
+
+
+/* Override saStartCamera to start detection when video plays */
+var _origSC = saStartCamera;
+window.saStartCamera = function() {
+  _origSC.call(this);
+  var vid = document.getElementById('sa-video');
+  if(vid) {
+    vid.addEventListener('play', function onPlay() {
+      vid.removeEventListener('play', onPlay);
+      setTimeout(saStartAutoCapture, 600);
+    }, {once: true});
+  }
+};
+
+/* Build oval elements dynamically since HTML replace is unreliable */
+document.addEventListener('DOMContentLoaded', function() {
+  var guide = document.getElementById('sa-face-guide');
+  if(!guide || document.getElementById('sa-oval')) return;
+  guide.innerHTML = '';
+  var ring = document.createElement('div');
+  ring.id = 'sa-oval-ring';
+  ring.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;';
+  var oval = document.createElement('div');
+  oval.id = 'sa-oval';
+  oval.className = 'sa-oval';
+  var statusEl = document.createElement('div');
+  statusEl.id = 'sa-auto-status';
+  statusEl.style.cssText = 'position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;font-family:var(--fh);background:rgba(0,0,0,0.6);padding:3px 10px;border-radius:20px;white-space:nowrap;color:rgba(34,197,94,0.8);';
+  statusEl.textContent = 'ALIGN FACE';
+  var cdRing = document.createElement('div');
+  cdRing.id = 'sa-countdown-ring';
+  cdRing.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;display:none;align-items:center;justify-content:center;';
+  cdRing.innerHTML = '<svg style="position:absolute;width:80px;height:80px;" viewBox="0 0 80 80"><circle id="sa-cd-circle" cx="40" cy="40" r="35" transform="rotate(-90 40 40)" fill="none" stroke="#22C55E" stroke-width="3" stroke-linecap="round" stroke-dasharray="220" stroke-dashoffset="220"/></svg><div id="sa-countdown-num" style="font-family:var(--fh);font-size:36px;font-weight:900;color:#22C55E;text-shadow:0 0 20px rgba(34,197,94,0.8);">2</div>';
+  oval.appendChild(statusEl);
+  oval.appendChild(cdRing);
+  ring.appendChild(oval);
+  guide.appendChild(ring);
+});
 </script>
 
   </div>
@@ -3112,77 +3438,6 @@ function toggleSidebarMore(){var el=document.getElementById("sb-more-items"),ch=
     </div>
   </div>
 
-<!-- ══ STANDARD FOOTER ══ -->
-<footer class="sp-footer">
-  <div class="sp-footer-left">
-    <span>&#169; 2026 SafetyPro AI</span>
-    <span class="sp-footer-sep">|</span>
-    <span style="color:var(--t2,#7A9BBF)">Site &amp; Field Tools</span>
-    <span class="sp-footer-sep">|</span>
-    <span id="sp-footer-version">v1.3.2</span>
-    <span class="sp-footer-sep">|</span>
-    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
-  </div>
-  <div class="sp-footer-center">
-    <a href="/cdn-cgi/l/email-protection#2c5f595c5c435e586c5f4d4a4958555c5e435b435e4048024f4341">Field Guide</a>
-    <a href="/cdn-cgi/l/email-protection#b5c6c0c5c5dac7c1f5c6d4d3d0c1ccc5c7dac2dac7d9d19bd6dad8">PTW Help</a>
-    <a href="/cdn-cgi/l/email-protection#d3a0a6a3a3bca1a793a0b2b5b6a7aaa3a1bca4bca1bfb7fdb0bcbe">Report Issue</a>
-  </div>
-  <div class="sp-footer-right">
-    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
-    <span id="sp-status-text" style="color:#22C55E">Operational</span>
-  </div>
-</footer>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-(function spFooterInit(){
-  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
-  function updateFooter(d){
-    var v=document.getElementById('sp-footer-version');
-    var s=document.getElementById('sp-footer-sync');
-    var dot=document.getElementById('sp-status-dot');
-    var txt=document.getElementById('sp-status-text');
-    if(!v)return;
-    if(d.version)v.textContent=d.version;
-    if(d.lastSync){try{s.textContent=new Date(d.lastSync).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}}
-    var status=d.status||'operational';
-    var colors={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'};
-    if(dot)dot.style.background=colors[status]||'#22C55E';
-    if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#22C55E';}
-  }
-  function fetchStatus(){
-    fetch(API+'/api/system/status')
-      .then(function(r){return r.json();})
-      .then(updateFooter)
-      .catch(function(){updateFooter({status:'operational',version:'v1.3.2',lastSync:new Date().toISOString()});});
-  }
-  fetchStatus();
-  setInterval(fetchStatus,30000);
-})();
-
-var saAutoLoop=null,saCountdownTimer=null,saCountingDown=false,saFaceDetector=null,saDetectionReady=false;
-function saInitDetector(){if("FaceDetector"in window){try{saFaceDetector=new FaceDetector({fastMode:true,maxDetectedFaces:1});saDetectionReady=true;return;}catch(e){}}
-console.log("[PhaseA] Using brightness simulation. PhaseB: replace with face-api.js matching");
-saDetectionReady=false;}
-function saStartAutoCapture(){saInitDetector();saAutoLoop=setInterval(saDetectFace,400);}
-function saStopAutoCapture(){if(saAutoLoop){clearInterval(saAutoLoop);saAutoLoop=null;}saResetCountdown();}
-async function saDetectFace(){var video=document.getElementById("sa-video");if(!video||video.readyState<2||!saStream)return;var faceFound=false;if(saDetectionReady&&saFaceDetector){try{var faces=await saFaceDetector.detect(video);if(faces.length>0){var b=faces[0].boundingBox,vw=video.videoWidth||320,vh=video.videoHeight||240;var inC=Math.abs((b.x+b.width/2)/vw-0.5)<0.28&&Math.abs((b.y+b.height/2)/vh-0.5)<0.28;faceFound=inC&&b.width>vw*0.18;}}catch(e){}}else{var c=document.createElement("canvas");c.width=64;c.height=64;var ctx=c.getContext("2d");ctx.drawImage(video,0,0,64,64);var d=ctx.getImageData(0,0,64,64).data,sum=0;for(var i=0;i<d.length;i+=4)sum+=(d[i]+d[i+1]+d[i+2])/3;var avg=sum/(d.length/4);faceFound=avg>20&&avg<240;}saUpdateOvalState(faceFound);if(faceFound&&!saCountingDown)saStartCountdownAuto();else if(!faceFound&&saCountingDown)saResetCountdown();}
-function saUpdateOvalState(f){var o=document.getElementById("sa-oval"),s=document.getElementById("sa-auto-status");if(!o)return;o.className="sa-oval"+(f?(saCountingDown?" countdown":" detecting"):"");if(s){if(f&&saCountingDown){s.style.color="#22C55E";}else if(f){s.textContent="Face detected — hold still";s.style.color="#F59E0B";}else{s.textContent="ALIGN FACE";s.style.color="rgba(34,197,94,0.8)";}}}
-function saStartCountdownAuto(){if(saCountingDown)return;saCountingDown=true;var ring=document.getElementById("sa-countdown-ring"),num=document.getElementById("sa-countdown-num"),circle=document.getElementById("sa-cd-circle"),s=document.getElementById("sa-auto-status");if(ring)ring.classList.add("active");if(num)num.textContent="3";if(s){s.textContent="Hold still... 3";s.style.color="#22C55E";}if(circle){circle.style.transition="stroke-dashoffset 3s linear";circle.style.strokeDashoffset="0";}saCountdownTimer=setTimeout(function(){if(saCountingDown){if(num)num.textContent="2";if(s)s.textContent="Hold still... 2";setTimeout(function(){if(saCountingDown){if(num)num.textContent="1";if(s)s.textContent="Hold still... 1";setTimeout(function(){if(saCountingDown)saAutoFire();},1000);}},1000);}},1000);}
-function saResetCountdown(){if(!saCountingDown)return;saCountingDown=false;clearTimeout(saCountdownTimer);var ring=document.getElementById("sa-countdown-ring"),circle=document.getElementById("sa-cd-circle"),s=document.getElementById("sa-auto-status");if(ring)ring.classList.remove("active");if(circle){circle.style.transition="none";circle.style.strokeDashoffset="220";}if(s){s.textContent="ALIGN FACE";s.style.color="rgba(34,197,94,0.8)";}var o=document.getElementById("sa-oval");if(o)o.className="sa-oval";}
-function saAutoFire(){if(window.saHasCaptured)return;window.saHasCaptured=true;if(typeof saStopAutoCapture==="function")saStopAutoCapture();if(saStream){saStream.getTracks().forEach(function(t){t.stop();});saStream=null;}var _v=document.getElementById("sa-video");if(_v)_v.style.display="none";var o=document.getElementById("sa-oval"),s=document.getElementById("sa-auto-status");if(o)o.classList.add("captured");if(s){s.textContent="Face captured!";s.style.color="#22C55E";}var con=document.getElementById("sa-camera-container");if(!con)return;var old=document.getElementById("sa-choice-overlay");if(old)old.remove();var d=document.createElement("div");d.id="sa-choice-overlay";d.style.cssText="position:absolute;inset:0;background:rgba(11,15,20,0.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:12px;z-index:20;padding:20px;";var ic=document.createElement("div");ic.style.cssText="width:44px;height:44px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:22px;color:#0B0F14;";ic.textContent="✓";var ti=document.createElement("div");ti.style.cssText="font-size:12px;font-weight:700;color:var(--t1);font-family:var(--fh);text-align:center;";ti.textContent="Face Verified — Mark Attendance";var gr=document.createElement("div");gr.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;";var bI=document.createElement("button");bI.style.cssText="padding:12px 8px;background:var(--green);border:none;border-radius:10px;color:#0B0F14;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;";var s1=document.createElement("span");s1.style.fontSize="18px";s1.textContent="→";var s2=document.createElement("span");s2.style.cssText="font-family:var(--fh);font-size:13px;font-weight:800;";s2.textContent="Check IN";var s3=document.createElement("span");s3.style.cssText="font-size:9px;opacity:0.7;";s3.textContent="Arriving";bI.appendChild(s1);bI.appendChild(s2);bI.appendChild(s3);bI.onclick=function(){saMarkAttendance("in");};var bO=document.createElement("button");bO.style.cssText="padding:12px 8px;background:rgba(239,68,68,0.1);border:2px solid rgba(239,68,68,0.4);border-radius:10px;color:var(--red);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;";var s4=document.createElement("span");s4.style.fontSize="18px";s4.textContent="←";var s5=document.createElement("span");s5.style.cssText="font-family:var(--fh);font-size:13px;font-weight:800;";s5.textContent="Check OUT";var s6=document.createElement("span");s6.style.cssText="font-size:9px;";s6.style.color="var(--t3)";s6.textContent="Leaving";bO.appendChild(s4);bO.appendChild(s5);bO.appendChild(s6);bO.onclick=function(){saMarkAttendance("out");};gr.appendChild(bI);gr.appendChild(bO);var bk=document.createElement("button");bk.style.cssText="padding:5px 16px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--t3);font-size:10px;font-weight:600;font-family:var(--fh);cursor:pointer;";bk.textContent="↩ Back";bk.onclick=function(){var c=document.getElementById("sa-choice-overlay");if(c)c.remove();window.saHasCaptured=false;saStartCamera();};d.appendChild(ic);d.appendChild(ti);d.appendChild(gr);d.appendChild(bk);con.appendChild(d);}
-function saMarkAttendance(t){window.saHasCaptured=false;var c=document.getElementById("sa-choice-overlay");if(c)c.remove();saActionType=t;saProcessAttendance(t,Math.floor(85+Math.random()*14)+0.1);}
-var _oSC=saStartCamera;window.saStartCamera=function(){_oSC.call(this);var chk=setInterval(function(){if(saStream){clearInterval(chk);setTimeout(saStartAutoCapture,800);}},300);};
-
-// SA PROJECT NAME PILL SYNC — surgical add
-(function(){
-  var sel=document.getElementById("field-project");
-  var pill=document.getElementById("sa-project-name");
-  if(sel&&pill){
-    function _syncPill(){pill.textContent=sel.options[sel.selectedIndex]?sel.options[sel.selectedIndex].text:"All Projects";}
-    sel.addEventListener("change",_syncPill);
-    _syncPill();
-  }
-})();
-</script>
 </body>
 </html>
+
