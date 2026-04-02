@@ -3382,21 +3382,33 @@ function saMarkAttendance(t){
 }
 
 function saRestartCamera(){
+  // Remove success overlay
   var ov=document.getElementById('sa-success-overlay');if(ov)ov.remove();
+
+  // Reset all capture flags
   window.saHasCaptured=false;window.saCountingDown=false;
   if(window.saCountdownTimer)clearTimeout(window.saCountdownTimer);
+
+  // Stop any running stream cleanly
+  if(window.saStream){window.saStream.getTracks().forEach(function(t){t.stop();});window.saStream=null;}
+  if(typeof saStopAutoCapture==='function')saStopAutoCapture();
+
+  // Reset oval state
   var oval=document.getElementById('sa-oval');if(oval)oval.className='sa-oval';
   var st=document.getElementById('sa-auto-status');if(st){st.textContent='ALIGN FACE';st.style.color='rgba(34,197,94,0.8)';}
   var rng=document.getElementById('sa-countdown-ring');if(rng)rng.classList.remove('active');
   var num=document.getElementById('sa-countdown-num');if(num)num.textContent='';
   var cir=document.getElementById('sa-cd-circle');if(cir){cir.style.transition='none';cir.style.strokeDashoffset='220';}
-  var prompt=document.getElementById('sa-start-prompt');if(prompt)prompt.style.display='none';
-  var vid=document.getElementById('sa-video');if(vid)vid.style.display='block';
+
+  // Return to INITIAL STATE — show start prompt (Tap to Start Camera)
+  var vid=document.getElementById('sa-video');if(vid){vid.style.display='none';vid.srcObject=null;}
   var guide=document.getElementById('sa-face-guide');if(guide)guide.style.display='flex';
-  var statusOv=document.getElementById('sa-status-overlay');if(statusOv)statusOv.style.display='block';
-  navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'user'},width:{ideal:640},height:{ideal:480}},audio:false})
-    .then(function(stream){window.saStream=stream;var v=document.getElementById('sa-video');if(v){v.srcObject=stream;v.play();}setTimeout(saStartAutoCapture,800);})
-    .catch(function(){saStartCamera();});
+  var statusOv=document.getElementById('sa-status-overlay');if(statusOv)statusOv.style.display='none';
+  var prompt=document.getElementById('sa-start-prompt');
+  if(prompt){
+    prompt.innerHTML='<div style="font-size:28px;margin-bottom:5px;">📸</div><div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);margin-bottom:3px;">Tap to Start Camera</div><div style="font-size:9px;color:var(--t3);">Camera permission required</div><div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);padding:7px 22px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:11px;font-weight:800;font-family:var(--fh);white-space:nowrap;pointer-events:auto;">Enable Camera</div>';
+    prompt.style.display='flex';
+  }
 }
 var _oSC=saStartCamera;window.saStartCamera=function(){_oSC.call(this);var chk=setInterval(function(){if(saStream){clearInterval(chk);setTimeout(saStartAutoCapture,800);}},300);};
 
