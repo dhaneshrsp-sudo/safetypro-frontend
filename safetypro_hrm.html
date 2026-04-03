@@ -446,6 +446,8 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fb)
             <div onclick="hrmFilterFeed('all',this)" style="padding:3px 10px;background:var(--purple);border:1px solid rgba(139,92,246,.4);color:#fff;border-radius:16px;font-size:9px;font-weight:700;cursor:pointer;font-family:var(--fh);">All</div>
             <div onclick="hrmFilterFeed('in',this)" style="padding:3px 10px;background:var(--raised);border:1px solid var(--border);color:var(--t3);border-radius:16px;font-size:9px;font-weight:700;cursor:pointer;">Checked In</div>
             <div onclick="hrmFilterFeed('out',this)" style="padding:3px 10px;background:var(--raised);border:1px solid var(--border);color:var(--t3);border-radius:16px;font-size:9px;font-weight:700;cursor:pointer;">Checked Out</div>
+            <div onclick="hrmFilterFeed('missing',this)" style="padding:3px 10px;background:var(--raised);border:1px solid var(--border);color:var(--t3);border-radius:16px;font-size:9px;font-weight:700;cursor:pointer;">&#9888; Missing</div>
+            <div onclick="hrmFilterFeed('selfie',this)" style="padding:3px 10px;background:var(--raised);border:1px solid var(--border);color:var(--t3);border-radius:16px;font-size:9px;font-weight:700;cursor:pointer;">&#128248; Biometric</div>
           </div>
           <div id="hrm-feed-list" style="max-height:380px;overflow-y:auto;">
             <div style="padding:40px;text-align:center;color:var(--t3);font-size:11px;">Loading attendance data...</div>
@@ -473,6 +475,306 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fb)
           </div>
         </div>
       </div>
+
+      <!-- BOCW MUSTER ROLL -->
+<!-- BOCW MUSTER ROLL — inside Smart Attendance -->
+      <div class="card" style="margin-top:14px;padding:0;overflow:hidden;">
+        <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);">📑 BOCW Muster Roll — April 2026</div>
+            <div style="font-size:10px;color:var(--t3);margin-top:2px;">Form XIII · Auto-generated from attendance data · BOCW Act 1996 Section 29(1)</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <select style="font-size:11px;padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-family:var(--fh);">
+              <option>April 2026</option>
+              <option>March 2026</option>
+              <option>February 2026</option>
+            </select>
+            <button onclick="fieldToast('BOCW Form XIII downloaded — muster_roll_apr2026.xlsx','success')" style="padding:6px 14px;background:var(--green);border:none;border-radius:6px;color:#0B0F14;font-size:10px;font-weight:800;font-family:var(--fh);cursor:pointer;">↓ Download Excel</button>
+            <button onclick="fieldToast('BOCW Form XIII PDF exported','success')" style="padding:6px 14px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t2);font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">↓ PDF</button>
+          </div>
+        </div>
+
+        <!-- Muster roll table -->
+        <div style="overflow-x:auto;padding:0;">
+          <table style="width:100%;border-collapse:collapse;font-size:10px;">
+            <thead>
+              <tr style="background:var(--raised);border-bottom:1px solid var(--border);">
+                <th style="padding:8px 12px;text-align:left;font-family:var(--fh);font-weight:700;color:var(--t3);white-space:nowrap;">S.No</th>
+                <th style="padding:8px 12px;text-align:left;font-family:var(--fh);font-weight:700;color:var(--t3);white-space:nowrap;">Worker Name</th>
+                <th style="padding:8px 12px;text-align:left;font-family:var(--fh);font-weight:700;color:var(--t3);white-space:nowrap;">Trade</th>
+                <th style="padding:8px 12px;text-align:left;font-family:var(--fh);font-weight:700;color:var(--t3);white-space:nowrap;">Contractor</th>
+                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">1</th>
+                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">2</th>
+                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">3</th>
+                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">4</th>
+                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">5</th>
+                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">...</th>
+                <th style="padding:8px 8px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">Present</th>
+                <th style="padding:8px 8px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">Absent</th>
+                <th style="padding:8px 8px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">OT Hrs</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+                <td style="padding:8px 12px;color:var(--t3);">1</td>
+                <td style="padding:8px 12px;font-weight:600;color:var(--t1);">Rajan Kumar</td>
+                <td style="padding:8px 12px;color:var(--t2);">HSE Officer</td>
+                <td style="padding:8px 12px;color:var(--t2);">IECCL</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">H</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">...</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--green);">24</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--red);">0</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--amber);">4.5</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+                <td style="padding:8px 12px;color:var(--t3);">2</td>
+                <td style="padding:8px 12px;font-weight:600;color:var(--t1);">Vikram Sharma</td>
+                <td style="padding:8px 12px;color:var(--t2);">Supervisor</td>
+                <td style="padding:8px 12px;color:var(--t2);">M/s ABC Const.</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--red);font-weight:700;">A</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">H</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">...</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--green);">22</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--red);">2</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--amber);">2.0</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+                <td style="padding:8px 12px;color:var(--t3);">3</td>
+                <td style="padding:8px 12px;font-weight:600;color:var(--t1);">Priya Desai</td>
+                <td style="padding:8px 12px;color:var(--t2);">HSE Supervisor</td>
+                <td style="padding:8px 12px;color:var(--t2);">IECCL</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">H</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">...</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--green);">25</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--red);">0</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--amber);">1.5</td>
+              </tr>
+              <tr onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+                <td style="padding:8px 12px;color:var(--t3);">4</td>
+                <td style="padding:8px 12px;font-weight:600;color:var(--t1);">Mohan Singh</td>
+                <td style="padding:8px 12px;color:var(--t2);">Mason</td>
+                <td style="padding:8px 12px;color:var(--t2);">M/s XYZ Works</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--red);font-weight:700;">A</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">H</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">...</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--amber);">21</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--red);">3</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--t3);">0.0</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="padding:10px 14px;font-size:10px;color:var(--t3);border-top:1px solid var(--border);">
+            P = Present &nbsp;·&nbsp; A = Absent &nbsp;·&nbsp; H = Holiday &nbsp;·&nbsp; L = Leave &nbsp;·&nbsp; Showing 4 of 312 workers · Full register in export
+          </div>
+        </div>
+      </div>
+
+</div>
+
+    </div>
+
+
+    <!-- HEAT MAP TAB -->
+    <div class="tab-panel" id="field-tab-heatmap" style="display:none;">
+      <div class="card">
+        <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);">Site Incident Heat Map</div>
+            <div style="font-size:10px;color:var(--t3);margin-top:2px;">Pin locations of incidents, NCRs and near misses</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <span style="font-size:10px;padding:3px 8px;background:rgba(239,68,68,.1);color:var(--red);border-radius:4px;border:1px solid rgba(239,68,68,.3);">&#11044; Incident</span>
+            <span style="font-size:10px;padding:3px 8px;background:rgba(245,158,11,.1);color:var(--amber);border-radius:4px;border:1px solid rgba(245,158,11,.3);">&#11044; NCR</span>
+            <span style="font-size:10px;padding:3px 8px;background:rgba(59,130,246,.1);color:var(--blue);border-radius:4px;border:1px solid rgba(59,130,246,.3);">&#11044; Near Miss</span>
+          </div>
+        </div>
+        <div style="padding:14px 16px;">
+          <!-- Schematic site map -->
+          <div style="background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:20px;position:relative;min-height:380px;overflow:hidden;">
+            <!-- Zone labels -->
+            <div style="position:absolute;top:16px;left:20px;font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);text-transform:uppercase;letter-spacing:.6px;">Site Layout — Project Alpha</div>
+            <!-- Zone A -->
+            <div style="position:absolute;top:50px;left:30px;width:220px;height:140px;border:2px dashed rgba(34,197,94,.3);border-radius:10px;background:rgba(34,197,94,.03);">
+              <div style="position:absolute;top:8px;left:12px;font-size:10px;font-weight:600;color:var(--green);font-family:var(--fh);">Zone A — Construction</div>
+              <!-- Incident pins -->
+              <div style="position:absolute;top:50px;left:60px;width:14px;height:14px;border-radius:50%;background:var(--red);border:2px solid rgba(239,68,68,.5);cursor:pointer;" title="INC-2847: Height Work Fall" onclick="fieldToast('INC-2847 — Height Work Fall · Zone A · 15 Mar')"></div>
+              <div style="position:absolute;top:80px;left:130px;width:12px;height:12px;border-radius:50%;background:var(--amber);border:2px solid rgba(245,158,11,.5);cursor:pointer;" title="NCR-2841: PPE" onclick="fieldToast('NCR-2841 — PPE Non-compliance · Zone A · 14 Mar')"></div>
+              <div style="position:absolute;top:35px;left:160px;width:12px;height:12px;border-radius:50%;background:var(--blue);border:2px solid rgba(59,130,246,.5);cursor:pointer;" title="Near Miss: Scaffolding" onclick="fieldToast('Near Miss — Scaffold instability · Zone A · 12 Mar')"></div>
+            </div>
+            <!-- Zone B -->
+            <div style="position:absolute;top:50px;left:270px;width:200px;height:140px;border:2px dashed rgba(245,158,11,.3);border-radius:10px;background:rgba(245,158,11,.02);">
+              <div style="position:absolute;top:8px;left:12px;font-size:10px;font-weight:600;color:var(--amber);font-family:var(--fh);">Zone B — Electrical</div>
+              <div style="position:absolute;top:60px;left:80px;width:12px;height:12px;border-radius:50%;background:var(--amber);border:2px solid rgba(245,158,11,.5);cursor:pointer;" onclick="fieldToast('NCR-2835 — Electrical Safety · Zone B · 08 Mar')"></div>
+              <div style="position:absolute;top:90px;left:40px;width:12px;height:12px;border-radius:50%;background:var(--blue);border:2px solid rgba(59,130,246,.5);cursor:pointer;" onclick="fieldToast('Near Miss — Cable tripping hazard · Zone B · 20 Mar')"></div>
+            </div>
+            <!-- Zone C -->
+            <div style="position:absolute;top:210px;left:30px;width:440px;height:130px;border:2px dashed rgba(59,130,246,.3);border-radius:10px;background:rgba(59,130,246,.02);">
+              <div style="position:absolute;top:8px;left:12px;font-size:10px;font-weight:600;color:var(--blue);font-family:var(--fh);">Zone C — Materials Storage</div>
+              <div style="position:absolute;top:50px;left:100px;width:12px;height:12px;border-radius:50%;background:var(--amber);border:2px solid rgba(245,158,11,.5);cursor:pointer;" onclick="fieldToast('NCR-2828 — Housekeeping · Zone C · 02 Mar')"></div>
+              <div style="position:absolute;top:50px;left:300px;width:12px;height:12px;border-radius:50%;background:var(--blue);border:2px solid rgba(59,130,246,.5);cursor:pointer;" onclick="fieldToast('Near Miss — Forklift proximity · Zone C · 22 Mar')"></div>
+            </div>
+            <!-- Hot zone indicator -->
+            <div style="position:absolute;top:38px;left:18px;width:8px;height:8px;border-radius:50%;background:var(--red);"></div>
+            <div style="position:absolute;top:34px;left:30px;font-size:9px;color:var(--red);font-family:var(--fh);font-weight:600;">Hot zone</div>
+            <div style="position:absolute;bottom:12px;right:16px;font-size:9px;color:var(--t3);">Click any pin to view details</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLISTS TAB -->
+    <div class="tab-panel" id="field-tab-checklist" style="display:none;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;">
+
+        <!-- TOOLBOX TALK CARD -->
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);">🗣️ Toolbox Talk</div>
+              <div style="font-size:10px;color:var(--t3);margin-top:2px;">Today's briefing · BOCW statutory requirement</div>
+            </div>
+            <button onclick="openTBT()" style="padding:6px 12px;background:var(--green);border:none;border-radius:6px;color:#0B0F14;font-size:10px;font-weight:800;font-family:var(--fh);cursor:pointer;">+ Start TBT</button>
+          </div>
+
+          <!-- TBT Form -->
+          <div id="tbt-form" style="display:none;padding:14px;border-bottom:1px solid var(--border);background:rgba(34,197,94,0.03);">
+            <div style="margin-bottom:10px;">
+              <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Topic *</div>
+              <select id="tbt-topic" style="width:100%;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fb);">
+                <option>PPE — Correct usage and inspection</option>
+                <option>Working at Height — Scaffold safety</option>
+                <option>Heat Stress — Prevention and symptoms</option>
+                <option>Electrical Safety — LV/HV hazards</option>
+                <option>Excavation Safety — Shoring and barricading</option>
+                <option>Fire Prevention — Extinguisher usage</option>
+                <option>Manual Handling — Ergonomics</option>
+                <option>Housekeeping — 5S on site</option>
+                <option>Incident Reporting — Procedure</option>
+                <option>Confined Space — Entry precautions</option>
+                <option>Chemical Handling — MSDS & SDS</option>
+                <option>Crane & Lifting — Signal & rigging</option>
+                <option>Custom topic...</option>
+              </select>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+              <div>
+                <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Conducted By</div>
+                <input type="text" id="tbt-conductor" placeholder="HSE Officer name..." style="width:100%;padding:8px 10px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" />
+              </div>
+              <div>
+                <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Duration (mins)</div>
+                <input type="number" id="tbt-duration" value="15" min="5" max="60" style="width:100%;padding:8px 10px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" />
+              </div>
+            </div>
+            <div style="margin-bottom:10px;">
+              <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Attendance Count</div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <button onclick="tbtCount(-1)" style="width:32px;height:32px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">-</button>
+                <div id="tbt-count" style="font-size:24px;font-weight:800;font-family:var(--fh);color:var(--green);min-width:50px;text-align:center;">12</div>
+                <button onclick="tbtCount(1)" style="width:32px;height:32px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">+</button>
+                <span style="font-size:11px;color:var(--t3);">workers attended</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button onclick="saveTBT()" style="flex:1;padding:9px;background:var(--green);border:none;border-radius:8px;color:#0B0F14;font-size:11px;font-weight:800;font-family:var(--fh);cursor:pointer;">✓ Save TBT Register</button>
+              <button onclick="document.getElementById('tbt-form').style.display='none'" style="padding:9px 14px;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:11px;cursor:pointer;">Cancel</button>
+            </div>
+          </div>
+
+          <!-- TBT History -->
+          <div style="padding:8px 0;max-height:240px;overflow-y:auto;">
+            <div class="ttalk-item" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);">
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🦺</div>
+              <div style="flex:1;">
+                <div style="font-size:11px;font-weight:700;color:var(--t1);">PPE — Correct usage and inspection</div>
+                <div style="font-size:10px;color:var(--t3);">Today 07:30 AM · 28 attended · 15 min · Rajan Kumar</div>
+              </div>
+              <span style="font-size:9px;padding:2px 7px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">✓ DONE</span>
+            </div>
+            <div class="ttalk-item" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);">
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🌡️</div>
+              <div style="flex:1;">
+                <div style="font-size:11px;font-weight:700;color:var(--t1);">Heat Stress — Prevention and symptoms</div>
+                <div style="font-size:10px;color:var(--t3);">Yesterday 07:15 AM · 34 attended · 20 min · Priya Desai</div>
+              </div>
+              <span style="font-size:9px;padding:2px 7px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">✓ DONE</span>
+            </div>
+            <div class="ttalk-item" style="display:flex;align-items:center;gap:10px;padding:10px 14px;">
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">⚡</div>
+              <div style="flex:1;">
+                <div style="font-size:11px;font-weight:700;color:var(--t1);">Electrical Safety — LV/HV hazards</div>
+                <div style="font-size:10px;color:var(--t3);">01 Apr · 41 attended · 25 min · Vikram Sharma</div>
+              </div>
+              <button style="padding:4px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t3);font-size:9px;font-weight:600;cursor:pointer;" onclick="fieldToast('TBT register downloaded','success')">↓ Download</button>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);">Daily Site Inspection</div>
+            <span style="font-size:9px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">14/15 Done</span>
+          </div>
+          <div style="padding:14px 16px;display:flex;flex-direction:column;gap:8px;">
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--t2);"><input type="checkbox" checked style="accent-color:var(--green);"> PPE compliance check</label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--t2);"><input type="checkbox" checked style="accent-color:var(--green);"> Scaffolding tag verification</label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--t2);"><input type="checkbox" checked style="accent-color:var(--green);"> Fire extinguisher locations</label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--t2);"><input type="checkbox" checked style="accent-color:var(--green);"> Emergency exit clearance</label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--red);"><input type="checkbox" style="accent-color:var(--red);"> Electrical panel access — PENDING</label>
+          </div>
+          <div style="padding:0 16px 14px;"><button onclick="fieldToast('Checklist submitted','green')" style="width:100%;padding:8px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);border-radius:7px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">Submit Checklist</button></div>
+        </div>
+        <div class="card">
+          <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);">Permit to Work Verification</div>
+            <span style="font-size:9px;background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">8/12 Done</span>
+          </div>
+          <div style="padding:14px 16px;display:flex;flex-direction:column;gap:8px;">
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--t2);"><input type="checkbox" checked style="accent-color:var(--green);"> Hot work permits verified</label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--t2);"><input type="checkbox" checked style="accent-color:var(--green);"> Confined space permits active</label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--t2);"><input type="checkbox" checked style="accent-color:var(--green);"> Height work permits valid</label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--amber);"><input type="checkbox" style="accent-color:var(--amber);"> Excavation permits — REVIEW</label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--red);"><input type="checkbox" style="accent-color:var(--red);"> Electrical isolation — PENDING</label>
+          </div>
+          <div style="padding:0 16px 14px;"><button onclick="fieldToast('PTW checklist saved','green')" style="width:100%;padding:8px;background:rgba(59,130,246,.1);color:var(--blue);border:1px solid rgba(59,130,246,.3);border-radius:7px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">Save Progress</button></div>
+        </div>
+        <div class="card">
+          <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);">Equipment Safety Check</div>
+            <span style="font-size:9px;background:var(--blue-dim);color:var(--blue);border:1px solid rgba(59,130,246,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">NOT STARTED</span>
+          </div>
+          <div style="padding:14px 16px;display:flex;flex-direction:column;gap:8px;">
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--t2);"><input type="checkbox" style="accent-color:var(--green);"> Crane pre-operational check</label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--t2);"><input type="checkbox" style="accent-color:var(--green);"> Forklift inspection log</label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--t2);"><input type="checkbox" style="accent-color:var(--green);"> Welding equipment condition</label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--t2);"><input type="checkbox" style="accent-color:var(--green);"> Generator safety features</label>
+          </div>
+          <div style="padding:0 16px 14px;"><button onclick="fieldToast('Equipment check started','blue')" style="width:100%;padding:8px;background:rgba(59,130,246,.1);color:var(--blue);border:1px solid rgba(59,130,246,.3);border-radius:7px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">Start Check</button></div>
+        </div>
+      </div>
+    </div>
+
+    
+    <!-- TRAINING ATTENDANCE TAB -->
+    <div class="tab-panel" id="field-tab-attendance" style="display:none;">
+
+
     </div>
 
     <!-- ═══ WORKERS TAB ═══ -->
@@ -870,9 +1172,11 @@ function hrmRenderFeed(records){
     var color=colors[i%colors.length];
     rows+='<div class="feed-item">'+
       '<div class="feed-avatar" style="background:'+color+'20;color:'+color+';border:1px solid '+color+'40;">'+ini+'</div>'+
-      '<div style="flex:1;min-width:0;"><div class="feed-name">'+name+'</div><div class="feed-meta">'+(r.employeeId||'')+' · '+(r.zone||r.projectCode||'')+'</div></div>'+
+      '<div style="flex:1;min-width:0;"><div class="feed-name">'+name+'</div>'+
+      '<div class="feed-meta">'+(r.employeeId||'')+' · '+(r.zone||r.projectCode||'')+(r.confidence?' · '+r.confidence+'%':'')+' · '+ts+'</div>'+
+      (r.latitude?'<div style="font-size:9px;color:var(--t3);">&#128205; '+r.latitude+'°N, '+r.longitude+'°E</div>':'')+
+      '</div>'+
       '<span class="feed-badge '+(isIn?'in':'out')+'">'+(r.type||'IN')+'</span>'+
-      '<div class="feed-time">'+ts+'</div>'+
     '</div>';
   }
   if(!rows) rows='<div style="padding:30px;text-align:center;color:var(--t3);font-size:11px;">No records yet today</div>';
@@ -917,6 +1221,17 @@ function hrmFilterFeed(type, el){
     b.style.background='var(--raised)';b.style.borderColor='var(--border)';b.style.color='var(--t3)';
   });
   el.style.background='var(--purple)';el.style.borderColor='rgba(139,92,246,.4)';el.style.color='#fff';
+  // Filter items
+  document.querySelectorAll('.feed-item').forEach(function(item){
+    if(type==='all'){ item.style.display=''; return; }
+    var dtype = item.getAttribute('data-type')||'';
+    var dmode = item.getAttribute('data-mode')||'';
+    if(type==='in') item.style.display = dtype==='in'?'':'none';
+    else if(type==='out') item.style.display = dtype==='out'?'':'none';
+    else if(type==='missing') item.style.display = dtype==='missing'?'':'none';
+    else if(type==='selfie') item.style.display = (dmode==='biometric'||dmode==='selfie')?'':'none';
+    else item.style.display = '';
+  });
 }
 
 // ── WORKERS ───────────────────────────────────────────────────────────────────
