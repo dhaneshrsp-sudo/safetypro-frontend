@@ -7,6 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>SafetyPro · Biometric Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 :root{
@@ -492,7 +493,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 
 <script>
 var API='https://safetypro-backend-production.up.railway.app/api/v1';
-var S={code:'',empId:'',empName:'',gps:null,stream:null,regStream:null,captured:false,counting:false,cTimer:null,aLoop:null,regCaptured:false,facePhoto:null};
+var S={code:'',empId:'',empName:'',gps:null,stream:null,regStream:null,captured:false,counting:false,cTimer:null,aLoop:null,regCaptured:false,facePhoto:null,faceApiReady:false,detecting:false};
 
 // ── CLOCK ──
 function tick(){
@@ -597,7 +598,13 @@ function startCamera(){
       S.stream=stream;var vid=document.getElementById('bam-vid');
       vid.srcObject=stream;vid.play();
       document.getElementById('cam-ph').style.display='none';
-      vid.style.display='block';setTimeout(startLoop,800);
+      vid.style.display='block';
+      // Show loading indicator while face model loads
+      var ins=document.getElementById('cam-instr');
+      if(ins)ins.textContent='Loading face detector...';
+      var s=document.getElementById('cam-status');
+      if(s){s.textContent='LOADING...';s.style.color='var(--amber)';}
+      initFaceApi().then(function(){setTimeout(startLoop,300);});
     })
     .catch(function(err){toast('Camera: '+err.name);});
 }
@@ -610,73 +617,85 @@ function stopCam(){
   S.captured=false;S.counting=false;
 }
 function startLoop(){if(S.aLoop)clearInterval(S.aLoop);S.aLoop=setInterval(detect,400);}
+// ── FACE-API.JS INITIALISATION ──
+async function initFaceApi(){
+  try{
+    var modelUrl='https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights';
+    await faceapi.nets.tinyFaceDetector.loadFromUri(modelUrl);
+    S.faceApiReady=true;
+    var ins=document.getElementById('cam-instr');
+    if(ins)ins.textContent='Centre your face in the oval';
+    var s=document.getElementById('cam-status');
+    if(s){s.textContent='READY';s.style.color='var(--green)';}
+  }catch(e){
+    // Fallback — if model fails load, allow brightness fallback
+    S.faceApiReady='fallback';
+  }
+}
+
 function detect(){
-  if(S.captured)return;
-  var vid=document.getElementById('bam-vid');if(!vid||vid.readyState<2||!S.stream)return;
+  if(S.captured||S.detecting)return;
+  var vid=document.getElementById('bam-vid');
+  if(!vid||vid.readyState<2||!S.stream)return;
+
+  // If model still loading — show loading state, don't capture
+  if(!S.faceApiReady){
+    var ins=document.getElementById('cam-instr');
+    if(ins)ins.textContent='Loading face detector...';
+    return;
+  }
+
+  // Fallback brightness detection if model failed
+  if(S.faceApiReady==='fallback'){
+    detectFallback(vid);
+    return;
+  }
+
+  // ── REAL FACE DETECTION via face-api.js ──
+  S.detecting=true;
+  var opts=new faceapi.TinyFaceDetectorOptions({inputSize:224,scoreThreshold:0.55});
+  faceapi.detectSingleFace(vid,opts).then(function(result){
+    S.detecting=false;
+    if(S.captured)return;
+    var ff=!!result; // TRUE only if a real human face is detected
+    applyFaceState(ff);
+  }).catch(function(){
+    S.detecting=false;
+  });
+}
+
+function detectFallback(vid){
+  // Minimal fallback — only used if face-api.js fails to load
   var ff=false;
   try{
-    var c=document.getElementById('bam-canvas');c.width=64;c.height=64;
-    var ctx=c.getContext('2d');ctx.drawImage(vid,0,0,64,64);
-    var px=ctx.getImageData(0,0,64,64).data;
-
-    // Sample CENTER zone (face area inside oval) — pixels 20-44, rows 16-48
-    var centerSum=0,centerCount=0;
-    // Sample CORNER zones (background outside oval)
-    var cornerSum=0,cornerCount=0;
-    // Variance check — face has shadows/texture, plain wall is uniform
-    var vals=[];
-
-    for(var row=0;row<64;row++){
-      for(var col=0;col<64;col++){
-        var idx=(row*64+col)*4;
-        var luma=px[idx]*0.299+px[idx+1]*0.587+px[idx+2]*0.114;
-        // Center zone: col 18-46, row 14-50 (oval interior)
-        if(col>=18&&col<=46&&row>=14&&row<=50){
-          centerSum+=luma;centerCount++;
-          vals.push(luma);
-        }
-        // Corner zones: 4 corners (outside oval)
-        var inCorner=(col<14||col>50)&&(row<14||row>50);
-        if(inCorner){cornerSum+=luma;cornerCount++;}
-      }
+    var c=document.getElementById('bam-canvas');c.width=128;c.height=128;
+    var ctx=c.getContext('2d');ctx.drawImage(vid,0,0,128,128);
+    var px=ctx.getImageData(32,24,64,80).data; // center oval area only
+    var skinCount=0,total=px.length/4;
+    for(var i=0;i<px.length;i+=4){
+      var r=px[i],g=px[i+1],b=px[i+2];
+      // Skin tone heuristic: warm, reddish, not too dark, not too bright
+      if(r>80&&g>40&&b>20&&r>g&&r>b&&(r-b)>15&&r<250){skinCount++;}
     }
-
-    var centerMean=centerSum/centerCount;
-    var cornerMean=cornerCount>0?cornerSum/cornerCount:centerMean;
-
-    // Variance: how much texture/shadow does the center have?
-    var variance=0;
-    for(var vi=0;vi<vals.length;vi++){variance+=Math.pow(vals[vi]-centerMean,2);}
-    variance=variance/vals.length;
-    var stdDev=Math.sqrt(variance);
-
-    // Face detected conditions:
-    // 1. Center brightness is in face-probable range (not pure black, not blown out)
-    // 2. Center differs meaningfully from corners (something is IN the oval)
-    // 3. Sufficient texture/gradient (stdDev>12 — faces have shadows, flat walls don't)
-    var centerInRange=centerMean>30&&centerMean<230;
-    var centerDiffersFromCorner=Math.abs(centerMean-cornerMean)>18;
-    var hasTexture=stdDev>10;
-
-    ff=centerInRange&&(centerDiffersFromCorner||hasTexture);
+    ff=(skinCount/total)>0.15; // at least 15% skin-like pixels in oval
   }catch(e){}
+  applyFaceState(ff);
+}
+
+function applyFaceState(ff){
   var o=document.getElementById('cam-oval');
   var s=document.getElementById('cam-status');
   var ins=document.getElementById('cam-instr');
   if(ff){
-    // Face in frame — start or continue countdown
     if(o){o.classList.remove('red');o.classList.add('on');}
     if(s){s.textContent='FACE DETECTED';s.style.color='var(--green)';}
     if(ins)ins.textContent='Hold still — capturing...';
     if(!S.counting)startCD();
   } else {
-    // Face LEFT frame — IMMEDIATELY cancel countdown and reset
-    if(S.counting){
-      resetCD();
-    }
+    if(S.counting)resetCD();
     if(o){o.classList.remove('on');o.classList.remove('counting');o.classList.add('red');}
     if(s){s.textContent='ALIGN FACE';s.style.color='var(--red)';}
-    if(ins)ins.textContent='Move your face inside the oval';
+    if(ins)ins.textContent='Centre your face in the oval';
   }
 }
 function startCD(){
