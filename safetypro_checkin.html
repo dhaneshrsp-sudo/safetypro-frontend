@@ -143,6 +143,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .co.on{border:2.5px solid var(--green);box-shadow:0 0 0 5px rgba(34,197,94,.1),0 0 28px rgba(34,197,94,.22);}
 .co.counting{border:2.5px solid var(--amber);box-shadow:0 0 0 5px rgba(245,158,11,.1),0 0 22px rgba(245,158,11,.2);}
 .co.red{border:2px solid rgba(239,68,68,.7);box-shadow:0 0 0 4px rgba(239,68,68,.08),0 0 18px rgba(239,68,68,.15);}
+.co.amber{border:2.5px solid var(--amber);box-shadow:0 0 0 4px rgba(245,158,11,.1),0 0 18px rgba(245,158,11,.18);}
 .csl{position:absolute;left:8%;right:8%;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent);border-radius:1px;animation:csla 1.8s ease-in-out infinite;}
 @keyframes csla{0%{top:5%;opacity:0;}8%{opacity:1;}92%{opacity:1;}100%{top:95%;opacity:0;}}
 .csp{position:absolute;left:50%;transform:translateX(-50%);top:calc(-50% - 26px);white-space:nowrap;font-family:var(--fh);font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--green);background:rgba(7,13,18,.82);border:1px solid var(--glow);padding:4px 14px;border-radius:20px;transition:color .3s,border-color .3s;}
@@ -623,7 +624,7 @@ function goBack(){stopCam();show('scr-entry');document.getElementById('choice-ov
 function startCamera(){
   S.captured=false;S.counting=false;resetCD();
   document.getElementById('choice-ov').style.display='none';
-  var o=document.getElementById('cam-oval');if(o){o.classList.remove('on');o.classList.remove('counting');o.classList.remove('red');}
+  var o=document.getElementById('cam-oval');if(o){o.classList.remove('on','counting','red','amber');o.classList.add('red');}
   var s=document.getElementById('cam-status');if(s){s.textContent='ALIGN FACE';s.style.color='var(--green)';}
   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast('Camera not supported');return;}
   navigator.mediaDevices.getUserMedia({
@@ -708,8 +709,80 @@ function detect(){
   faceapi.detectSingleFace(vid,opts).then(function(result){
     S.detecting=false;
     if(S.captured)return;
-    var ff=!!result; // TRUE only if a real human face is detected
-    applyFaceState(ff);
+
+    var faceDetected=false;
+    var insideOval=false;
+
+    if(result){
+      faceDetected=true;
+
+      // ── CHECK IF FACE IS INSIDE THE OVAL BOUNDARY ──
+      // Get face center as fraction of video frame (0-1)
+      var vw=vid.videoWidth||640;
+      var vh=vid.videoHeight||480;
+      var box=result.box||result.detection.box;
+      var faceCX=(box.x+box.width/2)/vw;
+      var faceCY=(box.y+box.height/2)/vh;
+
+      // Mirror X — video CSS is scaleX(-1), so displayed X = 1 - detected X
+      faceCX=1-faceCX;
+
+      // Map oval screen position → video coordinates using live DOM
+      var ovalEl=document.getElementById('cam-oval');
+      var vidEl=vid;
+      var oc=null;
+      try{
+        var oR=ovalEl.getBoundingClientRect();
+        var vR=vidEl.getBoundingClientRect();
+        // Oval center as fraction of the video's DISPLAY area
+        var dispCX=(oR.left+oR.width/2-vR.left)/vR.width;
+        var dispCY=(oR.top+oR.height/2-vR.top)/vR.height;
+        var dispRX=(oR.width/2)/vR.width;
+        var dispRY=(oR.height/2)/vR.height;
+
+        // object-fit:cover adjustment — video may be cropped
+        // Determine which dimension is cropped
+        var vidAspect=vw/vh;
+        var dispAspect=vR.width/vR.height;
+        var scX=1,scY=1,offX=0,offY=0;
+        if(vidAspect>dispAspect){
+          // Video wider than display — cropped left/right
+          var scale=vR.height/vh;
+          var visibleFrac=vR.width/(vw*scale);
+          offX=(1-visibleFrac)/2;
+          scX=visibleFrac;
+        } else {
+          // Video taller than display — cropped top/bottom
+          var scale=vR.width/vw;
+          var visibleFrac=vR.height/(vh*scale);
+          offY=(1-visibleFrac)/2;
+          scY=visibleFrac;
+        }
+        // Convert display coords to video coords
+        oc={
+          cx:(dispCX-offX)/scX,
+          cy:(dispCY-offY)/scY,
+          rx:dispRX/scX,
+          ry:dispRY/scY
+        };
+      }catch(e){
+        // Fallback: use approximate center values
+        oc={cx:0.5,cy:0.46,rx:0.27,ry:0.40};
+      }
+
+      // Ellipse equation: (dx/rx)² + (dy/ry)² ≤ threshold
+      // Use 0.9 (10% inside margin) — face must be well within oval
+      var dx=(faceCX-oc.cx)/oc.rx;
+      var dy=(faceCY-oc.cy)/oc.ry;
+      var ellipseDist=dx*dx+dy*dy;
+      insideOval=ellipseDist<=0.92;
+
+      // Also: reject if face too small (too far from camera)
+      var faceWidthFrac=box.width/vw;
+      if(faceWidthFrac<0.08) insideOval=false; // face too small/distant
+    }
+
+    applyFaceState(faceDetected, insideOval);
   }).catch(function(){
     S.detecting=false;
   });
@@ -733,20 +806,33 @@ function detectFallback(vid){
   applyFaceState(ff);
 }
 
-function applyFaceState(ff){
+function applyFaceState(faceDetected, insideOval){
+  // Support legacy single-arg call from fallback
+  if(arguments.length===1){insideOval=faceDetected;}
   var o=document.getElementById('cam-oval');
   var s=document.getElementById('cam-status');
   var ins=document.getElementById('cam-instr');
-  if(ff){
-    if(o){o.classList.remove('red');o.classList.add('on');}
-    if(s){s.textContent='FACE DETECTED';s.style.color='var(--green)';}
-    if(ins)ins.textContent='Hold still — capturing...';
+
+  if(faceDetected && insideOval){
+    // ✅ GREEN: face inside oval — start/continue countdown
+    if(o){o.classList.remove('red','amber','counting');o.classList.add('on');}
+    if(s){s.textContent='HOLD STILL';s.style.color='var(--green)';}
+    if(ins)ins.textContent='Face aligned — hold still...';
     if(!S.counting)startCD();
-  } else {
+
+  } else if(faceDetected && !insideOval){
+    // ⚠️ AMBER: face detected but outside oval boundary — stop countdown
     if(S.counting)resetCD();
-    if(o){o.classList.remove('on');o.classList.remove('counting');o.classList.add('red');}
+    if(o){o.classList.remove('on','red','counting');o.classList.add('amber');}
+    if(s){s.textContent='MOVE CLOSER';s.style.color='var(--amber)';}
+    if(ins)ins.textContent='Centre your face inside the oval';
+
+  } else {
+    // ❌ RED: no face detected — stop countdown
+    if(S.counting)resetCD();
+    if(o){o.classList.remove('on','amber','counting');o.classList.add('red');}
     if(s){s.textContent='ALIGN FACE';s.style.color='var(--red)';}
-    if(ins)ins.textContent='Centre your face in the oval';
+    if(ins)ins.textContent='Look at the camera and align your face';
   }
 }
 function startCD(){
@@ -811,7 +897,7 @@ function capture(){
 }
 function retryCapture(){
   document.getElementById('choice-ov').style.display='none';S.captured=false;resetCD();
-  var o=document.getElementById('cam-oval');if(o){o.classList.remove('on');o.classList.remove('counting');o.classList.remove('red');}
+  var o=document.getElementById('cam-oval');if(o){o.classList.remove('on','counting','red','amber');o.classList.add('red');}
   var s=document.getElementById('cam-status');if(s){s.textContent='ALIGN FACE';s.style.color='var(--green)';}
   var ins=document.getElementById('cam-instr');if(ins)ins.textContent='Centre your face in the bracket';
   startLoop();
