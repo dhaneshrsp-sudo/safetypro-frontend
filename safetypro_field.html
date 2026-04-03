@@ -900,7 +900,6 @@ flex-wrap:wrap;}
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
 
@@ -919,11 +918,11 @@ flex-wrap:wrap;}
     <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
       <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More<span class="arr">▾</span>
       <div class="more-menu" id="more-menu">
-        <a class="mm-item" href="#" onclick="event.preventDefault();showToast('Audit & Compliance - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
-        <a class="mm-item" href="safetypro_documents.html" onclick="event.preventDefault();showToast('Documents & Records - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
-        <a class="mm-item" href="safetypro_field.html" onclick="event.preventDefault();showToast('Site & Field Tools - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
-        <a class="mm-item" href="safetypro_ai.html" onclick="event.preventDefault();showToast('AI Intelligence - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
-        <a class="mm-item" href="safetypro_auditor.html" onclick="event.preventDefault();showToast('Auditor Verification - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
+        <a class="mm-item" href="#" onclick="event.preventDefault();fieldToast('Audit & Compliance — coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="safetypro_documents.html" onclick="event.preventDefault();fieldToast('Documents & Records — coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
+        <a class="mm-item" href="safetypro_field.html"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="safetypro_ai.html" onclick="event.preventDefault();fieldToast('AI Intelligence — coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_auditor.html" onclick="event.preventDefault();fieldToast('Auditor Verification — coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
         <div class="mm-divider"></div>
         <a class="mm-item mm-admin" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Admin &amp; Configuration</a>
       </div>
@@ -1003,7 +1002,7 @@ flex-wrap:wrap;}
       <div class="sh-left">
         <div class="sh-title">Site &amp; Field Tools</div>
         <div class="sh-tabs">
-          <div class="sh-tab active" onclick="switchFieldTab(this,'checkin');bamInit()">🤳 Smart Attendance</div>
+          <div class="sh-tab active" onclick="switchFieldTab(this,'checkin');setTimeout(bamInit,100)">🤳 Smart Attendance</div>
           <div class="sh-tab" onclick="switchFieldTab(this,'heatmap')">&#128293; Site Heat Map</div>
           <div class="sh-tab" onclick="switchFieldTab(this,'checklist')">&#9989; Field Checklists</div>
           <div class="sh-tab" onclick="switchFieldTab(this,'attendance')">🎓 Training Attendance</div>
@@ -2458,6 +2457,22 @@ flex-wrap:wrap;}
 var API_BASE = 'https://safetypro-backend-production.up.railway.app/api/v1';
 var fieldToastTimer = null;
 
+// ── MORE MENU TOGGLE ────────────────────────────────────────────────────────
+function toggleMore(e) {
+  if(e) e.stopPropagation();
+  var wrap = document.getElementById('more-btn');
+  if(!wrap) return;
+  var isOpen = wrap.classList.contains('open');
+  // Close all first
+  document.querySelectorAll('.more-wrap.open').forEach(function(el){ el.classList.remove('open'); });
+  if(!isOpen) wrap.classList.add('open');
+}
+document.addEventListener('click', function(e) {
+  if(!e.target.closest || !e.target.closest('.more-wrap')) {
+    document.querySelectorAll('.more-wrap.open').forEach(function(el){ el.classList.remove('open'); });
+  }
+});
+
 (function(){
   var token = localStorage.getItem('sp_token');
   if (!token) { window.location.replace('safetypro_login.html'); return; }
@@ -2466,6 +2481,33 @@ var fieldToastTimer = null;
   setTimeout(bamInit, 800);
 })();
 
+
+// ── AUTH FUNCTIONS ────────────────────────────────────────────────────────
+function signOut(){
+  localStorage.removeItem('sp_token');
+  localStorage.removeItem('sp_user');
+  window.location.href = 'safetypro_login.html';
+}
+
+function changePassword(){
+  closeAllDropdowns();
+  fieldToast('Contact admin@safetyproworld.com to change password','blue');
+}
+
+function closeAllDropdowns(){
+  document.querySelectorAll('.more-wrap.open, .profile-wrap.open').forEach(function(el){
+    el.classList.remove('open');
+  });
+}
+
+document.addEventListener('click', function(e){
+  if(!e.target.closest('.more-wrap')) {
+    document.querySelectorAll('.more-wrap.open').forEach(function(el){ el.classList.remove('open'); });
+  }
+  if(!e.target.closest('.profile-wrap')) {
+    document.querySelectorAll('.profile-wrap.open').forEach(function(el){ el.classList.remove('open'); });
+  }
+});
 
 // ── BAM PORTAL MODULE ─────────────────────────────────────────────────────
 var BAM_BASE = (typeof API_BASE !== 'undefined') ? API_BASE.replace('/api/v1','') : 'https://safetypro-backend-production.up.railway.app';
@@ -2485,6 +2527,7 @@ function bamSetTab(tab, el) {
   var panel = document.getElementById('bam-panel-' + tab);
   if(panel) panel.style.display = '';
   bamCurrentTab = tab;
+  if(tab === 'qr') { setTimeout(bamDrawQR, 50); }
   if(tab === 'pending') bamLoadPending();
   if(tab === 'directory') bamLoadDirectory();
 }
@@ -2506,28 +2549,20 @@ function bamDrawQR() {
   var urlEl = document.getElementById('bam-qr-url');
   var container = document.getElementById('bam-qr-canvas');
   if(!container) return;
-  if(lbl) lbl.textContent = proj + (zone ? ' \u00b7 ' + zone : ' \u00b7 All Zones');
+  if(lbl) lbl.textContent = proj + (zone ? ' · ' + zone : ' · All Zones');
   if(urlEl) urlEl.textContent = url.replace('https://www.','').replace('https://','');
+  var apiUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=6&color=0B1420&bgcolor=FFFFFF&data=' + encodeURIComponent(url);
+  var img = document.createElement('img');
+  img.src = apiUrl;
+  img.width = 160;
+  img.height = 160;
+  img.alt = 'QR Code';
+  img.style.cssText = 'display:block;border-radius:4px;';
+  img.onerror = function() {
+    container.innerHTML = '<div style="width:160px;height:60px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--t3);">QR unavailable</div>';
+  };
   container.innerHTML = '';
-  if(typeof QRCode !== 'undefined') {
-    try {
-      new QRCode(container, {
-        text: url, width: 160, height: 160,
-        colorDark: '#0B1420', colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.M
-      });
-    } catch(e) { container.innerHTML = bamQRFallback(url); }
-  } else {
-    container.innerHTML = bamQRFallback(url);
-    // Retry after QRCode loads
-    setTimeout(bamDrawQR, 1200);
-  }
-}
-
-function bamQRFallback(url) {
-  return '<div style="width:160px;height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f5f5f5;border-radius:4px;">' +
-    '<div style="font-size:28px;">&#128242;</div>' +
-    '<div style="font-size:9px;color:#666;margin-top:6px;text-align:center;padding:4px;">QR loading...<br>Check CDN</div></div>';
+  container.appendChild(img);
 }
 
 function bamDownloadQR() {
@@ -2696,6 +2731,16 @@ function bamRenderFeed(records) {
 
 // ── BAM Init ──────────────────────────────────────────────────────────────
 function bamInit() {
+  // Wait for QRCode CDN to load before drawing
+  if(typeof QRCode === 'undefined') {
+    setTimeout(bamInit, 400);
+    return;
+  }
+  // Ensure QR panel is visible before drawing
+  var qrPanel = document.getElementById('bam-panel-qr');
+  if(qrPanel && qrPanel.style.display === 'none') {
+    bamSetTab('qr', document.getElementById('bam-tab-qr'));
+  }
   bamDrawQR();
   bamLoadAttendance();
   bamLoadPending();
