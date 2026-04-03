@@ -2760,9 +2760,15 @@ function applyFieldProfile(u) {
 function signOut(){ localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); window.location.href='safetypro_login.html'; }
 function toggleProfileMenu(){
   var d=document.getElementById('profile-dropdown'); if(!d) return;
-  var isOpen=d.style.display==='block';
-  d.style.display=isOpen?'none':'block';
-  if(!isOpen){ var tr=document.getElementById('user-pill-btn'); if(tr){ var r=tr.getBoundingClientRect(); d.style.top=(r.bottom+6)+'px'; d.style.right=(window.innerWidth-r.right)+'px'; d.style.left='auto'; } }
+  if(d.style.display==='block'){ d.style.display='none'; }
+  else {
+    d.style.display='block';
+    d.style.position='fixed';
+    d.style.top='54px';
+    d.style.right='12px';
+    d.style.left='auto';
+    d.style.zIndex='9999';
+  }
 }
 function toggleAlerts(){ var d=document.getElementById('alert-dropdown'); if(d) d.style.display=d.style.display==='block'?'none':'block'; }
 function toggleSidebar(){ var sb=document.querySelector('.sidebar'); var ov=document.getElementById('sb-overlay'); if(sb){ sb.classList.toggle('open'); if(ov) ov.classList.toggle('show'); } }
