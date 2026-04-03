@@ -35,6 +35,30 @@ body{position:fixed;inset:0;display:flex;flex-direction:column;}
   }
   .scr{border-radius:20px;}
 }
+
+/* ── Laptop / Desktop split layout (≥900px) ── */
+@media(min-width:900px){
+  body{
+    flex-direction:row;
+    align-items:stretch;
+    justify-content:center;
+    gap:0;
+    padding:0;
+  }
+  .desktop-info{
+    display:flex !important;
+    flex-direction:column;
+    justify-content:center;
+    padding:48px 52px;
+    max-width:480px;
+    width:100%;
+    flex-shrink:0;
+  }
+  .app-wrap{
+    align-self:center;
+    margin:24px 0;
+  }
+}
 /* ── Mobile: full screen ── */
 @media(max-width:519px){
   .app-wrap{position:fixed;inset:0;}
@@ -207,7 +231,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .ok-rv{font-size:clamp(11px,3.5vw,13px);font-weight:700;color:var(--t1);font-family:var(--fh);}
 .ok-rv.g{color:var(--green);}
 .ok-bar-w{width:100%;height:3px;background:var(--raised);border-radius:2px;overflow:hidden;margin-bottom:12px;}
-.ok-bar{height:100%;background:var(--green);border-radius:2px;width:100%;animation:bd 3s linear forwards;}
+.ok-bar{height:100%;background:var(--green);border-radius:2px;width:100%;animation:bd 8s linear forwards;}
 @keyframes bd{to{width:0%;}}
 .btn-next{width:100%;padding:13px;border:none;border-radius:10px;background:var(--green);color:#070D12;font-family:var(--fh);font-size:13px;font-weight:800;cursor:pointer;-webkit-appearance:none;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;}
 .btn-next:active{transform:scale(.97);}
@@ -276,6 +300,67 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 </style>
 </head>
 <body>
+<!-- Desktop info panel — hidden on mobile, shown on laptop -->
+<div class="desktop-info" style="display:none;">
+  <div style="margin-bottom:32px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+      <div style="width:36px;height:36px;background:#22C55E;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2z" fill="white"/><path d="M9 12l2 2 4-4" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <div style="font-family:var(--fh);font-size:18px;font-weight:900;color:#E6EDF3;letter-spacing:-.3px;">SafetyPro <span style="color:#22C55E;">AI</span></div>
+        <div style="font-size:10px;color:#2E4A66;font-weight:600;letter-spacing:.5px;">BIOMETRIC ATTENDANCE</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:36px;">
+    <div style="font-size:28px;font-weight:800;color:#E6EDF3;line-height:1.2;font-family:var(--fh);margin-bottom:10px;">Worker Check-In<br><span style="color:#22C55E;">Gate Portal</span></div>
+    <div style="font-size:13px;color:#4A7090;line-height:1.7;">Biometric attendance system for <br>IL&amp;FS Engineering &amp; Construction.</div>
+  </div>
+
+  <!-- Live stats from BAM -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:32px;">
+    <div style="background:#0B1929;border:1px solid #162236;border-radius:10px;padding:14px;">
+      <div style="font-size:24px;font-weight:800;color:#22C55E;font-family:var(--fh);" id="di-onsite">—</div>
+      <div style="font-size:10px;color:#2E4A66;margin-top:2px;font-weight:600;">ON SITE NOW</div>
+    </div>
+    <div style="background:#0B1929;border:1px solid #162236;border-radius:10px;padding:14px;">
+      <div style="font-size:24px;font-weight:800;color:#378ADD;font-family:var(--fh);" id="di-today">—</div>
+      <div style="font-size:10px;color:#2E4A66;margin-top:2px;font-weight:600;">CHECKED IN TODAY</div>
+    </div>
+  </div>
+
+  <!-- How to use -->
+  <div style="margin-bottom:28px;">
+    <div style="font-size:10px;font-weight:700;color:#2E4A66;letter-spacing:.6px;text-transform:uppercase;margin-bottom:12px;">How to check in</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div style="width:22px;height:22px;border-radius:50%;background:#0E2235;border:1px solid #162236;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#22C55E;flex-shrink:0;margin-top:1px;">1</div>
+        <div style="font-size:12px;color:#4A7090;line-height:1.5;">Enter your <strong style="color:#7A9BBF;">Project Code</strong> and <strong style="color:#7A9BBF;">Employee ID</strong></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div style="width:22px;height:22px;border-radius:50%;background:#0E2235;border:1px solid #162236;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#22C55E;flex-shrink:0;margin-top:1px;">2</div>
+        <div style="font-size:12px;color:#4A7090;line-height:1.5;">Tap <strong style="color:#7A9BBF;">Activate Face Scanner</strong> and look at the camera</div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div style="width:22px;height:22px;border-radius:50%;background:#0E2235;border:1px solid #162236;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#22C55E;flex-shrink:0;margin-top:1px;">3</div>
+        <div style="font-size:12px;color:#4A7090;line-height:1.5;">Hold still when the oval turns <strong style="color:#22C55E;">green</strong> — attendance is marked automatically</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project + date -->
+  <div style="padding:12px 14px;background:#0B1929;border:1px solid #162236;border-radius:10px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="font-size:11px;color:#2E4A66;font-weight:600;">PROJECT</div>
+    <div style="font-size:11px;font-weight:700;color:#7A9BBF;font-family:var(--fh);">BBRP-2026 · Birpur–Bihpur</div>
+  </div>
+  
+  <div style="margin-top:24px;font-size:10px;color:#1A3050;">
+    SafetyPro AI · IMS Certified · ISO 45001
+  </div>
+</div>
+
 <div class="app-wrap">
 <!-- ═══ ENTRY SCREEN ═══ -->
 <div class="scr" id="scr-entry">
@@ -388,7 +473,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     <div class="ok-ring"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
     <div class="ok-badge in" id="ok-badge">CHECKED IN</div>
     <div class="ok-title" id="ok-title">Checked In Successfully</div>
-    <div class="ok-sub" id="ok-sub">Attendance recorded · Synced to dashboard</div>
+    <div id="ok-greeting" style="font-size:clamp(14px,4vw,16px);color:#22C55E;font-weight:700;margin:2px 0 6px;font-family:var(--fh);">Have a great day! 🦺</div>
+    <div class="ok-sub" id="ok-sub">Attendance recorded · Syncing to dashboard...</div>
     <div class="ok-det">
       <div class="ok-row"><div class="ok-rl">EMPLOYEE</div><div class="ok-rv g" id="s-emp">—</div></div>
       <div class="ok-row"><div class="ok-rl">TIME</div><div class="ok-rv g" id="s-time">—</div></div>
@@ -400,9 +486,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     <div class="ok-bar-w"><div class="ok-bar" id="ok-bar"></div></div>
     <button class="btn-next" onclick="scanNext()">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg>
-      Next Scan
+      Done ✓
     </button>
-    <div class="ok-note">Auto-resets in <span id="ok-cd">3</span>s · Live sync to HSE Dashboard</div>
+    <div class="ok-note" style="font-size:13px;color:var(--green);font-weight:700;letter-spacing:.3px;">Have a safe and great day! &#129498;</div>
   </div>
 </div>
 
@@ -529,6 +615,25 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 var API='https://safetypro-backend-production.up.railway.app/api/v1';
 var S={code:'',empId:'',empName:'',gps:null,stream:null,regStream:null,captured:false,counting:false,cTimer:null,aLoop:null,regCaptured:false,facePhoto:null,faceApiReady:false,detecting:false};
 
+// ── DESKTOP INFO PANEL — load live stats ──────────────────────────────────
+function loadDesktopInfo(){
+  if(window.innerWidth < 900) return;
+  var token = localStorage.getItem('sp_token') || '';
+  var API = 'https://safetypro-backend-production.up.railway.app/api/v1';
+  fetch(API + '/attendance/today', {
+    headers: token ? {'Authorization':'Bearer '+token} : {}
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    var s = d.summary || {};
+    var ons = document.getElementById('di-onsite');
+    var tod = document.getElementById('di-today');
+    if(ons) ons.textContent = s.currentlyIn != null ? s.currentlyIn : '—';
+    if(tod) tod.textContent = s.totalCheckedIn != null ? s.totalCheckedIn : '—';
+  })
+  .catch(function(){});
+}
+
 // ── SCANNER SIZING — reliable portrait bracket on all screen sizes ──
 function sizeScanner(){
   var sa=document.querySelector('.scanner-area');
@@ -588,14 +693,48 @@ function showReg(){
 
 // ── GPS ──
 function startGPS(){
-  if(!navigator.geolocation)return;
-  navigator.geolocation.getCurrentPosition(function(p){
-    S.gps={lat:p.coords.latitude.toFixed(4),lng:p.coords.longitude.toFixed(4),acc:Math.round(p.coords.accuracy)};
-    var z='Zone '+az(S.gps.lat,S.gps.lng);
-    ['e-zone','c-zone'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=z;});
-    var dot=document.getElementById('gdot');if(dot)dot.classList.add('ok');
-    var txt=document.getElementById('gps-txt');if(txt)txt.textContent=z+' · ±'+S.gps.acc+'m';
-  },function(){},{maximumAge:60000,timeout:8000});
+  if(!navigator.geolocation){
+    var txt=document.getElementById('gps-txt');
+    if(txt)txt.textContent='GPS not supported';
+    return;
+  }
+  var txt=document.getElementById('gps-txt');
+  if(txt)txt.textContent='Getting location...';
+  
+  navigator.geolocation.getCurrentPosition(
+    function(p){
+      S.gps={lat:p.coords.latitude.toFixed(4),lng:p.coords.longitude.toFixed(4),acc:Math.round(p.coords.accuracy)};
+      var z='Zone '+az(S.gps.lat,S.gps.lng);
+      ['e-zone','c-zone'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=z;});
+      var dot=document.getElementById('gdot');if(dot)dot.classList.add('ok');
+      if(txt)txt.textContent=z+' · ±'+S.gps.acc+'m';
+    },
+    function(err){
+      // Error codes: 1=Permission denied, 2=Position unavailable, 3=Timeout
+      var msg = err.code===1 ? 'Location blocked — allow in browser settings' :
+                err.code===2 ? 'GPS signal unavailable' :
+                'Location timed out — retrying...';
+      if(txt)txt.textContent=msg;
+      var dot=document.getElementById('gdot');if(dot)dot.style.background='var(--amber)';
+      // If timeout (code 3), retry once with network fallback
+      if(err.code===3){
+        setTimeout(function(){
+          navigator.geolocation.getCurrentPosition(
+            function(p){
+              S.gps={lat:p.coords.latitude.toFixed(4),lng:p.coords.longitude.toFixed(4),acc:Math.round(p.coords.accuracy)};
+              var z='Zone '+az(S.gps.lat,S.gps.lng);
+              ['e-zone','c-zone'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=z;});
+              if(dot)dot.classList.add('ok');
+              if(txt)txt.textContent=z+' · ±'+S.gps.acc+'m (network)';
+            },
+            function(){ if(txt)txt.textContent='GPS unavailable'; },
+            {maximumAge:120000, timeout:10000, enableHighAccuracy:false}
+          );
+        }, 1000);
+      }
+    },
+    {maximumAge:30000, timeout:10000, enableHighAccuracy:true}
+  );
 }
 function az(lat,lng){return['A','B','C','D'][Math.abs(Math.floor((parseFloat(lat)*100+parseFloat(lng)*100)%4))%4];}
 
@@ -617,6 +756,7 @@ function validateEmpId(code, empId, callback){
 
 // ── CAMERA ──
 function goToCamera(){
+  if(!S.gps) startGPS();  // retry GPS if not yet acquired
   if(S.code.length<3||S.empId.length<2)return;
   var pill=document.getElementById('cam-proj-pill');if(pill)pill.textContent=S.code;
   // Validate employee ID first
@@ -935,6 +1075,11 @@ function markAtt(type){
   var badge=document.getElementById('ok-badge');
   if(badge){badge.textContent=type==='in'?'CHECKED IN':'CHECKED OUT';badge.className='ok-badge '+(type==='in'?'in':'out');}
   document.getElementById('ok-title').textContent=type==='in'?'Checked In Successfully':'Checked Out Successfully';
+  var grEl=document.getElementById('ok-greeting');
+  if(grEl){
+    if(type==='in'){ grEl.textContent='Have a great day! 🦺'; grEl.style.color='#22C55E'; }
+    else { grEl.textContent='Stay safe, see you tomorrow! 👋'; grEl.style.color='var(--red)'; }
+  }
   document.getElementById('ok-sub').textContent='Attendance recorded · Syncing to dashboard...';
   document.getElementById('s-emp').textContent=S.empName||S.empId;
   document.getElementById('s-time').textContent=timeStr;
@@ -944,8 +1089,8 @@ function markAtt(type){
   document.getElementById('s-gps').textContent=gpsStr;
   show('scr-ok');
   var bar=document.getElementById('ok-bar');
-  if(bar){bar.style.animation='none';void bar.offsetWidth;bar.style.animation='bd 3s linear forwards';}
-  var cdEl=document.getElementById('ok-cd');var n=3;if(cdEl)cdEl.textContent=n;
+  if(bar){bar.style.animation='none';void bar.offsetWidth;bar.style.animation='bd 8s linear forwards';}
+  var cdEl=document.getElementById('ok-cd');var n=8;if(cdEl)cdEl.textContent=n;
   var t=setInterval(function(){n--;if(cdEl)cdEl.textContent=n;if(n<=0){clearInterval(t);scanNext();}},1000);
 
   // Background sync to backend
@@ -1125,6 +1270,7 @@ function toast(msg){var el=document.getElementById('toast');if(!el)return;el.tex
   startGPS();
   setTimeout(syncOfflineQueue, 1000);
   sizeScanner();
+  loadDesktopInfo();
 })();
 </script>
 </body>
