@@ -191,6 +191,7 @@ footer{padding:40px 60px;border-top:1px solid var(--border);background:var(--bg2
 nav{padding:0 20px;}
 .nav-links,.nav-btns{display:none;}
 .mobile-nav-right{display:flex !important;align-items:center;gap:8px;margin-left:auto;}
+.mob-actions{display:flex !important;align-items:center;gap:8px;}
 .mob-signin{display:inline-block !important;}
 .hamburger{display:flex;}
 .hero{padding:100px 24px 80px;justify-content:flex-start;}
@@ -227,6 +228,7 @@ footer{padding:32px 24px;flex-direction:column;text-align:center;}
 
 /* ── MOBILE: 480px ── */
 @media(max-width:480px){
+.mob-bio-btn{font-size:11px !important;padding:5px 8px !important;}
 h1{font-size:28px;}
 .hero{padding:90px 18px 70px;}
 .hero-sub{font-size:14px;}
@@ -271,13 +273,16 @@ h1{font-size:28px;}
   <ul class="nav-links"><li><a href="#features">Features</a></li><li><a href="#markets">Markets</a></li><li><a href="#compliance">Compliance</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#contact">Contact</a></li></ul>
   <div class="nav-btns"><a href="safetypro_checkin" class="btn-biometric">Biometric Portal</a><a href="safetypro_login.html" class="btn-ghost">Sign In</a><a href="#contact" class="btn-nav-cta" onclick="setTimeout(()=>document.getElementById('reg-name').focus(),400)">Free Trial</a></div>
   <div class="mobile-nav-right"><div class="mob-actions" id="mob-actions">
-    <a href="safetypro_checkin" class="mob-bio-btn">🔐 Biometric Portal</a>
     <a href="safetypro_login.html" class="mob-signin-btn">Sign In</a>
     <a href="#contact" class="mob-trial-btn" onclick="setTimeout(function(){var el=document.getElementById('reg-name');if(el)el.focus();},400)">Free Trial</a>
   </div>
   <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMobileNav()"><span></span><span></span><span></span></button></div>
 </nav>
 <div class="mobile-nav" id="mobile-nav">
+  <a href="safetypro_checkin" onclick="closeMobileNav()" style="color:#22C55E;background:rgba(34,197,94,.07);border:1.5px solid rgba(34,197,94,.3);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;font-weight:800;font-family:var(--fh);font-size:15px;margin-bottom:8px;text-decoration:none;">
+    <span style="display:flex;align-items:center;gap:10px;"><span style="width:8px;height:8px;border-radius:50%;background:#22C55E;flex-shrink:0;animation:bpblink 1.4s ease-in-out infinite;"></span>Biometric Portal</span>
+    <span style="font-size:18px;opacity:.7;">→</span>
+  </a>
   <a href="#features" onclick="closeMobileNav()">Features</a>
   <a href="#markets" onclick="closeMobileNav()">Markets</a>
   <a href="#compliance" onclick="closeMobileNav()">Compliance</a>
