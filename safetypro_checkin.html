@@ -617,15 +617,48 @@ function detect(){
   try{
     var c=document.getElementById('bam-canvas');c.width=64;c.height=64;
     var ctx=c.getContext('2d');ctx.drawImage(vid,0,0,64,64);
-    var px=ctx.getImageData(0,0,64,64).data,sum=0,nonBlack=0;
-    for(var i=0;i<px.length;i+=4){
-      var avg=(px[i]+px[i+1]+px[i+2])/3;
-      sum+=avg;
-      if(avg>15)nonBlack++;
+    var px=ctx.getImageData(0,0,64,64).data;
+
+    // Sample CENTER zone (face area inside oval) — pixels 20-44, rows 16-48
+    var centerSum=0,centerCount=0;
+    // Sample CORNER zones (background outside oval)
+    var cornerSum=0,cornerCount=0;
+    // Variance check — face has shadows/texture, plain wall is uniform
+    var vals=[];
+
+    for(var row=0;row<64;row++){
+      for(var col=0;col<64;col++){
+        var idx=(row*64+col)*4;
+        var luma=px[idx]*0.299+px[idx+1]*0.587+px[idx+2]*0.114;
+        // Center zone: col 18-46, row 14-50 (oval interior)
+        if(col>=18&&col<=46&&row>=14&&row<=50){
+          centerSum+=luma;centerCount++;
+          vals.push(luma);
+        }
+        // Corner zones: 4 corners (outside oval)
+        var inCorner=(col<14||col>50)&&(row<14||row>50);
+        if(inCorner){cornerSum+=luma;cornerCount++;}
+      }
     }
-    var meanBright=sum/(px.length/4);
-    // Face present: reasonable brightness AND enough non-black pixels (>40% of frame)
-    ff=meanBright>25&&meanBright<230&&(nonBlack/(px.length/4))>0.4;
+
+    var centerMean=centerSum/centerCount;
+    var cornerMean=cornerCount>0?cornerSum/cornerCount:centerMean;
+
+    // Variance: how much texture/shadow does the center have?
+    var variance=0;
+    for(var vi=0;vi<vals.length;vi++){variance+=Math.pow(vals[vi]-centerMean,2);}
+    variance=variance/vals.length;
+    var stdDev=Math.sqrt(variance);
+
+    // Face detected conditions:
+    // 1. Center brightness is in face-probable range (not pure black, not blown out)
+    // 2. Center differs meaningfully from corners (something is IN the oval)
+    // 3. Sufficient texture/gradient (stdDev>12 — faces have shadows, flat walls don't)
+    var centerInRange=centerMean>30&&centerMean<230;
+    var centerDiffersFromCorner=Math.abs(centerMean-cornerMean)>18;
+    var hasTexture=stdDev>10;
+
+    ff=centerInRange&&(centerDiffersFromCorner||hasTexture);
   }catch(e){}
   var o=document.getElementById('cam-oval');
   var s=document.getElementById('cam-status');
