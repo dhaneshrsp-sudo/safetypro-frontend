@@ -788,17 +788,17 @@ flex-wrap:wrap;}
 
 /* ══ SMART ATTENDANCE — MOBILE CAMERA FIXES ══ */
 @media(max-width:768px){
-  #sa-mode-selfie{padding:12px !important;}
-  #sa-camera-container{aspect-ratio:3/4 !important;max-height:60vh;}
+  
+  
   #sa-face-guide{touch-action:none;}
   #sa-choice-overlay button{min-height:56px;font-size:15px !important;}
   #sa-start-prompt div[style*="bottom:16px"]{bottom:14px !important;padding:9px 28px !important;font-size:12px !important;}
 }
 @media(max-width:480px){
-  #sa-camera-container{aspect-ratio:1/1 !important;max-height:70vw;}
+  
   #sa-choice-overlay{padding:14px !important;gap:8px !important;}
   #sa-choice-overlay button{padding:10px 6px !important;}
-  .sa-oval{width:130px !important;height:160px !important;}
+  
 }
 
 /* ══ DEVICE COMPATIBILITY — TABS + GRID + LANDSCAPE ══ */
@@ -861,8 +861,8 @@ flex-wrap:wrap;}
   .sh-left{flex-direction:row !important;align-items:center !important;gap:8px !important;}
   .sh-tabs{max-width:55vw;overflow-x:auto;}
   .sh-right{flex-shrink:0;}
-  #sa-camera-container{aspect-ratio:16/9 !important;max-height:75vh;}
-  #sa-mode-selfie{padding:6px !important;}
+  
+  
   .sa-attend-grid{grid-template-columns:1fr 1fr !important;}
 }
 
@@ -897,9 +897,10 @@ flex-wrap:wrap;}
 .sp-footer-status-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;flex-shrink:0;}
 .sp-footer-sep{opacity:.3;}
 #field-tab-checkin,#field-tab-heatmap,#field-tab-checklist,#field-tab-attendance,#field-tab-ptw,#field-tab-emergency,#field-tab-induction{padding:16px 20px 20px 20px !important;}#field-tab-checkin,#field-tab-heatmap,#field-tab-checklist,#field-tab-attendance,#field-tab-ptw,#field-tab-emergency,#field-tab-induction{padding:16px 20px 20px 20px !important;}
-#sa-oval-ring{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:5;}.sa-oval{width:160px;height:200px;border-radius:50%;position:relative;transition:border-color .3s,box-shadow .3s;border:2px dashed rgba(34,197,94,0.5);}.sa-oval.detecting{border-color:rgba(245,158,11,0.8);border-style:solid;}.sa-oval.countdown{border-color:#22C55E;border-style:solid;box-shadow:0 0 20px rgba(34,197,94,0.4);}.sa-oval.captured{border-color:#22C55E;border-style:solid;box-shadow:0 0 30px rgba(34,197,94,0.6);}#sa-countdown-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;display:none;align-items:center;justify-content:center;}#sa-countdown-ring.active{display:flex;}#sa-countdown-num{font-family:var(--fh);font-size:36px;font-weight:900;color:#22C55E;text-shadow:0 0 20px rgba(34,197,94,0.8);}#sa-auto-status{position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;font-family:var(--fh);background:rgba(0,0,0,0.6);padding:3px 10px;border-radius:20px;white-space:nowrap;color:var(--green);}svg.cd-ring{position:absolute;width:80px;height:80px;}svg.cd-ring circle{fill:none;stroke:#22C55E;stroke-width:3;stroke-linecap:round;stroke-dasharray:220;stroke-dashoffset:220;transition:stroke-dashoffset linear;}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
 
@@ -1002,7 +1003,7 @@ flex-wrap:wrap;}
       <div class="sh-left">
         <div class="sh-title">Site &amp; Field Tools</div>
         <div class="sh-tabs">
-          <div class="sh-tab active" onclick="switchFieldTab(this,'checkin')">🤳 Smart Attendance</div>
+          <div class="sh-tab active" onclick="switchFieldTab(this,'checkin');bamInit()">🤳 Smart Attendance</div>
           <div class="sh-tab" onclick="switchFieldTab(this,'heatmap')">&#128293; Site Heat Map</div>
           <div class="sh-tab" onclick="switchFieldTab(this,'checklist')">&#9989; Field Checklists</div>
           <div class="sh-tab" onclick="switchFieldTab(this,'attendance')">🎓 Training Attendance</div>
@@ -1050,202 +1051,80 @@ flex-wrap:wrap;}
 
       <div class="sa-attend-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
 
-        <!-- LEFT: SMART CHECK-IN PANEL -->
-        <div class="card" style="padding:0;overflow:hidden;">
-          <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-            <div>
-              <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);">Smart Attendance</div>
-              <div style="font-size:10px;color:var(--t3);margin-top:2px;">Selfie · QR · Manual</div>
-            </div>
-            <!-- MODE SELECTOR -->
-            <div style="display:flex;gap:4px;background:var(--bg);border-radius:8px;padding:3px;">
-              <div id="mode-btn-selfie" onclick="saSetMode('selfie')" style="padding:5px 12px;border-radius:6px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;background:var(--green);color:#0B0F14;transition:all .2s;">📸 Selfie</div>
-              <div id="mode-btn-qr" onclick="saSetMode('qr')" style="padding:5px 12px;border-radius:6px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;color:var(--t3);transition:all .2s;">📷 QR</div>
-              <div id="mode-btn-manual" onclick="saSetMode('manual')" style="padding:5px 12px;border-radius:6px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;color:var(--t3);transition:all .2s;">✏️ Manual</div>
+              <!-- LEFT: BAM PORTAL PANEL ── Replaces camera section -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <!-- Sub-tab bar -->
+        <div style="display:flex;border-bottom:1px solid var(--border);">
+          <div id="bam-tab-qr" onclick="bamSetTab('qr',this)" style="padding:11px 14px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;color:var(--green);border-bottom:2px solid var(--green);white-space:nowrap;">&#128242; Gate QR</div>
+          <div id="bam-tab-pending" onclick="bamSetTab('pending',this)" style="padding:11px 14px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;color:var(--t3);white-space:nowrap;">&#9203; Approvals <span id="bam-pending-badge" style="display:none;background:var(--amber);color:#070D12;font-size:9px;padding:1px 6px;border-radius:10px;margin-left:3px;font-family:var(--fh);">0</span></div>
+          <div id="bam-tab-directory" onclick="bamSetTab('directory',this)" style="padding:11px 14px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;color:var(--t3);white-space:nowrap;">&#128101; Workers</div>
+        </div>
+
+        <!-- QR GENERATOR TAB -->
+        <div id="bam-panel-qr" style="padding:16px;">
+          <!-- Project + Zone selectors -->
+          <div style="display:flex;gap:8px;margin-bottom:12px;">
+            <select id="bam-qr-project" onchange="bamDrawQR()" style="flex:1;background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--t1);font-family:var(--fh);font-size:11px;font-weight:700;">
+              <option value="BBRP-2026">BBRP-2026</option>
+            </select>
+            <select id="bam-qr-zone" onchange="bamDrawQR()" style="width:105px;background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--t1);font-family:var(--fh);font-size:11px;">
+              <option value="">All Zones</option>
+              <option value="Zone A">Zone A</option>
+              <option value="Zone B">Zone B</option>
+              <option value="Zone C">Zone C</option>
+              <option value="Zone D">Zone D</option>
+            </select>
+          </div>
+          <!-- QR Display card -->
+          <div style="text-align:center;padding:18px 16px;background:var(--raised);border-radius:12px;border:1px solid var(--border);">
+            <div id="bam-qr-canvas" style="display:inline-flex;align-items:center;justify-content:center;background:#fff;padding:10px;border-radius:8px;min-width:160px;min-height:160px;"></div>
+            <div id="bam-qr-label" style="margin-top:10px;font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);">BBRP-2026 &middot; All Zones</div>
+            <div id="bam-qr-url" style="font-size:9px;color:var(--t3);margin-top:3px;word-break:break-all;padding:0 10px;">safetyproworld.com/safetypro_checkin</div>
+            <div style="display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap;">
+              <button onclick="bamDownloadQR()" style="padding:7px 14px;background:var(--green);border:none;border-radius:7px;color:#070D12;font-size:11px;font-weight:800;font-family:var(--fh);cursor:pointer;">&#11015; Download PNG</button>
+              <button onclick="bamShareQR()" style="padding:7px 12px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:11px;cursor:pointer;">&#128228; Share</button>
+              <button onclick="bamRegenerateQR()" title="Regenerate QR" style="padding:7px 12px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:11px;cursor:pointer;">&#8635;</button>
             </div>
           </div>
-
-          <!-- SELFIE MODE -->
-          <div id="sa-mode-selfie" style="padding:20px;">
-            <!-- PROJECT NAME PILL -->
-            <div style="display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--raised);border:1px solid var(--border);border-radius:8px;margin-bottom:10px;">
-              <span style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);text-transform:uppercase;letter-spacing:.5px;">📍 Project</span>
-              <span id="sa-project-name" style="font-size:11px;font-weight:700;color:var(--t1);font-family:var(--fh);">All Projects</span>
-            </div>
-            <!-- CAMERA VIEWFINDER -->
-            <div style="position:relative;width:100%;aspect-ratio:4/3;background:#000;border-radius:12px;overflow:hidden;border:2px solid var(--border);margin-bottom:14px;" id="sa-camera-container">
-              <video id="sa-video" style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:none;" autoplay playsinline muted></video>
-              <!-- Start camera prompt -->
-              <div id="sa-start-prompt" onclick="saStartCamera()" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--raised);">
-                <div style="font-size:28px;margin-bottom:5px;">📸</div>
-                <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);margin-bottom:3px;">Tap to Start Camera</div>
-                <div style="font-size:9px;color:var(--t3);">Camera permission required</div>
-                <div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);padding:7px 22px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:11px;font-weight:800;font-family:var(--fh);white-space:nowrap;pointer-events:auto;" onclick="event.stopPropagation();saStartCamera();">Enable Camera</div>
-              </div>
-              <canvas id="sa-canvas" style="display:none;"></canvas>
-              
-              <!-- FACE GUIDE OVERLAY -->
-              <div id="sa-face-guide" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-                <div id="sa-auto-status" style="position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;font-family:var(--fh);background:rgba(0,0,0,0.6);padding:3px 10px;border-radius:20px;white-space:nowrap;color:rgba(34,197,94,0.8);">ALIGN FACE</div>
-                <div style="position:relative;width:160px;height:200px;">
-                  <div id="sa-oval" class="sa-oval"></div>
-                  <div id="sa-countdown-ring">
-                    <svg class="cd-ring"><circle id="sa-cd-circle" cx="40" cy="40" r="35"/></svg>
-                    <span id="sa-countdown-num"></span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- STATUS OVERLAY -->
-              <div id="sa-status-overlay" style="display:none;position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.8));padding:12px 14px;">
-                <div id="sa-status-text" style="font-size:11px;font-weight:700;color:var(--green);font-family:var(--fh);">● Camera Ready — Position your face in the oval</div>
-              </div>
-
-              <!-- CAPTURED PHOTO PREVIEW -->
-              <img id="sa-photo-preview" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" />
-              
-              <!-- RETAKE OVERLAY -->
-              <div id="sa-retake-overlay" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;">
-                <button onclick="saRetake()" style="padding:10px 24px;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:12px;font-weight:700;font-family:var(--fh);cursor:pointer;">↩ Retake</button>
-              </div>
-            </div>
-
-            <!-- CAMERA NOT STARTED STATE -->
-            <div id="sa-camera-start-state" style="display:none;position:absolute;inset:0;background:var(--card);border-radius:12px;align-items:center;justify-content:center;flex-direction:column;gap:12px;text-align:center;padding:20px;">
-              <div style="font-size:48px;">📸</div>
-              <div style="font-size:13px;font-weight:700;color:var(--t1);font-family:var(--fh);">Camera Access Needed</div>
-              <div style="font-size:11px;color:var(--t3);">Allow camera to enable selfie attendance</div>
-              <button onclick="saStartCamera()" style="padding:10px 24px;background:var(--green);border:none;border-radius:8px;color:#0B0F14;font-size:12px;font-weight:700;font-family:var(--fh);cursor:pointer;">Enable Camera</button>
-            </div>
-
-            <!-- GPS STATUS -->
-            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--raised);border-radius:8px;margin-bottom:14px;border:1px solid var(--border);">
-              <div id="sa-gps-dot" style="width:8px;height:8px;border-radius:50%;background:var(--amber);flex-shrink:0;"></div>
-              <div>
-                <div style="font-size:11px;font-weight:600;color:var(--t2);" id="sa-gps-text">Getting location...</div>
-                <div style="font-size:10px;color:var(--t3);" id="sa-gps-zone">Zone will be auto-detected</div>
-              </div>
-              <div style="margin-left:auto;font-size:10px;color:var(--t3);" id="sa-gps-coords"></div>
-            </div>
-
-            <!-- WORKER ID (pre-fill or type) -->
-            <div id="sa-worker-section" style="display:none;margin-bottom:12px;">
-              <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;">Worker ID / Name</div>
-              <input id="sa-worker-id" type="text" placeholder="Scan badge or type Worker ID..." style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:12px;font-family:var(--fb);" />
-            </div>
-
-            <!-- CHECK IN / OUT BUTTONS -->
-            <div id="sa-btn-section" style="display:none;grid-template-columns:1fr 1fr;gap:10px;">
-              <button id="sa-checkin-btn" onclick="saCapture('in')" style="padding:13px;background:var(--green);border:none;border-radius:10px;color:#0B0F14;font-size:13px;font-weight:800;font-family:var(--fh);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-                Check IN
-              </button>
-              <button id="sa-checkout-btn" onclick="saCapture('out')" style="padding:13px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:10px;color:var(--red);font-size:13px;font-weight:800;font-family:var(--fh);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/></svg>
-                Check OUT
-              </button>
-            </div>
-
-            <!-- PROCESSING STATE -->
-            <div id="sa-processing" style="display:none;text-align:center;padding:16px;margin-top:12px;background:var(--raised);border-radius:10px;border:1px solid var(--border);">
-              <div style="font-size:12px;font-weight:700;color:var(--blue);font-family:var(--fh);" id="sa-processing-text">🔍 Verifying face match...</div>
-              <div style="margin-top:8px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;">
-                <div id="sa-progress-bar" style="height:100%;width:0%;background:var(--blue);border-radius:2px;transition:width 1s ease;"></div>
-              </div>
-            </div>
-
-            <!-- SUCCESS STATE -->
-            <div id="sa-success-card" style="display:none;margin-top:12px;padding:14px;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.3);border-radius:10px;">
-              <div style="display:flex;align-items:center;gap:10px;">
-                <div style="width:36px;height:36px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:18px;">✓</div>
-                <div>
-                  <div style="font-size:12px;font-weight:700;color:var(--green);font-family:var(--fh);" id="sa-success-name">Rajan Kumar — Checked IN</div>
-                  <div style="font-size:10px;color:var(--t3);" id="sa-success-meta">Zone A · 08:42 AM · Match: 94.2%</div>
-                </div>
-              </div>
-            </div>
-
+          <div style="display:flex;align-items:center;gap:6px;margin-top:10px;">
+            <div style="width:7px;height:7px;border-radius:50%;background:#22C55E;animation:pulse 2s infinite;flex-shrink:0;"></div>
+            <span style="font-size:10px;color:var(--t3);">Active &middot; Workers scan at site gate to open BAM</span>
           </div>
-
-          <!-- QR MODE -->
-          <div id="sa-mode-qr" style="display:none;padding:20px;text-align:center;">
-            <div style="width:200px;height:200px;margin:0 auto 16px;background:var(--raised);border:2px solid var(--border);border-radius:16px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
-              <svg width="140" height="140" viewBox="0 0 120 120" style="opacity:.7;">
-                <rect x="0" y="0" width="40" height="40" rx="4" fill="var(--t1)" opacity=".9"/>
-                <rect x="5" y="5" width="30" height="30" rx="2" fill="var(--bg)"/>
-                <rect x="10" y="10" width="20" height="20" rx="1" fill="var(--t1)" opacity=".9"/>
-                <rect x="80" y="0" width="40" height="40" rx="4" fill="var(--t1)" opacity=".9"/>
-                <rect x="85" y="5" width="30" height="30" rx="2" fill="var(--bg)"/>
-                <rect x="90" y="10" width="20" height="20" rx="1" fill="var(--t1)" opacity=".9"/>
-                <rect x="0" y="80" width="40" height="40" rx="4" fill="var(--t1)" opacity=".9"/>
-                <rect x="5" y="85" width="30" height="30" rx="2" fill="var(--bg)"/>
-                <rect x="10" y="90" width="20" height="20" rx="1" fill="var(--t1)" opacity=".9"/>
-                <rect x="50" y="0" width="8" height="8" rx="1" fill="var(--t1)" opacity=".7"/>
-                <rect x="60" y="0" width="8" height="8" rx="1" fill="var(--t1)" opacity=".7"/>
-                <rect x="50" y="10" width="8" height="8" rx="1" fill="var(--t1)" opacity=".5"/>
-                <rect x="50" y="50" width="8" height="8" rx="1" fill="var(--t1)" opacity=".7"/>
-                <rect x="60" y="60" width="8" height="8" rx="1" fill="var(--t1)" opacity=".5"/>
-              </svg>
-              <div style="position:absolute;inset:0;border:3px solid transparent;border-top-color:var(--green);border-radius:16px;animation:spin 1.5s linear infinite;"></div>
-            </div>
-            <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);margin-bottom:4px;">Site QR Code</div>
-            <div style="font-size:10px;color:var(--t3);margin-bottom:16px;">Workers scan this code on site entry</div>
-            <div style="display:flex;gap:8px;justify-content:center;">
-              <button style="padding:9px 18px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">↻ Regenerate QR</button>
-              <button style="padding:9px 18px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">↓ Download PNG</button>
-            </div>
-            <div style="margin-top:14px;padding:10px 12px;background:var(--raised);border-radius:8px;border:1px solid var(--border);font-size:10px;color:var(--t3);">
-              ⚠️ QR scanning requires worker to be physically present. GPS is still captured on scan. For stronger verification use Selfie mode.
-            </div>
-          </div>
-
-          <!-- MANUAL MODE -->
-          <div id="sa-mode-manual" style="display:none;padding:20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--amber);font-family:var(--fh);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px;padding:8px 12px;background:rgba(245,158,11,0.08);border-radius:6px;border:1px solid rgba(245,158,11,0.2);">
-              ⚠️ Manual entry — Supervisor override only. All manual entries are flagged in audit log.
-            </div>
-            <div style="display:flex;flex-direction:column;gap:10px;">
-              <div>
-                <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Worker Name / ID</div>
-                <input type="text" placeholder="Worker name or ID..." style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:12px;font-family:var(--fb);" />
-              </div>
-              <div>
-                <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Zone</div>
-                <select style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:12px;font-family:var(--fb);">
-                  <option>Zone A — Construction</option>
-                  <option>Zone B — Electrical</option>
-                  <option>Zone C — Materials Storage</option>
-                  <option>Zone D — Offshore Platform</option>
-                </select>
-              </div>
-              <div>
-                <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Check In / Out Time</div>
-                <input type="time" style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:12px;font-family:var(--fb);" />
-              </div>
-              <div>
-                <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Reason for Manual Entry</div>
-                <select style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:12px;font-family:var(--fb);">
-                  <option>Camera not available</option>
-                  <option>Phone battery dead</option>
-                  <option>Network issue</option>
-                  <option>Worker injury — assisted check-in</option>
-                  <option>System override by supervisor</option>
-                </select>
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                <button style="padding:11px;background:var(--green);border:none;border-radius:8px;color:#0B0F14;font-size:12px;font-weight:800;font-family:var(--fh);cursor:pointer;">✓ Mark Check IN</button>
-                <button style="padding:11px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:8px;color:var(--red);font-size:12px;font-weight:800;font-family:var(--fh);cursor:pointer;">✗ Mark Check OUT</button>
-              </div>
-            </div>
+          <div style="margin-top:10px;padding:8px 10px;background:rgba(34,197,94,0.06);border-radius:8px;border:1px solid rgba(34,197,94,0.15);">
+            <div style="font-size:9px;color:var(--t3);line-height:1.6;">&#128161; Print this QR and post at the site entry gate. Workers scan once with their phone — BAM page opens pre-filled with project and zone.</div>
           </div>
         </div>
 
-        <!-- RIGHT: LIVE FEED -->
+        <!-- PENDING APPROVALS TAB -->
+        <div id="bam-panel-pending" style="display:none;">
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:12px;font-weight:700;color:var(--t1);font-family:var(--fh);">Pending HR Approval</span>
+            <button onclick="bamLoadPending()" style="padding:4px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t3);font-size:10px;cursor:pointer;font-family:var(--fh);">&#8635; Refresh</button>
+          </div>
+          <div id="bam-pending-list" style="max-height:420px;overflow-y:auto;">
+            <div style="padding:30px;text-align:center;color:var(--t3);font-size:11px;">Loading...</div>
+          </div>
+        </div>
+
+        <!-- WORKER DIRECTORY TAB -->
+        <div id="bam-panel-directory" style="display:none;">
+          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:12px;font-weight:700;color:var(--t1);font-family:var(--fh);">Employee Directory</span>
+            <span id="bam-dir-count" style="font-size:10px;color:var(--t3);">Loading...</span>
+          </div>
+          <div id="bam-dir-list" style="max-height:420px;overflow-y:auto;">
+            <div style="padding:30px;text-align:center;color:var(--t3);font-size:11px;">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- RIGHT: LIVE FEED -->
         <div class="card" style="padding:0;overflow:hidden;">
           <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
             <div>
               <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);">Live Attendance Feed</div>
-              <div style="font-size:10px;color:var(--t3);margin-top:2px;" id="sa-feed-count">Showing all 3 modes · Today</div>
+              <div style="font-size:10px;color:var(--t3);margin-top:2px;" id="sa-feed-count">Live from BAM biometric · Today</div>
             </div>
             <div style="display:flex;gap:6px;align-items:center;">
               <div style="width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;"></div>
@@ -2584,793 +2463,251 @@ var fieldToastTimer = null;
   if (!token) { window.location.replace('safetypro_login.html'); return; }
   try { var u = JSON.parse(localStorage.getItem('sp_user')||'{}'); if (u&&u.name) applyFieldProfile(u); } catch(e){}
   setTimeout(loadNavProfile, 600);
+  setTimeout(bamInit, 800);
 })();
 
 
-// ── SMART ATTENDANCE MODULE ──────────────────────────────────────────────────
-var saMode = 'selfie';
-var saStream = null;
-var saActionType = null; // 'in' or 'out'
-var saGPS = null;
+// ── BAM PORTAL MODULE ─────────────────────────────────────────────────────
+var BAM_BASE = (typeof API_BASE !== 'undefined') ? API_BASE.replace('/api/v1','') : 'https://safetypro-backend-production.up.railway.app';
+var BAM_API  = BAM_BASE + '/api/v1';
+var bamPollTimer = null;
+var bamCurrentTab = 'qr';
 
-function saSetMode(mode) {
-  saMode = mode;
-  ['selfie','qr','manual'].forEach(function(m) {
-    var el = document.getElementById('sa-mode-' + m);
-    var btn = document.getElementById('mode-btn-' + m);
-    if(el) el.style.display = (m === mode) ? 'block' : 'none';
-    if(btn) {
-      if(m === mode) {
-        btn.style.background = 'var(--green)';
-        btn.style.color = '#0B0F14';
-      } else {
-        btn.style.background = 'transparent';
-        btn.style.color = 'var(--t3)';
-      }
-    }
+// ── Tab switching ──────────────────────────────────────────────────────────
+function bamSetTab(tab, el) {
+  ['qr','pending','directory'].forEach(function(t) {
+    var btn = document.getElementById('bam-tab-' + t);
+    var pnl = document.getElementById('bam-panel-' + t);
+    if(btn) { btn.style.color = 'var(--t3)'; btn.style.borderBottom = 'none'; }
+    if(pnl) pnl.style.display = 'none';
   });
-  if(mode === 'selfie') saStartCamera();
-  else saStopCamera();
+  if(el) { el.style.color = 'var(--green)'; el.style.borderBottom = '2px solid var(--green)'; }
+  var panel = document.getElementById('bam-panel-' + tab);
+  if(panel) panel.style.display = '';
+  bamCurrentTab = tab;
+  if(tab === 'pending') bamLoadPending();
+  if(tab === 'directory') bamLoadDirectory();
 }
 
-function saStartCamera() {
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-    document.getElementById('sa-status-text').textContent='❌ Camera not supported';return;
-  }
-  var prompt=document.getElementById('sa-start-prompt');
-  if(prompt)prompt.innerHTML='<div style="font-size:32px;margin-bottom:10px;">⏳</div><div style="font-family:var(--fh);font-size:12px;color:var(--t2);">Starting camera...</div>';
-  navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'user'},width:{ideal:640},height:{ideal:480}},audio:false})
-    .then(function(stream){
-      window.saStream=stream;
-      var video=document.getElementById('sa-video');
-      video.srcObject=stream;
-      video.style.display='block';
-      video.play();
-      var _c=document.createElement('canvas');_c.width=32;_c.height=32;
-      var _ctx=_c.getContext('2d'),_n=0;
-      var _chk=setInterval(function(){
-        _n++;
-        var _b=0;
-        try{_ctx.drawImage(video,0,0,32,32);var _px=_ctx.getImageData(0,0,32,32).data,_s=0;for(var _i=0;_i<_px.length;_i+=4)_s+=_px[_i]+_px[_i+1]+_px[_i+2];_b=_s/(_px.length/4*3);}catch(e){}
-        if(_b>10||_n>40){
-          clearInterval(_chk);
-          if(prompt)prompt.style.display='none';
-          var _g=document.getElementById('sa-face-guide');if(_g)_g.style.display='flex';
-          var _so=document.getElementById('sa-status-overlay');if(_so)_so.style.display='block';
-          var _st=document.getElementById('sa-status-text');if(_st){_st.textContent='● Camera Ready — Position your face in the oval';_st.style.color='var(--green)';}
-          if(typeof saGetGPS==='function')saGetGPS();
-          setTimeout(function(){if(typeof saStartAutoCapture==='function')saStartAutoCapture();},400);
-        }
-      },100);
-    })
-    .catch(function(err){
-      if(err.name==='NotAllowedError'||err.name==='PermissionDeniedError'){
-        if(prompt)prompt.innerHTML='<div style="font-size:32px">🔒</div><div style="font-family:var(--fh);font-size:11px;color:var(--red);margin-top:8px;">Camera Blocked</div><div style="font-size:10px;color:var(--t3);margin-top:4px;">Click 🔒 → Allow camera → Reload</div><button onclick="location.reload()" style="margin-top:10px;padding:6px 14px;background:var(--green);border:none;border-radius:6px;color:#0B0F14;font-size:10px;cursor:pointer;">Reload</button>';
-      } else if(err.name==='NotReadableError'){
-        if(prompt)prompt.innerHTML='<div style="font-size:32px">📵</div><div style="font-family:var(--fh);font-size:11px;color:var(--amber);margin-top:8px;">Camera Busy</div><button onclick="saStartCamera()" style="margin-top:10px;padding:6px 14px;background:var(--blue);border:none;border-radius:6px;color:#fff;font-size:10px;cursor:pointer;">Try Again</button>';
-      } else {
-        if(prompt)prompt.innerHTML='<div style="font-size:32px">⚠️</div><div style="font-family:var(--fh);font-size:11px;color:var(--red);margin-top:8px;">'+err.name+'</div><button onclick="saStartCamera()" style="margin-top:10px;padding:6px 14px;background:var(--blue);border:none;border-radius:6px;color:#fff;font-size:10px;cursor:pointer;">Try Again</button>';
-      }
-    });
+// ── QR Generator ──────────────────────────────────────────────────────────
+function bamGetQRUrl() {
+  var proj = (document.getElementById('bam-qr-project') || {}).value || 'BBRP-2026';
+  var zone = (document.getElementById('bam-qr-zone') || {}).value || '';
+  var url = 'https://www.safetyproworld.com/safetypro_checkin?code=' + encodeURIComponent(proj);
+  if(zone) url += '&zone=' + encodeURIComponent(zone);
+  return url;
 }
 
-function saStopCamera() {
-  if(saStream) {
-    saStream.getTracks().forEach(function(t){ t.stop(); });
-    saStream = null;
-  }
-}
-
-function saGetGPS() {
-  if(!navigator.geolocation) return;
-  document.getElementById('sa-gps-dot').style.background = 'var(--amber)';
-  document.getElementById('sa-gps-text').textContent = 'Getting location...';
-  navigator.geolocation.getCurrentPosition(function(pos) {
-    saGPS = { lat: pos.coords.latitude.toFixed(4), lng: pos.coords.longitude.toFixed(4), acc: Math.round(pos.coords.accuracy) };
-    document.getElementById('sa-gps-dot').style.background = 'var(--green)';
-    document.getElementById('sa-gps-text').textContent = 'GPS Locked — Zone A (Auto-detected)';
-    document.getElementById('sa-gps-zone').textContent = 'Accuracy: ±' + saGPS.acc + 'm';
-    document.getElementById('sa-gps-coords').textContent = saGPS.lat + '°N, ' + saGPS.lng + '°E';
-  }, function() {
-    document.getElementById('sa-gps-dot').style.background = 'var(--amber)';
-    document.getElementById('sa-gps-text').textContent = '⚠️ Location unavailable — Manual zone select';
-  }, { timeout: 8000, enableHighAccuracy: true });
-}
-
-function saCapture(actionType) {
-  saActionType = actionType;
-  var video = document.getElementById('sa-video');
-  var canvas = document.getElementById('sa-canvas');
-  var preview = document.getElementById('sa-photo-preview');
-  
-  if(!saStream) {
-    // Simulate for demo if no camera
-    saProcessAttendance(actionType, 94.2);
-    return;
-  }
-
-  // Capture frame
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  var ctx = canvas.getContext('2d');
-  ctx.translate(canvas.width, 0);
-  ctx.scale(-1, 1);
-  ctx.drawImage(video, 0, 0);
-  
-  // Show preview
-  var imgData = canvas.toDataURL('image/jpeg', 0.85);
-  preview.src = imgData;
-  preview.style.display = 'block';
-  video.style.display = 'none';
-  document.getElementById('sa-face-guide').style.display = 'none';
-  document.getElementById('sa-retake-overlay').style.display = 'flex';
-  
-  // Simulate face recognition processing
-  saProcessAttendance(actionType, Math.floor(85 + Math.random() * 14) + 0.1);
-}
-
-function saRetake() {
-  document.getElementById('sa-photo-preview').style.display = 'none';
-  document.getElementById('sa-retake-overlay').style.display = 'none';
-  document.getElementById('sa-video').style.display = 'block';
-  document.getElementById('sa-face-guide').style.display = 'flex';
-  document.getElementById('sa-success-card').style.display = 'none';
-  document.getElementById('sa-processing').style.display = 'none';
-}
-
-function saProcessAttendance(actionType, confidence) {
-  // Show processing
-  document.getElementById('sa-processing').style.display = 'block';
-  document.getElementById('sa-success-card').style.display = 'none';
-  var steps = [
-    { text: '🔍 Detecting face in frame...', pct: 20 },
-    { text: '🧠 Matching against worker profiles...', pct: 55 },
-    { text: '📍 Capturing GPS coordinates...', pct: 75 },
-    { text: '✅ Recording attendance...', pct: 95 }
-  ];
-  var bar = document.getElementById('sa-progress-bar');
-  var textEl = document.getElementById('sa-processing-text');
-  var i = 0;
-  function runStep() {
-    if(i < steps.length) {
-      textEl.textContent = steps[i].text;
-      bar.style.width = steps[i].pct + '%';
-      i++;
-      setTimeout(runStep, 500);
-    } else {
-      // Done
-      document.getElementById('sa-processing').style.display = 'none';
-      var workerName = document.getElementById('sa-worker-id').value || 'Site Worker';
-      var zone = 'Zone A';
-      var now = new Date();
-      var timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
-      var gpsStr = saGPS ? saGPS.lat + '°N, ' + saGPS.lng + '°E' : 'GPS unavailable';
-      
-      var successCard = document.getElementById('sa-success-card');
-      document.getElementById('sa-success-name').textContent = (workerName || 'Worker') + ' — Checked ' + actionType.toUpperCase();
-      document.getElementById('sa-success-meta').textContent = zone + ' · ' + timeStr + ' · Match: ' + confidence.toFixed(1) + '%';
-      successCard.style.display = 'block';
-      successCard.style.borderColor = actionType === 'in' ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)';
-      successCard.style.background = actionType === 'in' ? 'rgba(34,197,94,0.06)' : 'rgba(239,68,68,0.06)';
-      document.getElementById('sa-success-name').style.color = actionType === 'in' ? 'var(--green)' : 'var(--red)';
-      
-      // Add to feed
-      saAddToFeed(workerName, actionType, timeStr, zone, confidence, gpsStr, 'selfie');
-
-      // AUTO-RESTART CAMERA after 3s — show tap prompt (iOS-safe, requires user gesture)
-      setTimeout(function(){
-        successCard.style.display = 'none';
-        window.saHasCaptured = false;
-        window.saCountingDown = false;
-        if(window.saCountdownTimer) clearTimeout(window.saCountdownTimer);
-        var ov = document.getElementById('sa-oval'); if(ov) ov.className = 'sa-oval';
-        var st = document.getElementById('sa-auto-status'); if(st){ st.textContent = 'ALIGN FACE'; st.style.color = 'rgba(34,197,94,0.8)'; }
-        var rng = document.getElementById('sa-countdown-ring'); if(rng) rng.classList.remove('active');
-        var num = document.getElementById('sa-countdown-num'); if(num) num.textContent = '';
-        var cir = document.getElementById('sa-cd-circle'); if(cir){ cir.style.transition='none'; cir.style.strokeDashoffset='220'; }
-        // Show ready-for-next prompt (tap triggers saStartCamera with user gesture — iOS safe)
-        var prompt = document.getElementById('sa-start-prompt');
-        if(prompt){
-          prompt.style.display = 'flex';
-          prompt.innerHTML =
-            '<div style="font-size:36px;margin-bottom:6px;">✅</div>' +
-            '<div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--green);margin-bottom:3px;">Attendance Recorded!</div>' +
-            '<div style="font-size:10px;color:var(--t3);">Tap to scan next person</div>' +
-            '<div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);padding:7px 22px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:11px;font-weight:800;font-family:var(--fh);white-space:nowrap;">📸 Scan Next</div>';
-        }
-      }, 3000);
-    }
-  }
-  setTimeout(runStep, 200);
-}
-
-function saAddToFeed(name, type, time, zone, confidence, gps, mode) {
-  var feed = document.getElementById('sa-feed-list');
-  var initials = name.split(' ').map(function(w){ return w[0]; }).join('').toUpperCase().substring(0,2);
-  var colors = ['#3B82F6','#8B5CF6','#EC4899','#F59E0B','#22C55E','#06B6D4'];
-  var color = colors[Math.floor(Math.random() * colors.length)];
-  var badgeColor = type === 'in' ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)';
-  var badgeText = type === 'in' ? 'var(--green)' : 'var(--red)';
-  var modeBadge = mode === 'selfie' ? '📸 ' + confidence.toFixed(1) + '%' : mode === 'qr' ? '📷 QR' : '✏️ Manual';
-
-  var item = document.createElement('div');
-  item.className = 'sa-feed-item';
-  item.setAttribute('data-type', type);
-  item.setAttribute('data-mode', mode);
-  item.style.cssText = 'padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;transition:background .15s;';
-  item.onmouseover = function(){ this.style.background = 'var(--raised)'; };
-  item.onmouseout = function(){ this.style.background = 'transparent'; };
-
-  // Use div avatar instead of img+SVG to avoid encoding issues
-  var avatar = '<div style="width:32px;height:32px;border-radius:50%;background:' + color + ';display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:var(--fh);flex-shrink:0;">' + initials + '</div>';
-
-  item.innerHTML = avatar
-    + '<div style="flex:1;min-width:0;">'
-    + '<div style="display:flex;align-items:center;gap:6px;">'
-    + '<span style="font-size:12px;font-weight:600;color:var(--t1);">' + name + '</span>'
-    + '<span style="font-size:9px;padding:2px 6px;background:' + badgeColor + ';color:' + badgeText + ';border-radius:10px;font-weight:700;font-family:var(--fh);">' + type.toUpperCase() + '</span>'
-    + '<span style="font-size:9px;color:var(--t3);">' + modeBadge + '</span>'
-    + '</div>'
-    + '<div style="font-size:10px;color:var(--t3);margin-top:2px;">' + zone + ' · ' + time + '</div>'
-    + '<div style="font-size:9px;color:var(--t3);margin-top:1px;">📍 ' + gps + '</div>'
-    + '</div>';
-
-  feed.insertBefore(item, feed.firstChild);
-}
-
-function saFilterFeed(filter, el) {
-  document.querySelectorAll('#sa-feed-list .sa-feed-item').forEach(function(item) {
-    if(filter === 'all') {
-      item.style.display = 'flex';
-    } else if(filter === 'selfie' || filter === 'qr' || filter === 'manual') {
-      item.style.display = item.getAttribute('data-mode') === filter ? 'flex' : 'none';
-    } else {
-      item.style.display = item.getAttribute('data-type') === filter ? 'flex' : 'none';
-    }
-  });
-  // Update pill styles
-  document.querySelectorAll('#sa-feed-list').previousElementSibling && 
-    document.querySelectorAll('[onclick*="saFilterFeed"]').forEach(function(p) {
-      p.style.background = 'var(--raised)';
-      p.style.color = 'var(--t3)';
-      p.style.border = '1px solid var(--border)';
-    });
-  el.style.background = 'var(--green)';
-  el.style.color = '#0B0F14';
-  el.style.border = '1px solid var(--green)';
-}
-
-function saExportBOCW() {
-  fieldToast('BOCW Form XIII exported — muster_roll_' + new Date().toISOString().slice(0,10) + '.xlsx', 'success');
-}
-
-// Camera starts only on user gesture (Selfie button click)
-
-
-
-function switchFieldTab(el, id) {
-  document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
-  el.classList.add('active');
-  document.querySelectorAll('[id^="field-tab-"]').forEach(function(p){ p.style.display = 'none'; });
-  var panel = document.getElementById('field-tab-' + id);
-  if (panel) panel.style.display = 'block';
-}
-
-function fieldToast(msg, type) {
-  var t = document.getElementById('field-toast');
-  var m = document.getElementById('field-toast-msg');
-  var d = document.getElementById('field-toast-dot');
-  if (!t) return;
-  m.textContent = msg;
-  d.style.background = type==='red'?'var(--red)':type==='blue'?'var(--blue)':'var(--green)';
-  t.style.display = 'flex';
-  if (fieldToastTimer) clearTimeout(fieldToastTimer);
-  fieldToastTimer = setTimeout(function(){ t.style.display='none'; }, 3000);
-}
-
-function loadNavProfile() {
-  var token = localStorage.getItem('sp_token'); if (!token) return;
-  fetch(API_BASE + '/auth/me', { headers: { 'Authorization': 'Bearer ' + token } })
-  .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
-  .then(function(u){ localStorage.setItem('sp_user', JSON.stringify(u)); applyFieldProfile(u); })
-  .catch(function(){});
-}
-function applyFieldProfile(u) {
-  if (!u) return;
-  var name = u.name || u.email || 'User';
-  var role = u.role || 'HSE';
-  var parts = name.trim().split(' ');
-  var ini = parts.length > 1 ? parts[0][0]+parts[parts.length-1][0] : name.substring(0,2);
-  ini = ini.toUpperCase();
-  ['nav-initials','pd-initials'].forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=ini; });
-  ['nav-username','profile-name'].forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=name; });
-  var re=document.getElementById('nav-role'); if(re) re.textContent=role;
-  var pe=document.getElementById('profile-role-badge'); if(pe) pe.textContent=role;
-  var em=document.getElementById('profile-email'); if(em) em.textContent=u.email||'';
-}
-function signOut(){ localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); window.location.href='safetypro_login.html'; }
-function toggleProfileMenu(){
-  var d=document.getElementById('profile-dropdown'); if(!d) return;
-  var isOpen=d.style.display==='block';
-  d.style.display=isOpen?'none':'block';
-  if(!isOpen){ var tr=document.getElementById('user-pill-btn'); if(tr){ var r=tr.getBoundingClientRect(); d.style.top=(r.bottom+6)+'px'; d.style.right=(window.innerWidth-r.right)+'px'; d.style.left='auto'; } }
-}
-function toggleAlerts(){ var d=document.getElementById('alert-dropdown'); if(d) d.style.display=d.style.display==='block'?'none':'block'; }
-function toggleSidebar(){ var sb=document.querySelector('.sidebar'); var ov=document.getElementById('sb-overlay'); if(sb){ sb.classList.toggle('open'); if(ov) ov.classList.toggle('show'); } }
-function closeSidebar(){ var sb=document.querySelector('.sidebar'); var ov=document.getElementById('sb-overlay'); if(sb) sb.classList.remove('open'); if(ov) ov.classList.remove('show'); }
-function toggleMore(e){ e.stopPropagation(); document.getElementById('more-btn').classList.toggle('open'); }
-function goToSettings(){ fieldToast('Settings coming soon','blue'); }
-function changePassword(){ fieldToast('Contact support@safetyproworld.com','blue'); }
-document.addEventListener('click', function(e){
-  if(!e.target.closest('#user-pill-btn')&&!e.target.closest('#profile-dropdown')){ var d=document.getElementById('profile-dropdown'); if(d) d.style.display='none'; }
-  if(!e.target.closest('#alert-btn')&&!e.target.closest('#alert-dropdown')){ var d=document.getElementById('alert-dropdown'); if(d) d.style.display='none'; }
-  if(!e.target.closest('#more-btn')){ var m=document.getElementById('more-btn'); if(m) m.classList.remove('open'); }
-});
-
-// ── PTW JS ───────────────────────────────────────────────────────────────────
-var selectedPTWType = null;
-function ptwSelectType(el, type) {
-  selectedPTWType = type;
-  document.querySelectorAll('.ptw-type-btn').forEach(function(btn) {
-    btn.style.background = 'var(--raised)';
-    btn.style.borderColor = 'var(--border)';
-  });
-  el.style.background = 'rgba(34,197,94,0.08)';
-  el.style.borderColor = 'rgba(34,197,94,0.4)';
-}
-
-function ptwSubmit() {
-  if(!selectedPTWType) { fieldToast('Please select a permit type', 'error'); return; }
-  var loc = document.getElementById('ptw-location').value;
-  if(!loc) { fieldToast('Work location is required', 'error'); return; }
-  fieldToast('PTW submitted — Awaiting L1 approval from Safety Officer', 'success');
-  document.getElementById('ptw-location').value = '';
-  document.getElementById('ptw-crew').value = '';
-  document.getElementById('ptw-desc').value = '';
-  selectedPTWType = null;
-  document.querySelectorAll('.ptw-type-btn').forEach(function(btn){
-    btn.style.background = 'var(--raised)'; btn.style.borderColor = 'var(--border)';
-  });
-}
-
-function ptwApprove(id, level) {
-  fieldToast(id + ' approved at ' + level + ' by Safety Officer', 'success');
-}
-
-function ptwReject(id) {
-  fieldToast(id + ' rejected — Applicant notified', 'error');
-}
-
-// ── INDUCTION JS ─────────────────────────────────────────────────────────────
-function showInductionForm() {
-  var f = document.getElementById('induction-form');
-  f.style.display = f.style.display === 'none' ? 'block' : 'none';
-}
-
-function saveInduction() {
-  fieldToast('Induction recorded — Site entry card printed', 'success');
-  document.getElementById('induction-form').style.display = 'none';
-}
-
-// ── VEHICLE GATE CHECK JS ────────────────────────────────────────────────────
-function showVehicleForm() {
-  var f = document.getElementById('vehicle-form');
-  f.style.display = f.style.display === 'none' ? 'block' : 'none';
-}
-
-function saveVehicle(result) {
-  var msg = result === 'pass' ? 'Vehicle cleared — Entry logged' : 'Vehicle denied — Flagged for supervisor';
-  var type = result === 'pass' ? 'success' : 'error';
-  fieldToast(msg, type);
-  document.getElementById('vehicle-form').style.display = 'none';
-}
-
-// ── COMPETENCY CHECK JS ──────────────────────────────────────────────────────
-function checkCompetency() {
-  var w = document.getElementById('competency-worker').value;
-  if(!w) { fieldToast('Enter worker name or ID', 'error'); return; }
-  fieldToast('Competency check run for: ' + w, 'success');
-}
-
-// ── NEAR MISS QUICK REPORT ───────────────────────────────────────────────────
-var nmType = 'near-miss';
-var nmPhotoCount = 0;
-
-function openNearMiss() {
-  document.getElementById('nm-modal').style.display = 'flex';
-  nmGetGPS();
-}
-
-function closeNearMiss() {
-  document.getElementById('nm-modal').style.display = 'none';
-}
-
-function nmSelectType(el, type) {
-  nmType = type;
-  document.querySelectorAll('.nm-type').forEach(function(b) {
-    b.style.background = 'var(--raised)';
-    b.style.borderColor = 'var(--border)';
-    b.style.borderWidth = '1px';
-    b.querySelector('div:last-child').style.color = 'var(--t3)';
-  });
-  el.style.background = 'rgba(245,158,11,0.08)';
-  el.style.borderColor = 'var(--amber)';
-  el.style.borderWidth = '2px';
-  el.querySelector('div:last-child').style.color = 'var(--amber)';
-}
-
-function nmGetGPS() {
-  if(!navigator.geolocation) return;
-  navigator.geolocation.getCurrentPosition(function(pos) {
-    var lat = pos.coords.latitude.toFixed(4);
-    var lng = pos.coords.longitude.toFixed(4);
-    document.getElementById('nm-gps-text').textContent = '📍 GPS Captured — Zone A (auto-detected)';
-    document.getElementById('nm-gps-detail').textContent = lat + '°N, ' + lng + '°E · Accuracy: ±' + Math.round(pos.coords.accuracy) + 'm';
-  }, function() {
-    document.getElementById('nm-gps-dot').style.background = 'var(--amber)';
-    document.getElementById('nm-gps-text').textContent = '⚠️ GPS unavailable — zone selected manually';
-  }, { timeout: 6000, enableHighAccuracy: true });
-}
-
-function nmCapture() {
-  if(nmPhotoCount >= 3) { fieldToast('Maximum 3 photos allowed', 'error'); return; }
-  // Simulate photo capture
-  nmPhotoCount++;
-  var photos = document.getElementById('nm-photos');
-  var thumb = document.createElement('div');
-  thumb.style.cssText = 'width:60px;height:60px;background:var(--raised);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;position:relative;flex-shrink:0;';
-  thumb.innerHTML = '📸<span style="position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--green);border-radius:50%;font-size:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;">'+nmPhotoCount+'</span>';
-  photos.appendChild(thumb);
-  fieldToast('Photo ' + nmPhotoCount + ' captured', 'success');
-}
-
-function nmSubmit() {
-  var desc = document.getElementById('nm-description').value;
-  if(!desc) { fieldToast('Please describe what happened', 'error'); return; }
-  var severity = document.getElementById('nm-severity').value;
-  var zone = document.getElementById('nm-zone').value;
-  closeNearMiss();
-  nmPhotoCount = 0;
-  document.getElementById('nm-photos').innerHTML = '';
-  document.getElementById('nm-description').value = '';
-  fieldToast('Near Miss reported — NCR raised · Supervisor notified via WhatsApp', 'success');
-}
-
-
-// ── TOOLBOX TALK JS ──────────────────────────────────────────────────────────
-var tbtAttendance = 12;
-
-function openTBT() {
-  var f = document.getElementById('tbt-form');
-  f.style.display = f.style.display === 'none' ? 'block' : 'none';
-}
-
-function tbtCount(delta) {
-  tbtAttendance = Math.max(1, tbtAttendance + delta);
-  document.getElementById('tbt-count').textContent = tbtAttendance;
-}
-
-function saveTBT() {
-  var topic = document.getElementById('tbt-topic').value;
-  var conductor = document.getElementById('tbt-conductor').value || 'HSE Officer';
-  document.getElementById('tbt-form').style.display = 'none';
-  fieldToast('TBT saved — "' + topic.substring(0,30) + '..." · ' + tbtAttendance + ' attended', 'success');
-}
-
-// ── TRAINING ATTENDANCE JS ───────────────────────────────────────────────────
-var trAttendance = 12;
-
-function toggleTrainingForm() {
-  var f = document.getElementById('training-form');
-  f.style.display = f.style.display === 'none' ? 'block' : 'none';
-}
-
-function trCount(delta) {
-  trAttendance = Math.max(1, trAttendance + delta);
-  document.getElementById('tr-count').textContent = trAttendance;
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  var certChk = document.getElementById('tr-cert');
-  if(certChk) {
-    certChk.addEventListener('change', function() {
-      document.getElementById('tr-validity-row').style.display = this.checked ? 'block' : 'none';
-    });
-  }
-});
-
-function saveTraining() {
-  var topic = document.getElementById('tr-topic').value;
-  var trainer = document.getElementById('tr-trainer').value;
-  if(!trainer) { fieldToast('Trainer name required', 'error'); return; }
-  toggleTrainingForm();
-  fieldToast('Training record saved — "' + topic.substring(0,25) + '..." · ' + trAttendance + ' attended', 'success');
-}
-
-function toggleSidebarMore(){var el=document.getElementById("sb-more-items"),ch=document.getElementById("sb-chev");if(!el)return;var o=el.style.maxHeight!=="0px";el.style.maxHeight=o?"0px":"500px";el.style.opacity=o?"0":"1";if(ch)ch.style.transform=o?"rotate(-90deg)":"rotate(0deg)";}
-</script>
-
-  </div>
-</div>
-
-  <!-- NEAR MISS QUICK REPORT — Floating Action Button -->
-  <div id="nm-fab" onclick="openNearMiss()" style="position:fixed;bottom:28px;right:28px;z-index:500;width:56px;height:56px;border-radius:50%;background:var(--amber);box-shadow:0 4px 20px rgba(245,158,11,0.5);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;" title="Report Near Miss">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0B0F14" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-  </div>
-  <div style="position:fixed;bottom:88px;right:18px;z-index:499;background:rgba(245,158,11,0.9);color:#0B0F14;font-size:10px;font-weight:800;font-family:var(--fh);padding:4px 10px;border-radius:20px;white-space:nowrap;pointer-events:none;" id="nm-fab-label">⚡ Near Miss</div>
-
-  <!-- NEAR MISS QUICK REPORT MODAL -->
-  <div id="nm-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:600;align-items:center;justify-content:center;">
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;width:480px;max-width:95vw;max-height:90vh;overflow-y:auto;">
-
-      <!-- Header -->
-      <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:rgba(245,158,11,0.06);border-radius:16px 16px 0 0;">
-        <div>
-          <div style="font-family:var(--fh);font-size:14px;font-weight:800;color:var(--amber);">⚡ Near Miss Quick Report</div>
-          <div style="font-size:10px;color:var(--t3);margin-top:2px;">Report immediately — do not delay</div>
-        </div>
-        <button onclick="closeNearMiss()" style="width:28px;height:28px;border-radius:50%;background:var(--raised);border:1px solid var(--border);color:var(--t2);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;">✕</button>
-      </div>
-
-      <div style="padding:18px 20px;display:flex;flex-direction:column;gap:14px;">
-
-        <!-- Report Type -->
-        <div>
-          <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">Report Type *</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
-            <div onclick="nmSelectType(this,'near-miss')" class="nm-type" style="padding:10px 6px;background:rgba(245,158,11,0.08);border:2px solid var(--amber);border-radius:8px;cursor:pointer;text-align:center;">
-              <div style="font-size:18px;">⚠️</div>
-              <div style="font-size:10px;font-weight:700;font-family:var(--fh);color:var(--amber);margin-top:3px;">Near Miss</div>
-            </div>
-            <div onclick="nmSelectType(this,'unsafe-act')" class="nm-type" style="padding:10px 6px;background:var(--raised);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-align:center;">
-              <div style="font-size:18px;">🚷</div>
-              <div style="font-size:10px;font-weight:700;font-family:var(--fh);color:var(--t3);margin-top:3px;">Unsafe Act</div>
-            </div>
-            <div onclick="nmSelectType(this,'unsafe-condition')" class="nm-type" style="padding:10px 6px;background:var(--raised);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-align:center;">
-              <div style="font-size:18px;">🔴</div>
-              <div style="font-size:10px;font-weight:700;font-family:var(--fh);color:var(--t3);margin-top:3px;">Unsafe Condition</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Quick photo capture -->
-        <div>
-          <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">📸 Photo Evidence (tap to capture)</div>
-          <div id="nm-camera-area" onclick="nmCapture()" style="width:100%;height:120px;background:var(--raised);border:2px dashed var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor='var(--amber)'" onmouseout="this.style.borderColor='var(--border)'">
-            <div style="font-size:32px;">📷</div>
-            <div style="font-size:11px;font-weight:600;font-family:var(--fh);color:var(--t2);">Tap to take photo</div>
-            <div style="font-size:10px;color:var(--t3);">Max 3 photos · Auto GPS tagged</div>
-          </div>
-          <div id="nm-photos" style="display:flex;gap:8px;margin-top:8px;"></div>
-        </div>
-
-        <!-- GPS Auto-capture -->
-        <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--raised);border-radius:8px;border:1px solid var(--border);">
-          <div id="nm-gps-dot" style="width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
-          <div style="flex:1;">
-            <div style="font-size:11px;font-weight:600;color:var(--t1);" id="nm-gps-text">📍 GPS Auto-captured</div>
-            <div style="font-size:10px;color:var(--t3);" id="nm-gps-detail">Zone A · 25.5941°N, 85.1376°E</div>
-          </div>
-          <div style="font-size:10px;color:var(--green);font-weight:700;font-family:var(--fh);">LIVE</div>
-        </div>
-
-        <!-- Description -->
-        <div>
-          <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">What Happened? *</div>
-          <textarea id="nm-description" rows="3" placeholder="Describe briefly what you saw or what almost happened..." style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:12px;font-family:var(--fb);resize:none;line-height:1.6;"></textarea>
-        </div>
-
-        <!-- Severity + Zone -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-          <div>
-            <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Severity *</div>
-            <select id="nm-severity" style="width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fb);">
-              <option value="low">🟢 Low — Minor</option>
-              <option value="medium" selected>🟡 Medium — Moderate</option>
-              <option value="high">🔴 High — Serious</option>
-              <option value="critical">⚫ Critical — Life threatening</option>
-            </select>
-          </div>
-          <div>
-            <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Zone</div>
-            <select id="nm-zone" style="width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fb);">
-              <option>Zone A — Construction</option>
-              <option>Zone B — Electrical</option>
-              <option>Zone C — Materials</option>
-              <option>Zone D — Offshore</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Reported by -->
-        <div>
-          <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Reported By</div>
-          <input id="nm-reporter" type="text" placeholder="Your name..." style="width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fb);" />
-        </div>
-
-        <!-- Submit -->
-        <button onclick="nmSubmit()" style="padding:13px;background:var(--amber);border:none;border-radius:10px;color:#0B0F14;font-size:13px;font-weight:800;font-family:var(--fh);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          Submit Near Miss Report — Notify Supervisor
-        </button>
-
-        <div style="text-align:center;font-size:10px;color:var(--t3);">Report auto-sent to Site HSE Officer + Operations dashboard · NCR raised automatically</div>
-
-      </div>
-    </div>
-  </div>
-
-
-<!-- ══ STANDARD FOOTER ══ -->
-<footer class="sp-footer">
-  <div class="sp-footer-left">
-    <span>&#169; 2026 SafetyPro AI</span>
-    <span class="sp-footer-sep">|</span>
-    <span style="color:var(--t2,#7A9BBF)">Site &amp; Field Tools</span>
-    <span class="sp-footer-sep">|</span>
-    <span id="sp-footer-version">v1.3.2</span>
-    <span class="sp-footer-sep">|</span>
-    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
-  </div>
-  <div class="sp-footer-center">
-    <a href="/cdn-cgi/l/email-protection#2c5f595c5c435e586c5f4d4a4958555c5e435b435e4048024f4341">Field Guide</a>
-    <a href="/cdn-cgi/l/email-protection#b5c6c0c5c5dac7c1f5c6d4d3d0c1ccc5c7dac2dac7d9d19bd6dad8">PTW Help</a>
-    <a href="/cdn-cgi/l/email-protection#d3a0a6a3a3bca1a793a0b2b5b6a7aaa3a1bca4bca1bfb7fdb0bcbe">Report Issue</a>
-  </div>
-  <div class="sp-footer-right">
-    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
-    <span id="sp-status-text" style="color:#22C55E">Operational</span>
-  </div>
-</footer>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-(function spFooterInit(){
-  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
-  function updateFooter(d){
-    var v=document.getElementById('sp-footer-version');
-    var s=document.getElementById('sp-footer-sync');
-    var dot=document.getElementById('sp-status-dot');
-    var txt=document.getElementById('sp-status-text');
-    if(!v)return;
-    if(d.version)v.textContent=d.version;
-    if(d.lastSync){try{s.textContent=new Date(d.lastSync).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}}
-    var status=d.status||'operational';
-    var colors={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'};
-    if(dot)dot.style.background=colors[status]||'#22C55E';
-    if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#22C55E';}
-  }
-  function fetchStatus(){
-    fetch(API+'/api/system/status')
-      .then(function(r){return r.json();})
-      .then(updateFooter)
-      .catch(function(){updateFooter({status:'operational',version:'v1.3.2',lastSync:new Date().toISOString()});});
-  }
-  fetchStatus();
-  setInterval(fetchStatus,30000);
-})();
-
-var saAutoLoop=null,saCountdownTimer=null,saCountingDown=false,saFaceDetector=null,saDetectionReady=false;
-function saInitDetector(){if("FaceDetector"in window){try{saFaceDetector=new FaceDetector({fastMode:true,maxDetectedFaces:1});saDetectionReady=true;return;}catch(e){}}
-console.log("[PhaseA] Using brightness simulation. PhaseB: replace with face-api.js matching");
-saDetectionReady=false;}
-function saStartAutoCapture(){saInitDetector();saAutoLoop=setInterval(saDetectFace,400);}
-function saStopAutoCapture(){if(saAutoLoop){clearInterval(saAutoLoop);saAutoLoop=null;}saResetCountdown();}
-async function saDetectFace(){var video=document.getElementById("sa-video");if(!video||video.readyState<2||!saStream)return;var faceFound=false;if(saDetectionReady&&saFaceDetector){try{var faces=await saFaceDetector.detect(video);if(faces.length>0){var b=faces[0].boundingBox,vw=video.videoWidth||320,vh=video.videoHeight||240;var inC=Math.abs((b.x+b.width/2)/vw-0.5)<0.28&&Math.abs((b.y+b.height/2)/vh-0.5)<0.28;faceFound=inC&&b.width>vw*0.18;}}catch(e){}}else{var c=document.createElement("canvas");c.width=64;c.height=64;var ctx=c.getContext("2d");ctx.drawImage(video,0,0,64,64);var d=ctx.getImageData(0,0,64,64).data,sum=0;for(var i=0;i<d.length;i+=4)sum+=(d[i]+d[i+1]+d[i+2])/3;var avg=sum/(d.length/4);faceFound=avg>20&&avg<240;}saUpdateOvalState(faceFound);if(faceFound&&!saCountingDown)saStartCountdownAuto();else if(!faceFound&&saCountingDown)saResetCountdown();}
-function saUpdateOvalState(f){var o=document.getElementById("sa-oval"),s=document.getElementById("sa-auto-status");if(!o)return;o.className="sa-oval"+(f?(saCountingDown?" countdown":" detecting"):"");if(s){if(f&&saCountingDown){s.style.color="#22C55E";}else if(f){s.textContent="Face detected — hold still";s.style.color="#F59E0B";}else{s.textContent="ALIGN FACE";s.style.color="rgba(34,197,94,0.8)";}}}
-function saStartCountdownAuto(){if(saCountingDown)return;saCountingDown=true;var ring=document.getElementById("sa-countdown-ring"),num=document.getElementById("sa-countdown-num"),circle=document.getElementById("sa-cd-circle"),s=document.getElementById("sa-auto-status");if(ring)ring.classList.add("active");if(num)num.textContent="3";if(s){s.textContent="Hold still... 3";s.style.color="#22C55E";}if(circle){circle.style.transition="stroke-dashoffset 3s linear";circle.style.strokeDashoffset="0";}saCountdownTimer=setTimeout(function(){if(saCountingDown){if(num)num.textContent="2";if(s)s.textContent="Hold still... 2";setTimeout(function(){if(saCountingDown){if(num)num.textContent="1";if(s)s.textContent="Hold still... 1";setTimeout(function(){if(saCountingDown)saAutoFire();},1000);}},1000);}},1000);}
-function saResetCountdown(){if(!saCountingDown)return;saCountingDown=false;clearTimeout(saCountdownTimer);var ring=document.getElementById("sa-countdown-ring"),circle=document.getElementById("sa-cd-circle"),s=document.getElementById("sa-auto-status");if(ring)ring.classList.remove("active");if(circle){circle.style.transition="none";circle.style.strokeDashoffset="220";}if(s){s.textContent="ALIGN FACE";s.style.color="rgba(34,197,94,0.8)";}var o=document.getElementById("sa-oval");if(o)o.className="sa-oval";}
-function saAutoFire(){if(window.saHasCaptured)return;window.saHasCaptured=true;if(typeof saStopAutoCapture==="function")saStopAutoCapture();if(saStream){saStream.getTracks().forEach(function(t){t.stop();});saStream=null;}var _v=document.getElementById("sa-video");if(_v)_v.style.display="none";var o=document.getElementById("sa-oval"),s=document.getElementById("sa-auto-status");if(o)o.classList.add("captured");if(s){s.textContent="Face captured!";s.style.color="#22C55E";}var con=document.getElementById("sa-camera-container");if(!con)return;var old=document.getElementById("sa-choice-overlay");if(old)old.remove();var d=document.createElement("div");d.id="sa-choice-overlay";d.style.cssText="position:absolute;inset:0;background:rgba(11,15,20,0.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:12px;z-index:20;padding:20px;";var ic=document.createElement("div");ic.style.cssText="width:44px;height:44px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:22px;color:#0B0F14;";ic.textContent="✓";var ti=document.createElement("div");ti.style.cssText="font-size:12px;font-weight:700;color:var(--t1);font-family:var(--fh);text-align:center;";ti.textContent="Face Verified — Mark Attendance";var gr=document.createElement("div");gr.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;";var bI=document.createElement("button");bI.style.cssText="padding:12px 8px;background:var(--green);border:none;border-radius:10px;color:#0B0F14;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;";var s1=document.createElement("span");s1.style.fontSize="18px";s1.textContent="→";var s2=document.createElement("span");s2.style.cssText="font-family:var(--fh);font-size:13px;font-weight:800;";s2.textContent="Check IN";var s3=document.createElement("span");s3.style.cssText="font-size:9px;opacity:0.7;";s3.textContent="Arriving";bI.appendChild(s1);bI.appendChild(s2);bI.appendChild(s3);bI.onclick=function(){saMarkAttendance("in");};var bO=document.createElement("button");bO.style.cssText="padding:12px 8px;background:rgba(239,68,68,0.1);border:2px solid rgba(239,68,68,0.4);border-radius:10px;color:var(--red);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;";var s4=document.createElement("span");s4.style.fontSize="18px";s4.textContent="←";var s5=document.createElement("span");s5.style.cssText="font-family:var(--fh);font-size:13px;font-weight:800;";s5.textContent="Check OUT";var s6=document.createElement("span");s6.style.cssText="font-size:9px;";s6.style.color="var(--t3)";s6.textContent="Leaving";bO.appendChild(s4);bO.appendChild(s5);bO.appendChild(s6);bO.onclick=function(){saMarkAttendance("out");};gr.appendChild(bI);gr.appendChild(bO);var bk=document.createElement("button");bk.style.cssText="padding:5px 16px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--t3);font-size:10px;font-weight:600;font-family:var(--fh);cursor:pointer;";bk.textContent="↩ Back";bk.onclick=function(){saStartCamera();};d.appendChild(ic);d.appendChild(ti);d.appendChild(gr);d.appendChild(bk);con.appendChild(d);}
-function saMarkAttendance(t){
-  window.saHasCaptured=false;
-  // Remove choice overlay
-  var c=document.getElementById("sa-choice-overlay");if(c)c.remove();
-  saActionType=t;
-
-  // Hide face guide + status overlay so they don't show over success overlay
-  var guide=document.getElementById('sa-face-guide');if(guide)guide.style.display='none';
-  var statusOv0=document.getElementById('sa-status-overlay');if(statusOv0)statusOv0.style.display='none';
-
-  // Build instant success overlay inside camera container
-  var con=document.getElementById("sa-camera-container");if(!con)return;
-  var old=document.getElementById("sa-success-overlay");if(old)old.remove();
-
-  // Get time + GPS
-  var now=new Date();
-  var timeStr=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
-  var gpsLine=saGPS?(saGPS.lat.toFixed(4)+'°N, '+saGPS.lng.toFixed(4)+'°E'):'GPS pending...';
-  var zone=(document.getElementById('sa-gps-zone')||{}).textContent||'Zone A';
-  var isIn=(t==='in');
-  var label=isIn?'Checked IN ✓':'Checked OUT ✓';
-  var bgColor=isIn?'rgba(11,15,20,0.95)':'rgba(11,15,20,0.95)';
-  var accentColor=isIn?'#22C55E':'#EF4444';
-
-  var d=document.createElement('div');
-  d.id='sa-success-overlay';
-  d.style.cssText='position:absolute;inset:0;background:'+bgColor+';display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:12px;z-index:30;padding:20px;text-align:center;';
-
-  // Icon
-  var ic=document.createElement('div');
-  ic.style.cssText='width:52px;height:52px;border-radius:50%;background:'+accentColor+';display:flex;align-items:center;justify-content:center;font-size:26px;';
-  ic.textContent=isIn?'✓':'✗';
-
-  // Status label
-  var lb=document.createElement('div');
-  lb.style.cssText='font-family:var(--fh);font-size:16px;font-weight:800;color:'+accentColor+';';
-  lb.textContent=label;
-
-  // Time + GPS details
-  var info=document.createElement('div');
-  info.style.cssText='font-size:11px;color:var(--t2);line-height:1.7;';
-  info.innerHTML='🕐 '+timeStr+'<br>📍 '+zone+'<br><span style="font-size:10px;color:var(--t3)">'+gpsLine+'</span>';
-
-  // Countdown bar
-  var bar=document.createElement('div');
-  bar.style.cssText='width:80%;height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:4px;';
-  var fill=document.createElement('div');
-  fill.style.cssText='height:100%;width:100%;background:'+accentColor+';border-radius:2px;transition:width 2.5s linear;';
-  bar.appendChild(fill);
-
-  // Scan Next button
-  var btn=document.createElement('button');
-  btn.style.cssText='margin-top:4px;padding:8px 20px;background:'+accentColor+';border:none;border-radius:8px;color:#0B0F14;font-size:12px;font-weight:800;font-family:var(--fh);cursor:pointer;';
-  btn.textContent='📷 Scan Next';
-  btn.onclick=function(){saRestartCamera();};
-
-  d.appendChild(ic);d.appendChild(lb);d.appendChild(info);d.appendChild(bar);d.appendChild(btn);
-  con.appendChild(d);
-
-  // Start countdown bar animation
-  requestAnimationFrame(function(){fill.style.width='0%';});
-
-  // Add to feed
-  var workerName='Site Worker';
-  var gpsStr=gpsLine;
-  var confidence=Math.floor(85+Math.random()*14)+0.1;
-  saAddToFeed(workerName,t,timeStr,zone,confidence,gpsStr,'selfie');
-
-  // Auto-restart after 2.5s
-  setTimeout(function(){saRestartCamera();}, 2500);
-}
-
-function saRestartCamera(){
-  var ov=document.getElementById('sa-success-overlay');if(ov)ov.remove();
-  window.saHasCaptured=false;window.saCountingDown=false;
-  if(window.saCountdownTimer)clearTimeout(window.saCountdownTimer);
-  if(typeof saStopAutoCapture==='function')saStopAutoCapture();
-  var oval=document.getElementById('sa-oval');if(oval)oval.className='sa-oval';
-  var st=document.getElementById('sa-auto-status');if(st){st.textContent='ALIGN FACE';st.style.color='rgba(34,197,94,0.8)';}
-  var rng=document.getElementById('sa-countdown-ring');if(rng)rng.classList.remove('active');
-  var num=document.getElementById('sa-countdown-num');if(num)num.textContent='';
-  var cir=document.getElementById('sa-cd-circle');if(cir){cir.style.transition='none';cir.style.strokeDashoffset='220';}
-
-  if(window.saStream && window.saStream.active){
-    // Stream still running — show video + oval + restart capture
-    var vid=document.getElementById('sa-video');if(vid)vid.style.display='block';
-    var guide=document.getElementById('sa-face-guide');if(guide)guide.style.display='flex';
-    var statusOv=document.getElementById('sa-status-overlay');if(statusOv)statusOv.style.display='block';
-    setTimeout(saStartAutoCapture, 500);
+function bamDrawQR() {
+  var url = bamGetQRUrl();
+  var proj = (document.getElementById('bam-qr-project') || {}).value || 'BBRP-2026';
+  var zone = (document.getElementById('bam-qr-zone') || {}).value || '';
+  var lbl = document.getElementById('bam-qr-label');
+  var urlEl = document.getElementById('bam-qr-url');
+  var container = document.getElementById('bam-qr-canvas');
+  if(!container) return;
+  if(lbl) lbl.textContent = proj + (zone ? ' \u00b7 ' + zone : ' \u00b7 All Zones');
+  if(urlEl) urlEl.textContent = url.replace('https://www.','').replace('https://','');
+  container.innerHTML = '';
+  if(typeof QRCode !== 'undefined') {
+    try {
+      new QRCode(container, {
+        text: url, width: 160, height: 160,
+        colorDark: '#0B1420', colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    } catch(e) { container.innerHTML = bamQRFallback(url); }
   } else {
-    // Stream gone — stop cleanly and show start prompt
-    if(window.saStream){window.saStream.getTracks().forEach(function(t){t.stop();});window.saStream=null;}
-    var vid2=document.getElementById('sa-video');if(vid2){vid2.style.display='none';vid2.srcObject=null;}
-    var guide2=document.getElementById('sa-face-guide');if(guide2)guide2.style.display='flex';
-    var statusOv2=document.getElementById('sa-status-overlay');if(statusOv2)statusOv2.style.display='none';
-    var prompt=document.getElementById('sa-start-prompt');
-    if(prompt){
-      prompt.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--raised);z-index:10;';
-      prompt.innerHTML='<div style="font-size:28px;margin-bottom:5px;">📸</div><div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);margin-bottom:3px;">Tap to Start Camera</div><div style="font-size:9px;color:var(--t3);">Camera permission required</div><div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);padding:7px 22px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:11px;font-weight:800;font-family:var(--fh);white-space:nowrap;" onclick="event.stopPropagation();saStartCamera();">Enable Camera</div>';
-    }
+    container.innerHTML = bamQRFallback(url);
+    // Retry after QRCode loads
+    setTimeout(bamDrawQR, 1200);
   }
 }
-// SA PROJECT NAME PILL SYNC — surgical add
-(function(){
-  var sel=document.getElementById("field-project");
-  var pill=document.getElementById("sa-project-name");
-  if(sel&&pill){
-    function _syncPill(){pill.textContent=sel.options[sel.selectedIndex]?sel.options[sel.selectedIndex].text:"All Projects";}
-    sel.addEventListener("change",_syncPill);
-    _syncPill();
+
+function bamQRFallback(url) {
+  return '<div style="width:160px;height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f5f5f5;border-radius:4px;">' +
+    '<div style="font-size:28px;">&#128242;</div>' +
+    '<div style="font-size:9px;color:#666;margin-top:6px;text-align:center;padding:4px;">QR loading...<br>Check CDN</div></div>';
+}
+
+function bamDownloadQR() {
+  var canvas = document.querySelector('#bam-qr-canvas canvas');
+  if(!canvas) { fieldToast('QR not ready yet', 'amber'); return; }
+  var link = document.createElement('a');
+  var proj = (document.getElementById('bam-qr-project') || {}).value || 'BBRP';
+  link.download = proj + '-Gate-QR.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+  fieldToast('QR downloaded \u2713', 'success');
+}
+
+function bamShareQR() {
+  var url = bamGetQRUrl();
+  if(navigator.share) {
+    navigator.share({ title: 'SafetyPro Gate QR', text: 'Scan to mark BAM attendance', url: url })
+      .catch(function(){});
+  } else {
+    try { navigator.clipboard.writeText(url); fieldToast('QR URL copied to clipboard', 'success'); }
+    catch(e) { fieldToast('URL: ' + url.substring(0,50) + '...', 'blue'); }
   }
-})();
+}
+
+function bamRegenerateQR() {
+  bamDrawQR();
+  fieldToast('QR regenerated \u2713', 'success');
+}
+
+// ── Pending Approvals ──────────────────────────────────────────────────────
+function bamLoadPending() {
+  var list = document.getElementById('bam-pending-list');
+  if(!list) return;
+  list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3);font-size:11px;">Loading...</div>';
+  var token = localStorage.getItem('sp_token') || '';
+  fetch(BAM_API + '/employees/pending', { headers: { 'Authorization': 'Bearer ' + token } })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var workers = Array.isArray(data) ? data : (data.data || []);
+      var badge = document.getElementById('bam-pending-badge');
+      if(badge) { badge.style.display = workers.length > 0 ? 'inline' : 'none'; badge.textContent = workers.length; }
+      if(workers.length === 0) {
+        list.innerHTML = '<div style="padding:30px;text-align:center;"><div style="font-size:28px;">&#10003;</div><div style="font-size:11px;color:var(--t3);margin-top:8px;">No pending approvals</div></div>';
+        return;
+      }
+      list.innerHTML = workers.map(function(w) {
+        var ini = (w.name||'WK').split(' ').map(function(n){return n[0]||'';}).join('').substring(0,2).toUpperCase();
+        return '<div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">' +
+          '<div style="width:38px;height:38px;border-radius:50%;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--t2);flex-shrink:0;">' + ini + '</div>' +
+          '<div style="flex:1;min-width:0;">' +
+            '<div style="font-size:11px;font-weight:700;color:var(--t1);font-family:var(--fh);">' + (w.name||'Unknown') + '</div>' +
+            '<div style="font-size:9px;color:var(--t3);">' + w.employeeId + ' \u00b7 ' + w.projectCode + '</div>' +
+          '</div>' +
+          '<div style="display:flex;gap:5px;flex-shrink:0;">' +
+            '<button onclick="bamApprove(\'' + w.id + '\',this)" style="padding:5px 10px;background:var(--green);border:none;border-radius:6px;color:#070D12;font-size:10px;font-weight:800;font-family:var(--fh);cursor:pointer;">\u2713 OK</button>' +
+            '<button onclick="bamReject(\'' + w.id + '\',this)" style="padding:5px 8px;background:var(--raised);border:1px solid rgba(239,68,68,.4);border-radius:6px;color:var(--red);font-size:10px;cursor:pointer;">\u2715</button>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    })
+    .catch(function(e) {
+      list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3);font-size:10px;">Could not load \u00b7 ' + (e.message||'network error') + '</div>';
+    });
+}
+
+function bamApprove(id, btn) {
+  var token = localStorage.getItem('sp_token') || '';
+  btn.disabled = true; btn.textContent = '...';
+  fetch(BAM_API + '/employees/' + id + '/approve', { method:'POST', headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'} })
+    .then(function(r) { return r.json(); })
+    .then(function() {
+      var row = btn.closest('[style*="border-bottom"]');
+      if(row) { row.style.opacity = '0.35'; row.style.pointerEvents = 'none'; }
+      fieldToast('Worker approved \u2713 BAM access enabled', 'success');
+      setTimeout(bamLoadPending, 900);
+    })
+    .catch(function() { btn.disabled=false; btn.textContent='\u2713 OK'; fieldToast('Approval failed', 'amber'); });
+}
+
+function bamReject(id, btn) {
+  var token = localStorage.getItem('sp_token') || '';
+  btn.disabled = true;
+  fetch(BAM_API + '/employees/' + id + '/reject', { method:'POST', headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'} })
+    .then(function() {
+      var row = btn.closest('[style*="border-bottom"]');
+      if(row) { row.style.opacity = '0.35'; row.style.pointerEvents = 'none'; }
+      fieldToast('Registration rejected', 'amber');
+      setTimeout(bamLoadPending, 900);
+    })
+    .catch(function() { btn.disabled=false; fieldToast('Rejection failed', 'amber'); });
+}
+
+// ── Employee Directory ─────────────────────────────────────────────────────
+function bamLoadDirectory() {
+  var list = document.getElementById('bam-dir-list');
+  var countEl = document.getElementById('bam-dir-count');
+  if(!list) return;
+  list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3);font-size:11px;">Loading...</div>';
+  var token = localStorage.getItem('sp_token') || '';
+  fetch(BAM_API + '/employees/all', { headers:{'Authorization':'Bearer '+token} })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var workers = Array.isArray(data) ? data : (data.data||[]);
+      if(countEl) countEl.textContent = workers.length + ' worker' + (workers.length!==1?'s':'');
+      if(workers.length === 0) {
+        list.innerHTML = '<div style="padding:30px;text-align:center;color:var(--t3);font-size:11px;">No employees registered yet</div>';
+        return;
+      }
+      var statusColors = { ACTIVE:'var(--green)', PENDING:'var(--amber)', REJECTED:'var(--red)', INACTIVE:'var(--t3)' };
+      list.innerHTML = workers.map(function(w) {
+        var ini = (w.name||'WK').split(' ').map(function(n){return n[0]||'';}).join('').substring(0,2).toUpperCase();
+        var sc = statusColors[w.status] || 'var(--t3)';
+        return '<div style="padding:8px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">' +
+          '<div style="width:30px;height:30px;border-radius:50%;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--t2);flex-shrink:0;">' + ini + '</div>' +
+          '<div style="flex:1;min-width:0;">' +
+            '<div style="font-size:11px;font-weight:700;color:var(--t1);font-family:var(--fh);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (w.name||'Unknown') + '</div>' +
+            '<div style="font-size:9px;color:var(--t3);">' + w.employeeId + ' \u00b7 ' + w.projectCode + '</div>' +
+          '</div>' +
+          '<div style="font-size:9px;font-weight:700;color:' + sc + ';flex-shrink:0;">' + (w.status||'?') + '</div>' +
+        '</div>';
+      }).join('');
+    })
+    .catch(function() {
+      list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3);font-size:10px;">Could not load</div>';
+    });
+}
+
+// ── Live Attendance from BAM ───────────────────────────────────────────────
+function bamLoadAttendance() {
+  var token = localStorage.getItem('sp_token') || '';
+  fetch(BAM_API + '/attendance/today', { headers:{'Authorization':'Bearer '+token} })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var summary = data.summary || {};
+      var el = function(id){ return document.getElementById(id); };
+      if(el('sa-count-onsite')) el('sa-count-onsite').textContent = summary.currentlyIn != null ? summary.currentlyIn : el('sa-count-onsite').textContent;
+      if(el('sa-count-today')) el('sa-count-today').textContent = summary.totalCheckedIn != null ? summary.totalCheckedIn : el('sa-count-today').textContent;
+      if(el('sa-count-out'))   el('sa-count-out').textContent   = summary.totalCheckedOut != null ? summary.totalCheckedOut : el('sa-count-out').textContent;
+      var records = data.records || [];
+      if(records.length > 0) bamRenderFeed(records);
+      var fc = el('sa-feed-count');
+      if(fc) fc.textContent = 'Live from BAM \u00b7 ' + records.length + ' records today';
+    })
+    .catch(function() { /* keep existing UI on error */ });
+}
+
+function bamRenderFeed(records) {
+  var list = document.getElementById('sa-feed-list');
+  if(!list || !records.length) return;
+  list.innerHTML = records.slice(0,25).map(function(r) {
+    var t = r.timestamp ? new Date(r.timestamp) : null;
+    var timeStr = t ? t.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) : '--:--';
+    var isIn = (r.type||'IN').toUpperCase() === 'IN';
+    var typeColor = isIn ? 'var(--green)' : 'var(--red)';
+    var ini = (r.empName||'WK').split(' ').map(function(n){return n[0]||'';}).join('').substring(0,2).toUpperCase();
+    return '<div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;" onmouseover="this.style.background=\'var(--raised)\'" onmouseout="this.style.background=\'transparent\'">' +
+      '<div style="width:32px;height:32px;border-radius:50%;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--t2);flex-shrink:0;">' + ini + '</div>' +
+      '<div style="flex:1;min-width:0;">' +
+        '<div style="font-size:11px;font-weight:700;color:var(--t1);font-family:var(--fh);">' + (r.empName || r.employeeId || 'Worker') + '</div>' +
+        '<div style="font-size:9px;color:var(--t3);">' + (r.employeeId||'') + ' \u00b7 ' + (r.zone||r.projectCode||'') + ' \u00b7 ' + timeStr + (r.method ? ' \u00b7 \ud83d\udcf8 biometric' : '') + '</div>' +
+      '</div>' +
+      '<div style="font-size:10px;font-weight:800;color:' + typeColor + ';font-family:var(--fh);flex-shrink:0;">' + (r.type||'IN') + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ── BAM Init ──────────────────────────────────────────────────────────────
+function bamInit() {
+  bamDrawQR();
+  bamLoadAttendance();
+  bamLoadPending();
+  // Poll every 60 seconds
+  if(bamPollTimer) clearInterval(bamPollTimer);
+  bamPollTimer = setInterval(function() {
+    bamLoadAttendance();
+    if(bamCurrentTab === 'pending') bamLoadPending();
+  }, 60000);
+}
+
+
 </script>
 </body>
 </html>
