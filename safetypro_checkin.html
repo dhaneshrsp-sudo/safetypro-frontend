@@ -106,11 +106,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .cc.br{bottom:-1px;right:-1px;border-width:0 3px 3px 0;}
 .cxh{position:absolute;width:100%;height:1px;background:rgba(34,197,94,.12);top:50%;}
 .cxv{position:absolute;height:100%;width:1px;background:rgba(34,197,94,.12);left:50%;}
-.co{position:absolute;inset:12px;border-radius:50%;border:2px dashed rgba(34,197,94,.5);transition:border .4s,box-shadow .4s;}
+.co{position:absolute;inset:12px;border-radius:50%;border:2px dashed rgba(239,68,68,.6);transition:border .35s,box-shadow .35s;}
 .co.on{border:2.5px solid var(--green);box-shadow:0 0 0 5px rgba(34,197,94,.1),0 0 28px rgba(34,197,94,.22);}
+.co.counting{border:2.5px solid var(--amber);box-shadow:0 0 0 5px rgba(245,158,11,.1),0 0 22px rgba(245,158,11,.2);}
+.co.red{border:2px solid rgba(239,68,68,.7);box-shadow:0 0 0 4px rgba(239,68,68,.08),0 0 18px rgba(239,68,68,.15);}
 .csl{position:absolute;left:8%;right:8%;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent);border-radius:1px;animation:csla 1.8s ease-in-out infinite;}
 @keyframes csla{0%{top:5%;opacity:0;}8%{opacity:1;}92%{opacity:1;}100%{top:95%;opacity:0;}}
-.csp{position:absolute;left:50%;transform:translateX(-50%);top:calc(-50% - 26px);white-space:nowrap;font-family:var(--fh);font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--green);background:rgba(7,13,18,.82);border:1px solid var(--glow);padding:4px 14px;border-radius:20px;}
+.csp{position:absolute;left:50%;transform:translateX(-50%);top:calc(-50% - 26px);white-space:nowrap;font-family:var(--fh);font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--green);background:rgba(7,13,18,.82);border:1px solid var(--glow);padding:4px 14px;border-radius:20px;transition:color .3s,border-color .3s;}
 .cam-cd{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:15;pointer-events:none;}
 .cam-cd.show{display:flex;}
 .cdrs{width:min(66vw,255px);aspect-ratio:1;position:relative;}
@@ -362,7 +364,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   <div class="ok-bar-w"><div class="ok-bar" id="ok-bar"></div></div>
   <button class="btn-next" onclick="scanNext()">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg>
-    Next Person
+    Next Scan
   </button>
   <div class="ok-note">Auto-resets in <span id="ok-cd">3</span>s · Live sync to HSE Dashboard</div>
 </div>
@@ -487,7 +489,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 
 <script>
 var API='https://safetypro-backend-production.up.railway.app/api/v1';
-var S={code:'',empId:'',empName:'',gps:null,stream:null,regStream:null,captured:false,counting:false,cTimer:null,aLoop:null,regCaptured:false};
+var S={code:'',empId:'',empName:'',gps:null,stream:null,regStream:null,captured:false,counting:false,cTimer:null,aLoop:null,regCaptured:false,facePhoto:null};
 
 // ── CLOCK ──
 function tick(){
@@ -564,7 +566,12 @@ function goToCamera(){
   toast('Verifying Employee ID...');
   validateEmpId(S.code, S.empId, function(valid, name){
     if(!valid){
-      toast('Employee ID not found in '+S.code+' roster');
+      if(name){
+        // Has a name but not valid — PENDING or REJECTED
+        toast('Registration pending HR approval. Contact your HR officer.');
+      } else {
+        toast('Employee ID '+S.empId+' not found in '+S.code);
+      }
       return;
     }
     S.empName=name;
@@ -579,7 +586,7 @@ function goBack(){stopCam();show('scr-entry');document.getElementById('choice-ov
 function startCamera(){
   S.captured=false;S.counting=false;resetCD();
   document.getElementById('choice-ov').style.display='none';
-  var o=document.getElementById('cam-oval');if(o)o.classList.remove('on');
+  var o=document.getElementById('cam-oval');if(o){o.classList.remove('on');o.classList.remove('counting');o.classList.remove('red');}
   var s=document.getElementById('cam-status');if(s){s.textContent='ALIGN FACE';s.style.color='var(--green)';}
   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast('Camera not supported');return;}
   navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'user'},width:{ideal:640},height:{ideal:480}},audio:false})
@@ -606,8 +613,18 @@ function detect(){
   var ff=false;
   try{var c=document.getElementById('bam-canvas');c.width=64;c.height=64;var ctx=c.getContext('2d');ctx.drawImage(vid,0,0,64,64);var px=ctx.getImageData(0,0,64,64).data,sum=0;for(var i=0;i<px.length;i+=4)sum+=(px[i]+px[i+1]+px[i+2]);ff=(sum/(px.length/4*3))>20&&(sum/(px.length/4*3))<240;}catch(e){}
   var o=document.getElementById('cam-oval');var s=document.getElementById('cam-status');var ins=document.getElementById('cam-instr');
-  if(ff){if(o)o.classList.add('on');if(s){s.textContent='FACE DETECTED';s.style.color='var(--green)';}if(ins)ins.textContent='Hold still — capturing...';startCD();}
-  else{if(o)o.classList.remove('on');if(s){s.textContent='ALIGN FACE';s.style.color='var(--green)';}if(ins)ins.textContent='Centre your face in the bracket';if(S.counting)resetCD();}
+  if(ff){
+    if(o){o.classList.remove('red');o.classList.remove('counting');o.classList.add('on');}
+    if(s){s.textContent='FACE DETECTED';s.style.color='var(--green)';}
+    if(ins)ins.textContent='Hold still — capturing...';
+    startCD();
+  }
+  else{
+    if(o){o.classList.remove('on');o.classList.remove('counting');o.classList.add('red');}
+    if(s){s.textContent='ALIGN FACE';s.style.color='var(--red)';}
+    if(ins)ins.textContent='Move your face inside the oval';
+    if(S.counting)resetCD();
+  }
 }
 function startCD(){
   if(S.counting)return;S.counting=true;
@@ -615,6 +632,7 @@ function startCD(){
   var num=document.getElementById('cam-cdn');if(num)num.textContent='3';
   var circle=document.getElementById('cam-cdc');if(circle){circle.style.transition='stroke-dashoffset 3s linear';circle.style.strokeDashoffset='0';}
   var s=document.getElementById('cam-status');if(s){s.textContent='HOLD STILL...';s.style.color='var(--amber)';}
+  var o=document.getElementById('cam-oval');if(o){o.classList.remove('red');o.classList.remove('on');o.classList.add('counting');}
   setTimeout(function(){if(num&&S.counting)num.textContent='2';},1000);
   setTimeout(function(){if(num&&S.counting)num.textContent='1';},2000);
   S.cTimer=setTimeout(function(){if(S.counting)capture();},3000);
@@ -624,15 +642,53 @@ function resetCD(){
   var cd=document.getElementById('cam-cd');if(cd)cd.classList.remove('show');
   var num=document.getElementById('cam-cdn');if(num)num.textContent='3';
   var circle=document.getElementById('cam-cdc');if(circle){circle.style.transition='none';circle.style.strokeDashoffset='720';}
+  var o=document.getElementById('cam-oval');if(o)o.classList.remove('counting');
 }
+function playShutterSound(){
+  try{
+    var ctx=new(window.AudioContext||window.webkitAudioContext)();
+    // Click 1: mechanical shutter thud
+    var buf1=ctx.createBuffer(1,ctx.sampleRate*0.04,ctx.sampleRate);
+    var d1=buf1.getChannelData(0);
+    for(var i=0;i<d1.length;i++){d1[i]=(Math.random()*2-1)*Math.exp(-i/(d1.length*0.18));}
+    var s1=ctx.createBufferSource();s1.buffer=buf1;
+    var g1=ctx.createGain();g1.gain.setValueAtTime(0.55,ctx.currentTime);
+    s1.connect(g1);g1.connect(ctx.destination);s1.start();
+    // Click 2: echo snap (20ms later)
+    setTimeout(function(){
+      try{
+        var buf2=ctx.createBuffer(1,ctx.sampleRate*0.025,ctx.sampleRate);
+        var d2=buf2.getChannelData(0);
+        for(var j=0;j<d2.length;j++){d2[j]=(Math.random()*2-1)*Math.exp(-j/(d2.length*0.12));}
+        var s2=ctx.createBufferSource();s2.buffer=buf2;
+        var g2=ctx.createGain();g2.gain.setValueAtTime(0.3,ctx.currentTime);
+        s2.connect(g2);g2.connect(ctx.destination);s2.start();
+      }catch(e){}
+    },40);
+  }catch(e){}
+}
+
 function capture(){
   S.captured=true;if(S.aLoop){clearInterval(S.aLoop);S.aLoop=null;}resetCD();
+  playShutterSound();
+  // Capture face photo from video frame
+  try{
+    var vid=document.getElementById('bam-vid');
+    var c=document.getElementById('bam-canvas');
+    if(vid&&c&&vid.readyState>=2){
+      // Compress to 160x120 JPEG for minimal payload
+      c.width=160;c.height=120;
+      var ctx=c.getContext('2d');
+      ctx.drawImage(vid,0,0,160,120);
+      S.facePhoto=c.toDataURL('image/jpeg',.65);
+    }
+  }catch(e){S.facePhoto=null;}
   var s=document.getElementById('cam-status');if(s){s.textContent='CAPTURED';s.style.color='var(--green)';}
   document.getElementById('choice-ov').style.display='flex';
 }
 function retryCapture(){
   document.getElementById('choice-ov').style.display='none';S.captured=false;resetCD();
-  var o=document.getElementById('cam-oval');if(o)o.classList.remove('on');
+  var o=document.getElementById('cam-oval');if(o){o.classList.remove('on');o.classList.remove('counting');o.classList.remove('red');}
   var s=document.getElementById('cam-status');if(s){s.textContent='ALIGN FACE';s.style.color='var(--green)';}
   var ins=document.getElementById('cam-instr');if(ins)ins.textContent='Centre your face in the bracket';
   startLoop();
@@ -645,13 +701,13 @@ function markAtt(type){
   var dateStr=now.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric',weekday:'short'});
   var gpsStr=S.gps?(S.gps.lat+'N, '+S.gps.lng+'E'):'GPS unavailable';
   var zone=S.gps?'Zone '+az(S.gps.lat,S.gps.lng):'Zone A';
-  fetch(API+'/attendance',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({projectCode:S.code,employeeId:S.empId,employeeName:S.empName,type:type,gps:S.gps,zone:zone,timestamp:now.toISOString(),method:'biometric'})
-  }).catch(function(){});
+
+  // Show success screen immediately — don't wait for backend
   stopCam();
   var badge=document.getElementById('ok-badge');
   if(badge){badge.textContent=type==='in'?'CHECKED IN':'CHECKED OUT';badge.className='ok-badge '+(type==='in'?'in':'out');}
   document.getElementById('ok-title').textContent=type==='in'?'Checked In Successfully':'Checked Out Successfully';
+  document.getElementById('ok-sub').textContent='Attendance recorded · Syncing to dashboard...';
   document.getElementById('s-emp').textContent=S.empName||S.empId;
   document.getElementById('s-time').textContent=timeStr;
   document.getElementById('s-date').textContent=dateStr;
@@ -663,8 +719,71 @@ function markAtt(type){
   if(bar){bar.style.animation='none';void bar.offsetWidth;bar.style.animation='bd 3s linear forwards';}
   var cdEl=document.getElementById('ok-cd');var n=3;if(cdEl)cdEl.textContent=n;
   var t=setInterval(function(){n--;if(cdEl)cdEl.textContent=n;if(n<=0){clearInterval(t);scanNext();}},1000);
+
+  // Background sync to backend
+  fetch(API+'/attendance',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      projectCode:S.code,
+      employeeId:S.empId,
+      employeeName:S.empName,
+      empName:S.empName,
+      type:type,
+      gps:S.gps,
+      latitude:S.gps?S.gps.lat:null,
+      longitude:S.gps?S.gps.lng:null,
+      zone:zone,
+      timestamp:now.toISOString(),
+      method:'biometric',
+      photo:S.facePhoto||null
+    })
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d.success){
+      var sub=document.getElementById('ok-sub');
+      if(sub)sub.textContent='Attendance recorded · Synced ✓';
+    }
+  })
+  .catch(function(){
+    // Offline mode — record locally
+    var sub=document.getElementById('ok-sub');
+    if(sub)sub.textContent='Saved offline · Will sync when connected';
+    saveOffline({projectCode:S.code,employeeId:S.empId,empName:S.empName,type:type,zone:zone,timestamp:now.toISOString(),gps:S.gps});
+  });
+
+  // Reset face photo
+  S.facePhoto=null;
 }
-function scanNext(){show('scr-entry');S.captured=false;}
+
+// ── OFFLINE QUEUE ──
+function saveOffline(record){
+  try{
+    var q=JSON.parse(localStorage.getItem('sp_att_queue')||'[]');
+    q.push(record);
+    localStorage.setItem('sp_att_queue',JSON.stringify(q));
+  }catch(e){}
+}
+function syncOfflineQueue(){
+  try{
+    var q=JSON.parse(localStorage.getItem('sp_att_queue')||'[]');
+    if(!q.length)return;
+    var toSync=q.slice();
+    localStorage.removeItem('sp_att_queue');
+    toSync.forEach(function(r){
+      fetch(API+'/attendance',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(r)}).catch(function(){});
+    });
+  }catch(e){}
+}
+
+function scanNext(){
+  show('scr-entry');
+  S.captured=false;
+  S.facePhoto=null;
+  // Try syncing any offline queue
+  setTimeout(syncOfflineQueue,500);
+}
 
 // ── REGISTRATION ──
 function regStartCam(){
@@ -722,6 +841,9 @@ function submitReg(){
   if(!S.regCaptured){toast('Please capture your face photo');return;}
   var canvas=document.getElementById('reg-canvas');
   var facePhoto=canvas.toDataURL('image/jpeg',.85);
+  // Show loading on button
+  var btn=document.getElementById('reg-submit-btn');
+  if(btn){btn.disabled=true;btn.textContent='Submitting...';}
   fetch(API+'/employees/register',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
@@ -732,8 +854,22 @@ function submitReg(){
       mobile:document.getElementById('r-mobile').value.trim(),
       facePhoto:facePhoto,status:'pending',timestamp:new Date().toISOString()
     })
-  }).catch(function(){});
-  show('scr-pending');
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(btn){btn.disabled=false;btn.textContent='Submit Registration';}
+    show('scr-pending');
+  })
+  .catch(function(){
+    // Backend offline — show pending screen anyway, save locally
+    if(btn){btn.disabled=false;btn.textContent='Submit Registration';}
+    try{
+      var pending=JSON.parse(localStorage.getItem('sp_reg_queue')||'[]');
+      pending.push({name:name,employeeId:empId.toUpperCase(),projectCode:projCode.toUpperCase(),timestamp:new Date().toISOString()});
+      localStorage.setItem('sp_reg_queue',JSON.stringify(pending));
+    }catch(e){}
+    show('scr-pending');
+  });
 }
 
 // ── TOAST ──
@@ -759,6 +895,7 @@ function toast(msg){var el=document.getElementById('toast');if(!el)return;el.tex
     }
   }
   startGPS();
+  setTimeout(syncOfflineQueue, 1000);
 })();
 </script>
 </body>
