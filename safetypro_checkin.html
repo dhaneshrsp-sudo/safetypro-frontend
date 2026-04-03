@@ -154,29 +154,30 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .ch-retry{background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--t3);font-size:12px;font-family:var(--fb);font-weight:500;padding:10px 24px;cursor:pointer;}
 
 /* ── SUCCESS SCREEN ── */
-#scr-ok{justify-content:center;align-items:center;padding:28px;text-align:center;}
-.ok-ring{width:100px;height:100px;border-radius:50%;border:2.5px solid var(--green);display:flex;align-items:center;justify-content:center;margin-bottom:16px;position:relative;animation:okp .5s cubic-bezier(.34,1.56,.64,1) both;}
+#scr-ok{justify-content:flex-start;align-items:center;padding:max(env(safe-area-inset-top),16px) 20px max(env(safe-area-inset-bottom),16px);text-align:center;overflow-y:auto;}
+.ok-inner{width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;padding:8px 0;}
+.ok-ring{width:min(80px,18vw);height:min(80px,18vw);border-radius:50%;border:2.5px solid var(--green);display:flex;align-items:center;justify-content:center;margin-bottom:10px;position:relative;animation:okp .5s cubic-bezier(.34,1.56,.64,1) both;}
 @keyframes okp{from{scale:.5;opacity:0;}to{scale:1;opacity:1;}}
 .ok-ring::before{content:'';position:absolute;inset:-12px;border-radius:50%;border:1px solid var(--glow);animation:okpu 2.2s ease-out infinite;}
 @keyframes okpu{0%{opacity:.8;inset:-12px;}100%{opacity:0;inset:-28px;}}
-.ok-ring svg{width:44px;height:44px;fill:none;stroke:var(--green);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
-.ok-badge{display:inline-block;font-family:var(--fh);font-size:10px;font-weight:800;letter-spacing:2px;padding:4px 14px;border-radius:20px;margin-bottom:10px;}
+.ok-ring svg{width:min(36px,9vw);height:min(36px,9vw);fill:none;stroke:var(--green);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.ok-badge{display:inline-block;font-family:var(--fh);font-size:10px;font-weight:800;letter-spacing:1.5px;padding:3px 12px;border-radius:20px;margin-bottom:8px;}
 .ok-badge.in{color:var(--green);background:var(--gdim);border:1px solid rgba(34,197,94,.25);}
 .ok-badge.out{color:var(--red);background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}
-.ok-title{font-family:var(--fh);font-size:24px;font-weight:800;letter-spacing:-.8px;margin-bottom:6px;}
-.ok-sub{font-size:13px;color:var(--t2);margin-bottom:20px;}
-.ok-det{width:100%;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:4px 0;margin-bottom:18px;}
-.ok-row{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);}
+.ok-title{font-family:var(--fh);font-size:clamp(18px,5vw,24px);font-weight:800;letter-spacing:-.5px;margin-bottom:4px;}
+.ok-sub{font-size:12px;color:var(--t2);margin-bottom:12px;}
+.ok-det{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2px 0;margin-bottom:12px;}
+.ok-row{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border);}
 .ok-row:last-child{border-bottom:none;}
-.ok-rl{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--t3);font-family:var(--fh);}
-.ok-rv{font-size:13px;font-weight:700;color:var(--t1);font-family:var(--fh);}
+.ok-rl{font-size:9px;font-weight:700;letter-spacing:.8px;color:var(--t3);font-family:var(--fh);}
+.ok-rv{font-size:clamp(11px,3.5vw,13px);font-weight:700;color:var(--t1);font-family:var(--fh);}
 .ok-rv.g{color:var(--green);}
-.ok-bar-w{width:100%;height:3px;background:var(--raised);border-radius:2px;overflow:hidden;margin-bottom:18px;}
+.ok-bar-w{width:100%;height:3px;background:var(--raised);border-radius:2px;overflow:hidden;margin-bottom:12px;}
 .ok-bar{height:100%;background:var(--green);border-radius:2px;width:100%;animation:bd 3s linear forwards;}
 @keyframes bd{to{width:0%;}}
-.btn-next{width:100%;padding:16px;border:none;border-radius:10px;background:var(--green);color:#070D12;font-family:var(--fh);font-size:14px;font-weight:800;cursor:pointer;-webkit-appearance:none;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;}
+.btn-next{width:100%;padding:13px;border:none;border-radius:10px;background:var(--green);color:#070D12;font-family:var(--fh);font-size:13px;font-weight:800;cursor:pointer;-webkit-appearance:none;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;}
 .btn-next:active{transform:scale(.97);}
-.ok-note{font-size:11px;color:var(--t3);margin-top:10px;line-height:1.6;}
+.ok-note{font-size:10px;color:var(--t3);margin-top:8px;line-height:1.5;}
 
 /* ── REGISTRATION SCREEN ── */
 #scr-reg{padding:0 0 20px;}
@@ -348,25 +349,27 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 </div>
 
 <!-- ═══ SUCCESS SCREEN ═══ -->
-<div class="scr off" id="scr-ok" style="justify-content:center;align-items:center;padding:28px;text-align:center;">
-  <div class="ok-ring"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-  <div class="ok-badge in" id="ok-badge">CHECKED IN</div>
-  <div class="ok-title" id="ok-title">Checked In Successfully</div>
-  <div class="ok-sub" id="ok-sub">Attendance recorded · Synced to dashboard</div>
-  <div class="ok-det">
-    <div class="ok-row"><div class="ok-rl">EMPLOYEE</div><div class="ok-rv g" id="s-emp">—</div></div>
-    <div class="ok-row"><div class="ok-rl">TIME</div><div class="ok-rv g" id="s-time">—</div></div>
-    <div class="ok-row"><div class="ok-rl">DATE</div><div class="ok-rv" id="s-date">—</div></div>
-    <div class="ok-row"><div class="ok-rl">PROJECT</div><div class="ok-rv" id="s-proj">—</div></div>
-    <div class="ok-row"><div class="ok-rl">ZONE</div><div class="ok-rv g" id="s-zone">—</div></div>
-    <div class="ok-row"><div class="ok-rl">GPS</div><div class="ok-rv" id="s-gps" style="font-size:11px;">—</div></div>
+<div class="scr off" id="scr-ok">
+  <div class="ok-inner">
+    <div class="ok-ring"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <div class="ok-badge in" id="ok-badge">CHECKED IN</div>
+    <div class="ok-title" id="ok-title">Checked In Successfully</div>
+    <div class="ok-sub" id="ok-sub">Attendance recorded · Synced to dashboard</div>
+    <div class="ok-det">
+      <div class="ok-row"><div class="ok-rl">EMPLOYEE</div><div class="ok-rv g" id="s-emp">—</div></div>
+      <div class="ok-row"><div class="ok-rl">TIME</div><div class="ok-rv g" id="s-time">—</div></div>
+      <div class="ok-row"><div class="ok-rl">DATE</div><div class="ok-rv" id="s-date">—</div></div>
+      <div class="ok-row"><div class="ok-rl">PROJECT</div><div class="ok-rv" id="s-proj">—</div></div>
+      <div class="ok-row"><div class="ok-rl">ZONE</div><div class="ok-rv g" id="s-zone">—</div></div>
+      <div class="ok-row"><div class="ok-rl">GPS</div><div class="ok-rv" id="s-gps" style="font-size:clamp(9px,2.5vw,11px);">—</div></div>
+    </div>
+    <div class="ok-bar-w"><div class="ok-bar" id="ok-bar"></div></div>
+    <button class="btn-next" onclick="scanNext()">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+      Next Scan
+    </button>
+    <div class="ok-note">Auto-resets in <span id="ok-cd">3</span>s · Live sync to HSE Dashboard</div>
   </div>
-  <div class="ok-bar-w"><div class="ok-bar" id="ok-bar"></div></div>
-  <button class="btn-next" onclick="scanNext()">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg>
-    Next Scan
-  </button>
-  <div class="ok-note">Auto-resets in <span id="ok-cd">3</span>s · Live sync to HSE Dashboard</div>
 </div>
 
 <!-- ═══ REGISTRATION SCREEN ═══ -->
@@ -608,22 +611,39 @@ function stopCam(){
 }
 function startLoop(){if(S.aLoop)clearInterval(S.aLoop);S.aLoop=setInterval(detect,400);}
 function detect(){
-  if(S.captured||S.counting)return;
+  if(S.captured)return;
   var vid=document.getElementById('bam-vid');if(!vid||vid.readyState<2||!S.stream)return;
   var ff=false;
-  try{var c=document.getElementById('bam-canvas');c.width=64;c.height=64;var ctx=c.getContext('2d');ctx.drawImage(vid,0,0,64,64);var px=ctx.getImageData(0,0,64,64).data,sum=0;for(var i=0;i<px.length;i+=4)sum+=(px[i]+px[i+1]+px[i+2]);ff=(sum/(px.length/4*3))>20&&(sum/(px.length/4*3))<240;}catch(e){}
-  var o=document.getElementById('cam-oval');var s=document.getElementById('cam-status');var ins=document.getElementById('cam-instr');
+  try{
+    var c=document.getElementById('bam-canvas');c.width=64;c.height=64;
+    var ctx=c.getContext('2d');ctx.drawImage(vid,0,0,64,64);
+    var px=ctx.getImageData(0,0,64,64).data,sum=0,nonBlack=0;
+    for(var i=0;i<px.length;i+=4){
+      var avg=(px[i]+px[i+1]+px[i+2])/3;
+      sum+=avg;
+      if(avg>15)nonBlack++;
+    }
+    var meanBright=sum/(px.length/4);
+    // Face present: reasonable brightness AND enough non-black pixels (>40% of frame)
+    ff=meanBright>25&&meanBright<230&&(nonBlack/(px.length/4))>0.4;
+  }catch(e){}
+  var o=document.getElementById('cam-oval');
+  var s=document.getElementById('cam-status');
+  var ins=document.getElementById('cam-instr');
   if(ff){
-    if(o){o.classList.remove('red');o.classList.remove('counting');o.classList.add('on');}
+    // Face in frame — start or continue countdown
+    if(o){o.classList.remove('red');o.classList.add('on');}
     if(s){s.textContent='FACE DETECTED';s.style.color='var(--green)';}
     if(ins)ins.textContent='Hold still — capturing...';
-    startCD();
-  }
-  else{
+    if(!S.counting)startCD();
+  } else {
+    // Face LEFT frame — IMMEDIATELY cancel countdown and reset
+    if(S.counting){
+      resetCD();
+    }
     if(o){o.classList.remove('on');o.classList.remove('counting');o.classList.add('red');}
     if(s){s.textContent='ALIGN FACE';s.style.color='var(--red)';}
     if(ins)ins.textContent='Move your face inside the oval';
-    if(S.counting)resetCD();
   }
 }
 function startCD(){
