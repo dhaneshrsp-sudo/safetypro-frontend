@@ -119,7 +119,7 @@ nav .container{height:60px;display:flex;align-items:center;padding:0 32px;}
 .ms-sep{width:1px;height:16px;background:var(--border);flex-shrink:0;}
 .ms-flags{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
 .ms-flag{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);font-family:var(--fb);}
-.ms-flag img{width:22px;height:16px;border-radius:2px;object-fit:cover;}
+.ms-flag img{width:28px;height:20px;border-radius:2px;object-fit:cover;image-rendering:-webkit-optimize-contrast;flex-shrink:0;}
 
 /* ── ③ PROOF BAR ── */
 .proof-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 0;}
@@ -354,25 +354,35 @@ footer{background:#050810;border-top:1px solid var(--border);padding:20px 0;}
             <div><div class="trend-val">0</div><div class="trend-lbl">Active incidents today</div></div>
             <div class="trend-change">&#x2193; 68%</div>
           </div>
-          <svg width="100%" height="52" viewBox="0 0 260 52" preserveAspectRatio="none">
-            <defs><linearGradient id="tg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22C55E" stop-opacity=".18"/><stop offset="100%" stop-color="#22C55E" stop-opacity=".01"/></linearGradient></defs>
-            <path d="M0,46 L43,38 L86,30 L130,22 L174,14 L217,8 L260,3 L260,52 L0,52 Z" fill="url(#tg)"/>
-            <path d="M0,46 L43,38 L86,30 L130,22 L174,14 L217,8 L260,3" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="0" cy="46" r="3.5" fill="#22C55E" opacity=".5"/>
-            <circle cx="43" cy="38" r="3.5" fill="#22C55E" opacity=".5"/>
-            <circle cx="86" cy="30" r="3.5" fill="#22C55E" opacity=".5"/>
-            <circle cx="130" cy="22" r="3.5" fill="#22C55E" opacity=".5"/>
-            <circle cx="174" cy="14" r="3.5" fill="#22C55E" opacity=".5"/>
-            <circle cx="217" cy="8" r="3.5" fill="#22C55E" opacity=".5"/>
-            <circle cx="260" cy="3" r="5" fill="#22C55E"/>
-            <circle cx="260" cy="3" r="9" fill="none" stroke="#22C55E" stroke-width="1.5" opacity=".3"/>
-            <text x="0" y="52" font-size="8" fill="#2A3F55" font-family="Montserrat,sans-serif" font-weight="700">Aug</text>
-            <text x="41" y="52" font-size="8" fill="#2A3F55" font-family="Montserrat,sans-serif" font-weight="700">Sep</text>
-            <text x="84" y="52" font-size="8" fill="#2A3F55" font-family="Montserrat,sans-serif" font-weight="700">Oct</text>
-            <text x="128" y="52" font-size="8" fill="#2A3F55" font-family="Montserrat,sans-serif" font-weight="700">Nov</text>
-            <text x="172" y="52" font-size="8" fill="#2A3F55" font-family="Montserrat,sans-serif" font-weight="700">Dec</text>
-            <text x="215" y="52" font-size="8" fill="#2A3F55" font-family="Montserrat,sans-serif" font-weight="700">Jan</text>
-            <text x="248" y="52" font-size="8" fill="#22C55E" font-family="Montserrat,sans-serif" font-weight="700">Feb</text>
+          <svg width="100%" height="64" viewBox="0 0 260 64" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="tg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#22C55E" stop-opacity=".20"/>
+                <stop offset="100%" stop-color="#22C55E" stop-opacity=".01"/>
+              </linearGradient>
+            </defs>
+            <!-- Smooth fill area -->
+            <path d="M 0,44 C 14,44 29,43 43,42 C 57,41 71,38 86,36 C 101,33 115,29 130,26 C 145,23 159,17 174,14 C 189,11 203,8 217,7 C 231,6 246,4 260,3 L 260,52 L 0,52 Z" fill="url(#tg)"/>
+            <!-- Smooth bezier curve line -->
+            <path d="M 0,44 C 14,44 29,43 43,42 C 57,41 71,38 86,36 C 101,33 115,29 130,26 C 145,23 159,17 174,14 C 189,11 203,8 217,7 C 231,6 246,4 260,3" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Data point dots -->
+            <circle cx="0"   cy="44" r="3" fill="#22C55E" opacity=".5"/>
+            <circle cx="43"  cy="42" r="3" fill="#22C55E" opacity=".5"/>
+            <circle cx="86"  cy="36" r="3" fill="#22C55E" opacity=".5"/>
+            <circle cx="130" cy="26" r="3" fill="#22C55E" opacity=".5"/>
+            <circle cx="174" cy="14" r="3" fill="#22C55E" opacity=".5"/>
+            <circle cx="217" cy="7"  r="3" fill="#22C55E" opacity=".5"/>
+            <!-- Last point highlighted with pulse ring -->
+            <circle cx="260" cy="3" r="4.5" fill="#22C55E"/>
+            <circle cx="260" cy="3" r="8.5" fill="none" stroke="#22C55E" stroke-width="1.5" opacity=".3"/>
+            <!-- Month labels — y=60 safely inside 64px viewBox -->
+            <text x="0"   y="60" font-size="7.5" fill="#2A3F55" font-family="Montserrat,sans-serif" font-weight="700">Aug</text>
+            <text x="38"  y="60" font-size="7.5" fill="#2A3F55" font-family="Montserrat,sans-serif" font-weight="700">Sep</text>
+            <text x="81"  y="60" font-size="7.5" fill="#2A3F55" font-family="Montserrat,sans-serif" font-weight="700">Oct</text>
+            <text x="125" y="60" font-size="7.5" fill="#2A3F55" font-family="Montserrat,sans-serif" font-weight="700">Nov</text>
+            <text x="169" y="60" font-size="7.5" fill="#2A3F55" font-family="Montserrat,sans-serif" font-weight="700">Dec</text>
+            <text x="212" y="60" font-size="7.5" fill="#2A3F55" font-family="Montserrat,sans-serif" font-weight="700">Jan</text>
+            <text x="244" y="60" font-size="7.5" fill="#22C55E" font-family="Montserrat,sans-serif" font-weight="700">Feb</text>
           </svg>
         </div>
         <!-- Card 2: Audit Score Donut -->
@@ -425,14 +435,14 @@ footer{background:#050810;border-top:1px solid var(--border);padding:20px 0;}
       <div class="ms-label">TRUSTED ACROSS INDUSTRIES IN</div>
       <div class="ms-sep"></div>
       <div class="ms-flags">
-        <div class="ms-flag"><img src="https://flagcdn.com/w160/ae.png" alt="UAE" loading="lazy"> UAE</div>
-        <div class="ms-flag"><img src="https://flagcdn.com/w160/sa.png" alt="Saudi Arabia" loading="lazy"> Saudi Arabia</div>
-        <div class="ms-flag"><img src="https://flagcdn.com/w160/qa.png" alt="Qatar" loading="lazy"> Qatar</div>
-        <div class="ms-flag"><img src="https://flagcdn.com/w160/us.png" alt="USA" loading="lazy"> USA</div>
-        <div class="ms-flag"><img src="https://flagcdn.com/w160/gb.png" alt="UK" loading="lazy"> UK</div>
-        <div class="ms-flag"><img src="https://flagcdn.com/w160/in.png" alt="India" loading="lazy"> India</div>
-        <div class="ms-flag"><img src="https://flagcdn.com/w160/sg.png" alt="Singapore" loading="lazy"> Singapore</div>
-        <div class="ms-flag"><img src="https://flagcdn.com/w160/au.png" alt="Australia" loading="lazy"> Australia</div>
+        <div class="ms-flag"><img src="https://flagcdn.com/ae.svg" alt="UAE"> UAE</div>
+        <div class="ms-flag"><img src="https://flagcdn.com/sa.svg" alt="Saudi Arabia"> Saudi Arabia</div>
+        <div class="ms-flag"><img src="https://flagcdn.com/qa.svg" alt="Qatar"> Qatar</div>
+        <div class="ms-flag"><img src="https://flagcdn.com/us.svg" alt="USA"> USA</div>
+        <div class="ms-flag"><img src="https://flagcdn.com/gb.svg" alt="UK"> UK</div>
+        <div class="ms-flag"><img src="https://flagcdn.com/in.svg" alt="India"> India</div>
+        <div class="ms-flag"><img src="https://flagcdn.com/sg.svg" alt="Singapore"> Singapore</div>
+        <div class="ms-flag"><img src="https://flagcdn.com/au.svg" alt="Australia"> Australia</div>
       </div>
     </div>
   </div>
