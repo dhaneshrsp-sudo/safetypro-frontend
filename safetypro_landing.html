@@ -21,7 +21,7 @@
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 60px;height:64px;background:rgba(11,15,20,.97);border-bottom:1px solid var(--border);}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--fh);font-weight:400;font-size:20px;color:var(--t1);}
 .logo-icon{width:40px;height:40px;background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(34,197,94,.35);}
-.logo-icon svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.logo-icon svg{width:22px;height:22px;}
 .logo span{color:var(--green);}
 .nav-links{display:flex;gap:32px;list-style:none;}
 .nav-links a{color:var(--t2);font-size:14px;text-decoration:none;transition:.2s;font-family:var(--fb);}
@@ -256,15 +256,22 @@ h1{font-size:28px;}
   .hero-sub{font-size:13px;}
 }
 
+
+.btn-biometric{padding:7px 16px;background:rgba(34,197,94,.1);border:1.5px solid rgba(34,197,94,.4);border-radius:8px;color:#22C55E;font-size:13px;font-weight:700;text-decoration:none;font-family:var(--fh);transition:.2s;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+.btn-biometric::before{content:'';width:6px;height:6px;border-radius:50%;background:#22C55E;animation:bpblink 1.4s ease-in-out infinite;}
+@keyframes bpblink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.btn-biometric:hover{background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.7);}
+.mob-bio-btn{display:block;text-align:center;padding:10px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.3);border-radius:8px;color:#22C55E;font-size:13px;font-weight:700;text-decoration:none;font-family:var(--fh);margin-bottom:8px;}
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="#" class="logo"><div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>SafetyPro <span>AI</span></a>
+  <a href="#" class="logo"><div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2z" fill="white"/><path d="M9 12l2 2 4-4" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>SafetyPro <span>AI</span></a>
   <ul class="nav-links"><li><a href="#features">Features</a></li><li><a href="#markets">Markets</a></li><li><a href="#compliance">Compliance</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#contact">Contact</a></li></ul>
-  <div class="nav-btns"><a href="safetypro_login.html" class="btn-ghost">Sign In</a><a href="#contact" class="btn-nav-cta" onclick="setTimeout(()=>document.getElementById('reg-name').focus(),400)">Free Trial</a></div>
+  <div class="nav-btns"><a href="safetypro_checkin" class="btn-biometric">Biometric Portal</a><a href="safetypro_login.html" class="btn-ghost">Sign In</a><a href="#contact" class="btn-nav-cta" onclick="setTimeout(()=>document.getElementById('reg-name').focus(),400)">Free Trial</a></div>
   <div class="mobile-nav-right"><div class="mob-actions" id="mob-actions">
+    <a href="safetypro_checkin" class="mob-bio-btn">🔐 Biometric Portal</a>
     <a href="safetypro_login.html" class="mob-signin-btn">Sign In</a>
     <a href="#contact" class="mob-trial-btn" onclick="setTimeout(function(){var el=document.getElementById('reg-name');if(el)el.focus();},400)">Free Trial</a>
   </div>
@@ -344,7 +351,7 @@ h1{font-size:28px;}
   <div class="why-inner">
     <div class="sec-head"><p class="sec-tag">Why SafetyPro AI?</p><h2 class="sec-title">Built by HSE experts,<br>for <span>every high-risk industry</span></h2></div>
     <div class="why-grid">
-      <div class="why-card"><div class="why-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="why-title">Built by HSE Professionals</div><div class="why-desc">Developed by a certified HSE professional (IDIPOSH, RSP, AIEMA) with real-world experience across construction, manufacturing, energy, and infrastructure projects globally.</div></div>
+      <div class="why-card"><div class="why-icon"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2z" fill="white"/><path d="M9 12l2 2 4-4" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="why-title">Built by HSE Professionals</div><div class="why-desc">Developed by a certified HSE professional (IDIPOSH, RSP, AIEMA) with real-world experience across construction, manufacturing, energy, and infrastructure projects globally.</div></div>
       <div class="why-card"><div class="why-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div class="why-title">Truly Global Platform</div><div class="why-desc">Multi-currency, multi-regulation ready. Works for manufacturing plants, energy facilities, oil &amp; gas operations, and logistics hubs in the Gulf, Americas, Europe, and Asia &mdash; without reconfiguration.</div></div>
       <div class="why-card"><div class="why-icon"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><div class="why-title">Audit Ready in Hours</div><div class="why-desc">Every action, incident, and escalation creates an immutable audit trail. ISO 45001 &amp; industry-specific audit preparation reduced from weeks to hours.</div></div>
         <div class="comp-card"><div class="comp-region">Industry Standards</div><div class="comp-item"><div class="comp-dot"></div>ISO 9001:2015 &mdash; Quality Systems</div><div class="comp-item"><div class="comp-dot"></div>API RP 75 &mdash; Oil &amp; Gas HSE</div><div class="comp-item"><div class="comp-dot"></div>NFPA 70E &mdash; Electrical Safety</div><div class="comp-item"><div class="comp-dot"></div>GMP &mdash; Pharma Safety</div><div class="comp-item"><div class="comp-dot"></div>LOTO &mdash; Machine Safety</div></div>

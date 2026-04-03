@@ -2,7 +2,16 @@
 <html lang="en" style="background:#0F1E35;">
 <head>
 <meta charset="UTF-8"/>
-<style>html,body{background:#0F1E35 !important;}</style>
+<style>html,body{background:#0F1E35 !important;}
+.bp-card{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(34,197,94,.05);border:1.5px solid rgba(34,197,94,.25);border-radius:10px;text-decoration:none;margin-top:8px;transition:.2s;}
+.bp-card:hover{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.5);}
+.bp-card-left{display:flex;align-items:center;gap:10px;}
+.bp-card-icon{width:34px;height:34px;background:rgba(34,197,94,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.bp-card-icon svg{width:18px;height:18px;fill:none;stroke:#22C55E;stroke-width:1.8;stroke-linecap:round;}
+.bp-card-title{font-size:13px;font-weight:800;color:#E6EDF3;font-family:var(--fh);}
+.bp-card-sub{font-size:10px;color:#7A9BBF;margin-top:1px;}
+.bp-card-arrow{color:#22C55E;font-size:16px;}
+</style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>SafetyPro AI - Sign In</title>
 
@@ -17,7 +26,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sa
 .left-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:60px 60px;}
 .brand{display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
 .brand-shield{width:44px;height:44px;background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(34,197,94,.3);}
-.brand-shield svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.brand-shield svg{width:24px;height:24px;}
 .brand-name{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:20px;font-weight:800;color:var(--t1);}
 .brand-name span{color:var(--green);}
 .badge{display:inline-flex;align-items:center;gap:8px;margin-top:20px;position:relative;z-index:1;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:100px;padding:6px 16px;font-size:11px;font-weight:600;letter-spacing:.8px;color:var(--green);text-transform:uppercase;}
@@ -84,7 +93,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sa
     <div>
       <div class="brand">
         <div class="brand-shield">
-          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2z" fill="white"/><path d="M9 12l2 2 4-4" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="brand-name">Safety<span>Pro</span> AI</div>
       </div>
@@ -147,6 +156,18 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sa
         <span id="error-text"></span>
       </div>
       <div class="divider"><div class="divider-line"></div><span>New to SafetyPro?</span><div class="divider-line"></div></div>
+      <a href="safetypro_checkin" class="bp-card">
+        <div class="bp-card-left">
+          <div class="bp-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2z" fill="rgba(34,197,94,.2)"/><path d="M9 12l2 2 4-4" stroke-width="2"/></svg>
+          </div>
+          <div>
+            <div class="bp-card-title">Biometric Portal</div>
+            <div class="bp-card-sub">Mark attendance — no login required</div>
+          </div>
+        </div>
+        <div class="bp-card-arrow">→</div>
+      </a>
       <div class="trial"><p><a href="https://www.safetyproworld.com" target="_blank">Request a 30-day free trial &rarr;</a></p></div>
       <div class="version"><div class="version-dot"></div>v1.0 &nbsp;&middot;&nbsp; Live Beta</div>
     </div>
