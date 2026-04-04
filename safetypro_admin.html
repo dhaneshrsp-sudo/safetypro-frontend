@@ -1642,7 +1642,9 @@ function apiFetch(path, opts) {
 
 
 /* TABS */
-function switchTab(el,id){if(id==='projects')setTimeout(loadProjectsList,100);
+function switchTab(el,id){
+  if(el&&el.scrollIntoView)el.scrollIntoView({behavior:'smooth',inline:'nearest',block:'nearest'});
+  if(id==='projects')setTimeout(loadProjectsList,100);
   document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
   document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
@@ -3104,56 +3106,11 @@ document.addEventListener('DOMContentLoaded', fixAdminPanels); window.addEventLi
 var _origSwitchTab = window.switchTab;
 window.switchTab = function(el, id) { fixAdminPanels(); _origSwitchTab.call(this, el, id); var t = document.getElementById('tab-'+id); if(t) t.style.removeProperty('display'); };
 </script><script>
-function scrollAdminTabs(px){var el=document.getElementById('admin-tabs-bar');if(el)el.scrollLeft+=px;}
-function handleLogoUpload(event){
-  var file=event.target.files[0];if(!file)return;
-  if(file.size>2097152){showToast('Logo exceeds 2MB','error');return;}
-  var r=new FileReader();r.onload=function(e){
-    var b64=e.target.result;
-    var pv=document.getElementById('logo-preview'),ph=document.getElementById('logo-placeholder'),rb=document.getElementById('logo-remove-btn');
-    if(pv){pv.src=b64;pv.style.display='block';}if(ph)ph.style.display='none';if(rb)rb.style.display='block';
-    try{localStorage.setItem('sp_company_logo',b64);}catch(x){}showToast('Logo uploaded ✓','success');
-  };r.readAsDataURL(file);
-}
-function removeLogo(){
-  var pv=document.getElementById('logo-preview'),ph=document.getElementById('logo-placeholder'),rb=document.getElementById('logo-remove-btn'),fi=document.getElementById('logo-file-input');
-  if(pv){pv.src='';pv.style.display='none';}if(ph)ph.style.display='';if(rb)rb.style.display='none';if(fi)fi.value='';
-  localStorage.removeItem('sp_company_logo');showToast('Logo removed');
-}
-function saveCompanyProfile(){
-  var g=function(id){return document.getElementById(id);};
-  var p={name:g('cp-name')?g('cp-name').value:'',short:g('cp-short')?g('cp-short').value:'',
-    address:g('cp-address')?g('cp-address').value:'',city:g('cp-city')?g('cp-city').value:'',
-    gstin:g('cp-gstin')?g('cp-gstin').value:'',cin:g('cp-cin')?g('cp-cin').value:'',
-    state:g('cp-state')?g('cp-state').value:'',website:g('cp-website')?g('cp-website').value:'',
-    header:g('cp-header')?g('cp-header').value:'',logo:localStorage.getItem('sp_company_logo')||''};
-  try{localStorage.setItem('sp_company_profile',JSON.stringify(p));}catch(x){}
-  var tok=localStorage.getItem('sp_token')||'';
-  fetch('https://safetypro-backend-production.up.railway.app/api/v1/company/profile',
-    {method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+tok},body:JSON.stringify(p)})
-    .then(function(){showToast('Saved ✓','success');}).catch(function(){showToast('Saved locally ✓','success');});
-}
-function loadCompanyProfile(){
-  try{
-    var s=JSON.parse(localStorage.getItem('sp_company_profile')||'null');
-    if(s){var g=function(id){return document.getElementById(id);};
-      ['name','short','address','city','gstin','cin','state','website','header'].forEach(function(k){if(g('cp-'+k)&&s[k])g('cp-'+k).value=s[k];});}
-    var logo=localStorage.getItem('sp_company_logo');
-    if(logo){var pv=document.getElementById('logo-preview'),ph=document.getElementById('logo-placeholder'),rb=document.getElementById('logo-remove-btn');
-      if(pv){pv.src=logo;pv.style.display='block';}if(ph)ph.style.display='none';if(rb)rb.style.display='block';}
-  }catch(x){}
-}
-function spFooterInit(){
-  fetch('https://safetypro-backend-production.up.railway.app/api/system/status')
-    .then(function(r){return r.json();}).then(function(d){
-      var v=document.getElementById('sp-footer-version'),s=document.getElementById('sp-footer-sync'),dot=document.getElementById('sp-status-dot'),txt=document.getElementById('sp-status-text');
-      var c={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'},st=d.status||'operational';
-      if(v&&d.version)v.textContent=d.version;
-      if(s&&d.lastSync)try{s.textContent=new Date(d.lastSync).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}
-      if(dot)dot.style.background=c[st]||'#22C55E';
-      if(txt){txt.textContent=st.charAt(0).toUpperCase()+st.slice(1);txt.style.color=c[st]||'#22C55E';}
-    }).catch(function(){});
-}
+function handleLogoUpload(e){var f=e.target.files[0];if(!f)return;if(f.size>2097152){showToast('Logo >2MB','error');return;}var r=new FileReader();r.onload=function(x){var b=x.target.result;var pv=document.getElementById('logo-preview'),ph=document.getElementById('logo-placeholder'),rb=document.getElementById('logo-remove-btn');if(pv){pv.src=b;pv.style.display='block';}if(ph)ph.style.display='none';if(rb)rb.style.display='block';try{localStorage.setItem('sp_company_logo',b);}catch(z){}showToast('Logo uploaded','success');};r.readAsDataURL(f);}
+function removeLogo(){var pv=document.getElementById('logo-preview'),ph=document.getElementById('logo-placeholder'),rb=document.getElementById('logo-remove-btn'),fi=document.getElementById('logo-file-input');if(pv){pv.src='';pv.style.display='none';}if(ph)ph.style.display='';if(rb)rb.style.display='none';if(fi)fi.value='';localStorage.removeItem('sp_company_logo');showToast('Logo removed');}
+function saveCompanyProfile(){var g=function(id){return document.getElementById(id);};var p={name:g('cp-name')?g('cp-name').value:'',short:g('cp-short')?g('cp-short').value:'',address:g('cp-address')?g('cp-address').value:'',city:g('cp-city')?g('cp-city').value:'',gstin:g('cp-gstin')?g('cp-gstin').value:'',cin:g('cp-cin')?g('cp-cin').value:'',state:g('cp-state')?g('cp-state').value:'',website:g('cp-website')?g('cp-website').value:'',header:g('cp-header')?g('cp-header').value:'',logo:localStorage.getItem('sp_company_logo')||''};try{localStorage.setItem('sp_company_profile',JSON.stringify(p));}catch(z){}var t=localStorage.getItem('sp_token')||'';fetch('https://safetypro-backend-production.up.railway.app/api/v1/company/profile',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+t},body:JSON.stringify(p)}).then(function(){showToast('Saved','success');}).catch(function(){showToast('Saved locally','success');});}
+function loadCompanyProfile(){try{var s=JSON.parse(localStorage.getItem('sp_company_profile')||'null');if(s){var g=function(id){return document.getElementById(id);};['name','short','address','city','gstin','cin','state','website','header'].forEach(function(k){if(g('cp-'+k)&&s[k])g('cp-'+k).value=s[k];});}var logo=localStorage.getItem('sp_company_logo');if(logo){var pv=document.getElementById('logo-preview'),ph=document.getElementById('logo-placeholder'),rb=document.getElementById('logo-remove-btn');if(pv){pv.src=logo;pv.style.display='block';}if(ph)ph.style.display='none';if(rb)rb.style.display='block';}}catch(z){}}
+function spFooterInit(){fetch('https://safetypro-backend-production.up.railway.app/api/system/status').then(function(r){return r.json();}).then(function(d){var v=document.getElementById('sp-footer-version'),s=document.getElementById('sp-footer-sync'),dot=document.getElementById('sp-status-dot'),txt=document.getElementById('sp-status-text'),c={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'},st=d.status||'operational';if(v&&d.version)v.textContent=d.version;if(s&&d.lastSync)try{s.textContent=new Date(d.lastSync).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}if(dot)dot.style.background=c[st]||'#22C55E';if(txt){txt.textContent=st.charAt(0).toUpperCase()+st.slice(1);txt.style.color=c[st]||'#22C55E';}}).catch(function(){});}
 setTimeout(loadCompanyProfile,400);
 setTimeout(spFooterInit,800);
 </script>
