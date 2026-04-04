@@ -825,6 +825,18 @@ flex-wrap:wrap;}
   .body{display:flex;flex-direction:row;flex:1;overflow:hidden;min-height:0;}
   .content{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;margin-left:0;}
   .sidebar{flex-shrink:0;}
+  
+  /* ══ LOGO FIX ══ */
+  .logo { text-decoration: none; color: inherit !important; }
+  .logo-text { color: var(--t1, #E6EDF3) !important; font-weight: 700 !important; }
+  .logo-text span { color: var(--green, #22C55E) !important; }
+  .logo-shield { width: 28px; height: 28px; background: linear-gradient(135deg, #22C55E, #15803D) !important; border-radius: 7px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(34,197,94,.35); }
+  .logo-shield svg { width: 16px; height: 16px; fill: #fff; }
+  
+  /* ══ NAV-RIGHT FIX ══ */
+  .nav-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .user-pill { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 10px; border-radius: 20px; background: var(--raised, #0D1E30); border: 1px solid var(--border, #1E3347); }
+  .user-pill .ua { width: 28px; height: 28px; border-radius: 50%; background: var(--green, #22C55E); color: #0B1A2E; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
   </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 <script src="/safetypro_exports.js"></script>
@@ -843,11 +855,11 @@ flex-wrap:wrap;}
     <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations</a>
     <a class="nl" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
     <a class="nl" href="safetypro_reports"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2"/></svg>Reports</a>
-    <a class="nl" href="safetypro_admin"><svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>Admin</a>
+    
     <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
       <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More&#9660;
       <div class="more-menu" id="more-menu">
-        <a class="mm-item" href="safetypro_reports"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="safetypro_reports" style="color:var(--green);font-weight:700;"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
         <a class="mm-item" href="safetypro_documents" style="color:var(--green);font-weight:700;"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/></svg>Documents &amp; Records</a>
         <a class="mm-item" href="safetypro_field"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
         <a class="mm-item" href="safetypro_hrm"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>HRM &amp; Payroll</a>
@@ -1299,6 +1311,7 @@ function spFooterInit(){
 setTimeout(spFooterInit,800);
 setInterval(spFooterInit,30000);
 </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
