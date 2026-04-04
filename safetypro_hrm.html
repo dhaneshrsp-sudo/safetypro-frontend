@@ -68,7 +68,7 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fb)
 .sb-badge.amber{background:var(--a-s);color:var(--amber);}
 .sb-badge.red{background:var(--r-s);color:var(--red);}
 .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;}
-.content{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-height:0;}
+.content{flex:1;overflow:hidden;display:flex;flex-direction:column;}
 /* HRM HEADER */
 .hrm-header{background:linear-gradient(135deg,#0F1A2E,#0B1929,#0D1520);border-bottom:1px solid var(--border);padding:0 24px;flex-shrink:0;position:relative;overflow:hidden;}
 .hrm-header::before{content:'';position:absolute;top:-40px;right:80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.08),transparent 70%);pointer-events:none;}
@@ -88,7 +88,7 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fb)
 .ht-badge{font-size:9px;padding:1px 6px;border-radius:10px;background:var(--a-s);color:var(--amber);}
 /* PANELS */
 .hrm-panel{display:none;padding:20px 24px;flex:1;}
-.hrm-panel.active{display:block;min-height:0;}
+.hrm-panel.active{display:block;flex:1;overflow-y:auto;min-height:0;}
 /* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
 .kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:hidden;}
@@ -181,7 +181,7 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fb)
 #hrm-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);border-left:3px solid var(--purple);border-radius:10px;padding:10px 18px;font-size:12px;color:var(--t1);z-index:600;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4);}
 #hrm-toast.show{opacity:1;}
 /* FOOTER */
-.sp-footer{flex-shrink:0;margin-top:auto;background:var(--sidebar,#080F18);border-top:1px solid var(--border,#162236);padding:7px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--t3,#2E4A66);z-index:10;}
+.sp-footer{flex-shrink:0;background:var(--sidebar,#080F18);border-top:1px solid var(--border,#162236);padding:7px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--t3,#2E4A66);z-index:10;}
 .sp-footer-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .sp-footer-center{display:flex;align-items:center;gap:14px;}
 .sp-footer-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
@@ -1178,6 +1178,7 @@ function spFooterInit(){
 }
 
 </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
