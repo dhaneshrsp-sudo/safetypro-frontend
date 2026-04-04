@@ -699,27 +699,38 @@ svg{flex-shrink:0}
         <div class="card">
           <div class="card-head">
             <div><div class="card-title">Company Branding</div><div class="card-sub">Logo, colours and report identity</div></div>
-            <button class="btn-save" onclick="showToast('Branding saved successfully')"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Save Changes</button>
+            <button class="btn-save" onclick="saveCompanyProfile()"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Save Changes</button>
           </div>
           <div class="form-section">
             <div class="form-grid">
-              <div class="fg"><label class="fl">Company Name *</label><input class="fi" type="text" value="IL&FS Engineering & Construction Co. Ltd" placeholder="Your company name"/></div>
-              <div class="fg"><label class="fl">Short Name / Abbreviation</label><input class="fi" type="text" value="IECCL" placeholder="e.g. IECCL"/></div>
+              <div class="fg"><label class="fl">Company Name *</label><input class="fi" id="cp-name" type="text" value="IL&FS Engineering & Construction Co. Ltd" placeholder="Your company name"/></div>
+              <div class="fg"><label class="fl">Short Name / Abbreviation</label><input class="fi" type="text" id="cp-short" value="IECCL" placeholder="e.g. IECCL"/></div>
             </div>
             <div class="form-grid">
-              <div class="fg"><label class="fl">Address Line 1</label><input class="fi" type="text" value="IL&FS Financial Centre, Bandra Kurla Complex" placeholder="Street address"/></div>
-              <div class="fg"><label class="fl">City, State</label><input class="fi" type="text" value="Mumbai, Maharashtra — 400 051" placeholder="City, State"/></div>
+              <div class="fg"><label class="fl">Address Line 1</label><input class="fi" type="text" id="cp-address" value="IL&FS Financial Centre, Bandra Kurla Complex" placeholder="Street address"/></div>
+              <div class="fg"><label class="fl">City, State</label><input class="fi" type="text" id="cp-city" value="Mumbai, Maharashtra — 400 051" placeholder="City, State"/></div>
+            </div>
+            <div class="form-grid">
+              <div class="fg"><label class="fl">GSTIN</label><input class="fi" id="cp-gstin" type="text" value="" placeholder="e.g. 27AABCI1234A1Z5"/></div>
+              <div class="fg"><label class="fl">CIN / Registration No.</label><input class="fi" id="cp-cin" type="text" value="" placeholder="e.g. U45200MH2000PLC123456"/></div>
+            </div>
+            <div class="form-grid">
+              <div class="fg"><label class="fl">State (for statutory forms)</label><select class="fi" id="cp-state" style="height:38px;"><option value="Maharashtra" selected>Maharashtra</option><option value="Bihar">Bihar</option><option value="Delhi">Delhi</option><option value="Karnataka">Karnataka</option><option value="Tamil Nadu">Tamil Nadu</option><option value="Telangana">Telangana</option><option value="Gujarat">Gujarat</option><option value="Rajasthan">Rajasthan</option><option value="Uttar Pradesh">Uttar Pradesh</option><option value="West Bengal">West Bengal</option><option value="Odisha">Odisha</option><option value="Jharkhand">Jharkhand</option><option value="Uttarakhand">Uttarakhand</option><option value="Other">Other</option></select></div>
+              <div class="fg"><label class="fl">Website</label><input class="fi" id="cp-website" type="text" value="www.ieccl.co.in" placeholder="www.yourcompany.com"/></div>
             </div>
             <div class="fdiv"></div>
             <div class="fg"><label class="fl">Company Logo</label>
-              <div class="upload-zone" onclick="showToast('File picker would open here')">
-                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <div class="upload-zone" id="logo-upload-zone" onclick="document.getElementById('logo-file-input').click()" style="cursor:pointer;position:relative;">
+                <input type="file" id="logo-file-input" accept="image/png,image/svg+xml,image/jpeg" style="display:none;" onchange="handleLogoUpload(event)">
+                <img id="logo-preview" src="" alt="" style="display:none;max-height:72px;max-width:280px;border-radius:6px;margin-bottom:6px;">
+                <div id="logo-placeholder"><svg viewBox="0 0 24 24" style="width:24px;height:24px;"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
                 <div class="upload-zone-label">Click to upload logo</div>
-                <div class="upload-zone-sub">PNG or SVG · Max 2MB · Recommended 400×120px</div>
+                <div class="upload-zone-sub">PNG, SVG or JPG · Max 2MB · Recommended 400×120px</div></div>
+                <button id="logo-remove-btn" onclick="event.stopPropagation();removeLogo()" style="display:none;position:absolute;top:8px;right:8px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.35);border-radius:6px;padding:3px 8px;font-size:10px;color:#EF4444;cursor:pointer;">&#10005; Remove</button>
               </div>
             </div>
             <div class="fdiv"></div>
-            <div class="fg"><label class="fl">Report Header Text</label><input class="fi" type="text" value="IECCL — Health, Safety & Environment Management System" placeholder="Appears at top of every PDF report"/></div>
+            <div class="fg"><label class="fl">Report Header Text</label><input class="fi" type="text" id="cp-header" value="IECCL — Health, Safety & Environment Management System" placeholder="Appears at top of every PDF report"/></div>
             <div class="fg"><label class="fl">Report Footer Text</label><input class="fi" type="text" value="This document is generated by SafetyPro AI · Confidential" placeholder="Appears at bottom of every PDF report"/></div>
             <div class="fg"><label class="fl">Signature Block</label><textarea class="fi fta" placeholder="e.g. Approved by: HSE Head | Designation | Date: {auto}">Approved by: Dhanesh CK | HSE Head — IECCL | Date: {auto-date}</textarea></div>
             <div class="fdiv"></div>
@@ -3117,7 +3128,95 @@ function fixAdminPanels(){
 document.addEventListener('DOMContentLoaded', fixAdminPanels); window.addEventListener('load', fixAdminPanels);
 var _origSwitchTab = window.switchTab;
 window.switchTab = function(el, id) { fixAdminPanels(); _origSwitchTab.call(this, el, id); var t = document.getElementById('tab-'+id); if(t) t.style.removeProperty('display'); };
-</script></body>
+</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous">
+// ══ COMPANY PROFILE FUNCTIONS ════════════════════════════════════════════════
+function handleLogoUpload(event){
+  var file=event.target.files[0];
+  if(!file)return;
+  if(file.size>2*1024*1024){showToast('Logo exceeds 2MB limit','error');return;}
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var b64=e.target.result;
+    var prev=document.getElementById('logo-preview');
+    var ph=document.getElementById('logo-placeholder');
+    var rb=document.getElementById('logo-remove-btn');
+    if(prev){prev.src=b64;prev.style.display='block';}
+    if(ph)ph.style.display='none';
+    if(rb)rb.style.display='block';
+    try{localStorage.setItem('sp_company_logo',b64);}catch(e){}
+    showToast('Logo uploaded ✓','success');
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeLogo(){
+  var prev=document.getElementById('logo-preview');
+  var ph=document.getElementById('logo-placeholder');
+  var rb=document.getElementById('logo-remove-btn');
+  var fi=document.getElementById('logo-file-input');
+  if(prev){prev.src='';prev.style.display='none';}
+  if(ph)ph.style.display='';
+  if(rb)rb.style.display='none';
+  if(fi)fi.value='';
+  localStorage.removeItem('sp_company_logo');
+  showToast('Logo removed');
+}
+
+function saveCompanyProfile(){
+  var g=function(id){return document.getElementById(id);};
+  var profile={
+    name:    g('cp-name')   ?g('cp-name').value   :'IL&FS Engineering & Construction Co. Ltd',
+    short:   g('cp-short')  ?g('cp-short').value  :'IECCL',
+    address: g('cp-address')?g('cp-address').value:'',
+    city:    g('cp-city')   ?g('cp-city').value   :'',
+    gstin:   g('cp-gstin')  ?g('cp-gstin').value  :'',
+    cin:     g('cp-cin')    ?g('cp-cin').value     :'',
+    state:   g('cp-state')  ?g('cp-state').value  :'Maharashtra',
+    website: g('cp-website')?g('cp-website').value:'',
+    header:  g('cp-header') ?g('cp-header').value :'',
+    logo:    localStorage.getItem('sp_company_logo')||'',
+    savedAt: new Date().toISOString()
+  };
+  try{localStorage.setItem('sp_company_profile',JSON.stringify(profile));}catch(e){}
+  var token=localStorage.getItem('sp_token')||'';
+  fetch('https://safetypro-backend-production.up.railway.app/api/v1/company/profile',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+    body:JSON.stringify(profile)
+  }).then(function(){showToast('Company profile saved ✓','success');})
+    .catch(function(){showToast('Saved locally ✓','success');});
+}
+
+function loadCompanyProfile(){
+  try{
+    var s=JSON.parse(localStorage.getItem('sp_company_profile')||'null');
+    if(s){
+      var g=function(id){return document.getElementById(id);};
+      if(g('cp-name')   &&s.name)   g('cp-name').value   =s.name;
+      if(g('cp-short')  &&s.short)  g('cp-short').value  =s.short;
+      if(g('cp-address')&&s.address)g('cp-address').value=s.address;
+      if(g('cp-city')   &&s.city)   g('cp-city').value   =s.city;
+      if(g('cp-gstin')  &&s.gstin)  g('cp-gstin').value  =s.gstin;
+      if(g('cp-cin')    &&s.cin)    g('cp-cin').value     =s.cin;
+      if(g('cp-state')  &&s.state)  g('cp-state').value  =s.state;
+      if(g('cp-website')&&s.website)g('cp-website').value=s.website;
+      if(g('cp-header') &&s.header) g('cp-header').value =s.header;
+    }
+    var logo=localStorage.getItem('sp_company_logo');
+    if(logo){
+      var prev=document.getElementById('logo-preview');
+      var ph=document.getElementById('logo-placeholder');
+      var rb=document.getElementById('logo-remove-btn');
+      if(prev){prev.src=logo;prev.style.display='block';}
+      if(ph)ph.style.display='none';
+      if(rb)rb.style.display='block';
+    }
+  }catch(e){}
+}
+setTimeout(loadCompanyProfile,400);
+// ═════════════════════════════════════════════════════════════════════════════
+</script>
+</body>
 </html>
 
 <!-- projects-tab-20260401211550 -->
