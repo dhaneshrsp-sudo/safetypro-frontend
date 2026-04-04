@@ -64,8 +64,7 @@ svg{flex-shrink:0}
 .sub-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50;flex-wrap:wrap;}
 .sh-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0;overflow:hidden;}
 .sh-title{font-family:var(--fh);font-size:16px;font-weight:700}
-.sh-tabs{display:flex;gap:2px;overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap;scrollbar-width:none;flex:1;min-width:0;}
-  .sh-tabs::-webkit-scrollbar{display:none;}
+.sh-tabs{display:flex;gap:2px;overflow:auto hidden;flex-wrap:nowrap;scrollbar-width:none;flex:1;min-width:0;}
   .sh-tabs::-webkit-scrollbar{display:none;}
 .sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap;flex-shrink:0;}
 .sh-tab:hover{color:var(--t2)}
@@ -525,7 +524,8 @@ svg{flex-shrink:0}
 .pd-signout:hover{opacity:.85;transform:translateY(-1px);}
 .pd-signout svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;}
 /* ══ STANDARD FOOTER (shared) ══ */
-.sp-footer{flex-shrink:0;background:var(--sidebar,#080F18);border-top:1px solid var(--border,#162236);padding:7px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--t3,#2E4A66);z-index:10;}
+footer.sp-footer{position:fixed;bottom:0;left:0;right:0;z-index:200;}
+  .sp-footer{flex-shrink:0;background:var(--sidebar,#080F18);border-top:1px solid var(--border,#162236);padding:7px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--t3,#2E4A66);z-index:10;}
 .sp-footer-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .sp-footer-center{display:flex;align-items:center;gap:14px;}
 .sp-footer-center a{color:var(--t3,#2E4A66);text-decoration:none;transition:.15s;}
@@ -543,9 +543,6 @@ svg{flex-shrink:0}
 .sh-tabs{max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;}
 .sh-tabs::-webkit-scrollbar{display:none;}
 
-
-  /* Admin page: footer fixed at bottom */
-  footer.sp-footer{position:fixed;bottom:0;left:0;right:0;z-index:100;}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
@@ -679,7 +676,7 @@ svg{flex-shrink:0}
   <div class="sub-header">
     <div class="sh-left">
       <div class="sh-title">Admin</div>
-        <div class="sh-tabs">
+      <div class="sh-tabs">
         <div class="sh-tab active" onclick="switchTab(this,'branding')">🎨 Branding</div>
         <div class="sh-tab" onclick="switchTab(this,'templates')">📋 Templates</div>
         <div class="sh-tab" onclick="switchTab(this,'workflow')">🔄 Workflow</div>
@@ -714,13 +711,13 @@ svg{flex-shrink:0}
               <div class="fg"><label class="fl">City, State</label><input class="fi" id="cp-city" type="text" value="Mumbai, Maharashtra — 400 051" placeholder="City, State"/></div>
             </div>
             <div class="form-grid"><div class="fg"><label class="fl">GSTIN</label><input class="fi" id="cp-gstin" type="text" value="" placeholder="27AABCI1234A1Z5"/></div><div class="fg"><label class="fl">CIN / Reg. No.</label><input class="fi" id="cp-cin" type="text" value="" placeholder="U45200MH2000PLC123456"/></div></div>
-            <div class="form-grid"><div class="fg"><label class="fl">State (statutory)</label><select class="fi" id="cp-state" style="height:38px;"><option value="Bihar">Bihar</option><option value="Maharashtra" selected>Maharashtra</option><option value="Delhi">Delhi</option><option value="Karnataka">Karnataka</option><option value="Tamil Nadu">Tamil Nadu</option><option value="Gujarat">Gujarat</option><option value="Rajasthan">Rajasthan</option><option value="Uttar Pradesh">Uttar Pradesh</option><option value="West Bengal">West Bengal</option><option value="Odisha">Odisha</option><option value="Jharkhand">Jharkhand</option><option value="Uttarakhand">Uttarakhand</option></select></div><div class="fg"><label class="fl">Website</label><input class="fi" id="cp-website" type="text" value="www.ieccl.co.in" placeholder="www.yourcompany.com"/></div></div>
+            <div class="form-grid"><div class="fg"><label class="fl">State</label><select class="fi" id="cp-state" style="height:38px;"><option value="Bihar">Bihar</option><option value="Maharashtra" selected>Maharashtra</option><option value="Delhi">Delhi</option><option value="Karnataka">Karnataka</option><option value="Tamil Nadu">Tamil Nadu</option><option value="Gujarat">Gujarat</option><option value="Rajasthan">Rajasthan</option><option value="Uttar Pradesh">Uttar Pradesh</option></select></div><div class="fg"><label class="fl">Website</label><input class="fi" id="cp-website" type="text" value="www.ieccl.co.in" placeholder="www.yourcompany.com"/></div></div>
             <div class="fdiv"></div>
             <div class="fg"><label class="fl">Company Logo</label>
               <div class="upload-zone" id="logo-upload-zone" onclick="document.getElementById('logo-file-input').click()" style="cursor:pointer;">
                 <input type="file" id="logo-file-input" accept="image/png,image/svg+xml,image/jpeg" style="display:none;" onchange="handleLogoUpload(event)">
                 <img id="logo-preview" src="" alt="" style="display:none;max-height:72px;max-width:280px;border-radius:6px;margin-bottom:6px;">
-                <div id="logo-placeholder"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><div class="upload-zone-label">Click to upload logo</div><div class="upload-zone-sub">PNG/SVG/JPG · Max 2MB · 400×120px</div></div>
+                <div id="logo-placeholder"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><div class="upload-zone-label">Click to upload logo</div><div class="upload-zone-sub">PNG/SVG/JPG · Max 2MB</div></div>
                 <button id="logo-remove-btn" onclick="event.stopPropagation();removeLogo()" style="display:none;position:absolute;top:8px;right:8px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.35);border-radius:6px;padding:3px 8px;font-size:10px;color:#EF4444;cursor:pointer;">&#10005; Remove</button>
               </div>
             </div>
@@ -1617,29 +1614,6 @@ svg{flex-shrink:0}
       </div>
     </div>
   </div>
-
-
-<!-- STANDARD FOOTER -->
-<footer class="sp-footer">
-  <div class="sp-footer-left">
-    <span>&#169; 2026 SafetyPro AI</span>
-    <span class="sp-footer-sep">|</span>
-    <span style="color:var(--t2,#7A9BBF);">Admin &amp; Configuration</span>
-    <span class="sp-footer-sep">|</span>
-    <span id="sp-footer-version">v1.3.2</span>
-    <span class="sp-footer-sep">|</span>
-    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
-  </div>
-  <div class="sp-footer-center">
-    <a href="mailto:support@safetyproworld.com">Admin Guide</a>
-    <a href="mailto:support@safetyproworld.com">Support</a>
-    <a href="mailto:support@safetyproworld.com">Report Issue</a>
-  </div>
-  <div class="sp-footer-right">
-    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
-    <span id="sp-status-text" style="color:#22C55E;">Operational</span>
-  </div>
-</footer>
 </div>
 
 
@@ -1671,8 +1645,6 @@ function apiFetch(path, opts) {
 function switchTab(el,id){if(id==='projects')setTimeout(loadProjectsList,100);
   document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
-  // Auto-scroll tab into view
-  try{el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'nearest'});}catch(e){}
   document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
   document.getElementById('tab-'+id).classList.add('active');
   if(id==='activities') loadProjectsForActivities();
@@ -2477,48 +2449,6 @@ function closeSidebar() {
   if (sb) sb.classList.remove('open'); if (ov) ov.classList.remove('show'); if (btn) btn.classList.remove('open');
 }
 
-
-function handleLogoUpload(event){
-  var file=event.target.files[0];if(!file)return;
-  if(file.size>2097152){showToast('Logo exceeds 2MB','error');return;}
-  var r=new FileReader();r.onload=function(e){
-    var b64=e.target.result;
-    var pv=document.getElementById('logo-preview');var ph=document.getElementById('logo-placeholder');var rb=document.getElementById('logo-remove-btn');
-    if(pv){pv.src=b64;pv.style.display='block';}if(ph)ph.style.display='none';if(rb)rb.style.display='block';
-    try{localStorage.setItem('sp_company_logo',b64);}catch(x){}showToast('Logo uploaded ✓','success');
-  };r.readAsDataURL(file);
-}
-function removeLogo(){
-  var pv=document.getElementById('logo-preview');var ph=document.getElementById('logo-placeholder');
-  var rb=document.getElementById('logo-remove-btn');var fi=document.getElementById('logo-file-input');
-  if(pv){pv.src='';pv.style.display='none';}if(ph)ph.style.display='';if(rb)rb.style.display='none';if(fi)fi.value='';
-  localStorage.removeItem('sp_company_logo');showToast('Logo removed');
-}
-function saveCompanyProfile(){
-  var g=function(id){return document.getElementById(id);};
-  var p={name:g('cp-name')?g('cp-name').value:'',short:g('cp-short')?g('cp-short').value:'',
-    address:g('cp-address')?g('cp-address').value:'',city:g('cp-city')?g('cp-city').value:'',
-    gstin:g('cp-gstin')?g('cp-gstin').value:'',cin:g('cp-cin')?g('cp-cin').value:'',
-    state:g('cp-state')?g('cp-state').value:'',website:g('cp-website')?g('cp-website').value:'',
-    header:g('cp-header')?g('cp-header').value:'',logo:localStorage.getItem('sp_company_logo')||''};
-  try{localStorage.setItem('sp_company_profile',JSON.stringify(p));}catch(x){}
-  var tok=localStorage.getItem('sp_token')||'';
-  fetch('https://safetypro-backend-production.up.railway.app/api/v1/company/profile',
-    {method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+tok},body:JSON.stringify(p)})
-    .then(function(){showToast('Saved ✓','success');}).catch(function(){showToast('Saved locally ✓','success');});
-}
-function loadCompanyProfile(){
-  try{
-    var s=JSON.parse(localStorage.getItem('sp_company_profile')||'null');
-    if(s){var g=function(id){return document.getElementById(id);};
-      ['name','short','address','city','gstin','cin','state','website','header'].forEach(function(k){if(g('cp-'+k)&&s[k])g('cp-'+k).value=s[k];});
-    }
-    var logo=localStorage.getItem('sp_company_logo');
-    if(logo){var pv=document.getElementById('logo-preview');var ph=document.getElementById('logo-placeholder');var rb=document.getElementById('logo-remove-btn');
-      if(pv){pv.src=logo;pv.style.display='block';}if(ph)ph.style.display='none';if(rb)rb.style.display='block';}
-  }catch(x){}
-}
-setTimeout(loadCompanyProfile,400);
 </script>
 
 <!-- WebSocket Real-Time Client -->
@@ -3173,11 +3103,49 @@ function fixAdminPanels(){
 document.addEventListener('DOMContentLoaded', fixAdminPanels); window.addEventListener('load', fixAdminPanels);
 var _origSwitchTab = window.switchTab;
 window.switchTab = function(el, id) { fixAdminPanels(); _origSwitchTab.call(this, el, id); var t = document.getElementById('tab-'+id); if(t) t.style.removeProperty('display'); };
-</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous">
+</script><script>
+function scrollAdminTabs(px){var el=document.getElementById('admin-tabs-bar');if(el)el.scrollLeft+=px;}
+function handleLogoUpload(event){
+  var file=event.target.files[0];if(!file)return;
+  if(file.size>2097152){showToast('Logo exceeds 2MB','error');return;}
+  var r=new FileReader();r.onload=function(e){
+    var b64=e.target.result;
+    var pv=document.getElementById('logo-preview'),ph=document.getElementById('logo-placeholder'),rb=document.getElementById('logo-remove-btn');
+    if(pv){pv.src=b64;pv.style.display='block';}if(ph)ph.style.display='none';if(rb)rb.style.display='block';
+    try{localStorage.setItem('sp_company_logo',b64);}catch(x){}showToast('Logo uploaded ✓','success');
+  };r.readAsDataURL(file);
+}
+function removeLogo(){
+  var pv=document.getElementById('logo-preview'),ph=document.getElementById('logo-placeholder'),rb=document.getElementById('logo-remove-btn'),fi=document.getElementById('logo-file-input');
+  if(pv){pv.src='';pv.style.display='none';}if(ph)ph.style.display='';if(rb)rb.style.display='none';if(fi)fi.value='';
+  localStorage.removeItem('sp_company_logo');showToast('Logo removed');
+}
+function saveCompanyProfile(){
+  var g=function(id){return document.getElementById(id);};
+  var p={name:g('cp-name')?g('cp-name').value:'',short:g('cp-short')?g('cp-short').value:'',
+    address:g('cp-address')?g('cp-address').value:'',city:g('cp-city')?g('cp-city').value:'',
+    gstin:g('cp-gstin')?g('cp-gstin').value:'',cin:g('cp-cin')?g('cp-cin').value:'',
+    state:g('cp-state')?g('cp-state').value:'',website:g('cp-website')?g('cp-website').value:'',
+    header:g('cp-header')?g('cp-header').value:'',logo:localStorage.getItem('sp_company_logo')||''};
+  try{localStorage.setItem('sp_company_profile',JSON.stringify(p));}catch(x){}
+  var tok=localStorage.getItem('sp_token')||'';
+  fetch('https://safetypro-backend-production.up.railway.app/api/v1/company/profile',
+    {method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+tok},body:JSON.stringify(p)})
+    .then(function(){showToast('Saved ✓','success');}).catch(function(){showToast('Saved locally ✓','success');});
+}
+function loadCompanyProfile(){
+  try{
+    var s=JSON.parse(localStorage.getItem('sp_company_profile')||'null');
+    if(s){var g=function(id){return document.getElementById(id);};
+      ['name','short','address','city','gstin','cin','state','website','header'].forEach(function(k){if(g('cp-'+k)&&s[k])g('cp-'+k).value=s[k];});}
+    var logo=localStorage.getItem('sp_company_logo');
+    if(logo){var pv=document.getElementById('logo-preview'),ph=document.getElementById('logo-placeholder'),rb=document.getElementById('logo-remove-btn');
+      if(pv){pv.src=logo;pv.style.display='block';}if(ph)ph.style.display='none';if(rb)rb.style.display='block';}
+  }catch(x){}
+}
 function spFooterInit(){
   fetch('https://safetypro-backend-production.up.railway.app/api/system/status')
-    .then(function(r){return r.json();})
-    .then(function(d){
+    .then(function(r){return r.json();}).then(function(d){
       var v=document.getElementById('sp-footer-version'),s=document.getElementById('sp-footer-sync'),dot=document.getElementById('sp-status-dot'),txt=document.getElementById('sp-status-text');
       var c={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'},st=d.status||'operational';
       if(v&&d.version)v.textContent=d.version;
@@ -3186,9 +3154,9 @@ function spFooterInit(){
       if(txt){txt.textContent=st.charAt(0).toUpperCase()+st.slice(1);txt.style.color=c[st]||'#22C55E';}
     }).catch(function(){});
 }
+setTimeout(loadCompanyProfile,400);
 setTimeout(spFooterInit,800);
 </script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
 
