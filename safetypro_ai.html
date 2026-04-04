@@ -791,8 +791,25 @@ flex-wrap:wrap;}
 /* WebSocket real-time fade-in animation */
 @keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 
+
+  /* ══ PROFILE DROPDOWN CSS ══ */
+  .profile-dd{display:none;position:fixed;top:52px;right:16px;width:240px;background:var(--card,#111D2B);border:1px solid var(--border,#1E3347);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:9999;overflow:hidden;}
+  .profile-dd.open{display:block;}
+  .pd-header{padding:14px 16px;border-bottom:1px solid var(--border,#1E3347);display:flex;align-items:center;gap:10px;}
+  .pd-avatar{width:36px;height:36px;border-radius:50%;background:var(--green,#22C55E);color:#0B1A2E;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--fh,'Inter',sans-serif);flex-shrink:0;}
+  .pd-name{font-size:13px;font-weight:700;color:var(--t1,#E2EAF4);}
+  .pd-email{font-size:11px;color:var(--t3,#2E4A66);margin-top:1px;}
+  .pd-role-badge{font-size:10px;color:var(--green,#22C55E);margin-top:3px;font-weight:600;}
+  .pd-menu{padding:6px 0;}
+  .pd-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:12px;color:var(--t2,#7A9BBF);cursor:pointer;transition:.15s;text-decoration:none;}
+  .pd-item:hover{background:var(--raised,#0D1E30);color:var(--t1,#E2EAF4);}
+  .pd-item svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;flex-shrink:0;}
+  .pd-divider{height:1px;background:var(--border,#1E3347);margin:4px 0;}
+  .pd-signout{color:#EF4444 !important;}
+  .pd-signout:hover{background:rgba(239,68,68,.08) !important;}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+<script src="/safetypro_exports.js"></script>
 </head>
 <body>
 
@@ -830,21 +847,71 @@ flex-wrap:wrap;}
       <span style="color:var(--t3);font-size:10px;margin-left:6px">▾</span>
     </div>
   </div>
-</nav>
-  <!-- Profile Dropdown -->
-  <div id="profile-dropdown" style="display:none;position:fixed;top:52px;right:16px;width:220px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:9999;overflow:hidden">
-    <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
-      <div style="font-size:13px;font-weight:700;color:var(--t1)" id="profile-name">-</div>
-      <div style="font-size:11px;color:var(--t3)" id="profile-email">-</div>
-      <div style="font-size:10px;color:var(--green);margin-top:2px;font-weight:600" id="profile-role-badge">-</div>
-    </div>
-    <div style="padding:8px 0">
-      <div onclick="signOut()" style="padding:10px 16px;font-size:13px;color:#EF4444;cursor:pointer;display:flex;align-items:center;gap:8px" onmouseover="this.style.background='rgba(239,68,68,.08)'" onmouseout="this.style.background='transparent'">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
-        Sign Out
+</nav<li class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More&#9660;
+      <div class="more-menu" id="more-menu">
+        <a class="mm-item" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="safetypro_documents"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/></svg>Documents &amp; Records</a>
+        <a class="mm-item" href="safetypro_field"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="safetypro_hrm.html"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>HRM &amp; Payroll</a>
+        <a class="mm-item" href="safetypro_ai" style="color:var(--green);font-weight:700;"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 110 20A10 10 0 0112 2z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_auditor"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
+        <a class="mm-item" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Admin &amp; Configuration</a>
+      </div>
+    </li> class="topnav">
+  <a class="logo" href="safetypro_v2.html" title="Go to Dashboard">
+    <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
+    <span class="logo-text">SafetyPro <span>AI</span></span>
+  </a>
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
+  <div class="nav-links">
+    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
+    <a class="nl active" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>Operations</a>
+    <a class="nl" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
+    <a class="nl" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>Reports</a>
+    <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More<span class="arr">▾</span>
+      <div class="more-menu" id="more-menu">
+        <a class="mm-item" href="#" onclick="event.preventDefault();showToast('Audit & Compliance - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="safetypro_documents.html" onclick="event.preventDefault();showToast('Documents & Records - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
+        <a class="mm-item" href="safetypro_field" onclick="event.preventDefault();showToast('Site & Field Tools - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="safetypro_hrm.html" style="color:#8B5CF6;"><svg viewBox="0 0 24 24" style="fill:#8B5CF6;"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>HRM &amp; Payroll</a>
+        <a class="mm-item" href="safetypro_ai.html" onclick="event.preventDefault();showToast('AI Intelligence - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_auditor.html" onclick="event.preventDefault();showToast('Auditor Verification - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
+        <div class="mm-divider"></div>
+        <a class="mm-item mm-admin" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Admin &amp; Configuration</a>
       </div>
     </div>
   </div>
+  <div class="nav-right">
+    <div class="icon-btn"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><div class="notif-dot"></div></div>
+    <div class="user-pill">
+      <div class="ua">DK</div>
+      <div><div class="un-name">Dhanesh CK</div><div class="un-role">HSE Head</div></div>
+      <span style="color:var(--t3);font-size:10px;margin-left:6px">▾</span>
+    </div>
+  </div>
+</nav>
+  <!-- Profile Dropdown -->
+  <!-- ══ PROFILE DROPDOWN ══ -->
+<div id="profile-dropdown" class="profile-dd">
+  <div class="pd-header">
+    <div class="pd-avatar" id="pd-initials">--</div>
+    <div>
+      <div class="pd-name" id="profile-name">Loading...</div>
+      <div class="pd-email" id="profile-email"></div>
+      <div class="pd-role-badge" id="profile-role-badge">HSE Officer</div>
+    </div>
+  </div>
+  <div class="pd-menu">
+    <a class="pd-item" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+    <a class="pd-item" onclick="openManageUsers()"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Manage Users</a>
+    <a class="pd-item" onclick="openSettings()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings</a>
+    <a class="pd-item" onclick="changePassword()"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Change Password</a>
+    <div class="pd-divider"></div>
+    <a class="pd-item pd-signout" onclick="signOut()"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>Sign Out</a>
+  </div>
+</div>
 
 <!-- ══ BODY ══ -->
 <div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
@@ -1152,6 +1219,30 @@ document.addEventListener('click',function(e){
 
   </div>
 </div>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+<script>
+/* ══ INIT USER IN TOPBAR ══ */
+(function spInitTopbar(){
+  var u=localStorage.getItem('sp_user');
+  if(!u)return;
+  try{
+    var obj=JSON.parse(u);
+    var name=obj.name||obj.fullName||obj.username||'User';
+    var role=obj.role||obj.designation||'HSE Officer';
+    var initials=name.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
+    var ni=document.getElementById('nav-initials');var nu=document.getElementById('nav-username');var nr=document.getElementById('nav-role');
+    var pi=document.getElementById('pd-initials');var pn=document.getElementById('profile-name');var pe=document.getElementById('profile-email');var prb=document.getElementById('profile-role-badge');
+    if(ni)ni.textContent=initials;
+    if(nu)nu.textContent=name;
+    if(nr)nr.textContent=role;
+    if(pi)pi.textContent=initials;
+    if(pn)pn.textContent=name;
+    if(pe)pe.textContent=obj.email||'';
+    if(prb)prb.textContent=role;
+  }catch(e){}
+})();
+</script>
 </body>
 </html>
 
