@@ -55,7 +55,7 @@ svg{flex-shrink:0}
   position:sticky;top:0;z-index:100;
 }
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none;width:195px;flex-shrink:0;padding:0 16px 0 18px;border-right:1px solid var(--border)}
-.logo-mark{width:28px;height:28px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(34,197,94,.4)}
+.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35);}
 .logo-mark svg{width:16px;height:16px;fill:#fff}
 .logo-text{font-family:var(--fh);font-size:15px;font-weight:700}
 .logo-text span{color:var(--green)}
@@ -807,7 +807,20 @@ flex-wrap:wrap;}
   .pd-divider{height:1px;background:var(--border,#1E3347);margin:4px 0;}
   .pd-signout{color:#EF4444 !important;}
   .pd-signout:hover{background:rgba(239,68,68,.08) !important;}
-</style>
+
+  /* ══ FOOTER ══ */
+  .sp-footer{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:32px;background:var(--card,#111D2B);border-top:1px solid var(--border,#1E3347);font-size:11px;color:var(--t3,#2E4A66);flex-shrink:0;gap:12px;}
+  .sp-footer a{color:var(--t3,#2E4A66);text-decoration:none;transition:.15s;}
+  .sp-footer a:hover{color:var(--t2,#7A9BBF);}
+  .sp-footer-sep{color:var(--border,#1E3347);margin:0 4px;}
+  .sp-footer-center{display:flex;gap:16px;}
+  .sp-footer-right{display:flex;align-items:center;gap:6px;}
+  .sp-footer-status-dot{width:6px;height:6px;border-radius:50%;background:#22C55E;}
+  /* ══ CONTENT GAP FIX ══ */
+  .content{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;}
+  .app,.body{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+  .body{flex:1;display:flex;flex-direction:row;overflow:hidden;min-height:0;}
+  </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 <script src="/safetypro_exports.js"></script>
 </head>
@@ -816,7 +829,7 @@ flex-wrap:wrap;}
 <!-- ══ TOP NAV ══ -->
 <nav class="topnav">
   <a class="logo" href="safetypro_v2.html" title="Go to Dashboard">
-    <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
+    <div class="logo-shield"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
     <span class="logo-text">SafetyPro <span>AI</span></span>
   </a>
   <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -1272,6 +1285,52 @@ document.addEventListener('click',function(e){
     if(prb)prb.textContent=role;
   }catch(e){}
 })();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+<footer class="sp-footer">
+  <div class="sp-footer-left">
+    <span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF)">Documents &amp; Records</span>
+    <span class="sp-footer-sep">|</span>
+    <span id="sp-footer-version">v1.3.2</span>
+    <span class="sp-footer-sep">|</span>
+    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
+  </div>
+  <div class="sp-footer-center">
+    <a href="mailto:support@safetyproworld.com">Upload Guide</a>
+    <a href="mailto:support@safetyproworld.com">Document Help</a>
+    <a href="mailto:support@safetyproworld.com">Report Issue</a>
+  </div>
+  <div class="sp-footer-right">
+    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
+    <span id="sp-status-text" style="color:#22C55E">Operational</span>
+  </div>
+</footer>
+<script>
+function spFooterInit(){
+  var API_BASE='https://safetypro-backend-production.up.railway.app';
+  fetch(API_BASE+'/api/v1/system/status',{headers:{'Authorization':'Bearer '+(localStorage.getItem('sp_token')||'')}})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    var v=document.getElementById('sp-footer-version');
+    var s=document.getElementById('sp-footer-sync');
+    var dot=document.getElementById('sp-status-dot');
+    var txt=document.getElementById('sp-status-text');
+    var now=new Date();
+    var ts=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+    if(v)v.textContent='v'+(d.version||'1.3.2');
+    if(s)s.textContent=ts;
+    if(dot)dot.style.background=d.status==='ok'?'#22C55E':'#EF4444';
+    if(txt)txt.textContent=d.status==='ok'?'Operational':'Degraded';
+    if(txt)txt.style.color=d.status==='ok'?'#22C55E':'#EF4444';
+  }).catch(function(){
+    var s=document.getElementById('sp-footer-sync');
+    var now=new Date();
+    if(s)s.textContent=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+  });
+}
+setTimeout(spFooterInit,800);
+setInterval(spFooterInit,30000);
 </script>
 </body>
 </html>
