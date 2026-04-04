@@ -64,7 +64,8 @@ svg{flex-shrink:0}
 .sub-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50;flex-wrap:wrap;}
 .sh-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0;overflow:hidden;}
 .sh-title{font-family:var(--fh);font-size:16px;font-weight:700}
-.sh-tabs{display:flex;gap:2px;overflow:auto hidden;flex-wrap:nowrap;scrollbar-width:none;flex:1;min-width:0;}
+.sh-tabs{display:flex;gap:2px;overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap;scrollbar-width:none;flex:1;min-width:0;}
+  .sh-tabs::-webkit-scrollbar{display:none;}
   .sh-tabs::-webkit-scrollbar{display:none;}
 .sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap;flex-shrink:0;}
 .sh-tab:hover{color:var(--t2)}
@@ -1647,6 +1648,8 @@ function apiFetch(path, opts) {
 function switchTab(el,id){if(id==='projects')setTimeout(loadProjectsList,100);
   document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
   el.classList.add('active');
+  // Auto-scroll tab into view
+  try{el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'nearest'});}catch(e){}
   document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
   document.getElementById('tab-'+id).classList.add('active');
   if(id==='activities') loadProjectsForActivities();
@@ -3147,7 +3150,8 @@ function fixAdminPanels(){
 document.addEventListener('DOMContentLoaded', fixAdminPanels); window.addEventListener('load', fixAdminPanels);
 var _origSwitchTab = window.switchTab;
 window.switchTab = function(el, id) { fixAdminPanels(); _origSwitchTab.call(this, el, id); var t = document.getElementById('tab-'+id); if(t) t.style.removeProperty('display'); };
-</script></body>
+</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
 </html>
 
 <!-- projects-tab-20260401211550 -->
