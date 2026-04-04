@@ -1617,6 +1617,29 @@ svg{flex-shrink:0}
       </div>
     </div>
   </div>
+
+
+<!-- STANDARD FOOTER -->
+<footer class="sp-footer">
+  <div class="sp-footer-left">
+    <span>&#169; 2026 SafetyPro AI</span>
+    <span class="sp-footer-sep">|</span>
+    <span style="color:var(--t2,#7A9BBF);">Admin &amp; Configuration</span>
+    <span class="sp-footer-sep">|</span>
+    <span id="sp-footer-version">v1.3.2</span>
+    <span class="sp-footer-sep">|</span>
+    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
+  </div>
+  <div class="sp-footer-center">
+    <a href="mailto:support@safetyproworld.com">Admin Guide</a>
+    <a href="mailto:support@safetyproworld.com">Support</a>
+    <a href="mailto:support@safetyproworld.com">Report Issue</a>
+  </div>
+  <div class="sp-footer-right">
+    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
+    <span id="sp-status-text" style="color:#22C55E;">Operational</span>
+  </div>
+</footer>
 </div>
 
 
@@ -3150,7 +3173,22 @@ function fixAdminPanels(){
 document.addEventListener('DOMContentLoaded', fixAdminPanels); window.addEventListener('load', fixAdminPanels);
 var _origSwitchTab = window.switchTab;
 window.switchTab = function(el, id) { fixAdminPanels(); _origSwitchTab.call(this, el, id); var t = document.getElementById('tab-'+id); if(t) t.style.removeProperty('display'); };
-</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous">
+function spFooterInit(){
+  fetch('https://safetypro-backend-production.up.railway.app/api/system/status')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var v=document.getElementById('sp-footer-version'),s=document.getElementById('sp-footer-sync'),dot=document.getElementById('sp-status-dot'),txt=document.getElementById('sp-status-text');
+      var c={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'},st=d.status||'operational';
+      if(v&&d.version)v.textContent=d.version;
+      if(s&&d.lastSync)try{s.textContent=new Date(d.lastSync).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}
+      if(dot)dot.style.background=c[st]||'#22C55E';
+      if(txt){txt.textContent=st.charAt(0).toUpperCase()+st.slice(1);txt.style.color=c[st]||'#22C55E';}
+    }).catch(function(){});
+}
+setTimeout(spFooterInit,800);
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
 
