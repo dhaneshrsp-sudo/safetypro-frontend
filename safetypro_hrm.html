@@ -622,7 +622,7 @@ html{height:100%;}body{height:100%;background:var(--bg);color:var(--t1);font-fam
           <div style="display:flex;gap:8px;align-items:center;">
             <select id="ws-month" style="background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--t1);font-size:11px;"><option value="2026-03">March 2026</option><option value="2026-02">February 2026</option><option value="2026-01">January 2026</option></select>
             <select id="ws-type" style="background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--t1);font-size:11px;"><option value="project">Project Roll</option><option value="ho">HO Roll</option></select>
-            <button onclick="hrmToast('Generating wage sheet &#8212; Phase 3-C coming soon','blue')" style="padding:7px 16px;background:var(--purple);border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:800;font-family:var(--fh);cursor:pointer;">&#128196; Generate All</button>
+            <button onclick="generateWageSheet()" style="padding:7px 16px;background:var(--purple);border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:800;font-family:var(--fh);cursor:pointer;">&#128196; Generate All</button>
           </div>
         </div>
         <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 100px;padding:8px 14px;border-bottom:1px solid var(--border);"><div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;">Employee</div><div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;">Days Present</div><div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;">OT Hours</div><div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;">Est. Net Pay</div><div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;">Action</div></div>
@@ -1205,5 +1205,100 @@ function spFooterInit(){
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+// ── Wage Sheet & Payslip Generator ───────────────────────────────────────
+function generateWageSheet() {
+  var monthEl = document.getElementById('ws-month');
+  var typeEl  = document.getElementById('ws-type');
+  var monthVal = monthEl ? monthEl.value : '2026-03';
+  var rollType = typeEl  ? typeEl.value  : 'project';
+  var parts    = monthVal.split('-');
+  var year     = parseInt(parts[0]);
+  var month    = parseInt(parts[1]) - 1; // 0-indexed
+  var project  = localStorage.getItem('sp_active_project') || 'BBRP — Birpur Bihpur Road Project, NH-106/131, Bihar';
+
+  // Collect workers from wage sheet table rows
+  var workers = [];
+  var rows = document.querySelectorAll('#ws-body tr, .ws-row, [data-ws-row]');
+  if (!rows.length) {
+    // Try muster roll table
+    rows = document.querySelectorAll('table tbody tr');
+  }
+  rows.forEach(function(row) {
+    var cells = row.querySelectorAll('td');
+    if (cells.length < 3) return;
+    var name  = (cells[1] || cells[0]).textContent.trim();
+    var trade = (cells[2] || cells[1]).textContent.trim();
+    if (!name || name === 'Worker Name' || name === 'Name') return;
+    var basicWages   = parseFloat((cells[4] || {}).textContent) || 13000;
+    var otAmount     = parseFloat((cells[5] || {}).textContent) || 0;
+    var pfDeduction  = parseFloat((cells[6] || {}).textContent) || Math.round(basicWages * 0.12);
+    var esiDeduction = parseFloat((cells[7] || {}).textContent) || Math.round(basicWages * 0.0075);
+    var totalWages   = basicWages + otAmount;
+    var netWages     = totalWages - pfDeduction - esiDeduction;
+    workers.push({
+      name: name, trade: trade, daysWorked: 26, daysAbsent: 0,
+      basicWages: basicWages, otAmount: otAmount,
+      pfDeduction: pfDeduction, esiDeduction: esiDeduction,
+      totalWages: totalWages, netWages: netWages,
+      dailyWage: Math.round(basicWages / 26),
+      bocwRegNo: '', category: rollType === 'ho' ? 'Staff' : 'Labour',
+    });
+  });
+
+  if (!workers.length) {
+    // Demo data fallback
+    workers = [
+      {name:'Rajan Kumar',trade:'Mason',daysWorked:26,basicWages:13000,otAmount:1500,pfDeduction:1560,esiDeduction:98,totalWages:14500,netWages:12842,dailyWage:500},
+      {name:'Suresh Yadav',trade:'Helper',daysWorked:24,basicWages:12000,otAmount:0,pfDeduction:1440,esiDeduction:90,totalWages:12000,netWages:10470,dailyWage:500},
+      {name:'Mohan Singh',trade:'Electrician',daysWorked:26,basicWages:16000,otAmount:2000,pfDeduction:1920,esiDeduction:120,totalWages:18000,netWages:15960,dailyWage:615},
+    ];
+    hrmToast('Using demo data — connect attendance for live data', 'blue');
+  }
+
+  hrmToast('Generating wage sheet for ' + workers.length + ' workers...', 'success');
+
+  // Generate individual payslips using SPExports
+  if (typeof SPExports !== 'undefined') {
+    // Generate bulk CSV first
+    SPExports.bocwFormXIII(workers, { month: month, year: year, projectName: project });
+    // Then generate first payslip as sample
+    setTimeout(function() {
+      SPExports.payslip(workers[0], { month: month, year: year, projectName: project });
+    }, 800);
+  } else {
+    hrmToast('Export engine not loaded', 'error');
+  }
+}
+
+function downloadPayslip(workerName) {
+  // Find worker in table and generate their payslip
+  var rows = document.querySelectorAll('table tbody tr');
+  var found = null;
+  rows.forEach(function(row) {
+    var cells = row.querySelectorAll('td');
+    if (cells[1] && cells[1].textContent.trim() === workerName) {
+      found = {
+        name: workerName,
+        trade: (cells[2] || {}).textContent || '',
+        daysWorked: parseInt((cells[cells.length-3] || {}).textContent) || 26,
+        dailyWage: 500,
+        basicWages: (parseInt((cells[cells.length-3] || {}).textContent) || 26) * 500,
+        pfDeduction: Math.round(26 * 500 * 0.12),
+        esiDeduction: Math.round(26 * 500 * 0.0075),
+        totalWages: 26 * 500,
+        netWages: 26 * 500 - Math.round(26 * 500 * 0.12) - Math.round(26 * 500 * 0.0075),
+      };
+    }
+  });
+  if (found && typeof SPExports !== 'undefined') {
+    SPExports.payslip(found);
+  } else {
+    hrmToast('Worker not found or export engine not loaded', 'error');
+  }
+}
+// ─────────────────────────────────────────────────────────────────────────
+
 </body>
 </html>
