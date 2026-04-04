@@ -62,10 +62,9 @@ svg{flex-shrink:0}
 /* CONTENT */
 .content{flex:1;min-width:0}
 .sub-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50;flex-wrap:wrap;}
-.sh-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0;overflow:hidden;}
+.sh-left{display:flex;align-items:center;gap:12px}
 .sh-title{font-family:var(--fh);font-size:16px;font-weight:700}
-.sh-tabs{display:flex;gap:2px;overflow:auto hidden;flex-wrap:nowrap;scrollbar-width:none;flex:1;min-width:0;}
-  .sh-tabs::-webkit-scrollbar{display:none;}
+.sh-tabs{display:flex;gap:2px;}
 .sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap;flex-shrink:0;}
 .sh-tab:hover{color:var(--t2)}
 .sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
@@ -524,8 +523,7 @@ svg{flex-shrink:0}
 .pd-signout:hover{opacity:.85;transform:translateY(-1px);}
 .pd-signout svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;}
 /* ══ STANDARD FOOTER (shared) ══ */
-footer.sp-footer{position:fixed;bottom:0;left:0;right:0;z-index:200;}
-  .sp-footer{flex-shrink:0;background:var(--sidebar,#080F18);border-top:1px solid var(--border,#162236);padding:7px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--t3,#2E4A66);z-index:10;}
+.sp-footer{flex-shrink:0;background:var(--sidebar,#080F18);border-top:1px solid var(--border,#162236);padding:7px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--t3,#2E4A66);z-index:10;}
 .sp-footer-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .sp-footer-center{display:flex;align-items:center;gap:14px;}
 .sp-footer-center a{color:var(--t3,#2E4A66);text-decoration:none;transition:.15s;}
@@ -543,6 +541,14 @@ footer.sp-footer{position:fixed;bottom:0;left:0;right:0;z-index:200;}
 .sh-tabs{max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;}
 .sh-tabs::-webkit-scrollbar{display:none;}
 
+
+  html,body{height:100vh !important;overflow:hidden !important;display:flex !important;flex-direction:column !important;}
+  .app{flex:1 !important;min-height:0 !important;overflow:hidden !important;display:flex !important;flex-direction:column !important;}
+  .body{display:flex;flex:1;min-height:0;overflow:hidden;}
+  .main{padding:16px 20px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;}
+  .sh-tabs{display:flex;gap:2px;overflow:auto hidden;flex-wrap:nowrap;scrollbar-width:none;flex:1;min-width:0;}
+  .sh-tabs::-webkit-scrollbar{display:none;}
+  .sh-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0;overflow:hidden;}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
@@ -3106,7 +3112,14 @@ document.addEventListener('DOMContentLoaded', fixAdminPanels); window.addEventLi
 var _origSwitchTab = window.switchTab;
 window.switchTab = function(el, id) { fixAdminPanels(); _origSwitchTab.call(this, el, id); var t = document.getElementById('tab-'+id); if(t) t.style.removeProperty('display'); };
 </script><script>
-function handleLogoUpload(e){var f=e.target.files[0];if(!f)return;if(f.size>2097152){showToast('Logo >2MB','error');return;}var r=new FileReader();r.onload=function(x){var b=x.target.result;var pv=document.getElementById('logo-preview'),ph=document.getElementById('logo-placeholder'),rb=document.getElementById('logo-remove-btn');if(pv){pv.src=b;pv.style.display='block';}if(ph)ph.style.display='none';if(rb)rb.style.display='block';try{localStorage.setItem('sp_company_logo',b);}catch(z){}showToast('Logo uploaded','success');};r.readAsDataURL(f);}
+(function(){
+  if(document.querySelector('.sp-footer'))return;
+  var f=document.createElement('footer');
+  f.className='sp-footer';
+  f.innerHTML='<div class="sp-footer-left"><span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF);">Admin &amp; Configuration</span><span class="sp-footer-sep">|</span><span id="sp-footer-version">v1.3.2</span><span class="sp-footer-sep">|</span><span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span></div><div class="sp-footer-center"><a href="mailto:support@safetyproworld.com">Admin Guide</a><a href="mailto:support@safetyproworld.com">Support</a><a href="mailto:support@safetyproworld.com">Report Issue</a></div><div class="sp-footer-right"><div class="sp-footer-status-dot" id="sp-status-dot"></div><span id="sp-status-text" style="color:#22C55E;">Operational</span></div>';
+  document.body.appendChild(f);
+})();
+function handleLogoUpload(e){var f=e.target.files[0];if(!f)return;if(f.size>2097152){showToast('Logo >2MB','error');return;}var r=new FileReader();r.onload=function(x){var b=x.target.result,pv=document.getElementById('logo-preview'),ph=document.getElementById('logo-placeholder'),rb=document.getElementById('logo-remove-btn');if(pv){pv.src=b;pv.style.display='block';}if(ph)ph.style.display='none';if(rb)rb.style.display='block';try{localStorage.setItem('sp_company_logo',b);}catch(z){}showToast('Logo uploaded','success');};r.readAsDataURL(f);}
 function removeLogo(){var pv=document.getElementById('logo-preview'),ph=document.getElementById('logo-placeholder'),rb=document.getElementById('logo-remove-btn'),fi=document.getElementById('logo-file-input');if(pv){pv.src='';pv.style.display='none';}if(ph)ph.style.display='';if(rb)rb.style.display='none';if(fi)fi.value='';localStorage.removeItem('sp_company_logo');showToast('Logo removed');}
 function saveCompanyProfile(){var g=function(id){return document.getElementById(id);};var p={name:g('cp-name')?g('cp-name').value:'',short:g('cp-short')?g('cp-short').value:'',address:g('cp-address')?g('cp-address').value:'',city:g('cp-city')?g('cp-city').value:'',gstin:g('cp-gstin')?g('cp-gstin').value:'',cin:g('cp-cin')?g('cp-cin').value:'',state:g('cp-state')?g('cp-state').value:'',website:g('cp-website')?g('cp-website').value:'',header:g('cp-header')?g('cp-header').value:'',logo:localStorage.getItem('sp_company_logo')||''};try{localStorage.setItem('sp_company_profile',JSON.stringify(p));}catch(z){}var t=localStorage.getItem('sp_token')||'';fetch('https://safetypro-backend-production.up.railway.app/api/v1/company/profile',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+t},body:JSON.stringify(p)}).then(function(){showToast('Saved','success');}).catch(function(){showToast('Saved locally','success');});}
 function loadCompanyProfile(){try{var s=JSON.parse(localStorage.getItem('sp_company_profile')||'null');if(s){var g=function(id){return document.getElementById(id);};['name','short','address','city','gstin','cin','state','website','header'].forEach(function(k){if(g('cp-'+k)&&s[k])g('cp-'+k).value=s[k];});}var logo=localStorage.getItem('sp_company_logo');if(logo){var pv=document.getElementById('logo-preview'),ph=document.getElementById('logo-placeholder'),rb=document.getElementById('logo-remove-btn');if(pv){pv.src=logo;pv.style.display='block';}if(ph)ph.style.display='none';if(rb)rb.style.display='block';}}catch(z){}}
