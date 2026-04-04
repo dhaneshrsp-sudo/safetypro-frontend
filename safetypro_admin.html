@@ -64,11 +64,8 @@ svg{flex-shrink:0}
 .sub-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50;flex-wrap:wrap;}
 .sh-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0;overflow:hidden;}
 .sh-title{font-family:var(--fh);font-size:16px;font-weight:700}
-.sh-tabs{display:flex;gap:2px;overflow-x:auto;scroll-behavior:smooth;-ms-overflow-style:none;scrollbar-width:none;flex:1;min-width:0;}
+.sh-tabs{display:flex;gap:2px;overflow:auto hidden;flex-wrap:nowrap;scrollbar-width:none;flex:1;min-width:0;}
   .sh-tabs::-webkit-scrollbar{display:none;}
-  .sh-tabs-wrap{display:flex;align-items:center;gap:4px;flex:1;min-width:0;}
-  .sh-scroll-btn{flex-shrink:0;width:26px;height:26px;border-radius:6px;border:1px solid var(--border);background:var(--raised);color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;user-select:none;transition:.15s;}
-  .sh-scroll-btn:hover{background:var(--div);color:var(--t1);}
 .sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap;flex-shrink:0;}
 .sh-tab:hover{color:var(--t2)}
 .sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
@@ -545,6 +542,9 @@ svg{flex-shrink:0}
 .sh-tabs{max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;}
 .sh-tabs::-webkit-scrollbar{display:none;}
 
+
+  /* Admin page: footer fixed at bottom */
+  footer.sp-footer{position:fixed;bottom:0;left:0;right:0;z-index:100;}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
@@ -678,9 +678,7 @@ svg{flex-shrink:0}
   <div class="sub-header">
     <div class="sh-left">
       <div class="sh-title">Admin</div>
-      <div class="sh-tabs-wrap">
-        <div class="sh-scroll-btn" onclick="scrollAdminTabs(-150)">&#8249;</div>
-        <div class="sh-tabs" id="admin-tabs-bar">
+        <div class="sh-tabs">
         <div class="sh-tab active" onclick="switchTab(this,'branding')">🎨 Branding</div>
         <div class="sh-tab" onclick="switchTab(this,'templates')">📋 Templates</div>
         <div class="sh-tab" onclick="switchTab(this,'workflow')">🔄 Workflow</div>
@@ -691,8 +689,6 @@ svg{flex-shrink:0}
         <div class="sh-tab" onclick="switchTab(this,'activities')">🏗️ Activities</div>
         <div class="sh-tab" onclick="switchTab(this,'integrations')">🔗 Integrations</div>
         <div class="sh-tab" onclick="switchTab(this,'accessreq')">&#128274; Access Requests</div>
-      </div>
-        <div class="sh-scroll-btn" onclick="scrollAdminTabs(150)" title="Scroll right">&#8250;</div>
       </div>
     </div>
   </div>
@@ -2456,7 +2452,6 @@ function closeSidebar() {
 }
 
 
-function scrollAdminTabs(px){var el=document.getElementById('admin-tabs-bar');if(el)el.scrollLeft+=px;}
 function handleLogoUpload(event){
   var file=event.target.files[0];if(!file)return;
   if(file.size>2097152){showToast('Logo exceeds 2MB','error');return;}
