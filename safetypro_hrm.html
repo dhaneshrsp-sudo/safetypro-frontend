@@ -19,7 +19,7 @@
   --t1:#E6EDF3;--t2:#94A3B8;--t3:#64748B;
   --fh:'Montserrat',sans-serif;--fb:'Inter',sans-serif;
 }
-html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fb);overflow:hidden;}
+html{height:100%;}body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fb);overflow:hidden;display:flex;flex-direction:column;}
 /* TOPNAV */
 .topnav{position:fixed;top:0;left:0;right:0;height:52px;background:var(--sidebar);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;z-index:200;gap:8px;}
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;}
@@ -58,7 +58,7 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fb)
 .un-name{font-size:12px;font-weight:600;color:var(--t1);}
 .un-role{font-size:9px;color:var(--t3);}
 /* LAYOUT */
-.body{display:flex;height:calc(100vh - 52px);margin-top:52px;overflow:hidden;}
+.body{display:flex;flex:1;margin-top:52px;overflow:hidden;min-height:0;}
 .sidebar{width:220px;background:var(--sidebar);border-right:1px solid var(--border);padding:10px 8px;overflow-y:auto;flex-shrink:0;transition:transform .3s;}
 .sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;transition:.15s;margin-bottom:2px;}
 .sb-item:hover{background:var(--div);color:var(--t1);}
@@ -631,7 +631,12 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fb)
     </div>
 
     <!-- FOOTER -->
-    <footer class="sp-footer">
+    
+
+  </div><!-- end content -->
+</div>
+
+<footer class="sp-footer">
       <div class="sp-footer-left">
         <span>&#169; 2026 SafetyPro AI</span>
         <span class="sp-footer-sep">|</span>
@@ -652,8 +657,7 @@ html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fb)
       </div>
     </footer>
 
-  </div><!-- end content -->
-</div><!-- end body -->
+<!-- end body -->
 
 <!-- Add Component Modal -->
 <div class="modal-overlay" id="add-comp-modal">
@@ -1178,6 +1182,7 @@ function spFooterInit(){
 }
 
 </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
