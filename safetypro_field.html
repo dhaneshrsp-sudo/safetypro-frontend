@@ -788,8 +788,8 @@ flex-wrap:wrap;}
 
 /* ══ SMART ATTENDANCE — MOBILE CAMERA FIXES ══ */
 @media(max-width:768px){
-  #sa-mode-selfie{padding:12px !important;}
-  #sa-camera-container{aspect-ratio:3/4 !important;max-height:60vh;}
+  
+  
   #sa-face-guide{touch-action:none;}
   #sa-choice-overlay button{min-height:56px;font-size:15px !important;}
   #sa-start-prompt div[style*="bottom:16px"]{bottom:14px !important;padding:9px 28px !important;font-size:12px !important;}
@@ -798,7 +798,7 @@ flex-wrap:wrap;}
   #sa-camera-container{aspect-ratio:1/1 !important;max-height:70vw;}
   #sa-choice-overlay{padding:14px !important;gap:8px !important;}
   #sa-choice-overlay button{padding:10px 6px !important;}
-  .sa-oval{width:130px !important;height:160px !important;}
+  
 }
 
 /* ══ DEVICE COMPATIBILITY — TABS + GRID + LANDSCAPE ══ */
@@ -897,7 +897,7 @@ flex-wrap:wrap;}
 .sp-footer-status-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;flex-shrink:0;}
 .sp-footer-sep{opacity:.3;}
 #field-tab-checkin,#field-tab-heatmap,#field-tab-checklist,#field-tab-attendance,#field-tab-ptw,#field-tab-emergency,#field-tab-induction{padding:16px 20px 20px 20px !important;}#field-tab-checkin,#field-tab-heatmap,#field-tab-checklist,#field-tab-attendance,#field-tab-ptw,#field-tab-emergency,#field-tab-induction{padding:16px 20px 20px 20px !important;}
-#sa-oval-ring{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:5;}.sa-oval{width:160px;height:200px;border-radius:50%;position:relative;transition:border-color .3s,box-shadow .3s;border:2px dashed rgba(34,197,94,0.5);}.sa-oval.detecting{border-color:rgba(245,158,11,0.8);border-style:solid;}.sa-oval.countdown{border-color:#22C55E;border-style:solid;box-shadow:0 0 20px rgba(34,197,94,0.4);}.sa-oval.captured{border-color:#22C55E;border-style:solid;box-shadow:0 0 30px rgba(34,197,94,0.6);}#sa-countdown-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;display:none;align-items:center;justify-content:center;}#sa-countdown-ring.active{display:flex;}#sa-countdown-num{font-family:var(--fh);font-size:36px;font-weight:900;color:#22C55E;text-shadow:0 0 20px rgba(34,197,94,0.8);}#sa-auto-status{position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;font-family:var(--fh);background:rgba(0,0,0,0.6);padding:3px 10px;border-radius:20px;white-space:nowrap;color:var(--green);}svg.cd-ring{position:absolute;width:80px;height:80px;}svg.cd-ring circle{fill:none;stroke:#22C55E;stroke-width:3;stroke-linecap:round;stroke-dasharray:220;stroke-dashoffset:220;transition:stroke-dashoffset linear;}
+#sa-oval-ring{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:5;}.sa-oval{width:160px;height:200px;border-radius:50%;position:relative;transition:border-color .3s,box-shadow .3s;border:2px dashed rgba(34,197,94,0.5);}.sa-oval.countdown{border-color:#22C55E;border-style:solid;box-shadow:0 0 20px rgba(34,197,94,0.4);}.sa-oval.captured{border-color:#22C55E;border-style:solid;box-shadow:0 0 30px rgba(34,197,94,0.6);}#sa-countdown-ring.active{display:flex;}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 </head>
@@ -918,12 +918,13 @@ flex-wrap:wrap;}
     <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
       <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More<span class="arr">▾</span>
       <div class="more-menu" id="more-menu">
-        <a class="mm-item" href="#" onclick="event.preventDefault();showToast('Audit & Compliance - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
-        <a class="mm-item" href="safetypro_documents.html" onclick="event.preventDefault();showToast('Documents & Records - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
-        <a class="mm-item" href="safetypro_field.html" onclick="event.preventDefault();showToast('Site & Field Tools - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="#" onclick="event.preventDefault();fieldToast('Audit & Compliance — coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="safetypro_documents.html" onclick="event.preventDefault();fieldToast('Documents & Records — coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
+        <a class="mm-item" href="safetypro_field.html"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="safetypro_hrm.html" style="color:#8B5CF6;"><svg viewBox="0 0 24 24" style="fill:#8B5CF6;opacity:1;"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>HRM &amp; Payroll</a>
         <a class="mm-item" href="safetypro_hrm.html" style="color:#8B5CF6;"><svg viewBox="0 0 24 24" style="fill:#8B5CF6;"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>HRM &amp; Payroll</a>
-        <a class="mm-item" href="safetypro_ai.html" onclick="event.preventDefault();showToast('AI Intelligence - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
-        <a class="mm-item" href="safetypro_auditor.html" onclick="event.preventDefault();showToast('Auditor Verification - coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
+        <a class="mm-item" href="safetypro_ai.html" onclick="event.preventDefault();fieldToast('AI Intelligence — coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_auditor.html" onclick="event.preventDefault();fieldToast('Auditor Verification — coming soon','blue')"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
         <div class="mm-divider"></div>
         <a class="mm-item mm-admin" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Admin &amp; Configuration</a>
       </div>
@@ -1004,8 +1005,8 @@ flex-wrap:wrap;}
       <div class="sh-left">
         <div class="sh-title">Site &amp; Field Tools</div>
         <div class="sh-tabs">
-          <div class="sh-tab active" onclick="switchFieldTab(this,'checkin')">🤳 Smart Attendance</div>
-          <div class="sh-tab" onclick="switchFieldTab(this,'heatmap')">&#128293; Site Heat Map</div>
+          
+          <div class="sh-tab active" onclick="switchFieldTab(this,'heatmap')">&#128293; Site Heat Map</div>
           <div class="sh-tab" onclick="switchFieldTab(this,'checklist')">&#9989; Field Checklists</div>
           <div class="sh-tab" onclick="switchFieldTab(this,'attendance')">🎓 Training Attendance</div>
           <div class="sh-tab" onclick="switchFieldTab(this,'ptw')">🔐 PTW</div>
@@ -1024,558 +1025,7 @@ flex-wrap:wrap;}
     </div>
 
     <!-- SMART ATTENDANCE TAB -->
-    <div class="tab-panel" id="field-tab-checkin" style="display:block;">
-
-      <!-- KPI STRIP -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:18px;">
-        <div class="card" style="text-align:center;padding:18px 14px;">
-          <div style="font-size:32px;font-weight:800;color:var(--green);font-family:var(--fh);" id="sa-count-onsite">247</div>
-          <div style="font-size:11px;font-weight:600;color:var(--t2);margin-top:4px;">On Site Now</div>
-        </div>
-        <div class="card" style="text-align:center;padding:18px 14px;">
-          <div style="font-size:32px;font-weight:800;color:var(--blue);font-family:var(--fh);" id="sa-count-today">312</div>
-          <div style="font-size:11px;font-weight:600;color:var(--t2);margin-top:4px;">Checked In Today</div>
-        </div>
-        <div class="card" style="text-align:center;padding:18px 14px;">
-          <div style="font-size:32px;font-weight:800;color:var(--t2);font-family:var(--fh);" id="sa-count-out">65</div>
-          <div style="font-size:11px;font-weight:600;color:var(--t2);margin-top:4px;">Checked Out</div>
-        </div>
-        <div class="card" style="text-align:center;padding:18px 14px;">
-          <div style="font-size:32px;font-weight:800;color:var(--amber);font-family:var(--fh);" id="sa-count-missing">8</div>
-          <div style="font-size:11px;font-weight:600;color:var(--t2);margin-top:4px;">Not Checked In</div>
-        </div>
-        <div class="card" style="text-align:center;padding:18px 14px;">
-          <div style="font-size:28px;font-weight:800;color:var(--green);font-family:var(--fh);" id="sa-today-time">08:42</div>
-          <div style="font-size:11px;font-weight:600;color:var(--t2);margin-top:4px;">Avg Check-in Time</div>
-        </div>
-      </div>
-
-      <div class="sa-attend-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-
-        <!-- LEFT: SMART CHECK-IN PANEL -->
-        <div class="card" style="padding:0;overflow:hidden;">
-          <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-            <div>
-              <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);">Smart Attendance</div>
-              <div style="font-size:10px;color:var(--t3);margin-top:2px;">Selfie · QR · Manual</div>
-            </div>
-            <!-- MODE SELECTOR -->
-            <div style="display:flex;gap:4px;background:var(--bg);border-radius:8px;padding:3px;">
-              <div id="mode-btn-selfie" onclick="saSetMode('selfie')" style="padding:5px 12px;border-radius:6px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;background:var(--green);color:#0B0F14;transition:all .2s;">📸 Selfie</div>
-              <div id="mode-btn-qr" onclick="saSetMode('qr')" style="padding:5px 12px;border-radius:6px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;color:var(--t3);transition:all .2s;">📷 QR</div>
-              <div id="mode-btn-manual" onclick="saSetMode('manual')" style="padding:5px 12px;border-radius:6px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;color:var(--t3);transition:all .2s;">✏️ Manual</div>
-            </div>
-          </div>
-
-          <!-- SELFIE MODE -->
-          <div id="sa-mode-selfie" style="padding:20px;">
-            <!-- PROJECT NAME PILL -->
-            <div style="display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--raised);border:1px solid var(--border);border-radius:8px;margin-bottom:10px;">
-              <span style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);text-transform:uppercase;letter-spacing:.5px;">📍 Project</span>
-              <span id="sa-project-name" style="font-size:11px;font-weight:700;color:var(--t1);font-family:var(--fh);">All Projects</span>
-            </div>
-            <!-- CAMERA VIEWFINDER -->
-            <div style="position:relative;width:100%;aspect-ratio:4/3;background:#000;border-radius:12px;overflow:hidden;border:2px solid var(--border);margin-bottom:14px;" id="sa-camera-container">
-              <video id="sa-video" style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:none;" autoplay playsinline muted></video>
-              <!-- Start camera prompt -->
-              <div id="sa-start-prompt" onclick="saStartCamera()" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--raised);">
-                <div style="font-size:28px;margin-bottom:5px;">📸</div>
-                <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);margin-bottom:3px;">Tap to Start Camera</div>
-                <div style="font-size:9px;color:var(--t3);">Camera permission required</div>
-                <div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);padding:7px 22px;background:var(--green);border-radius:8px;color:#0B0F14;font-size:11px;font-weight:800;font-family:var(--fh);white-space:nowrap;pointer-events:auto;" onclick="event.stopPropagation();saStartCamera();">Enable Camera</div>
-              </div>
-              <canvas id="sa-canvas" style="display:none;"></canvas>
-              
-              <!-- FACE GUIDE OVERLAY -->
-              <div id="sa-face-guide" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-                <div id="sa-auto-status" style="position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;font-family:var(--fh);background:rgba(0,0,0,0.6);padding:3px 10px;border-radius:20px;white-space:nowrap;color:rgba(34,197,94,0.8);">ALIGN FACE</div>
-                <div style="position:relative;width:160px;height:200px;">
-                  <div id="sa-oval" class="sa-oval"></div>
-                  <div id="sa-countdown-ring">
-                    <svg class="cd-ring"><circle id="sa-cd-circle" cx="40" cy="40" r="35"/></svg>
-                    <span id="sa-countdown-num"></span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- STATUS OVERLAY -->
-              <div id="sa-status-overlay" style="display:none;position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.8));padding:12px 14px;">
-                <div id="sa-status-text" style="font-size:11px;font-weight:700;color:var(--green);font-family:var(--fh);">● Camera Ready — Position your face in the oval</div>
-              </div>
-
-              <!-- CAPTURED PHOTO PREVIEW -->
-              <img id="sa-photo-preview" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" />
-              
-              <!-- RETAKE OVERLAY -->
-              <div id="sa-retake-overlay" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;">
-                <button onclick="saRetake()" style="padding:10px 24px;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:12px;font-weight:700;font-family:var(--fh);cursor:pointer;">↩ Retake</button>
-              </div>
-            </div>
-
-            <!-- CAMERA NOT STARTED STATE -->
-            <div id="sa-camera-start-state" style="display:none;position:absolute;inset:0;background:var(--card);border-radius:12px;align-items:center;justify-content:center;flex-direction:column;gap:12px;text-align:center;padding:20px;">
-              <div style="font-size:48px;">📸</div>
-              <div style="font-size:13px;font-weight:700;color:var(--t1);font-family:var(--fh);">Camera Access Needed</div>
-              <div style="font-size:11px;color:var(--t3);">Allow camera to enable selfie attendance</div>
-              <button onclick="saStartCamera()" style="padding:10px 24px;background:var(--green);border:none;border-radius:8px;color:#0B0F14;font-size:12px;font-weight:700;font-family:var(--fh);cursor:pointer;">Enable Camera</button>
-            </div>
-
-            <!-- GPS STATUS -->
-            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--raised);border-radius:8px;margin-bottom:14px;border:1px solid var(--border);">
-              <div id="sa-gps-dot" style="width:8px;height:8px;border-radius:50%;background:var(--amber);flex-shrink:0;"></div>
-              <div>
-                <div style="font-size:11px;font-weight:600;color:var(--t2);" id="sa-gps-text">Getting location...</div>
-                <div style="font-size:10px;color:var(--t3);" id="sa-gps-zone">Zone will be auto-detected</div>
-              </div>
-              <div style="margin-left:auto;font-size:10px;color:var(--t3);" id="sa-gps-coords"></div>
-            </div>
-
-            <!-- WORKER ID (pre-fill or type) -->
-            <div id="sa-worker-section" style="display:none;margin-bottom:12px;">
-              <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;">Worker ID / Name</div>
-              <input id="sa-worker-id" type="text" placeholder="Scan badge or type Worker ID..." style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:12px;font-family:var(--fb);" />
-            </div>
-
-            <!-- CHECK IN / OUT BUTTONS -->
-            <div id="sa-btn-section" style="display:none;grid-template-columns:1fr 1fr;gap:10px;">
-              <button id="sa-checkin-btn" onclick="saCapture('in')" style="padding:13px;background:var(--green);border:none;border-radius:10px;color:#0B0F14;font-size:13px;font-weight:800;font-family:var(--fh);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-                Check IN
-              </button>
-              <button id="sa-checkout-btn" onclick="saCapture('out')" style="padding:13px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:10px;color:var(--red);font-size:13px;font-weight:800;font-family:var(--fh);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/></svg>
-                Check OUT
-              </button>
-            </div>
-
-            <!-- PROCESSING STATE -->
-            <div id="sa-processing" style="display:none;text-align:center;padding:16px;margin-top:12px;background:var(--raised);border-radius:10px;border:1px solid var(--border);">
-              <div style="font-size:12px;font-weight:700;color:var(--blue);font-family:var(--fh);" id="sa-processing-text">🔍 Verifying face match...</div>
-              <div style="margin-top:8px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;">
-                <div id="sa-progress-bar" style="height:100%;width:0%;background:var(--blue);border-radius:2px;transition:width 1s ease;"></div>
-              </div>
-            </div>
-
-            <!-- SUCCESS STATE -->
-            <div id="sa-success-card" style="display:none;margin-top:12px;padding:14px;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.3);border-radius:10px;">
-              <div style="display:flex;align-items:center;gap:10px;">
-                <div style="width:36px;height:36px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:18px;">✓</div>
-                <div>
-                  <div style="font-size:12px;font-weight:700;color:var(--green);font-family:var(--fh);" id="sa-success-name">Rajan Kumar — Checked IN</div>
-                  <div style="font-size:10px;color:var(--t3);" id="sa-success-meta">Zone A · 08:42 AM · Match: 94.2%</div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- QR MODE -->
-          <div id="sa-mode-qr" style="display:none;padding:20px;text-align:center;">
-            <div style="width:200px;height:200px;margin:0 auto 16px;background:var(--raised);border:2px solid var(--border);border-radius:16px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
-              <svg width="140" height="140" viewBox="0 0 120 120" style="opacity:.7;">
-                <rect x="0" y="0" width="40" height="40" rx="4" fill="var(--t1)" opacity=".9"/>
-                <rect x="5" y="5" width="30" height="30" rx="2" fill="var(--bg)"/>
-                <rect x="10" y="10" width="20" height="20" rx="1" fill="var(--t1)" opacity=".9"/>
-                <rect x="80" y="0" width="40" height="40" rx="4" fill="var(--t1)" opacity=".9"/>
-                <rect x="85" y="5" width="30" height="30" rx="2" fill="var(--bg)"/>
-                <rect x="90" y="10" width="20" height="20" rx="1" fill="var(--t1)" opacity=".9"/>
-                <rect x="0" y="80" width="40" height="40" rx="4" fill="var(--t1)" opacity=".9"/>
-                <rect x="5" y="85" width="30" height="30" rx="2" fill="var(--bg)"/>
-                <rect x="10" y="90" width="20" height="20" rx="1" fill="var(--t1)" opacity=".9"/>
-                <rect x="50" y="0" width="8" height="8" rx="1" fill="var(--t1)" opacity=".7"/>
-                <rect x="60" y="0" width="8" height="8" rx="1" fill="var(--t1)" opacity=".7"/>
-                <rect x="50" y="10" width="8" height="8" rx="1" fill="var(--t1)" opacity=".5"/>
-                <rect x="50" y="50" width="8" height="8" rx="1" fill="var(--t1)" opacity=".7"/>
-                <rect x="60" y="60" width="8" height="8" rx="1" fill="var(--t1)" opacity=".5"/>
-              </svg>
-              <div style="position:absolute;inset:0;border:3px solid transparent;border-top-color:var(--green);border-radius:16px;animation:spin 1.5s linear infinite;"></div>
-            </div>
-            <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);margin-bottom:4px;">Site QR Code</div>
-            <div style="font-size:10px;color:var(--t3);margin-bottom:16px;">Workers scan this code on site entry</div>
-            <div style="display:flex;gap:8px;justify-content:center;">
-              <button style="padding:9px 18px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">↻ Regenerate QR</button>
-              <button style="padding:9px 18px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">↓ Download PNG</button>
-            </div>
-            <div style="margin-top:14px;padding:10px 12px;background:var(--raised);border-radius:8px;border:1px solid var(--border);font-size:10px;color:var(--t3);">
-              ⚠️ QR scanning requires worker to be physically present. GPS is still captured on scan. For stronger verification use Selfie mode.
-            </div>
-          </div>
-
-          <!-- MANUAL MODE -->
-          <div id="sa-mode-manual" style="display:none;padding:20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--amber);font-family:var(--fh);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px;padding:8px 12px;background:rgba(245,158,11,0.08);border-radius:6px;border:1px solid rgba(245,158,11,0.2);">
-              ⚠️ Manual entry — Supervisor override only. All manual entries are flagged in audit log.
-            </div>
-            <div style="display:flex;flex-direction:column;gap:10px;">
-              <div>
-                <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Worker Name / ID</div>
-                <input type="text" placeholder="Worker name or ID..." style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:12px;font-family:var(--fb);" />
-              </div>
-              <div>
-                <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Zone</div>
-                <select style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:12px;font-family:var(--fb);">
-                  <option>Zone A — Construction</option>
-                  <option>Zone B — Electrical</option>
-                  <option>Zone C — Materials Storage</option>
-                  <option>Zone D — Offshore Platform</option>
-                </select>
-              </div>
-              <div>
-                <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Check In / Out Time</div>
-                <input type="time" style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:12px;font-family:var(--fb);" />
-              </div>
-              <div>
-                <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Reason for Manual Entry</div>
-                <select style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:12px;font-family:var(--fb);">
-                  <option>Camera not available</option>
-                  <option>Phone battery dead</option>
-                  <option>Network issue</option>
-                  <option>Worker injury — assisted check-in</option>
-                  <option>System override by supervisor</option>
-                </select>
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                <button style="padding:11px;background:var(--green);border:none;border-radius:8px;color:#0B0F14;font-size:12px;font-weight:800;font-family:var(--fh);cursor:pointer;">✓ Mark Check IN</button>
-                <button style="padding:11px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:8px;color:var(--red);font-size:12px;font-weight:800;font-family:var(--fh);cursor:pointer;">✗ Mark Check OUT</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- RIGHT: LIVE FEED -->
-        <div class="card" style="padding:0;overflow:hidden;">
-          <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-            <div>
-              <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);">Live Attendance Feed</div>
-              <div style="font-size:10px;color:var(--t3);margin-top:2px;" id="sa-feed-count">Showing all 3 modes · Today</div>
-            </div>
-            <div style="display:flex;gap:6px;align-items:center;">
-              <div style="width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;"></div>
-              <span style="font-size:10px;color:var(--green);font-weight:700;font-family:var(--fh);">LIVE</span>
-              <button onclick="saExportBOCW()" style="margin-left:8px;padding:5px 12px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t2);font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">↓ BOCW Form XIII</button>
-            </div>
-          </div>
-
-          <!-- FILTER PILLS -->
-          <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap;">
-            <div onclick="saFilterFeed('all',this)" style="padding:4px 10px;background:var(--green);color:#0B0F14;border-radius:20px;font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">All</div>
-            <div onclick="saFilterFeed('in',this)" style="padding:4px 10px;background:var(--raised);border:1px solid var(--border);color:var(--t3);border-radius:20px;font-size:10px;font-weight:600;font-family:var(--fh);cursor:pointer;">Checked In</div>
-            <div onclick="saFilterFeed('out',this)" style="padding:4px 10px;background:var(--raised);border:1px solid var(--border);color:var(--t3);border-radius:20px;font-size:10px;font-weight:600;font-family:var(--fh);cursor:pointer;">Checked Out</div>
-            <div onclick="saFilterFeed('missing',this)" style="padding:4px 10px;background:var(--raised);border:1px solid var(--border);color:var(--t3);border-radius:20px;font-size:10px;font-weight:600;font-family:var(--fh);cursor:pointer;">Missing</div>
-            <div onclick="saFilterFeed('selfie',this)" style="padding:4px 10px;background:var(--raised);border:1px solid var(--border);color:var(--t3);border-radius:20px;font-size:10px;font-weight:600;font-family:var(--fh);cursor:pointer;">📸 Selfie</div>
-            <div onclick="saFilterFeed('qr',this)" style="padding:4px 10px;background:var(--raised);border:1px solid var(--border);color:var(--t3);border-radius:20px;font-size:10px;font-weight:600;font-family:var(--fh);cursor:pointer;">📷 QR</div>
-            <div onclick="saFilterFeed('manual',this)" style="padding:4px 10px;background:var(--raised);border:1px solid var(--border);color:var(--t3);border-radius:20px;font-size:10px;font-weight:600;font-family:var(--fh);cursor:pointer;">✏️ Manual</div>
-          </div>
-
-          <!-- FEED LIST -->
-          <div id="sa-feed-list" style="overflow-y:auto;max-height:520px;padding:8px 0;">
-
-            <!-- Entry: Selfie Check-in -->
-            <div class="sa-feed-item" data-type="in" data-mode="selfie" style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;transition:background .15s;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
-              <div style="width:32px;height:32px;border-radius:50%;background:%233B82F6;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:var(--fh);flex-shrink:0;">RK</div>
-              <div style="flex:1;min-width:0;">
-                <div style="display:flex;align-items:center;gap:6px;">
-                  <span style="font-size:12px;font-weight:600;color:var(--t1);">Rajan Kumar</span>
-                  <span style="font-size:9px;padding:2px 6px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:10px;font-weight:700;font-family:var(--fh);">IN</span>
-                  <span style="font-size:9px;color:var(--t3);">📸 94.2%</span>
-                </div>
-                <div style="font-size:10px;color:var(--t3);margin-top:2px;">HSE Officer · Zone A · 08:42 AM</div>
-                <div style="font-size:9px;color:var(--t3);margin-top:1px;">📍 25.5941°N, 85.1376°E</div>
-              </div>
-              <div style="font-size:10px;color:var(--t3);text-align:right;flex-shrink:0;">
-                <div>8h 12m</div>
-                <div style="color:var(--amber)">OT: 0h</div>
-              </div>
-            </div>
-
-            <!-- Entry: Selfie Check-in -->
-            <div class="sa-feed-item" data-type="in" data-mode="selfie" style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
-              <div style="width:32px;height:32px;border-radius:50%;background:%238B5CF6;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:var(--fh);flex-shrink:0;">VS</div>
-              <div style="flex:1;min-width:0;">
-                <div style="display:flex;align-items:center;gap:6px;">
-                  <span style="font-size:12px;font-weight:600;color:var(--t1);">Vikram Sharma</span>
-                  <span style="font-size:9px;padding:2px 6px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:10px;font-weight:700;font-family:var(--fh);">IN</span>
-                  <span style="font-size:9px;color:var(--t3);">📸 91.7%</span>
-                </div>
-                <div style="font-size:10px;color:var(--t3);margin-top:2px;">Supervisor · Zone B · 08:55 AM</div>
-                <div style="font-size:9px;color:var(--t3);margin-top:1px;">📍 25.5940°N, 85.1379°E</div>
-              </div>
-              <div style="font-size:10px;color:var(--t3);text-align:right;flex-shrink:0;">
-                <div>7h 59m</div>
-                <div style="color:var(--amber)">OT: 0h</div>
-              </div>
-            </div>
-
-            <!-- Entry: Selfie Check-out -->
-            <div class="sa-feed-item" data-type="out" data-mode="selfie" style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
-              <div style="width:32px;height:32px;border-radius:50%;background:%23F59E0B;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:var(--fh);flex-shrink:0;">AK</div>
-              <div style="flex:1;min-width:0;">
-                <div style="display:flex;align-items:center;gap:6px;">
-                  <span style="font-size:12px;font-weight:600;color:var(--t1);">Amit Kumar</span>
-                  <span style="font-size:9px;padding:2px 6px;background:rgba(239,68,68,0.12);color:var(--red);border-radius:10px;font-weight:700;font-family:var(--fh);">OUT</span>
-                  <span style="font-size:9px;color:var(--t3);">📸 88.4%</span>
-                </div>
-                <div style="font-size:10px;color:var(--t3);margin-top:2px;">Contractor Lead · Zone C · 12:34 PM</div>
-                <div style="font-size:9px;color:var(--t3);margin-top:1px;">📍 25.5938°N, 85.1382°E · Worked: 3h 42m</div>
-              </div>
-              <div style="font-size:10px;color:var(--green);text-align:right;flex-shrink:0;">
-                <div>Complete</div>
-                <div style="color:var(--t3)">3h 42m</div>
-              </div>
-            </div>
-
-            <!-- Entry: QR Check-in -->
-            <div class="sa-feed-item" data-type="in" data-mode="qr" style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
-              <div style="width:32px;height:32px;border-radius:50%;background:%2322C55E;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:var(--fh);flex-shrink:0;">PD</div>
-              <div style="flex:1;min-width:0;">
-                <div style="display:flex;align-items:center;gap:6px;">
-                  <span style="font-size:12px;font-weight:600;color:var(--t1);">Priya Desai</span>
-                  <span style="font-size:9px;padding:2px 6px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:10px;font-weight:700;font-family:var(--fh);">IN</span>
-                  <span style="font-size:9px;color:var(--blue);">📷 QR</span>
-                </div>
-                <div style="font-size:10px;color:var(--t3);margin-top:2px;">HSE Supervisor · Zone A · 09:02 AM</div>
-                <div style="font-size:9px;color:var(--t3);margin-top:1px;">📍 25.5942°N, 85.1374°E</div>
-              </div>
-              <div style="font-size:10px;color:var(--t3);text-align:right;flex-shrink:0;">
-                <div>7h 52m</div>
-              </div>
-            </div>
-
-            <!-- Entry: Manual -->
-            <div class="sa-feed-item" data-type="in" data-mode="manual" style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
-              <div style="width:32px;height:32px;border-radius:50%;background:%2364748B;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:var(--fh);flex-shrink:0;">MS</div>
-              <div style="flex:1;min-width:0;">
-                <div style="display:flex;align-items:center;gap:6px;">
-                  <span style="font-size:12px;font-weight:600;color:var(--t1);">Mohan Singh</span>
-                  <span style="font-size:9px;padding:2px 6px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:10px;font-weight:700;font-family:var(--fh);">IN</span>
-                  <span style="font-size:9px;padding:2px 6px;background:rgba(245,158,11,0.12);color:var(--amber);border-radius:10px;font-weight:700;font-family:var(--fh);">✏️ Manual</span>
-                </div>
-                <div style="font-size:10px;color:var(--t3);margin-top:2px;">Project Manager · Zone B · 09:15 AM</div>
-                <div style="font-size:9px;color:var(--amber);margin-top:1px;">⚠️ Manual entry — Network issue · By: D. Kumar</div>
-              </div>
-            </div>
-
-            <!-- Missing -->
-            <div class="sa-feed-item" data-type="missing" data-mode="" style="padding:10px 14px;display:flex;align-items:center;gap:10px;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
-              <div style="width:32px;height:32px;border-radius:50%;background:#3B82F6;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-family:var(--fh);flex-shrink:0;">XX</div>
-              <div style="flex:1;min-width:0;">
-                <div style="display:flex;align-items:center;gap:6px;">
-                  <span style="font-size:12px;font-weight:600;color:var(--t2);">Suresh Patel</span>
-                  <span style="font-size:9px;padding:2px 6px;background:rgba(239,68,68,0.12);color:var(--red);border-radius:10px;font-weight:700;font-family:var(--fh);">MISSING</span>
-                </div>
-                <div style="font-size:10px;color:var(--t3);margin-top:2px;">Equipment Operator · Zone C · Expected 08:00 AM</div>
-                <div style="font-size:9px;color:var(--red);margin-top:1px;">Not checked in · Supervisor notified</div>
-              </div>
-              <button style="padding:5px 10px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:6px;color:var(--red);font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;white-space:nowrap;">Alert Sent</button>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-
-      <!-- ZONE BREAKDOWN -->
-      <div class="card" style="margin-top:14px;padding:16px;">
-        <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:14px;">Zone-wise Attendance Breakdown</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;">
-          <div style="padding:12px;background:var(--raised);border-radius:8px;border:1px solid var(--border);">
-            <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
-              <span style="font-size:11px;font-weight:700;font-family:var(--fh);color:var(--t1);">Zone A — Construction</span>
-              <span style="font-size:11px;font-weight:700;color:var(--green);">98%</span>
-            </div>
-            <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:6px;"><div style="height:100%;width:98%;background:var(--green);border-radius:2px;"></div></div>
-            <div style="font-size:10px;color:var(--t3);">82/84 present · 2 missing · 📸 78 selfie</div>
-          </div>
-          <div style="padding:12px;background:var(--raised);border-radius:8px;border:1px solid var(--border);">
-            <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
-              <span style="font-size:11px;font-weight:700;font-family:var(--fh);color:var(--t1);">Zone B — Electrical</span>
-              <span style="font-size:11px;font-weight:700;color:var(--amber);">91%</span>
-            </div>
-            <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:6px;"><div style="height:100%;width:91%;background:var(--amber);border-radius:2px;"></div></div>
-            <div style="font-size:10px;color:var(--t3);">64/70 present · 6 missing · 📸 58 selfie</div>
-          </div>
-          <div style="padding:12px;background:var(--raised);border-radius:8px;border:1px solid var(--border);">
-            <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
-              <span style="font-size:11px;font-weight:700;font-family:var(--fh);color:var(--t1);">Zone C — Materials</span>
-              <span style="font-size:11px;font-weight:700;color:var(--red);">87%</span>
-            </div>
-            <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:6px;"><div style="height:100%;width:87%;background:var(--red);border-radius:2px;"></div></div>
-            <div style="font-size:10px;color:var(--t3);">101/116 present · 15 missing · 📸 94 selfie</div>
-          </div>
-          <div style="padding:12px;background:var(--raised);border-radius:8px;border:1px solid var(--border);">
-            <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
-              <span style="font-size:11px;font-weight:700;font-family:var(--fh);color:var(--t1);">Zone D — Offshore</span>
-              <span style="font-size:11px;font-weight:700;color:var(--green);">100%</span>
-            </div>
-            <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:6px;"><div style="height:100%;width:100%;background:var(--green);border-radius:2px;"></div></div>
-            <div style="font-size:10px;color:var(--t3);">42/42 present · All accounted · 📸 42 selfie</div>
-          </div>
-        </div>
-      
-      <!-- OVERTIME TRACKER -->
-      <div class="card" style="margin-top:14px;padding:16px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-          <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);">⏱️ Overtime Tracker — Today</div>
-          <div style="font-size:10px;color:var(--amber);font-weight:600;font-family:var(--fh);">BOCW limit: 9 hrs/day</div>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:14px;">
-          <div style="padding:12px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:8px;">
-            <div style="font-size:10px;font-weight:700;color:var(--red);font-family:var(--fh);margin-bottom:8px;">🔴 Overtime Violations</div>
-            <div style="font-size:24px;font-weight:800;color:var(--red);font-family:var(--fh);">7</div>
-            <div style="font-size:10px;color:var(--t3);margin-top:2px;">Workers beyond 9 hrs today</div>
-          </div>
-          <div style="padding:12px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:8px;">
-            <div style="font-size:10px;font-weight:700;color:var(--amber);font-family:var(--fh);margin-bottom:8px;">🟡 Approaching Limit</div>
-            <div style="font-size:24px;font-weight:800;color:var(--amber);font-family:var(--fh);">14</div>
-            <div style="font-size:10px;color:var(--t3);margin-top:2px;">Workers between 8–9 hrs</div>
-          </div>
-          <div style="padding:12px;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.2);border-radius:8px;">
-            <div style="font-size:10px;font-weight:700;color:var(--green);font-family:var(--fh);margin-bottom:8px;">🟢 Normal Hours</div>
-            <div style="font-size:24px;font-weight:800;color:var(--green);font-family:var(--fh);">226</div>
-            <div style="font-size:10px;color:var(--t3);margin-top:2px;">Workers within BOCW limits</div>
-          </div>
-          <div style="padding:12px;background:var(--raised);border:1px solid var(--border);border-radius:8px;">
-            <div style="font-size:10px;font-weight:700;color:var(--blue);font-family:var(--fh);margin-bottom:8px;">📊 Total OT Hours Today</div>
-            <div style="font-size:24px;font-weight:800;color:var(--blue);font-family:var(--fh);">23.5h</div>
-            <div style="font-size:10px;color:var(--t3);margin-top:2px;">Across all zones combined</div>
-          </div>
-        </div>
-
-        <!-- Overtime violators list -->
-        <div style="font-size:10px;font-weight:700;color:var(--red);font-family:var(--fh);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">⚠️ Overtime Violators — Notify Supervisor</div>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <div style="display:grid;grid-template-columns:1fr 80px 80px 100px;gap:10px;padding:8px 12px;background:rgba(239,68,68,0.04);border:1px solid rgba(239,68,68,0.15);border-radius:8px;align-items:center;">
-            <div><div style="font-size:11px;font-weight:700;color:var(--t1);">Ravi Kumar · Mason · Zone A</div><div style="font-size:10px;color:var(--t3);">In: 06:30 AM · Still on site</div></div>
-            <div style="font-size:11px;font-weight:700;color:var(--red);">10h 24m</div>
-            <div style="font-size:10px;color:var(--red);font-weight:600;">+1h 24m OT</div>
-            <button style="padding:5px 10px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:6px;color:var(--red);font-size:9px;font-weight:700;font-family:var(--fh);cursor:pointer;" onclick="fieldToast('Supervisor notified for Ravi Kumar overtime','error')">⚠️ Alert Sup.</button>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 80px 80px 100px;gap:10px;padding:8px 12px;background:rgba(239,68,68,0.04);border:1px solid rgba(239,68,68,0.15);border-radius:8px;align-items:center;">
-            <div><div style="font-size:11px;font-weight:700;color:var(--t1);">Suresh Patel · Helper · Zone C</div><div style="font-size:10px;color:var(--t3);">In: 06:45 AM · Still on site</div></div>
-            <div style="font-size:11px;font-weight:700;color:var(--red);">9h 48m</div>
-            <div style="font-size:10px;color:var(--red);font-weight:600;">+0h 48m OT</div>
-            <button style="padding:5px 10px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:6px;color:var(--red);font-size:9px;font-weight:700;font-family:var(--fh);cursor:pointer;" onclick="fieldToast('Supervisor notified for Suresh Patel overtime','error')">⚠️ Alert Sup.</button>
-          </div>
-        </div>
-        <button style="margin-top:10px;padding:9px;width:100%;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;" onclick="fieldToast('Overtime report exported — overtime_report_'+new Date().toISOString().slice(0,10)+'.xlsx','success')">↓ Export Overtime Report (BOCW Format)</button>
-      </div>
-
-
-
-      <!-- BOCW MUSTER ROLL — inside Smart Attendance -->
-      <div class="card" style="margin-top:14px;padding:0;overflow:hidden;">
-        <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-          <div>
-            <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);">📑 BOCW Muster Roll — April 2026</div>
-            <div style="font-size:10px;color:var(--t3);margin-top:2px;">Form XIII · Auto-generated from attendance data · BOCW Act 1996 Section 29(1)</div>
-          </div>
-          <div style="display:flex;gap:8px;">
-            <select style="font-size:11px;padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-family:var(--fh);">
-              <option>April 2026</option>
-              <option>March 2026</option>
-              <option>February 2026</option>
-            </select>
-            <button onclick="fieldToast('BOCW Form XIII downloaded — muster_roll_apr2026.xlsx','success')" style="padding:6px 14px;background:var(--green);border:none;border-radius:6px;color:#0B0F14;font-size:10px;font-weight:800;font-family:var(--fh);cursor:pointer;">↓ Download Excel</button>
-            <button onclick="fieldToast('BOCW Form XIII PDF exported','success')" style="padding:6px 14px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t2);font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">↓ PDF</button>
-          </div>
-        </div>
-
-        <!-- Muster roll table -->
-        <div style="overflow-x:auto;padding:0;">
-          <table style="width:100%;border-collapse:collapse;font-size:10px;">
-            <thead>
-              <tr style="background:var(--raised);border-bottom:1px solid var(--border);">
-                <th style="padding:8px 12px;text-align:left;font-family:var(--fh);font-weight:700;color:var(--t3);white-space:nowrap;">S.No</th>
-                <th style="padding:8px 12px;text-align:left;font-family:var(--fh);font-weight:700;color:var(--t3);white-space:nowrap;">Worker Name</th>
-                <th style="padding:8px 12px;text-align:left;font-family:var(--fh);font-weight:700;color:var(--t3);white-space:nowrap;">Trade</th>
-                <th style="padding:8px 12px;text-align:left;font-family:var(--fh);font-weight:700;color:var(--t3);white-space:nowrap;">Contractor</th>
-                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">1</th>
-                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">2</th>
-                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">3</th>
-                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">4</th>
-                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">5</th>
-                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">...</th>
-                <th style="padding:8px 8px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">Present</th>
-                <th style="padding:8px 8px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">Absent</th>
-                <th style="padding:8px 8px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">OT Hrs</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-bottom:1px solid var(--border);" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
-                <td style="padding:8px 12px;color:var(--t3);">1</td>
-                <td style="padding:8px 12px;font-weight:600;color:var(--t1);">Rajan Kumar</td>
-                <td style="padding:8px 12px;color:var(--t2);">HSE Officer</td>
-                <td style="padding:8px 12px;color:var(--t2);">IECCL</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--t3);">H</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--t3);">...</td>
-                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--green);">24</td>
-                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--red);">0</td>
-                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--amber);">4.5</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--border);" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
-                <td style="padding:8px 12px;color:var(--t3);">2</td>
-                <td style="padding:8px 12px;font-weight:600;color:var(--t1);">Vikram Sharma</td>
-                <td style="padding:8px 12px;color:var(--t2);">Supervisor</td>
-                <td style="padding:8px 12px;color:var(--t2);">M/s ABC Const.</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--red);font-weight:700;">A</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--t3);">H</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--t3);">...</td>
-                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--green);">22</td>
-                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--red);">2</td>
-                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--amber);">2.0</td>
-              </tr>
-              <tr style="border-bottom:1px solid var(--border);" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
-                <td style="padding:8px 12px;color:var(--t3);">3</td>
-                <td style="padding:8px 12px;font-weight:600;color:var(--t1);">Priya Desai</td>
-                <td style="padding:8px 12px;color:var(--t2);">HSE Supervisor</td>
-                <td style="padding:8px 12px;color:var(--t2);">IECCL</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--t3);">H</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--t3);">...</td>
-                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--green);">25</td>
-                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--red);">0</td>
-                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--amber);">1.5</td>
-              </tr>
-              <tr onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
-                <td style="padding:8px 12px;color:var(--t3);">4</td>
-                <td style="padding:8px 12px;font-weight:600;color:var(--t1);">Mohan Singh</td>
-                <td style="padding:8px 12px;color:var(--t2);">Mason</td>
-                <td style="padding:8px 12px;color:var(--t2);">M/s XYZ Works</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--red);font-weight:700;">A</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--t3);">H</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
-                <td style="padding:8px 4px;text-align:center;color:var(--t3);">...</td>
-                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--amber);">21</td>
-                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--red);">3</td>
-                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--t3);">0.0</td>
-              </tr>
-            </tbody>
-          </table>
-          <div style="padding:10px 14px;font-size:10px;color:var(--t3);border-top:1px solid var(--border);">
-            P = Present &nbsp;·&nbsp; A = Absent &nbsp;·&nbsp; H = Holiday &nbsp;·&nbsp; L = Leave &nbsp;·&nbsp; Showing 4 of 312 workers · Full register in export
-          </div>
-        </div>
-      </div>
-
-</div>
-
-    </div>
-
-
-    <!-- HEAT MAP TAB -->
-    <div class="tab-panel" id="field-tab-heatmap" style="display:none;">
+    <div class="tab-panel" id="field-tab-heatmap" style="display:block;">
       <div class="card">
         <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
           <div>
@@ -2586,6 +2036,7 @@ var fieldToastTimer = null;
   if (!token) { window.location.replace('safetypro_login.html'); return; }
   try { var u = JSON.parse(localStorage.getItem('sp_user')||'{}'); if (u&&u.name) applyFieldProfile(u); } catch(e){}
   setTimeout(loadNavProfile, 600);
+  // BAM init moved to HRM page
 })();
 
 
@@ -2893,9 +2344,15 @@ function applyFieldProfile(u) {
 function signOut(){ localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); window.location.href='safetypro_login.html'; }
 function toggleProfileMenu(){
   var d=document.getElementById('profile-dropdown'); if(!d) return;
-  var isOpen=d.style.display==='block';
-  d.style.display=isOpen?'none':'block';
-  if(!isOpen){ var tr=document.getElementById('user-pill-btn'); if(tr){ var r=tr.getBoundingClientRect(); d.style.top=(r.bottom+6)+'px'; d.style.right=(window.innerWidth-r.right)+'px'; d.style.left='auto'; } }
+  if(d.style.display==='block'){ d.style.display='none'; }
+  else {
+    d.style.display='block';
+    d.style.position='fixed';
+    d.style.top='54px';
+    d.style.right='12px';
+    d.style.left='auto';
+    d.style.zIndex='9999';
+  }
 }
 function toggleAlerts(){ var d=document.getElementById('alert-dropdown'); if(d) d.style.display=d.style.display==='block'?'none':'block'; }
 function toggleSidebar(){ var sb=document.querySelector('.sidebar'); var ov=document.getElementById('sb-overlay'); if(sb){ sb.classList.toggle('open'); if(ov) ov.classList.toggle('show'); } }
@@ -3373,6 +2830,205 @@ function saRestartCamera(){
     _syncPill();
   }
 })();
+
+
+// ── BAM PORTAL MODULE ─────────────────────────────────────────────────────
+var BAM_BASE = (typeof API_BASE !== 'undefined') ? API_BASE.replace('/api/v1','') : 'https://safetypro-backend-production.up.railway.app';
+var BAM_API  = BAM_BASE + '/api/v1';
+var bamPollTimer = null;
+var bamCurrentTab = 'qr';
+
+function bamSetTab(tab, el) {
+  ['qr','pending','directory'].forEach(function(t) {
+    var btn = document.getElementById('bam-tab-' + t);
+    var pnl = document.getElementById('bam-panel-' + t);
+    if(btn) { btn.style.color='var(--t3)'; btn.style.borderBottom='none'; }
+    if(pnl) pnl.style.display = 'none';
+  });
+  if(el) { el.style.color='var(--green)'; el.style.borderBottom='2px solid var(--green)'; }
+  var panel = document.getElementById('bam-panel-' + tab);
+  if(panel) panel.style.display = '';
+  bamCurrentTab = tab;
+  if(tab === 'pending') bamLoadPending();
+  if(tab === 'directory') bamLoadDirectory();
+}
+
+function bamGetQRUrl() {
+  var proj = (document.getElementById('bam-qr-project')||{}).value || 'BBRP-2026';
+  var zone = (document.getElementById('bam-qr-zone')||{}).value || '';
+  var url = 'https://www.safetyproworld.com/safetypro_checkin?code=' + encodeURIComponent(proj);
+  if(zone) url += '&zone=' + encodeURIComponent(zone);
+  return url;
+}
+
+function bamDrawQR() {
+  var url = bamGetQRUrl();
+  var proj = (document.getElementById('bam-qr-project')||{}).value || 'BBRP-2026';
+  var zone = (document.getElementById('bam-qr-zone')||{}).value || '';
+  var lbl = document.getElementById('bam-qr-label');
+  var urlEl = document.getElementById('bam-qr-url');
+  var container = document.getElementById('bam-qr-canvas');
+  if(!container) return;
+  if(lbl) lbl.textContent = proj + (zone ? ' · ' + zone : ' · All Zones');
+  if(urlEl) urlEl.textContent = url.replace('https://www.','').replace('https://','');
+  var apiUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=6&color=0B1420&bgcolor=FFFFFF&data=' + encodeURIComponent(url);
+  var img = document.createElement('img');
+  img.src = apiUrl;
+  img.width = 160;
+  img.height = 160;
+  img.alt = 'QR Code';
+  img.style.cssText = 'display:block;border-radius:4px;';
+  img.onerror = function() {
+    container.innerHTML = '<div style="width:160px;height:60px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--t3);">QR unavailable</div>';
+  };
+  container.innerHTML = '';
+  container.appendChild(img);
+}
+
+function bamDownloadQR() {
+  var img = document.querySelector('#bam-qr-canvas img');
+  if(!img) { fieldToast('QR not ready', 'amber'); return; }
+  var link = document.createElement('a');
+  var proj = (document.getElementById('bam-qr-project')||{}).value || 'BBRP';
+  link.download = proj + '-Gate-QR.png';
+  link.href = img.src;
+  link.click();
+  fieldToast('QR download started', 'success');
+}
+
+function bamShareQR() {
+  var url = bamGetQRUrl();
+  if(navigator.share) {
+    navigator.share({ title:'SafetyPro Gate QR', text:'Scan to mark BAM attendance', url:url }).catch(function(){});
+  } else {
+    try { navigator.clipboard.writeText(url); fieldToast('QR URL copied', 'success'); }
+    catch(e) { fieldToast('URL: ' + url.substring(0,50), 'blue'); }
+  }
+}
+
+function bamLoadPending() {
+  var list = document.getElementById('bam-pending-list');
+  if(!list) return;
+  list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3);font-size:11px;">Loading...</div>';
+  var token = localStorage.getItem('sp_token') || '';
+  fetch(BAM_API + '/employees/pending', { headers:{'Authorization':'Bearer '+token} })
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      var workers = Array.isArray(data) ? data : (data.data||[]);
+      var badge = document.getElementById('bam-pending-badge');
+      if(badge) { badge.style.display=workers.length>0?'inline':'none'; badge.textContent=workers.length; }
+      if(!workers.length) {
+        list.innerHTML = '<div style="padding:30px;text-align:center;"><div style="font-size:22px;color:var(--green);">✓</div><div style="font-size:11px;color:var(--t3);margin-top:8px;">No pending approvals</div></div>';
+        return;
+      }
+      list.innerHTML = workers.map(function(w) {
+        var ini = (w.name||'WK').split(' ').map(function(n){return n[0]||'';}).join('').substring(0,2).toUpperCase();
+        return '<div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">' +
+          '<div style="width:34px;height:34px;border-radius:50%;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--t2);flex-shrink:0;">' + ini + '</div>' +
+          '<div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:700;color:var(--t1);font-family:var(--fh);">' + (w.name||'Unknown') + '</div>' +
+          '<div style="font-size:9px;color:var(--t3);">' + w.employeeId + ' · ' + w.projectCode + '</div></div>' +
+          '<div style="display:flex;gap:5px;flex-shrink:0;">' +
+          '<button onclick="bamApprove(\'' + w.id + '\',this)" style="padding:5px 10px;background:var(--green);border:none;border-radius:6px;color:#070D12;font-size:10px;font-weight:800;font-family:var(--fh);cursor:pointer;">✓ OK</button>' +
+          '<button onclick="bamReject(\'' + w.id + '\',this)" style="padding:5px 8px;background:var(--raised);border:1px solid rgba(239,68,68,.4);border-radius:6px;color:var(--red);font-size:10px;cursor:pointer;">✕</button>' +
+          '</div></div>';
+      }).join('');
+    })
+    .catch(function(e) { list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3);font-size:10px;">Failed to load</div>'; });
+}
+
+function bamApprove(id, btn) {
+  var token = localStorage.getItem('sp_token') || '';
+  btn.disabled = true; btn.textContent = '...';
+  fetch(BAM_API + '/employees/' + id + '/approve', { method:'POST', headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'} })
+    .then(function(r){ return r.json(); })
+    .then(function() { fieldToast('Worker approved ✓ BAM access enabled','success'); setTimeout(bamLoadPending,900); })
+    .catch(function() { btn.disabled=false; btn.textContent='✓ OK'; fieldToast('Approval failed','amber'); });
+}
+
+function bamReject(id, btn) {
+  var token = localStorage.getItem('sp_token') || '';
+  btn.disabled = true;
+  fetch(BAM_API + '/employees/' + id + '/reject', { method:'POST', headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'} })
+    .then(function() { fieldToast('Registration rejected','amber'); setTimeout(bamLoadPending,900); })
+    .catch(function() { btn.disabled=false; fieldToast('Failed','amber'); });
+}
+
+function bamLoadDirectory() {
+  var list = document.getElementById('bam-dir-list');
+  var countEl = document.getElementById('bam-dir-count');
+  if(!list) return;
+  list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3);font-size:11px;">Loading...</div>';
+  var token = localStorage.getItem('sp_token') || '';
+  fetch(BAM_API + '/employees/all', { headers:{'Authorization':'Bearer '+token} })
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      var workers = Array.isArray(data) ? data : (data.data||[]);
+      if(countEl) countEl.textContent = workers.length + ' worker' + (workers.length!==1?'s':'');
+      if(!workers.length) { list.innerHTML='<div style="padding:30px;text-align:center;color:var(--t3);font-size:11px;">No employees registered</div>'; return; }
+      var sc = { ACTIVE:'var(--green)', PENDING:'var(--amber)', REJECTED:'var(--red)', INACTIVE:'var(--t3)' };
+      list.innerHTML = workers.map(function(w) {
+        var ini = (w.name||'WK').split(' ').map(function(n){return n[0]||'';}).join('').substring(0,2).toUpperCase();
+        return '<div style="padding:8px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">' +
+          '<div style="width:28px;height:28px;border-radius:50%;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--t2);flex-shrink:0;">' + ini + '</div>' +
+          '<div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:700;color:var(--t1);font-family:var(--fh);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (w.name||'Unknown') + '</div>' +
+          '<div style="font-size:9px;color:var(--t3);">' + w.employeeId + ' · ' + w.projectCode + '</div></div>' +
+          '<div style="font-size:9px;font-weight:700;color:' + (sc[w.status]||'var(--t3)') + ';flex-shrink:0;">' + (w.status||'?') + '</div></div>';
+      }).join('');
+    })
+    .catch(function() { list.innerHTML='<div style="padding:20px;text-align:center;color:var(--t3);font-size:10px;">Failed to load</div>'; });
+}
+
+function bamLoadAttendance() {
+  var token = localStorage.getItem('sp_token') || '';
+  fetch(BAM_API + '/attendance/today', { headers:{'Authorization':'Bearer '+token} })
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      var s = data.summary || {};
+      var g = function(id){ return document.getElementById(id); };
+      if(g('sa-count-onsite') && s.currentlyIn!=null) g('sa-count-onsite').textContent = s.currentlyIn;
+      if(g('sa-count-today') && s.totalCheckedIn!=null) g('sa-count-today').textContent = s.totalCheckedIn;
+      if(g('sa-count-out') && s.totalCheckedOut!=null) g('sa-count-out').textContent = s.totalCheckedOut;
+      var records = data.records || [];
+      if(records.length > 0) bamRenderFeed(records);
+      var fc = g('sa-feed-count');
+      if(fc) fc.textContent = 'Live from BAM · ' + records.length + ' records today';
+    })
+    .catch(function(){});
+}
+
+function bamRenderFeed(records) {
+  var list = document.getElementById('sa-feed-list');
+  if(!list||!records.length) return;
+  var rows = '';
+  for(var i=0;i<Math.min(records.length,25);i++){
+    var r=records[i];
+    var t=r.timestamp?new Date(r.timestamp):null;
+    var ts=t?t.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'--:--';
+    var isIn=(r.type||'IN').toUpperCase()==='IN';
+    var nameStr=r.empName||r.employeeId||'Worker';
+    var ini=nameStr.split(' ').map(function(n){return n[0]||'';}).join('').substring(0,2).toUpperCase();
+    var color=isIn?'var(--green)':'var(--red)';
+    var sub=(r.employeeId||'') + ' · ' + (r.zone||r.projectCode||'') + ' · ' + ts;
+    rows += '<div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">';
+    rows += '<div style="width:32px;height:32px;border-radius:50%;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--t2);flex-shrink:0;">' + ini + '</div>';
+    rows += '<div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:700;color:var(--t1);font-family:var(--fh);">' + nameStr + '</div>';
+    rows += '<div style="font-size:9px;color:var(--t3);">' + sub + '</div></div>';
+    rows += '<div style="font-size:10px;font-weight:800;color:' + color + ';font-family:var(--fh);flex-shrink:0;">' + (r.type||'IN') + '</div></div>';
+  }
+  list.innerHTML = rows;
+}
+
+function bamInit() {
+  bamDrawQR();
+  bamLoadAttendance();
+  bamLoadPending();
+  if(bamPollTimer) clearInterval(bamPollTimer);
+  bamPollTimer = setInterval(function() {
+    bamLoadAttendance();
+    if(bamCurrentTab==='pending') bamLoadPending();
+  }, 60000);
+}
+
 </script>
 </body>
 </html>
