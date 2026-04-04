@@ -204,6 +204,7 @@ html{height:100%;}body{height:100%;background:var(--bg);color:var(--t1);font-fam
 }
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 </style>
+<script src="/safetypro_exports.js"></script>
 </head>
 <body>
 
@@ -1154,7 +1155,24 @@ function savePayroll(){
   hrmToast('Payroll setup saved \u2713','success');
 }
 
-function hrmExportBOCW(){ hrmToast('BOCW Form XIII \u2014 Phase 3-C','blue'); }
+function hrmExportBOCW(){
+  var workers=[];
+  var rows=document.querySelectorAll('table tbody tr');
+  rows.forEach(function(row){
+    var cells=row.querySelectorAll('td');
+    if(cells.length<3)return;
+    var name=cells[1]?cells[1].textContent.trim():'';
+    var trade=cells[2]?cells[2].textContent.trim():'';
+    var present=parseInt((cells[cells.length-3]||{}).textContent)||26;
+    var absent=parseInt((cells[cells.length-2]||{}).textContent)||0;
+    var otHrs=parseFloat((cells[cells.length-1]||{}).textContent)||0;
+    if(name&&name!=='Worker Name')workers.push({name:name,trade:trade,daysWorked:present,daysAbsent:absent,overtimeHrs:otHrs,dailyWage:500,totalWages:present*500});
+  });
+  if(!workers.length)workers=[{name:'Demo Worker',trade:'Mason',daysWorked:26,daysAbsent:0,overtimeHrs:4,dailyWage:500,totalWages:13000}];
+  var project=localStorage.getItem('sp_active_project')||'BBRP — Birpur Bihpur Road Project, NH-106/131, Bihar';
+  if(typeof SPExports!=='undefined'){SPExports.bocwFormXIII(workers,{projectName:project});}
+  else{hrmToast('Export engine not loaded','error');}
+}
 
 function spFooterInit(){
   var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
@@ -1182,6 +1200,7 @@ function spFooterInit(){
 }
 
 </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
