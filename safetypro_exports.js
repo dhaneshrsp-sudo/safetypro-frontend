@@ -702,3 +702,312 @@
   console.log('[SPExports] SafetyPro Export Engine v1.0 loaded ✓');
 
 })(window);
+
+/* ═══════════════════════════════════════════════════════════════
+ * ADDITIONAL EXPORTS — Added in v1.1
+ * ═══════════════════════════════════════════════════════════════ */
+
+// ── Incident Register Excel (CSV) ─────────────────────────────
+window.SPExports.incidentRegisterExcel = function(incidents, options) {
+  incidents = incidents || [];
+  options   = options   || {};
+  var co    = window.SPExports.getCompanyProfile();
+  var now   = new Date();
+
+  var rows = [
+    ['INCIDENT REGISTER — ' + co.name],
+    ['Project: ' + (options.projectName || '')],
+    ['Period: ' + (options.period || now.getFullYear())],
+    ['Generated: ' + window.SPExports.today()],
+    [],
+    ['Incident No','Date','Type','Severity','Location','Description',
+     'Immediate Cause','Root Cause','Corrective Action','Status',
+     'Reported By','Closed Date'],
+  ];
+
+  incidents.forEach(function(inc) {
+    rows.push([
+      inc.id||'', inc.date||'', inc.type||'', inc.severity||'',
+      inc.location||'', inc.description||'', inc.immediateCause||'',
+      inc.rootCause||'', inc.correctiveAction||'',
+      inc.status||'Open', inc.reportedBy||'', inc.closedDate||'',
+    ]);
+  });
+
+  if (!incidents.length) {
+    rows.push(['No incidents recorded for this period','','','','','','','','','','','']);
+  }
+
+  var csv = rows.map(function(r) {
+    return r.map(function(c) { return '"' + (c||'').toString().replace(/"/g,'""') + '"'; }).join(',');
+  }).join('\n');
+  var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  window.SPExports.downloadBlob(blob, 'IncidentRegister_' + now.getFullYear() + '.csv');
+  window.SPExports.toast('Incident Register exported', 'success');
+};
+
+// ── TBT Register ──────────────────────────────────────────────
+window.SPExports.tbtRegister = function(tbtData, options) {
+  tbtData = tbtData || [];
+  options = options || {};
+  var co  = window.SPExports.getCompanyProfile();
+
+  var rows = [
+    ['TOOLBOX TALK REGISTER — ' + co.name],
+    ['Project: ' + (options.projectName || localStorage.getItem('sp_active_project') || '')],
+    ['Generated: ' + window.SPExports.today()],
+    [],
+    ['Date','Topic','Conducted By','Location','No. of Participants',
+     'Duration (min)','Key Points','Observations','Sign-off'],
+  ];
+
+  tbtData.forEach(function(t) {
+    rows.push([
+      t.date||'', t.topic||'', t.conductedBy||'', t.location||'',
+      t.participants||'', t.duration||'15', t.keyPoints||'',
+      t.observations||'', t.signOff||'',
+    ]);
+  });
+
+  if (!tbtData.length) {
+    var today = window.SPExports.today();
+    rows.push([today,'Daily Safety Briefing','HSE Officer','Site Office','25','15',
+               'PPE compliance, work at height precautions, housekeeping','Nil','✓']);
+  }
+
+  var csv = rows.map(function(r) {
+    return r.map(function(c) { return '"' + (c||'').toString().replace(/"/g,'""') + '"'; }).join(',');
+  }).join('\n');
+  var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  window.SPExports.downloadBlob(blob, 'TBT_Register_' + window.SPExports.today().replace(/-/g,'') + '.csv');
+  window.SPExports.toast('TBT Register downloaded', 'success');
+};
+
+// ── Training Compliance Report ────────────────────────────────
+window.SPExports.trainingReport = function(trainingData, options) {
+  trainingData = trainingData || [];
+  options      = options      || {};
+  var co       = window.SPExports.getCompanyProfile();
+
+  var rows = [
+    ['TRAINING COMPLIANCE REPORT — ' + co.name],
+    ['Project: ' + (options.projectName || localStorage.getItem('sp_active_project') || '')],
+    ['Generated: ' + window.SPExports.today()],
+    [],
+    ['Training Type','Planned','Conducted','Participants',
+     'Compliance %','Next Due Date','Status','Remarks'],
+  ];
+
+  var defaultTrainings = [
+    {type:'Safety Induction',planned:2,conducted:2,participants:45,next:'Next Batch',status:'Compliant'},
+    {type:'Working at Height',planned:1,conducted:1,participants:32,next:'3 months',status:'Compliant'},
+    {type:'Fire Safety & Evacuation',planned:1,conducted:1,participants:50,next:'6 months',status:'Compliant'},
+    {type:'First Aid',planned:1,conducted:0,participants:0,next:'This month',status:'Pending'},
+    {type:'BOCW Rights Awareness',planned:1,conducted:1,participants:40,next:'Annual',status:'Compliant'},
+    {type:'PPE Usage',planned:4,conducted:4,participants:50,next:'Monthly',status:'Compliant'},
+    {type:'Scaffolding Safety',planned:1,conducted:1,participants:20,next:'3 months',status:'Compliant'},
+    {type:'Electrical Safety',planned:1,conducted:0,participants:0,next:'This week',status:'Overdue'},
+  ];
+
+  var data = trainingData.length ? trainingData : defaultTrainings;
+  data.forEach(function(t) {
+    var pct = t.planned > 0 ? Math.round((t.conducted/t.planned)*100) + '%' : '—';
+    rows.push([t.type||'',t.planned||0,t.conducted||0,t.participants||0,
+               pct,t.next||'',t.status||'',t.remarks||'']);
+  });
+
+  var csv = rows.map(function(r) {
+    return r.map(function(c) { return '"' + (c||'').toString().replace(/"/g,'""') + '"'; }).join(',');
+  }).join('\n');
+  var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  window.SPExports.downloadBlob(blob, 'Training_Compliance_' + window.SPExports.today().replace(/-/g,'') + '.csv');
+  window.SPExports.toast('Training Compliance Report exported', 'success');
+};
+
+// ── Audit Log PDF (print fallback) ────────────────────────────
+window.SPExports.auditLogPDF = function(logData, options) {
+  logData = logData || [];
+  options = options || {};
+  var co  = window.SPExports.getCompanyProfile();
+
+  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8">'
+    + '<style>body{font-family:Arial,sans-serif;font-size:10pt;margin:1.5cm;}'
+    + 'h1{color:#1a2e44;font-size:13pt;text-align:center;margin-bottom:4px;}'
+    + 'h2{color:#1a2e44;font-size:10pt;text-align:center;margin-top:0;}'
+    + 'table{width:100%;border-collapse:collapse;margin:10px 0;font-size:9pt;}'
+    + 'td,th{border:1px solid #ccc;padding:4px 8px;}'
+    + 'th{background:#1a2e44;color:#fff;text-align:left;}'
+    + 'tr:nth-child(even){background:#f5f8fb;}'
+    + '.header{text-align:center;margin-bottom:16px;border-bottom:2px solid #1a2e44;padding-bottom:8px;}'
+    + '</style></head><body>'
+    + '<div class="header"><h1>' + co.name + '</h1>'
+    + '<h2>SYSTEM AUDIT LOG</h2>'
+    + '<p>Generated: ' + window.SPExports.today() + ' &nbsp;|&nbsp; '
+    + co.header + '</p></div>'
+    + '<table><thead><tr>'
+    + '<th>Timestamp</th><th>User</th><th>Action</th>'
+    + '<th>Module</th><th>Details</th><th>IP</th>'
+    + '</tr></thead><tbody>';
+
+  if (logData.length) {
+    logData.forEach(function(l) {
+      html += '<tr><td>' + (l.timestamp||'') + '</td><td>' + (l.user||'') + '</td>'
+        + '<td>' + (l.action||'') + '</td><td>' + (l.module||'') + '</td>'
+        + '<td>' + (l.details||'') + '</td><td>' + (l.ip||'') + '</td></tr>';
+    });
+  } else {
+    html += '<tr><td colspan="6" style="text-align:center;color:#666;">No audit log data available</td></tr>';
+  }
+  html += '</tbody></table></body></html>';
+
+  var w = window.open('','_blank','width=900,height=700');
+  if (w) {
+    w.document.write(html);
+    w.document.close();
+    w.print();
+    window.SPExports.toast('Audit Log PDF — print window opened', 'success');
+  } else {
+    window.SPExports.toast('Allow popups to download PDF', 'error');
+  }
+};
+
+// ── NCR Export ────────────────────────────────────────────────
+window.SPExports.ncrExcel = function(ncrs, options) {
+  ncrs    = ncrs    || [];
+  options = options || {};
+  var co  = window.SPExports.getCompanyProfile();
+
+  var rows = [
+    ['NCR REGISTER — ' + co.name],
+    ['Project: ' + (options.projectName || localStorage.getItem('sp_active_project') || '')],
+    ['Generated: ' + window.SPExports.today()],
+    [],
+    ['NCR No','Date Raised','Description','Category','Location',
+     'Raised By','Assigned To','Due Date','Status','Closure Date','Root Cause'],
+  ];
+
+  ncrs.forEach(function(n) {
+    rows.push([n.id||'', n.date||'', n.description||'', n.category||'',
+               n.location||'', n.raisedBy||'', n.assignedTo||'',
+               n.dueDate||'', n.status||'Open', n.closureDate||'', n.rootCause||'']);
+  });
+
+  if (!ncrs.length) {
+    rows.push(['No NCRs recorded','','','','','','','','','','']);
+  }
+
+  var csv = rows.map(function(r) {
+    return r.map(function(c) { return '"' + (c||'').toString().replace(/"/g,'""') + '"'; }).join(',');
+  }).join('\n');
+  var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  window.SPExports.downloadBlob(blob, 'NCR_Register_' + window.SPExports.today().replace(/-/g,'') + '.csv');
+  window.SPExports.toast('NCR Register exported', 'success');
+};
+
+// ── Actions Register ──────────────────────────────────────────
+window.SPExports.actionsExcel = function(actions, options) {
+  actions = actions || [];
+  options = options || {};
+  var co  = window.SPExports.getCompanyProfile();
+
+  var rows = [
+    ['ACTION TRACKER — ' + co.name],
+    ['Generated: ' + window.SPExports.today()],
+    [],
+    ['Action No','Source','Description','Priority','Assigned To',
+     'Due Date','Status','Escalation Level','Completed Date','Remarks'],
+  ];
+
+  actions.forEach(function(a) {
+    rows.push([a.id||'', a.source||'', a.description||'', a.priority||'',
+               a.assignedTo||'', a.dueDate||'', a.status||'Open',
+               a.escalationLevel||'L1', a.completedDate||'', a.remarks||'']);
+  });
+
+  if (!actions.length) {
+    rows.push(['No actions recorded','','','','','','','','','']);
+  }
+
+  var csv = rows.map(function(r) {
+    return r.map(function(c) { return '"' + (c||'').toString().replace(/"/g,'""') + '"'; }).join(',');
+  }).join('\n');
+  var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  window.SPExports.downloadBlob(blob, 'Actions_Tracker_' + window.SPExports.today().replace(/-/g,'') + '.csv');
+  window.SPExports.toast('Action Tracker exported', 'success');
+};
+
+// ── Import Template Generator ─────────────────────────────────
+window.SPExports.downloadImportTemplate = function(type) {
+  var templates = {
+    workers: {
+      filename: 'Import_Template_Workers.csv',
+      rows: [
+        ['Worker Import Template — SafetyPro AI'],
+        ['Fill all columns. DO NOT change column headers.'],
+        [],
+        ['name','fatherName','trade','category','gender','age','address',
+         'bocwRegNo','aadhaarNo','pfNo','esiNo','dailyWage','contactNo',
+         'emergencyContact','contractorName','joinDate'],
+        ['Rajan Kumar','Ramesh Kumar','Mason','Skilled','M','32',
+         'Village Rampur, Bihar','BOCW/BR/12345','XXXX-XXXX-1234',
+         'PF123456','ESI789012','500','9876543210','9876543211',
+         'ABC Contractors','01-Jan-2025'],
+      ]
+    },
+    incidents: {
+      filename: 'Import_Template_Incidents.csv',
+      rows: [
+        ['Incident Import Template — SafetyPro AI'],
+        ['Fill all columns. DO NOT change column headers.'],
+        [],
+        ['date','type','severity','location','description',
+         'injuredParty','immediateCause','rootCause','correctiveAction',
+         'reportedBy','status'],
+        ['15-Jan-2025','Near Miss','Minor','Block-3 Excavation',
+         'Worker slipped on wet surface','None','Wet surface, no warning sign',
+         'Housekeeping failure','Warning signs installed, housekeeping procedure updated',
+         'Dhanesh CK','Closed'],
+      ]
+    },
+    employees: {
+      filename: 'Import_Template_Staff.csv',
+      rows: [
+        ['Staff Import Template — SafetyPro AI'],
+        ['Fill all columns. DO NOT change column headers.'],
+        [],
+        ['fullName','email','phone','designation','department',
+         'employeeId','joinDate','basicSalary','pfNo','esiNo'],
+        ['John Smith','john@company.com','9876543210','HSE Officer',
+         'HSE','EMP001','01-Jan-2025','35000','PF123','ESI456'],
+      ]
+    },
+    ncr: {
+      filename: 'Import_Template_NCR.csv',
+      rows: [
+        ['NCR Import Template — SafetyPro AI'],
+        ['Fill all columns. DO NOT change column headers.'],
+        [],
+        ['date','description','category','location','raisedBy',
+         'assignedTo','dueDate','priority','status'],
+        ['15-Jan-2025','Rebar not tied as per drawing',
+         'Quality','Block-A Column','Site Engineer',
+         'Contractor Supervisor','22-Jan-2025','High','Open'],
+      ]
+    },
+  };
+
+  var tmpl = templates[type];
+  if (!tmpl) {
+    window.SPExports.toast('Unknown template type: ' + type, 'error');
+    return;
+  }
+
+  var csv = tmpl.rows.map(function(r) {
+    return r.map(function(c) { return '"' + (c||'').toString().replace(/"/g,'""') + '"'; }).join(',');
+  }).join('\n');
+  var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  window.SPExports.downloadBlob(blob, tmpl.filename);
+  window.SPExports.toast('Import template downloaded — fill and upload', 'success');
+};
+
+console.log('[SPExports] v1.1 — Additional exports loaded ✓');

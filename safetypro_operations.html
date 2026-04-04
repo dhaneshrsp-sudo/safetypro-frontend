@@ -907,6 +907,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+<script src="/safetypro_exports.js"></script>
 </head>
 <body>
 
@@ -3163,6 +3164,21 @@ document.addEventListener('click',function(e){
   setInterval(fetchStatus,30000);
 })();
 </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+<script>
+function exportNCRRegister(){
+  if(typeof SPExports==='undefined'){alert('Export engine loading');return;}
+  var ncrs = window.ncrData || window.ncrs || [];
+  SPExports.ncrExcel(ncrs);
+}
+function exportActionsTracker(){
+  if(typeof SPExports==='undefined'){alert('Export engine loading');return;}
+  var actions = window.actionsData || window.actions || [];
+  SPExports.actionsExcel(actions);
+}
+</script>
+
 </body>
 </html>
 <!-- fix4 --><!-- fix5 --><!-- fix6 --><!-- fix7 --><!-- fix8 --><!-- cache-bust-progress-fix -->

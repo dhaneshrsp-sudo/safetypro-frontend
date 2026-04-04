@@ -900,6 +900,7 @@ flex-wrap:wrap;}
 #sa-oval-ring{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:5;}.sa-oval{width:160px;height:200px;border-radius:50%;position:relative;transition:border-color .3s,box-shadow .3s;border:2px dashed rgba(34,197,94,0.5);}.sa-oval.countdown{border-color:#22C55E;border-style:solid;box-shadow:0 0 20px rgba(34,197,94,0.4);}.sa-oval.captured{border-color:#22C55E;border-style:solid;box-shadow:0 0 30px rgba(34,197,94,0.6);}#sa-countdown-ring.active{display:flex;}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+<script src="/safetypro_exports.js"></script>
 </head>
 <body>
 
@@ -1155,7 +1156,7 @@ flex-wrap:wrap;}
                 <div style="font-size:11px;font-weight:700;color:var(--t1);">Electrical Safety — LV/HV hazards</div>
                 <div style="font-size:10px;color:var(--t3);">01 Apr · 41 attended · 25 min · Vikram Sharma</div>
               </div>
-              <button style="padding:4px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t3);font-size:9px;font-weight:600;cursor:pointer;" onclick="fieldToast('TBT register downloaded','success')">↓ Download</button>
+              <button style="padding:4px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t3);font-size:9px;font-weight:600;cursor:pointer;" onclick="SPExports ? SPExports.tbtRegister([], {projectName:localStorage.getItem('sp_active_project')||''}) : fieldToast('Loading...','success')">↓ Download</button>
             </div>
           </div>
         </div>
@@ -1334,7 +1335,7 @@ flex-wrap:wrap;}
                 <div style="font-size:11px;color:var(--blue);font-weight:700;">28 attended</div>
                 <div style="flex:1;height:3px;background:var(--border);border-radius:2px;"><div style="height:100%;width:93%;background:var(--blue);border-radius:2px;"></div></div>
                 <div style="font-size:10px;color:var(--t3);">93% attendance</div>
-                <button onclick="fieldToast('Attendance register downloaded','success')" style="padding:3px 8px;background:var(--raised);border:1px solid var(--border);border-radius:5px;color:var(--t3);font-size:9px;cursor:pointer;">↓</button>
+                <button onclick="SPExports ? SPExports.attendanceRegister([], {projectName:localStorage.getItem('sp_active_project')||''}) : fieldToast('Loading...','success')" style="padding:3px 8px;background:var(--raised);border:1px solid var(--border);border-radius:5px;color:var(--t3);font-size:9px;cursor:pointer;">↓</button>
               </div>
             </div>
             <!-- Session 2 -->
@@ -1350,7 +1351,7 @@ flex-wrap:wrap;}
                 <div style="font-size:11px;color:var(--blue);font-weight:700;">34 attended</div>
                 <div style="flex:1;height:3px;background:var(--border);border-radius:2px;"><div style="height:100%;width:87%;background:var(--blue);border-radius:2px;"></div></div>
                 <div style="font-size:10px;color:var(--t3);">87% attendance</div>
-                <button onclick="fieldToast('Attendance register downloaded','success')" style="padding:3px 8px;background:var(--raised);border:1px solid var(--border);border-radius:5px;color:var(--t3);font-size:9px;cursor:pointer;">↓</button>
+                <button onclick="SPExports ? SPExports.attendanceRegister([], {projectName:localStorage.getItem('sp_active_project')||''}) : fieldToast('Loading...','success')" style="padding:3px 8px;background:var(--raised);border:1px solid var(--border);border-radius:5px;color:var(--t3);font-size:9px;cursor:pointer;">↓</button>
               </div>
             </div>
             <!-- Session 3 -->
@@ -1366,7 +1367,7 @@ flex-wrap:wrap;}
                 <div style="font-size:11px;color:var(--blue);font-weight:700;">41 attended</div>
                 <div style="flex:1;height:3px;background:var(--border);border-radius:2px;"><div style="height:100%;width:100%;background:var(--green);border-radius:2px;"></div></div>
                 <div style="font-size:10px;color:var(--green);">100% attendance</div>
-                <button onclick="fieldToast('Attendance register downloaded','success')" style="padding:3px 8px;background:var(--raised);border:1px solid var(--border);border-radius:5px;color:var(--t3);font-size:9px;cursor:pointer;">↓</button>
+                <button onclick="SPExports ? SPExports.attendanceRegister([], {projectName:localStorage.getItem('sp_active_project')||''}) : fieldToast('Loading...','success')" style="padding:3px 8px;background:var(--raised);border:1px solid var(--border);border-radius:5px;color:var(--t3);font-size:9px;cursor:pointer;">↓</button>
               </div>
             </div>
             <!-- Overdue Training Alert -->
@@ -1391,7 +1392,7 @@ flex-wrap:wrap;}
           <div class="card" style="padding:0;overflow:hidden;">
             <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
               <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);">📅 Upcoming Training Schedule</div>
-              <button onclick="fieldToast('Training calendar exported','success')" style="padding:5px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t3);font-size:10px;font-weight:600;cursor:pointer;font-family:var(--fh);">↓ Export</button>
+              <button onclick="SPExports ? SPExports.trainingReport([], {projectName:localStorage.getItem('sp_active_project')||''}) : fieldToast('Loading...','success')" style="padding:5px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t3);font-size:10px;font-weight:600;cursor:pointer;font-family:var(--fh);">↓ Export</button>
             </div>
             <div style="padding:10px 0;">
               <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:start;">
@@ -1473,7 +1474,7 @@ flex-wrap:wrap;}
                 <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;"><div style="height:100%;width:83%;background:var(--amber);border-radius:2px;"></div></div>
               </div>
             </div>
-            <button onclick="fieldToast('Training compliance report exported','success')" style="margin-top:14px;width:100%;padding:9px;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">↓ Export Full Training Report</button>
+            <button onclick="SPExports ? SPExports.trainingReport([], {projectName:localStorage.getItem('sp_active_project')||''}) : fieldToast('Loading...','success')" style="margin-top:14px;width:100%;padding:9px;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">↓ Export Full Training Report</button>
           </div>
 
         </div>
@@ -3030,5 +3031,6 @@ function bamInit() {
 }
 
 </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>

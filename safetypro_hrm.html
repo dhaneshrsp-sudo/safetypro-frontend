@@ -383,8 +383,8 @@ html{height:100%;}body{height:100%;background:var(--bg);color:var(--t1);font-fam
               <option>March 2026</option>
               <option>February 2026</option>
             </select>
-            <button onclick="hrmToast('BOCW Form XIII downloaded — muster_roll_apr2026.xlsx','success')" style="padding:6px 14px;background:var(--green);border:none;border-radius:6px;color:#0B0F14;font-size:10px;font-weight:800;font-family:var(--fh);cursor:pointer;">↓ Download Excel</button>
-            <button onclick="hrmToast('BOCW Form XIII PDF exported','success')" style="padding:6px 14px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t2);font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">↓ PDF</button>
+            <button onclick="SPExports ? SPExports.bocwFormXIII([], {projectName: localStorage.getItem('sp_active_project')||''}) : hrmToast('Loading...','blue')" style="padding:6px 14px;background:var(--green);border:none;border-radius:6px;color:#0B0F14;font-size:10px;font-weight:800;font-family:var(--fh);cursor:pointer;">↓ Download Excel</button>
+            <button onclick="SPExports ? SPExports.payslip({name:'Download All Payslips'}) : hrmToast('Loading...','blue')" style="padding:6px 14px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t2);font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">↓ PDF</button>
           </div>
         </div>
 
@@ -563,7 +563,7 @@ html{height:100%;}body{height:100%;background:var(--bg);color:var(--t1);font-fam
       <div class="hcard">
         <div class="hcard-head">
           <div><div class="hcard-title">Overtime Register &#8212; Today</div><div class="hcard-sub">Auto-calculated from BAM timestamps &middot; Std 8 hrs/day</div></div>
-          <button onclick="hrmToast('OT Report exported','success')" style="padding:6px 12px;background:var(--amber);border:none;border-radius:8px;color:#070D12;font-size:10px;font-weight:800;font-family:var(--fh);cursor:pointer;">Export OT Report</button>
+          <button onclick="SPExports ? SPExports.otReport([], {projectName: localStorage.getItem('sp_active_project')||''}) : hrmToast('Loading...','blue')" style="padding:6px 12px;background:var(--amber);border:none;border-radius:8px;color:#070D12;font-size:10px;font-weight:800;font-family:var(--fh);cursor:pointer;">Export OT Report</button>
         </div>
         <div style="overflow-x:auto;"><table class="ot-table"><thead><tr><th>Worker</th><th>Employee ID</th><th>Check In</th><th>Check Out</th><th>Hours Worked</th><th>OT Hours</th><th>Status</th></tr></thead><tbody id="ot-table-body"><tr><td colspan="7" style="text-align:center;color:var(--t3);padding:30px;font-size:11px;">Loading OT data...</td></tr></tbody></table></div>
       </div>
@@ -1300,5 +1300,6 @@ function downloadPayslip(workerName) {
 }
 // ─────────────────────────────────────────────────────────────────────────
 
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>

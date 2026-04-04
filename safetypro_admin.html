@@ -544,6 +544,7 @@ svg{flex-shrink:0}
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+<script src="/safetypro_exports.js"></script>
 </head>
 <body>
 <div class="app">
@@ -2748,7 +2749,7 @@ window.addEventListener('beforeunload', function() {
         <div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.6px;">Access History</div>
-            <button onclick="showToast('Downloading audit log PDF...','blue')" style="font-size:10px;padding:5px 14px;border-radius:6px;background:var(--blue-dim);color:var(--blue);border:1px solid rgba(59,130,246,.3);cursor:pointer;font-family:var(--fh);font-weight:600;">&#8595; Download PDF</button>
+            <button onclick="SPExports ? SPExports.auditLogPDF([], {}) : showToast('Loading...','blue')" style="font-size:10px;padding:5px 14px;border-radius:6px;background:var(--blue-dim);color:var(--blue);border:1px solid rgba(59,130,246,.3);cursor:pointer;font-family:var(--fh);font-weight:600;">&#8595; Download PDF</button>
           </div>
           <div style="display:flex;flex-direction:column;gap:6px;">
             <div style="display:grid;grid-template-columns:130px 1fr 80px 90px 80px;gap:10px;padding:8px 12px;font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--border);">
@@ -3208,6 +3209,31 @@ function spFooterInit(){
 setTimeout(loadCompanyProfile,400);
 setTimeout(spFooterInit,800);
 </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+<script>
+// Add import template download buttons to templates section
+(function(){
+  setTimeout(function(){
+    var tmplPanel = document.getElementById('tab-templates');
+    if(!tmplPanel) return;
+    var existing = tmplPanel.querySelector('.import-templates-section');
+    if(existing) return;
+    var div = document.createElement('div');
+    div.className='import-templates-section';
+    div.style.cssText='padding:16px 20px;border-top:1px solid var(--border);';
+    div.innerHTML='<div style="font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;">&#8595; Download Import Templates</div>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap;">'
+      +'<button onclick="SPExports&&SPExports.downloadImportTemplate('workers')" style="padding:7px 14px;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:11px;cursor:pointer;font-family:var(--fh);font-weight:700;">&#128101; Workers CSV</button>'
+      +'<button onclick="SPExports&&SPExports.downloadImportTemplate('incidents')" style="padding:7px 14px;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:11px;cursor:pointer;font-family:var(--fh);font-weight:700;">&#9888; Incidents CSV</button>'
+      +'<button onclick="SPExports&&SPExports.downloadImportTemplate('ncr')" style="padding:7px 14px;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:11px;cursor:pointer;font-family:var(--fh);font-weight:700;">&#128203; NCR CSV</button>'
+      +'<button onclick="SPExports&&SPExports.downloadImportTemplate('employees')" style="padding:7px 14px;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:11px;cursor:pointer;font-family:var(--fh);font-weight:700;">&#128100; Staff CSV</button>'
+      +'</div>';
+    tmplPanel.appendChild(div);
+  }, 600);
+})();
+</script>
+
 </body>
 </html>
 
