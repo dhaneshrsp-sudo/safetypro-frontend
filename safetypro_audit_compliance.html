@@ -1,0 +1,2174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audit &amp; Compliance — SafetyPro AI</title>
+  <script src="/safetypro_exports.js"></script>
+<style>
+/* ══════════════════════════════════════════════
+   TOKENS — BLUEPRINT SPEC EXACT
+══════════════════════════════════════════════ */
+:root{
+  --bg:      #0B0F14;
+  --card:    #131C26;
+  --raised:  #16212B;
+  --sidebar: #0F1720;
+  --border:  #1E293B;
+  --div:     rgba(255,255,255,0.05);
+  --green:   #22C55E;
+  --g-h:     #16A34A;
+  --g-s:     rgba(34,197,94,0.12);
+  --g-b:     rgba(34,197,94,0.3);
+  --amber:   #F59E0B;
+  --a-s:     rgba(245,158,11,0.12);
+  --a-b:     rgba(245,158,11,0.3);
+  --red:     #EF4444;
+  --r-s:     rgba(239,68,68,0.12);
+  --r-b:     rgba(239,68,68,0.35);
+  --blue:    #3B82F6;
+  --b-s:     rgba(59,130,246,0.12);
+  --b-b:     rgba(59,130,246,0.3);
+  --t1:      #E6EDF3;
+  --t2:      #94A3B8;
+  --t3:      #64748B;
+  --fh:'Montserrat',sans-serif;
+  --fb:'Roboto',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);font-size:13px;line-height:1.5;min-height:100vh}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+svg{flex-shrink:0}
+
+/* ══════════════════════════════════════════════
+   APP SHELL
+══════════════════════════════════════════════ */
+.app{display:flex;flex-direction:column;min-height:100vh}
+
+/* TOP NAV */
+.topnav{
+  height:52px;flex-shrink:0;
+  background:var(--sidebar);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 20px;gap:0;
+  position:sticky;top:0;z-index:100;
+}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;width:195px;flex-shrink:0;padding:0 16px 0 18px;border-right:1px solid var(--border)}
+.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35);}
+.logo-mark svg{width:16px;height:16px;fill:#fff}
+.logo-text{font-family:var(--fh);font-size:15px;font-weight:700}
+.logo-text span{color:var(--green)}
+.nav-links{display:flex;align-items:center;gap:2px;flex:1;padding:0 12px}
+.nl{display:flex;align-items:center;gap:6px;padding:6px 13px;border-radius:7px;font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s;text-decoration:none}
+.nl:hover{color:var(--t1);background:rgba(255,255,255,.04)}
+.nl.active{color:var(--t1);font-weight:600}
+.nl svg{width:13px;height:13px;fill:currentColor}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;padding-right:20px}
+.icon-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:border-color .15s}
+.icon-btn:hover{border-color:var(--t3)}
+.icon-btn svg{width:14px;height:14px;fill:var(--t2)}
+.notif-dot{position:absolute;top:4px;right:4px;width:6px;height:6px;background:var(--red);border-radius:50%;border:1px solid var(--bg)}
+.user-pill{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:5px 10px 5px 5px;cursor:pointer}
+.ua{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.un-name{font-size:11px;font-weight:600;color:var(--t1);line-height:1.2}
+.un-role{font-size:9px;color:var(--t3)}
+
+/* BODY */
+.body{display:flex;flex:1}
+
+/* SIDEBAR */
+.sidebar{width:195px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:10px 8px;min-height:calc(100vh - 52px);position:sticky;top:52px;align-self:flex-start}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:var(--t3);cursor:pointer;transition:all .15s;font-size:13px;margin-bottom:2px;text-decoration:none}
+.sb-item:hover{background:rgba(255,255,255,.04);color:var(--t2)}
+.sb-item.active{background:rgba(34,197,94,.1);border-left:2px solid var(--green);color:var(--green);padding-left:8px}
+.sb-item svg{width:15px;height:15px;fill:currentColor;opacity:.7}
+.sb-item.active svg{opacity:1}
+.sb-badge{margin-left:auto;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px}
+.sb-badge.red{background:var(--red);color:#fff}
+.sb-badge.amber{background:var(--amber);color:#0B0E12}
+.sidebar-foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--border)}
+
+/* CONTENT */
+.content{flex:1;display:flex;flex-direction:column;min-width:0}
+
+/* SUB HEADER */
+.sub-header{
+  padding:12px 20px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;background:var(--bg);
+  position:sticky;top:52px;z-index:50;
+flex-wrap:wrap;}
+.sh-left{display:flex;align-items:center;gap:12px}
+.sh-title{font-family:var(--fh);font-size:16px;font-weight:700;color:var(--t1)}
+.sh-tabs{display:flex;gap:2px;}
+.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparentwhite-space:nowrap;flex-shrink:0;}
+.sh-tab:hover{color:var(--t2)}
+.sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
+.sh-right{display:flex;gap:8px;align-items:center}
+.btn-primary{display:flex;align-items:center;gap:6px;background:var(--green);color:#0B0E12;border:none;padding:8px 16px;border-radius:8px;font-family:var(--fb);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-primary:hover{background:var(--g-h);transform:translateY(-1px)}
+.btn-primary svg{width:13px;height:13px;fill:#0B0E12}
+.btn-outline{display:flex;align-items:center;gap:6px;background:transparent;color:var(--t2);border:1px solid var(--border);padding:7px 14px;border-radius:8px;font-family:var(--fb);font-size:13px;cursor:pointer;transition:all .2s}
+.btn-outline:hover{border-color:var(--t3);color:var(--t1)}
+.btn-outline svg{width:13px;height:13px;fill:currentColor}
+
+/* MAIN AREA */
+.main-area{padding:16px 20px;display:flex;flex-direction:column;gap:14px;padding-bottom:80px}
+
+/* STATS ROW */
+.ops-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.ops-stat{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:12px 14px;display:flex;align-items:center;gap:10px;
+  cursor:pointer;transition:all .2s;
+}
+.ops-stat:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.1)}
+.stat-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.stat-icon svg{width:15px;height:15px}
+.stat-icon.g{background:var(--g-s);border:1px solid var(--g-b)}
+.stat-icon.g svg{fill:var(--green)}
+.stat-icon.a{background:var(--a-s);border:1px solid var(--a-b)}
+.stat-icon.a svg{fill:var(--amber)}
+.stat-icon.r{background:var(--r-s);border:1px solid var(--r-b)}
+.stat-icon.r svg{fill:var(--red)}
+.stat-icon.b{background:var(--b-s);border:1px solid var(--b-b)}
+.stat-icon.b svg{fill:var(--blue)}
+.stat-icon.w{background:rgba(148,163,184,.1);border:1px solid rgba(148,163,184,.25)}
+.stat-icon.w svg{fill:var(--t2)}
+.stat-body{}
+.stat-num{font-family:var(--fh);font-size:22px;font-weight:800;line-height:1}
+.stat-label{font-size:10px;color:var(--t3);margin-top:1px}
+
+/* GRID */
+.ops-grid{display:grid;grid-template-columns:1fr 380px;gap:14px}
+.left-col{display:flex;flex-direction:column;gap:14px}
+.right-col{display:flex;flex-direction:column;gap:14px}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--div)}
+.card-title{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1)}
+.card-sub{font-size:10px;color:var(--t3);margin-top:1px}
+.card-btns{display:flex;gap:5px;align-items:center}
+.cbtn{font-size:10px;padding:4px 10px;border-radius:5px;border:1px solid var(--border);color:var(--t3);background:var(--raised);cursor:pointer;transition:all .15s;font-family:var(--fb)}
+.cbtn:hover{color:var(--t2);border-color:var(--t3)}
+.cbtn.active{background:var(--g-s);border-color:var(--g-b);color:var(--green)}
+
+/* ACTION TRACKER TABLE */
+.filter-row{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--div);flex-wrap:wrap}
+.filter-chip{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-size:11px;border:1px solid var(--border);color:var(--t3);background:var(--raised);cursor:pointer;transition:all .15s}
+.filter-chip:hover{border-color:var(--t2);color:var(--t2)}
+.filter-chip.on{background:var(--g-s);border-color:var(--g-b);color:var(--green)}
+.filter-chip svg{width:11px;height:11px;fill:currentColor}
+.search-box{display:flex;align-items:center;gap:6px;background:var(--raised);border:1px solid var(--border);border-radius:6px;padding:4px 10px;margin-left:auto}
+.search-box svg{width:12px;height:12px;fill:var(--t3)}
+.search-box input{background:transparent;border:none;outline:none;font-family:var(--fb);font-size:11px;color:var(--t1);width:140px}
+.search-box input::placeholder{color:var(--t3)}
+
+.action-table{width:100%;border-collapse:collapse}
+.action-table th{padding:8px 14px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015)}
+.action-table td{padding:10px 14px;border-bottom:1px solid var(--div);vertical-align:middle}
+.action-table tr:last-child td{border-bottom:none}
+.action-table tr{transition:background .12s;cursor:pointer}
+.action-table tr:hover td{background:rgba(255,255,255,.025)}
+
+.src-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px}
+.src-i{background:var(--r-s);color:var(--red);border:1px solid var(--r-b)}
+.src-n{background:var(--a-s);color:var(--amber);border:1px solid var(--a-b)}
+.src-a{background:var(--b-s);color:var(--blue);border:1px solid var(--b-b)}
+.src-au{background:rgba(139,92,246,.12);color:#8B5CF6;border:1px solid rgba(139,92,246,.3)}
+
+.action-title{font-size:12px;font-weight:500;color:var(--t1);margin-bottom:2px}
+.action-sub{font-size:10px;color:var(--t3)}
+
+.status-pill{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:100px}
+.sp-open{background:var(--b-s);color:var(--blue);border:1px solid var(--b-b)}
+.sp-prog{background:var(--a-s);color:var(--amber);border:1px solid var(--a-b)}
+.sp-done{background:var(--g-s);color:var(--green);border:1px solid var(--g-b)}
+.sp-over{background:var(--r-s);color:var(--red);border:1px solid var(--r-b)}
+.sp-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+
+.deadline{font-size:11px;color:var(--t2)}
+.deadline.over{color:var(--red);font-weight:600}
+.deadline.soon{color:var(--amber);font-weight:600}
+
+.person-cell{display:flex;align-items:center;gap:7px}
+.mini-av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0}
+
+.action-btn{width:24px;height:24px;border-radius:5px;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s}
+.action-btn:hover{border-color:var(--green);background:var(--g-s)}
+.action-btn svg{width:11px;height:11px;fill:var(--t3)}
+.action-btn:hover svg{fill:var(--green)}
+
+.empty-row td{padding:32px;text-align:center}
+.empty-state{display:flex;flex-direction:column;align-items:center;gap:8px}
+.empty-icon{width:40px;height:40px;border-radius:10px;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.empty-icon svg{width:20px;height:20px;fill:var(--t3)}
+.empty-title{font-size:13px;font-weight:600;color:var(--t2)}
+.empty-sub{font-size:11px;color:var(--t3)}
+
+/* PAGINATION */
+.table-footer{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-top:1px solid var(--div)}
+.tf-info{font-size:11px;color:var(--t3)}
+.tf-pages{display:flex;gap:3px}
+.page-btn{width:26px;height:26px;border-radius:5px;border:1px solid var(--border);background:var(--raised);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--t3);cursor:pointer;transition:all .15s}
+.page-btn:hover{border-color:var(--t3);color:var(--t2)}
+.page-btn.active{background:var(--g-s);border-color:var(--g-b);color:var(--green);font-weight:700}
+
+/* MY ACTIONS */
+.my-actions-list{padding:0 14px 10px;display:flex;flex-direction:column;gap:6px;max-height:240px;overflow-y:auto}
+.ma-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:8px;
+  background:var(--raised);border:1px solid var(--border);
+  cursor:pointer;transition:all .15s;
+}
+.ma-item:hover{border-color:rgba(255,255,255,.1)}
+.ma-item.overdue{border-color:var(--r-b);background:rgba(239,68,68,.05)}
+.ma-left{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.ma-title{font-size:12px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ma-meta{display:flex;align-items:center;gap:6px}
+.ma-site{font-size:10px;color:var(--t3)}
+.ma-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.ma-due{font-size:10px}
+.ma-due.ok{color:var(--t3)}
+.ma-due.soon{color:var(--amber)}
+.ma-due.over{color:var(--red);font-weight:700}
+
+/* INCIDENT QUICK FORM */
+.quick-form{padding:14px}
+.qf-photo{
+  border:2px dashed var(--border);border-radius:10px;
+  height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  cursor:pointer;transition:all .2s;background:var(--raised);margin-bottom:12px;
+}
+.qf-photo:hover{border-color:var(--green);background:var(--g-s)}
+.qf-photo svg{width:24px;height:24px;fill:var(--t3)}
+.qf-photo:hover svg{fill:var(--green)}
+.qf-photo-label{font-size:12px;color:var(--t3);font-weight:500}
+.qf-photo:hover .qf-photo-label{color:var(--green)}
+.qf-photo-sub{font-size:10px;color:var(--t3)}
+
+.form-row{display:flex;gap:8px;margin-bottom:10px}
+.form-row.col{flex-direction:column}
+.form-group{flex:1;display:flex;flex-direction:column;gap:4px}
+.form-label{font-size:10px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.5px}
+.form-input{
+  background:var(--raised);border:1px solid var(--border);
+  border-radius:7px;padding:8px 11px;
+  font-family:var(--fb);font-size:12px;color:var(--t1);
+  outline:none;transition:border-color .15s;width:100%;
+}
+.form-input:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(34,197,94,.12)}
+.form-input::placeholder{color:var(--t3)}
+.form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748B' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
+.form-textarea{resize:none;height:64px;line-height:1.5}
+
+/* SEVERITY SELECTOR */
+.sev-row{display:flex;gap:6px}
+.sev-opt{
+  flex:1;padding:7px;border-radius:7px;border:1px solid var(--border);
+  text-align:center;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;
+  color:var(--t3);background:var(--raised);
+}
+.sev-opt:hover{border-color:var(--t3);color:var(--t2)}
+.sev-opt.active-low{background:rgba(34,197,94,.12);border-color:var(--g-b);color:var(--green)}
+.sev-opt.active-med{background:rgba(245,158,11,.12);border-color:var(--a-b);color:var(--amber)}
+.sev-opt.active-high{background:rgba(249,115,22,.12);border-color:rgba(249,115,22,.3);color:#F97316}
+.sev-opt.active-crit{background:var(--r-s);border-color:var(--r-b);color:var(--red)}
+
+/* GPS ROW */
+.gps-row{display:flex;align-items:center;gap:8px;background:var(--raised);border:1px solid var(--border);border-radius:7px;padding:8px 11px;margin-bottom:10px;cursor:pointer;transition:border-color .15s}
+.gps-row:hover{border-color:var(--green)}
+.gps-row svg{width:14px;height:14px;fill:var(--green)}
+.gps-text{font-size:11px;color:var(--t2);flex:1}
+.gps-text span{color:var(--green);font-weight:600}
+.gps-pulse{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green);animation:gps-blink 1.5s ease-in-out infinite}
+@keyframes gps-blink{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* SUBMIT BTN */
+.submit-btn{
+  width:100%;padding:11px;border-radius:8px;
+  background:var(--green);color:#0B0E12;border:none;
+  font-family:var(--fh);font-size:13px;font-weight:700;
+  cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px;
+  box-shadow:0 4px 16px rgba(34,197,94,.25);
+}
+.submit-btn:hover{background:var(--g-h);transform:translateY(-1px);box-shadow:0 6px 20px rgba(34,197,94,.35)}
+.submit-btn svg{width:14px;height:14px;fill:#0B0E12}
+
+/* NCR TYPE SELECTOR */
+.ncr-types{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px}
+.ncr-type{
+  padding:8px 6px;border-radius:7px;border:1px solid var(--border);
+  text-align:center;cursor:pointer;transition:all .15s;background:var(--raised);
+}
+.ncr-type:hover{border-color:var(--t3)}
+.ncr-type.active{background:var(--a-s);border-color:var(--a-b)}
+.ncr-type-icon{font-size:16px;margin-bottom:3px}
+.ncr-type-label{font-size:10px;font-weight:600;color:var(--t2)}
+.ncr-type.active .ncr-type-label{color:var(--amber)}
+
+/* FLOATING ACTION BUTTON */
+.fab{
+  position:fixed;bottom:28px;right:28px;
+  width:52px;height:52px;border-radius:50%;
+  background:var(--green);border:none;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(34,197,94,.45);
+  cursor:pointer;z-index:999;
+  transition:all .2s;
+}
+.fab:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(34,197,94,.55)}
+.fab svg{width:22px;height:22px;fill:#0B0E12;transition:transform .2s}
+.fab.open svg{transform:rotate(45deg)}
+
+/* FAB MENU */
+.fab-menu{
+  position:fixed;bottom:90px;right:28px;
+  display:flex;flex-direction:column;gap:8px;
+  z-index:998;
+  opacity:0;transform:translateY(12px) scale(0.95);
+  transition:all .2s;pointer-events:none;
+}
+.fab-menu.open{opacity:1;transform:translateY(0) scale(1);pointer-events:all}
+.fab-option{
+  display:flex;align-items:center;gap:10px;
+  background:var(--raised);border:1px solid var(--border);
+  padding:9px 14px 9px 10px;border-radius:10px;
+  cursor:pointer;transition:all .15s;
+  box-shadow:0 4px 16px rgba(0,0,0,.4);
+  white-space:nowrap;
+}
+.fab-option:hover{border-color:var(--t2);background:var(--card)}
+.fab-opt-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fab-opt-icon svg{width:16px;height:16px}
+.fab-opt-label{font-size:13px;font-weight:600;color:var(--t1)}
+.fab-opt-sub{font-size:10px;color:var(--t3)}
+
+/* MODAL OVERLAY */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(7,11,15,.75);
+  backdrop-filter:blur(4px);z-index:500;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+
+.modal{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;width:520px;max-width:95vw;max-height:90vh;
+  overflow-y:auto;
+  transform:translateY(16px) scale(0.98);
+  transition:transform .25s;
+  box-shadow:0 24px 60px rgba(0,0,0,.6);
+}
+.modal-overlay.open .modal{transform:translateY(0) scale(1)}
+
+.modal-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--card);z-index:1;
+}
+.modal-title{font-family:var(--fh);font-size:16px;font-weight:700;color:var(--t1)}
+.modal-close{width:28px;height:28px;border-radius:6px;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s}
+.modal-close:hover{border-color:var(--red);background:var(--r-s)}
+.modal-close svg{width:12px;height:12px;fill:var(--t2)}
+.modal-close:hover svg{fill:var(--red)}
+.modal-body{padding:20px}
+.modal-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;position:sticky;bottom:0;background:var(--card)}
+
+/* SUCCESS TOAST */
+.toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(100px);
+  background:var(--raised);border:1px solid var(--g-b);
+  border-radius:10px;padding:12px 18px;
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;font-weight:500;color:var(--t1);
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+  transition:transform .3s ease;z-index:9999;
+  white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast-icon{width:28px;height:28px;border-radius:7px;background:var(--g-s);border:1px solid var(--g-b);display:flex;align-items:center;justify-content:center}
+.toast-icon svg{width:14px;height:14px;fill:var(--green)}
+
+/* OVERDUE BANNER */
+.overdue-banner{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 14px;background:var(--r-s);
+  border:1px solid var(--r-b);border-radius:8px;
+  font-size:12px;color:var(--red);margin:0;
+}
+.overdue-banner svg{width:14px;height:14px;fill:var(--red);flex-shrink:0}
+.ob-count{font-family:var(--fh);font-size:16px;font-weight:800;margin:0 4px}
+
+/* PROGRESS BAR IN TABLE */
+.prog-wrap{height:3px;background:var(--border);border-radius:2px;width:60px;overflow:hidden}
+.prog-bar{height:100%;border-radius:2px;background:var(--green)}
+
+/* TOOLBOX TALK CARD */
+.ttalk-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;border-bottom:1px solid var(--div);
+  cursor:pointer;transition:background .12s;
+}
+.ttalk-item:last-child{border-bottom:none}
+.ttalk-item:hover{background:rgba(255,255,255,.025)}
+.tt-date{width:36px;height:36px;border-radius:8px;background:var(--raised);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.tt-day{font-family:var(--fh);font-size:14px;font-weight:700;line-height:1;color:var(--t1)}
+.tt-mon{font-size:8px;color:var(--t3);text-transform:uppercase}
+.tt-body{flex:1;min-width:0}
+.tt-title{font-size:12px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tt-meta{font-size:10px;color:var(--t3);margin-top:2px}
+.tt-att{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;background:var(--g-s);color:var(--green);border:1px solid var(--g-b)}
+
+/* ── MORE DROPDOWN ── */
+.more-wrap{position:relative;user-select:none}
+.more-menu{
+  display:none;position:absolute;top:calc(100% + 6px);left:0;
+  background:#131C26;border:1px solid #1E293B;border-radius:10px;
+  min-width:210px;z-index:200;padding:6px;
+  box-shadow:0 12px 32px rgba(0,0,0,.5);
+}
+.more-wrap.open .more-menu{display:flex;flex-direction:column;gap:1px}
+.mm-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;font-size:12px;color:#94A3B8;cursor:pointer;text-decoration:none;transition:all .15s}
+.mm-item:hover{background:rgba(255,255,255,.05);color:#E6EDF3}
+.mm-item svg{width:14px;height:14px;fill:currentColor;opacity:.7;flex-shrink:0}
+.mm-divider{height:1px;background:#1E293B;margin:4px 0}
+.mm-admin{color:#22C55E}
+.mm-admin:hover{background:rgba(34,197,94,.08);color:#22C55E}
+.mm-admin svg{opacity:1}
+.sb-more-item{padding:7px 10px;font-size:12px}
+.sb-more-item svg{width:13px;height:13px}
+
+/* ══ ATTACHMENT WIDGET ══ */
+.attach-section{margin-top:4px}
+.attach-label{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.attach-buttons{display:flex;gap:8px;margin-bottom:8px}
+.attach-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1px dashed var(--border);background:var(--raised);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
+.attach-btn:hover{border-color:var(--green);color:var(--green);background:rgba(34,197,94,.05)}
+.attach-btn svg{width:15px;height:15px;stroke:currentColor;fill:none}
+.attach-previews{display:flex;flex-wrap:wrap;gap:8px;min-height:0}
+.attach-thumb{position:relative;width:68px;height:68px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--raised);flex-shrink:0}
+.attach-thumb img{width:100%;height:100%;object-fit:cover}
+.attach-thumb .attach-remove{position:absolute;top:3px;right:3px;width:16px;height:16px;border-radius:50%;background:rgba(239,68,68,.9);color:#fff;font-size:10px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.attach-file-item{display:flex;align-items:center;gap:6px;padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;font-size:11px;color:var(--t2);width:100%}
+.attach-file-item svg{width:13px;height:13px;stroke:var(--green);fill:none;flex-shrink:0}
+.attach-file-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.attach-file-remove{background:none;border:none;color:var(--t3);cursor:pointer;font-size:12px;padding:0 2px}
+.attach-file-remove:hover{color:#EF4444}
+.attach-add-more{display:flex;align-items:center;justify-content:center;width:68px;height:68px;border-radius:8px;border:1px dashed var(--border);background:var(--raised);color:var(--t3);font-size:22px;cursor:pointer;transition:.15s;flex-shrink:0}
+.attach-add-more:hover{border-color:var(--green);color:var(--green)}
+
+/* ══ UNIVERSAL ATTACHMENT WIDGET ══ */
+.aw-wrap{margin:8px 0}
+.aw-label{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.aw-btns{display:flex;gap:8px;margin-bottom:8px}
+.aw-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1px dashed var(--border);background:var(--raised);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
+.aw-btn:hover{border-color:var(--green);color:var(--green);background:rgba(34,197,94,.05)}
+.aw-previews{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px;min-height:0}
+.aw-thumb{position:relative;width:64px;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--raised);flex-shrink:0}
+.aw-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.aw-thumb-rm{position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:rgba(239,68,68,.9);color:#fff;font-size:9px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700}
+.aw-file{display:flex;align-items:center;gap:6px;padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;font-size:11px;color:var(--t2);width:100%;box-sizing:border-box}
+.aw-file-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.aw-file-rm{background:none;border:none;color:var(--t3);cursor:pointer;font-size:12px;padding:0 2px;flex-shrink:0}
+.aw-file-rm:hover{color:#EF4444}
+.aw-more{display:flex;align-items:center;justify-content:center;padding:7px;border-radius:8px;border:1px dashed var(--border);background:var(--raised);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:.15s;width:100%;box-sizing:border-box}
+.aw-more:hover{border-color:var(--green);color:var(--green)}
+
+/* ══ UNIFIED ATTACHMENT WIDGET (aw-*) ══ */
+.aw-wrap{margin:8px 0}
+.aw-label{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.aw-btns{display:flex;gap:8px;margin-bottom:8px}
+.aw-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1px dashed var(--border);background:var(--raised);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
+.aw-btn:hover{border-color:var(--green);color:var(--green);background:rgba(34,197,94,.05)}
+.aw-previews{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px;min-height:0}
+.aw-thumb{position:relative;width:64px;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--card);flex-shrink:0}
+.aw-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.aw-thumb-rm{position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:rgba(239,68,68,.9);color:#fff;font-size:9px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;font-weight:700}
+.aw-file{display:flex;align-items:center;gap:6px;padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;font-size:11px;color:var(--t2);width:100%;box-sizing:border-box}
+.aw-file-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.aw-file-rm{background:none;border:none;color:var(--t3);cursor:pointer;font-size:12px;padding:0 2px;flex-shrink:0}
+.aw-file-rm:hover{color:#EF4444}
+.aw-more{display:flex;align-items:center;justify-content:center;padding:7px;border-radius:8px;border:1px dashed var(--border);background:var(--raised);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:.15s;width:100%;box-sizing:border-box;margin-top:4px}
+.aw-more:hover{border-color:var(--green);color:var(--green)}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — APP PAGES
+   Mobile / Tablet / Desktop
+══════════════════════════════════════ */
+
+.sb-toggle{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  padding:6px;background:none;border:1px solid var(--border);
+  border-radius:7px;margin-left:8px;flex-shrink:0;
+}
+.sb-toggle span{
+  display:block;width:18px;height:2px;
+  background:var(--t2);border-radius:2px;transition:.3s;
+}
+.sb-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.sb-toggle.open span:nth-child(2){opacity:0;}
+.sb-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
+.sb-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.5);z-index:149;
+  backdrop-filter:blur(2px);
+}
+.sb-overlay.show{display:block;}
+
+/* ── Tablet: 1024px ── */
+@media(max-width:1024px){
+  .nl{font-size:10px;padding:5px 8px;}
+  .un-name{display:none;}
+  [class*="grid-cols-4"],[style*="repeat(4"]{grid-template-columns:repeat(2,1fr) !important;}
+  [class*="grid-cols-3"],[style*="repeat(3"]{grid-template-columns:repeat(2,1fr) !important;}
+}
+
+/* ── Large Mobile: 768px ── */
+@media(max-width:768px){
+  html,body{overflow:auto !important;height:auto !important;}
+  body{flex-direction:column;}
+
+  .topnav{padding:0 12px !important;gap:6px;}
+  .nav-links{display:none !important;}
+  .sb-toggle{display:flex !important;}
+  .logo-text{font-size:13px !important;}
+  .un-name,.un-role{display:none !important;}
+  .more-wrap{display:none !important;}
+
+  .sidebar{
+    position:fixed !important;top:52px;left:-230px;
+    width:220px !important;height:calc(100vh - 52px);
+    z-index:150;transition:left .28s ease;
+    box-shadow:none;overflow-y:auto;
+  }
+  .sidebar.open{left:0 !important;box-shadow:4px 0 24px rgba(0,0,0,.5);}
+
+  .body{flex-direction:column;overflow:visible !important;height:auto !important;}
+  .content{overflow:visible !important;height:auto !important;}
+
+  .subnav,.subnav-row{
+    flex-direction:column !important;align-items:flex-start !important;
+    gap:8px !important;padding:10px 14px !important;
+  }
+
+  .dash,.page-inner,.content-inner,.main-content{
+    padding:12px 14px !important;
+  }
+
+  /* Tables — horizontal scroll */
+  table,.table-wrap{overflow-x:auto;display:block;-webkit-overflow-scrolling:touch;}
+  table{min-width:600px;}
+
+  /* Common grids restack */
+  .kpi-row,[class*="kpi-row"]{grid-template-columns:repeat(2,1fr) !important;}
+  .main-grid{grid-template-columns:1fr !important;}
+  .bottom-grid{grid-template-columns:1fr !important;}
+  .grid-3{grid-template-columns:1fr 1fr !important;}
+  .grid-4{grid-template-columns:1fr 1fr !important;}
+
+  /* Cards full width */
+  .g-card,.chart-card,.card,.panel{width:100% !important;}
+
+  .fab-bar{bottom:14px;right:12px;}
+  .fab{padding:8px 12px;font-size:10px;}
+
+  /* Modals */
+  .modal,.modal-bg .modal{width:95vw !important;max-height:85vh;}
+  .form-row{grid-template-columns:1fr !important;}
+
+  /* Icon buttons */
+  .icon-btn{width:30px;height:30px;}
+  .user-pill{padding:3px 8px 3px 3px;}
+
+  /* Operations grid — stack on mobile */
+  .ops-grid{grid-template-columns:1fr !important;gap:10px !important;}
+  .right-col,.left-col{width:100% !important;}
+  .ops-grid > *{min-width:0;}
+  /* sh-right filters wrap */
+  .sh-right{flex-wrap:wrap !important;gap:6px !important;}
+  .sh-right select,.sh-right .sel{flex:1;min-width:100px;}
+  /* action table scrollable */
+  .action-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .action-table{min-width:600px;}
+
+}
+
+/* ── Mobile: 480px ── */
+@media(max-width:480px){
+  .topnav{padding:0 10px !important;}
+  .kpi-row{grid-template-columns:1fr !important;}
+  .kpi-num,.stat-big{font-size:26px !important;}
+  .fab-bar{flex-direction:column;gap:6px;bottom:12px;right:10px;}
+  .fab{width:44px;height:44px;padding:0;justify-content:center;border-radius:50%;}
+  .fab span,.fab-label{display:none;}
+  .chart-wrap{height:130px !important;}
+  .modal{margin:10px !important;}
+}
+
+
+/* ══ DROPDOWN RESPONSIVE FIX ══ */
+.profile-dd,.alert-dropdown{
+  position:fixed !important;
+  top:58px;
+  right:12px;
+  z-index:9999;
+}
+@media(max-width:768px){
+  .profile-dd,.alert-dropdown{
+    right:8px !important;
+    width:calc(100vw - 16px) !important;
+    max-width:300px !important;
+    left:auto !important;
+  }
+}
+@media(max-width:480px){
+  .profile-dd,.alert-dropdown{
+    right:6px !important;
+    width:calc(100vw - 12px) !important;
+  }
+}
+
+
+/* ══ UNIVERSAL MOBILE FIXES ══ */
+@media(max-width:768px){
+
+  /* ── Sub-header: stack vertically ── */
+  .sub-header{
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    gap:8px !important;
+    padding:10px 12px !important;
+  flex-wrap:wrap;}
+  .sh-left{width:100% !important;}
+  .sh-right{
+    width:100% !important;
+    flex-wrap:wrap !important;
+    gap:6px !important;
+  }
+  .sh-title{font-size:14px !important;}
+
+  /* ── Tab bar: scroll horizontally, never overflow ── */
+  .sh-tabs{
+    display:flex !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    -webkit-overflow-scrolling:touch !important;
+    flex-wrap:nowrap !important;
+    gap:3px !important;
+    padding-bottom:4px !important;
+    scrollbar-width:none !important;
+    width:100% !important;
+    max-width:100vw !important;
+  }
+  .sh-tabs::-webkit-scrollbar{display:none !important;}
+  .sh-tab{
+    flex-shrink:0 !important;
+    white-space:nowrap !important;
+    font-size:11px !important;
+    padding:5px 12px !important;
+  }
+
+  /* ── Selects in subheader ── */
+  .sh-right select,.sel{
+    flex:1 !important;
+    min-width:80px !important;
+    max-width:100% !important;
+    font-size:11px !important;
+  }
+
+  /* ── Main 2-col layout → single col ── */
+  .ops-grid{
+    grid-template-columns:1fr !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+  .left-col,.right-col{width:100% !important;}
+  .two-col,.two-col-grid{grid-template-columns:1fr !important;}
+
+  /* ── Control page specific ── */
+  .esc-grid{grid-template-columns:1fr !important;}
+  .od-grid{grid-template-columns:1fr !important;}
+  .team-grid{grid-template-columns:1fr !important;}
+  .chain-card{padding:10px !important;}
+  .matrix-wrap{overflow-x:auto !important;}
+  .esc-table-wrap{overflow-x:auto !important; -webkit-overflow-scrolling:touch !important;}
+  .delay-chart-wrap{height:160px !important;}
+  .cs-grid{grid-template-columns:1fr 1fr !important;}
+
+  /* ── Reports page specific ── */
+  .charts-grid{grid-template-columns:1fr !important;}
+  .monthly-grid{grid-template-columns:1fr !important;}
+  .bench-grid{grid-template-columns:1fr !important;}
+  .apr-grid{grid-template-columns:1fr !important;}
+  .obj-card{padding:12px !important;}
+
+  /* ── Admin page specific ── */
+  .billing-grid{grid-template-columns:1fr !important;}
+  .notif-grid{grid-template-columns:1fr !important;}
+  .wf-grid{
+    flex-direction:column !important;
+    gap:8px !important;
+  }
+  .wf-arrow{transform:rotate(90deg) !important;}
+  .form-grid{grid-template-columns:1fr !important;}
+  .plan-card{width:100% !important;}
+
+  /* ── Cards: full width, comfortable padding ── */
+  .card,.g-card,.chart-card,.panel,.cs-card{
+    width:100% !important;
+    padding:12px !important;
+  }
+  .card-head,.card-hdr{
+    flex-wrap:wrap !important;
+    gap:8px !important;
+  }
+  .card-btns{flex-wrap:wrap !important; gap:4px !important;}
+
+  /* ── Tab panels ── */
+  .tab-panel{width:100% !important; overflow-x:hidden !important;}
+
+  /* ── Inputs full width ── */
+  .form-group{margin-bottom:12px !important;}
+  .form-input,.form-select,.form-textarea,.sel{
+    width:100% !important;
+    font-size:14px !important;
+  }
+
+  /* ── Chart heights ── */
+  .chart-wrap,[id$="Chart"]{height:160px !important;}
+
+  /* ── Action table ── */
+  .action-table{font-size:11px !important;}
+  .action-table th,.action-table td{padding:6px 8px !important;}
+}
+
+/* ══ SMALL MOBILE: 480px ══ */
+@media(max-width:480px){
+  .sh-title{font-size:13px !important;}
+  .sh-tab{font-size:10px !important; padding:4px 10px !important;}
+  .card,.g-card{padding:10px !important;}
+  .card-head,.card-hdr{margin-bottom:8px !important;}
+  .topnav{padding:0 10px !important;}
+  .logo-text{font-size:12px !important;}
+  .act-grid{grid-template-columns:1fr !important;}
+  .kpi-row,[class*="kpi-row"]{grid-template-columns:1fr 1fr !important;}
+}
+
+
+/* ── MOBILE TAB BAR FIX ── */
+.sh-tabs{
+  display:flex;
+  gap:2px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  flex-wrap:nowrap;
+  padding-bottom:2px;
+}
+.sh-tabs::-webkit-scrollbar{display:none;}
+.sh-tab{
+  white-space:nowrap;
+  flex-shrink:0;
+}
+@media(max-width:480px){
+  .sh-tab{font-size:10px !important;padding:4px 10px !important;}
+  .sh-tabs{gap:1px;}
+  .sub-header,.sh-left,.sh-right{flex-wrap:wrap;gap:6px;}
+  .sh-right{width:100%;}
+}
+@media(max-width:360px){
+  .sh-tab{font-size:9px !important;padding:3px 8px !important;}
+}
+
+@keyframes mmfadein{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* WebSocket real-time fade-in animation */
+@keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+
+  /* ══ PROFILE DROPDOWN CSS ══ */
+  .profile-dd{display:none;position:fixed;top:52px;right:16px;width:240px;background:var(--card,#111D2B);border:1px solid var(--border,#1E3347);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:9999;overflow:hidden;}
+  .profile-dd.open{display:block;}
+  .pd-header{padding:14px 16px;border-bottom:1px solid var(--border,#1E3347);display:flex;align-items:center;gap:10px;}
+  .pd-avatar{width:36px;height:36px;border-radius:50%;background:var(--green,#22C55E);color:#0B1A2E;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--fh,'Inter',sans-serif);flex-shrink:0;}
+  .pd-name{font-size:13px;font-weight:700;color:var(--t1,#E2EAF4);}
+  .pd-email{font-size:11px;color:var(--t3,#2E4A66);margin-top:1px;}
+  .pd-role-badge{font-size:10px;color:var(--green,#22C55E);margin-top:3px;font-weight:600;}
+  .pd-menu{padding:6px 0;}
+  .pd-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:12px;color:var(--t2,#7A9BBF);cursor:pointer;transition:.15s;text-decoration:none;}
+  .pd-item:hover{background:var(--raised,#0D1E30);color:var(--t1,#E2EAF4);}
+  .pd-item svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;flex-shrink:0;}
+  .pd-divider{height:1px;background:var(--border,#1E3347);margin:4px 0;}
+  .pd-signout{color:#EF4444 !important;}
+  .pd-signout:hover{background:rgba(239,68,68,.08) !important;}
+
+  /* ══ FOOTER ══ */
+  .sp-footer{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:32px;background:var(--card,#111D2B);border-top:1px solid var(--border,#1E3347);font-size:11px;color:var(--t3,#2E4A66);flex-shrink:0;gap:12px;}
+  .sp-footer a{color:var(--t3,#2E4A66);text-decoration:none;transition:.15s;}
+  .sp-footer a:hover{color:var(--t2,#7A9BBF);}
+  .sp-footer-sep{color:var(--border,#1E3347);margin:0 4px;}
+  .sp-footer-center{display:flex;gap:16px;}
+  .sp-footer-right{display:flex;align-items:center;gap:6px;}
+  .sp-footer-status-dot{width:6px;height:6px;border-radius:50%;background:#22C55E;}
+  /* ══ CONTENT GAP FIX ══ */
+  .content{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;}
+  .app,.body{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+  .body{flex:1;display:flex;flex-direction:row;overflow:hidden;min-height:0;}
+  
+  /* content gap fix */
+  .body{display:flex;flex-direction:row;flex:1;overflow:hidden;min-height:0;}
+  .content{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;margin-left:0;}
+  .sidebar{flex-shrink:0;}
+  
+  /* ══ LOGO FIX ══ */
+  .logo { text-decoration: none; color: inherit !important; }
+  .logo-text { color: var(--t1, #E6EDF3) !important; font-weight: 700 !important; }
+  .logo-text span { color: var(--green, #22C55E) !important; }
+  .logo-shield { width: 28px; height: 28px; background: linear-gradient(135deg, #22C55E, #15803D) !important; border-radius: 7px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(34,197,94,.35); }
+  .logo-shield svg { width: 16px; height: 16px; fill: #fff; }
+  
+  /* ══ NAV-RIGHT FIX ══ */
+  .nav-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .user-pill { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 10px; border-radius: 20px; background: var(--raised, #0D1E30); border: 1px solid var(--border, #1E3347); }
+  .user-pill .ua { width: 28px; height: 28px; border-radius: 50%; background: var(--green, #22C55E); color: #0B1A2E; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  
+  /* SIDEBAR-GAP-FIX: sticky nav compensation */
+  .sidebar { top: 0 !important; }
+  
+  /* LOGO-COLOR-FIX */
+  .logo, a.logo { color: inherit !important; text-decoration: none !important; }
+  .logo-text { color: var(--t1, #E6EDF3) !important; font-weight: 700 !important; }
+  .logo-text span { color: var(--green, #22C55E) !important; }
+  .logo-shield { width: 28px; height: 28px; background: linear-gradient(135deg,#22C55E,#15803D) !important; border-radius: 7px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(34,197,94,.35); }
+  .logo-shield svg { width: 16px; height: 16px; fill: #fff; }
+  
+  /* RCA STYLES */
+  .rca-method-btn{padding:7px 14px;background:var(--raised);border:1px solid var(--border);border-radius:20px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;transition:.15s;}
+  .rca-method-btn.active{background:var(--green);border-color:var(--green);color:#0B1A2E;}
+  .rca-method-btn:hover{border-color:var(--green);color:var(--green);}
+  .rca-panel{display:none;} .rca-panel.active{display:block;}
+  .why-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;padding:10px 12px;background:var(--raised);border-radius:8px;border-left:3px solid var(--green);}
+  .why-num{width:22px;height:22px;border-radius:50%;background:var(--green);color:#0B1A2E;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+  </style>
+  <style>
+  /* SIDEBAR-GAP-FIX */ .sidebar{top:0 !important;}
+  /* LOGO-COLOR-FIX */
+  .logo,a.logo{color:inherit !important;text-decoration:none !important;}
+  .logo-text{color:var(--t1,#E6EDF3) !important;font-weight:700 !important;}
+  .logo-text span{color:var(--green,#22C55E) !important;}
+  .logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D) !important;border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35);}
+  .logo-shield svg{width:16px;height:16px;fill:#fff;}
+  /* AUDIT PAGE STYLES */
+  .ac-kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+  .ac-kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;border-left:3px solid var(--green);}
+  .ac-kpi-val{font-size:26px;font-weight:800;color:var(--t1);font-family:var(--fh);}
+  .ac-kpi-lbl{font-size:11px;color:var(--t3);margin-top:3px;}
+  .ac-card{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:14px;overflow:hidden;}
+  .ac-card-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--raised);}
+  .ac-card-title{font-size:12px;font-weight:700;color:var(--t1);}
+  .ac-card-sub{font-size:10px;color:var(--t3);margin-top:2px;}
+  .ac-tbl{width:100%;border-collapse:collapse;font-size:11px;}
+  .ac-tbl th{padding:7px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);background:var(--raised);}
+  .ac-tbl td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--t2);}
+  .ac-tbl tr:last-child td{border-bottom:none;}
+  .ac-tbl tr:hover td{background:rgba(255,255,255,.02);}
+  .badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;}
+  .bg{background:rgba(34,197,94,.12);color:#22C55E;}
+  .ba{background:rgba(245,158,11,.12);color:#F59E0B;}
+  .br{background:rgba(239,68,68,.12);color:#EF4444;}
+  .bb{background:rgba(59,130,246,.12);color:#3B82F6;}
+  .bp{background:rgba(139,92,246,.12);color:#8B5CF6;}
+  .ac-sub-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--raised);overflow-x:auto;}
+  .ac-sub-tab{padding:9px 16px;font-size:11px;font-weight:600;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;font-family:var(--fh);}
+  .ac-sub-tab.active{color:var(--green);border-bottom-color:var(--green);}
+  .ac-sub-tab:hover{color:var(--t1);}
+  .ac-sub-panel{display:none;padding:16px;}
+  .ac-sub-panel.active{display:block;}
+  .risk-matrix{display:grid;grid-template-columns:auto repeat(5,1fr);gap:2px;font-size:10px;}
+  .rm-cell{padding:6px 4px;text-align:center;border-radius:3px;font-weight:700;}
+  .rm-low{background:rgba(34,197,94,.15);color:#22C55E;}
+  .rm-med{background:rgba(245,158,11,.15);color:#F59E0B;}
+  .rm-high{background:rgba(239,68,68,.15);color:#EF4444;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+  .form-field{display:flex;flex-direction:column;gap:4px;}
+  .form-label{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;}
+  .form-input{background:var(--raised);border:1px solid var(--border);border-radius:7px;padding:7px 10px;color:var(--t1);font-size:12px;font-family:var(--fh);}
+  .form-input:focus{outline:none;border-color:var(--green);}
+  .btn-primary{padding:7px 16px;background:var(--green);border:none;border-radius:7px;color:#0B1A2E;font-size:11px;font-weight:800;font-family:var(--fh);cursor:pointer;}
+  .btn-secondary{padding:7px 14px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;}
+  </style>
+</head>
+<body>
+<nav class="topnav">
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
+  <a class="logo" href="safetypro_v2.html">
+    <div class="logo-shield"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
+    <span class="logo-text">SafetyPro <span>AI</span></span>
+  </a>
+  <div class="nav-links">
+    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
+    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations</a>
+    <a class="nl" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
+    <a class="nl" href="safetypro_reports"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2"/></svg>Reports</a>
+    
+    <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More&#9660;
+      <div class="more-menu" id="more-menu">
+        <a class="mm-item" href="safetypro_reports" ><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="safetypro_documents" ><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/></svg>Documents &amp; Records</a>
+        <a class="mm-item" href="safetypro_field"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="safetypro_hrm"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>HRM &amp; Payroll</a>
+        <a class="mm-item" href="safetypro_ai"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 110 20A10 10 0 0112 2z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_auditor"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
+        <a class="mm-item" href="safetypro_admin"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/></svg>Admin &amp; Configuration</a>
+      </div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="icon-btn" onclick="toggleAlerts()" id="alert-btn" title="Alerts">
+      <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+      <div class="red-dot" id="alert-dot"></div>
+    </div>
+    <div class="user-pill" onclick="toggleProfileMenu()" id="user-pill-btn">
+      <div class="ua" id="nav-initials">--</div>
+      <div class="un">
+        <div class="un-name" id="nav-username">Loading...</div>
+        <div class="un-role" id="nav-role">HSE Officer</div>
+      </div>
+      <span style="color:var(--t3);font-size:9px;margin-left:3px">&#9660;</span>
+    </div>
+  </div>
+</nav>
+<div id="profile-dropdown" class="profile-dd">
+  <div class="pd-header">
+    <div class="pd-avatar" id="pd-initials">--</div>
+    <div>
+      <div class="pd-name" id="profile-name">Loading...</div>
+      <div class="pd-email" id="profile-email"></div>
+      <div class="pd-role-badge" id="profile-role-badge">HSE Officer</div>
+    </div>
+  </div>
+  <div class="pd-menu">
+    <a class="pd-item" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+    <a class="pd-item" onclick="openManageUsers()"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Manage Users</a>
+    <a class="pd-item" onclick="openSettings()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings</a>
+    <a class="pd-item" onclick="changePassword()"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Change Password</a>
+    <div class="pd-divider"></div>
+    <a class="pd-item pd-signout" onclick="signOut()"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>Sign Out</a>
+  </div>
+</div>
+<div class="sb-overlay" id="sb-overlay" onclick="toggleSidebar()"></div>
+<div class="body">
+  <div class="sidebar">
+    <a class="sb-item" href="safetypro_v2.html"><svg   viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </a>
+    <a class="sb-item" href="safetypro_operations.html">
+      <svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>
+      Operations<span class="sb-badge amber">12</span>
+    </a>
+    <a class="sb-item" href="safetypro_control.html"><svg   viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
+      Control<span class="sb-badge red">5</span>
+    </a>
+    <a class="sb-item" href="safetypro_reports"><svg   viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
+      Reports
+    </a>
+    <div style="height:1px;background:#1E293B;margin:10px 2px 6px"></div>
+    <div style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:2px 10px 6px">More</div>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_reports">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
+      Audit &amp; Compliance
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_documents">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      Documents & Records
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      Site & Field Tools
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#8B5CF6" href="safetypro_hrm"><svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#8B5CF6"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>HRM &amp; Payroll</a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      AI Intelligence
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_auditor.html">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Auditor Verification
+    </a>
+    <div style="height:1px;background:#1E293B;margin:6px 2px 4px"></div>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#22C55E" href="safetypro_admin">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#22C55E"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Admin &amp; Configuration
+    </a>
+  </div>
+  <div class="content">
+
+    <!-- SUB HEADER -->
+    <div class="sub-header">
+      <div class="sh-left">
+        <div class="sh-title">Audit &amp; Compliance</div>
+        <div class="sh-tabs" style="overflow-x:auto;flex-wrap:nowrap;">
+          <div class="sh-tab active" onclick="acMainTab(this,'ims')">&#128203; IMS Internal Audit</div>
+          <div class="sh-tab" onclick="acMainTab(this,'contractor')">&#127970; Contractor Audit</div>
+          <div class="sh-tab" onclick="acMainTab(this,'risk')">&#9888; Risk Assessment</div>
+          <div class="sh-tab" onclick="acMainTab(this,'investigation')">&#128269; Incident Investigation</div>
+          <div class="sh-tab" onclick="acMainTab(this,'method')">&#128196; Method Statement</div>
+          <div class="sh-tab" onclick="acMainTab(this,'meeting')">&#128101; Safety Meeting</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- TAB 1: IMS INTERNAL AUDIT                     -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div class="tab-panel active" id="ac-ims" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;">
+      <div class="ac-sub-tabs">
+        <div class="ac-sub-tab active" onclick="acSubTab(this,'ims','planning')">&#128197; Planning / Calendar</div>
+        <div class="ac-sub-tab" onclick="acSubTab(this,'ims','checklist')">&#9989; Checklist Execution</div>
+        <div class="ac-sub-tab" onclick="acSubTab(this,'ims','findings')">&#128270; Findings</div>
+        <div class="ac-sub-tab" onclick="acSubTab(this,'ims','ncr')">&#9888; Auto NCR Creation</div>
+        <div class="ac-sub-tab" onclick="acSubTab(this,'ims','actions')">&#128221; Action Assignment</div>
+      </div>
+
+      <!-- Planning -->
+      <div class="ac-sub-panel active" id="ims-planning" style="flex:1;overflow-y:auto;">
+        <div class="ac-kpi-row">
+          <div class="ac-kpi" style="border-color:#22C55E;"><div class="ac-kpi-val" style="color:#22C55E;">12</div><div class="ac-kpi-lbl">Audits Planned 2026</div></div>
+          <div class="ac-kpi" style="border-color:#3B82F6;"><div class="ac-kpi-val" style="color:#3B82F6;">5</div><div class="ac-kpi-lbl">Completed</div></div>
+          <div class="ac-kpi" style="border-color:#F59E0B;"><div class="ac-kpi-val" style="color:#F59E0B;">3</div><div class="ac-kpi-lbl">In Progress</div></div>
+          <div class="ac-kpi" style="border-color:#EF4444;"><div class="ac-kpi-val" style="color:#EF4444;">1</div><div class="ac-kpi-lbl">Overdue</div></div>
+        </div>
+        <div class="ac-card">
+          <div class="ac-card-head">
+            <div><div class="ac-card-title">IMS Audit Calendar — 2026</div><div class="ac-card-sub">Internal Management System audits per ISO 45001</div></div>
+            <div style="display:flex;gap:8px;">
+              <button onclick="openReportModal('ims')" style="padding:7px 14px;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">&#128196; Generate Audit Report</button>
+              <button class="btn-primary" onclick="acToast('New audit scheduled')">+ Schedule Audit</button>
+            </div>
+          </div>
+          <table class="ac-tbl">
+            <thead><tr><th>Audit No.</th><th>Type</th><th>Scope / Area</th><th>Lead Auditor</th><th>Planned Date</th><th>Status</th><th>Score</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td style="color:var(--green);font-weight:700;">IMS-001</td><td>Internal HSE</td><td>Zone A – Excavation</td><td>Dhanesh CK</td><td>15 Jan 2026</td><td><span class="badge bg">Completed</span></td><td>91%</td><td><button class="btn-secondary" onclick="acToast('Audit report opened')">View</button></td></tr>
+              <tr><td style="color:var(--green);font-weight:700;">IMS-002</td><td>Environmental</td><td>Waste Management</td><td>HSE Officer</td><td>10 Feb 2026</td><td><span class="badge bg">Completed</span></td><td>87%</td><td><button class="btn-secondary" onclick="acToast('Audit report opened')">View</button></td></tr>
+              <tr><td style="color:var(--green);font-weight:700;">IMS-003</td><td>Quality</td><td>Material Testing Lab</td><td>QC Manager</td><td>05 Mar 2026</td><td><span class="badge ba">In Progress</span></td><td>—</td><td><button class="btn-primary" onclick="acToast('Checklist opened')">Continue</button></td></tr>
+              <tr><td style="color:var(--green);font-weight:700;">IMS-004</td><td>Fire Safety</td><td>Site Office &amp; Stores</td><td>Dhanesh CK</td><td>01 Mar 2026</td><td><span class="badge br">Overdue</span></td><td>—</td><td><button class="btn-primary" onclick="acToast('Audit started')">Start Now</button></td></tr>
+              <tr><td style="color:var(--green);font-weight:700;">IMS-005</td><td>Internal HSE</td><td>Zone B – Structure</td><td>Site Engineer</td><td>15 Apr 2026</td><td><span class="badge bb">Planned</span></td><td>—</td><td><button class="btn-secondary" onclick="acToast('Audit details opened')">Prepare</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Checklist Execution -->
+      <div class="ac-sub-panel" id="ims-checklist" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head">
+            <div><div class="ac-card-title">IMS-003 — Quality Audit Checklist</div><div class="ac-card-sub">Material Testing Lab · In Progress · 18/42 items completed</div></div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn-secondary" onclick="acToast('Progress saved')">Save Progress</button>
+              <button class="btn-primary" onclick="acToast('Checklist submitted — findings generated')">Submit &amp; Generate Findings</button>
+            </div>
+          </div>
+          <div style="padding:14px 16px;">
+            <div style="background:var(--raised);border-radius:7px;height:6px;margin-bottom:16px;"><div style="background:var(--green);height:6px;border-radius:7px;width:43%;"></div></div>
+            <div id="checklist-items">
+              <!-- Checklist items rendered by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Findings -->
+      <div class="ac-sub-panel" id="ims-findings" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head">
+            <div><div class="ac-card-title">Audit Findings</div><div class="ac-card-sub">All findings from IMS internal audits</div></div>
+            <div style="display:flex;gap:8px;">
+              <select class="form-input" style="padding:5px 10px;font-size:11px;" onchange="filterImsFindings(this.value)">
+                <option value="all">All Status</option><option value="open">Open</option><option value="closed">Closed</option><option value="overdue">Overdue</option>
+              </select>
+              <button class="btn-secondary" onclick="SPExports&&SPExports.auditLogPDF()">&#8595; Export</button>
+            </div>
+          </div>
+          <table class="ac-tbl" id="ims-findings-table">
+            <thead><tr><th>Finding ID</th><th>Audit</th><th>Description</th><th>Severity</th><th>Due Date</th><th>Status</th><th>NCR</th></tr></thead>
+            <tbody id="ims-findings-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Auto NCR -->
+      <div class="ac-sub-panel" id="ims-ncr" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head">
+            <div><div class="ac-card-title">Auto NCR Creation</div><div class="ac-card-sub">NCRs automatically generated from audit findings</div></div>
+            <span class="badge ba">3 Pending Auto-Creation</span>
+          </div>
+          <div style="padding:14px 16px;">
+            <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:12px 14px;margin-bottom:12px;font-size:12px;color:var(--t2);">
+              &#9888; <strong style="color:#F59E0B;">3 findings</strong> from IMS-003 are pending NCR creation. Review and approve below.
+            </div>
+            <table class="ac-tbl">
+              <thead><tr><th>Finding</th><th>Description</th><th>Severity</th><th>Proposed NCR Title</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td>F-003-01</td><td>Cube test records not maintained</td><td><span class="badge br">Major</span></td><td>NCR: Missing QC Test Records – Lab</td><td><button class="btn-primary" onclick="acToast('NCR created and assigned')">&#9658; Create NCR</button></td></tr>
+                <tr><td>F-003-02</td><td>Calibration certificate expired</td><td><span class="badge br">Major</span></td><td>NCR: Expired Calibration Certificate</td><td><button class="btn-primary" onclick="acToast('NCR created and assigned')">&#9658; Create NCR</button></td></tr>
+                <tr><td>F-003-03</td><td>Sieve analysis not done for 3 batches</td><td><span class="badge ba">Minor</span></td><td>NCR: Incomplete Sieve Analysis Records</td><td><button class="btn-primary" onclick="acToast('NCR created and assigned')">&#9658; Create NCR</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Assignment -->
+      <div class="ac-sub-panel" id="ims-actions" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head">
+            <div><div class="ac-card-title">Action Assignment</div><div class="ac-card-sub">Assign corrective actions from audit findings</div></div>
+            <button class="btn-primary" onclick="acToast('New action created')">+ Assign Action</button>
+          </div>
+          <table class="ac-tbl">
+            <thead><tr><th>Action ID</th><th>Finding Ref.</th><th>Action Description</th><th>Assigned To</th><th>Due Date</th><th>Priority</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td style="color:var(--green);font-weight:700;">ACT-041</td><td>F-001-02</td><td>Install additional fire extinguishers in Zone A</td><td>Store Keeper</td><td>20 Mar 2026</td><td><span class="badge br">High</span></td><td><span class="badge bg">Closed</span></td></tr>
+              <tr><td style="color:var(--green);font-weight:700;">ACT-042</td><td>F-002-01</td><td>Provide separate bins for chemical waste</td><td>Site Engineer</td><td>25 Mar 2026</td><td><span class="badge ba">Medium</span></td><td><span class="badge ba">In Progress</span></td></tr>
+              <tr><td style="color:var(--green);font-weight:700;">ACT-043</td><td>F-003-01</td><td>Update cube test register and backfill records</td><td>Lab Technician</td><td>10 Apr 2026</td><td><span class="badge br">High</span></td><td><span class="badge bb">Open</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- TAB 2: CONTRACTOR AUDIT                       -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div class="tab-panel" id="ac-contractor" style="flex:1;overflow-y:auto;display:none;flex-direction:column;">
+      <div class="ac-sub-tabs">
+        <div class="ac-sub-tab active" onclick="acSubTab(this,'contractor','selection')">&#127970; Contractor Selection</div>
+        <div class="ac-sub-tab" onclick="acSubTab(this,'contractor','checklist')">&#9989; Checklist</div>
+        <div class="ac-sub-tab" onclick="acSubTab(this,'contractor','findings')">&#128270; Findings</div>
+        <div class="ac-sub-tab" onclick="acSubTab(this,'contractor','ncr')">&#9888; Auto NCR + Action</div>
+      </div>
+      <div class="ac-sub-panel active" id="contractor-selection" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head">
+            <div><div class="ac-card-title">Select Contractor for Audit</div><div class="ac-card-sub">Choose contractor and initiate safety compliance audit</div></div>
+            <div style="display:flex;gap:8px;">
+            <button onclick="openReportModal('contractor')" style="padding:7px 14px;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">&#128196; Generate Audit Report</button>
+            <button class="btn-primary" onclick="acToast('Contractor audit initiated')">+ New Contractor Audit</button>
+          </div>
+          </div>
+          <table class="ac-tbl">
+            <thead><tr><th>Contractor Name</th><th>Work Package</th><th>Workers on Site</th><th>Last Audit</th><th>Score</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><strong>M/s ABC Construction</strong></td><td>Earthwork &amp; Embankment</td><td>47</td><td>10 Feb 2026</td><td><span style="color:#22C55E;font-weight:700;">86%</span></td><td><span class="badge bg">Compliant</span></td><td><button class="btn-primary" onclick="acToast('Audit started for ABC Construction')">Start Audit</button></td></tr>
+              <tr><td><strong>M/s XYZ Infra</strong></td><td>Structural Concrete</td><td>62</td><td>15 Jan 2026</td><td><span style="color:#F59E0B;font-weight:700;">72%</span></td><td><span class="badge ba">Needs Improvement</span></td><td><button class="btn-primary" onclick="acToast('Audit started for XYZ Infra')">Start Audit</button></td></tr>
+              <tr><td><strong>M/s DEF Labour</strong></td><td>Masonry &amp; Finishing</td><td>38</td><td>Never</td><td>—</td><td><span class="badge br">Not Audited</span></td><td><button class="btn-primary" onclick="acToast('First audit initiated')">Initiate First</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ac-sub-panel" id="contractor-checklist" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head"><div><div class="ac-card-title">Contractor Audit Checklist — M/s XYZ Infra</div><div class="ac-card-sub">Safety compliance assessment · 15 items</div></div><button class="btn-primary" onclick="acToast('Checklist submitted')">Submit &amp; Generate Findings</button></div>
+          <div style="padding:14px 16px;" id="contractor-checklist-items"></div>
+        </div>
+      </div>
+      <div class="ac-sub-panel" id="contractor-findings" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head"><div class="ac-card-title">Contractor Audit Findings</div></div>
+          <table class="ac-tbl"><thead><tr><th>Finding</th><th>Contractor</th><th>Description</th><th>Severity</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td style="color:var(--green);">CF-001</td><td>M/s XYZ Infra</td><td>Workers not wearing safety harness at height</td><td><span class="badge br">Critical</span></td><td><span class="badge ba">Open</span></td></tr>
+            <tr><td style="color:var(--green);">CF-002</td><td>M/s XYZ Infra</td><td>No TBT conducted this week</td><td><span class="badge ba">Major</span></td><td><span class="badge bb">In Progress</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+      <div class="ac-sub-panel" id="contractor-ncr" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head"><div><div class="ac-card-title">Auto NCR + Action for Contractor</div><div class="ac-card-sub">NCRs auto-raised from contractor audit findings</div></div></div>
+          <div style="padding:14px 16px;">
+            <table class="ac-tbl"><thead><tr><th>Finding</th><th>NCR Auto-Created</th><th>Action Assigned To</th><th>Due</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>CF-001</td><td><span class="badge bg">NCR-089 Created</span></td><td>XYZ Infra Safety Officer</td><td>05 Apr 2026</td><td><span class="badge ba">Pending Closure</span></td></tr>
+            </tbody></table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- TAB 3: RISK ASSESSMENT (PREVENTIVE)           -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div class="tab-panel" id="ac-risk" style="flex:1;overflow-y:auto;display:none;flex-direction:column;">
+      <div class="ac-sub-tabs">
+        <div class="ac-sub-tab active" onclick="acSubTab(this,'risk','activity')">&#128295; Activity Definition</div>
+        <div class="ac-sub-tab" onclick="acSubTab(this,'risk','hazard')">&#9888; Hazard Identification</div>
+        <div class="ac-sub-tab" onclick="acSubTab(this,'risk','level')">&#128308; Risk Level</div>
+        <div class="ac-sub-tab" onclick="acSubTab(this,'risk','controls')">&#9745; Control Measures</div>
+      </div>
+      <div class="ac-sub-panel active" id="risk-activity" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head"><div><div class="ac-card-title">Activity / Work Package Register</div><div class="ac-card-sub">Define activities for Risk Assessment (HIRA / JSA)</div></div><button class="btn-primary" onclick="acToast('New activity added')">+ Add Activity</button></div>
+          <table class="ac-tbl">
+            <thead><tr><th>Activity ID</th><th>Activity Name</th><th>Work Package</th><th>Location</th><th>Risk Level</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td style="color:var(--green);">RA-001</td><td>Excavation below 3m</td><td>Earthwork</td><td>Block A</td><td><span class="badge br">High</span></td><td><span class="badge bg">Approved</span></td></tr>
+              <tr><td style="color:var(--green);">RA-002</td><td>Reinforcement Placement at Height</td><td>Structure</td><td>Block B, Floor 2</td><td><span class="badge br">High</span></td><td><span class="badge bg">Approved</span></td></tr>
+              <tr><td style="color:var(--green);">RA-003</td><td>Crane Lifting Operations</td><td>Lifting</td><td>All Zones</td><td><span class="badge ba">Medium</span></td><td><span class="badge ba">Under Review</span></td></tr>
+              <tr><td style="color:var(--green);">RA-004</td><td>Electrical Panel Installation</td><td>MEP</td><td>Site Office</td><td><span class="badge ba">Medium</span></td><td><span class="badge bb">Draft</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ac-sub-panel" id="risk-hazard" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head"><div><div class="ac-card-title">Hazard Identification — RA-001 Excavation</div><div class="ac-card-sub">Identify all hazards associated with this activity</div></div><button class="btn-primary" onclick="acToast('Hazard added')">+ Add Hazard</button></div>
+          <table class="ac-tbl">
+            <thead><tr><th>Hazard ID</th><th>Hazard Description</th><th>Hazard Type</th><th>Who is Affected</th><th>Consequence</th></tr></thead>
+            <tbody>
+              <tr><td>H-001-01</td><td>Trench collapse / cave-in</td><td>Physical</td><td>Excavation Workers</td><td>Fatality / Serious Injury</td></tr>
+              <tr><td>H-001-02</td><td>Underground utility damage (electrical)</td><td>Electrical</td><td>All Workers</td><td>Electrocution</td></tr>
+              <tr><td>H-001-03</td><td>Flooding / water ingress</td><td>Environmental</td><td>Workers in trench</td><td>Drowning / Injury</td></tr>
+              <tr><td>H-001-04</td><td>Dust inhalation</td><td>Health</td><td>All nearby workers</td><td>Respiratory illness</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ac-sub-panel" id="risk-level" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head"><div><div class="ac-card-title">Risk Level Assessment — 5×5 Matrix</div><div class="ac-card-sub">Likelihood × Severity = Risk Score</div></div></div>
+          <div style="padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+              <table class="ac-tbl">
+                <thead><tr><th>Hazard</th><th>Likelihood (1-5)</th><th>Severity (1-5)</th><th>Score</th><th>Level</th></tr></thead>
+                <tbody>
+                  <tr><td>Trench collapse</td><td>3</td><td>5</td><td><strong>15</strong></td><td><span class="badge br">High</span></td></tr>
+                  <tr><td>Electrical damage</td><td>2</td><td>5</td><td><strong>10</strong></td><td><span class="badge ba">Medium</span></td></tr>
+                  <tr><td>Flooding</td><td>2</td><td>4</td><td><strong>8</strong></td><td><span class="badge ba">Medium</span></td></tr>
+                  <tr><td>Dust inhalation</td><td>4</td><td>2</td><td><strong>8</strong></td><td><span class="badge ba">Medium</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:var(--t3);margin-bottom:8px;">RISK MATRIX</div>
+              <div class="risk-matrix">
+                <div class="rm-cell" style="background:none;color:var(--t3);">S↓ L→</div>
+                <div class="rm-cell" style="background:var(--raised);color:var(--t3);">1</div><div class="rm-cell" style="background:var(--raised);color:var(--t3);">2</div><div class="rm-cell" style="background:var(--raised);color:var(--t3);">3</div><div class="rm-cell" style="background:var(--raised);color:var(--t3);">4</div><div class="rm-cell" style="background:var(--raised);color:var(--t3);">5</div>
+                <div class="rm-cell" style="background:var(--raised);color:var(--t3);">5</div><div class="rm-cell rm-med">5</div><div class="rm-cell rm-high">10</div><div class="rm-cell rm-high">15</div><div class="rm-cell rm-high">20</div><div class="rm-cell rm-high">25</div>
+                <div class="rm-cell" style="background:var(--raised);color:var(--t3);">4</div><div class="rm-cell rm-low">4</div><div class="rm-cell rm-med">8</div><div class="rm-cell rm-med">12</div><div class="rm-cell rm-high">16</div><div class="rm-cell rm-high">20</div>
+                <div class="rm-cell" style="background:var(--raised);color:var(--t3);">3</div><div class="rm-cell rm-low">3</div><div class="rm-cell rm-med">6</div><div class="rm-cell rm-med">9</div><div class="rm-cell rm-med">12</div><div class="rm-cell rm-high">15</div>
+                <div class="rm-cell" style="background:var(--raised);color:var(--t3);">2</div><div class="rm-cell rm-low">2</div><div class="rm-cell rm-low">4</div><div class="rm-cell rm-med">6</div><div class="rm-cell rm-med">8</div><div class="rm-cell rm-med">10</div>
+                <div class="rm-cell" style="background:var(--raised);color:var(--t3);">1</div><div class="rm-cell rm-low">1</div><div class="rm-cell rm-low">2</div><div class="rm-cell rm-low">3</div><div class="rm-cell rm-low">4</div><div class="rm-cell rm-med">5</div>
+              </div>
+              <div style="display:flex;gap:12px;margin-top:8px;font-size:10px;">
+                <span><span class="badge bg">Low (1-4)</span></span>
+                <span><span class="badge ba">Medium (5-12)</span></span>
+                <span><span class="badge br">High (13-25)</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ac-sub-panel" id="risk-controls" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head"><div><div class="ac-card-title">Control Measures (Hierarchy of Controls)</div><div class="ac-card-sub">Elimination → Substitution → Engineering → Admin → PPE</div></div><button class="btn-primary" onclick="acToast('Control measure added')">+ Add Control</button></div>
+          <table class="ac-tbl">
+            <thead><tr><th>Hazard</th><th>Control Type</th><th>Control Measure</th><th>Residual Risk</th><th>Responsible</th></tr></thead>
+            <tbody>
+              <tr><td>Trench collapse</td><td><span class="badge bg">Engineering</span></td><td>Install trench shoring/sheet piling; slope excavation at 1:1</td><td><span class="badge ba">Medium</span></td><td>Site Engineer</td></tr>
+              <tr><td>Trench collapse</td><td><span class="badge bg">Admin</span></td><td>Permit to Dig system; daily inspection before entry; no entry above 1.2m without shoring</td><td><span class="badge bb">Low</span></td><td>HSE Officer</td></tr>
+              <tr><td>Electrical damage</td><td><span class="badge bp">Admin</span></td><td>Cable locator survey before excavation; mark utility routes</td><td><span class="badge bb">Low</span></td><td>Site Supervisor</td></tr>
+              <tr><td>Dust inhalation</td><td><span class="badge ba">PPE</span></td><td>Dust masks (P2) mandatory; water sprinkling on excavated soil</td><td><span class="badge bb">Low</span></td><td>All Workers</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- TAB 4: INCIDENT INVESTIGATION (REACTIVE)      -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div class="tab-panel" id="ac-investigation" style="flex:1;overflow-y:auto;display:none;flex-direction:column;">
+      <div class="ac-sub-tabs">
+        <div class="ac-sub-tab active" onclick="acSubTab(this,'investigation','linked')">&#128279; Linked to Incident</div>
+        <div class="ac-sub-tab" onclick="acSubTab(this,'investigation','rca')">&#128269; Root Cause Analysis</div>
+        <div class="ac-sub-tab" onclick="acSubTab(this,'investigation','findings')">&#128270; Findings</div>
+        <div class="ac-sub-tab" onclick="acSubTab(this,'investigation','corrective')">&#9745; Corrective Actions</div>
+      </div>
+      <div class="ac-sub-panel active" id="investigation-linked" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head"><div><div class="ac-card-title">Incidents Requiring Investigation</div><div class="ac-card-sub">All LTI, Serious Near Miss, and Dangerous Occurrence incidents</div></div></div>
+          <table class="ac-tbl">
+            <thead><tr><th>Incident ID</th><th>Date</th><th>Type</th><th>Description</th><th>Severity</th><th>Investigation</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td style="color:var(--green);">INC-024</td><td>18 Mar 2026</td><td>Near Miss</td><td>Worker slipped near water pipeline trench</td><td><span class="badge ba">Serious</span></td><td><span class="badge ba">In Progress</span></td><td><button class="btn-primary" onclick="acToast('Investigation opened')">Open</button></td></tr>
+              <tr><td style="color:var(--green);">INC-019</td><td>05 Mar 2026</td><td>First Aid</td><td>Hand injury during rebar cutting</td><td><span class="badge bb">Minor</span></td><td><span class="badge bg">Completed</span></td><td><button class="btn-secondary" onclick="acToast('Investigation report opened')">View</button></td></tr>
+              <tr><td style="color:var(--green);">INC-015</td><td>22 Feb 2026</td><td>Near Miss</td><td>Crane sling failure — no injury</td><td><span class="badge br">Critical</span></td><td><span class="badge bg">Completed</span></td><td><button class="btn-secondary" onclick="acToast('Investigation report opened')">View</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ac-sub-panel active" id="investigation-rca" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head">
+            <div><div class="ac-card-title">Root Cause Analysis — INC-024</div><div class="ac-card-sub">Worker slipped near water pipeline trench · 18 Mar 2026</div></div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn-secondary" onclick="acToast('RCA saved as draft')">Save Draft</button>
+              <button class="btn-primary" onclick="acToast('RCA finalised — findings generated')">Finalise RCA</button>
+            </div>
+          </div>
+          <div style="padding:12px 16px;border-bottom:1px solid var(--border);background:var(--raised);">
+            <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;margin-bottom:8px;">Select RCA Technique</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+              <button class="rca-method-btn active" id="btn-5why" onclick="switchRCA('5why')">&#128269; 5-Why Analysis</button>
+              <button class="rca-method-btn" id="btn-fishbone" onclick="switchRCA('fishbone')">&#127959; Fishbone (Ishikawa)</button>
+              <button class="rca-method-btn" id="btn-icam" onclick="switchRCA('icam')">&#128202; ICAM Method</button>
+              <button class="rca-method-btn" id="btn-bowtie" onclick="switchRCA('bowtie')">&#127915; Bow-Tie Analysis</button>
+            </div>
+            <div style="font-size:10px;color:var(--t3);" id="rca-hint"><strong style="color:var(--green);">5-Why:</strong> Best for simple–moderate incidents. Quick, universally understood, ISO 45001 compliant.</div>
+          </div>
+          <!-- 5-WHY -->
+          <div id="rca-5why" class="rca-panel active" style="padding:16px;">
+            <div style="font-size:12px;color:var(--t1);font-weight:700;margin-bottom:6px;">Problem Statement</div>
+            <div style="font-size:12px;color:var(--t2);margin-bottom:14px;padding:8px 12px;background:rgba(239,68,68,.07);border-left:3px solid #EF4444;border-radius:0 6px 6px 0;">Worker slipped near water pipeline trench — minor leg injury (18 Mar 2026, Zone C).</div>
+            <div id="why-chain"></div>
+            <button onclick="addWhyLevel()" class="btn-secondary" style="margin-top:8px;font-size:11px;">+ Add Why Level</button>
+            <div style="margin-top:12px;padding:10px 12px;background:rgba(34,197,94,.07);border-left:3px solid var(--green);border-radius:0 6px 6px 0;font-size:11px;color:var(--t2);">
+              <strong style="color:var(--green);">Root Cause:</strong> <span id="why-rootcause">Complete all 5 whys to identify root cause</span>
+            </div>
+          </div>
+          <!-- FISHBONE -->
+          <div id="rca-fishbone" class="rca-panel" style="padding:16px;display:none;">
+            <div style="font-size:12px;color:var(--t2);margin-bottom:10px;">Interactive Fishbone (Ishikawa) diagram — edit causes in each category below.</div>
+            <div style="background:var(--raised);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:12px;">
+              <svg id="fishbone-svg" viewBox="0 0 860 420" style="width:100%;height:auto;">
+                <line x1="80" y1="210" x2="755" y2="210" stroke="#22C55E" stroke-width="3"/>
+                <polygon points="755,204 773,210 755,216" fill="#22C55E"/>
+                <rect x="775" y="178" width="80" height="64" rx="8" fill="#0d2b1a" stroke="#22C55E" stroke-width="2"/>
+                <text x="815" y="205" text-anchor="middle" fill="#22C55E" font-size="9" font-weight="bold">INCIDENT</text>
+                <text x="815" y="220" text-anchor="middle" fill="#E2EAF4" font-size="8">Worker</text>
+                <text x="815" y="233" text-anchor="middle" fill="#E2EAF4" font-size="8">Slipped</text>
+                <line x1="155" y1="210" x2="215" y2="125" stroke="#3B82F6" stroke-width="2"/>
+                <text x="132" y="110" fill="#3B82F6" font-size="11" font-weight="bold">MAN</text>
+                <line x1="188" y1="168" x2="148" y2="158" stroke="#3B82F6" stroke-width="1.2"/>
+                <text x="138" y="156" text-anchor="end" fill="#8BA8C0" font-size="9">No slip hazard training</text>
+                <line x1="202" y1="148" x2="162" y2="138" stroke="#3B82F6" stroke-width="1.2"/>
+                <text x="152" y="136" text-anchor="end" fill="#8BA8C0" font-size="9">Non-compliant footwear</text>
+                <line x1="355" y1="210" x2="415" y2="125" stroke="#8B5CF6" stroke-width="2"/>
+                <text x="326" y="110" fill="#8B5CF6" font-size="11" font-weight="bold">MACHINE</text>
+                <line x1="388" y1="168" x2="348" y2="158" stroke="#8B5CF6" stroke-width="1.2"/>
+                <text x="338" y="156" text-anchor="end" fill="#8BA8C0" font-size="9">No anti-slip matting</text>
+                <line x1="555" y1="210" x2="615" y2="125" stroke="#F59E0B" stroke-width="2"/>
+                <text x="527" y="110" fill="#F59E0B" font-size="11" font-weight="bold">METHOD</text>
+                <line x1="588" y1="168" x2="548" y2="158" stroke="#F59E0B" stroke-width="1.2"/>
+                <text x="538" y="156" text-anchor="end" fill="#8BA8C0" font-size="9">No pre-shift SOP</text>
+                <line x1="602" y1="148" x2="562" y2="138" stroke="#F59E0B" stroke-width="1.2"/>
+                <text x="552" y="136" text-anchor="end" fill="#8BA8C0" font-size="9">No Permit to Enter</text>
+                <line x1="155" y1="210" x2="215" y2="295" stroke="#22C55E" stroke-width="2"/>
+                <text x="80" y="332" fill="#22C55E" font-size="11" font-weight="bold">ENVIRONMENT</text>
+                <line x1="188" y1="252" x2="148" y2="262" stroke="#22C55E" stroke-width="1.2"/>
+                <text x="138" y="260" text-anchor="end" fill="#8BA8C0" font-size="9">Wet muddy surface</text>
+                <line x1="202" y1="272" x2="162" y2="282" stroke="#22C55E" stroke-width="1.2"/>
+                <text x="152" y="280" text-anchor="end" fill="#8BA8C0" font-size="9">No warning signs</text>
+                <line x1="355" y1="210" x2="415" y2="295" stroke="#EF4444" stroke-width="2"/>
+                <text x="306" y="332" fill="#EF4444" font-size="11" font-weight="bold">MANAGEMENT</text>
+                <line x1="388" y1="252" x2="348" y2="262" stroke="#EF4444" stroke-width="1.2"/>
+                <text x="338" y="260" text-anchor="end" fill="#8BA8C0" font-size="9">No accountability system</text>
+                <line x1="555" y1="210" x2="615" y2="295" stroke="#06B6D4" stroke-width="2"/>
+                <text x="526" y="332" fill="#06B6D4" font-size="11" font-weight="bold">MATERIAL</text>
+                <line x1="588" y1="252" x2="548" y2="262" stroke="#06B6D4" stroke-width="1.2"/>
+                <text x="538" y="260" text-anchor="end" fill="#8BA8C0" font-size="9">No matting in stock</text>
+              </svg>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+              <div style="border:1px solid rgba(59,130,246,.25);border-radius:7px;padding:8px;"><div style="font-size:10px;font-weight:700;color:#3B82F6;margin-bottom:4px;">MAN</div><textarea class="form-input" rows="2" style="width:100%;resize:none;font-size:10px;">No slip hazard training
+Non-compliant footwear</textarea></div>
+              <div style="border:1px solid rgba(139,92,246,.25);border-radius:7px;padding:8px;"><div style="font-size:10px;font-weight:700;color:#8B5CF6;margin-bottom:4px;">MACHINE</div><textarea class="form-input" rows="2" style="width:100%;resize:none;font-size:10px;">No anti-slip matting
+Inadequate barricading</textarea></div>
+              <div style="border:1px solid rgba(245,158,11,.25);border-radius:7px;padding:8px;"><div style="font-size:10px;font-weight:700;color:#F59E0B;margin-bottom:4px;">METHOD</div><textarea class="form-input" rows="2" style="width:100%;resize:none;font-size:10px;">No pre-shift inspection SOP
+No Permit to Enter trench</textarea></div>
+              <div style="border:1px solid rgba(34,197,94,.25);border-radius:7px;padding:8px;"><div style="font-size:10px;font-weight:700;color:#22C55E;margin-bottom:4px;">ENVIRONMENT</div><textarea class="form-input" rows="2" style="width:100%;resize:none;font-size:10px;">Wet muddy surface
+No warning signs</textarea></div>
+              <div style="border:1px solid rgba(239,68,68,.25);border-radius:7px;padding:8px;"><div style="font-size:10px;font-weight:700;color:#EF4444;margin-bottom:4px;">MANAGEMENT</div><textarea class="form-input" rows="2" style="width:100%;resize:none;font-size:10px;">Supervisor not enforcing
+No accountability system</textarea></div>
+              <div style="border:1px solid rgba(6,182,212,.25);border-radius:7px;padding:8px;"><div style="font-size:10px;font-weight:700;color:#06B6D4;margin-bottom:4px;">MATERIAL</div><textarea class="form-input" rows="2" style="width:100%;resize:none;font-size:10px;">No matting in stock
+Insufficient PPE supply</textarea></div>
+            </div>
+            <div style="margin-top:10px;display:flex;gap:8px;">
+              <button class="btn-primary" onclick="acToast('Fishbone saved')">Save Fishbone</button>
+              <button class="btn-secondary" onclick="exportFishbone()">&#8595; Export SVG</button>
+            </div>
+          </div>
+          <!-- ICAM -->
+          <div id="rca-icam" class="rca-panel" style="padding:16px;display:none;">
+            <div style="font-size:11px;color:var(--t2);margin-bottom:10px;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:10px;line-height:1.6;">
+              <strong style="color:#3B82F6;">ICAM</strong> (Incident Cause Analysis Method) — Global standard in oil &amp; gas &amp; mining. Maps: Individual Actions → Task/Environmental Conditions → Org/Management Factors → Absent/Failed Defenses.
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div class="ac-card" style="margin:0;"><div class="ac-card-head"><div class="ac-card-title" style="color:#EF4444;">&#9888; Individual Actions</div></div>
+                <div style="padding:10px 12px;"><textarea class="form-input" rows="3" style="width:100%;resize:none;font-size:11px;">Worker walked on muddy surface without checking footing. Did not call for housekeeping before proceeding.</textarea>
+                <label class="form-label" style="margin-top:7px;display:block;">Classification</label>
+                <select class="form-input" style="width:100%;margin-top:3px;font-size:11px;"><option>Skill-based error</option><option>Rule-based error</option><option>Knowledge-based error</option><option>Routine violation</option></select></div>
+              </div>
+              <div class="ac-card" style="margin:0;"><div class="ac-card-head"><div class="ac-card-title" style="color:#F59E0B;">&#127968; Task / Environmental Conditions</div></div>
+                <div style="padding:10px 12px;"><textarea class="form-input" rows="3" style="width:100%;resize:none;font-size:11px;">Wet ground post-rain. Trench edge muddy. No warning signs. Time pressure from project deadline.</textarea>
+                <label class="form-label" style="margin-top:7px;display:block;">Contributing Factor</label>
+                <select class="form-input" style="width:100%;margin-top:3px;font-size:11px;"><option>Time pressure</option><option>Environmental hazard</option><option>Communication failure</option><option>Inadequate supervision</option></select></div>
+              </div>
+              <div class="ac-card" style="margin:0;"><div class="ac-card-head"><div class="ac-card-title" style="color:#8B5CF6;">&#127970; Org / Management Factors</div></div>
+                <div style="padding:10px 12px;"><textarea class="form-input" rows="3" style="width:100%;resize:none;font-size:11px;">No formal pre-shift inspection requirement. Supervisor not held accountable. HSE training not updated for monsoon season.</textarea></div>
+              </div>
+              <div class="ac-card" style="margin:0;"><div class="ac-card-head"><div class="ac-card-title" style="color:#EF4444;">&#10060; Absent / Failed Defenses</div></div>
+                <div style="padding:10px 12px;display:flex;flex-direction:column;gap:7px;">
+                  <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);"><input type="checkbox" checked style="accent-color:#EF4444;"> Warning signs <span class="badge br" style="font-size:9px;padding:1px 6px;">ABSENT</span></label>
+                  <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);"><input type="checkbox" checked style="accent-color:#EF4444;"> Pre-shift inspection <span class="badge br" style="font-size:9px;padding:1px 6px;">FAILED</span></label>
+                  <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);"><input type="checkbox" checked style="accent-color:#EF4444;"> PPE enforcement <span class="badge br" style="font-size:9px;padding:1px 6px;">FAILED</span></label>
+                  <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);"><input type="checkbox" style="accent-color:#22C55E;"> Emergency response <span class="badge bg" style="font-size:9px;padding:1px 6px;">OK</span></label>
+                </div>
+              </div>
+            </div>
+            <button class="btn-primary" style="margin-top:10px;" onclick="acToast('ICAM saved')">Save ICAM Analysis</button>
+          </div>
+          <!-- BOW-TIE -->
+          <div id="rca-bowtie" class="rca-panel" style="padding:16px;display:none;">
+            <div style="font-size:11px;color:var(--t2);margin-bottom:10px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:8px;padding:10px;">
+              <strong style="color:var(--green);">Bow-Tie Analysis</strong> — Threats → Prevention Barriers → <strong>TOP EVENT</strong> → Recovery Barriers → Consequences. Used in Shell, BP, major hazard industries.
+            </div>
+            <div style="background:var(--raised);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:12px;">
+              <svg viewBox="0 0 860 250" style="width:100%;height:auto;">
+                <ellipse cx="430" cy="125" rx="64" ry="38" fill="#0d2018" stroke="#22C55E" stroke-width="2"/>
+                <text x="430" y="121" text-anchor="middle" fill="#22C55E" font-size="10" font-weight="bold">TOP EVENT</text>
+                <text x="430" y="136" text-anchor="middle" fill="#E2EAF4" font-size="9">Worker Slips</text>
+                <text x="70" y="20" text-anchor="middle" fill="#EF4444" font-size="11" font-weight="bold">THREATS</text>
+                <rect x="8" y="32" width="112" height="24" rx="5" fill="#1a0808" stroke="#EF4444" stroke-width="1"/>
+                <text x="64" y="48" text-anchor="middle" fill="#E2EAF4" font-size="9">Wet ground surface</text>
+                <line x1="120" y1="44" x2="364" y2="115" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4,2"/>
+                <rect x="8" y="98" width="112" height="24" rx="5" fill="#1a0808" stroke="#EF4444" stroke-width="1"/>
+                <text x="64" y="114" text-anchor="middle" fill="#E2EAF4" font-size="9">Non-compliant PPE</text>
+                <line x1="120" y1="110" x2="364" y2="122" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4,2"/>
+                <rect x="8" y="164" width="112" height="24" rx="5" fill="#1a0808" stroke="#EF4444" stroke-width="1"/>
+                <text x="64" y="180" text-anchor="middle" fill="#E2EAF4" font-size="9">No pre-shift check</text>
+                <line x1="120" y1="176" x2="364" y2="135" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4,2"/>
+                <text x="254" y="14" text-anchor="middle" fill="#F59E0B" font-size="9" font-weight="bold">PREVENTION BARRIERS</text>
+                <rect x="200" y="38" width="94" height="20" rx="4" fill="#1a1000" stroke="#F59E0B" stroke-width="1"/>
+                <text x="247" y="52" text-anchor="middle" fill="#F59E0B" font-size="8">Pre-shift inspection &#10007;</text>
+                <rect x="200" y="106" width="94" height="20" rx="4" fill="#1a1000" stroke="#F59E0B" stroke-width="1"/>
+                <text x="247" y="120" text-anchor="middle" fill="#F59E0B" font-size="8">Warning signs &#10007;</text>
+                <rect x="200" y="174" width="94" height="20" rx="4" fill="#1a1000" stroke="#F59E0B" stroke-width="1"/>
+                <text x="247" y="188" text-anchor="middle" fill="#F59E0B" font-size="8">PPE check &#10007;</text>
+                <text x="792" y="20" text-anchor="middle" fill="#EF4444" font-size="11" font-weight="bold">CONSEQUENCES</text>
+                <rect x="734" y="32" width="112" height="24" rx="5" fill="#1a0808" stroke="#EF4444" stroke-width="1"/>
+                <text x="790" y="48" text-anchor="middle" fill="#E2EAF4" font-size="9">Minor leg injury</text>
+                <line x1="494" y1="115" x2="734" y2="44" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4,2"/>
+                <rect x="734" y="98" width="112" height="24" rx="5" fill="#1a0808" stroke="#EF4444" stroke-width="1"/>
+                <text x="790" y="114" text-anchor="middle" fill="#E2EAF4" font-size="9">Lost time injury</text>
+                <line x1="494" y1="125" x2="734" y2="110" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4,2"/>
+                <rect x="734" y="164" width="112" height="24" rx="5" fill="#1a0808" stroke="#EF4444" stroke-width="1"/>
+                <text x="790" y="180" text-anchor="middle" fill="#E2EAF4" font-size="9">Legal liability (BOCW)</text>
+                <line x1="494" y1="135" x2="734" y2="176" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4,2"/>
+                <text x="612" y="14" text-anchor="middle" fill="#22C55E" font-size="9" font-weight="bold">RECOVERY BARRIERS</text>
+                <rect x="563" y="38" width="94" height="20" rx="4" fill="#001508" stroke="#22C55E" stroke-width="1"/>
+                <text x="610" y="52" text-anchor="middle" fill="#22C55E" font-size="8">First aid response &#10003;</text>
+                <rect x="563" y="106" width="94" height="20" rx="4" fill="#001508" stroke="#22C55E" stroke-width="1"/>
+                <text x="610" y="120" text-anchor="middle" fill="#22C55E" font-size="8">Emergency procedure &#10003;</text>
+                <rect x="563" y="174" width="94" height="20" rx="4" fill="#001508" stroke="#22C55E" stroke-width="1"/>
+                <text x="610" y="188" text-anchor="middle" fill="#22C55E" font-size="8">Incident reporting &#10003;</text>
+              </svg>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn-primary" onclick="acToast('Bow-Tie saved')">Save Bow-Tie</button>
+              <button class="btn-secondary" onclick="acToast('Bow-Tie exported')">&#8595; Export SVG</button>
+            </div>
+          </div>
+        </div>
+        <!-- STATUTORY NOTIFICATION -->
+        <div class="ac-card">
+          <div class="ac-card-head">
+            <div>
+              <div class="ac-card-title">&#127757; Global Statutory Notification Tracker</div>
+              <div class="ac-card-sub">Mandatory incident reporting requirements by country · Select jurisdiction below</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <select id="notif-country" onchange="loadNotifCountry(this.value)" class="form-input" style="font-size:11px;padding:5px 10px;min-width:180px;">
+                <option value="IN">&#127470;&#127475; India</option>
+                <option value="GB">&#127468;&#127463; United Kingdom</option>
+                <option value="US">&#127482;&#127480; USA</option>
+                <option value="AU">&#127462;&#127482; Australia</option>
+                <option value="AE">&#127462;&#127466; UAE / Middle East</option>
+                <option value="SG">&#127480;&#127468; Singapore</option>
+                <option value="CA">&#127464;&#127462; Canada</option>
+                <option value="EU">&#127466;&#127482; European Union</option>
+                <option value="INT">&#127757; International (ISO / ILO)</option>
+              </select>
+              <button onclick="notifToast()" class="btn-secondary" style="font-size:11px;">&#8595; Export Notification Log</button>
+            </div>
+          </div>
+
+          <!-- Country-specific info banner -->
+          <div id="notif-banner" style="padding:10px 16px;border-bottom:1px solid var(--border);font-size:11px;line-height:1.6;color:var(--t2);background:rgba(34,197,94,.04);"></div>
+
+          <!-- Notification table -->
+          <div style="overflow-x:auto;">
+            <table class="ac-tbl" id="notif-table">
+              <thead>
+                <tr>
+                  <th>Regulation / Act</th>
+                  <th>Form / Reference</th>
+                  <th>Notify To</th>
+                  <th>Incident Type</th>
+                  <th>Timeline</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="notif-tbody"></tbody>
+            </table>
+          </div>
+
+          <!-- Note -->
+          <div style="padding:8px 16px;font-size:10px;color:var(--t3);border-top:1px solid var(--border);">
+            &#9432; Notification requirements vary by incident severity (Fatal / Serious / Minor). Timelines shown are for serious/major incidents. Always verify current regulations with local authority.
+            SafetyPro AI supports ISO 45001:2018 Clause 10.2 incident investigation requirements globally.
+          </div>
+        </div>
+
+        <script>
+        var NOTIF_DATA = {
+          IN: {
+            banner: '&#127470;&#127475; <strong style="color:var(--t1);">India</strong> — Governed by BOCW Act 1996, Factories Act 1948, DGFASLI, and Building Regulations. Fatal accidents must be notified within <strong style="color:#EF4444;">12 hours</strong> to the Chief Inspector of Factories.',
+            rows: [
+              {reg:'BOCW Act 1996',form:'Form 18 (Accident Report)',to:'BOCW Welfare Board / District Labour Officer',type:'Any accident at construction site',timeline:'Within 24 hours',status:'open',required:true},
+              {reg:'Factories Act 1948 — Section 88',form:'Notice of Accident (Written)',to:'Chief Inspector of Factories, Bihar',type:'Fatal / Serious bodily injury',timeline:'Within 12 hours',status:'submitted',required:true},
+              {reg:'DGFASLI (Dock Workers)',form:'Form B-1 (Accident Report)',to:'Regional Labour Commission',type:'Dock / factory accident',timeline:'Within 48 hours',status:'na',required:false},
+              {reg:'ESI Act 1948',form:'Employer Accident Report',to:'ESIC Regional Office',type:'Employment injury',timeline:'Within 48 hours',status:'pending',required:true},
+              {reg:'Mines Act 1952',form:'Form M (Mining Accident)',to:'DGMS (Director General Mines Safety)',type:'Mining / tunnel accident',timeline:'Immediately (serious/fatal)',status:'na',required:false},
+              {reg:'ISO 45001:2018 — Clause 10.2',form:'Incident Investigation Report',to:'Internal Management System',type:'All incidents & near misses',timeline:'Document & investigate promptly',status:'open',required:true},
+            ]
+          },
+          GB: {
+            banner: '&#127468;&#127463; <strong style="color:var(--t1);">United Kingdom</strong> — RIDDOR 2013 is the primary notification legislation. <strong style="color:#EF4444;">Fatal accidents must be reported immediately by phone to HSE</strong>, followed by online submission within 10 days. CDM 2015 applies to all construction projects.',
+            rows: [
+              {reg:'RIDDOR 2013 — Fatal',form:'Online HSE Report (RIDDOR)',to:'Health and Safety Executive (HSE)',type:'Work-related fatality',timeline:'Immediately by phone + 10 days online',status:'open',required:true},
+              {reg:'RIDDOR 2013 — Specified Injury',form:'Online HSE Report',to:'Health and Safety Executive (HSE)',type:'Fracture, amputation, loss of sight, etc.',timeline:'Within 10 days',status:'pending',required:true},
+              {reg:'RIDDOR 2013 — Over-7-Day',form:'Online HSE Report',to:'Health and Safety Executive (HSE)',type:'Incapacitation > 7 consecutive days',timeline:'Within 15 days of accident',status:'na',required:true},
+              {reg:'RIDDOR 2013 — Dangerous Occurrence',form:'Online HSE Report',to:'Health and Safety Executive (HSE)',type:'Structural collapse, explosion, etc.',timeline:'Immediately',status:'na',required:true},
+              {reg:'CDM 2015',form:'F10 Notification to HSE',to:'Health and Safety Executive (HSE)',type:'Construction project (>30 days with >20 workers)',timeline:'Before construction phase begins',status:'na',required:true},
+              {reg:'Employers Liability (Comp.) Act 1969',form:'Insurance Certificate',to:'Employee / Enforcement Officer',type:'Work-related injury/disease claim',timeline:'On demand',status:'na',required:true},
+            ]
+          },
+          US: {
+            banner: '&#127482;&#127480; <strong style="color:var(--t1);">United States</strong> — OSHA governs workplace safety reporting. <strong style="color:#EF4444;">Fatalities must be reported within 8 hours</strong>; amputations, loss of eye, or hospitalization within 24 hours. OSHA 300 Log must be maintained at all work sites.',
+            rows: [
+              {reg:'OSHA 29 CFR 1904.39 — Fatality',form:'OSHA Fatality Report (oral/online)',to:'OSHA Area Office or 1-800-321-OSHA',type:'Work-related fatality',timeline:'Within 8 hours',status:'open',required:true},
+              {reg:'OSHA 29 CFR 1904.39 — Severe',form:'OSHA Severe Injury Report',to:'OSHA Area Office',type:'Amputation, loss of eye, inpatient hospitalization',timeline:'Within 24 hours',status:'pending',required:true},
+              {reg:'OSHA 300 Log',form:'OSHA Form 300 (Log of Injuries)',to:'Internal record + OSHA on request',type:'All recordable work-related injuries',timeline:'Within 7 days of knowledge',status:'na',required:true},
+              {reg:'OSHA Form 301',form:'Injury & Illness Incident Report',to:'Internal record',type:'Each recordable incident',timeline:'Within 7 days',status:'na',required:true},
+              {reg:'OSHA 300A — Annual Summary',form:'OSHA Form 300A',to:'Posted at workplace Feb 1–Apr 30',type:'Annual summary of all incidents',timeline:'By February 1 each year',status:'na',required:true},
+              {reg:'Workers Compensation (State)',form:'Employer First Report of Injury',to:'State WC Board / Insurance Carrier',type:'Work-related injury causing medical treatment',timeline:'Varies by state (24–72 hours)',status:'na',required:true},
+            ]
+          },
+          AU: {
+            banner: '&#127462;&#127482; <strong style="color:var(--t1);">Australia</strong> — WHS Act 2011 (Model Law) governs notification. <strong style="color:#EF4444;">Notifiable incidents must be reported immediately to SafeWork</strong> and the site must not be disturbed. ICAM investigation methodology is widely used for serious incidents.',
+            rows: [
+              {reg:'WHS Act 2011 — Notifiable Incident',form:'Verbal then written notification to SafeWork',to:'SafeWork Australia / State Authority',type:'Death, serious injury, dangerous incident',timeline:'Immediately (verbal) + 48hrs written',status:'open',required:true},
+              {reg:'WHS Act 2011 — Scene Preservation',form:'Incident Scene Record',to:'SafeWork Inspector',type:'All notifiable incidents',timeline:'Do not disturb scene until inspector clears',status:'na',required:true},
+              {reg:'Workers Compensation Act (State)',form:'Employer Injury Report',to:'State Workers Comp Authority + Insurer',type:'Work-related injury requiring treatment',timeline:'Within 48 hours',status:'pending',required:true},
+              {reg:'ICAM Investigation (Best Practice)',form:'ICAM Investigation Report',to:'Internal Management + Regulator if required',type:'Serious injury, LTI, fatality',timeline:'Commence within 24 hours',status:'na',required:false},
+              {reg:'Privacy Act 1988',form:'Notification if data breach involved',to:'OAIC (Office of Australian Info Commissioner)',type:'Eligible data breach',timeline:'Within 30 days of becoming aware',status:'na',required:false},
+            ]
+          },
+          AE: {
+            banner: '&#127462;&#127466; <strong style="color:var(--t1);">UAE / Middle East</strong> — Governed by UAE Federal Labour Law No. 8/1980 and OSHAD (Abu Dhabi). <strong style="color:#EF4444;">Serious accidents must be reported to Ministry of Labour within 24 hours.</strong> OSHAD framework applies to Abu Dhabi; Dubai has separate JAFZA/TECOM OHS regulations.',
+            rows: [
+              {reg:'UAE Labour Law No. 8/1980 — Art. 149',form:'Accident Report to Ministry',to:'Ministry of Human Resources & Emiratisation',type:'Work-related accident causing injury or death',timeline:'Within 24 hours (serious)',status:'open',required:true},
+              {reg:'OSHAD Abu Dhabi — SF-23',form:'Incident Notification Form SF-23',to:'Abu Dhabi Occupational Safety & Health Center',type:'Serious injury, fatality, dangerous occurrence',timeline:'Within 24 hours',status:'pending',required:true},
+              {reg:'Dubai OHS System 2014',form:'DM/JAFZA Incident Notification',to:'Dubai Municipality or Free Zone Authority',type:'Workplace accident',timeline:'Within 24 hours',status:'na',required:true},
+              {reg:'ADNOC HSE Standards (Oil & Gas)',form:'ADNOC Incident Report',to:'ADNOC Safety Division',type:'All workplace incidents in ADNOC operations',timeline:'Immediate notification + 24hr report',status:'na',required:false},
+              {reg:'Saudi Arabia — Saudi Aramco / MOL',form:'MOL Accident Form + GOSI',to:'General Organization for Social Insurance (GOSI)',type:'Work injury',timeline:'Within 5 days',status:'na',required:false},
+            ]
+          },
+          SG: {
+            banner: '&#127480;&#127468; <strong style="color:var(--t1);">Singapore</strong> — WSH Act (Cap. 354A) governs notification. <strong style="color:#EF4444;">Dangerous occurrences must be reported immediately</strong>; other incidents within 10 days via MOM iReport system. Construction projects above S$10M must appoint WSH Coordinator.',
+            rows: [
+              {reg:'WSH Act — Dangerous Occurrence',form:'MOM iReport (online)',to:'Ministry of Manpower (MOM)',type:'Explosion, collapse, crane failure, etc.',timeline:'Immediately (oral) + 10 days written',status:'open',required:true},
+              {reg:'WSH (Incident Reporting) Regs 2006',form:'MOM iReport (online)',to:'Ministry of Manpower (MOM)',type:'Work-related injury causing ≥ 3 days MC',timeline:'Within 10 days',status:'pending',required:true},
+              {reg:'WSH Act — Occupational Disease',form:'MOM iReport — OD Form',to:'Ministry of Manpower (MOM)',type:'Noise-induced deafness, occupational disease',timeline:'Within 10 days of diagnosis',status:'na',required:true},
+              {reg:'Work Injury Compensation Act (WICA)',form:'Employer Incident Report',to:'MOM + Insurance Company',type:'Work injury causing MC or medical expenses',timeline:'Within 10 days',status:'na',required:true},
+              {reg:'BCA Building Control Act',form:'BCA Incident Notification',to:'Building and Construction Authority',type:'Structural failure / construction incident',timeline:'Immediately',status:'na',required:false},
+            ]
+          },
+          CA: {
+            banner: '&#127464;&#127462; <strong style="color:var(--t1);">Canada</strong> — Each province has its own OHS legislation. <strong style="color:#EF4444;">Fatalities must be reported immediately</strong> to the provincial authority. Workers Compensation Board (WCB) reports are required within 3 days. Federal workplaces follow Canada Labour Code Part II.',
+            rows: [
+              {reg:'Canada Labour Code Part II — Fatal',form:'Verbal + Written Report',to:'Labour Program, Employment & Social Development Canada',type:'Work-related fatality',timeline:'Immediately (verbal) + written ASAP',status:'open',required:true},
+              {reg:'Provincial OHS — Fatal / Serious',form:'Employer Incident Report (Province-specific)',to:'Provincial OHS Authority (e.g., WSIB Ontario, WorkSafe BC)',type:'Fatality, critical injury, occupation disease',timeline:'Immediately (fatal) + 48hrs written',status:'pending',required:true},
+              {reg:'Workers Compensation Board (WCB)',form:'Employer Report of Injury',to:'Provincial WCB',type:'Work-related injury requiring medical treatment',timeline:'Within 3 days of becoming aware',status:'na',required:true},
+              {reg:'Ontario OHSA R.R.O. 1990',form:'Form 7 (WSIB)',to:'WSIB Ontario',type:'Injury causing medical treatment or > 7 days off',timeline:'Within 3 days',status:'na',required:false},
+              {reg:'British Columbia WCA',form:'WorkSafe BC Employer Report',to:'WorkSafe BC',type:'Work-related injury',timeline:'Within 3 days',status:'na',required:false},
+            ]
+          },
+          EU: {
+            banner: '&#127466;&#127482; <strong style="color:var(--t1);">European Union</strong> — EU Framework Directive 89/391/EEC sets minimum standards; each member state enacts national law. <strong style="color:#EF4444;">Fatalities generally require immediate notification</strong> to national labour inspectorate. EUOSHA statistics collected via ESAW (European Statistics on Accidents at Work).',
+            rows: [
+              {reg:'EU Framework Directive 89/391/EEC',form:'National implementation varies',to:'National Labour Inspectorate of member state',type:'Work-related fatality or serious injury',timeline:'Immediately (fatality) — national law',status:'open',required:true},
+              {reg:'Germany — BetrSichV / ArbSchG',form:'Anzeige beim Gewerbeaufsichtsamt',to:'Gewerbeaufsichtsamt (Trade Supervision)',type:'Fatal / serious work accident',timeline:'Immediately',status:'na',required:false},
+              {reg:'France — Code du Travail — Art. L4121',form:'CERFA Accident du Travail',to:'CPAM (Caisse Primaire Assurance Maladie)',type:'Workplace accident',timeline:'Within 48 hours',status:'na',required:false},
+              {reg:'Netherlands — Arbeidsomstandighedenwet',form:'RIVM / NLA Notification',to:'Netherlands Labour Authority (NLA)',type:'Work-related fatality or permanent injury',timeline:'Immediately',status:'na',required:false},
+              {reg:'ESAW — European Statistics on Accidents',form:'Eurostat statistical reporting',to:'Eurostat via national authority',type:'Serious / fatal work accident',timeline:'Annual statistical return',status:'na',required:false},
+              {reg:'GDPR (Reg. 2016/679)',form:'Personal Data Breach Notification',to:'National Data Protection Authority',type:'Data breach involving personal health data',timeline:'Within 72 hours',status:'na',required:false},
+            ]
+          },
+          INT: {
+            banner: '&#127757; <strong style="color:var(--t1);">International Standards</strong> — ISO 45001:2018 and ILO C155 provide the global baseline. <strong style="color:var(--green);">IFC Performance Standard 2</strong> applies to World Bank / multilateral-financed projects. ICCSR (International Construction Safety Reporting) recommendations apply to cross-border EPC projects.',
+            rows: [
+              {reg:'ISO 45001:2018 — Clause 10.2',form:'Incident Investigation Report',to:'Internal OH&S Management System',type:'All incidents, near misses, dangerous occurrences',timeline:'Investigate promptly; document findings',status:'open',required:true},
+              {reg:'ISO 45001:2018 — Clause 6.1.2',form:'Risk Register Update',to:'Internal OH&S Management System',type:'New hazards identified post-incident',timeline:'Update risk assessment after investigation',status:'na',required:true},
+              {reg:'ILO C155 — OSH Convention 1981',form:'National competent authority report',to:'National Labour Authority',type:'Fatal / serious occupational accident',timeline:'As per national ratified law',status:'na',required:true},
+              {reg:'ILO C176 — Safety in Mines 1995',form:'Mine authority notification',to:'National Mine Safety Authority',type:'Mine accidents / dangerous occurrences',timeline:'As per national law',status:'na',required:false},
+              {reg:'IFC Performance Standard 2',form:'Annual Social Report + incident log',to:'IFC / World Bank / Project Lender',type:'Community / worker fatality or serious injury',timeline:'Notify lender within 24 hours (fatality)',status:'na',required:true},
+              {reg:'IPIECA (Oil & Gas)',form:'Tier 1–3 Incident Classification',to:'Internal + Industry reporting',type:'Environmental / safety incidents',timeline:'Tier 1 (serious): immediate internal',status:'na',required:false},
+            ]
+          }
+        };
+
+        function loadNotifCountry(code) {
+          var data = NOTIF_DATA[code];
+          if(!data) return;
+          // Update banner
+          var banner = document.getElementById('notif-banner');
+          if(banner) banner.innerHTML = data.banner;
+          // Build rows
+          var tbody = document.getElementById('notif-tbody');
+          if(!tbody) return;
+          tbody.innerHTML = data.rows.map(function(r) {
+            var st = r.status==='submitted' ? '<span class="badge bg">Submitted</span>'
+                   : r.status==='pending'   ? '<span class="badge ba">Pending</span>'
+                   : r.status==='open'      ? '<span class="badge bb">Open</span>'
+                   : '<span class="badge" style="background:rgba(107,114,128,.1);color:#9CA3AF;">N/A</span>';
+            var req = r.required ? '<span class="badge br" style="font-size:9px;">Required</span>' : '<span class="badge" style="background:rgba(107,114,128,.1);color:#9CA3AF;font-size:9px;">Optional</span>';
+            var act = r.status==='open'    ? '<button class="btn-primary" onclick="acToast(&quot;Notification form opened&quot;)" style="font-size:10px;padding:4px 10px;">Notify Now</button>'
+                    : r.status==='pending' ? '<button class="btn-secondary" onclick="acToast(&quot;Form opened&quot;)" style="font-size:10px;padding:4px 10px;">Complete</button>'
+                    : r.status==='submitted' ? '<button class="btn-secondary" onclick="acToast(&quot;Record opened&quot;)" style="font-size:10px;padding:4px 10px;">View</button>'
+                    : '<span style="font-size:10px;color:var(--t3);">—</span>';
+            return '<tr><td><strong>'+r.reg+'</strong><br><span style="font-size:10px;color:var(--t3);">'+req+'</span></td>'
+              +'<td style="font-size:11px;">'+r.form+'</td>'
+              +'<td style="font-size:11px;">'+r.to+'</td>'
+              +'<td style="font-size:11px;">'+r.type+'</td>'
+              +'<td style="font-size:11px;font-weight:700;color:var(--t1);">'+r.timeline+'</td>'
+              +'<td>'+st+'</td>'
+              +'<td>'+act+'</td></tr>';
+          }).join('');
+        }
+
+        function notifToast() { acToast('Notification log exported'); }
+
+        // Load India by default
+        setTimeout(function(){ loadNotifCountry('IN'); }, 300);
+        </script>
+      </div>
+
+      class="ac-sub-panel" id="investigation-findings" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head"><div class="ac-card-title">Investigation Findings — INC-024</div></div>
+          <table class="ac-tbl"><thead><tr><th>Finding</th><th>Description</th><th>Type</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td style="color:var(--green);">IF-024-01</td><td>No warning signs at wet/muddy areas near trench</td><td>Immediate</td><td><span class="badge br">High</span></td></tr>
+            <tr><td style="color:var(--green);">IF-024-02</td><td>Pre-shift inspection checklist not completed</td><td>Systemic</td><td><span class="badge br">High</span></td></tr>
+            <tr><td style="color:var(--green);">IF-024-03</td><td>Workers wearing non-compliant footwear</td><td>Underlying</td><td><span class="badge ba">Medium</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+      <div class="ac-sub-panel" id="investigation-corrective" style="flex:1;overflow-y:auto;">
+        <div class="ac-card">
+          <div class="ac-card-head"><div><div class="ac-card-title">Corrective Actions — INC-024</div><div class="ac-card-sub">Actions to prevent recurrence</div></div><button class="btn-primary" onclick="acToast('Action assigned')">+ Assign Action</button></div>
+          <table class="ac-tbl"><thead><tr><th>Action</th><th>Type</th><th>Assigned To</th><th>Target Date</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Install warning signs at all wet zones immediately</td><td><span class="badge br">Immediate</span></td><td>Site Supervisor</td><td>19 Mar 2026</td><td><span class="badge bg">Completed</span></td></tr>
+            <tr><td>Enforce daily pre-shift inspection SOP across all supervisors</td><td><span class="badge ba">Systemic</span></td><td>Dhanesh CK</td><td>25 Mar 2026</td><td><span class="badge ba">In Progress</span></td></tr>
+            <tr><td>PPE audit — check all worker footwear compliance</td><td><span class="badge bb">Preventive</span></td><td>HSE Officer</td><td>22 Mar 2026</td><td><span class="badge bb">Open</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- TAB 5: METHOD STATEMENT                       -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div class="tab-panel" id="ac-method" style="flex:1;overflow-y:auto;display:none;flex-direction:column;padding:16px 20px;">
+      <div class="ac-kpi-row">
+        <div class="ac-kpi"><div class="ac-kpi-val">14</div><div class="ac-kpi-lbl">Method Statements Submitted</div></div>
+        <div class="ac-kpi" style="border-color:#22C55E;"><div class="ac-kpi-val" style="color:#22C55E;">11</div><div class="ac-kpi-lbl">Approved</div></div>
+        <div class="ac-kpi" style="border-color:#F59E0B;"><div class="ac-kpi-val" style="color:#F59E0B;">2</div><div class="ac-kpi-lbl">Under Review</div></div>
+        <div class="ac-kpi" style="border-color:#EF4444;"><div class="ac-kpi-val" style="color:#EF4444;">1</div><div class="ac-kpi-lbl">Rejected</div></div>
+      </div>
+      <div class="ac-card">
+        <div class="ac-card-head"><div><div class="ac-card-title">Method Statement Register</div><div class="ac-card-sub">Safe Work Method Statements (SWMS) for all critical activities</div></div><button class="btn-primary" onclick="acToast('New method statement created')">+ New Method Statement</button></div>
+        <table class="ac-tbl">
+          <thead><tr><th>MS No.</th><th>Activity</th><th>Contractor</th><th>Submitted</th><th>Valid Until</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td style="color:var(--green);">MS-001</td><td>Excavation &gt; 1.5m depth</td><td>M/s ABC Construction</td><td>01 Jan 2026</td><td>31 Dec 2026</td><td><span class="badge bg">Approved</span></td><td><button class="btn-secondary" onclick="acToast('Method statement opened')">View</button></td></tr>
+            <tr><td style="color:var(--green);">MS-002</td><td>Working at Height (scaffolding)</td><td>M/s XYZ Infra</td><td>15 Jan 2026</td><td>31 Dec 2026</td><td><span class="badge bg">Approved</span></td><td><button class="btn-secondary" onclick="acToast('Method statement opened')">View</button></td></tr>
+            <tr><td style="color:var(--green);">MS-003</td><td>Crane Lifting Plan — 80T crane</td><td>M/s ABC Construction</td><td>10 Mar 2026</td><td>30 Apr 2026</td><td><span class="badge ba">Under Review</span></td><td><button class="btn-primary" onclick="acToast('Review submitted')">Review &amp; Approve</button></td></tr>
+            <tr><td style="color:var(--green);">MS-004</td><td>Hot Work — Welding &amp; Cutting</td><td>M/s DEF Labour</td><td>05 Mar 2026</td><td>—</td><td><span class="badge br">Rejected</span></td><td><button class="btn-primary" onclick="acToast('Resubmission requested')">Request Revision</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- TAB 6: SAFETY MEETING                         -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div class="tab-panel" id="ac-meeting" style="flex:1;overflow-y:auto;display:none;flex-direction:column;padding:16px 20px;">
+      <div class="ac-kpi-row">
+        <div class="ac-kpi"><div class="ac-kpi-val">8</div><div class="ac-kpi-lbl">Meetings This Year</div></div>
+        <div class="ac-kpi" style="border-color:#22C55E;"><div class="ac-kpi-val" style="color:#22C55E;">100%</div><div class="ac-kpi-lbl">Minutes Documented</div></div>
+        <div class="ac-kpi" style="border-color:#F59E0B;"><div class="ac-kpi-val" style="color:#F59E0B;">14</div><div class="ac-kpi-lbl">Open Action Points</div></div>
+        <div class="ac-kpi" style="border-color:#3B82F6;"><div class="ac-kpi-val" style="color:#3B82F6;">Monthly</div><div class="ac-kpi-lbl">Meeting Frequency</div></div>
+      </div>
+      <div class="ac-card">
+        <div class="ac-card-head"><div><div class="ac-card-title">Safety Committee Meeting Register</div><div class="ac-card-sub">Minutes, attendance and action points</div></div><button class="btn-primary" onclick="acToast('New meeting created')">+ New Meeting</button></div>
+        <table class="ac-tbl">
+          <thead><tr><th>Meeting No.</th><th>Date</th><th>Type</th><th>Chair</th><th>Attendees</th><th>Action Points</th><th>Minutes</th></tr></thead>
+          <tbody>
+            <tr><td style="color:var(--green);">MTG-008</td><td>31 Mar 2026</td><td>Monthly Safety Committee</td><td>Dhanesh CK</td><td>12</td><td><span class="badge ba">3 Open</span></td><td><button class="btn-secondary" onclick="acToast('Minutes opened')">View Minutes</button></td></tr>
+            <tr><td style="color:var(--green);">MTG-007</td><td>28 Feb 2026</td><td>Monthly Safety Committee</td><td>Project Manager</td><td>14</td><td><span class="badge bg">All Closed</span></td><td><button class="btn-secondary" onclick="acToast('Minutes opened')">View Minutes</button></td></tr>
+            <tr><td style="color:var(--green);">MTG-006</td><td>31 Jan 2026</td><td>Monthly Safety Committee</td><td>Dhanesh CK</td><td>11</td><td><span class="badge bg">All Closed</span></td><td><button class="btn-secondary" onclick="acToast('Minutes opened')">View Minutes</button></td></tr>
+            <tr><td style="color:var(--green);">MTG-005</td><td>15 Jan 2026</td><td>Emergency Safety Meeting</td><td>Project Director</td><td>18</td><td><span class="badge bg">All Closed</span></td><td><button class="btn-secondary" onclick="acToast('Minutes opened')">View Minutes</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- end .content -->
+</div><!-- end .body -->
+
+<footer class="sp-footer">
+  <div class="sp-footer-left">
+    <span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF)">Audit &amp; Compliance</span>
+    <span class="sp-footer-sep">|</span>
+    <span id="sp-footer-version">v1.3.2</span>
+    <span class="sp-footer-sep">|</span>
+    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
+  </div>
+  <div class="sp-footer-center">
+    <a href="/cdn-cgi/l/email-protection#3e4d4b4e4e514c4a7e4d5f585b4a474e4c5149514c525a105d5153">Upload Guide</a>
+    <a href="/cdn-cgi/l/email-protection#31424441415e43457142505754454841435e465e435d551f525e5c">Document Help</a>
+    <a href="/cdn-cgi/l/email-protection#cab9bfbabaa5b8be8ab9abacafbeb3bab8a5bda5b8a6aee4a9a5a7">Report Issue</a>
+  </div>
+  <div class="sp-footer-right">
+    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
+    <span id="sp-status-text" style="color:#22C55E">Operational</span>
+  </div>
+</footer>
+
+<script>
+var API_BASE = 'https://safetypro-backend-production.up.railway.app';
+
+function acMainTab(el, id) {
+  document.querySelectorAll('.sh-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.tab-panel').forEach(function(p){p.style.display='none';p.classList.remove('active');});
+  if(el&&el.classList) el.classList.add('active');
+  var panel = document.getElementById('ac-'+id);
+  if(panel){panel.style.display='flex';panel.classList.add('active');}
+}
+
+function acSubTab(el, parent, id) {
+  var panels = document.querySelectorAll('#ac-'+parent+' .ac-sub-panel');
+  var tabs   = document.querySelectorAll('#ac-'+parent+' .ac-sub-tab');
+  tabs.forEach(function(t){t.classList.remove('active');});
+  panels.forEach(function(p){p.classList.remove('active');p.style.display='none';});
+  if(el&&el.classList) el.classList.add('active');
+  var panel = document.getElementById(parent+'-'+id);
+  if(panel){panel.classList.add('active');panel.style.display='flex';panel.style.flexDirection='column';}
+}
+
+function acToast(msg) {
+  if(typeof SPExports!=='undefined'){SPExports.toast(msg,'success');return;}
+  alert(msg);
+}
+
+function filterImsFindings(val) { renderImsFindings(val); }
+
+var IMS_FINDINGS = [
+  {id:'F-001-01',audit:'IMS-001',desc:'Emergency exit sign missing in Block-A basement',sev:'Major',due:'30 Jan 2026',status:'closed',ncr:'NCR-071'},
+  {id:'F-001-02',audit:'IMS-001',desc:'Fire extinguisher not inspected for 3 months',sev:'Critical',due:'20 Jan 2026',status:'closed',ncr:'NCR-072'},
+  {id:'F-002-01',audit:'IMS-002',desc:'Improper chemical waste disposal near drain',sev:'Major',due:'20 Feb 2026',status:'open',ncr:'—'},
+  {id:'F-003-01',audit:'IMS-003',desc:'Cube test records not maintained for 2 weeks',sev:'Major',due:'10 Apr 2026',status:'open',ncr:'Pending'},
+  {id:'F-003-02',audit:'IMS-003',desc:'Equipment calibration certificate expired',sev:'Major',due:'10 Apr 2026',status:'open',ncr:'Pending'},
+];
+
+function renderImsFindings(filter) {
+  var data = filter==='all'||!filter ? IMS_FINDINGS : IMS_FINDINGS.filter(function(f){return f.status===filter;});
+  var tbody = document.getElementById('ims-findings-body');
+  if(!tbody) return;
+  tbody.innerHTML = data.map(function(f) {
+    var sev = f.sev==='Critical'?'br':f.sev==='Major'?'ba':'bb';
+    var st  = f.status==='closed'?'bg':f.status==='overdue'?'br':'ba';
+    var stl = f.status==='closed'?'Closed':f.status==='overdue'?'Overdue':'Open';
+    return '<tr><td style="color:var(--green);font-weight:700;">'+f.id+'</td><td>'+f.audit+'</td><td>'+f.desc+'</td>'
+      +'<td><span class="badge '+sev+'">'+f.sev+'</span></td><td>'+f.due+'</td>'
+      +'<td><span class="badge '+st+'">'+stl+'</span></td><td>'+f.ncr+'</td></tr>';
+  }).join('');
+}
+
+// Render checklist items
+function renderChecklist(containerId, items) {
+  var el = document.getElementById(containerId);
+  if(!el) return;
+  el.innerHTML = items.map(function(item, i) {
+    return '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">'
+      +'<input type="checkbox" '+(i<3?'checked':'')+' onchange="acToast("Item updated")" style="width:14px;height:14px;accent-color:var(--green);">'
+      +'<span style="font-size:12px;color:var(--t2);">'+item+'</span>'
+      +(i<3?'<span class="badge bg" style="margin-left:auto;">Done</span>':'<span class="badge ba" style="margin-left:auto;">Pending</span>')
+      +'</div>';
+  }).join('');
+}
+
+var IMS_CHECKLIST = [
+  'Fire exits and emergency routes clearly marked and unobstructed',
+  'Fire extinguisher inspection tags current and valid',
+  'First aid box adequately stocked and accessible',
+  'PPE compliance — hard hats, safety shoes, high-vis vests',
+  'Scaffolding tag system in place (Green/Red/Yellow)',
+  'Housekeeping — walkways clear of debris and material',
+  'Electrical panels — covers in place, no exposed wiring',
+  'Toolbox talk record for today available',
+];
+
+var CONT_CHECKLIST = [
+  'Contractor HSE plan available and current',
+  'Workers have valid BOCW registration cards',
+  'Induction records maintained for all new workers',
+  'PPE usage 100% — no exceptions',
+  'Supervisor present at all times during work',
+];
+
+// Sidebar + nav functions
+function toggleSidebar(){var s=document.querySelector('.sidebar');var o=document.getElementById('sb-overlay');if(s)s.classList.toggle('open');if(o)o.classList.toggle('active');}
+function toggleMore(e){e.stopPropagation();document.getElementById('more-btn').classList.toggle('open');}
+function toggleAlerts(){var d=document.getElementById('alert-dropdown');if(d)d.style.display=d.style.display==='block'?'none':'block';}
+function toggleProfileMenu(){var d=document.getElementById('profile-dropdown');if(d)d.classList.toggle('open');}
+function signOut(){localStorage.removeItem('sp_token');localStorage.removeItem('sp_user');window.location.href='safetypro_login';}
+function changePassword(){acToast('Change password — coming soon');}
+function openManageUsers(){window.location.href='safetypro_admin';}
+function openSettings(){window.location.href='safetypro_admin';}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('#more-btn')){var m=document.getElementById('more-btn');if(m)m.classList.remove('open');}
+  if(!e.target.closest('#user-pill-btn')&&!e.target.closest('#profile-dropdown')){var d=document.getElementById('profile-dropdown');if(d)d.classList.remove('open');}
+});
+
+// Init
+(function(){
+  var token=localStorage.getItem('sp_token');
+  if(!token){window.location.href='safetypro_login';return;}
+  var u=localStorage.getItem('sp_user');
+  if(u){try{
+    var obj=JSON.parse(u);
+    var name=obj.name||'User'; var role=obj.role||'HSE Officer';
+    var initials=name.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
+    ['nav-initials','pd-initials'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=initials;});
+    var nu=document.getElementById('nav-username');if(nu)nu.textContent=name;
+    var nr=document.getElementById('nav-role');if(nr)nr.textContent=role;
+    var pn=document.getElementById('profile-name');if(pn)pn.textContent=name;
+    var pe=document.getElementById('profile-email');if(pe)pe.textContent=obj.email||'';
+    var pb=document.getElementById('profile-role-badge');if(pb)pb.textContent=role;
+  }catch(e){}}
+  renderImsFindings('all');
+  setTimeout(function(){
+    renderChecklist('checklist-items', IMS_CHECKLIST);
+    renderChecklist('contractor-checklist-items', CONT_CHECKLIST);
+  }, 100);
+})();
+</script>
+<script>
+function spFooterInit(){
+  var API_BASE='https://safetypro-backend-production.up.railway.app';
+  fetch(API_BASE+'/api/v1/system/status',{headers:{'Authorization':'Bearer '+(localStorage.getItem('sp_token')||'')}})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    var v=document.getElementById('sp-footer-version');
+    var s=document.getElementById('sp-footer-sync');
+    var dot=document.getElementById('sp-status-dot');
+    var txt=document.getElementById('sp-status-text');
+    var now=new Date();
+    var ts=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+    if(v)v.textContent='v'+(d.version||'1.3.2');
+    if(s)s.textContent=ts;
+    if(dot)dot.style.background=d.status==='ok'?'#22C55E':'#EF4444';
+    if(txt)txt.textContent=d.status==='ok'?'Operational':'Degraded';
+    if(txt)txt.style.color=d.status==='ok'?'#22C55E':'#EF4444';
+  }).catch(function(){
+    var s=document.getElementById('sp-footer-sync');
+    var now=new Date();
+    if(s)s.textContent=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+  });
+}
+setTimeout(spFooterInit,800);
+setInterval(spFooterInit,30000);
+</script>
+
+<!-- AUDIT REPORT GENERATOR MODAL -->
+<div id="report-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9000;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;width:660px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.6);">
+    <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--card);z-index:1;">
+      <div>
+        <div style="font-size:14px;font-weight:800;color:var(--t1);font-family:var(--fh);">&#128196; Audit Report Generator</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:1px;" id="rpt-subtitle">Word (.doc) &amp; PDF export · Standard company format</div>
+      </div>
+      <button onclick="closeReportModal()" style="background:none;border:none;color:var(--t3);font-size:20px;cursor:pointer;line-height:1;">&#10005;</button>
+    </div>
+    <div style="padding:18px 20px;">
+      <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Company Header (Auto-filled from Admin → Branding)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div><label class="form-label">Company Name</label><input class="form-input" id="rpt-company" type="text" value="IL&FS Engineering &amp; Construction Co. Ltd" style="width:100%;margin-top:3px;"></div>
+        <div><label class="form-label">Project Name</label><input class="form-input" id="rpt-project" type="text" value="BBRP — NH-106/131, Bihar" style="width:100%;margin-top:3px;"></div>
+        <div><label class="form-label">Report No.</label><input class="form-input" id="rpt-no" type="text" placeholder="e.g. IMS-RPT-001" style="width:100%;margin-top:3px;"></div>
+        <div><label class="form-label">Audit Date</label><input class="form-input" id="rpt-date" type="date" style="width:100%;margin-top:3px;"></div>
+        <div><label class="form-label">Lead Auditor</label><input class="form-input" id="rpt-auditor" type="text" value="Dhanesh CK, IDIPOSH | RSP | AIEMA" style="width:100%;margin-top:3px;"></div>
+        <div><label class="form-label">Auditee / Scope</label><input class="form-input" id="rpt-auditee" type="text" placeholder="Area / contractor audited" style="width:100%;margin-top:3px;"></div>
+      </div>
+      <div style="height:1px;background:var(--border);margin:12px 0;"></div>
+      <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Report Sections</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;">
+        <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--green);">Executive Summary</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--green);">Audit Scope &amp; Objectives</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--green);">Methodology</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--green);">Findings Summary Table</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--green);">Detailed Findings &amp; Evidence</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--green);">Non-Conformity Register (NCR)</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--green);">Corrective Action Requirements</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--green);">Compliance Score &amp; Rating</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);cursor:pointer;"><input type="checkbox" style="accent-color:var(--green);">Photo Evidence (if uploaded)</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--green);">Auditor Sign-off Block</label>
+      </div>
+      <div style="height:1px;background:var(--border);margin:12px 0;"></div>
+      <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Format Options</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div><label class="form-label">Report Type</label>
+          <select class="form-input" id="rpt-type" style="width:100%;margin-top:3px;">
+            <option>Internal HSE Audit Report</option>
+            <option>Contractor Safety Audit Report</option>
+            <option>ISO 45001 Internal Audit Report</option>
+            <option>Fire Safety Inspection Report</option>
+            <option>Environmental Audit Report</option>
+          </select></div>
+        <div><label class="form-label">Classification</label>
+          <select class="form-input" id="rpt-class" style="width:100%;margin-top:3px;">
+            <option>Confidential — Internal Use Only</option>
+            <option>Restricted — Project Team Only</option>
+            <option>General — No Restriction</option>
+          </select></div>
+      </div>
+      <div style="margin-bottom:12px;"><label class="form-label">Distribution List</label>
+        <input class="form-input" id="rpt-dist" type="text" value="Project Director, HSE Manager, Site Engineer" style="width:100%;margin-top:3px;"></div>
+      <div style="height:1px;background:var(--border);margin:12px 0;"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">
+        <button onclick="closeReportModal()" class="btn-secondary">Cancel</button>
+        <button onclick="generateAuditReport('word')" style="padding:8px 16px;background:#1D4ED8;border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:800;font-family:var(--fh);cursor:pointer;">&#128196; Download Word (.doc)</button>
+        <button onclick="generateAuditReport('pdf')" style="padding:8px 16px;background:#B91C1C;border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:800;font-family:var(--fh);cursor:pointer;">&#128196; Download PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+// ── REPORT MODAL ─────────────────────────────────────────────────────
+var _reportType = 'ims';
+function openReportModal(type) {
+  _reportType = type || 'ims';
+  var sub = document.getElementById('rpt-subtitle');
+  if(sub) sub.textContent = (type==='contractor' ? 'Contractor' : 'IMS Internal') + ' Audit Report · Word & PDF export';
+  var rt = document.getElementById('rpt-type');
+  if(rt) rt.value = type==='contractor' ? 'Contractor Safety Audit Report' : 'Internal HSE Audit Report';
+  var rm = document.getElementById('report-modal');
+  if(rm){rm.style.display='flex';}
+}
+function closeReportModal() {
+  var rm = document.getElementById('report-modal');
+  if(rm) rm.style.display='none';
+}
+
+function generateAuditReport(format) {
+  var company  = document.getElementById('rpt-company')?.value || 'IL&FS Engineering & Construction Co. Ltd';
+  var project  = document.getElementById('rpt-project')?.value || 'BBRP — NH-106/131, Bihar';
+  var rptNo    = document.getElementById('rpt-no')?.value || 'IMS-RPT-' + new Date().getFullYear() + '-001';
+  var rptDate  = document.getElementById('rpt-date')?.value || new Date().toLocaleDateString('en-IN');
+  var auditor  = document.getElementById('rpt-auditor')?.value || 'HSE Officer';
+  var auditee  = document.getElementById('rpt-auditee')?.value || 'Site Operations';
+  var rptType  = document.getElementById('rpt-type')?.value || 'Internal HSE Audit Report';
+  var rptClass = document.getElementById('rpt-class')?.value || 'Confidential';
+  var dist     = document.getElementById('rpt-dist')?.value || '';
+
+  var findings = [
+    {id:'F-001',desc:'Emergency exit sign missing in Block-A basement',sev:'Major',status:'Closed',action:'Signs installed on 20 Jan 2026'},
+    {id:'F-002',desc:'Fire extinguisher not inspected for 3 months',sev:'Critical',status:'Closed',action:'All extinguishers inspected & tagged'},
+    {id:'F-003',desc:'Improper chemical waste disposal near drain',sev:'Major',status:'Open',action:'Separate bins to be provided by 25 Mar'},
+    {id:'F-004',desc:'Cube test records not maintained',sev:'Major',status:'Open',action:'Lab register to be updated by 10 Apr'},
+  ];
+
+  var tableRows = findings.map(function(f,i){
+    return '<tr style="background:'+(i%2===0?'#f9fbfc':'#fff')+';">'
+      +'<td style="padding:7px 10px;border:1px solid #dde3e9;">'+f.id+'</td>'
+      +'<td style="padding:7px 10px;border:1px solid #dde3e9;">'+f.desc+'</td>'
+      +'<td style="padding:7px 10px;border:1px solid #dde3e9;font-weight:bold;color:'+(f.sev==='Critical'?'#c0392b':'#e67e22')+';">'+f.sev+'</td>'
+      +'<td style="padding:7px 10px;border:1px solid #dde3e9;color:'+(f.status==='Closed'?'#27ae60':'#2980b9')+';">'+f.status+'</td>'
+      +'<td style="padding:7px 10px;border:1px solid #dde3e9;">'+f.action+'</td></tr>';
+  }).join('');
+
+  var reportHTML = '<!DOCTYPE html><html><head><meta charset="UTF-8">'
+    +'<style>body{font-family:Arial,sans-serif;font-size:12px;color:#1a1a2e;margin:0;padding:0;}'
+    +'.page{max-width:800px;margin:0 auto;padding:40px 50px;}'
+    +'.header-bar{background:linear-gradient(135deg,#0B1A2E,#1a3a5c);color:#fff;padding:28px 36px;display:flex;justify-content:space-between;align-items:flex-start;}'
+    +'.logo-block .co-name{font-size:16px;font-weight:800;color:#fff;}'
+    +'.logo-block .co-proj{font-size:10px;color:rgba(255,255,255,.6);margin-top:3px;}'
+    +'.rpt-title{text-align:right;}'
+    +'.rpt-title .rt-main{font-size:20px;font-weight:800;color:#22C55E;}'
+    +'.rpt-title .rt-sub{font-size:10px;color:rgba(255,255,255,.5);margin-top:3px;}'
+    +'.meta-band{background:#f0f4f8;border-bottom:2px solid #22C55E;padding:12px 36px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}'
+    +'.meta-item .mi-lbl{font-size:9px;text-transform:uppercase;color:#666;letter-spacing:.06em;}'
+    +'.meta-item .mi-val{font-size:12px;font-weight:700;color:#1a1a2e;margin-top:2px;}'
+    +'.class-badge{display:inline-block;background:#c0392b;color:#fff;padding:3px 10px;border-radius:4px;font-size:9px;font-weight:700;}'
+    +'.section{padding:0 36px;margin-top:22px;}'
+    +'.sec-title{font-size:13px;font-weight:800;color:#0B1A2E;border-bottom:2px solid #22C55E;padding-bottom:5px;margin-bottom:12px;}'
+    +'table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:8px;}'
+    +'th{background:#0B1A2E;color:#fff;padding:8px 10px;text-align:left;font-size:10px;}'
+    +'.score-box{background:#e8f5e9;border:2px solid #22C55E;border-radius:10px;padding:16px 20px;display:inline-block;margin:8px 0;}'
+    +'.score-val{font-size:36px;font-weight:900;color:#22C55E;line-height:1;}'
+    +'.signoff{margin-top:30px;padding:0 36px 40px;display:grid;grid-template-columns:1fr 1fr;gap:30px;}'
+    +'.sign-block{border-top:1px solid #888;padding-top:8px;}'
+    +'.sign-name{font-weight:700;font-size:12px;}'
+    +'.sign-role{font-size:10px;color:#666;}'
+    +'.footer-bar{background:#0B1A2E;color:rgba(255,255,255,.4);padding:10px 36px;font-size:9px;display:flex;justify-content:space-between;}'
+    +'@media print{body{margin:0;}}'
+    +'</style></head><body>'
+    +'<div class="header-bar">'
+    +'<div class="logo-block"><div class="co-name">'+company+'</div><div class="co-proj">'+project+'</div></div>'
+    +'<div class="rpt-title"><div class="rt-main">'+rptType+'</div><div class="rt-sub"><span class="class-badge">'+rptClass+'</span></div></div>'
+    +'</div>'
+    +'<div class="meta-band">'
+    +'<div class="meta-item"><div class="mi-lbl">Report No.</div><div class="mi-val">'+rptNo+'</div></div>'
+    +'<div class="meta-item"><div class="mi-lbl">Audit Date</div><div class="mi-val">'+rptDate+'</div></div>'
+    +'<div class="meta-item"><div class="mi-lbl">Lead Auditor</div><div class="mi-val">'+auditor+'</div></div>'
+    +'<div class="meta-item"><div class="mi-lbl">Auditee / Scope</div><div class="mi-val">'+auditee+'</div></div>'
+    +'<div class="meta-item"><div class="mi-lbl">Distribution</div><div class="mi-val">'+dist+'</div></div>'
+    +'<div class="meta-item"><div class="mi-lbl">Generated On</div><div class="mi-val">'+new Date().toLocaleDateString('en-IN')+'</div></div>'
+    +'</div>'
+
+    +'<div class="section"><div class="sec-title">1. Executive Summary</div>'
+    +'<p>An '+rptType.toLowerCase()+' was conducted on '+rptDate+' for the scope of <strong>'+auditee+'</strong> under the '+project+'. '
+    +'The audit assessed compliance with ISO 45001:2018, BOCW Act 1996, and IECCL internal HSE standards. '
+    +'A total of <strong>'+findings.length+' findings</strong> were raised including '
+    +'<strong>'+findings.filter(function(f){return f.sev==='Critical';}).length+' Critical</strong> and '
+    +'<strong>'+findings.filter(function(f){return f.sev==='Major';}).length+' Major</strong> observations. '
+    +'Overall compliance score is <strong style="color:#22C55E;">89%</strong>.</p></div>'
+
+    +'<div class="section"><div class="sec-title">2. Audit Scope &amp; Objectives</div>'
+    +'<ul><li>Verify compliance with ISO 45001:2018 OH&amp;S Management System requirements</li>'
+    +'<li>Assess implementation of BOCW Act 1996 welfare provisions</li>'
+    +'<li>Identify hazards and unsafe conditions requiring corrective action</li>'
+    +'<li>Review effectiveness of previous corrective actions</li></ul></div>'
+
+    +'<div class="section"><div class="sec-title">3. Findings Summary</div>'
+    +'<table><thead><tr><th>Finding ID</th><th>Description</th><th>Severity</th><th>Status</th><th>Action Required</th></tr></thead>'
+    +'<tbody>'+tableRows+'</tbody></table></div>'
+
+    +'<div class="section"><div class="sec-title">4. Compliance Score &amp; Rating</div>'
+    +'<div class="score-box"><div class="score-val">89%</div><div style="font-size:11px;color:#1a1a2e;margin-top:4px;">Overall Compliance</div></div>'
+    +'<table style="margin-top:12px;"><thead><tr><th>Standard</th><th>Max Score</th><th>Score Achieved</th><th>%</th></tr></thead>'
+    +'<tbody>'
+    +'<tr><td>ISO 45001:2018</td><td>50</td><td>46</td><td style="color:#22C55E;font-weight:700;">92%</td></tr>'
+    +'<tr><td>BOCW Act 1996</td><td>30</td><td>25</td><td style="color:#e67e22;font-weight:700;">83%</td></tr>'
+    +'<tr><td>IECCL Internal Standards</td><td>20</td><td>18</td><td style="color:#22C55E;font-weight:700;">90%</td></tr>'
+    +'</tbody></table></div>'
+
+    +'<div class="signoff">'
+    +'<div class="sign-block"><div class="sign-name">'+auditor+'</div><div class="sign-role">Lead Auditor</div><div style="margin-top:4px;font-size:10px;color:#666;">Signature: _______________</div></div>'
+    +'<div class="sign-block"><div class="sign-name">Project Manager / HSE Head</div><div class="sign-role">Reviewing Authority</div><div style="margin-top:4px;font-size:10px;color:#666;">Signature: _______________</div></div>'
+    +'</div>'
+    +'<div class="footer-bar"><span>'+company+' · '+rptType+'</span><span>'+rptNo+' · Generated by SafetyPro AI</span></div>'
+    +'</body></html>';
+
+  if(format === 'word') {
+    var blob = new Blob([reportHTML], {type:'application/msword'});
+    var a = document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download = rptNo.replace(/[^a-zA-Z0-9_-]/g,'_') + '_Audit_Report.doc';
+    a.click(); URL.revokeObjectURL(a.href);
+    acToast('Word report downloaded — ' + rptNo);
+  } else {
+    var win = window.open('','_blank','width=900,height=700');
+    win.document.write(reportHTML);
+    win.document.close();
+    setTimeout(function(){ win.print(); }, 600);
+  }
+  closeReportModal();
+}
+
+// ── RCA SWITCH ────────────────────────────────────────────────────────
+var RCA_HINTS = {
+  '5why':     '5-Why: Best for simple–moderate incidents. Ask "why" 5 times to reach root cause. Quick, universally understood, ISO 45001 compliant.',
+  'fishbone': 'Fishbone (Ishikawa): Visual cause-and-effect for complex incidents. Covers 6 categories: Man, Machine, Method, Environment, Management, Material.',
+  'icam':     'ICAM: Global standard in oil & gas and mining. Maps Individual Actions, Task Conditions, Org/Management Factors, and Absent/Failed Defenses.',
+  'bowtie':   'Bow-Tie: Maps Threats → Prevention Barriers → Top Event → Recovery Barriers → Consequences. Used in Shell, BP, major hazard industries globally.'
+};
+function switchRCA(method) {
+  ['5why','fishbone','icam','bowtie'].forEach(function(m){
+    var panel = document.getElementById('rca-'+m);
+    var btn   = document.getElementById('btn-'+m);
+    if(panel){ panel.style.display = m===method?'block':'none'; panel.classList.toggle('active', m===method); }
+    if(btn)  { btn.classList.toggle('active', m===method); }
+  });
+  var hint = document.getElementById('rca-hint');
+  if(hint) hint.innerHTML = RCA_HINTS[method]||'';
+}
+
+// ── 5-WHY ─────────────────────────────────────────────────────────────
+var WHY_DATA = [
+  {q:'Why did the worker slip?',    a:'The ground surface near the trench was wet and muddy from overnight rain.'},
+  {q:'Why was wet ground not addressed?', a:'No pre-shift inspection was carried out that morning.'},
+  {q:'Why was no inspection done?',  a:'There is no enforced SOP for pre-shift safety checks.'},
+  {q:'Why is there no enforced SOP?', a:'Supervisor accountability for pre-shift checks was never formally assigned.'},
+  {q:'Why was accountability not assigned?', a:'The site safety management system does not define supervisor responsibilities for site readiness checks. — ROOT CAUSE'},
+];
+function renderWhyChain() {
+  var el = document.getElementById('why-chain'); if(!el) return;
+  el.innerHTML = WHY_DATA.map(function(w,i){
+    return '<div class="why-row">'
+      +'<div class="why-num">'+(i+1)+'</div>'
+      +'<div style="flex:1;">'
+      +'<div style="font-size:10px;font-weight:700;color:var(--t3);margin-bottom:4px;">'+w.q+'</div>'
+      +'<textarea class="form-input" rows="2" style="width:100%;resize:none;font-size:11px;" '
+      +'onchange="WHY_DATA['+i+'].a=this.value;updateRootCause()">'+w.a+'</textarea>'
+      +'</div></div>';
+  }).join('');
+  updateRootCause();
+}
+function addWhyLevel() {
+  WHY_DATA.push({q:'Why? (Level '+(WHY_DATA.length+1)+')', a:''});
+  renderWhyChain();
+}
+function updateRootCause() {
+  var el = document.getElementById('why-rootcause'); if(!el) return;
+  var last = WHY_DATA[WHY_DATA.length-1];
+  el.textContent = last&&last.a ? last.a : 'Complete all whys to identify root cause';
+}
+function exportFishbone() {
+  var svg = document.getElementById('fishbone-svg');
+  if(!svg){acToast('Fishbone not rendered');return;}
+  var data = 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(new XMLSerializer().serializeToString(svg))));
+  var a=document.createElement('a'); a.href=data; a.download='Fishbone_RCA_INC024.svg'; a.click();
+  acToast('Fishbone diagram exported as SVG');
+}
+
+// Init RCA
+setTimeout(renderWhyChain, 200);
+</script>
+
+</body>
+</html>
