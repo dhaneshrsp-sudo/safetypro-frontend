@@ -222,6 +222,16 @@ html{height:100%;}body{height:100%;background:var(--bg);color:var(--t1);font-fam
   .nav-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
   .user-pill { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 10px; border-radius: 20px; background: var(--raised, #0D1E30); border: 1px solid var(--border, #1E3347); }
   .user-pill .ua { width: 28px; height: 28px; border-radius: 50%; background: var(--green, #22C55E); color: #0B1A2E; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  
+  /* SIDEBAR-GAP-FIX */
+  .sidebar { top: 0 !important; }
+  
+  /* LOGO-COLOR-FIX */
+  .logo, a.logo { color: inherit !important; }
+  .logo-text { color: var(--t1,#E6EDF3) !important; font-weight: 700 !important; }
+  .logo-text span { color: var(--green,#22C55E) !important; }
+  .logo-shield { width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D) !important;border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35); }
+  .logo-shield svg { width:16px;height:16px;fill:#fff; }
   </style>
 <script src="/safetypro_exports.js"></script>
 </head>
@@ -301,7 +311,7 @@ html{height:100%;}body{height:100%;background:var(--bg);color:var(--t1);font-fam
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
       Documents & Records
     </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field.html"><svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field"><svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
     <a class="sb-item" style="font-size:12px;padding:7px 10px;background:rgba(139,92,246,.12);color:#8B5CF6;" href="safetypro_hrm"><svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#8B5CF6"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>HRM &amp; Payroll</a>
     <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
@@ -1328,6 +1338,7 @@ function downloadPayslip(workerName) {
 
 
 </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
