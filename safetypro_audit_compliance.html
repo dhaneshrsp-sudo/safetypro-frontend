@@ -4218,6 +4218,8 @@ Insufficient PPE supply</textarea></div>
 
 
 
+</script>
+
 <script>
 /* sp-sb-link-fix */
 document.addEventListener('DOMContentLoaded', function() {
@@ -4684,7 +4686,7 @@ function exportROR() {
     '</tr></thead><tbody>'+rows+'</tbody></table>'+
     '<div class="no-print" style="margin-top:16px;text-align:center;">'+
       '<button onclick="window.print()" style="padding:10px 24px;background:#1B3A6B;border:none;border-radius:6px;color:#C9A84C;font-size:13px;font-weight:700;cursor:pointer;">Print / Save as PDF</button>'+
-    '</div>'
+    '</div>';
 
 </script>
 
@@ -5148,10 +5150,6 @@ function rorInit() {
   rorInitDone = true;
   rorRender();
 }
-<\/script>
-<\/body><\/html>');
-  win.document.close();
-}
 
 // Auto-load India on tab open
 document.addEventListener('DOMContentLoaded', function(){
@@ -5167,219 +5165,7 @@ window.acMainTab = function(el, tab) {
     setTimeout(function(){ if(!currentActs.length) onCountryChange(); }, 50);
   }
 };
-<\/script>
-<\/body><\/html>';
-
-          /* Open in new window for Print / Save as PDF */
-          var win=window.open('','_blank','width=900,height=700');
-          win.document.write(doc);
-          win.document.close();
-          setTimeout(function(){
-            win.document.title='MOM_'+mtg.meetingNo+'_'+mtg.date;
-            acToast('MOM opened — use Ctrl+P or Cmd+P to save as PDF');
-          },300);
-        };
-
-        /* ─── ACTION TRACKER ─────────────────────── */
-        window.renderActionTracker=function(){
-          var fSt=(document.getElementById('act-filter')||{}).value||'';
-          var today=new Date();
-          var data=MTG_ACTIONS.filter(function(a){
-            if(!fSt) return true;
-            var overdue=a.status!=='Closed'&&a.dueDate&&new Date(a.dueDate)<today;
-            if(fSt==='Overdue') return overdue;
-            return a.status===fSt;
-          });
-          var tbody=document.getElementById('act-tracker-tbody');
-          if(!data.length){tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:28px;color:var(--t3);font-size:11px;">No action points match the filter.</td></tr>';return;}
-          tbody.innerHTML=data.map(function(a){
-            var realIdx=MTG_ACTIONS.indexOf(a);
-            var overdue=a.status!=='Closed'&&a.dueDate&&new Date(a.dueDate)<today;
-            return '<tr class="hira-row">'
-              +'<td style="padding:9px 12px;color:var(--green);font-weight:700;font-size:11px;">'+a.actionId+'</td>'
-              +'<td style="padding:9px 12px;font-size:11px;color:var(--t3);">'+a.meetingNo+'</td>'
-              +'<td style="padding:9px 12px;font-size:11px;color:var(--t3);">'+(a.dateRaised||'—')+'</td>'
-              +'<td style="padding:9px 12px;font-size:11px;max-width:240px;white-space:normal;line-height:1.4;">'+a.description+'</td>'
-              +'<td style="padding:9px 12px;font-size:11px;">'+a.owner+'</td>'
-              +'<td style="padding:9px 12px;font-size:11px;color:'+(overdue?'#EF4444':'var(--t3)')+';">'+(a.dueDate||'—')+'</td>'
-              +'<td style="padding:9px 12px;">'+actBadge(a.status,a.dueDate)+'</td>'
-              +'<td style="padding:9px 12px;"><input type="text" class="ms-step-input" value="'+(a.remarks||'')+'" onchange="MTG_ACTIONS['+realIdx+'].remarks=this.value" placeholder="Evidence / notes" style="min-width:130px;"></td>'
-              +'<td style="padding:9px 12px;">'
-                +'<select style="background:var(--raised);border:1px solid var(--border);color:var(--t2);border-radius:5px;padding:3px 6px;font-size:10px;" onchange="updateAction('+realIdx+',this.value)">'
-                  +'<option value="Open"'+(a.status==='Open'?' selected':'')+'>Open</option>'
-                  +'<option value="In Progress"'+(a.status==='In Progress'?' selected':'')+'>In Progress</option>'
-                  +'<option value="Closed"'+(a.status==='Closed'?' selected':'')+'>Closed</option>'
-                +'</select>'
-              +'</td></tr>';
-          }).join('');
-          updateMTGKPIs();
-        };
-        window.updateAction=function(idx,status){
-          MTG_ACTIONS[idx].status=status;
-          renderActionTracker();updateMTGKPIs();
-          acToast('Action '+MTG_ACTIONS[idx].actionId+' → '+status);
-        };
-
-        /* ─── INIT ────────────────────────────────── */
-        var noEl=document.getElementById('mtg-f-no');if(noEl)noEl.value='MTG-001';
-        re
-
-
-<!-- ══ LEGAL & REGULATORY COMPLIANCE TAB ══ -->
-<div id="ac-panel-legal" style="display:none;padding:16px;">
-
-  <!-- Top Controls -->
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
-    <div>
-      <div style="font-size:14px;font-weight:700;color:var(--t1);">Legal &amp; Regulatory Compliance Register</div>
-      <div style="font-size:11px;color:var(--t3);margin-top:2px;">ISO 45001:2018 Cl.9.1.2 &nbsp;|&nbsp; ISO 14001:2015 Cl.9.1.2 &nbsp;|&nbsp; ISO 9001:2015 Cl.9.1</div>
-    </div>
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-      <button onclick="exportROR()" style="padding:7px 14px;background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.3);border-radius:7px;color:#3B82F6;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--fh);">&#11015; Export ROR</button>
-      <button onclick="addCustomAct()" style="padding:7px 14px;background:var(--g-s);border:1px solid var(--g-b);border-radius:7px;color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--fh);">+ Add Custom Act</button>
-    </div>
-  </div>
-
-  <!-- Country + State Selectors -->
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;">
-    <div style="font-size:11px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;">Select Jurisdiction — Acts auto-load based on selection</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:end;">
-      <div>
-        <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Country *</div>
-        <select id="ror-country" onchange="onCountryChange()" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);">
-          <option value="">Select Country...</option>
-          <option value="IN" selected>&#127470;&#127475; India</option>
-          <option value="AE">&#127462;&#127466; UAE</option>
-          <option value="QA">&#127478;&#127462; Qatar</option>
-          <option value="SA">&#127480;&#127462; Saudi Arabia</option>
-          <option value="GB">&#127468;&#127463; United Kingdom</option>
-          <option value="SG">&#127480;&#127468; Singapore</option>
-          <option value="AU">&#127462;&#127482; Australia</option>
-        </select>
-      </div>
-      <div id="state-selector-wrap">
-        <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">State / Emirate</div>
-        <select id="ror-state" onchange="onStateChange()" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);">
-          <option value="">All States (Central Acts)</option>
-          <option value="BR">Bihar</option>
-          <option value="MH">Maharashtra</option>
-          <option value="GJ">Gujarat</option>
-          <option value="RJ">Rajasthan</option>
-          <option value="KA">Karnataka</option>
-          <option value="TN">Tamil Nadu</option>
-          <option value="UP">Uttar Pradesh</option>
-          <option value="WB">West Bengal</option>
-          <option value="MP">Madhya Pradesh</option>
-          <option value="HR">Haryana</option>
-          <option value="PB">Punjab</option>
-          <option value="OD">Odisha</option>
-          <option value="TG">Telangana</option>
-          <option value="AP">Andhra Pradesh</option>
-          <option value="JH">Jharkhand</option>
-          <option value="CG">Chhattisgarh</option>
-        </select>
-      </div>
-      <div>
-        <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Industry Sector</div>
-        <select id="ror-sector" onchange="onSectorChange()" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);">
-          <option value="construction">Construction / Infrastructure</option>
-          <option value="manufacturing">Manufacturing</option>
-          <option value="oil_gas">Oil &amp; Gas</option>
-          <option value="power">Power / Energy</option>
-          <option value="mining">Mining</option>
-        </select>
-      </div>
-    </div>
-    <!-- Stats row -->
-    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px;" id="ror-stats">
-      <div style="background:var(--raised);border:1px solid var(--border);border-radius:7px;padding:8px;text-align:center;">
-        <div style="font-size:18px;font-weight:700;color:var(--t1);" id="stat-total">0</div>
-        <div style="font-size:9px;color:var(--t3);margin-top:1px;">Total Acts</div>
-      </div>
-      <div style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:7px;padding:8px;text-align:center;">
-        <div style="font-size:18px;font-weight:700;color:#22C55E;" id="stat-complied">0</div>
-        <div style="font-size:9px;color:var(--t3);margin-top:1px;">Complied</div>
-      </div>
-      <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:7px;padding:8px;text-align:center;">
-        <div style="font-size:18px;font-weight:700;color:#F59E0B;" id="stat-due">0</div>
-        <div style="font-size:9px;color:var(--t3);margin-top:1px;">Due Soon</div>
-      </div>
-      <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:7px;padding:8px;text-align:center;">
-        <div style="font-size:18px;font-weight:700;color:#EF4444;" id="stat-overdue">0</div>
-        <div style="font-size:9px;color:var(--t3);margin-top:1px;">Overdue</div>
-      </div>
-      <div style="background:var(--raised);border:1px solid var(--border);border-radius:7px;padding:8px;text-align:center;">
-        <div style="font-size:18px;font-weight:700;color:#94A3B8;" id="stat-na">0</div>
-        <div style="font-size:9px;color:var(--t3);margin-top:1px;">Not Applicable</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Filter bar -->
-  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
-    <select id="ror-filter-cat" onchange="renderROR()" style="padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);">
-      <option value="">All Categories</option>
-      <option value="environment">Environment</option>
-      <option value="safety">Occupational Safety</option>
-      <option value="labour">Labour &amp; Employment</option>
-      <option value="electrical">Electrical &amp; Mechanical</option>
-      <option value="fire">Fire &amp; Emergency</option>
-      <option value="hazardous">Hazardous Materials</option>
-      <option value="insurance">Insurance &amp; Welfare</option>
-      <option value="other">Other Requirements</option>
-    </select>
-    <select id="ror-filter-status" onchange="renderROR()" style="padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);">
-      <option value="">All Status</option>
-      <option value="complied">Complied</option>
-      <option value="due">Due Soon (30 days)</option>
-      <option value="overdue">Overdue</option>
-      <option value="na">Not Applicable</option>
-      <option value="pending">Pending</option>
-    </select>
-    <input type="text" id="ror-search" oninput="renderROR()" placeholder="Search act or requirement..." style="flex:1;min-width:180px;padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);"/>
-  </div>
-
-  <!-- ROR Table -->
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
-    <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-size:11px;font-family:var(--fh);">
-        <thead>
-          <tr style="background:var(--raised);border-bottom:1px solid var(--border);">
-            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;width:40px;">#</th>
-            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;min-width:200px;">Act / Legislation</th>
-            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;">Category</th>
-            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;">Authority</th>
-            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;">Consent / Licence No.</th>
-            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;">Valid Until</th>
-            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;">Responsible</th>
-            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;">Status</th>
-            <th style="padding:9px 12px;text-align:center;color:var(--t3);font-weight:600;white-space:nowrap;">Actions</th>
-          </tr>
-        </thead>
-        <tbody id="ror-table-body">
-          <tr><td colspan="9" style="padding:32px;text-align:center;color:var(--t3);">Select a country to load applicable regulations</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Edit Modal -->
-  <div id="ror-edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99999;align-items:center;justify-content:center;" onclick="if(event.target===this)closeROREdit()">
-    <div style="background:#0F1720;border:1px solid var(--border);border-radius:12px;width:600px;max-height:90vh;overflow-y:auto;scrollbar-width:thin;">
-      <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:#0B1523;border-radius:12px 12px 0 0;">
-        <div style="font-size:13px;font-weight:700;color:var(--t1);">Edit Compliance Details</div>
-        <button onclick="closeROREdit()" style="background:transparent;border:1px solid var(--border);border-radius:6px;width:28px;height:28px;cursor:pointer;color:var(--t2);font-size:16px;line-height:1;">&#10005;</button>
-      </div>
-      <div style="padding:16px 18px;" id="ror-edit-content"></div>
-    </div>
-  </div>
-
-</div>
-
-nderMTGRegister(); updateMTGKPIs(); renderActionTracker();
-
-      })();
-      </script>
+</script>
 
     </div>
 
