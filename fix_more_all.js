@@ -23,6 +23,17 @@ function makeItems(exclude) {
   return html;
 }
 
+// Find closing </div> of sb-more-items by counting depth
+function findBlockEnd(h, start) {
+  let depth = 0, i = start;
+  while(i < h.length) {
+    if(h.substring(i,i+4) === '<div') depth++;
+    if(h.substring(i,i+6) === '</div>') { depth--; if(depth===0) return i+6; }
+    i++;
+  }
+  return -1;
+}
+
 const PAGES = [
   'safetypro_ai.html','safetypro_hrm.html','safetypro_field.html',
   'safetypro_auditor.html','safetypro_documents.html',
@@ -36,11 +47,15 @@ PAGES.forEach(f => {
   const start = h.indexOf('<div id="sb-more-items"');
   if(start === -1) { console.log('NO MORE:', f); return; }
   const openEnd = h.indexOf('>', start) + 1;
-  const closeDiv = h.indexOf('</div>', start) + 6;
-  h = h.substring(0, openEnd) + makeItems(f) + h.substring(closeDiv);
+  const blockEnd = findBlockEnd(h, start);
+  // Replace entire sb-more-items content
+  h = h.substring(0, openEnd) + makeItems(f) + '</div>' + h.substring(blockEnd);
   fs.writeFileSync(f, h, 'utf8');
-  const links = [...h.matchAll(/href="(safetypro_[^"]+)"/g)].map(m=>m[1]).slice(0,10);
-  const hasSelf = links.includes(f);
-  const hasDup = links.length !== new Set(links).size;
-  console.log(f + ' | self=' + hasSelf + ' | dup=' + hasDup);
+  // Verify
+  const newStart = h.indexOf('<div id="sb-more-items"');
+  const links = [...h.matchAll(/href="(safetypro_[^"]+)"/g)].map(m=>m[1]).filter(l=>l.includes('safetypro_'));
+  const moreLinks = links.slice(0, 8);
+  const hasSelf = moreLinks.includes(f);
+  const adminCount = moreLinks.filter(l=>l.includes('admin')).length;
+  console.log(f + ' | self=' + hasSelf + ' | admin=' + adminCount + ' | count=' + moreLinks.length);
 });
