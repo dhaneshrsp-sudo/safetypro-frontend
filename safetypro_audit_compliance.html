@@ -962,7 +962,13 @@ flex-wrap:wrap;}
   /* Calendar grid */
   #ims-calendar-view,#cont-calendar-view{padding:12px 16px;border-bottom:1px solid var(--border);}
   /* END LAYOUT-FIX-v2 */
-  </style>
+  
+  #ac-legal { overflow-y: scroll !important; overflow-x: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+  #ac-legal::-webkit-scrollbar { width: 6px; height: 6px; }
+  #ac-legal::-webkit-scrollbar-track { background: transparent; }
+  #ac-legal::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  #ac-legal .card > div { overflow-x: auto !important; }
+</style>
   <style>
   /* SIDEBAR-GAP-FIX */ .sidebar{top:0 !important;}
   /* LOGO-COLOR-FIX */
@@ -5323,7 +5329,7 @@ nderMTGRegister(); updateMTGKPIs(); renderActionTracker();
 
     </div>
 
-  <div class="tab-panel" id="ac-legal" style="flex:1;overflow-y:auto;display:none;flex-direction:column;padding:16px 20px 24px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;">
+  <div class="tab-panel" id="ac-legal" style="flex:1;display:flex;flex-direction:column;padding:16px 20px 24px;overflow-y:scroll;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;min-width:0;min-height:0;box-sizing:border-box;">
 
       <!-- Top controls -->
       <div style="display:grid;grid-template-columns:1fr 1fr auto auto;gap:10px;align-items:end;margin-bottom:16px;">
@@ -5402,8 +5408,8 @@ nderMTGRegister(); updateMTGKPIs(); renderActionTracker();
 
       <!-- ROR Table -->
       <div class="card" style="padding:0;overflow:hidden;">
-        <div style="overflow-x:auto;">
-          <table style="width:100%;min-width:900px;border-collapse:collapse;font-size:11px;" id="ror-table">
+        <div style="overflow-x:auto;overflow-y:visible;width:100%;-webkit-overflow-scrolling:touch;">
+          <table style="width:100%;min-width:880px;border-collapse:collapse;font-size:11px;" id="ror-table">
             <thead>
               <tr style="background:var(--raised);border-bottom:1px solid var(--border);">
                 <th style="padding:10px 12px;text-align:left;color:var(--t3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;font-size:10px;min-width:40px;">#</th>
