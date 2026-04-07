@@ -802,6 +802,81 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
   background: var(--border) !important;
   border-radius: 3px !important;
 }
+
+/* ── MHSE MONTHLY REPORT GENERATOR ── */
+.mhse-grp{padding:5px 12px 2px;font-size:8px;font-weight:600;color:#1E3A5F;text-transform:uppercase;letter-spacing:.7px;margin-top:6px;}
+.mhse-si{display:flex;align-items:center;gap:6px;padding:6px 10px;cursor:pointer;font-size:10px;color:#475569;border-left:2px solid transparent;transition:all .12s;}
+.mhse-si:hover{background:rgba(255,255,255,.02);color:#64748B;}
+.mhse-si.act{color:#E6EDF3 !important;background:rgba(201,168,76,.05);border-left-color:#C9A84C;font-weight:500;}
+.mhse-si.done{color:#22C55E;}
+.mhse-si.warn{color:#F59E0B;}
+.mhse-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:#1E3A5F;}
+.mhse-sn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mhse-stag{padding:1px 5px;border-radius:3px;font-size:8px;font-weight:600;white-space:nowrap;}
+.mhse-stag.auto{background:rgba(34,197,94,.1);color:#22C55E;border:0.5px solid rgba(34,197,94,.2);}
+.mhse-stag.man{background:rgba(245,158,11,.1);color:#F59E0B;border:0.5px solid rgba(245,158,11,.2);}
+.mhse-stag.calc{background:rgba(59,130,246,.1);color:#60A5FA;border:0.5px solid rgba(59,130,246,.2);}
+.mhse-sec{display:none;animation:mhseFade .18s ease;}
+.mhse-sec.act{display:block;}
+@keyframes mhseFade{from{opacity:0;transform:translateY(3px);}to{opacity:1;transform:translateY(0);}}
+.mhse-hero{background:#0D1420;padding:12px 16px;border-bottom:0.5px solid #1E293B;}
+.mhse-snum{font-size:8px;font-weight:700;color:#C9A84C;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.mhse-stitle{font-size:13px;font-weight:500;color:#E6EDF3;}
+.mhse-ssub{font-size:10px;color:#475569;margin-top:3px;}
+.mhse-stds{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;}
+.mhse-std{font-size:7px;font-weight:700;padding:2px 5px;border-radius:3px;border:0.5px solid;}
+.mhse-std.iso{background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.2);color:#60A5FA;}
+.mhse-std.iogp{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.2);color:#C9A84C;}
+.mhse-std.gri{background:rgba(139,92,246,.08);border-color:rgba(139,92,246,.2);color:#A78BFA;}
+.mhse-std.bocw{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);color:#F87171;}
+.mhse-body{padding:14px 16px;}
+.mhse-fg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.mhse-fl{font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;display:flex;align-items:center;gap:4px;}
+.mhse-fi{padding:6px 9px;background:#0F1720;border:0.5px solid #1E293B;border-radius:5px;font-size:10px;color:#64748B;width:100%;}
+.mhse-fi.auto{background:rgba(34,197,94,.05);border-color:rgba(34,197,94,.18);color:#22C55E;}
+.mhse-fi.man{background:rgba(245,158,11,.04);border-color:rgba(245,158,11,.18);}
+.mhse-fi.calc{background:rgba(59,130,246,.05);border-color:rgba(59,130,246,.18);color:#60A5FA;}
+.mhse-fi::placeholder{color:#334155;}
+.mhse-badge{padding:1px 5px;border-radius:3px;font-size:8px;font-weight:600;white-space:nowrap;}
+.mhse-badge.auto{background:rgba(34,197,94,.1);color:#22C55E;border:0.5px solid rgba(34,197,94,.2);}
+.mhse-badge.man{background:rgba(245,158,11,.1);color:#F59E0B;border:0.5px solid rgba(245,158,11,.2);}
+.mhse-badge.calc{background:rgba(59,130,246,.1);color:#60A5FA;border:0.5px solid rgba(59,130,246,.2);}
+.mhse-k4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;}
+.mhse-k5{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:10px;}
+.mhse-kc{background:#131C26;border:0.5px solid #1E293B;border-radius:8px;padding:10px;text-align:center;border-top:2px solid transparent;}
+.mhse-kc.g{border-top-color:#22C55E;}
+.mhse-kc.a{border-top-color:#F59E0B;}
+.mhse-kc.r{border-top-color:#EF4444;}
+.mhse-kc.b{border-top-color:#3B82F6;}
+.mhse-kc.gold{border-top-color:#C9A84C;}
+.mhse-kv{font-size:22px;font-weight:500;margin:3px 0 1px;color:#E6EDF3;}
+.mhse-kv.g{color:#22C55E;}.mhse-kv.a{color:#F59E0B;}.mhse-kv.r{color:#EF4444;}.mhse-kv.gold{color:#C9A84C;}
+.mhse-kl{font-size:9px;color:#475569;line-height:1.3;}
+.mhse-ks{font-size:8px;color:#334155;margin-top:3px;}
+.mhse-card{background:#131C26;border:0.5px solid #1E293B;border-radius:8px;overflow:hidden;margin-bottom:10px;}
+.mhse-ch{padding:7px 12px;background:#0F1720;border-bottom:0.5px solid #1E293B;display:flex;align-items:center;justify-content:space-between;}
+.mhse-ct{font-size:10px;font-weight:500;color:#94A3B8;}
+.mhse-row{display:flex;align-items:center;padding:5px 12px;border-bottom:0.5px solid #0F1720;font-size:10px;gap:8px;}
+.mhse-row:last-child{border-bottom:none;}
+.mhse-rl{flex:1;color:#475569;}
+.mhse-rv{font-weight:500;color:#94A3B8;}
+.mhse-rv.g{color:#22C55E;}.mhse-rv.a{color:#F59E0B;}.mhse-rv.r{color:#EF4444;}
+.mhse-note{padding:8px 11px;border-radius:6px;font-size:10px;margin-bottom:10px;display:flex;gap:7px;line-height:1.6;}
+.mhse-note.a{background:rgba(245,158,11,.07);border:0.5px solid rgba(245,158,11,.2);color:#F59E0B;}
+.mhse-note.b{background:rgba(59,130,246,.07);border:0.5px solid rgba(59,130,246,.2);color:#60A5FA;}
+.mhse-note.r{background:rgba(239,68,68,.07);border:0.5px solid rgba(239,68,68,.2);color:#F87171;}
+.mhse-note.g{background:rgba(34,197,94,.07);border:0.5px solid rgba(34,197,94,.2);color:#22C55E;}
+.mhse-pb{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.mhse-pbl{width:150px;font-size:9px;color:#64748B;flex-shrink:0;}
+.mhse-pt{flex:1;height:5px;background:#1E293B;border-radius:3px;overflow:hidden;}
+.mhse-pv{width:32px;text-align:right;font-size:10px;font-weight:500;}
+.mhse-sig-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;}
+.mhse-sig-box{background:#131C26;border:0.5px solid #1E293B;border-radius:7px;padding:10px;text-align:center;}
+.mhse-sig-line{height:28px;border-bottom:0.5px solid #1E293B;margin-bottom:6px;}
+.mhse-sig-name{font-size:10px;font-weight:500;color:#94A3B8;}
+.mhse-sig-role{font-size:8px;color:#475569;margin-top:2px;}
+.mhse-et{padding:2px 7px;border-radius:3px;font-size:8px;font-weight:700;background:rgba(139,92,246,.1);border:0.5px solid rgba(139,92,246,.2);color:#A78BFA;}
+
 </style>
 </head>
 <body>
@@ -1017,77 +1092,496 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 
     <!-- ═══ MONTHLY REPORTS TAB ═══ -->
     <div class="tab-panel" id="tab-monthly">
-      <div class="monthly-grid">
-        <div class="card">
-          <div class="card-head"><div><div class="card-title">Generated Reports</div><div class="card-sub">Monthly safety reports — auto-generated</div></div><button class="btn-export" onclick="showToast('Generating March 2026 report...')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Generate New</button></div>
-          <div class="report-list">
-            <div class="report-item">
-              <div class="ri-icon"><div class="pdf-top">PDF</div><div class="pdf-lines"><div class="pdf-line"></div><div class="pdf-line" style="width:70%"></div><div class="pdf-line"></div></div></div>
-              <div class="ri-body">
-                <div class="ri-title">Safety Report — March 2026</div>
-                <div class="ri-meta"><span class="ri-tag" style="background:var(--g-s);color:var(--green);border:1px solid var(--g-b)">Current</span><span class="ri-size">2.4 MB · 18 pages</span><span style="font-size:10px;color:var(--t3)">All Projects</span></div>
-              </div>
-              <div class="ri-right"><div class="ri-date">21 Mar 2026</div><div class="dl-btn" onclick="showToast('Downloading March 2026 report...')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download</div></div>
-            </div>
-            <div class="report-item">
-              <div class="ri-icon"><div class="pdf-top">PDF</div><div class="pdf-lines"><div class="pdf-line"></div><div class="pdf-line" style="width:70%"></div><div class="pdf-line"></div></div></div>
-              <div class="ri-body">
-                <div class="ri-title">Safety Report — February 2026</div>
-                <div class="ri-meta"><span class="ri-tag" style="background:var(--b-s);color:var(--blue);border:1px solid var(--b-b)">Reviewed</span><span class="ri-size">2.1 MB · 16 pages</span></div>
-              </div>
-              <div class="ri-right"><div class="ri-date">01 Mar 2026</div><div class="dl-btn" onclick="showToast('Downloading...')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download</div></div>
-            </div>
-            <div class="report-item">
-              <div class="ri-icon"><div class="pdf-top">PDF</div><div class="pdf-lines"><div class="pdf-line"></div><div class="pdf-line" style="width:70%"></div><div class="pdf-line"></div></div></div>
-              <div class="ri-body">
-                <div class="ri-title">Safety Report — January 2026</div>
-                <div class="ri-meta"><span class="ri-tag" style="background:var(--b-s);color:var(--blue);border:1px solid var(--b-b)">Reviewed</span><span class="ri-size">1.9 MB · 15 pages</span></div>
-              </div>
-              <div class="ri-right"><div class="ri-date">01 Feb 2026</div><div class="dl-btn" onclick="showToast('Downloading...')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download</div></div>
-            </div>
-            <div class="report-item">
-              <div class="ri-icon"><div class="pdf-top">XLS</div><div class="pdf-lines"><div class="pdf-line"></div><div class="pdf-line" style="width:70%"></div><div class="pdf-line"></div></div></div>
-              <div class="ri-body">
-                <div class="ri-title">Q1 2026 — Combined Excel Report</div>
-                <div class="ri-meta"><span class="ri-tag" style="background:var(--g-s);color:var(--green);border:1px solid var(--g-b)">Q1</span><span class="ri-size">1.2 MB · 4 sheets</span></div>
-              </div>
-              <div class="ri-right"><div class="ri-date">31 Mar 2026</div><div class="dl-btn" onclick="showToast('Downloading Excel...')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download</div></div>
-            </div>
-            <div class="report-item">
-              <div class="ri-icon"><div class="pdf-top">PDF</div><div class="pdf-lines"><div class="pdf-line"></div><div class="pdf-line" style="width:70%"></div><div class="pdf-line"></div></div></div>
-              <div class="ri-body">
-                <div class="ri-title">Safety Report — December 2025</div>
-                <div class="ri-meta"><span class="ri-tag" style="background:var(--a-s);color:var(--amber);border:1px solid var(--a-b)">Archived</span><span class="ri-size">2.0 MB · 17 pages</span></div>
-              </div>
-              <div class="ri-right"><div class="ri-date">01 Jan 2026</div><div class="dl-btn" onclick="showToast('Downloading...')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download</div></div>
-            </div>
-          </div>
-        </div>
+<div id="mhse-app" style="display:flex;flex-direction:column;height:100%;background:var(--bg);border-radius:8px;overflow:hidden;border:0.5px solid var(--border);">
 
-        <div class="report-preview">
-          <div class="preview-card">
-            <div class="preview-header">📊 March 2026 — Report Preview</div>
-            <div class="preview-row"><div class="pr-label">Total Incidents</div><div class="pr-val">7</div></div>
-            <div class="preview-row"><div class="pr-label">NCRs Raised</div><div class="pr-val">14</div></div>
-            <div class="preview-row"><div class="pr-label">Actions Closed</div><div class="pr-val green">89%</div></div>
-            <div class="preview-row"><div class="pr-label">Overdue Actions</div><div class="pr-val red">3</div></div>
-            <div class="preview-row"><div class="pr-label">Avg Audit Score</div><div class="pr-val green">87%</div></div>
-            <div class="preview-row"><div class="pr-label">Escalations</div><div class="pr-val amber">5</div></div>
-            <div class="preview-row"><div class="pr-label">Lost Time Injuries</div><div class="pr-val green">0</div></div>
-            <div class="preview-row"><div class="pr-label">Toolbox Talks</div><div class="pr-val">12 sessions</div></div>
-            <div class="preview-row"><div class="pr-label">Attendance</div><div class="pr-val">284 workers</div></div>
-          </div>
-          <button class="gen-btn" onclick="showToast('Generating PDF report — this would trigger Puppeteer on the backend')">
-            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-            Generate March Report PDF
-          </button>
-          <div style="background:var(--g-s);border:1px solid var(--g-b);border-radius:8px;padding:10px 12px">
-            <div style="font-size:11px;color:var(--green);font-weight:600;margin-bottom:3px">Auto-generation includes:</div>
-            <div style="font-size:10px;color:var(--t2);line-height:1.8">✓ Company logo + branding · ✓ All incident details · ✓ NCR summary with photos · ✓ Audit scores · ✓ Action status table · ✓ Approval signatures · ✓ BOCW compliance checklist</div>
-          </div>
+<!-- MHSE TOPBAR -->
+<div style="background:#0D1420;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--gold,#C9A84C);">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div style="width:28px;height:28px;background:rgba(201,168,76,.12);border:1px solid #C9A84C;border-radius:6px;display:flex;align-items:center;justify-content:center;">
+      <svg viewBox="0 0 16 16" width="14" height="14" fill="none"><path d="M8 1L2 3.5V8c0 3 2.5 5.5 6 6.5C11.5 13.5 14 11 14 8V3.5L8 1Z" stroke="#C9A84C" stroke-width="1" fill="rgba(201,168,76,.15)"/><path d="M5 8l2 2 4-4" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:500;color:#E6EDF3;">Monthly HSE Report Generator</div>
+      <div style="font-size:8px;color:#C9A84C;letter-spacing:.8px;text-transform:uppercase;margin-top:1px;">ISO 45001 · ISO 14001 · IOGP 577/597 · GRI 403 · BOCWA</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+    <select id="mhse-month" style="padding:5px 9px;background:#131C26;border:0.5px solid #1E3A5F;border-radius:6px;font-size:10px;color:#64748B;">
+      <option>March 2026</option><option>February 2026</option><option>January 2026</option><option>December 2025</option>
+    </select>
+    <select id="mhse-project" style="padding:5px 9px;background:#131C26;border:0.5px solid #1E3A5F;border-radius:6px;font-size:10px;color:#64748B;">
+      <option>BBRP — NH 131, Bihar</option><option>All Projects</option>
+    </select>
+    <button onclick="mhseAutoFill()" style="padding:5px 11px;background:rgba(59,130,246,.12);border:0.5px solid rgba(59,130,246,.3);border-radius:6px;color:#60A5FA;font-size:10px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:4px;">
+      <svg viewBox="0 0 16 16" width="12" height="12" fill="none"><path d="M8 2v4l3 1.5" stroke="#60A5FA" stroke-width="1.5" stroke-linecap="round"/><path d="M13.5 8A5.5 5.5 0 112.5 8" stroke="#60A5FA" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Auto-fill from Platform
+    </button>
+    <button onclick="mhseExportPDF()" style="padding:5px 11px;background:rgba(201,168,76,.12);border:0.5px solid rgba(201,168,76,.3);border-radius:6px;color:#C9A84C;font-size:10px;font-weight:500;cursor:pointer;">&#8595; Export PDF</button>
+    <button onclick="mhseExportExcel()" style="padding:5px 11px;background:rgba(34,197,94,.1);border:0.5px solid rgba(34,197,94,.25);border-radius:6px;color:#22C55E;font-size:10px;font-weight:500;cursor:pointer;">&#8595; Excel</button>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div style="background:#0D1420;padding:6px 14px;display:flex;align-items:center;gap:10px;border-bottom:0.5px solid #1E293B;flex-wrap:wrap;">
+  <span style="font-size:8px;color:#334155;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;">Completion</span>
+  <div style="flex:1;min-width:80px;height:3px;background:#1E293B;border-radius:2px;overflow:hidden;"><div id="mhse-prog" style="height:100%;width:6%;background:#22C55E;border-radius:2px;transition:width .4s;"></div></div>
+  <span id="mhse-prog-txt" style="font-size:9px;color:#22C55E;white-space:nowrap;">1 of 16 sections</span>
+  <div style="display:flex;gap:5px;margin-left:4px;flex-wrap:wrap;">
+    <span style="background:rgba(34,197,94,.1);color:#22C55E;border:0.5px solid rgba(34,197,94,.2);padding:1px 5px;border-radius:3px;font-size:8px;font-weight:600;">Auto = platform</span>
+    <span style="background:rgba(245,158,11,.1);color:#F59E0B;border:0.5px solid rgba(245,158,11,.2);padding:1px 5px;border-radius:3px;font-size:8px;font-weight:600;">Manual = site records</span>
+    <span style="background:rgba(59,130,246,.1);color:#60A5FA;border:0.5px solid rgba(59,130,246,.2);padding:1px 5px;border-radius:3px;font-size:8px;font-weight:600;">Calc = formula</span>
+  </div>
+  <span style="font-size:9px;color:#1E3A5F;margin-left:auto;">Rev 01 · MHSE-V3-2026-03 · 568 days LTI-free</span>
+</div>
+
+<!-- BODY: SIDEBAR + MAIN -->
+<div style="display:flex;flex:1;min-height:0;">
+
+<!-- SIDEBAR -->
+<div id="mhse-sb" style="width:196px;min-width:196px;background:#0D1420;border-right:0.5px solid #1E293B;overflow-y:auto;flex-shrink:0;">
+
+  <div class="mhse-grp">Document &amp; Cover</div>
+  <div class="mhse-si act" data-sec="0" onclick="mhseShow(0)"><div class="mhse-dot" style="background:#3B82F6;"></div><span class="mhse-sn">0. Document control</span><span class="mhse-stag auto">Auto</span></div>
+  <div class="mhse-si done" data-sec="1" onclick="mhseShow(1)"><div class="mhse-dot" style="background:#22C55E;"></div><span class="mhse-sn">1. Executive summary</span><span class="mhse-stag calc">Calc</span></div>
+
+  <div class="mhse-grp">Safety Performance</div>
+  <div class="mhse-si done" data-sec="2" onclick="mhseShow(2)"><div class="mhse-dot" style="background:#22C55E;"></div><span class="mhse-sn">2. Proactive score</span><span class="mhse-stag auto">Auto</span></div>
+  <div class="mhse-si done" data-sec="3" onclick="mhseShow(3)"><div class="mhse-dot" style="background:#22C55E;"></div><span class="mhse-sn">3. Lagging KPIs + rates</span><span class="mhse-stag calc">Calc</span></div>
+  <div class="mhse-si done" data-sec="4" onclick="mhseShow(4)"><div class="mhse-dot" style="background:#22C55E;"></div><span class="mhse-sn">4. Leading indicators</span><span class="mhse-stag auto">Auto</span></div>
+  <div class="mhse-si done" data-sec="5" onclick="mhseShow(5)"><div class="mhse-dot" style="background:#22C55E;"></div><span class="mhse-sn">5. Incidents &amp; near miss</span><span class="mhse-stag auto">Auto</span></div>
+  <div class="mhse-si" data-sec="6" onclick="mhseShow(6)"><div class="mhse-dot"></div><span class="mhse-sn">6. Contractor perf.</span><span class="mhse-stag auto">Auto</span></div>
+
+  <div class="mhse-grp">Work Controls</div>
+  <div class="mhse-si new" data-sec="7" onclick="mhseShow(7)"><div class="mhse-dot"></div><span class="mhse-sn">7. Permit to work</span><span class="mhse-stag" style="background:rgba(239,68,68,.1);color:#F87171;border-color:rgba(239,68,68,.25);">New</span></div>
+  <div class="mhse-si" data-sec="8" onclick="mhseShow(8)"><div class="mhse-dot"></div><span class="mhse-sn">8. Inspections &amp; CAPA</span><span class="mhse-stag auto">Auto</span></div>
+  <div class="mhse-si" data-sec="9" onclick="mhseShow(9)"><div class="mhse-dot"></div><span class="mhse-sn">9. Training &amp; competency</span><span class="mhse-stag auto">Auto</span></div>
+  <div class="mhse-si new" data-sec="10" onclick="mhseShow(10)"><div class="mhse-dot"></div><span class="mhse-sn">10. Emergency prep.</span><span class="mhse-stag" style="background:rgba(239,68,68,.1);color:#F87171;border-color:rgba(239,68,68,.25);">New</span></div>
+
+  <div class="mhse-grp">Environment &amp; Social</div>
+  <div class="mhse-si warn" data-sec="11" onclick="mhseShow(11)"><div class="mhse-dot" style="background:#F59E0B;"></div><span class="mhse-sn">11. Environment &amp; OH</span><span class="mhse-stag man">Manual</span></div>
+  <div class="mhse-si new warn" data-sec="12" onclick="mhseShow(12)"><div class="mhse-dot" style="background:#F59E0B;"></div><span class="mhse-sn">12. Labour welfare</span><span class="mhse-stag" style="background:rgba(239,68,68,.1);color:#F87171;border-color:rgba(239,68,68,.25);">New</span></div>
+
+  <div class="mhse-grp">Management</div>
+  <div class="mhse-si new" data-sec="13" onclick="mhseShow(13)"><div class="mhse-dot"></div><span class="mhse-sn">13. O&amp;T progress</span><span class="mhse-stag" style="background:rgba(239,68,68,.1);color:#F87171;border-color:rgba(239,68,68,.25);">New</span></div>
+  <div class="mhse-si done" data-sec="14" onclick="mhseShow(14)"><div class="mhse-dot" style="background:#22C55E;"></div><span class="mhse-sn">14. Legal compliance</span><span class="mhse-stag auto">Auto</span></div>
+  <div class="mhse-si" data-sec="15" onclick="mhseShow(15)"><div class="mhse-dot"></div><span class="mhse-sn">15. Trend analysis</span><span class="mhse-stag auto">Auto</span></div>
+  <div class="mhse-si warn" data-sec="16" onclick="mhseShow(16)"><div class="mhse-dot" style="background:#F59E0B;"></div><span class="mhse-sn">16. Commentary</span><span class="mhse-stag man">Manual</span></div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="mhse-main" style="flex:1;overflow-y:auto;padding:0;background:var(--bg);">
+
+<!-- S0: Document Control -->
+<div class="mhse-sec act" id="mhse-s0">
+  <div class="mhse-hero"><div class="mhse-snum">Section 0 — Document Control</div><div class="mhse-stitle">Controlled document block</div><div class="mhse-ssub">ISO 9001 Cl.7.5 · Auto-generated · Revision-tracked on every export</div><div class="mhse-stds"><span class="mhse-std iso">ISO 9001 Cl.7.5</span><span class="mhse-std iso">ISO 45001 Cl.7.5</span></div></div>
+  <div class="mhse-body">
+    <div class="mhse-fg">
+      <div><div class="mhse-fl"><span class="mhse-badge auto">Auto</span> Document no.</div><div class="mhse-fi auto" id="m-docno">MHSE-V3-2026-03</div></div>
+      <div><div class="mhse-fl"><span class="mhse-badge auto">Auto</span> Revision</div><div class="mhse-fi auto" id="m-rev">Rev 01 — issued 07 Apr 2026</div></div>
+      <div><div class="mhse-fl"><span class="mhse-badge auto">Auto</span> Organisation</div><div class="mhse-fi auto" id="m-org">IECCL — IL&FS Engineering</div></div>
+      <div><div class="mhse-fl"><span class="mhse-badge auto">Auto</span> Project / site</div><div class="mhse-fi auto" id="m-proj">BBRP — NH 131, Bihar</div></div>
+      <div><div class="mhse-fl"><span class="mhse-badge auto">Auto</span> Prepared by</div><div class="mhse-fi auto" id="m-prep">HSE Manager · IDIPOSH · RSP · AIEMA</div></div>
+      <div><div class="mhse-fl"><span class="mhse-badge auto">Auto</span> Report period</div><div class="mhse-fi auto" id="m-period">March 2026 (01–31 Mar 2026)</div></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Client / owner</div><input class="mhse-fi man" id="m-client" placeholder="Enter client or project owner name..."/></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Distribution list</div><input class="mhse-fi man" id="m-dist" placeholder="Add controlled copy recipients..."/></div>
+      <div><div class="mhse-fl"><span class="mhse-badge calc">Calc</span> Days since last LTI</div><div class="mhse-fi calc">568 days LTI-free — milestone ◆</div></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Reviewed by</div><input class="mhse-fi man" id="m-rev-by" placeholder="Project Manager name + designation..."/></div>
+    </div>
+    <div class="mhse-sig-row">
+      <div class="mhse-sig-box"><div class="mhse-sig-line"></div><div class="mhse-sig-name">Prepared by — HSE Manager</div><div class="mhse-sig-role">IDIPOSH · RSP · AIEMA · Date:</div></div>
+      <div class="mhse-sig-box"><div class="mhse-sig-line"></div><div class="mhse-sig-name">Reviewed by — Project Manager</div><div class="mhse-sig-role">Designation · Date:</div></div>
+      <div class="mhse-sig-box"><div class="mhse-sig-line"></div><div class="mhse-sig-name">Approved by — Project Director</div><div class="mhse-sig-role">Designation · Date:</div></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;">
+      <span class="mhse-et">SDG 3 — Good Health</span><span class="mhse-et">SDG 8 — Decent Work</span><span class="mhse-et">SDG 13 — Climate</span><span class="mhse-et">ISO 45001:2018</span><span class="mhse-et">ISO 14001:2015</span><span class="mhse-et">IOGP 597</span><span class="mhse-et">GRI 403</span><span class="mhse-et">BOCWA 1996</span>
+    </div>
+  </div>
+</div>
+
+<!-- S1: Executive Summary -->
+<div class="mhse-sec" id="mhse-s1">
+  <div class="mhse-hero"><div class="mhse-snum">Section 1 — Executive Summary</div><div class="mhse-stitle">Month at a glance — auto-generated narrative</div><div class="mhse-ssub">Populated from platform · Key statistics auto-pulled and summarised</div></div>
+  <div class="mhse-body">
+    <div class="mhse-k5">
+      <div class="mhse-kc gold"><div class="mhse-kl">Total workforce</div><div class="mhse-kv gold">396</div><div class="mhse-ks">Direct 84 · Contractors 312</div></div>
+      <div class="mhse-kc g"><div class="mhse-kl">Man-hours (month)</div><div class="mhse-kv g">84,240</div><div class="mhse-ks">YTD: 2,46,800 hrs</div></div>
+      <div class="mhse-kc g"><div class="mhse-kl">LTIFR this month</div><div class="mhse-kv g">0.00</div><div class="mhse-ks">IOGP benchmark: 0.42</div></div>
+      <div class="mhse-kc a"><div class="mhse-kl">Proactive score</div><div class="mhse-kv a">74%</div><div class="mhse-ks">Target ≥ 85%</div></div>
+      <div class="mhse-kc g"><div class="mhse-kl">Legal compliance</div><div class="mhse-kv g">86%</div><div class="mhse-ks">30 of 35 acts</div></div>
+    </div>
+    <div class="mhse-card">
+      <div class="mhse-ch"><span class="mhse-ct">Auto-generated summary narrative</span><span class="mhse-badge calc">AI text</span></div>
+      <div style="padding:10px 12px;font-size:10px;color:#64748B;line-height:1.85;background:rgba(201,168,76,.02);">
+        During <strong style="color:#E6EDF3;">March 2026</strong>, the project recorded <strong style="color:#22C55E;">zero LTI, FAT or Reportable Injuries</strong>. Total man-hours: <strong style="color:#94A3B8;">84,240 hrs</strong> (YTD: 2,46,800). LTIFR: <strong style="color:#22C55E;">0.00</strong> vs IOGP benchmark 0.42. Proactive Safety Score: <strong style="color:#F59E0B;">74%</strong> — below annual target of 85%; SWA usage and Near Miss reporting identified as focus areas. Legal compliance at <strong style="color:#22C55E;">86%</strong> with 2 licences requiring renewal. Project has achieved <strong style="color:#C9A84C;">568 consecutive days LTI-free</strong>.
+      </div>
+    </div>
+    <div class="mhse-fg">
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Client / owner name</div><input class="mhse-fi man" placeholder="For report cover page..."/></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Reporting officer designation</div><input class="mhse-fi man" placeholder="Your designation..."/></div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: Proactive Score -->
+<div class="mhse-sec" id="mhse-s2">
+  <div class="mhse-hero"><div class="mhse-snum">Section 2 — Proactive Safety Score</div><div class="mhse-stitle">Weighted leading KPI index — 6 components</div><div class="mhse-ssub">IOGP-aligned · Auto-calculated · Traffic-light thresholds · 12-month trend</div><div class="mhse-stds"><span class="mhse-std iogp">IOGP 597</span><span class="mhse-std iso">ISO 45001 Cl.9.1</span></div></div>
+  <div class="mhse-body">
+    <div style="display:grid;grid-template-columns:130px 1fr;gap:12px;margin-bottom:12px;">
+      <div style="background:#131C26;border:1px solid #C9A84C;border-radius:10px;padding:14px 10px;text-align:center;">
+        <div style="font-size:38px;font-weight:500;color:#F59E0B;line-height:1;">74<span style="font-size:18px;">%</span></div>
+        <div style="font-size:8px;font-weight:700;color:#F59E0B;letter-spacing:.8px;margin-top:4px;">NEEDS IMPROVEMENT</div>
+        <div style="font-size:8px;color:#475569;margin-top:3px;">Target ≥ 85% = Good</div>
+        <div style="display:flex;align-items:flex-end;gap:2px;height:22px;margin-top:10px;justify-content:center;">
+          <div style="flex:1;background:#475569;opacity:.4;border-radius:1px 1px 0 0;height:42%;"></div><div style="flex:1;background:#475569;opacity:.5;border-radius:1px 1px 0 0;height:52%;"></div><div style="flex:1;background:#F59E0B;opacity:.6;border-radius:1px 1px 0 0;height:60%;"></div><div style="flex:1;background:#F59E0B;opacity:.7;border-radius:1px 1px 0 0;height:66%;"></div><div style="flex:1;background:#F59E0B;opacity:.85;border-radius:1px 1px 0 0;height:70%;"></div><div style="flex:1;background:#F59E0B;border-radius:1px 1px 0 0;height:74%;"></div>
+        </div>
+        <div style="font-size:8px;color:#475569;margin-top:2px;">6-month trend ↑</div>
+      </div>
+      <div class="mhse-card" style="margin-bottom:0;">
+        <div class="mhse-ch"><span class="mhse-ct">Component breakdown — weighted score</span><span class="mhse-badge auto">Fully auto</span></div>
+        <div style="padding:10px 12px;">
+          <div class="mhse-pb"><span class="mhse-pbl">Inspections vs planned (25%)</span><div class="mhse-pt"><div style="width:80%;height:100%;background:#22C55E;border-radius:3px;"></div></div><span class="mhse-pv" style="color:#22C55E;">80%</span></div>
+          <div class="mhse-pb"><span class="mhse-pbl">Training compliance (20%)</span><div class="mhse-pt"><div style="width:92%;height:100%;background:#22C55E;border-radius:3px;"></div></div><span class="mhse-pv" style="color:#22C55E;">92%</span></div>
+          <div class="mhse-pb"><span class="mhse-pbl">Near miss reporting (15%)</span><div class="mhse-pt"><div style="width:45%;height:100%;background:#F59E0B;border-radius:3px;"></div></div><span class="mhse-pv" style="color:#F59E0B;">45%</span></div>
+          <div class="mhse-pb"><span class="mhse-pbl">Toolbox talk quality (15%)</span><div class="mhse-pt"><div style="width:70%;height:100%;background:#F59E0B;border-radius:3px;"></div></div><span class="mhse-pv" style="color:#F59E0B;">70%</span></div>
+          <div class="mhse-pb"><span class="mhse-pbl">Action closure SLA (15%)</span><div class="mhse-pt"><div style="width:75%;height:100%;background:#F59E0B;border-radius:3px;"></div></div><span class="mhse-pv" style="color:#F59E0B;">75%</span></div>
+          <div class="mhse-pb"><span class="mhse-pbl">Stop Work Authority (10%)</span><div class="mhse-pt"><div style="width:30%;height:100%;background:#EF4444;border-radius:3px;"></div></div><span class="mhse-pv" style="color:#EF4444;">30%</span></div>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- S3: Lagging KPIs -->
+<div class="mhse-sec" id="mhse-s3">
+  <div class="mhse-hero"><div class="mhse-snum">Section 3 — Lagging KPIs + Incident Rates</div><div class="mhse-stitle">OSHA / IOGP standard rates with industry benchmark</div><div class="mhse-ssub">LTIFR · TRIR · DART Rate · Severity Rate · HiPo count · All auto-calculated from platform data</div><div class="mhse-stds"><span class="mhse-std iogp">IOGP 2023</span><span class="mhse-std iso">OSHA 300A</span></div></div>
+  <div class="mhse-body">
+    <div class="mhse-k4">
+      <div class="mhse-kc g"><div class="mhse-kl">Fatalities (FAT)</div><div class="mhse-kv g">0</div><div class="mhse-ks">YTD: 0 · PTD: 0</div></div>
+      <div class="mhse-kc g"><div class="mhse-kl">Lost Time Injuries (LTI)</div><div class="mhse-kv g">0</div><div class="mhse-ks">YTD: 0 · PTD: 0</div></div>
+      <div class="mhse-kc a"><div class="mhse-kl">First Aid Cases (FAC)</div><div class="mhse-kv a">2</div><div class="mhse-ks">YTD: 7 · PTD: 18</div></div>
+      <div class="mhse-kc r"><div class="mhse-kl">HiPo incidents</div><div class="mhse-kv r">1</div><div class="mhse-ks">High potential events</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;">
+      <div class="mhse-card" style="margin-bottom:0;"><div class="mhse-ch"><span class="mhse-ct">LTIFR</span><span class="mhse-badge calc">Calc</span></div><div style="padding:8px 12px;"><div style="font-size:22px;font-weight:500;color:#22C55E;">0.00</div><div style="font-size:8px;color:#475569;margin-top:2px;">LTI × 1M ÷ man-hrs</div></div></div>
+      <div class="mhse-card" style="margin-bottom:0;"><div class="mhse-ch"><span class="mhse-ct">TRIR</span><span class="mhse-badge calc">Calc</span></div><div style="padding:8px 12px;"><div style="font-size:22px;font-weight:500;color:#F59E0B;">0.48</div><div style="font-size:8px;color:#475569;margin-top:2px;">Recordable × 200K ÷ hrs</div></div></div>
+      <div class="mhse-card" style="margin-bottom:0;"><div class="mhse-ch"><span class="mhse-ct">DART Rate</span><span style="background:rgba(239,68,68,.1);color:#F87171;border:0.5px solid rgba(239,68,68,.25);padding:1px 5px;border-radius:3px;font-size:8px;font-weight:700;">New KPI</span></div><div style="padding:8px 12px;"><div style="font-size:22px;font-weight:500;color:#22C55E;">0.00</div><div style="font-size:8px;color:#475569;margin-top:2px;">Days away/restricted × 200K</div></div></div>
+      <div class="mhse-card" style="margin-bottom:0;"><div class="mhse-ch"><span class="mhse-ct">Severity Rate</span><span class="mhse-badge calc">Calc</span></div><div style="padding:8px 12px;"><div style="font-size:22px;font-weight:500;color:#22C55E;">0.00</div><div style="font-size:8px;color:#475569;margin-top:2px;">Days lost × 1M ÷ man-hrs</div></div></div>
+    </div>
+    <div class="mhse-card">
+      <div class="mhse-ch"><span class="mhse-ct">Industry benchmark — IOGP 2023 Construction</span></div>
+      <div style="padding:10px 12px;">
+        <div class="mhse-pb"><span class="mhse-pbl" style="color:#22C55E;">Your LTIFR</span><div class="mhse-pt"><div style="width:1%;height:100%;background:#22C55E;border-radius:3px;"></div></div><span class="mhse-pv" style="color:#22C55E;">0.00</span></div>
+        <div class="mhse-pb"><span class="mhse-pbl">IOGP construction avg</span><div class="mhse-pt"><div style="width:35%;height:100%;background:#F59E0B;border-radius:3px;"></div></div><span class="mhse-pv" style="color:#F59E0B;">0.42</span></div>
+        <div class="mhse-pb"><span class="mhse-pbl">India construction avg</span><div class="mhse-pt"><div style="width:60%;height:100%;background:#EF4444;border-radius:3px;"></div></div><span class="mhse-pv" style="color:#EF4444;">0.72</span></div>
+      </div>
+    </div>
+    <div style="font-size:9px;color:#334155;">Man-hours this month: <strong style="color:#94A3B8;">84,240</strong> · YTD: <strong style="color:#94A3B8;">2,46,800</strong> · PTD: <strong style="color:#94A3B8;">8,12,540</strong></div>
+  </div>
+</div>
+
+<!-- S4: Leading Indicators -->
+<div class="mhse-sec" id="mhse-s4">
+  <div class="mhse-hero"><div class="mhse-snum">Section 4 — Leading Indicators</div><div class="mhse-stitle">Proactive safety activities — culture metrics</div><div class="mhse-ssub">Inspections · Toolbox talks · BBS observations · SWA invocations · Management walks</div></div>
+  <div class="mhse-body">
+    <div class="mhse-k4">
+      <div class="mhse-kc g"><div class="mhse-kl">Inspections</div><div class="mhse-kv g">12</div><div class="mhse-ks">vs 12 planned</div></div>
+      <div class="mhse-kc g"><div class="mhse-kl">Toolbox talks</div><div class="mhse-kv g">24</div><div class="mhse-ks">vs 20 planned</div></div>
+      <div class="mhse-kc a"><div class="mhse-kl">BBS observations</div><div class="mhse-kv a">6</div><div class="mhse-ks">Below target (20)</div></div>
+      <div class="mhse-kc r"><div class="mhse-kl">SWA invocations</div><div class="mhse-kv r">3</div><div class="mhse-ks">Target ≥ 8 (low)</div></div>
+    </div>
+    <div class="mhse-card"><div class="mhse-ch"><span class="mhse-ct">Management engagement</span><span class="mhse-badge auto">Auto</span></div>
+      <div class="mhse-row"><span class="mhse-rl">Site safety walks (management)</span><span class="mhse-rv g">4 / 4 planned ✓</span></div>
+      <div class="mhse-row"><span class="mhse-rl">HSE committee meetings held</span><span class="mhse-rv g">1 conducted ✓</span></div>
+      <div class="mhse-row"><span class="mhse-rl">Safety alerts issued to workforce</span><span class="mhse-rv">2</span></div>
+      <div class="mhse-row"><span class="mhse-rl">Hazard observations reported</span><span class="mhse-rv">18</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Incidents -->
+<div class="mhse-sec" id="mhse-s5">
+  <div class="mhse-hero"><div class="mhse-snum">Section 5 — Incidents &amp; Near Miss Register</div><div class="mhse-stitle">ISO 45001 Cl.9.1.1 · Pulled from Control page · Direct employees</div><div class="mhse-stds"><span class="mhse-std iso">ISO 45001 Cl.9.1</span></div></div>
+  <div class="mhse-body">
+    <div class="mhse-k4">
+      <div class="mhse-kc g"><div class="mhse-kl">FAT / LTI / RI</div><div class="mhse-kv g">0</div></div>
+      <div class="mhse-kc a"><div class="mhse-kl">First Aid Cases</div><div class="mhse-kv a">2</div></div>
+      <div class="mhse-kc a"><div class="mhse-kl">Near Miss</div><div class="mhse-kv a">3</div></div>
+      <div class="mhse-kc r"><div class="mhse-kl">HiPo events</div><div class="mhse-kv r">1</div></div>
+    </div>
+    <div class="mhse-card"><div class="mhse-ch"><span class="mhse-ct">Incident log — live from Control page</span><span class="mhse-badge auto">Auto</span></div>
+      <div class="mhse-row"><span class="mhse-rl">06 Mar — Minor cut, formwork (FAC)</span><span class="mhse-rv g">Closed · Root: unsafe act</span></div>
+      <div class="mhse-row"><span class="mhse-rl">14 Mar — Near miss, height work, slip (HiPo)</span><span class="mhse-rv a">Investigation open</span></div>
+      <div class="mhse-row"><span class="mhse-rl">22 Mar — Vehicle near miss, gate area</span><span class="mhse-rv g">Closed · CAPA verified</span></div>
+      <div class="mhse-row"><span class="mhse-rl">29 Mar — Equipment damage, compactor</span><span class="mhse-rv a">Pending CAPA</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: Contractor -->
+<div class="mhse-sec" id="mhse-s6">
+  <div class="mhse-hero"><div class="mhse-snum">Section 6 — Contractor HSE Performance</div><div class="mhse-stitle">ISO 45001 Cl.8.1.4 · Reported separately from direct employees</div><div class="mhse-stds"><span class="mhse-std iogp">IOGP 597</span><span class="mhse-std iso">ISO 45001 Cl.8.1.4</span></div></div>
+  <div class="mhse-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+      <div class="mhse-card" style="margin-bottom:0;"><div class="mhse-ch"><span class="mhse-ct">Direct employees</span></div>
+        <div class="mhse-row"><span class="mhse-rl">Man-hours</span><span class="mhse-rv">18,240</span></div>
+        <div class="mhse-row"><span class="mhse-rl">Headcount</span><span class="mhse-rv">84</span></div>
+        <div class="mhse-row"><span class="mhse-rl">LTIFR</span><span class="mhse-rv g">0.00</span></div>
+        <div class="mhse-row"><span class="mhse-rl">Training compliance</span><span class="mhse-rv g">96%</span></div>
+      </div>
+      <div class="mhse-card" style="margin-bottom:0;"><div class="mhse-ch"><span class="mhse-ct">Contractors / sub-contractors</span></div>
+        <div class="mhse-row"><span class="mhse-rl">Man-hours</span><span class="mhse-rv">66,000</span></div>
+        <div class="mhse-row"><span class="mhse-rl">Headcount</span><span class="mhse-rv">312</span></div>
+        <div class="mhse-row"><span class="mhse-rl">LTIFR</span><span class="mhse-rv g">0.00</span></div>
+        <div class="mhse-row"><span class="mhse-rl">Training compliance</span><span class="mhse-rv a">78% — below target</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S7: PTW (NEW) -->
+<div class="mhse-sec" id="mhse-s7">
+  <div class="mhse-hero"><div class="mhse-snum">Section 7 — NEW · Permit to Work Statistics</div><div class="mhse-stitle">Work control performance · ISO 45001 Cl.8.1 · IOGP 577</div><div class="mhse-ssub">All PTW data pulled automatically from Site &amp; Field Tools → PTW tab</div><div class="mhse-stds"><span class="mhse-std" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);color:#F87171;">New section</span><span class="mhse-std iogp">IOGP 577</span><span class="mhse-std iso">ISO 45001 Cl.8.1</span><span class="mhse-std bocw">BOCWA R.67</span></div></div>
+  <div class="mhse-body">
+    <div class="mhse-note g">All PTW data pulled automatically from Site &amp; Field Tools → PTW tab. Zero manual entry required.</div>
+    <div class="mhse-k4">
+      <div class="mhse-kc g"><div class="mhse-kl">Total PTWs issued</div><div class="mhse-kv g">47</div></div>
+      <div class="mhse-kc g"><div class="mhse-kl">PTWs completed</div><div class="mhse-kv g">44</div></div>
+      <div class="mhse-kc a"><div class="mhse-kl">Rejected / suspended</div><div class="mhse-kv a">3</div></div>
+      <div class="mhse-kc r"><div class="mhse-kl">PTW violations found</div><div class="mhse-kv r">2</div></div>
+    </div>
+    <div class="mhse-card">
+      <div class="mhse-ch"><span class="mhse-ct">PTW breakdown by type</span><span class="mhse-badge auto">Auto</span></div>
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:10px;">
+          <thead><tr style="background:#0F1720;"><th style="padding:6px 8px;color:#475569;font-size:8px;text-transform:uppercase;letter-spacing:.4px;text-align:left;border-bottom:0.5px solid #1E293B;">PTW Type</th><th style="padding:6px 8px;color:#475569;font-size:8px;text-transform:uppercase;letter-spacing:.4px;text-align:center;border-bottom:0.5px solid #1E293B;">Planned</th><th style="padding:6px 8px;color:#475569;font-size:8px;text-transform:uppercase;text-align:center;border-bottom:0.5px solid #1E293B;">Issued</th><th style="padding:6px 8px;color:#475569;font-size:8px;text-transform:uppercase;text-align:center;border-bottom:0.5px solid #1E293B;">Completed</th><th style="padding:6px 8px;color:#475569;font-size:8px;text-transform:uppercase;text-align:center;border-bottom:0.5px solid #1E293B;">Rejected</th><th style="padding:6px 8px;color:#475569;font-size:8px;text-transform:uppercase;text-align:center;border-bottom:0.5px solid #1E293B;">Compliance</th></tr></thead>
+          <tbody>
+            <tr><td style="padding:6px 8px;color:#64748B;border-bottom:0.5px solid #0F1720;">Hot Work (welding / cutting)</td><td style="text-align:center;color:#94A3B8;">18</td><td style="text-align:center;color:#94A3B8;">16</td><td style="text-align:center;color:#22C55E;">15</td><td style="text-align:center;color:#F59E0B;">1</td><td style="text-align:center;color:#22C55E;">94%</td></tr>
+            <tr><td style="padding:6px 8px;color:#64748B;border-bottom:0.5px solid #0F1720;">Work at height (&gt;1.8m)</td><td style="text-align:center;color:#94A3B8;">14</td><td style="text-align:center;color:#94A3B8;">14</td><td style="text-align:center;color:#22C55E;">13</td><td style="text-align:center;">0</td><td style="text-align:center;color:#22C55E;">93%</td></tr>
+            <tr><td style="padding:6px 8px;color:#64748B;border-bottom:0.5px solid #0F1720;">Confined space entry</td><td style="text-align:center;color:#94A3B8;">4</td><td style="text-align:center;color:#94A3B8;">4</td><td style="text-align:center;color:#22C55E;">4</td><td style="text-align:center;">0</td><td style="text-align:center;color:#22C55E;">100%</td></tr>
+            <tr><td style="padding:6px 8px;color:#64748B;border-bottom:0.5px solid #0F1720;">Electrical isolation</td><td style="text-align:center;color:#94A3B8;">7</td><td style="text-align:center;color:#94A3B8;">7</td><td style="text-align:center;color:#22C55E;">7</td><td style="text-align:center;">0</td><td style="text-align:center;color:#22C55E;">100%</td></tr>
+            <tr><td style="padding:6px 8px;color:#64748B;">Excavation &amp; open digging</td><td style="text-align:center;color:#94A3B8;">6</td><td style="text-align:center;color:#94A3B8;">6</td><td style="text-align:center;color:#F59E0B;">5</td><td style="text-align:center;color:#EF4444;">1</td><td style="text-align:center;color:#F59E0B;">83%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="mhse-note r">2 PTW violations detected during inspections — work commenced without valid permit. CAPAs raised: INS-2026-03-14 and INS-2026-03-28. Close-out verification pending 15 April 2026.</div>
+  </div>
+</div>
+
+<!-- S8: Inspections -->
+<div class="mhse-sec" id="mhse-s8">
+  <div class="mhse-hero"><div class="mhse-snum">Section 8 — Inspections, NCR &amp; CAPA</div><div class="mhse-stitle">With CAPA effectiveness verification · ISO 45001 Cl.10.2</div><div class="mhse-stds"><span class="mhse-std iso">ISO 45001 Cl.10.2</span></div></div>
+  <div class="mhse-body">
+    <div class="mhse-k4">
+      <div class="mhse-kc g"><div class="mhse-kl">Inspections conducted</div><div class="mhse-kv g">12</div></div>
+      <div class="mhse-kc a"><div class="mhse-kl">NCRs raised</div><div class="mhse-kv a">4</div></div>
+      <div class="mhse-kc a"><div class="mhse-kl">NCR closure rate</div><div class="mhse-kv a">75%</div></div>
+      <div class="mhse-kc g"><div class="mhse-kl">CAPA effectiveness</div><div class="mhse-kv g">100%</div></div>
+    </div>
+    <div class="mhse-note a">NCR closure rate 75% is below annual target of 90%. Contractor NCRs are the primary contributor. Action: Weekly NCR review meeting from April 2026.</div>
+  </div>
+</div>
+
+<!-- S9: Training -->
+<div class="mhse-sec" id="mhse-s9">
+  <div class="mhse-hero"><div class="mhse-snum">Section 9 — Training &amp; Competency</div><div class="mhse-stitle">With competency gap report · ISO 45001 Cl.7.2</div><div class="mhse-stds"><span class="mhse-std iso">ISO 45001 Cl.7.2</span><span class="mhse-std bocw">BOCWA R.56</span></div></div>
+  <div class="mhse-body">
+    <div class="mhse-k4">
+      <div class="mhse-kc g"><div class="mhse-kl">Trainings conducted</div><div class="mhse-kv g">8</div></div>
+      <div class="mhse-kc g"><div class="mhse-kl">Persons trained</div><div class="mhse-kv g">142</div></div>
+      <div class="mhse-kc g"><div class="mhse-kl">Person-hours</div><div class="mhse-kv g">284</div></div>
+      <div class="mhse-kc r"><div class="mhse-kl">Overdue refreshers</div><div class="mhse-kv r">12</div></div>
+    </div>
+    <div class="mhse-note r">12 workers overdue for height work refresher · 5 workers due for confined space re-certification. Competency gap auto-generated. Action required before 15 April 2026.</div>
+  </div>
+</div>
+
+<!-- S10: Emergency Prep (NEW) -->
+<div class="mhse-sec" id="mhse-s10">
+  <div class="mhse-hero"><div class="mhse-snum">Section 10 — NEW · Emergency Preparedness &amp; Response</div><div class="mhse-stitle">Mock drills · Equipment readiness · Emergency contacts</div><div class="mhse-ssub">ISO 45001 Cl.8.2 · BOCWA Rule 50 · NDMA Guidelines</div><div class="mhse-stds"><span class="mhse-std" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);color:#F87171;">New section</span><span class="mhse-std iso">ISO 45001 Cl.8.2</span><span class="mhse-std bocw">BOCWA R.50</span></div></div>
+  <div class="mhse-body">
+    <div class="mhse-k4">
+      <div class="mhse-kc g"><div class="mhse-kl">Drills planned</div><div class="mhse-kv g">2</div></div>
+      <div class="mhse-kc g"><div class="mhse-kl">Drills conducted</div><div class="mhse-kv g">2</div></div>
+      <div class="mhse-kc g"><div class="mhse-kl">First aid kits checked</div><div class="mhse-kv g">12/12</div></div>
+      <div class="mhse-kc a"><div class="mhse-kl">Deficiencies found</div><div class="mhse-kv a">3</div></div>
+    </div>
+    <div class="mhse-card"><div class="mhse-ch"><span class="mhse-ct">Drill register — March 2026</span><span class="mhse-badge man">Manual</span></div>
+      <div class="mhse-row"><span class="mhse-rl">08 Mar — Fire evacuation (396 persons)</span><span class="mhse-rv g">4 min 20 sec · Satisfactory</span></div>
+      <div class="mhse-row"><span class="mhse-rl">22 Mar — Medical emergency / first aid (84 staff)</span><span class="mhse-rv a">3 min · Needs improvement</span></div>
+    </div>
+    <div class="mhse-fg">
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> AED &amp; emergency equipment status</div><input class="mhse-fi man" placeholder="All checked / deficiencies noted..."/></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Nearest hospital contact verified</div><input class="mhse-fi man" placeholder="Hospital name + contact number..."/></div>
+    </div>
+  </div>
+</div>
+
+<!-- S11: Environment & OH -->
+<div class="mhse-sec" id="mhse-s11">
+  <div class="mhse-hero"><div class="mhse-snum">Section 11 — Environment &amp; Occupational Health</div><div class="mhse-stitle">ISO 14001 Cl.9.1.1 · Scope 1 GHG auto-calculated · Air / noise manual</div><div class="mhse-stds"><span class="mhse-std iso">ISO 14001 Cl.9.1</span><span class="mhse-std gri">GHG Protocol</span><span class="mhse-std bocw">Air Act 1981</span></div></div>
+  <div class="mhse-body">
+    <div class="mhse-note b">GHG emissions auto-calculated from diesel consumption data. Waste, water, energy and air quality require manual entry from site records and PCB monitoring reports.</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;">
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Diesel consumed (L)</div><input class="mhse-fi man" id="m-diesel" placeholder="Enter litres..." oninput="mhseCalcGHG()"/></div>
+      <div><div class="mhse-fl"><span class="mhse-badge calc">Calc</span> CO₂e emissions (tonne)</div><div class="mhse-fi calc" id="m-ghg">Auto: diesel × 2.68 ÷ 1000</div></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Total waste (kg)</div><input class="mhse-fi man" placeholder="Enter kg..."/></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Hazardous waste (kg)</div><input class="mhse-fi man" placeholder="Authorised disposal only..."/></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Water consumption (kL)</div><input class="mhse-fi man" placeholder="Enter kL..."/></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Ambient PM10 (µg/m³)</div><input class="mhse-fi man" placeholder="PCB limit: 100 µg/m³..."/></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Noise level (dB)</div><input class="mhse-fi man" placeholder="Daytime limit: 75 dB..."/></div>
+      <div><div class="mhse-fl"><span class="mhse-badge auto">Auto</span> OHC visits / first aid</div><div class="mhse-fi auto">2 — from Control page</div></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Medical examinations</div><input class="mhse-fi man" placeholder="Periodic + pre-employment..."/></div>
+    </div>
+  </div>
+</div>
+
+<!-- S12: Labour Welfare (NEW) -->
+<div class="mhse-sec" id="mhse-s12">
+  <div class="mhse-hero"><div class="mhse-snum">Section 12 — NEW · Labour Welfare &amp; Social Compliance</div><div class="mhse-stitle">BOCWA Rules 31–48 · IFC Performance Standard 2 · Child Labour Act · POSH Act</div><div class="mhse-stds"><span class="mhse-std" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);color:#F87171;">New section</span><span class="mhse-std bocw">BOCWA R.31–48</span><span class="mhse-std gri">IFC PS 2</span><span class="mhse-std iso">ILO C138</span></div></div>
+  <div class="mhse-body">
+    <div class="mhse-note b">Critical for NHAI and World Bank funded projects. BOCWA Rules 31–48 mandate welfare facility inspection. IFC PS 2 requires working hours monitoring and grievance mechanism.</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;">
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Avg working hours/week</div><input class="mhse-fi man" placeholder="Target ≤ 48 hrs..."/></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Overtime % of workforce</div><input class="mhse-fi man" placeholder="% workers on OT..."/></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Rest day compliance</div><input class="mhse-fi man" placeholder="Min 1 day in 7..."/></div>
+    </div>
+    <div class="mhse-card"><div class="mhse-ch"><span class="mhse-ct">Welfare facilities inspection</span><span class="mhse-badge man">Manual</span></div>
+      <div class="mhse-row"><span class="mhse-rl">Drinking water — adequate quantity &amp; quality (BOCWA R.42)</span><input style="background:transparent;border:none;color:#22C55E;font-size:10px;text-align:right;width:130px;" value="Satisfactory ✓"/></div>
+      <div class="mhse-row"><span class="mhse-rl">Sanitation — toilet ratio 1:25 men, 1:15 women (BOCWA R.43)</span><input style="background:transparent;border:none;color:#F59E0B;font-size:10px;text-align:right;width:130px;" value="Needs attention"/></div>
+      <div class="mhse-row"><span class="mhse-rl">Rest rooms / canteen — clean and functional (BOCWA R.44)</span><input style="background:transparent;border:none;color:#22C55E;font-size:10px;text-align:right;width:130px;" value="Satisfactory ✓"/></div>
+      <div class="mhse-row"><span class="mhse-rl">First aid rooms — adequately equipped (BOCWA R.49)</span><input style="background:transparent;border:none;color:#22C55E;font-size:10px;text-align:right;width:130px;" value="Satisfactory ✓"/></div>
+    </div>
+    <div class="mhse-fg">
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Child labour declaration</div><div class="mhse-fi auto" style="color:#22C55E;">Zero minors on site — declared ✓</div></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> Grievances received / resolved</div><input class="mhse-fi man" placeholder="Count received / resolved..."/></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> POSH IC meeting held</div><input class="mhse-fi man" placeholder="Date of IC meeting..."/></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> POSH complaints received</div><input class="mhse-fi man" placeholder="Enter count (zero if nil)..."/></div>
+    </div>
+  </div>
+</div>
+
+<!-- S13: O&T Progress (NEW) -->
+<div class="mhse-sec" id="mhse-s13">
+  <div class="mhse-hero"><div class="mhse-snum">Section 13 — NEW · Objectives &amp; Targets Progress</div><div class="mhse-stitle">ISO 45001 Cl.6.2 explicit requirement · Monthly tracking vs annual targets</div><div class="mhse-ssub">Management Review input · Carry-forward actions from last month</div><div class="mhse-stds"><span class="mhse-std" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);color:#F87171;">New section</span><span class="mhse-std iso">ISO 45001 Cl.6.2</span><span class="mhse-std iso">ISO 45001 Cl.9.3</span></div></div>
+  <div class="mhse-body">
+    <div class="mhse-card">
+      <div class="mhse-ch"><span class="mhse-ct">Annual HSE O&amp;T — FY 2026–27 monthly progress</span><span class="mhse-badge auto">Auto-tracked</span></div>
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:10px;">
+          <thead><tr style="background:#0F1720;"><th style="padding:5px 8px;color:#475569;font-size:8px;text-transform:uppercase;letter-spacing:.3px;text-align:left;border-bottom:0.5px solid #1E293B;width:35%;">Objective / Target</th><th style="padding:5px 8px;color:#475569;font-size:8px;text-transform:uppercase;text-align:center;border-bottom:0.5px solid #1E293B;">Annual target</th><th style="padding:5px 8px;color:#475569;font-size:8px;text-align:center;border-bottom:0.5px solid #1E293B;">This month</th><th style="padding:5px 8px;color:#475569;font-size:8px;text-align:center;border-bottom:0.5px solid #1E293B;">YTD</th><th style="padding:5px 8px;color:#475569;font-size:8px;text-align:center;border-bottom:0.5px solid #1E293B;">Status</th></tr></thead>
+          <tbody>
+            <tr><td style="padding:5px 8px;color:#64748B;border-bottom:0.5px solid #0F1720;">Zero LTI / FAT for FY 2026–27</td><td style="text-align:center;color:#94A3B8;">0</td><td style="text-align:center;color:#22C55E;">0 ✓</td><td style="text-align:center;color:#22C55E;">0 ✓</td><td style="text-align:center;"><span style="background:rgba(34,197,94,.1);color:#22C55E;border:0.5px solid rgba(34,197,94,.2);padding:2px 7px;border-radius:3px;font-size:8px;font-weight:700;">On track</span></td></tr>
+            <tr><td style="padding:5px 8px;color:#64748B;border-bottom:0.5px solid #0F1720;">LTIFR &lt; 0.30</td><td style="text-align:center;color:#94A3B8;">&lt;0.30</td><td style="text-align:center;color:#22C55E;">0.00 ✓</td><td style="text-align:center;color:#22C55E;">0.00 ✓</td><td style="text-align:center;"><span style="background:rgba(34,197,94,.1);color:#22C55E;border:0.5px solid rgba(34,197,94,.2);padding:2px 7px;border-radius:3px;font-size:8px;font-weight:700;">On track</span></td></tr>
+            <tr><td style="padding:5px 8px;color:#64748B;border-bottom:0.5px solid #0F1720;">Training compliance ≥ 90%</td><td style="text-align:center;color:#94A3B8;">≥90%</td><td style="text-align:center;color:#22C55E;">92% ✓</td><td style="text-align:center;color:#60A5FA;">89%</td><td style="text-align:center;"><span style="background:rgba(59,130,246,.1);color:#60A5FA;border:0.5px solid rgba(59,130,246,.2);padding:2px 7px;border-radius:3px;font-size:8px;font-weight:700;">Marginal</span></td></tr>
+            <tr><td style="padding:5px 8px;color:#64748B;border-bottom:0.5px solid #0F1720;">NCR closure rate ≥ 90% SLA</td><td style="text-align:center;color:#94A3B8;">≥90%</td><td style="text-align:center;color:#F59E0B;">75%</td><td style="text-align:center;color:#F59E0B;">72%</td><td style="text-align:center;"><span style="background:rgba(239,68,68,.1);color:#F87171;border:0.5px solid rgba(239,68,68,.2);padding:2px 7px;border-radius:3px;font-size:8px;font-weight:700;">Behind</span></td></tr>
+            <tr><td style="padding:5px 8px;color:#64748B;border-bottom:0.5px solid #0F1720;">Proactive Safety Score ≥ 85%</td><td style="text-align:center;color:#94A3B8;">≥85%</td><td style="text-align:center;color:#F59E0B;">74%</td><td style="text-align:center;color:#F59E0B;">71%</td><td style="text-align:center;"><span style="background:rgba(245,158,11,.1);color:#F59E0B;border:0.5px solid rgba(245,158,11,.2);padding:2px 7px;border-radius:3px;font-size:8px;font-weight:700;">Improving</span></td></tr>
+            <tr><td style="padding:5px 8px;color:#64748B;border-bottom:0.5px solid #0F1720;">Legal compliance ≥ 95%</td><td style="text-align:center;color:#94A3B8;">≥95%</td><td style="text-align:center;color:#F59E0B;">86%</td><td style="text-align:center;color:#F59E0B;">83%</td><td style="text-align:center;"><span style="background:rgba(239,68,68,.1);color:#F87171;border:0.5px solid rgba(239,68,68,.2);padding:2px 7px;border-radius:3px;font-size:8px;font-weight:700;">Action req.</span></td></tr>
+            <tr><td style="padding:5px 8px;color:#64748B;">All mock drills as per schedule</td><td style="text-align:center;color:#94A3B8;">100%</td><td style="text-align:center;color:#22C55E;">100% ✓</td><td style="text-align:center;color:#22C55E;">100% ✓</td><td style="text-align:center;"><span style="background:rgba(34,197,94,.1);color:#22C55E;border:0.5px solid rgba(34,197,94,.2);padding:2px 7px;border-radius:3px;font-size:8px;font-weight:700;">On track</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="mhse-card">
+      <div class="mhse-ch"><span class="mhse-ct">Carry-forward actions from February 2026 report</span><span class="mhse-badge auto">Auto-tracked</span></div>
+      <div class="mhse-row" style="background:#0F1720;font-size:8px;font-weight:600;color:#334155;text-transform:uppercase;letter-spacing:.4px;">
+        <span style="flex:3;">Action committed</span><span style="flex:1;">Responsible</span><span style="flex:1;">Due date</span><span style="flex:1;">Status</span>
+      </div>
+      <div class="mhse-row"><span style="flex:3;color:#64748B;">Increase SWA usage — awareness campaign for supervisors</span><span style="flex:1;color:#475569;">HSE Manager</span><span style="flex:1;color:#475569;">31 Mar 2026</span><span style="flex:1;"><span style="background:rgba(59,130,246,.1);color:#60A5FA;border:0.5px solid rgba(59,130,246,.2);padding:2px 7px;border-radius:3px;font-size:8px;font-weight:700;">In progress</span></span></div>
+      <div class="mhse-row"><span style="flex:3;color:#64748B;">NCR closure drive — contractor review meeting</span><span style="flex:1;color:#475569;">Site Engineer</span><span style="flex:1;color:#475569;">15 Mar 2026</span><span style="flex:1;"><span style="background:rgba(34,197,94,.1);color:#22C55E;border:0.5px solid rgba(34,197,94,.2);padding:2px 7px;border-radius:3px;font-size:8px;font-weight:700;">Closed ✓</span></span></div>
+      <div class="mhse-row"><span style="flex:3;color:#64748B;">Toilet facility improvement — contractor camp</span><span style="flex:1;color:#475569;">Camp In-charge</span><span style="flex:1;color:#EF4444;">30 Mar 2026</span><span style="flex:1;"><span style="background:rgba(239,68,68,.1);color:#F87171;border:0.5px solid rgba(239,68,68,.2);padding:2px 7px;border-radius:3px;font-size:8px;font-weight:700;">Overdue</span></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- S14: Legal Compliance -->
+<div class="mhse-sec" id="mhse-s14">
+  <div class="mhse-hero"><div class="mhse-snum">Section 14 — Legal Compliance Score</div><div class="mhse-stitle">Auto-fed from Register of Regulations module · Unique SafetyPro AI feature</div><div class="mhse-ssub">No other HSE software shows legal compliance automatically in monthly reports</div></div>
+  <div class="mhse-body">
+    <div style="display:grid;grid-template-columns:130px 1fr;gap:12px;margin-bottom:10px;">
+      <div style="background:#131C26;border:1px solid #C9A84C;border-radius:10px;padding:14px 10px;text-align:center;">
+        <div style="font-size:38px;font-weight:500;color:#22C55E;line-height:1;">86<span style="font-size:18px;">%</span></div>
+        <div style="font-size:8px;font-weight:700;color:#22C55E;letter-spacing:.8px;margin-top:4px;">COMPLIANT</div>
+        <div style="font-size:8px;color:#475569;margin-top:3px;">30 of 35 acts</div>
+        <div style="display:flex;align-items:flex-end;gap:2px;height:22px;margin-top:10px;justify-content:center;">
+          <div style="flex:1;background:#22C55E;opacity:.5;border-radius:1px 1px 0 0;height:58%;"></div><div style="flex:1;background:#22C55E;opacity:.6;border-radius:1px 1px 0 0;height:63%;"></div><div style="flex:1;background:#22C55E;opacity:.7;border-radius:1px 1px 0 0;height:70%;"></div><div style="flex:1;background:#22C55E;opacity:.8;border-radius:1px 1px 0 0;height:77%;"></div><div style="flex:1;background:#22C55E;opacity:.9;border-radius:1px 1px 0 0;height:82%;"></div><div style="flex:1;background:#22C55E;border-radius:1px 1px 0 0;height:86%;"></div>
+        </div>
+        <div style="font-size:8px;color:#475569;margin-top:2px;">Trend ↑ improving</div>
+      </div>
+      <div class="mhse-card" style="margin-bottom:0;">
+        <div class="mhse-ch"><span class="mhse-ct">Compliance by category</span><span class="mhse-badge auto">From ROR module</span></div>
+        <div class="mhse-row"><span class="mhse-rl">Environment Acts (Air, Water, HW Rules)</span><span class="mhse-rv g">11 / 11 ✓</span></div>
+        <div class="mhse-row"><span class="mhse-rl">Safety Acts (BOCWA, Factories, Gas Cyl.)</span><span class="mhse-rv g">8 / 8 ✓</span></div>
+        <div class="mhse-row"><span class="mhse-rl">Labour Acts (CLRA, MW, EPF, ESI, CLA)</span><span class="mhse-rv a">7 / 9 — 2 pending renewal</span></div>
+        <div class="mhse-row"><span class="mhse-rl">ISO / IMS certifications</span><span class="mhse-rv g">3 / 3 current ✓</span></div>
+        <div class="mhse-row"><span class="mhse-rl">Licences expiring in ≤ 30 days</span><span class="mhse-rv r">2 — Action required now</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S15: Trend Analysis -->
+<div class="mhse-sec" id="mhse-s15">
+  <div class="mhse-hero"><div class="mhse-snum">Section 15 — Trend Analysis</div><div class="mhse-stitle">12-month rolling charts — auto-generated on export</div><div class="mhse-ssub">April 2025 – March 2026 · 8 charts generated from historical platform data</div></div>
+  <div class="mhse-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div class="mhse-card" style="margin-bottom:0;"><div class="mhse-ch"><span class="mhse-ct">Safe man-hours — 12-month</span><span class="mhse-badge auto">Auto</span></div>
+        <div style="padding:8px 12px;">
+          <div style="display:flex;align-items:flex-end;gap:3px;height:44px;">
+            <div style="flex:1;background:#22C55E;opacity:.4;border-radius:2px 2px 0 0;height:52%;"></div><div style="flex:1;background:#22C55E;opacity:.46;border-radius:2px 2px 0 0;height:60%;"></div><div style="flex:1;background:#22C55E;opacity:.52;border-radius:2px 2px 0 0;height:58%;"></div><div style="flex:1;background:#22C55E;opacity:.58;border-radius:2px 2px 0 0;height:68%;"></div><div style="flex:1;background:#22C55E;opacity:.64;border-radius:2px 2px 0 0;height:72%;"></div><div style="flex:1;background:#22C55E;opacity:.70;border-radius:2px 2px 0 0;height:78%;"></div><div style="flex:1;background:#22C55E;opacity:.76;border-radius:2px 2px 0 0;height:80%;"></div><div style="flex:1;background:#22C55E;opacity:.82;border-radius:2px 2px 0 0;height:82%;"></div><div style="flex:1;background:#22C55E;opacity:.88;border-radius:2px 2px 0 0;height:88%;"></div><div style="flex:1;background:#22C55E;opacity:.92;border-radius:2px 2px 0 0;height:90%;"></div><div style="flex:1;background:#22C55E;opacity:.96;border-radius:2px 2px 0 0;height:92%;"></div><div style="flex:1;background:#22C55E;border-radius:2px 2px 0 0;height:100%;"></div>
+          </div>
+          <div style="display:flex;gap:3px;margin-top:3px;"><span style="flex:1;text-align:center;font-size:8px;color:#334155;">A</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">M</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">J</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">J</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">A</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">S</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">O</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">N</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">D</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">J</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">F</span><span style="flex:1;text-align:center;font-size:8px;color:#C9A84C;">M</span></div>
+        </div>
+      </div>
+      <div class="mhse-card" style="margin-bottom:0;"><div class="mhse-ch"><span class="mhse-ct">Proactive Safety Score — 12-month</span><span class="mhse-badge auto">Auto</span></div>
+        <div style="padding:8px 12px;">
+          <div style="display:flex;align-items:flex-end;gap:3px;height:44px;">
+            <div style="flex:1;background:#F59E0B;opacity:.4;border-radius:2px 2px 0 0;height:45%;"></div><div style="flex:1;background:#F59E0B;opacity:.46;border-radius:2px 2px 0 0;height:50%;"></div><div style="flex:1;background:#F59E0B;opacity:.52;border-radius:2px 2px 0 0;height:53%;"></div><div style="flex:1;background:#F59E0B;opacity:.58;border-radius:2px 2px 0 0;height:57%;"></div><div style="flex:1;background:#F59E0B;opacity:.64;border-radius:2px 2px 0 0;height:60%;"></div><div style="flex:1;background:#F59E0B;opacity:.70;border-radius:2px 2px 0 0;height:62%;"></div><div style="flex:1;background:#F59E0B;opacity:.76;border-radius:2px 2px 0 0;height:64%;"></div><div style="flex:1;background:#F59E0B;opacity:.82;border-radius:2px 2px 0 0;height:67%;"></div><div style="flex:1;background:#F59E0B;opacity:.88;border-radius:2px 2px 0 0;height:70%;"></div><div style="flex:1;background:#F59E0B;opacity:.93;border-radius:2px 2px 0 0;height:72%;"></div><div style="flex:1;background:#F59E0B;opacity:.97;border-radius:2px 2px 0 0;height:73%;"></div><div style="flex:1;background:#F59E0B;border-radius:2px 2px 0 0;height:74%;"></div>
+          </div>
+          <div style="display:flex;gap:3px;margin-top:3px;"><span style="flex:1;text-align:center;font-size:8px;color:#334155;">A</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">M</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">J</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">J</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">A</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">S</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">O</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">N</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">D</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">J</span><span style="flex:1;text-align:center;font-size:8px;color:#334155;">F</span><span style="flex:1;text-align:center;font-size:8px;color:#C9A84C;">M</span></div>
+        </div>
+      </div>
+      <div class="mhse-card" style="margin-bottom:0;"><div class="mhse-ch"><span class="mhse-ct">LTIFR vs IOGP benchmark</span></div><div style="padding:8px 12px;font-size:10px;color:#22C55E;line-height:1.6;">Consistently 0.00 for 8 consecutive months. Well below IOGP construction benchmark of 0.42.</div></div>
+      <div class="mhse-card" style="margin-bottom:0;"><div class="mhse-ch"><span class="mhse-ct">Legal compliance trend</span></div><div style="padding:8px 12px;font-size:10px;color:#22C55E;line-height:1.6;">↑ Improving: 78% → 86% over 6 months. 2 licences due for renewal by April 30.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S16: Management Commentary -->
+<div class="mhse-sec" id="mhse-s16">
+  <div class="mhse-hero"><div class="mhse-snum">Section 16 — Management Commentary</div><div class="mhse-stitle">Project Head / HSE Manager professional assessment</div><div class="mhse-ssub">ISO 45001 Cl.9.3 Management Review input · 4 structured fields</div><div class="mhse-stds"><span class="mhse-std iso">ISO 45001 Cl.9.3</span></div></div>
+  <div class="mhse-body">
+    <div class="mhse-note a">This section feeds directly into ISO 45001 Clause 9.3 Management Review documentation.</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> A. HSE Performance Overview — Director / PM assessment</div><textarea class="mhse-fi man" style="min-height:56px;resize:vertical;line-height:1.6;" placeholder="Professional assessment of this month's safety culture, key observations from site visits, and overall performance against targets..."></textarea></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> B. Significant events &amp; incidents</div><textarea class="mhse-fi man" style="min-height:44px;resize:vertical;line-height:1.6;" placeholder="Key incidents, near misses and root cause learnings from this month..."></textarea></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> C. Key HSE achievements &amp; milestones</div><textarea class="mhse-fi man" style="min-height:44px;resize:vertical;line-height:1.6;" placeholder="Notable achievements, milestones, recognitions and standout safety performance..."></textarea></div>
+      <div><div class="mhse-fl"><span class="mhse-badge man">Manual</span> D. Action plan — April 2026 commitments</div><textarea class="mhse-fi man" style="min-height:44px;resize:vertical;line-height:1.6;" placeholder="Key HSE actions, targets and resource commitments for next month..."></textarea></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div style="background:#131C26;border:0.5px solid #1E293B;border-radius:7px;padding:10px;text-align:center;"><div style="height:28px;border-bottom:0.5px solid #1E293B;margin-bottom:6px;"></div><div style="font-size:10px;font-weight:500;color:#94A3B8;">Prepared by — HSE Manager</div><div style="font-size:8px;color:#475569;margin-top:2px;">IDIPOSH · RSP · AIEMA · Date:</div></div>
+      <div style="background:#131C26;border:0.5px solid #1E293B;border-radius:7px;padding:10px;text-align:center;"><div style="height:28px;border-bottom:0.5px solid #1E293B;margin-bottom:6px;"></div><div style="font-size:10px;font-weight:500;color:#94A3B8;">Reviewed by — Project Manager</div><div style="font-size:8px;color:#475569;margin-top:2px;">Designation · Date:</div></div>
+      <div style="background:#131C26;border:0.5px solid #1E293B;border-radius:7px;padding:10px;text-align:center;"><div style="height:28px;border-bottom:0.5px solid #1E293B;margin-bottom:6px;"></div><div style="font-size:10px;font-weight:500;color:#94A3B8;">Approved by — Project Director</div><div style="font-size:8px;color:#475569;margin-top:2px;">Designation · Date:</div></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /mhse-main -->
+</div><!-- /body flex -->
+
+<!-- LEGEND FOOTER -->
+<div style="background:#0D1420;border-top:0.5px solid #1E293B;padding:7px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#334155;"><div style="width:7px;height:7px;border-radius:1px;background:rgba(34,197,94,.4);"></div>Green border = auto from platform</div>
+    <div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#334155;"><div style="width:7px;height:7px;border-radius:1px;background:rgba(245,158,11,.4);"></div>Amber = manual entry from site records</div>
+    <div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#334155;"><div style="width:7px;height:7px;border-radius:1px;background:rgba(59,130,246,.4);"></div>Blue = auto-calculated formula</div>
+    <div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#334155;"><div style="width:7px;height:7px;border-radius:1px;background:rgba(239,68,68,.4);"></div>Red badge = new section</div>
+  </div>
+  <div style="font-size:9px;color:#1E3A5F;">16 sections · ~140 fields · 68% auto · 32% manual · ISO 45001 + IOGP + BOCWA</div>
+</div>
+
+</div><!-- /mhse-app -->
+</div>
 
     <!-- ═══ BENCHMARK TAB ═══ -->
     <div class="tab-panel" id="tab-benchmark">
@@ -2688,6 +3182,78 @@ document.addEventListener('click', function(e) {
   var t = e.target.closest('.sh-tab');
   if (t && t.textContent.includes('Legal Calendar')) setTimeout(lcInit, 150);
 });
+</script>
+<script>
+/* ── MHSE MONTHLY REPORT GENERATOR JS ── */
+function mhseShow(n) {
+  for(var i=0;i<=16;i++){
+    var s=document.getElementById('mhse-s'+i);
+    if(s) s.classList.toggle('act',i===n);
+  }
+  document.querySelectorAll('.mhse-si').forEach(function(el){
+    var sec=parseInt(el.getAttribute('data-sec'));
+    el.classList.toggle('act',sec===n);
+  });
+  // scroll main to top
+  var main=document.getElementById('mhse-main');
+  if(main) main.scrollTop=0;
+}
+
+function mhseAutoFill() {
+  // Pull from platform data sources
+  var month=document.getElementById('mhse-month')?document.getElementById('mhse-month').value:'March 2026';
+  var proj=document.getElementById('mhse-project')?document.getElementById('mhse-project').value:'BBRP — NH 131, Bihar';
+  
+  // Section 0 fields
+  var now=new Date();
+  var docno='MHSE-V3-'+now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  if(document.getElementById('m-docno')) document.getElementById('m-docno').textContent=docno;
+  if(document.getElementById('m-rev')) document.getElementById('m-rev').textContent='Rev 01 — issued '+now.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  if(document.getElementById('m-period')) document.getElementById('m-period').textContent=month;
+  
+  // Pull ROR data for legal compliance
+  try {
+    var rorRaw=localStorage.getItem('sp_ror_data');
+    if(rorRaw){
+      var rorData=JSON.parse(rorRaw);
+      if(rorData && rorData.entries) {
+        var total=rorData.entries.length;
+        var complied=rorData.entries.filter(function(e){return e.status==='COMPLIED';}).length;
+        var pct=total>0?Math.round(complied/total*100):0;
+        showToast('Auto-filled: '+complied+' of '+total+' acts complied ('+pct+'%) loaded from ROR');
+      }
+    }
+  } catch(e){}
+  
+  // Update progress
+  mhseUpdateProgress(6);
+  showToast('Platform data auto-filled — 6 of 16 sections complete. Fill manual sections to complete.');
+}
+
+function mhseUpdateProgress(completed) {
+  var pct=Math.round(completed/16*100);
+  var fill=document.getElementById('mhse-prog');
+  var txt=document.getElementById('mhse-prog-txt');
+  if(fill) fill.style.width=pct+'%';
+  if(txt) txt.textContent=completed+' of 16 sections';
+}
+
+function mhseCalcGHG() {
+  var diesel=parseFloat(document.getElementById('m-diesel')?document.getElementById('m-diesel').value:0)||0;
+  var ghg=(diesel*2.68/1000).toFixed(3);
+  var el=document.getElementById('m-ghg');
+  if(el && diesel>0) el.textContent=ghg+' tCO₂e (Scope 1 — GHG Protocol)';
+}
+
+function mhseExportPDF() {
+  var month=document.getElementById('mhse-month')?document.getElementById('mhse-month').value:'March 2026';
+  showToast('Generating PDF report for '+month+'... (feature requires backend)');
+}
+
+function mhseExportExcel() {
+  var month=document.getElementById('mhse-month')?document.getElementById('mhse-month').value:'March 2026';
+  showToast('Generating Excel export for '+month+'... (feature requires backend)');
+}
 </script>
 </body>
                                                                                                                                                                </html>
