@@ -995,20 +995,6 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 </style>
 
 <style>
-/* sp-content-gap-fix */
-.sub-header {
-  padding-left: 16px !important;
-  padding-right: 16px !important;
-}
-</style>
-<style>
-/* sidebar-height-fix */
-.body{overflow:hidden;height:calc(100vh - 52px);}
-.sidebar{overflow-y:auto;height:100%;scrollbar-width:none;}
-.sidebar::-webkit-scrollbar{display:none;}
-.content{overflow-y:auto;height:100%;}
-</style>
-<style>
 /* ai-clean-fix */
 .content{display:flex!important;flex-direction:column!important;overflow:hidden!important;}
 .content .sub-header{flex-shrink:0!important;}
@@ -1527,93 +1513,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
-<style>
-/* sidebar-gap-final */
-.body{overflow:hidden!important;height:calc(100vh - 52px)!important;flex-direction:row!important;}
-.sidebar{overflow-y:auto!important;height:100%!important;scrollbar-width:none!important;position:relative!important;flex-shrink:0!important;}
-.sidebar::-webkit-scrollbar{display:none!important;}
-.content{overflow-y:auto!important;height:100%!important;flex:1!important;min-width:0!important;}
-</style>
-<style>
-/* content-padding-fix */
-.content > div:not(.sub-header){padding-left:16px!important;padding-right:16px!important;}
-.content > div:not(.sub-header):first-of-type{padding-top:16px!important;}
-</style>
-<style>
-/* content-scroll-gap-fix */
-.content{display:flex;flex-direction:column;overflow:hidden!important;}
-.content .sub-header{flex-shrink:0;}
-.content > div:not(.sub-header):not(.sp-footer){
-  flex:1;overflow-y:auto!important;
-  padding:16px!important;
-  scrollbar-width:thin!important;
-  scrollbar-color:#1E293B transparent!important;
-}
-.content > div:not(.sub-header):not(.sp-footer)::-webkit-scrollbar{width:6px!important;display:block!important;}
-.content > div:not(.sub-header):not(.sp-footer)::-webkit-scrollbar-track{background:transparent!important;}
-.content > div:not(.sub-header):not(.sp-footer)::-webkit-scrollbar-thumb{background:#1E293B!important;border-radius:3px!important;}
-</style>
-<style>
-/* ai-tab-scroll-fix */
-#ai-tab-patterns, #ai-tab-predict {
-  overflow-y:auto!important;
-  max-height:calc(100vh - 120px)!important;
-  scrollbar-width:thin!important;
-  scrollbar-color:#334155 transparent!important;
-}
-#ai-tab-patterns::-webkit-scrollbar,
-#ai-tab-predict::-webkit-scrollbar{width:6px!important;display:block!important;}
-#ai-tab-patterns::-webkit-scrollbar-thumb,
-#ai-tab-predict::-webkit-scrollbar-thumb{background:#334155!important;border-radius:3px!important;}
-</style>
-<style>
-/* ai-scrollbar-visible-fix */
-#ai-tab-patterns::-webkit-scrollbar,
-#ai-tab-predict::-webkit-scrollbar{width:6px!important;display:block!important;}
-#ai-tab-patterns::-webkit-scrollbar-track,
-#ai-tab-predict::-webkit-scrollbar-track{background:#1E293B!important;}
-#ai-tab-patterns::-webkit-scrollbar-thumb,
-#ai-tab-predict::-webkit-scrollbar-thumb{background:#475569!important;border-radius:3px!important;}
-</style>
-<style>
-/* ai-native-scrollbar */
-#ai-tab-insights, #ai-tab-patterns, #ai-tab-predict {
-  overflow-y:scroll!important;
-  scrollbar-width:auto!important;
-  scrollbar-color:auto!important;
-}
-#ai-tab-insights::-webkit-scrollbar,
-#ai-tab-patterns::-webkit-scrollbar,
-#ai-tab-predict::-webkit-scrollbar { width:8px!important; }
-#ai-tab-insights::-webkit-scrollbar-track,
-#ai-tab-patterns::-webkit-scrollbar-track,
-#ai-tab-predict::-webkit-scrollbar-track { background:#0B0F14!important; }
-#ai-tab-insights::-webkit-scrollbar-thumb,
-#ai-tab-patterns::-webkit-scrollbar-thumb,
-#ai-tab-predict::-webkit-scrollbar-thumb { background:#4B5563!important; border-radius:4px!important; }
-</style>
-<style>
-/* ai-patterns-padding */
-#ai-tab-patterns, #ai-tab-predict, #ai-tab-insights {
-  padding:16px 16px 16px 16px !important;
-  box-sizing:border-box !important;
-}
-</style>
-<style>
-/* ai-always-scrollbar */
-#ai-tab-insights, #ai-tab-patterns, #ai-tab-predict {
-  overflow-y:scroll !important;
-}
-#ai-tab-insights::-webkit-scrollbar,
-#ai-tab-patterns::-webkit-scrollbar,
-#ai-tab-predict::-webkit-scrollbar { width:6px !important; display:block !important; }
-#ai-tab-insights::-webkit-scrollbar-track,
-#ai-tab-patterns::-webkit-scrollbar-track,
-#ai-tab-predict::-webkit-scrollbar-track { background:#1E293B !important; border-radius:3px !important; }
-#ai-tab-insights::-webkit-scrollbar-thumb,
-#ai-tab-patterns::-webkit-scrollbar-thumb,
-#ai-tab-predict::-webkit-scrollbar-thumb { background:#475569 !important; border-radius:3px !important; }
-</style>
 </body>
 </html>
 
