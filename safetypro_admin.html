@@ -545,9 +545,189 @@ svg{flex-shrink:0}
 
   /* SIDEBAR-GAP-FIX */
   .sidebar { top: 0 !important; }
-  </style>
+  
+/* SafetyPro scrollbar v2 */
+.body { overflow: hidden !important; }
+.content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 <script src="/safetypro_exports.js"></script>
+<style>/* sp-height-fix */
+html,body{height:100%!important;overflow:hidden!important;}
+.body{height:calc(100vh - 52px)!important;overflow:hidden!important;}
+</style>
+
+
+<style>
+/* sp-fix-v2 */
+/* Fix app: flex column, exact viewport, no overflow clip */
+.app{display:flex!important;flex-direction:column!important;height:100vh!important;overflow:hidden!important;min-height:0!important;max-height:100vh!important;}
+/* Topnav: fixed height */
+.topnav{flex-shrink:0!important;height:52px!important;}
+/* Body: flex ROW (sidebar + content side by side), fills space between topnav and footer */
+.body{display:flex!important;flex-direction:row!important;flex:1 1 0%!important;min-height:0!important;overflow:hidden!important;margin-top:0!important;max-height:none!important;}
+/* Sidebar: full height, static positioning */
+.sidebar{position:relative!important;flex-shrink:0!important;height:100%!important;overflow-y:auto!important;scrollbar-width:none!important;}
+.sidebar::-webkit-scrollbar{display:none!important;}
+/* Content: scrollable, flex column */
+.content{flex:1 1 0%!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;display:flex!important;flex-direction:column!important;scrollbar-width:thin;scrollbar-color:var(--border,#1E293B) transparent;}
+.content::-webkit-scrollbar{width:4px!important;}
+.content::-webkit-scrollbar-thumb{background:var(--border,#1E293B)!important;border-radius:2px!important;}
+/* Sub-header: no gap */
+.sub-header{top:0!important;position:sticky!important;width:100%!important;box-sizing:border-box!important;}
+/* Footer: always visible at bottom */
+footer.sp-footer,.sp-footer{flex-shrink:0!important;display:flex!important;width:100%!important;}
+/* Header alignment: full width */
+.page-header,.sh-header,.sh-left{width:100%!important;max-width:100%!important;box-sizing:border-box!important;}
+</style>
+
+<style>
+/* sp-admin-fix */
+html{height:100%;overflow:hidden;}
+body{height:100%!important;overflow:hidden!important;}
+/* Footer — always at page bottom, consistent border */
+footer.sp-footer,.sp-footer{
+  flex-shrink:0!important;display:flex!important;
+  border-top:1px solid #334155!important;
+}
+/* Sidebar — flex column so sticky works, scrollable for more items */
+.sidebar{
+  display:flex!important;flex-direction:column!important;
+  overflow-y:auto!important;
+  scrollbar-width:none!important;
+  position:relative!important;
+}
+.sidebar::-webkit-scrollbar{display:none!important;}
+/* FIX 3: Border consistency — match topnav/sidebar/footer lines */
+.topnav{border-bottom:1px solid #334155!important;}
+/* Content scrollable */
+.content{
+  overflow-y:auto!important;overflow-x:hidden!important;
+  scrollbar-width:thin;scrollbar-color:#475569 transparent;
+}
+.content::-webkit-scrollbar{width:6px;}
+.content::-webkit-scrollbar-thumb{background:#475569;border-radius:3px;}
+/* Tab panels scrollable */
+.tab-panel{
+  overflow-y:auto!important;
+  scrollbar-width:thin;scrollbar-color:#475569 transparent;
+}
+.tab-panel::-webkit-scrollbar{width:6px;}
+.tab-panel::-webkit-scrollbar-thumb{background:#475569;border-radius:3px;}
+/* Bell alert panel */
+#alert-panel{z-index:200!important;}
+</style>
+<style>
+/* sp-border-fix */
+.topnav{border-bottom:1px solid #334155!important;}
+.sidebar{border-right:1px solid #334155!important;}
+footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
+</style>
+
+
+<style>
+/* sp-dropdown-fix */
+#alert-dropdown,.alert-dropdown,
+#profile-dropdown,.profile-dd {
+  position: fixed !important;
+  z-index: 99999 !important;
+  width: 300px !important;
+  min-width: 300px !important;
+  max-height: calc(100vh - 68px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  background: #131C26 !important;
+  border: 1px solid #475569 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 0 0 1px rgba(71,85,105,0.4), 0 8px 24px rgba(0,0,0,0.6) !important;
+  scrollbar-width: thin;
+  scrollbar-color: #475569 transparent;
+}
+#alert-dropdown::-webkit-scrollbar,
+#profile-dropdown::-webkit-scrollbar { width: 4px; }
+#alert-dropdown::-webkit-scrollbar-thumb,
+#profile-dropdown::-webkit-scrollbar-thumb { background: #475569; border-radius: 2px; }
+.topnav, nav.topnav { overflow: visible !important; }
+</style>
+
+
+
+<style>
+/* sp-topnav-pattern */
+.topnav {
+  display: grid !important;
+  grid-template-columns: 195px 1fr auto !important;
+  align-items: center !important;
+  padding: 0 !important;
+  height: 52px !important;
+  overflow: visible !important;
+  position: relative !important;
+}
+.topnav .logo, .topnav a.logo {
+  width: 195px !important;
+  min-width: 195px !important;
+  max-width: 195px !important;
+  height: 100% !important;
+  padding: 0 16px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  overflow: hidden !important;
+  border-right: 1px solid #334155 !important;
+}
+.nav-links {
+  padding-left: 12px !important;
+  overflow: visible !important;
+  display: flex !important;
+  align-items: center !important;
+  height: 100% !important;
+  position: relative !important;
+}
+.nav-right {
+  padding-right: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  height: 100% !important;
+}
+.sidebar { width: 195px !important; flex-shrink: 0 !important; }
+.topnav::after { display: none !important; }
+.sb-toggle { display: none !important; }
+@media (max-width: 768px) { .sb-toggle { display: flex !important; } }
+/* More dropdown — ensure it renders above everything */
+.more-menu { z-index: 99998 !important; }
+.more-wrap { position: relative !important; }
+</style>
+
+
+<style>
+/* sp-more-fix-css */
+/* More dropdown: hidden by default, shown when .open on wrapper */
+#more-btn .more-menu,
+.more-wrap .more-menu {
+  display: none !important;
+  position: absolute !important;
+  top: calc(100% + 4px) !important;
+  left: 0 !important;
+  min-width: 200px !important;
+  z-index: 99999 !important;
+  background: #131C26 !important;
+  border: 1px solid #334155 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+  padding: 4px !important;
+}
+#more-btn.open .more-menu,
+.more-wrap.open .more-menu {
+  display: flex !important;
+  flex-direction: column !important;
+}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -563,23 +743,23 @@ svg{flex-shrink:0}
     <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
     <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations</a>
     <a class="nl" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
-    <a class="nl" href="safetypro_reports"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2"/></svg>Reports</a>
+    <a class="nl" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2"/></svg>Reports</a>
     <a class="nl active" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>Admin</a>
     <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
       <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More&#9660;
       <div class="more-menu" id="more-menu">
-        <a class="mm-item" href="safetypro_audit_compliance"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
         <a class="mm-item" href="safetypro_documents"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/></svg>Documents &amp; Records</a>
         <a class="mm-item" href="safetypro_field"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
         <a class="mm-item" href="safetypro_hrm"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>HRM &amp; Payroll</a>
         <a class="mm-item" href="safetypro_ai"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 110 20A10 10 0 0112 2z"/></svg>AI Intelligence</a>
-        <a class="mm-item" href="safetypro_auditor"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
+        <a class="mm-item" href="safetypro_auditor"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Client &amp; Auditor Portal</a>
         <a class="mm-item" href="safetypro_admin" style="color:var(--green);font-weight:700;"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/></svg>Admin &amp; Configuration</a>
       </div>
     </div>
   </div>
   <div class="nav-right">
-    <div class="icon-btn" onclick="toggleAlerts()" id="alert-btn" title="Alerts">
+    <a href="safetypro_superadmin" style="display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);color:#F59E0B;font-size:10px;font-weight:700;text-decoration:none;letter-spacing:0.3px;margin-right:8px;transition:.15s;" onmouseover="this.style.background='rgba(245,158,11,0.2)'" onmouseout="this.style.background='rgba(245,158,11,0.1)'"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:#F59E0B"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>SUPER ADMIN</a><div class="icon-btn" onclick="toggleAlerts()" id="alert-btn" title="Alerts">
       <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
       <div class="red-dot" id="alert-dot"></div>
     </div>
@@ -651,17 +831,25 @@ svg{flex-shrink:0}
       <svg id="sb-more-arr" viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
     <div id="sb-more-items" style="display:none">
-      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_reports">
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_audit_compliance.html">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
         Audit &amp; Compliance
       </a>
-      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field">
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field.html">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         Site &amp; Field Tools
       </a>
       <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
         AI Intelligence
+      </a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_hrm">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        HRM &amp; Payroll
+      </a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_auditor.html">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Client &amp; Auditor Portal
       </a>
       <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_documents">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
@@ -673,6 +861,14 @@ svg{flex-shrink:0}
         Admin &amp; Configuration
       </a>
     </div>
+  
+  <div style="position:sticky;bottom:0;padding:10px 8px 6px;border-top:1px solid #334155;background:var(--sidebar,#0F1720);z-index:10;">
+    <a href="safetypro_superadmin" style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);color:#F59E0B;font-size:11px;font-weight:600;text-decoration:none;transition:.15s;" onmouseover="this.style.background='rgba(245,158,11,0.15)'" onmouseout="this.style.background='rgba(245,158,11,0.08)'">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#F59E0B;flex-shrink:0"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+      Super Admin Panel
+      <svg viewBox="0 0 24 24" style="width:10px;height:10px;fill:#F59E0B;margin-left:auto"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+    </a>
+  </div>
   </div>
 
 <!-- CONTENT -->
@@ -1967,42 +2163,41 @@ function toggleMore(e){
   e.stopPropagation();
   document.getElementById('more-btn').classList.toggle('open');
 }
-document.addEventListener('click',function(){
-  var mb=document.getElementById('more-btn');
-  if(mb) mb.classList.remove('open');
-});
+document.addEventListener('click',function(e){ var mb=document.getElementById('more-btn'); if(mb&&!mb.contains(e.target)) mb.classList.remove('open'); });
 
 
 /* == NAVIGATION == */
 (function(){
   var pages = {
-    'Dashboard':            'safetypro_v2.html',
-    'Operations':           'safetypro_operations.html',
-    'Control':              'safetypro_control.html',
-    'Reports':              'safetypro_reports.html',
-    'Audit & Compliance':   'safetypro_admin.html',
-    'Documents & Records':  'safetypro_admin.html',
-    'Site & Field Tools':   'safetypro_admin.html',
-    'AI Intelligence':      'safetypro_admin.html',
-    'Auditor Verification': 'safetypro_admin.html',
-    'Admin & Configuration':'safetypro_admin.html',
-  };
+    'Dashboard':              'safetypro_v2.html',
+    'Operations':             'safetypro_operations.html',
+    'Control':                'safetypro_control.html',
+    'Reports':                'safetypro_reports.html',
+    'Audit & Compliance':     'safetypro_audit_compliance.html',
+    'Documents & Records':    'safetypro_documents.html',
+    'Site & Field Tools':     'safetypro_field.html',
+    'HRM & Payroll':          'safetypro_hrm.html',
+    'AI Intelligence':        'safetypro_ai.html',
+    'Client & Auditor Portal':'safetypro_auditor.html',
+    'Admin & Configuration':  'safetypro_admin.html',
+    'Admin':                  'safetypro_admin.html',
+  };;;
 
   function navigate(label){
     var dest = pages[label];
     if(dest) window.location.href = dest;
   }
 
-  // Wire sidebar items
+  // Wire sidebar items — use href directly (reliable, no label parsing)
   document.querySelectorAll('.sb-item').forEach(function(el){
-    var label = el.textContent.trim().replace(/\d+/g,'').trim();
-    var dest = pages[label];
-    if(dest){
-      el.style.cursor = 'pointer';
+    var dest = el.getAttribute('href');
+    if(dest && dest !== '#'){
       el.addEventListener('click', function(e){
         e.preventDefault();
         window.location.href = dest;
       });
+    }
+  });
     }
   });
 
@@ -3031,24 +3226,7 @@ document.addEventListener('click',function(e){
 </script>
 
 <!-- ══ STANDARD FOOTER ══ -->
-<footer class="sp-footer">
-  <div class="sp-footer-left">
-    <span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF)">Admin</span>
-    <span class="sp-footer-sep">|</span>
-    <span id="sp-footer-version">v1.3.2</span>
-    <span class="sp-footer-sep">|</span>
-    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
-  </div>
-  <div class="sp-footer-center">
-    <a href="/cdn-cgi/l/email-protection#4b383e3b3b24393f0b382a2d2e3f323b39243c2439272f65282426">Admin Guide</a>
-    <a href="/cdn-cgi/l/email-protection#196a6c6969766b6d596a787f7c6d60696b766e766b757d377a7674">User Management</a>
-    <a href="/cdn-cgi/l/email-protection#bccfc9ccccd3cec8fccfdddad9c8c5ccced3cbd3ced0d892dfd3d1">Report Issue</a>
-  </div>
-  <div class="sp-footer-right">
-    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
-    <span id="sp-status-text" style="color:#22C55E">Operational</span>
-  </div>
-</footer>
+
 
   </div>
 <footer class="sp-footer">
@@ -3240,6 +3418,64 @@ setTimeout(spFooterInit,800);
 
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+<footer class="sp-footer">
+  <div class="sp-footer-left">
+    <span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF)">Admin</span>
+    <span class="sp-footer-sep">|</span>
+    <span id="sp-footer-version">v1.3.2</span>
+    <span class="sp-footer-sep">|</span>
+    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
+  </div>
+  <div class="sp-footer-center">
+    <a href="/cdn-cgi/l/email-protection#4b383e3b3b24393f0b382a2d2e3f323b39243c2439272f65282426">Admin Guide</a>
+    <a href="/cdn-cgi/l/email-protection#196a6c6969766b6d596a787f7c6d60696b766e766b757d377a7674">User Management</a>
+    <a href="/cdn-cgi/l/email-protection#bccfc9ccccd3cec8fccfdddad9c8c5ccced3cbd3ced0d892dfd3d1">Report Issue</a>
+  </div>
+  <div class="sp-footer-right">
+    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
+    <span id="sp-status-text" style="color:#22C55E">Operational</span>
+  </div>
+</footer>
+
+
+
+
+
+<script>
+/* sp-sb-link-fix */
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('#sb-more-items .sb-item').forEach(function(el) {
+    var href = el.getAttribute('href');
+    if (!href) return;
+    // Remove all existing listeners by replacing element with its clone
+    var clone = el.cloneNode(true);
+    el.parentNode.replaceChild(clone, el);
+    // Add single clean click handler
+    clone.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = clone.getAttribute('href');
+    });
+  });
+});
+</script>
+<script>
+/* sp-sb-toggle-fix */
+document.addEventListener('DOMContentLoaded', function() {
+  var btn = document.querySelector('.sb-more-btn');
+  var items = document.getElementById('sb-more-items');
+  var arr = document.getElementById('sb-more-arr');
+  if (!btn || !items) return;
+  btn.removeAttribute('onclick');
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var open = items.style.display === 'block';
+    items.style.display = open ? 'none' : 'block';
+    if (arr) arr.style.transform = open ? '' : 'rotate(180deg)';
+  });
+});
+</script>
 </body>
 </html>
 

@@ -1,0 +1,2238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SafetyPro AI — Control</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0B0F14;--card:#131C26;--raised:#16212B;--sidebar:#0F1720;--border:#1E293B;--div:rgba(255,255,255,0.05);
+  --green:#22C55E;--g-h:#16A34A;--g-s:rgba(34,197,94,0.12);--g-b:rgba(34,197,94,0.3);
+  --amber:#F59E0B;--a-s:rgba(245,158,11,0.12);--a-b:rgba(245,158,11,0.3);
+  --red:#EF4444;--r-s:rgba(239,68,68,0.12);--r-b:rgba(239,68,68,0.35);
+  --blue:#3B82F6;--b-s:rgba(59,130,246,0.12);--b-b:rgba(59,130,246,0.3);
+  --purple:#8B5CF6;--p-s:rgba(139,92,246,0.12);--p-b:rgba(139,92,246,0.3);
+  --t1:#E6EDF3;--t2:#94A3B8;--t3:#64748B;
+  --fh:'Montserrat',sans-serif;--fb:'Roboto',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);font-size:13px;line-height:1.5;min-height:100vh}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+svg{flex-shrink:0}
+.app{display:flex;flex-direction:column;min-height:100vh}
+
+/* ── TOP NAV ── */
+.topnav{height:52px;flex-shrink:0;background:var(--sidebar);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 0 0 0;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;width:195px;flex-shrink:0;padding:0 16px 0 18px;border-right:1px solid var(--border)}
+.logo-mark{width:28px;height:28px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(34,197,94,.4)}
+.logo-mark svg{width:16px;height:16px;fill:#fff}
+.logo-text{font-family:var(--fh);font-size:15px;font-weight:800;color:var(--t1);letter-spacing:-.3px;}
+.logo-text span{color:var(--green)}
+.nl{display:flex;align-items:center;gap:6px;padding:6px 13px;border-radius:7px;font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s;text-decoration:none}
+.nl:hover{color:var(--t1);background:rgba(255,255,255,.04)}
+.nl.active{color:var(--t1);font-weight:600}
+.nl svg{width:13px;height:13px;fill:currentColor}
+.nl .arr{font-size:9px;opacity:.5;margin-left:2px}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;padding-right:20px}
+.icon-btn{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:border-color .15s}
+.icon-btn:hover{border-color:var(--t3)}
+.icon-btn svg{width:14px;height:14px;fill:var(--t2)}
+.ndot{position:absolute;top:4px;right:4px;width:6px;height:6px;background:var(--red);border-radius:50%;border:1px solid var(--bg)}
+.user-pill{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:5px 10px 5px 5px;cursor:pointer}
+.ua{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.un-name{font-size:11px;font-weight:600;color:var(--t1);line-height:1.2}
+.un-role{font-size:9px;color:var(--t3)}
+
+/* ── BODY ── */
+.body{display:flex;flex:1}
+
+/* ── SIDEBAR ── */
+.sidebar{width:195px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:14px 8px;min-height:calc(100vh - 52px);position:sticky;top:52px;align-self:flex-start}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:var(--t3);cursor:pointer;transition:all .15s;font-size:13px;margin-bottom:2px;text-decoration:none}
+.sb-item:hover{background:rgba(255,255,255,.04);color:var(--t2)}
+.sb-item.active{background:rgba(34,197,94,.1);border-left:2px solid var(--green);color:var(--green);padding-left:8px}
+.sb-item svg{width:15px;height:15px;fill:currentColor;opacity:.7}
+.sb-item.active svg{opacity:1}
+.sb-badge{margin-left:auto;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px}
+.sb-badge.red{background:var(--red);color:#fff}
+.sb-badge.amber{background:var(--amber);color:#0B0E12}
+.sidebar-foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--border)}
+
+/* ── CONTENT ── */
+.content{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;}
+
+/* ── SUB HEADER ── */
+.sub-header{padding:0 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:52px;z-index:50;flex-wrap:nowrap;height:52px;gap:12px;}
+.sh-left{display:flex;align-items:center;gap:12px}
+.sh-title{font-family:var(--fh);font-size:16px;font-weight:700}
+.sh-tabs{display:flex;gap:2px;overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap;scrollbar-width:none;}
+.sh-tab{padding:5px 14px;border-radius:6px;font-size:12px;color:var(--t3);cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap;flex-shrink:0;}
+.sh-tab:hover{color:var(--t2)}
+.sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
+.sh-right{display:flex;gap:8px;align-items:center}
+.sel{background:var(--card);border:1px solid var(--border);color:var(--t1);padding:6px 12px;border-radius:7px;font-family:var(--fb);font-size:12px;outline:none;cursor:pointer}
+
+/* ── MAIN AREA ── */
+.main{padding:16px 20px;display:flex;flex-direction:column;gap:14px;padding-bottom:80px;overflow-y:auto;min-width:0;flex:1;min-height:0;scroll-padding-top:52px;}
+
+/* ── STAT CARDS ── */
+.ctrl-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.cs-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden;cursor:pointer;transition:all .2s}
+.cs-card:hover{transform:translateY(-2px)}
+.cs-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:12px 12px 0 0}
+.cs-card.red{border-color:rgba(239,68,68,.3)}.cs-card.red::before{background:var(--red);box-shadow:0 0 16px rgba(239,68,68,.6)}
+.cs-card.amber{border-color:rgba(245,158,11,.3)}.cs-card.amber::before{background:var(--amber);box-shadow:0 0 16px rgba(245,158,11,.6)}
+.cs-card.green{border-color:rgba(34,197,94,.3)}.cs-card.green::before{background:var(--green);box-shadow:0 0 16px rgba(34,197,94,.6)}
+.cs-card.blue{border-color:rgba(59,130,246,.3)}.cs-card.blue::before{background:var(--blue);box-shadow:0 0 16px rgba(59,130,246,.6)}
+.cs-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.cs-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center}
+.cs-icon svg{width:14px;height:14px}
+.cs-icon.r{background:var(--r-s);border:1px solid var(--r-b)}.cs-icon.r svg{fill:var(--red)}
+.cs-icon.a{background:var(--a-s);border:1px solid var(--a-b)}.cs-icon.a svg{fill:var(--amber)}
+.cs-icon.g{background:var(--g-s);border:1px solid var(--g-b)}.cs-icon.g svg{fill:var(--green)}
+.cs-icon.b{background:var(--b-s);border:1px solid var(--b-b)}.cs-icon.b svg{fill:var(--blue)}
+.cs-trend{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px}
+.cs-trend.up{background:var(--r-s);color:var(--red)}.cs-trend.down{background:var(--g-s);color:var(--green)}.cs-trend.warn{background:var(--a-s);color:var(--amber)}
+.cs-num{font-family:var(--fh);font-size:32px;font-weight:800;letter-spacing:-1px;line-height:1}
+.cs-card.red .cs-num{color:var(--red)}.cs-card.amber .cs-num{color:var(--amber)}.cs-card.green .cs-num{color:var(--green)}.cs-card.blue .cs-num{color:var(--blue)}
+.cs-label{font-size:11px;color:var(--t2);margin-top:4px}
+.cs-sub{font-size:10px;color:var(--t3);margin-top:1px}
+
+/* ── CARD BASE ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--div)}
+.card-title{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1)}
+.card-sub{font-size:10px;color:var(--t3);margin-top:1px}
+.cbtn{font-size:10px;padding:4px 10px;border-radius:5px;border:1px solid var(--border);color:var(--t3);background:var(--raised);cursor:pointer;transition:all .15s;font-family:var(--fb)}
+.cbtn:hover{color:var(--t2)}.cbtn.on{background:var(--g-s);border-color:var(--g-b);color:var(--green)}
+.cbtn.red-on{background:var(--r-s);border-color:var(--r-b);color:var(--red)}
+
+/* ── ESCALATION TABLE ── */
+.esc-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);gap:14px}
+
+.lvl-map{padding:10px 14px;display:flex;gap:6px;align-items:center;border-bottom:1px solid var(--div);flex-wrap:wrap}
+.lvl-pill{display:flex;align-items:center;gap:5px;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;border:1px solid var(--border);color:var(--t3)}
+.lvl-pill:hover{border-color:var(--t2)}
+.lvl-pill.l1{border-color:var(--a-b);color:var(--amber);background:var(--a-s)}
+.lvl-pill.l2{border-color:rgba(249,115,22,.3);color:#F97316;background:rgba(249,115,22,.1)}
+.lvl-pill.l3{border-color:var(--r-b);color:var(--red);background:var(--r-s)}
+.lvl-pill.l4{border-color:rgba(220,38,38,.4);color:#DC2626;background:rgba(220,38,38,.12)}
+.lvl-pill.l5{border-color:rgba(127,29,29,.5);color:#B91C1C;background:rgba(127,29,29,.15)}
+.lvl-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+.esc-table-wrap{overflow-x:auto}
+.etbl{width:100%;min-width:580px;border-collapse:collapse}
+.etbl th{padding:8px 14px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015)}
+.etbl td{padding:11px 14px;border-bottom:1px solid var(--div);vertical-align:middle}
+.etbl tr:last-child td{border-bottom:none}
+.etbl tr{cursor:pointer;transition:background .12s}
+.etbl tr:hover td{background:rgba(255,255,255,.02)}
+
+.person-cell{display:flex;align-items:center;gap:8px}
+.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.p-name{font-size:12px;font-weight:600;color:var(--t1)}
+.p-role{font-size:10px;color:var(--t3)}
+
+.lvl-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px}
+.lv1{background:var(--a-s);color:var(--amber);border:1px solid var(--a-b)}
+.lv2{background:rgba(249,115,22,.1);color:#F97316;border:1px solid rgba(249,115,22,.3)}
+.lv3{background:var(--r-s);color:var(--red);border:1px solid var(--r-b);animation:pulse-badge 2s ease-in-out infinite}
+.lv4{background:rgba(220,38,38,.12);color:#DC2626;border:1px solid rgba(220,38,38,.4)}
+.lv5{background:rgba(127,29,29,.15);color:#B91C1C;border:1px solid rgba(127,29,29,.5)}
+@keyframes pulse-badge{0%,100%{box-shadow:0 0 0 rgba(239,68,68,0)}50%{box-shadow:0 0 8px rgba(239,68,68,.4)}}
+
+.days-cell{display:flex;align-items:center;gap:5px;font-size:11px}
+.days-cell.crit{color:var(--red);font-weight:700}
+.days-cell.high{color:#F97316;font-weight:600}
+.days-cell.med{color:var(--amber)}
+.days-cell.low{color:var(--t2)}
+
+.action-cell{display:flex;gap:5px}
+.act-icon{width:24px;height:24px;border-radius:5px;background:var(--raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s}
+.act-icon:hover{border-color:var(--green);background:var(--g-s)}
+.act-icon svg{width:11px;height:11px;fill:var(--t3)}
+.act-icon:hover svg{fill:var(--green)}
+
+.src-tag{display:inline-flex;align-items:center;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px}
+.src-i{background:var(--r-s);color:var(--red);border:1px solid var(--r-b)}
+.src-n{background:var(--a-s);color:var(--amber);border:1px solid var(--a-b)}
+.src-au{background:var(--p-s);color:var(--purple);border:1px solid var(--p-b)}
+
+/* ── ESCALATION CHAIN ── */
+.chain-card{display:flex;flex-direction:column;gap:0}
+.chain-head{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--div)}
+.chain-title{font-size:12px;font-weight:700;color:var(--t1)}
+.chain-sub{font-size:10px;color:var(--t3);margin-top:1px}
+
+.chain-steps{padding:12px 14px;display:flex;flex-direction:column;gap:0}
+.chain-step{display:flex;align-items:flex-start;gap:10px;position:relative;padding-bottom:16px}
+.chain-step:last-child{padding-bottom:0}
+.chain-step:not(:last-child)::after{content:'';position:absolute;left:13px;top:28px;bottom:0;width:1px;background:var(--border)}
+.cs-circle{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;z-index:1}
+.cs-circle.fired{background:var(--red);color:#fff;box-shadow:0 0 8px rgba(239,68,68,.5)}
+.cs-circle.active{background:var(--amber);color:#0B0E12;box-shadow:0 0 8px rgba(245,158,11,.4);animation:pulse-amber 2s ease-in-out infinite}
+@keyframes pulse-amber{0%,100%{box-shadow:0 0 4px rgba(245,158,11,.4)}50%{box-shadow:0 0 14px rgba(245,158,11,.6)}}
+.cs-circle.pending{background:var(--raised);border:1px solid var(--border);color:var(--t3)}
+.cs-circle.ceo{background:linear-gradient(135deg,#7C3AED,#6D28D9);color:#fff}
+.cs-body{flex:1}
+.cs-role{font-size:11px;font-weight:600;color:var(--t1)}
+.cs-person{font-size:10px;color:var(--t3)}
+.cs-time{font-size:9px;margin-top:2px}
+.cs-time.fired{color:var(--red)}.cs-time.active{color:var(--amber)}.cs-time.pending{color:var(--t3)}
+
+.chain-incident{margin:0 14px 12px;padding:10px 12px;background:var(--raised);border:1px solid var(--border);border-radius:8px}
+.ci-title{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:3px}
+.ci-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ci-tag{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:600}
+
+/* ── OVERDUE TRACKER ── */
+.od-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.od-filters{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--div);flex-wrap:wrap}
+.od-filter{padding:3px 10px;border-radius:100px;font-size:10px;border:1px solid var(--border);color:var(--t3);cursor:pointer;transition:all .15s}
+.od-filter:hover{color:var(--t2)}.od-filter.on{background:var(--r-s);border-color:var(--r-b);color:var(--red)}
+
+.od-list{display:flex;flex-direction:column;gap:0}
+.od-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--div);cursor:pointer;transition:background .12s}
+.od-item:last-child{border-bottom:none}
+.od-item:hover{background:rgba(255,255,255,.02)}
+.od-sev{width:4px;flex-shrink:0;border-radius:2px;align-self:stretch}
+.od-body{flex:1;min-width:0}
+.od-title{font-size:12px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.od-meta{display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap}
+.od-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
+.od-days{font-family:var(--fh);font-size:13px;font-weight:800}
+.od-days.d1{color:var(--amber)}.od-days.d3{color:#F97316}.od-days.d5{color:var(--red)}
+.od-days-label{font-size:9px;color:var(--t3)}
+
+/* ── DELAY CHART ── */
+.delay-chart-wrap{padding:14px;height:180px}
+
+/* ── ACCOUNTABILITY ── */
+.acc-section{display:flex;flex-direction:column;gap:0}
+.acc-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--div);cursor:pointer;transition:background .12s}
+.acc-item:hover{background:rgba(255,255,255,.02)}
+.acc-item:last-child{border-bottom:none}
+.acc-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.acc-body{flex:1;min-width:0}
+.acc-top-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.acc-name{font-size:12px;font-weight:600;color:var(--t1)}
+.acc-role{font-size:10px;color:var(--t3)}
+.acc-bar-wrap{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:3px}
+.acc-bar{height:100%;border-radius:3px;transition:width .8s ease}
+.acc-bar.excellent{background:var(--green);box-shadow:0 0 5px rgba(34,197,94,.4)}
+.acc-bar.good{background:var(--blue)}
+.acc-bar.warn{background:var(--amber)}
+.acc-bar.poor{background:var(--red)}
+.acc-stats{display:flex;gap:8px;align-items:center}
+.acc-stat-item{font-size:10px;color:var(--t3)}
+.acc-stat-item span{color:var(--t2);font-weight:600}
+.acc-pct{font-size:14px;font-weight:800;min-width:42px;text-align:right;font-family:var(--fh)}
+.grade-badge{font-size:9px;font-weight:400;padding:1px 5px;border-radius:3px;margin-left:4px}
+.gr-a{background:var(--g-s);color:var(--green);border:1px solid var(--g-b)}
+.gr-b{background:var(--b-s);color:var(--blue);border:1px solid var(--b-b)}
+.gr-c{background:var(--a-s);color:var(--amber);border:1px solid var(--a-b)}
+.gr-d{background:var(--r-s);color:var(--red);border:1px solid var(--r-b)}
+
+/* ── TEAM MANAGER ── */
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px}
+.team-card{background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;cursor:pointer;transition:all .2s}
+.team-card:hover{border-color:rgba(255,255,255,.12);transform:translateY(-2px)}
+.team-av-lg{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff}
+.team-name{font-size:13px;font-weight:600;color:var(--t1)}
+.team-role-text{font-size:10px;color:var(--t3)}
+.team-stats{display:flex;gap:10px;width:100%}
+.ts-item{flex:1;text-align:center;padding:5px;background:var(--card);border-radius:6px}
+.ts-num{font-family:var(--fh);font-size:14px;font-weight:700}
+.ts-label{font-size:8px;color:var(--t3);margin-top:1px}
+.team-perf-bar{width:100%;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.team-perf-fill{height:100%;border-radius:2px}
+.role-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:100px;border:1px solid}
+
+/* ── RESPONSIBILITY MATRIX ── */
+.matrix-wrap{padding:0 14px 14px;overflow-x:auto}
+.matrix{width:100%;border-collapse:collapse}
+.matrix th{padding:8px 12px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);white-space:nowrap}
+.matrix td{padding:9px 12px;border-bottom:1px solid var(--div);font-size:11px;color:var(--t2);vertical-align:middle}
+.matrix tr:last-child td{border-bottom:none}
+.matrix tr:hover td{background:rgba(255,255,255,.018)}
+.matrix-check{width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;margin:0 auto}
+.mc-yes{background:var(--g-s);border:1px solid var(--g-b)}
+.mc-yes svg{width:11px;height:11px;fill:var(--green)}
+.mc-partial{background:var(--a-s);border:1px solid var(--a-b)}
+.mc-partial svg{width:11px;height:11px;fill:var(--amber)}
+.mc-no{background:var(--raised);border:1px solid var(--border)}
+.mc-no svg{width:11px;height:11px;fill:var(--t3)}
+
+/* ── TAB PANELS ── */
+.tab-panel{display:none}.tab-panel.active{display:block}.tab-panel.active>*{max-width:100%;min-width:0;}
+
+/* ── STATUS PILLS ── */
+.sp{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:100px}
+.sp-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.sp-open{background:var(--b-s);color:var(--blue);border:1px solid var(--b-b)}
+.sp-over{background:var(--r-s);color:var(--red);border:1px solid var(--r-b)}
+.sp-prog{background:var(--a-s);color:var(--amber);border:1px solid var(--a-b)}
+
+/* ── ESCALATION TIMELINE (right panel) ── */
+.esc-timeline{padding:12px 14px;display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto}
+.etl-item{display:flex;gap:8px;align-items:flex-start}
+.etl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.etl-body{flex:1}
+.etl-title{font-size:11px;font-weight:600;color:var(--t1)}
+.etl-time{font-size:9px;color:var(--t3);margin-top:1px}
+
+/* ── MORE DROPDOWN ── */
+.more-wrap{position:relative;user-select:none}
+.more-menu{
+  display:none;position:absolute;top:calc(100% + 6px);left:0;
+  background:#131C26;border:1px solid #1E293B;border-radius:10px;
+  min-width:210px;z-index:200;padding:6px;
+  box-shadow:0 12px 32px rgba(0,0,0,.5);
+}
+.more-wrap.open .more-menu{display:flex;flex-direction:column;gap:1px}
+.mm-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;font-size:12px;color:#94A3B8;cursor:pointer;text-decoration:none;transition:all .15s}
+.mm-item:hover{background:rgba(255,255,255,.05);color:#E6EDF3}
+.mm-item svg{width:14px;height:14px;fill:currentColor;opacity:.7;flex-shrink:0}
+.mm-divider{height:1px;background:#1E293B;margin:4px 0}
+.mm-admin{color:#22C55E}
+.mm-admin:hover{background:rgba(34,197,94,.08);color:#22C55E}
+.mm-admin svg{opacity:1}
+.sb-more-item{padding:7px 10px;font-size:12px}
+.sb-more-item svg{width:13px;height:13px}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — APP PAGES
+   Mobile / Tablet / Desktop
+══════════════════════════════════════ */
+
+.sb-toggle{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  padding:6px;background:none;border:1px solid var(--border);
+  border-radius:7px;margin-left:8px;flex-shrink:0;
+}
+.sb-toggle span{
+  display:block;width:18px;height:2px;
+  background:var(--t2);border-radius:2px;transition:.3s;
+}
+.sb-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.sb-toggle.open span:nth-child(2){opacity:0;}
+.sb-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
+.sb-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.5);z-index:149;
+  backdrop-filter:blur(2px);
+}
+.sb-overlay.show{display:block;}
+
+/* ── Tablet: 1024px ── */
+@media(max-width:1024px){
+  .nl{font-size:10px;padding:5px 8px;}
+  .un-name{display:none;}
+  [class*="grid-cols-4"],[style*="repeat(4"]{grid-template-columns:repeat(2,1fr) !important;}
+  [class*="grid-cols-3"],[style*="repeat(3"]{grid-template-columns:repeat(2,1fr) !important;}
+}
+
+/* ── Large Mobile: 768px ── */
+@media(max-width:768px){
+  html,body{overflow:auto !important;height:auto !important;}
+  body{flex-direction:column;}
+
+  .topnav{padding:0 12px !important;gap:6px;}
+  .nav-links{display:none !important;}
+  .sb-toggle{display:flex !important;}
+  .logo-text{font-size:13px !important;}
+  .un-name,.un-role{display:none !important;}
+  .more-wrap{display:none !important;}
+
+  .sidebar{
+    position:fixed !important;top:52px;left:-230px;
+    width:220px !important;height:calc(100vh - 52px);
+    z-index:150;transition:left .28s ease;
+    box-shadow:none;overflow-y:auto;
+  }
+  .sidebar.open{left:0 !important;box-shadow:4px 0 24px rgba(0,0,0,.5);}
+
+  .body{flex-direction:column;overflow:visible !important;height:auto !important;}
+  .content{overflow:visible !important;height:auto !important;}
+
+  .subnav,.subnav-row{
+    flex-direction:column !important;align-items:flex-start !important;
+    gap:8px !important;padding:10px 14px !important;
+  }
+
+  .dash,.page-inner,.content-inner,.main-content{
+    padding:12px 14px !important;
+  }
+
+  /* Tables — horizontal scroll */
+  table,.table-wrap{overflow-x:auto;display:block;-webkit-overflow-scrolling:touch;}
+  table{min-width:600px;}
+
+  /* Common grids restack */
+  .kpi-row,[class*="kpi-row"]{grid-template-columns:repeat(2,1fr) !important;}
+  .main-grid{grid-template-columns:1fr !important;}
+  .bottom-grid{grid-template-columns:1fr !important;}
+  .grid-3{grid-template-columns:1fr 1fr !important;}
+  .grid-4{grid-template-columns:1fr 1fr !important;}
+
+  /* Cards full width */
+  .g-card,.chart-card,.card,.panel{width:100% !important;}
+
+  .fab-bar{bottom:14px;right:12px;}
+  .fab{padding:8px 12px;font-size:10px;}
+
+  /* Modals */
+  .modal,.modal-bg .modal{width:95vw !important;max-height:85vh;}
+  .form-row{grid-template-columns:1fr !important;}
+
+  /* Icon buttons */
+  .icon-btn{width:30px;height:30px;}
+  .user-pill{padding:3px 8px 3px 3px;}
+
+  .sh-right{flex-wrap:wrap !important;gap:6px !important;width:100% !important;}
+  .action-table-wrap,.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+}
+
+/* ── Mobile: 480px ── */
+@media(max-width:480px){
+  .topnav{padding:0 10px !important;}
+  .kpi-row{grid-template-columns:1fr !important;}
+  .kpi-num,.stat-big{font-size:26px !important;}
+  .fab-bar{flex-direction:column;gap:6px;bottom:12px;right:10px;}
+  .fab{width:44px;height:44px;padding:0;justify-content:center;border-radius:50%;}
+  .fab span,.fab-label{display:none;}
+  .chart-wrap{height:130px !important;}
+  .modal{margin:10px !important;}
+}
+
+
+/* ══ DROPDOWN RESPONSIVE FIX ══ */
+.profile-dd,.alert-dropdown{
+  position:fixed !important;
+  top:58px;
+  right:12px;
+  z-index:9999;
+}
+@media(max-width:768px){
+  .profile-dd,.alert-dropdown{
+    right:8px !important;
+    width:calc(100vw - 16px) !important;
+    max-width:300px !important;
+    left:auto !important;
+  }
+}
+@media(max-width:480px){
+  .profile-dd,.alert-dropdown{
+    right:6px !important;
+    width:calc(100vw - 12px) !important;
+  }
+}
+
+.red-dot{position:absolute;top:5px;right:5px;width:6px;height:6px;background:#EF4444;border-radius:50%;border:1.5px solid var(--sidebar);display:none;}
+@keyframes rdpulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ══ UNIVERSAL MOBILE FIXES ══ */
+@media(max-width:768px){
+
+  /* ── Sub-header: stack vertically ── */
+  .sub-header{
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    gap:8px !important;
+    padding:10px 12px !important;
+  flex-wrap:wrap;}
+  .sh-left{width:100% !important;}
+  .sh-right{
+    width:100% !important;
+    flex-wrap:wrap !important;
+    gap:6px !important;
+  }
+  .sh-title{font-size:14px !important;}
+
+  /* ── Tab bar: scroll horizontally, never overflow ── */
+  .sh-tabs{
+    display:flex !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    -webkit-overflow-scrolling:touch !important;
+    flex-wrap:nowrap !important;
+    gap:3px !important;
+    padding-bottom:4px !important;
+    scrollbar-width:none !important;
+    width:100% !important;
+    max-width:100vw !important;
+  }
+  .sh-tabs::-webkit-scrollbar{display:none !important;}
+  .sh-tab{
+    flex-shrink:0 !important;
+    white-space:nowrap !important;
+    font-size:11px !important;
+    padding:5px 12px !important;
+  }
+
+  /* ── Selects in subheader ── */
+  .sh-right select,.sel{
+    flex:1 !important;
+    min-width:80px !important;
+    max-width:100% !important;
+    font-size:11px !important;
+  }
+
+  /* ── Main 2-col layout → single col ── */
+  .ops-grid{
+    grid-template-columns:1fr !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+  .left-col,.right-col{width:100% !important;}
+  .two-col,.two-col-grid{grid-template-columns:1fr !important;}
+
+  /* ── Control page specific ── */
+  .esc-grid{grid-template-columns:1fr !important;}
+  .od-grid{grid-template-columns:1fr !important;}
+  .team-grid{grid-template-columns:1fr !important;}
+  .chain-card{padding:10px !important;}
+  .matrix-wrap{overflow-x:auto !important;}
+  .esc-table-wrap{overflow-x:auto !important; -webkit-overflow-scrolling:touch !important;}
+  .delay-chart-wrap{height:160px !important;}
+  .cs-grid{grid-template-columns:1fr 1fr !important;}
+
+  /* ── Reports page specific ── */
+  .charts-grid{grid-template-columns:1fr !important;}
+  .monthly-grid{grid-template-columns:1fr !important;}
+  .bench-grid{grid-template-columns:1fr !important;}
+  .apr-grid{grid-template-columns:1fr !important;}
+  .obj-card{padding:12px !important;}
+
+  /* ── Admin page specific ── */
+  .billing-grid{grid-template-columns:1fr !important;}
+  .notif-grid{grid-template-columns:1fr !important;}
+  .wf-grid{
+    flex-direction:column !important;
+    gap:8px !important;
+  }
+  .wf-arrow{transform:rotate(90deg) !important;}
+  .form-grid{grid-template-columns:1fr !important;}
+  .plan-card{width:100% !important;}
+
+  /* ── Cards: full width, comfortable padding ── */
+  .card,.g-card,.chart-card,.panel,.cs-card{
+    width:100% !important;
+    padding:12px !important;
+  }
+  .card-head,.card-hdr{
+    flex-wrap:wrap !important;
+    gap:8px !important;
+  }
+  .card-btns{flex-wrap:wrap !important; gap:4px !important;}
+
+  /* ── Tab panels ── */
+  .tab-panel{width:100% !important; overflow-x:hidden !important;}
+
+  /* ── Inputs full width ── */
+  .form-group{margin-bottom:12px !important;}
+  .form-input,.form-select,.form-textarea,.sel{
+    width:100% !important;
+    font-size:14px !important;
+  }
+
+  /* ── Chart heights ── */
+  .chart-wrap,[id$="Chart"]{height:160px !important;}
+
+  /* ── Action table ── */
+  .action-table{font-size:11px !important;}
+  .action-table th,.action-table td{padding:6px 8px !important;}
+}
+
+/* ══ SMALL MOBILE: 480px ══ */
+@media(max-width:480px){
+  .sh-title{font-size:13px !important;}
+  .sh-tab{font-size:10px !important; padding:4px 10px !important;}
+  .card,.g-card{padding:10px !important;}
+  .card-head,.card-hdr{margin-bottom:8px !important;}
+  .topnav{padding:0 10px !important;}
+  .logo-text{font-size:12px !important;}
+  .act-grid{grid-template-columns:1fr !important;}
+  .kpi-row,[class*="kpi-row"]{grid-template-columns:1fr 1fr !important;}
+}
+
+
+/* ── MOBILE TAB BAR FIX ── */
+.sh-tabs{
+  display:flex;
+  gap:2px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  flex-wrap:nowrap;
+  padding-bottom:2px;
+}
+.sh-tabs::-webkit-scrollbar{display:none;}
+.sh-tab{
+  white-space:nowrap;
+  flex-shrink:0;
+}
+@media(max-width:480px){
+  .sh-tab{font-size:10px !important;padding:4px 10px !important;}
+  .sh-tabs{gap:1px;}
+  .sub-header,.sh-left,.sh-right{flex-wrap:wrap;gap:6px;}
+  .sh-right{width:100%;}
+}
+@media(max-width:360px){
+  .sh-tab{font-size:9px !important;padding:3px 8px !important;}
+}
+
+@keyframes mmfadein{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* WebSocket real-time fade-in animation */
+@keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+
+.hide-stats .ctrl-stats{display:none !important;}
+
+
+/* ══ STANDARD LOGO SHIELD (shared) ══ */
+.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35);}
+.logo-shield svg{width:15px;height:15px;fill:#fff;}
+/* ══ STANDARD PROFILE DROPDOWN (shared) ══ */
+.profile-dd{display:none;position:fixed;top:calc(var(--nav-h,52px) + 6px);right:12px;width:252px;background:#0C1824;border:1px solid var(--border);border-radius:13px;box-shadow:0 16px 48px rgba(0,0,0,.7);z-index:9999;overflow:hidden;}
+.pd-header{padding:14px 16px;background:linear-gradient(135deg,rgba(34,197,94,.07),transparent);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.pd-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh,'Montserrat',sans-serif);font-size:13px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 0 14px rgba(34,197,94,.25);}
+.pd-name{font-size:12px;font-weight:700;color:var(--t1,#EBF4FF);}
+.pd-email{font-size:10px;color:var(--t3,#2E4A66);margin-top:1px;}
+.pd-role-badge{display:inline-block;font-size:9px;font-weight:600;color:var(--green,#22C55E);background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.18);border-radius:4px;padding:2px 7px;margin-top:4px;}
+.pd-menu{padding:4px 0;}
+.pd-item{padding:9px 14px;font-size:12px;color:var(--t2,#7A9BBF);cursor:pointer;display:flex;align-items:center;gap:10px;transition:.12s;text-decoration:none;}
+.pd-item:hover{background:var(--elevated,#142030);color:var(--t1,#EBF4FF);}
+.pd-item svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;}
+.pd-sep{height:1px;background:var(--border,#162236);margin:4px 0;}
+.pd-signout{margin:5px 10px 10px;padding:10px 14px;font-size:12px;font-weight:700;color:#fff;background:linear-gradient(135deg,#EF4444,#DC2626);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:8px;transition:.15s;}
+.pd-signout:hover{opacity:.85;transform:translateY(-1px);}
+.pd-signout svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;}
+/* ══ STANDARD FOOTER (shared) ══ */
+.sp-footer{flex-shrink:0;background:var(--sidebar,#080F18);border-top:1px solid var(--border,#162236);padding:7px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--t3,#2E4A66);z-index:10;}
+.sp-footer-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.sp-footer-center{display:flex;align-items:center;gap:14px;}
+.sp-footer-center a{color:var(--t3,#2E4A66);text-decoration:none;transition:.15s;}
+.sp-footer-center a:hover{color:var(--t2,#7A9BBF);}
+.sp-footer-right{display:flex;align-items:center;gap:6px;}
+.sp-footer-status-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;flex-shrink:0;}
+.sp-footer-sep{opacity:.3;}
+
+
+/* ══ NAV-LINKS (shared topbar) ══ */
+.nav-links{display:flex;align-items:center;gap:1px;flex:1;}
+
+/* ══ ANTI-BLEED FIXES ══ */
+.card{overflow:hidden;word-break:break-word;}
+.tab-panel{min-width:0;}
+.tab-panel.active{min-width:0;overflow:hidden;}
+.main *{max-width:100%;box-sizing:border-box;}
+.sh-tabs{max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;}
+.sh-tabs::-webkit-scrollbar{display:none;}
+
+
+  /* SIDEBAR-GAP-FIX */ .sidebar{top:0 !important;}
+  
+/* SafetyPro scrollbar v2 */
+.body { overflow: hidden !important; }
+.content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+
+
+
+
+<style>
+/* sp-ctrl-fix */
+/* 1. Body: flex column — .app(flex:1) + footer fit in 100vh */
+html{height:100%;overflow:hidden;}
+body{height:100%!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;}
+/* 2. App: flex child (NOT fixed 100vh), flex column internally */
+.app{flex:1 1 0%!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;height:auto!important;max-height:none!important;}
+/* 3. Topnav: fixed height */
+.topnav{flex-shrink:0!important;height:52px!important;}
+/* 4. Body div: flex row, fills remaining space inside .app */
+.body{flex:1 1 0%!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:row!important;}
+/* 5. Sidebar: full height, no scrollbar */
+.sidebar{position:relative!important;flex-shrink:0!important;height:100%!important;overflow-y:auto!important;scrollbar-width:none!important;}
+.sidebar::-webkit-scrollbar{display:none!important;}
+/* 6. Content: flex column, scrollbar on .main not .content */
+.content{flex:1 1 0%!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;}
+/* 7. Sub-header: sticky at top */
+.sub-header{position:sticky!important;top:0!important;z-index:10!important;}
+/* 8. Main: scrollable area, thin scrollbar matching dashboard */
+.main{flex:1 1 0%!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:thin;scrollbar-color:var(--border,#1E293B) transparent;}
+.main::-webkit-scrollbar{width:4px!important;}
+.main::-webkit-scrollbar-thumb{background:var(--border,#1E293B)!important;border-radius:2px!important;}
+/* 9. Fix tab panel — was overflow:hidden which clipped content */
+.tab-panel.active{overflow:visible!important;height:auto!important;max-height:none!important;}
+/* 10. Footer: always visible at bottom */
+footer.sp-footer,.sp-footer{flex-shrink:0!important;display:flex!important;}
+</style>
+<style>
+/* sp-ctrl-align */
+/* ── ACCOUNTABILITY: padding + row dividers ─────────────── */
+#acc-list{padding:4px 16px 8px!important;}
+#acc-list>div{border-bottom:1px solid var(--border,#1E293B)!important;padding:10px 0!important;}
+#acc-list>div:last-child{border-bottom:none!important;}
+
+/* ── SCENARIO PLANNER: projected impact improvements ────── */
+/* Always 4 equal columns, no auto-collapse */
+#tab-scenario .card div[style*="auto-fill"]{grid-template-columns:repeat(4,minmax(0,1fr))!important;}
+/* Column separators */
+#tab-scenario .card div[style*="auto-fill"]>div{border-right:1px solid var(--border,#1E293B);}
+#tab-scenario .card div[style*="auto-fill"]>div:last-child{border-right:none!important;}
+/* Fix tiny 9px sub-labels → 11px */
+#tab-scenario .card div[style*="font-size:9px"]{font-size:11px!important;color:var(--t2,#94A3B8)!important;margin-top:6px!important;}
+/* Fix 10px metric category labels → 11px */
+#tab-scenario .card div[style*="font-size:10px"][style*="color:var(--t3)"]{font-size:11px!important;font-weight:600!important;margin-bottom:8px!important;}
+/* Metric value font bump */
+#tab-scenario .card div[style*="font-size:22px"]{font-size:24px!important;}
+/* Card section titles: add bottom border + bump to 13px */
+#tab-scenario .card>div[style*="font-size:12px"][style*="font-weight:700"]{font-size:13px!important;padding-bottom:10px!important;border-bottom:1px solid var(--border,#1E293B)!important;margin-bottom:14px!important;}
+/* Recommended actions text: make readable */
+#tab-scenario div[style*="display:flex;gap:10px;padding:10px"]>div:last-child{font-size:12px!important;color:var(--t1,#E6EDF3)!important;line-height:1.6!important;}
+/* Left panel metric labels */
+#tab-scenario .card label[style*="11px"]{font-size:12px!important;color:var(--t2,#94A3B8)!important;}
+#tab-scenario .card span[style*="11px"][style*="font-weight:700"]{font-size:12px!important;}
+/* NOTE card text */
+#tab-scenario .card div[style*="line-height:1.7"]{font-size:11px!important;color:var(--t2,#94A3B8)!important;}
+</style>
+<style>
+/* sp-border-fix */
+.topnav{border-bottom:1px solid #334155!important;}
+.sidebar{border-right:1px solid #334155!important;}
+footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
+</style>
+
+
+<style>
+/* sp-dropdown-fix */
+#alert-dropdown,.alert-dropdown,
+#profile-dropdown,.profile-dd {
+  position: fixed !important;
+  z-index: 99999 !important;
+  width: 300px !important;
+  min-width: 300px !important;
+  max-height: calc(100vh - 68px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  background: #131C26 !important;
+  border: 1px solid #475569 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 0 0 1px rgba(71,85,105,0.4), 0 8px 24px rgba(0,0,0,0.6) !important;
+  scrollbar-width: thin;
+  scrollbar-color: #475569 transparent;
+}
+#alert-dropdown::-webkit-scrollbar,
+#profile-dropdown::-webkit-scrollbar { width: 4px; }
+#alert-dropdown::-webkit-scrollbar-thumb,
+#profile-dropdown::-webkit-scrollbar-thumb { background: #475569; border-radius: 2px; }
+.topnav, nav.topnav { overflow: visible !important; }
+</style>
+<style>
+/* sp-logo-divider */
+/* Draw vertical line in topnav at x=195 — aligns with sidebar border-right */
+.topnav {
+  position: relative !important;
+  overflow: visible !important;
+}
+.topnav::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 195px !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 1px !important;
+  background: #334155 !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+/* Also size the logo area to exactly 195px so it sits flush */
+.topnav .logo, .topnav a.logo {
+  min-width: 175px !important;
+  max-width: 175px !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
+  <a class="logo" href="safetypro_v2.html">
+    <div class="logo-shield"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
+    <span class="logo-text">SafetyPro <span>AI</span></span>
+  </a>
+  <div class="nav-links">
+    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
+    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations</a>
+    <a class="nl active" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
+    <a class="nl" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2"/></svg>Reports</a>
+    <a class="nl" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>Admin</a>
+    <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More&#9660;
+      <div class="more-menu" id="more-menu">
+        <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_audit_compliance"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_field"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_hrm.html" style="color:#8B5CF6;"><svg viewBox="0 0 24 24" style="fill:#8B5CF6;"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>HRM &amp; Payroll</a>
+        <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_ai.html"><svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_auditor"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Client &amp; Auditor Portal</a>
+        <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_documents.html"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
+        <div class="mm-divider"></div>
+        <a class="mm-item mm-admin" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09"/></svg>Admin &amp; Configuration</a>
+      </div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="icon-btn" onclick="toggleAlerts()" id="alert-btn" title="Alerts">
+      <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+      <div class="red-dot" id="alert-dot"></div>
+    </div>
+    <div class="user-pill" onclick="toggleProfileMenu()" id="user-pill-btn">
+      <div class="ua" id="nav-initials">--</div>
+      <div class="un">
+        <div class="un-name" id="nav-username">Loading...</div>
+        <div class="un-role" id="nav-role">HSE Officer</div>
+      </div>
+      <span style="color:var(--t3);font-size:9px;margin-left:3px">&#9660;</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ ALERT DROPDOWN ══ -->
+<div id="alert-dropdown" class="alert-dropdown" style="display:none">
+  <div class="alert-head">Live Alerts</div>
+  <div id="alert-list"><div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Loading...</div></div>
+</div>
+
+<!-- ══ PROFILE DROPDOWN ══ -->
+<div id="profile-dropdown" class="profile-dd">
+  <div class="pd-header">
+    <div class="pd-avatar" id="pd-initials">--</div>
+    <div>
+      <div class="pd-name" id="profile-name">Loading...</div>
+      <div class="pd-email" id="profile-email"></div>
+      <div class="pd-role-badge" id="profile-role-badge">HSE Officer</div>
+    </div>
+  </div>
+  <div class="pd-menu">
+    <a class="pd-item" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+    <div class="pd-item" onclick="openManageUsers()"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Manage Users</div>
+    <div class="pd-item" onclick="goToSettings()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4"/></svg>Settings</div>
+    <div class="pd-item" onclick="changePassword()"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Change Password</div>
+    <div class="pd-sep"></div>
+    <div class="pd-signout" onclick="signOut()">
+      <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign Out
+    </div>
+  </div>
+</div>
+<div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
+<div class="body">
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <a class="sb-item" href="safetypro_v2.html"><svg   viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </a>
+    <a class="sb-item" href="safetypro_operations.html"><svg   viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>
+      Operations<span class="sb-badge amber">12</span>
+    </a>
+    <a class="sb-item active" href="safetypro_control.html">
+      <svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
+      Control<span class="sb-badge red">5</span>
+    </a>
+    <a class="sb-item" href="safetypro_reports.html"><svg   viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
+      Reports
+    </a>
+    <div class="sb-sep"></div>
+    <div class="sb-more-btn" onclick="var i=document.getElementById('sb-more-items');var a=document.getElementById('sb-more-arr');var o=i.style.display==='block';i.style.display=o?'none':'block';a.style.transform=o?'':'rotate(180deg)';" style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;margin:2px 8px;border-radius:8px;cursor:pointer;color:var(--t2);font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;transition:.2s" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+      <span>More</span>
+      <svg id="sb-more-arr" viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div id="sb-more-items" style="display:none">
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_reports.html">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
+        Audit &amp; Compliance
+      </a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        Site &amp; Field Tools
+      </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#8B5CF6" href="safetypro_hrm.html"><svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#8B5CF6"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>HRM &amp; Payroll</a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai.html">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        AI Intelligence
+      </a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_auditor">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Client &amp; Auditor Portal
+      </a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_documents.html">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+        Documents &amp; Records
+      </a>
+      <div style="height:1px;background:var(--border);margin:6px 8px"></div>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px;color:var(--green)" href="safetypro_admin.html">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--green)"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Admin &amp; Configuration
+      </a>
+    </div>
+  </div>
+
+<!-- CONTENT -->
+<div class="content">
+  <div class="sub-header">
+    <div class="sh-left">
+      <div class="sh-title">Control</div>
+      <div class="sh-tabs">
+        <div class="sh-tab active" onclick="switchTab(this,'escalations')">Escalations</div>
+        <div class="sh-tab" onclick="switchTab(this,'overdue')">Overdue Tracker</div>
+        <div class="sh-tab" onclick="switchTab(this,'accountability')">Accountability</div>
+        <div class="sh-tab" onclick="switchTab(this,'team')">Team Manager</div>
+        <div class="sh-tab" onclick="switchTab(this,'scenario')">&#127358; Scenario Planner</div>
+      </div>
+    </div>
+    <div class="sh-right">
+      <select class="sel">
+        <option>All Projects</option>
+        <option>Birpur Bihpur Road</option>
+        <option>Site Alpha — Mumbai</option>
+        <option>Tirora Power Plant</option>
+      </select>
+      <div class="cbtn">Export PDF</div>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- STAT CARDS — always visible -->
+    <div class="ctrl-stats">
+      <div class="cs-card red">
+        <div class="cs-top"><div class="cs-icon r"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg></div><span class="cs-trend up">▲ L3</span></div>
+        <div class="cs-num" id="cn1">0</div>
+        <div class="cs-label">Active Escalations</div>
+        <div class="cs-sub">2 critical, 3 high level</div>
+      </div>
+      <div class="cs-card amber">
+        <div class="cs-top"><div class="cs-icon a"><svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><span class="cs-trend warn">23 actions</span></div>
+        <div class="cs-num" id="cn2">0</div>
+        <div class="cs-label">Overdue Actions</div>
+        <div class="cs-sub">Oldest: 7 days overdue</div>
+      </div>
+      <div class="cs-card green">
+        <div class="cs-top"><div class="cs-icon g"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><span class="cs-trend down">↑ +12%</span></div>
+        <div class="cs-num" id="cn3">0</div>
+        <div class="cs-label">Closure Rate</div>
+        <div class="cs-sub">This month vs last</div>
+      </div>
+      <div class="cs-card blue">
+        <div class="cs-top"><div class="cs-icon b"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><span class="cs-trend down">Active</span></div>
+        <div class="cs-num" id="cn4">0</div>
+        <div class="cs-label">Team Members</div>
+        <div class="cs-sub">Across all projects</div>
+      </div>
+    </div>
+
+    <!-- ═══ ESCALATIONS TAB ═══ -->
+    <div class="tab-panel active" id="tab-escalations">
+      <div class="esc-grid">
+
+        <!-- Escalation Table -->
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Active Escalations</div><div class="card-sub">Auto-triggered by overdue actions · Updates hourly</div></div>
+            <div style="display:flex;gap:5px">
+              <div class="cbtn red-on" id="esc-live-btn" onclick="showEscLive(this)">● Live</div>
+              <div class="cbtn" id="esc-hist-btn" onclick="showEscHistory(this)">History</div>
+            </div>
+          </div>
+          <div class="lvl-map">
+            <span style="font-size:10px;color:var(--t3);margin-right:4px">Filter level:</span>
+            <div class="lvl-pill" onclick="toggleAll()">All</div>
+            <div class="lvl-pill l1" onclick="filterLevel(1)"><div class="lvl-dot"></div>L1 — Activity Head</div>
+            <div class="lvl-pill l2" onclick="filterLevel(2)"><div class="lvl-dot"></div>L2 — Project Head</div>
+            <div class="lvl-pill l3" onclick="filterLevel(3)"><div class="lvl-dot"></div>L3 — Sector Head</div>
+            <div class="lvl-pill l4" onclick="filterLevel(4)"><div class="lvl-dot"></div>L4 — HO HSE</div>
+            <div class="lvl-pill l5" onclick="filterLevel(5)"><div class="lvl-dot"></div>L5 — CEO</div>
+          </div>
+          <div class="esc-table-wrap">
+            <table class="etbl">
+              <thead>
+                <tr>
+                  <th>Action / Source</th>
+                  <th>Assigned To</th>
+                  <th>Escalated To</th>
+                  <th>Level</th>
+                  <th>Days Over</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="esc-tbody"></tbody>
+            </table>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-top:1px solid var(--div)">
+            <span style="font-size:11px;color:var(--t3)">5 active escalations · Next cron run in <span id="cron-timer" style="color:var(--amber);font-weight:600">47m</span></span>
+            <div style="display:flex;gap:5px">
+              <div class="cbtn">‹</div><div class="cbtn" style="background:var(--g-s);border-color:var(--g-b);color:var(--green)">1</div><div class="cbtn">2</div><div class="cbtn">›</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Escalation Chain + Timeline -->
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="card chain-card">
+            <div class="chain-head">
+              <div><div class="chain-title">Escalation Chain</div><div class="chain-sub">Fix loose railing — Block 3</div></div>
+              <span class="lvl-badge lv3">L3 Active</span>
+            </div>
+            <div class="chain-incident">
+              <div class="ci-title">Fix loose railing — Block 3 Level 2</div>
+              <div class="ci-meta">
+                <span class="ci-tag src-n">NCR</span>
+                <span style="font-size:10px;color:var(--t3)">Site Alpha · Assigned: Rajesh K.</span>
+                <span class="sp sp-over"><span class="sp-dot"></span>5 days overdue</span>
+              </div>
+            </div>
+            <div class="chain-steps">
+              <div class="chain-step">
+                <div class="cs-circle fired">L1</div>
+                <div class="cs-body">
+                  <div class="cs-role">Activity Head</div>
+                  <div class="cs-person">Vikram S. — Site Alpha</div>
+                  <div class="cs-time fired">Fired 3 days ago · No response</div>
+                </div>
+              </div>
+              <div class="chain-step">
+                <div class="cs-circle fired">L2</div>
+                <div class="cs-body">
+                  <div class="cs-role">Project Head</div>
+                  <div class="cs-person">Meera K. — Mumbai Zone</div>
+                  <div class="cs-time fired">Fired 2 days ago · Acknowledged</div>
+                </div>
+              </div>
+              <div class="chain-step">
+                <div class="cs-circle active">L3</div>
+                <div class="cs-body">
+                  <div class="cs-role">Sector Head</div>
+                  <div class="cs-person">Dhanesh CK — West India</div>
+                  <div class="cs-time active">Active now · WhatsApp sent 4h ago</div>
+                </div>
+              </div>
+              <div class="chain-step">
+                <div class="cs-circle pending">L4</div>
+                <div class="cs-body">
+                  <div class="cs-role">HO HSE Head</div>
+                  <div class="cs-person">Triggers in +24h if unresolved</div>
+                  <div class="cs-time pending">Waiting</div>
+                </div>
+              </div>
+              <div class="chain-step">
+                <div class="cs-circle ceo">L5</div>
+                <div class="cs-body">
+                  <div class="cs-role">CEO</div>
+                  <div class="cs-person">Final escalation — Critical only</div>
+                  <div class="cs-time pending">Waiting</div>
+                </div>
+              </div>
+            </div>
+            <div style="padding:10px 14px;border-top:1px solid var(--div);display:flex;gap:8px">
+              <button style="flex:1;padding:7px;border-radius:7px;background:var(--green);color:#0B0E12;border:none;font-family:var(--fh);font-size:12px;font-weight:700;cursor:pointer" onclick="resolveEsc()">Mark Resolved</button>
+              <button style="padding:7px 12px;border-radius:7px;background:transparent;color:var(--t2);border:1px solid var(--border);font-family:var(--fb);font-size:12px;cursor:pointer">Reassign</button>
+            </div>
+          </div>
+
+          <!-- Escalation Timeline -->
+          <div class="card">
+            <div class="card-head"><div class="card-title">Escalation History</div><div style="display:flex;gap:6px"><div class="cbtn active" id="hist-7" onclick="filterHistory(7,this)">7 Days</div><div class="cbtn" id="hist-30" onclick="filterHistory(30,this)">30 Days</div><div class="cbtn" id="hist-all" onclick="filterHistory(0,this)">All</div></div></div>
+            <div class="esc-timeline">
+              <div class="etl-item"><div class="etl-dot" style="background:var(--red)"></div><div class="etl-body"><div class="etl-title">L3 triggered — Fix loose railing, Site Alpha</div><div class="etl-time">Today 09:14 · Auto-triggered by cron</div></div></div>
+              <div class="etl-item"><div class="etl-dot" style="background:#F97316"></div><div class="etl-body"><div class="etl-title">L2 triggered — Electrical hazard, Tirora</div><div class="etl-time">Yesterday 14:22 · Acknowledged by Meera K.</div></div></div>
+              <div class="etl-item"><div class="etl-dot" style="background:var(--amber)"></div><div class="etl-body"><div class="etl-title">L1 triggered — PPE non-compliance, Block 3</div><div class="etl-time">Mar 19 · 11:08 · WhatsApp sent</div></div></div>
+              <div class="etl-item"><div class="etl-dot" style="background:var(--green)"></div><div class="etl-body"><div class="etl-title">Resolved — Fire exit blocked, Birpur</div><div class="etl-time">Mar 18 · 16:45 · Closed by Rajesh K.</div></div></div>
+              <div class="etl-item"><div class="etl-dot" style="background:var(--green)"></div><div class="etl-body"><div class="etl-title">Resolved — Scaffold inspection overdue</div><div class="etl-time">Mar 17 · 10:30 · Closed by Meera K.</div></div></div>
+              <div class="etl-item"><div class="etl-dot" style="background:var(--red)"></div><div class="etl-body"><div class="etl-title">L4 triggered — Crane safety certificate expired</div><div class="etl-time">Mar 16 · 08:00 · HO HSE notified</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ OVERDUE TRACKER TAB ═══ -->
+    <div class="tab-panel" id="tab-overdue">
+      <div class="od-grid">
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Overdue Actions</div><div class="card-sub">Sorted by days overdue — oldest first</div></div>
+            <div style="display:flex;gap:5px"><div class="cbtn">Sort: Oldest ↑</div><div class="cbtn">Export</div></div>
+          </div>
+          <div class="od-filters">
+            <div class="od-filter on">All (23)</div>
+            <div class="od-filter">Incident (8)</div>
+            <div class="od-filter">NCR (11)</div>
+            <div class="od-filter">Audit (4)</div>
+            <div class="od-filter">Critical only</div>
+            <div style="margin-left:auto;display:flex;align-items:center;gap:6px;background:var(--raised);border:1px solid var(--border);border-radius:5px;padding:3px 9px">
+              <svg style="width:11px;height:11px;fill:var(--t3)" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <input style="background:transparent;border:none;outline:none;font-size:11px;color:var(--t1);width:120px" placeholder="Search overdue..."/>
+            </div>
+          </div>
+          <div class="od-list" id="od-list"></div>
+          <div style="padding:10px 14px;border-top:1px solid var(--div);font-size:11px;color:var(--t3)">Showing 8 of 23 overdue actions · <span style="color:var(--green);cursor:pointer">Load more</span></div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <!-- Delay Analysis Chart -->
+          <div class="card">
+            <div class="card-head"><div><div class="card-title">Delay Analysis</div><div class="card-sub">Days overdue distribution</div></div></div>
+            <div class="delay-chart-wrap"><canvas id="delayChart"></canvas></div>
+          </div>
+          <!-- Quick Stats -->
+          <div class="card">
+            <div class="card-head"><div class="card-title">Overdue Summary</div></div>
+            <div style="padding:14px;display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--raised);border-radius:7px;border:1px solid var(--border)">
+                <span style="font-size:12px;color:var(--t2)">1–2 days overdue</span>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div style="width:80px;height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:40%;background:var(--amber);border-radius:2px"></div></div>
+                  <span style="font-family:var(--fh);font-size:14px;font-weight:700;color:var(--amber)">9</span>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--raised);border-radius:7px;border:1px solid var(--border)">
+                <span style="font-size:12px;color:var(--t2)">3–5 days overdue</span>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div style="width:80px;height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:60%;background:#F97316;border-radius:2px"></div></div>
+                  <span style="font-family:var(--fh);font-size:14px;font-weight:700;color:#F97316">8</span>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--r-s);border-radius:7px;border:1px solid var(--r-b)">
+                <span style="font-size:12px;color:var(--t2)">5+ days overdue</span>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div style="width:80px;height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:26%;background:var(--red);border-radius:2px"></div></div>
+                  <span style="font-family:var(--fh);font-size:14px;font-weight:700;color:var(--red)">6</span>
+                </div>
+              </div>
+              <div style="margin-top:4px;padding:10px;background:var(--r-s);border:1px solid var(--r-b);border-radius:8px;font-size:11px;color:var(--red)">
+                ⚡ <strong>6 actions</strong> are 5+ days overdue and will escalate to CEO if not resolved within 24 hours.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ACCOUNTABILITY TAB ═══ -->
+    <div class="tab-panel" id="tab-accountability">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">User Performance</div><div class="card-sub">Action closure rate — current month</div></div>
+            <div style="display:flex;gap:5px"><div class="cbtn on">This Month</div><div class="cbtn">Last Month</div></div>
+          </div>
+          <div class="acc-section" id="acc-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Task Ownership Map</div><div class="card-sub">Open actions per person</div></div>
+            <div class="cbtn">All Projects</div>
+          </div>
+          <div style="padding:14px;height:280px"><canvas id="ownerChart"></canvas></div>
+        </div>
+      </div>
+      <!-- Performance trend -->
+      <div class="card">
+        <div class="card-head"><div><div class="card-title">Team Performance Trend</div><div class="card-sub">Closure rate over last 6 months</div></div><div class="cbtn">6 Months</div></div>
+        <div style="padding:14px;height:180px"><canvas id="perfChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- ═══ TEAM MANAGER TAB ═══ -->
+    <div class="tab-panel" id="tab-team">
+      <div class="card">
+        <div class="card-head">
+          <div><div class="card-title">Team Members</div><div class="card-sub">Role assignment and project mapping</div></div>
+          <div style="display:flex;gap:5px">
+            <button style="display:flex;align-items:center;gap:5px;background:var(--green);color:#0B0E12;border:none;padding:7px 14px;border-radius:7px;font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer">
+              <svg style="width:12px;height:12px;fill:#0B0E12" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add Member
+            </button>
+          </div>
+        </div>
+        <div class="team-grid" id="team-grid"></div>
+      </div>
+
+      <!-- Responsibility Matrix -->
+      <div class="card">
+        <div class="card-head"><div><div class="card-title">Role & Permission Matrix</div><div class="card-sub">What each role can access and do</div></div></div>
+        <div class="matrix-wrap">
+          <table class="matrix">
+            <thead>
+              <tr>
+                <th>Permission</th>
+                <th style="text-align:center">Site User</th>
+                <th style="text-align:center">HSE Head</th>
+                <th style="text-align:center">Manager</th>
+                <th style="text-align:center">Auditor</th>
+                <th style="text-align:center">Admin</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Create Incident / NCR</td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td></tr>
+              <tr><td>View All Actions</td><td style="text-align:center"><div class="matrix-check mc-partial"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td></tr>
+              <tr><td>Control / Escalation</td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td></tr>
+              <tr><td>View Reports</td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td></tr>
+              <tr><td>Audit Module</td><td style="text-align:center"><div class="matrix-check mc-partial"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td></tr>
+              <tr><td>Admin Configuration</td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-no"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></div></td><td style="text-align:center"><div class="matrix-check mc-yes"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="padding:8px 14px 12px;font-size:10px;color:var(--t3)">
+          <span style="color:var(--green);margin-right:12px">✓ Full access</span>
+          <span style="color:var(--amber);margin-right:12px">— Own records only</span>
+          <span style="color:var(--t3)">✕ No access</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SCENARIO PLANNER TAB ══ -->
+      <div class="tab-panel" id="tab-scenario" class="tab-panel">
+        <div style="display:grid;grid-template-columns:300px 1fr;gap:16px;flex-wrap:wrap;">
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="card">
+              <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:14px;">Adjust Parameters</div>
+              <div style="display:flex;flex-direction:column;gap:14px;">
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">Incident rate change</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-inc-val">+20%</span></div>
+                  <input type="range" min="-50" max="100" value="20" style="width:100%;" oninput="scUpdate()" id="sc-inc">
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">NCR closure rate</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-ncr-val">78%</span></div>
+                  <input type="range" min="40" max="100" value="78" style="width:100%;" oninput="scUpdate()" id="sc-ncr">
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">Training completion</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-train-val">83%</span></div>
+                  <input type="range" min="40" max="100" value="83" style="width:100%;" oninput="scUpdate()" id="sc-train">
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><label style="font-size:11px;color:var(--t2);">Additional HSE officers</label><span style="font-size:11px;font-weight:700;color:var(--t1);" id="sc-off-val">0</span></div>
+                  <input type="range" min="0" max="5" value="0" style="width:100%;" oninput="scUpdate()" id="sc-off">
+                </div>
+              </div>
+            </div>
+            <div class="card" style="background:rgba(59,130,246,.04);border:1px solid rgba(59,130,246,.15);">
+              <div style="font-size:10px;color:var(--blue);font-family:var(--fh);font-weight:700;margin-bottom:8px;">NOTE</div>
+              <div style="font-size:10px;color:var(--t3);line-height:1.7;">Formula-based projections using industry benchmarks. AI predictions available after 6+ months of platform data.</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="card">
+              <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:14px;">Projected Impact — Next 90 Days</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;">
+                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
+                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Projected Incidents</div>
+                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-proj-inc"><span style="color:var(--red);">+4</span></div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">vs current baseline</div>
+                </div>
+                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
+                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Escalation Risk</div>
+                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-esc-risk"><span style="color:var(--red);">High</span></div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">L3+ probability</div>
+                </div>
+                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
+                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Maturity Impact</div>
+                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-mat-imp"><span style="color:var(--amber);">&#8595; 0.3</span></div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">Score change</div>
+                </div>
+                <div style="padding:12px;background:var(--raised);border-radius:8px;text-align:center;">
+                  <div style="font-size:10px;color:var(--t3);margin-bottom:6px;">Cost Projection</div>
+                  <div style="font-size:22px;font-weight:700;font-family:var(--fh);" id="sc-cost"><span style="color:var(--red);">+&#8377;2.1L</span></div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:4px;">Additional cost</div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:12px;">Recommended Actions</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;gap:10px;padding:10px 12px;background:rgba(239,68,68,.05);border-radius:8px;border:1px solid rgba(239,68,68,.15);">
+                  <div style="width:6px;height:6px;border-radius:50%;background:var(--red);margin-top:4px;flex-shrink:0;"></div>
+                  <div style="font-size:11px;color:var(--t2);">Immediately close overdue NCRs — escalation risk critical within 72 hours</div>
+                </div>
+                <div style="display:flex;gap:10px;padding:10px 12px;background:rgba(245,158,11,.05);border-radius:8px;border:1px solid rgba(245,158,11,.15);">
+                  <div style="width:6px;height:6px;border-radius:50%;background:var(--amber);margin-top:4px;flex-shrink:0;"></div>
+                  <div style="font-size:11px;color:var(--t2);">Schedule emergency toolbox talk — height work and PPE violations trending up</div>
+                </div>
+                <div style="display:flex;gap:10px;padding:10px 12px;background:rgba(59,130,246,.05);border-radius:8px;border:1px solid rgba(59,130,246,.15);">
+                  <div style="width:6px;height:6px;border-radius:50%;background:var(--blue);margin-top:4px;flex-shrink:0;"></div>
+                  <div style="font-size:11px;color:var(--t2);">Increase inspection frequency — 3 incidents flagged at highest risk site this week</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+<script>
+function scUpdate() {
+  var inc = parseInt(document.getElementById('sc-inc').value);
+  var ncr = parseInt(document.getElementById('sc-ncr').value);
+  var train = parseInt(document.getElementById('sc-train').value);
+  var off = parseInt(document.getElementById('sc-off').value);
+  document.getElementById('sc-inc-val').textContent = (inc >= 0 ? '+' : '') + inc + '%';
+  document.getElementById('sc-ncr-val').textContent = ncr + '%';
+  document.getElementById('sc-train-val').textContent = train + '%';
+  document.getElementById('sc-off-val').textContent = off;
+  var baseline = 20;
+  var projDelta = Math.round(baseline * inc / 100);
+  var risk = inc > 30 ? 'High' : inc > 0 ? 'Medium' : 'Low';
+  var riskCol = inc > 30 ? 'var(--red)' : inc > 0 ? 'var(--amber)' : 'var(--green)';
+  var matNum = ((-inc * 0.015) + ((ncr - 78) * 0.01) + ((train - 83) * 0.008) + (off * 0.1));
+  var matImp = (matNum >= 0 ? '+' : '') + matNum.toFixed(1);
+  var matCol = matNum >= 0 ? 'var(--green)' : 'var(--amber)';
+  var matArr = matNum >= 0 ? '&#8593;' : '&#8595;';
+  var cost = (projDelta) * 52000;
+  var costStr = (cost >= 0 ? '+' : '-') + '&#8377;' + Math.abs(Math.round(cost/1000)) + 'K';
+  var costCol = cost > 0 ? 'var(--red)' : 'var(--green)';
+  document.getElementById('sc-proj-inc').innerHTML = '<span style="color:' + (projDelta > 0 ? 'var(--red)' : 'var(--green)') + ';">' + (projDelta > 0 ? '+' : '') + projDelta + '</span>';
+  document.getElementById('sc-esc-risk').innerHTML = '<span style="color:' + riskCol + ';">' + risk + '</span>';
+  document.getElementById('sc-mat-imp').innerHTML = '<span style="color:' + matCol + ';">' + matArr + ' ' + matImp + '</span>';
+  document.getElementById('sc-cost').innerHTML = '<span style="color:' + costCol + ';">' + costStr + '</span>';
+}
+</script>
+
+
+
+<script>
+var API_BASE = 'https://distinguished-serenity-production-37d1.up.railway.app/api/v1';
+
+/* AUTH GUARD */
+(function(){
+  var token = localStorage.getItem('sp_token');
+  if (!token) { window.location.replace('safetypro_login.html'); return; }
+  try { var u = JSON.parse(localStorage.getItem('sp_user')||'{}'); if (u && u.name) applyNavProfile(u); } catch(e){}
+  setTimeout(loadNavProfile, 600);
+  setTimeout(loadControlData, 900);
+})();
+
+/* API FETCH */
+function apiFetch(path, opts) {
+  var token = localStorage.getItem('sp_token');
+  var options = opts || {};
+  options.headers = options.headers || {};
+  options.headers['Authorization'] = 'Bearer ' + token;
+  if (options.body && !options.headers['Content-Type']) options.headers['Content-Type'] = 'application/json';
+  return fetch(API_BASE + path, options);
+}
+
+/* LOAD CONTROL DATA */
+function loadControlData() {
+  apiFetch('/dashboard/kpis')
+  .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+  .then(function(data){
+    var map = { 'cn1': data.escalated, 'cn2': data.overdueActions||data.pending, 'cn3': data.openNCRs, 'cn4': data.auditScore };
+    Object.keys(map).forEach(function(id){
+      var el = document.getElementById(id);
+      if (el && map[id] !== undefined) {
+        if (id === 'cn4') { animateNum(el, parseFloat(map[id])); }
+        else { animateNum(el, parseInt(map[id])||0); }
+      }
+    });
+    var dot = document.getElementById('alert-dot');
+    if (dot && data.escalated > 0) dot.style.display = 'block';
+  })
+  .catch(function(){
+    animateNum(document.getElementById('cn1'), 5);
+    animateNum(document.getElementById('cn2'), 12);
+    animateNum(document.getElementById('cn3'), 8);
+    animateNum(document.getElementById('cn4'), 8.7);
+    var dot = document.getElementById('alert-dot');
+    if (dot) dot.style.display = 'block';
+  });
+  loadEscalations();
+  loadOverdue();
+  loadAccountability();
+  loadNCRCount();
+  loadTeam();
+  buildCharts();
+}
+
+/* COUNTUP ANIMATION */
+function animateNum(el, target) {
+  if (!el || isNaN(target)) return;
+  var dur = 1200; var t0 = performance.now();
+  var isFloat = String(target).indexOf('.') > -1;
+  function step(now) {
+    var p = Math.min((now - t0) / dur, 1);
+    var ease = 1 - Math.pow(1 - p, 3);
+    var val = target * ease;
+    el.textContent = isFloat ? val.toFixed(1) : Math.round(val);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = isFloat ? parseFloat(target).toFixed(1) : Math.round(target);
+  }
+  requestAnimationFrame(step);
+}
+
+/* LOAD ESCALATIONS */
+function loadEscalations() {
+  var tbody = document.getElementById('esc-tbody'); if (!tbody) return;
+  apiFetch('/incidents?status=escalated')
+  .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+  .then(function(data){
+    if (!data || !data.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--t3);font-size:12px">No active escalations</td></tr>'; return; }
+    tbody.innerHTML = data.map(function(e){
+      var level = e.escalationLevel || 'L' + (Math.floor(Math.random()*3)+1);
+      var color = level==='L1'?'var(--amber)':level==='L2'?'var(--red)':'var(--red)';
+      return '<tr><td><span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(239,68,68,.12);color:'+color+'">'+level+'</span></td><td style="font-size:12px;color:var(--t1);font-weight:500">'+(e.description||e.title||'-')+'</td><td style="font-size:12px;color:var(--t2)">'+(e.assignedTo||'-')+'</td><td style="font-size:12px;color:var(--t2)">'+(e.project||'-')+'</td><td style="font-size:12px;color:var(--red)">'+Math.floor(Math.random()*10+1)+'d overdue</td><td><span style="font-size:10px;padding:2px 7px;border-radius:4px;background:var(--r-s);color:var(--red)">Escalated</span></td><td><button onclick="showToast(&quot;Closing escalation...&quot;,&quot;amber&quot;)" style="font-size:10px;padding:3px 9px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--t2);cursor:pointer">Close</button></td></tr>';
+    }).join('');
+  })
+  .catch(function(){
+    tbody.innerHTML = '<tr><td><span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(239,68,68,.12);color:var(--red)">L3</span></td><td style="font-size:12px;color:var(--t1);font-weight:500">Height Work Incident - Mumbai Metro</td><td style="font-size:12px;color:var(--t2)">James G</td><td style="font-size:12px;color:var(--t2)">Mumbai Metro</td><td style="font-size:12px;color:var(--red)">5d overdue</td><td><span style="font-size:10px;padding:2px 7px;border-radius:4px;background:var(--r-s);color:var(--red)">Escalated</span></td><td><button onclick="showToast(&quot;Noted&quot;,&quot;amber&quot;)" style="font-size:10px;padding:3px 9px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--t2);cursor:pointer">Close</button></td></tr>';
+  });
+}
+
+/* LOAD OVERDUE */
+function loadOverdue() {
+  var list = document.getElementById('od-list'); if (!list) return;
+  apiFetch('/actions?status=OVERDUE')
+  .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+  .then(function(data){
+    if (!data || !data.length) { list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3);font-size:12px">No overdue actions</div>'; return; }
+    list.innerHTML = data.map(function(a){
+      var days = a.daysOverdue || Math.floor(Math.random()*14+1);
+      return '<div class="od-item"><div class="od-bar" style="background:var(--red)"></div><div class="od-body"><div class="od-title">'+(a.description||'-')+'</div><div class="od-meta">'+(a.assignedTo||'-')+' &bull; '+(a.project||'-')+'</div></div><div style="font-size:10px;font-weight:700;color:var(--red);white-space:nowrap">+'+days+'d</div></div>';
+    }).join('');
+  })
+  .catch(function(){
+    list.innerHTML = '<div class="od-item"><div class="od-bar" style="background:var(--red)"></div><div class="od-body"><div class="od-title">Fix loose railing - Block 3</div><div class="od-meta">James G &bull; Mumbai Metro</div></div><div style="font-size:10px;font-weight:700;color:var(--red)">+5d</div></div><div class="od-item"><div class="od-bar" style="background:var(--amber)"></div><div class="od-body"><div class="od-title">PPE inspection sign-off</div><div class="od-meta">Mohan S &bull; Birpur Dam</div></div><div style="font-size:10px;font-weight:700;color:var(--amber)">+2d</div></div>';
+  });
+}
+
+/* LOAD ACCOUNTABILITY */
+function loadAccountability() {
+  var list = document.getElementById('acc-list'); if (!list) return;
+  apiFetch('/users')
+  .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+  .then(function(users){
+    if (!users || !users.length) return;
+    list.innerHTML = users.slice(0,5).map(function(u, i){
+      var pct = [94,87,61,38,79][i] || 70;
+      var color = pct>=80?'var(--green)':pct>=50?'var(--amber)':'var(--red)';
+      return '<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--div)"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:9px;font-weight:700;color:#fff;flex-shrink:0">'+(u.name||'U').substring(0,2).toUpperCase()+'</div><div style="flex:1"><div style="font-size:11px;font-weight:600;color:var(--t1)">'+(u.name||'-')+'</div><div style="height:4px;background:var(--border);border-radius:2px;margin-top:5px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:'+color+';border-radius:2px;transition:width 1.2s"></div></div></div><div style="font-family:var(--fh);font-size:12px;font-weight:700;color:'+color+'">'+pct+'%</div></div>';
+    }).join('');
+  })
+  .catch(function(){
+    var people = [['Priya D',94,'var(--green)'],['Rajan K',87,'var(--green)'],['Mohan S',61,'var(--amber)'],['Amit K',38,'var(--red)'],['Deepa N',79,'var(--green)']];
+    list.innerHTML = people.map(function(p){
+      return '<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--div)"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:9px;font-weight:700;color:#fff;flex-shrink:0">'+p[0].substring(0,2)+'</div><div style="flex:1"><div style="font-size:11px;font-weight:600;color:var(--t1)">'+p[0]+'</div><div style="height:4px;background:var(--border);border-radius:2px;margin-top:5px;overflow:hidden"><div style="height:100%;width:'+p[1]+'%;background:'+p[2]+';border-radius:2px;transition:width 1.2s"></div></div></div><div style="font-family:var(--fh);font-size:12px;font-weight:700;color:'+p[2]+'">'+p[1]+'%</div></div>';
+    }).join('');
+  });
+}
+
+/* LOAD TEAM */
+function loadTeam() {
+  var grid = document.getElementById('team-grid'); if (!grid) return;
+  apiFetch('/users')
+  .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+  .then(function(users){
+    if (!users || !users.length) return;
+    grid.innerHTML = users.map(function(u){
+      return '<div style="background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:11px;font-weight:700;color:#fff;flex-shrink:0">'+(u.name||'U').substring(0,2).toUpperCase()+'</div><div><div style="font-size:12px;font-weight:600;color:var(--t1)">'+(u.name||'-')+'</div><div style="font-size:10px;color:var(--t3)">'+(u.role||'HSE Officer')+'</div><div style="font-size:9px;color:var(--green);margin-top:2px">'+(u.isActive?'Active':'Inactive')+'</div></div></div>';
+    }).join('');
+  })
+  .catch(function(){});
+}
+
+/* BUILD CHARTS */
+var chartInstances = {};
+function buildCharts() {
+  buildDelayChart();
+  buildOwnerChart();
+  buildPerfChart();
+}
+
+function buildDelayChart() {
+  var ctx = document.getElementById('delayChart'); if (!ctx) return;
+  if (chartInstances.delay) { chartInstances.delay.destroy(); }
+  chartInstances.delay = new Chart(ctx, {
+    type: 'bar',
+    data: { labels: ['0-1d','2-3d','4-7d','8-14d','>14d'], datasets: [{ label:'Overdue Actions', data:[3,5,4,2,1], backgroundColor:['rgba(245,158,11,.7)','rgba(239,68,68,.5)','rgba(239,68,68,.6)','rgba(239,68,68,.75)','rgba(239,68,68,.9)'], borderRadius:4 }] },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false }, tooltip:{ backgroundColor:'#0C1824', titleColor:'#EBF4FF', bodyColor:'#7A9BBF', padding:10, cornerRadius:8, titleFont:{family:'Montserrat',weight:'700'} } }, scales:{ x:{ grid:{ color:'rgba(255,255,255,0.03)' }, ticks:{ color:'#64748B', font:{family:'Montserrat',size:9} } }, y:{ grid:{ color:'rgba(255,255,255,0.03)' }, ticks:{ color:'#64748B', font:{family:'Montserrat',size:9} }, beginAtZero:true } } }
+  });
+}
+
+function buildOwnerChart() {
+  var ctx = document.getElementById('ownerChart'); if (!ctx) return;
+  if (chartInstances.owner) { chartInstances.owner.destroy(); }
+  chartInstances.owner = new Chart(ctx, {
+    type: 'doughnut',
+    data: { labels:['Rajan K','Mohan S','Priya D','Amit K','Others'], datasets:[{ data:[5,4,2,3,2], backgroundColor:['rgba(34,197,94,.8)','rgba(245,158,11,.8)','rgba(59,130,246,.8)','rgba(239,68,68,.8)','rgba(139,92,246,.8)'], borderColor:'transparent', borderWidth:2 }] },
+    options: { responsive:true, maintainAspectRatio:false, cutout:'65%', plugins:{ legend:{ position:'right', labels:{ color:'#94A3B8', font:{family:'Montserrat',size:10}, padding:10, boxWidth:10 } }, tooltip:{ backgroundColor:'#0C1824', titleColor:'#EBF4FF', bodyColor:'#7A9BBF', padding:10, cornerRadius:8, titleFont:{family:'Montserrat',weight:'700'} } } }
+  });
+}
+
+function buildPerfChart() {
+  var ctx = document.getElementById('perfChart'); if (!ctx) return;
+  if (chartInstances.perf) { chartInstances.perf.destroy(); }
+  chartInstances.perf = new Chart(ctx, {
+    type: 'line',
+    data: { labels:['Oct','Nov','Dec','Jan','Feb','Mar'], datasets:[{ label:'Closure Rate %', data:[72,78,75,82,86,91], borderColor:'#22C55E', backgroundColor:'rgba(34,197,94,0.06)', borderWidth:1.5, tension:0.4, fill:true, pointBackgroundColor:'#22C55E', pointRadius:3 }] },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'#0C1824', titleColor:'#EBF4FF', bodyColor:'#7A9BBF', padding:10, cornerRadius:8, titleFont:{family:'Montserrat',weight:'700'} } }, scales:{ x:{ grid:{color:'rgba(255,255,255,0.03)'}, ticks:{color:'#64748B',font:{family:'Montserrat',size:9}} }, y:{ grid:{color:'rgba(255,255,255,0.03)'}, ticks:{color:'#64748B',font:{family:'Montserrat',size:9}}, beginAtZero:false, min:50, max:100 } } }
+  });
+}
+
+/* TAB SWITCHING */
+function switchTab(el, tabId) {
+  document.querySelectorAll('.sh-tab').forEach(function(t){ t.classList.remove('active'); });
+  el.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  var target = document.getElementById('tab-' + tabId);
+  if (target) target.classList.add('active');
+  var mn = document.querySelector('.main');
+  if (mn) {
+    mn.scrollTop = 0;
+    window.scrollTo({top:0,behavior:'instant'});
+    if (tabId === 'scenario' || tabId === 'team' || tabId === 'accountability') {
+      mn.classList.add('hide-stats');
+    } else {
+      mn.classList.remove('hide-stats');
+    }
+  }
+}
+
+/* ESCALATION LIVE/HISTORY */
+function showEscLive(el) {
+  document.getElementById('esc-live-btn').classList.add('red-on');
+  document.getElementById('esc-hist-btn').classList.remove('red-on');
+  loadEscalations();
+}
+function showEscHistory(el) {
+  document.getElementById('esc-hist-btn').classList.add('red-on');
+  document.getElementById('esc-live-btn').classList.remove('red-on');
+  showToast('History view loading...', 'blue');
+}
+
+/* HISTORY FILTER */
+function filterHist(el, days) {
+  document.querySelectorAll('#hist-7, #hist-30, #hist-all').forEach(function(b){ b.classList.remove('on'); });
+  el.classList.add('on');
+  showToast('Filtering last ' + days + ' days', 'blue');
+}
+
+/* OVERDUE FILTER */
+function filterOverdue(el) {
+  document.querySelectorAll('.od-filter').forEach(function(f){ f.classList.remove('on'); });
+  el.classList.add('on');
+}
+
+/* ESCALATION TIMER */
+(function(){
+  var el = document.getElementById('cron-timer'); if (!el) return;
+  var secs = 47 * 60;
+  function tick() {
+    secs = (secs <= 0) ? 3600 : secs - 1;
+    var m = Math.floor(secs / 60); var s = secs % 60;
+    el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  }
+  tick(); setInterval(tick, 1000);
+})();
+
+/* DROPDOWN SYSTEM */
+function closeAllDropdowns() {
+  var pd = document.getElementById('profile-dropdown'); var ad = document.getElementById('alert-dropdown');
+  if (pd) pd.style.display = 'none'; if (ad) ad.style.display = 'none';
+}
+function positionDropdown(dropdown, trigger) {
+  if (!dropdown || !trigger) return;
+  var tr = trigger.getBoundingClientRect(); var vw = window.innerWidth;
+  var dw = Math.min(dropdown.offsetWidth || 260, vw - 16);
+  var right = vw - tr.right; if (right < 8) right = 8;
+  dropdown.style.right = right + 'px'; dropdown.style.left = 'auto';
+  dropdown.style.top = (tr.bottom + 6) + 'px';
+  if (vw <= 480) dropdown.style.width = (vw - 12) + 'px';
+  else if (vw <= 768) dropdown.style.width = Math.min(dw, vw - 16) + 'px';
+}
+function toggleProfileMenu() {
+  var d = document.getElementById('profile-dropdown'); var a = document.getElementById('alert-dropdown');
+  if (!d) return; if (a) a.style.display = 'none';
+  var open = d.style.display === 'block';
+  d.style.display = open ? 'none' : 'block';
+  if (!open) positionDropdown(d, document.getElementById('user-pill-btn'));
+}
+function toggleAlerts() {
+  var d = document.getElementById('alert-dropdown'); var p = document.getElementById('profile-dropdown');
+  if (!d) return; if (p) p.style.display = 'none';
+  var open = d.style.display === 'block';
+  d.style.display = open ? 'none' : 'block';
+  if (!open) positionDropdown(d, document.getElementById('alert-btn'));
+}
+
+/* NAV PROFILE */
+function loadNavProfile() {
+  var token = localStorage.getItem('sp_token'); if (!token) return;
+  apiFetch('/auth/me')
+  .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+  .then(function(u){ localStorage.setItem('sp_user', JSON.stringify(u)); applyNavProfile(u); })
+  .catch(function(){});
+}
+function applyNavProfile(u) {
+  if (!u) return;
+  var name = u.name || u.email || 'User'; var role = u.role || 'HSE Officer';
+  var parts = name.trim().split(' ');
+  var initials = (parts.length > 1 ? parts[0][0] + parts[parts.length-1][0] : name.substring(0,2)).toUpperCase();
+  var map = { 'nav-initials':initials, 'nav-username':name.length>14?name.substring(0,14)+'...':name, 'nav-role':role, 'pd-initials':initials, 'profile-name':name, 'profile-email':u.email||'', 'profile-role-badge':role };
+  Object.keys(map).forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=map[id]; });
+}
+
+/* AUTH ACTIONS */
+function signOut() { localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); window.location.href = 'safetypro_login.html?logout=1'; }
+function goToSettings() { closeAllDropdowns(); showToast('Settings coming soon', 'blue'); }
+function changePassword() { closeAllDropdowns(); showToast('Contact admin@safetyproworld.com', 'blue'); }
+function openManageUsers() { closeAllDropdowns(); showToast('Manage Users - use Admin page', 'blue'); }
+
+/* MORE MENU */
+function toggleMore(e) { e.stopPropagation(); var m = document.getElementById('more-btn'); if (m) m.classList.toggle('open'); }
+
+/* SIDEBAR */
+function toggleSidebar() {
+  var sb=document.querySelector('.sidebar'); var ov=document.getElementById('sb-overlay'); var btn=document.getElementById('sb-toggle');
+  if(!sb) return; sb.classList.toggle('open'); if(ov) ov.classList.toggle('show'); if(btn) btn.classList.toggle('open');
+}
+function closeSidebar() {
+  var sb=document.querySelector('.sidebar'); var ov=document.getElementById('sb-overlay'); var btn=document.getElementById('sb-toggle');
+  if(sb) sb.classList.remove('open'); if(ov) ov.classList.remove('show'); if(btn) btn.classList.remove('open');
+}
+
+/* TOAST */
+var toastTimer = null;
+function showToast(msg, type) {
+  var t = document.getElementById('toast') || document.getElementById('dash-toast');
+  var m = document.getElementById('toast-msg'); if (!t) return;
+  if (m) m.textContent = msg; else t.textContent = msg;
+  var dot = t.querySelector('.toast-dot'); if (dot) dot.style.background = type==='red'?'#EF4444':type==='amber'?'#F59E0B':type==='blue'?'#3B82F6':'#22C55E';
+  t.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+/* CLOSE ON OUTSIDE CLICK / RESIZE / ESCAPE */
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#alert-btn') && !e.target.closest('#alert-dropdown')) { var d=document.getElementById('alert-dropdown'); if(d) d.style.display='none'; }
+  if (!e.target.closest('#user-pill-btn') && !e.target.closest('#profile-dropdown')) { var d=document.getElementById('profile-dropdown'); if(d) d.style.display='none'; }
+  if (!e.target.closest('#more-btn')) { var m=document.getElementById('more-btn'); if(m) m.classList.remove('open'); }
+  if (window.innerWidth <= 768) { var sb=document.querySelector('.sidebar'); if(sb&&sb.classList.contains('open')&&!e.target.closest('.sidebar')&&!e.target.closest('#sb-toggle')) closeSidebar(); }
+});
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAllDropdowns(); });
+window.addEventListener('resize', closeAllDropdowns);
+document.querySelectorAll('.sb-item, .sidebar a').forEach(function(item){ item.addEventListener('click', function(){ if(window.innerWidth<=768) closeSidebar(); }); });
+
+
+/* -- BUILD CHARTS -- */
+window.addEventListener('load', function() {
+  buildDelayChart();
+  buildOwnerChart();
+  buildPerfChart();
+});
+
+function buildDelayChart() {
+  var ctx = document.getElementById('delayChart');
+  if (!ctx) return;
+  try {
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['0-3d','4-7d','8-14d','15-30d','30d+'],
+        datasets: [{
+          label: 'Actions',
+          data: [12, 8, 5, 3, 2],
+          backgroundColor: ['#22C55E40','#F59E0B40','#EF444440','#EF444460','#EF444480'],
+          borderColor: ['#22C55E','#F59E0B','#EF4444','#EF4444','#EF4444'],
+          borderWidth: 1.5,
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0C1824', borderColor: '#162236', borderWidth: 1, titleColor: '#EBF4FF', bodyColor: '#7A9BBF', cornerRadius: 8 } },
+        scales: {
+          x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#2E4A66', font: { family: 'Montserrat', size: 9 } } },
+          y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#2E4A66', font: { family: 'Montserrat', size: 9 } }, beginAtZero: true }
+        }
+      }
+    });
+  } catch(e) {}
+}
+
+function buildOwnerChart() {
+  var ctx = document.getElementById('ownerChart');
+  if (!ctx) return;
+  try {
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Rajan Kumar','Mohan Singh','Priya Desai','Amit Kumar','Others'],
+        datasets: [{ data: [32, 18, 24, 10, 16], backgroundColor: ['#22C55E','#F59E0B','#3B82F6','#EF4444','#8B5CF6'], borderWidth: 0, hoverOffset: 4 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, cutout: '65%',
+        plugins: { legend: { position: 'right', labels: { color: '#7A9BBF', font: { family: 'Montserrat', size: 9 }, boxWidth: 8, padding: 8 } }, tooltip: { backgroundColor: '#0C1824', borderColor: '#162236', borderWidth: 1, titleColor: '#EBF4FF', bodyColor: '#7A9BBF', cornerRadius: 8 } }
+      }
+    });
+  } catch(e) {}
+}
+
+function buildPerfChart() {
+  var ctx = document.getElementById('perfChart');
+  if (!ctx) return;
+  try {
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Oct','Nov','Dec','Jan','Feb','Mar'],
+        datasets: [
+          { label: 'Closure Rate', data: [72,75,80,78,85,87], borderColor: '#22C55E', backgroundColor: 'rgba(34,197,94,0.06)', borderWidth: 1.5, tension: 0.4, fill: true, pointRadius: 3, pointBackgroundColor: '#22C55E' },
+          { label: 'On-Time Rate', data: [60,65,68,72,75,80], borderColor: '#3B82F6', backgroundColor: 'rgba(59,130,246,0.05)', borderWidth: 1.5, tension: 0.4, fill: true, pointRadius: 3, pointBackgroundColor: '#3B82F6' }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { intersect: false, mode: 'index' },
+        plugins: { legend: { position: 'top', labels: { color: '#7A9BBF', font: { family: 'Montserrat', size: 10, weight: '600' }, boxWidth: 10, padding: 12 } }, tooltip: { backgroundColor: '#0C1824', borderColor: '#162236', borderWidth: 1, titleColor: '#EBF4FF', bodyColor: '#7A9BBF', cornerRadius: 8 } },
+        scales: {
+          x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#2E4A66', font: { family: 'Montserrat', size: 9 } } },
+          y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#2E4A66', font: { family: 'Montserrat', size: 9 } }, beginAtZero: true, max: 100 }
+        }
+      }
+    });
+  } catch(e) {}
+}
+
+
+/* ── filterHistory: HTML calls filterHistory(days, el), function was named filterHist ── */
+function filterHistory(days, el) {
+  document.querySelectorAll('#hist-7, #hist-30, #hist-all').forEach(function(b){ b.classList.remove('on'); });
+  if (el) el.classList.add('on');
+  if (days === 0) {
+    showToast('Showing all escalation history', 'blue');
+  } else {
+    showToast('Filtering last ' + days + ' days', 'blue');
+  }
+}
+
+/* ── filterLevel: filter escalation table rows by level number ── */
+function filterLevel(level) {
+  document.querySelectorAll('.lvl-pill').forEach(function(p){ p.style.opacity = '0.45'; });
+  event.currentTarget.style.opacity = '1';
+  var rows = document.querySelectorAll('#esc-tbody tr');
+  rows.forEach(function(row){
+    var badge = row.querySelector('td:first-child span');
+    if (!badge) return;
+    var txt = badge.textContent.trim();
+    row.style.display = (txt === 'L' + level) ? '' : 'none';
+  });
+  showToast('Showing L' + level + ' escalations', 'blue');
+}
+
+/* ── toggleAll: show all escalation rows ── */
+function toggleAll() {
+  document.querySelectorAll('.lvl-pill').forEach(function(p){ p.style.opacity = '1'; });
+  document.querySelectorAll('#esc-tbody tr').forEach(function(row){ row.style.display = ''; });
+  showToast('Showing all escalation levels', 'blue');
+}
+
+/* ── resolveEsc: mark current escalation as resolved ── */
+function resolveEsc() {
+  var btn = document.querySelector('.chain-card button');
+  if (btn) {
+    btn.textContent = '✓ Resolved';
+    btn.style.background = 'var(--g-s)';
+    btn.style.color = 'var(--green)';
+    btn.style.border = '1px solid var(--g-b)';
+    btn.disabled = true;
+  }
+  var badge = document.querySelector('.chain-head .lvl-badge');
+  if (badge) { badge.textContent = 'Resolved'; badge.className = 'lvl-badge'; badge.style.cssText = 'background:var(--g-s);color:var(--green);border:1px solid var(--g-b);font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px'; }
+  var active = document.querySelector('.cs-circle.active');
+  if (active) { active.className = 'cs-circle fired'; }
+  var cn1 = document.getElementById('cn1');
+  if (cn1) { var v = parseInt(cn1.textContent)||0; if(v>0) cn1.textContent = v-1; }
+  showToast('Escalation marked as resolved', 'green');
+}
+
+/* ── loadNCRCount: placeholder — fetches NCR count for stat card ── */
+function loadNCRCount() {
+  apiFetch('/actions?status=open')
+  .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+  .then(function(data){ var el=document.getElementById('cn3'); if(el&&data&&data.length) animateNum(el,data.length); })
+  .catch(function(){});
+}
+
+</script>
+
+<!-- WebSocket Real-Time Client -->
+<script>
+/* 
+   SAFETYPRO AI  WebSocket Client
+   Connects to backend, authenticates with JWT,
+   listens for real-time events and updates UI instantly.
+   
+   PAGE: Control
+    */
+
+/*  SOCKET.IO CDN is loaded before this script  */
+
+var SP_SOCKET = null;
+var SP_WS_URL = 'https://distinguished-serenity-production-37d1.up.railway.app';
+var SP_RECONNECT_ATTEMPTS = 0;
+var SP_MAX_RECONNECT = 5;
+var SP_TOAST_FN = 'showToast';
+
+/*  INIT: connect on page load  */
+window.addEventListener('load', function() {
+  setTimeout(spInitSocket, 1200); // slight delay  let auth guard run first
+});
+
+function spInitSocket() {
+  var token = localStorage.getItem('sp_token');
+  if (!token) return; // not logged in  skip
+
+  /* Check socket.io is loaded */
+  if (typeof io === 'undefined') {
+    console.warn('[SafetyPro WS] socket.io not loaded  real-time disabled');
+    return;
+  }
+
+  try {
+    SP_SOCKET = io(SP_WS_URL, {
+      auth: { token: token },
+      transports: ['websocket', 'polling'],
+      reconnection: true,
+      reconnectionAttempts: SP_MAX_RECONNECT,
+      reconnectionDelay: 2000,
+      timeout: 10000,
+    });
+
+    spBindEvents();
+  } catch(e) {
+    console.warn('[SafetyPro WS] Connection failed:', e.message);
+  }
+}
+
+/*  BIND ALL EVENTS  */
+function spBindEvents() {
+  if (!SP_SOCKET) return;
+
+  /* Connection established */
+  SP_SOCKET.on('connect', function() {
+    SP_RECONNECT_ATTEMPTS = 0;
+    console.log('[SafetyPro WS] Connected  real-time active');
+    spUpdateConnectionStatus(true);
+  });
+
+  /* Connection lost */
+  SP_SOCKET.on('disconnect', function(reason) {
+    console.warn('[SafetyPro WS] Disconnected:', reason);
+    spUpdateConnectionStatus(false);
+  });
+
+  /* Connection error */
+  SP_SOCKET.on('connect_error', function(err) {
+    SP_RECONNECT_ATTEMPTS++;
+    console.warn('[SafetyPro WS] Connection error:', err.message);
+    if (SP_RECONNECT_ATTEMPTS >= SP_MAX_RECONNECT) {
+      console.warn('[SafetyPro WS] Max reconnects reached  falling back to HTTP polling');
+      spStartFallbackPoll();
+    }
+  });
+
+  /* Server confirmed connection */
+  SP_SOCKET.on('connected', function(data) {
+    console.log('[SafetyPro WS] Authenticated as:', data.userId);
+  });
+
+  /*  KPIs UPDATED  */
+  SP_SOCKET.on('kpis.updated', function(data) {
+    console.log('[SafetyPro WS] kpis.updated', data);
+    spOnKpisUpdated(data);
+  });
+
+  /*  INCIDENT CREATED  */
+  SP_SOCKET.on('incident.created', function(data) {
+    console.log('[SafetyPro WS] incident.created', data);
+    spOnIncidentCreated(data);
+  });
+
+  /*  NCR CREATED  */
+  SP_SOCKET.on('ncr.created', function(data) {
+    console.log('[SafetyPro WS] ncr.created', data);
+    spOnNcrCreated(data);
+  });
+
+  /*  ACTION UPDATED  */
+  SP_SOCKET.on('action.updated', function(data) {
+    console.log('[SafetyPro WS] action.updated', data);
+    spOnActionUpdated(data);
+  });
+
+  /*  ESCALATION TRIGGERED  */
+  SP_SOCKET.on('escalation.triggered', function(data) {
+    console.log('[SafetyPro WS] escalation.triggered', data);
+    spOnEscalationTriggered(data);
+  });
+
+  /*  USER ACTIVITY  */
+  SP_SOCKET.on('user.activity', function(data) {
+    console.log('[SafetyPro WS] user.activity', data);
+    spOnUserActivity(data);
+  });
+
+  /*  ERROR  */
+  SP_SOCKET.on('error', function(err) {
+    console.warn('[SafetyPro WS] Error:', err.message);
+    if (err.message === 'Invalid token' || err.message === 'Authentication required') {
+      localStorage.removeItem('sp_token');
+      window.location.href = 'safetypro_login.html';
+    }
+  });
+}
+
+/*  CONNECTION STATUS INDICATOR  */
+function spUpdateConnectionStatus(connected) {
+  /* Update alert dot color subtly  green pulse = live */
+  var dot = document.getElementById('alert-dot');
+  if (!dot) return;
+  if (connected) {
+    dot.style.background = '#22C55E';
+    dot.style.display = 'block';
+    setTimeout(function(){ dot.style.background = ''; dot.style.display = ''; }, 2000);
+  }
+}
+
+/*  ANIMATE NUMBER HELPER  */
+function spAnimateNum(el, target) {
+  if (!el) return;
+  if (typeof animateNum === 'function') { animateNum(el, target); return; }
+  var dur = 800; var t0 = performance.now();
+  var isFloat = String(target).indexOf('.') > -1;
+  function step(now) {
+    var p = Math.min((now - t0) / dur, 1);
+    var ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = isFloat ? (target * ease).toFixed(1) : Math.round(target * ease);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = isFloat ? parseFloat(target).toFixed(1) : Math.round(target);
+  }
+  requestAnimationFrame(step);
+}
+
+/*  SHOW TOAST HELPER  */
+function spToast(msg, type) {
+  if (typeof showDashToast === 'function') { showDashToast(msg, type || 'green'); return; }
+  if (typeof showToast === 'function') { showToast(msg, type || 'green'); return; }
+}
+
+/*  FORMAT TIME  */
+function spTimeAgo(isoString) {
+  var now = new Date();
+  var then = new Date(isoString);
+  var diff = Math.floor((now - then) / 1000);
+  if (diff < 60) return 'Just now';
+  if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+  return Math.floor(diff / 3600) + 'h ago';
+}
+
+/*  INITIALS FROM NAME  */
+function spInitials(name) {
+  if (!name) return '??';
+  var parts = name.trim().split(' ');
+  return parts.length > 1 
+    ? (parts[0][0] + parts[parts.length-1][0]).toUpperCase()
+    : name.substring(0, 2).toUpperCase();
+}
+
+/*  SEVERITY COLOR  */
+function spSeverityColor(severity) {
+  var map = { CRITICAL: '#EF4444', HIGH: '#F97316', MEDIUM: '#F59E0B', LOW: '#22C55E' };
+  return map[(severity||'').toUpperCase()] || '#3B82F6';
+}
+
+/* 
+   EVENT HANDLERS  page-specific logic below
+    */
+
+
+function spOnKpisUpdated(data) {
+  if (typeof loadControlData === 'function') loadControlData();
+}
+
+function spOnIncidentCreated(data) {
+  var inc = data.incident || {};
+  spToast('New incident: ' + (inc.description || '').substring(0, 40), 'red');
+  /* Refresh overdue list and KPIs */
+  spOnKpisUpdated(data);
+}
+
+function spOnNcrCreated(data) {
+  var ncr = data.ncr || {};
+  /* Refresh cn3 (open NCR count) */
+  var cn3 = document.getElementById('cn3');
+  if (cn3) {
+    var c = parseInt(cn3.textContent) || 0;
+    if (typeof animateNum === 'function') animateNum(cn3, c + 1);
+    else cn3.textContent = c + 1;
+  }
+  spToast('New NCR: ' + (ncr.description || '').substring(0, 40), 'amber');
+}
+
+function spOnActionUpdated(data) {
+  var action = data.action || {};
+  /* Reload overdue list */
+  if (typeof loadOverdue === 'function') setTimeout(loadOverdue, 500);
+  if (action.status === 'OVERDUE') {
+    /* Add to overdue list */
+    spAddToOverdueList(action);
+    spToast('Action overdue: ' + (action.title || '').substring(0, 40), 'red');
+  }
+}
+
+function spOnEscalationTriggered(data) {
+  var esc = data.escalation || {};
+  /* Update cn1 (escalated counter) */
+  var cn1 = document.getElementById('cn1');
+  if (cn1) {
+    var c = parseInt(cn1.textContent) || 0;
+    if (typeof animateNum === 'function') animateNum(cn1, c + 1);
+    else cn1.textContent = c + 1;
+  }
+  /* Add to escalation table */
+  spAddToEscTable(esc);
+  /* Pulse alert bell */
+  var dot = document.getElementById('alert-dot');
+  if (dot) { dot.style.display = 'block'; }
+  /* Reload alert list if open */
+  var alertDd = document.getElementById('alert-dropdown');
+  if (alertDd && alertDd.style.display === 'block') {
+    if (typeof loadAlerts === 'function') loadAlerts();
+  }
+  spToast('L' + esc.level + ' Escalation: ' + (esc.actionTitle || '').substring(0, 35), 'red');
+}
+
+function spOnUserActivity(data) { /* no-op on control */ }
+
+/*  CONTROL HELPERS  */
+function spAddToEscTable(esc) {
+  var tbody = document.getElementById('esc-tbody');
+  if (!tbody) return;
+  var level = esc.level || 1;
+  var color = level >= 3 ? 'var(--red)' : level === 2 ? 'var(--amber)' : 'var(--blue)';
+  var row = document.createElement('tr');
+  row.style.animation = 'fadeIn .3s ease';
+  row.innerHTML =
+    '<td><span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;background:' + color + '20;color:' + color + '">L' + level + '</span></td>' +
+    '<td style="font-size:12px;color:var(--t1);font-weight:600">' + (esc.actionTitle || 'New Escalation') + '</td>' +
+    '<td style="font-size:12px;color:var(--t2)">' + (esc.assigneeName || '--') + '</td>' +
+    '<td style="font-size:12px;color:var(--red)">' + (esc.daysOverdue || 0) + 'd</td>' +
+    '<td><button onclick="showToast(&quot;Reviewing escalation...&quot;,&quot;blue&quot;)" style="font-size:10px;padding:3px 10px;border-radius:5px;background:var(--g-s);color:var(--green);border:1px solid var(--g-b);cursor:pointer;">Resolve</button></td>';
+  tbody.insertBefore(row, tbody.firstChild);
+}
+
+function spAddToOverdueList(action) {
+  var list = document.getElementById('od-list');
+  if (!list) return;
+  var div = document.createElement('div');
+  div.className = 'od-item';
+  div.style.animation = 'fadeIn .3s ease';
+  div.style.cssText += 'display:flex;align-items:center;gap:10px;padding:10px;background:var(--raised);border-radius:8px;border:1px solid var(--border);margin-bottom:6px';
+  div.innerHTML =
+    '<div style="width:4px;height:48px;background:var(--red);border-radius:2px;flex-shrink:0"></div>' +
+    '<div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--t1)">' + (action.title || 'Action Overdue') + '</div>' +
+    '<div style="font-size:10px;color:var(--t3);margin-top:2px">' + (action.assignedTo || '--') + '</div></div>' +
+    '<div style="font-size:11px;font-weight:700;color:var(--red)">' + (action.daysOverdue || 1) + 'd overdue</div>';
+  list.insertBefore(div, list.firstChild);
+}
+
+
+/*  FALLBACK: HTTP POLL every 30s if WebSocket fails  */
+var spPollTimer = null;
+function spStartFallbackPoll() {
+  if (spPollTimer) return; // already polling
+  console.log('[SafetyPro WS] Starting 30s HTTP fallback poll');
+  spPollTimer = setInterval(function() {
+    if (typeof loadDashboardData === 'function') loadDashboardData();
+    else if (typeof loadOpsData === 'function') loadOpsData();
+    else if (typeof loadControlData === 'function') loadControlData();
+    else if (typeof loadReportsData === 'function') loadReportsData();
+  }, 30000);
+}
+
+/*  CLEANUP on page unload  */
+window.addEventListener('beforeunload', function() {
+  if (SP_SOCKET) { SP_SOCKET.disconnect(); SP_SOCKET = null; }
+  if (spPollTimer) { clearInterval(spPollTimer); spPollTimer = null; }
+});
+
+</script>
+
+  </div>
+</div>
+</div>
+</div>
+<div id="toast" style="display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#131C26;border:1px solid #1E293B;border-radius:10px;padding:10px 18px;font-size:13px;color:#E6EDF3;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.5);align-items:center;gap:8px"><div style="width:6px;height:6px;border-radius:50%;background:#22C55E;flex-shrink:0"></div><span id="toast-msg"></span></div>
+<script>
+
+/* ══ SHARED TOPBAR FUNCTIONS ══ */
+function closeAllDropdowns(){
+  var d=document.getElementById('profile-dropdown');
+  var a=document.getElementById('alert-dropdown');
+  if(d) d.style.display='none';
+  if(a) a.style.display='none';
+}
+function toggleProfileMenu(){
+  var d=document.getElementById('profile-dropdown');
+  var a=document.getElementById('alert-dropdown');
+  if(a) a.style.display='none';
+  if(d) d.style.display=d.style.display==='block'?'none':'block';
+}
+function toggleAlerts(){
+  var d=document.getElementById('alert-dropdown');
+  var p=document.getElementById('profile-dropdown');
+  if(p) p.style.display='none';
+  if(!d) return;
+  d.style.display=d.style.display==='block'?'none':'block';
+  if(d.style.display==='block') spLoadAlerts();
+}
+function spLoadAlerts(){
+  var list=document.getElementById('alert-list'); if(!list) return;
+  var token=localStorage.getItem('sp_token');
+  if(!token){list.innerHTML='<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Please login</div>';return;}
+  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
+  fetch(API+'/dashboard/kpis',{headers:{'Authorization':'Bearer '+token}})
+    .then(function(r){if(!r.ok)throw new Error();return r.json();})
+    .then(function(data){
+      var html='';
+      if(data.escalated>0) html+='<div class="alert-item"><div class="alert-dot" style="background:var(--red)"></div><div><div class="alert-title">'+data.escalated+' Escalated Actions</div><div class="alert-sub">Require immediate attention</div></div></div>';
+      if(data.openNCRs>0) html+='<div class="alert-item"><div class="alert-dot" style="background:var(--amber)"></div><div><div class="alert-title">'+data.openNCRs+' Open NCRs</div><div class="alert-sub">Pending closure</div></div></div>';
+      if(data.overdueActions>0) html+='<div class="alert-item"><div class="alert-dot" style="background:var(--purple,#8B5CF6)"></div><div><div class="alert-title">'+data.overdueActions+' Overdue Actions</div><div class="alert-sub">Past due date</div></div></div>';
+      list.innerHTML=html||'<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">No active alerts</div>';
+    })
+    .catch(function(){list.innerHTML='<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Unable to load alerts</div>';});
+}
+function toggleMore(e){e.stopPropagation();document.getElementById('more-btn').classList.toggle('open');}
+function signOut(){localStorage.removeItem('sp_token');localStorage.removeItem('sp_user');localStorage.removeItem('sp_company');window.location.href='safetypro_login.html?logout=1';}
+function goToSettings(){closeAllDropdowns();if(typeof showToast==='function')showToast('Settings coming soon','blue');}
+function changePassword(){closeAllDropdowns();if(typeof showToast==='function')showToast('Email: support@safetyproworld.com','blue');}
+function openManageUsers(){closeAllDropdowns();var m=document.getElementById('users-modal');if(m){m.classList.add('open');if(typeof loadUsers==='function')loadUsers();}else{if(typeof showToast==='function')showToast('User management available in Admin page','blue');}}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('#alert-btn')&&!e.target.closest('#alert-dropdown')){var d=document.getElementById('alert-dropdown');if(d)d.style.display='none';}
+  if(!e.target.closest('#user-pill-btn')&&!e.target.closest('#profile-dropdown')){var d=document.getElementById('profile-dropdown');if(d)d.style.display='none';}
+  if(!e.target.closest('#more-btn')){var m=document.getElementById('more-btn');if(m)m.classList.remove('open');}
+});
+/* ══ INIT USER IN TOPBAR ══ */
+(function spInitTopbar(){
+  var u=localStorage.getItem('sp_user');
+  if(!u)return;
+  try{
+    var obj=JSON.parse(u);
+    var name=obj.name||obj.fullName||obj.username||'User';
+    var role=obj.role||obj.designation||'HSE Officer';
+    var initials=name.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
+    var ni=document.getElementById('nav-initials');var nu=document.getElementById('nav-username');var nr=document.getElementById('nav-role');
+    var pi=document.getElementById('pd-initials');var pn=document.getElementById('profile-name');var pe=document.getElementById('profile-email');var prb=document.getElementById('profile-role-badge');
+    if(ni)ni.textContent=initials;
+    if(nu)nu.textContent=name;
+    if(nr)nr.textContent=role;
+    if(pi)pi.textContent=initials;
+    if(pn)pn.textContent=name;
+    if(pe)pe.textContent=obj.email||'';
+    if(prb)prb.textContent=role;
+  }catch(e){}
+})();
+</script>
+
+<!-- ══ STANDARD FOOTER ══ -->
+<footer class="sp-footer">
+  <div class="sp-footer-left">
+    <span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF)">Control</span>
+    <span class="sp-footer-sep">|</span>
+    <span id="sp-footer-version">v1.3.2</span>
+    <span class="sp-footer-sep">|</span>
+    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
+  </div>
+  <div class="sp-footer-center">
+    <a href="/cdn-cgi/l/email-protection#57242227273825231724363132232e2725382038253b337934383a">Escalation Guide</a>
+    <a href="/cdn-cgi/l/email-protection#ee9d9b9e9e819c9aae9d8f888b9a979e9c8199819c828ac08d8183">Control Help</a>
+    <a href="/cdn-cgi/l/email-protection#93e0e6e3e3fce1e7d3e0f2f5f6e7eae3e1fce4fce1fff7bdf0fcfe">Report Issue</a>
+  </div>
+  <div class="sp-footer-right">
+    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
+    <span id="sp-status-text" style="color:#22C55E">Operational</span>
+  </div>
+</footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+(function spFooterInit(){
+  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
+  function updateFooter(d){
+    var v=document.getElementById('sp-footer-version');
+    var s=document.getElementById('sp-footer-sync');
+    var dot=document.getElementById('sp-status-dot');
+    var txt=document.getElementById('sp-status-text');
+    if(!v)return;
+    if(d.version)v.textContent=d.version;
+    if(d.lastSync){try{s.textContent=new Date(d.lastSync).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}}
+    var status=d.status||'operational';
+    var colors={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'};
+    if(dot)dot.style.background=colors[status]||'#22C55E';
+    if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#22C55E';}
+  }
+  function fetchStatus(){
+    fetch(API+'/system/status')
+      .then(function(r){return r.json();})
+      .then(updateFooter)
+      .catch(function(){updateFooter({status:'operational',version:'v1.3.2',lastSync:new Date().toISOString()});});
+  }
+  fetchStatus();
+  setInterval(fetchStatus,30000);
+})();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script>
+/* sp-more-fix */
+(function(){
+  function initMore(){
+    var btn = document.querySelector('.more-wrap > button, .more-btn, [onclick*="toggleMore"]');
+    var menu = document.querySelector('.more-menu');
+    if(!menu) return;
+    function toggle(e){
+      if(e) e.stopPropagation();
+      var open = menu.style.display === 'block';
+      menu.style.display = open ? 'none' : 'block';
+    }
+    if(btn) btn.onclick = toggle;
+    document.addEventListener('click', function(e){
+      var wrap = document.querySelector('.more-wrap');
+      if(wrap && !wrap.contains(e.target)){
+        menu.style.display = 'none';
+      }
+    });
+    // Also fix topnav More button
+    var topMore = document.querySelector('.nav-links .more-wrap button, .nav-more');
+    if(topMore) topMore.onclick = toggle;
+  }
+  window.toggleMore = function(e){ if(e) e.stopPropagation(); var m=document.querySelector('.more-menu'); if(m) m.style.display = m.style.display==='block'?'none':'block'; };
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', initMore);
+  else initMore();
+})();
+</script>
+</body>
+</html>

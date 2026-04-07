@@ -34,6 +34,16 @@ body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.8;
 .footer-legal a{color:var(--t3);text-decoration:none;font-size:11px;margin:0 10px;font-family:var(--fh);}
 .footer-legal a:hover{color:var(--t1);}
 .footer-copy{font-size:11px;color:var(--t3);margin-top:8px;}
+
+/* SafetyPro scrollbar v2 */
+.body { overflow: hidden !important; }
+.content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+<style>/* sp-height-fix */
+html,body{height:100%!important;overflow:hidden!important;}
+.body{height:calc(100vh - 52px)!important;overflow:hidden!important;}
 </style>
 </head><title>Terms of Service — SafetyPro AI</title>
 <body>

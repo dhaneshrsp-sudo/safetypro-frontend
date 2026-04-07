@@ -80,11 +80,21 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sa
 .version{text-align:center;margin-top:12px;font-size:11px;color:var(--t3);display:flex;align-items:center;justify-content:center;gap:6px;}
 .version-dot{width:5px;height:5px;border-radius:50%;background:var(--green);}
 @media(max-width:768px){.page{flex-direction:column;overflow:auto;}html,body{overflow:auto;}.left{flex:0 0 auto;padding:32px 28px;}.left::before,.left::after,.left-grid{display:none;}.hero h1{font-size:30px;}.stats{gap:10px;}.right{padding:32px 24px;}}
+
+/* SafetyPro scrollbar v2 */
+.body { overflow: hidden !important; }
+.content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 </style>
 <link rel="preconnect" href="https://www.safetyproworld.com"/>
 <link rel="dns-prefetch" href="https://www.safetyproworld.com"/>
 <link rel="preconnect" href="https://www.safetyproworld.com"/>
 <link rel="dns-prefetch" href="https://www.safetyproworld.com"/>
+<style>/* sp-height-fix */
+html,body{height:100%!important;overflow:hidden!important;}
+.body{height:calc(100vh - 52px)!important;overflow:hidden!important;}
+</style>
 </head>
 <body>
 <div class="page">

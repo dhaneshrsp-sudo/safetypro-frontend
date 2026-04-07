@@ -907,9 +907,154 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 
   /* SIDEBAR-GAP-FIX */ .sidebar{top:0 !important;}
-  </style>
+  
+/* SafetyPro scrollbar v2 */
+.body { overflow: hidden !important; }
+.content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 <script src="/safetypro_exports.js"></script>
+
+
+
+
+
+<style>
+/* sp-ops-fix */
+/* 1. Body layout: flex column — topnav(52) + content(flex:1) + footer fit in 100vh */
+html{height:100%;overflow:hidden;}
+body{height:100%!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;}
+/* 2. Topnav: fixed height */
+.topnav{flex-shrink:0!important;height:52px!important;}
+/* 3. .body div: flex row — sidebar left, content right, fills remaining height */
+.body{flex:1 1 0%!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:row!important;margin-top:0!important;}
+/* 4. Sidebar: full height, no scrollbar visible */
+.sidebar{position:relative!important;flex-shrink:0!important;height:100%!important;overflow-y:auto!important;scrollbar-width:none!important;}
+.sidebar::-webkit-scrollbar{display:none!important;}
+/* 5. Content: scrollable, thin 4px scrollbar matching dashboard */
+.content{flex:1 1 0%!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:thin;scrollbar-color:var(--border,#1E293B) transparent;}
+.content::-webkit-scrollbar{width:4px!important;}
+.content::-webkit-scrollbar-thumb{background:var(--border,#1E293B)!important;border-radius:2px!important;}
+/* 6. Sub-header: sticky at top, extends full width including 4px scrollbar lane */
+.sub-header{position:sticky!important;top:0!important;width:calc(100% + 4px)!important;margin-right:-4px!important;box-sizing:border-box!important;z-index:10!important;}
+/* 7. Footer: always visible at bottom */
+footer.sp-footer,.sp-footer{flex-shrink:0!important;display:flex!important;}
+/* 8. Fix Quick Report / ops-grid: prevent right column from overflowing */
+.main-area{min-width:0!important;overflow-x:hidden!important;}
+.ops-grid{grid-template-columns:minmax(0,1fr) minmax(0,380px)!important;min-width:0!important;width:100%!important;}
+.left-col,.right-col{min-width:0!important;overflow:hidden!important;}
+</style>
+<style>
+/* sp-border-fix */
+.topnav{border-bottom:1px solid #334155!important;}
+.sidebar{border-right:1px solid #334155!important;}
+footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
+</style>
+
+
+<style>
+/* sp-dropdown-fix */
+#alert-dropdown,.alert-dropdown,
+#profile-dropdown,.profile-dd {
+  position: fixed !important;
+  z-index: 99999 !important;
+  width: 300px !important;
+  min-width: 300px !important;
+  max-height: calc(100vh - 68px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  background: #131C26 !important;
+  border: 1px solid #475569 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 0 0 1px rgba(71,85,105,0.4), 0 8px 24px rgba(0,0,0,0.6) !important;
+  scrollbar-width: thin;
+  scrollbar-color: #475569 transparent;
+}
+#alert-dropdown::-webkit-scrollbar,
+#profile-dropdown::-webkit-scrollbar { width: 4px; }
+#alert-dropdown::-webkit-scrollbar-thumb,
+#profile-dropdown::-webkit-scrollbar-thumb { background: #475569; border-radius: 2px; }
+.topnav, nav.topnav { overflow: visible !important; }
+</style>
+
+
+
+<style>
+/* sp-topnav-pattern */
+.topnav {
+  display: grid !important;
+  grid-template-columns: 195px 1fr auto !important;
+  align-items: center !important;
+  padding: 0 !important;
+  height: 52px !important;
+  overflow: visible !important;
+  position: relative !important;
+}
+.topnav .logo, .topnav a.logo {
+  width: 195px !important;
+  min-width: 195px !important;
+  max-width: 195px !important;
+  height: 100% !important;
+  padding: 0 16px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  overflow: hidden !important;
+  border-right: 1px solid #334155 !important;
+}
+.nav-links {
+  padding-left: 12px !important;
+  overflow: visible !important;
+  display: flex !important;
+  align-items: center !important;
+  height: 100% !important;
+  position: relative !important;
+}
+.nav-right {
+  padding-right: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  height: 100% !important;
+}
+.sidebar { width: 195px !important; flex-shrink: 0 !important; }
+.topnav::after { display: none !important; }
+.sb-toggle { display: none !important; }
+@media (max-width: 768px) { .sb-toggle { display: flex !important; } }
+/* More dropdown — ensure it renders above everything */
+.more-menu { z-index: 99998 !important; }
+.more-wrap { position: relative !important; }
+</style>
+
+
+<style>
+/* sp-more-fix-css */
+/* More dropdown: hidden by default, shown when .open on wrapper */
+#more-btn .more-menu,
+.more-wrap .more-menu {
+  display: none !important;
+  position: absolute !important;
+  top: calc(100% + 4px) !important;
+  left: 0 !important;
+  min-width: 200px !important;
+  z-index: 99999 !important;
+  background: #131C26 !important;
+  border: 1px solid #334155 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+  padding: 4px !important;
+}
+#more-btn.open .more-menu,
+.more-wrap.open .more-menu {
+  display: flex !important;
+  flex-direction: column !important;
+}
+</style>
+
 </head>
 <body>
 
@@ -933,6 +1078,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
         <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_field"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
         <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_hrm.html" style="color:#8B5CF6;"><svg viewBox="0 0 24 24" style="fill:#8B5CF6;"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>HRM &amp; Payroll</a>
         <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_ai.html"><svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_auditor"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Client &amp; Auditor Portal</a>
         <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_documents.html"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
         <div class="mm-divider"></div>
         <a class="mm-item mm-admin" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09"/></svg>Admin &amp; Configuration</a>
@@ -1009,11 +1155,11 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <svg id="sb-more-arr" viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
     <div id="sb-more-items" style="display:none">
-      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_reports.html">
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_audit_compliance.html">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
         Audit &amp; Compliance
       </a>
-      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field">
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field.html">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         Site &amp; Field Tools
       </a>
@@ -1021,6 +1167,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai.html">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
         AI Intelligence
+      </a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_auditor.html">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Client &amp; Auditor Portal
       </a>
       <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_documents.html">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
@@ -1866,42 +2016,41 @@ function toggleMore(e){
   e.stopPropagation();
   document.getElementById('more-btn').classList.toggle('open');
 }
-document.addEventListener('click',function(){
-  var mb=document.getElementById('more-btn');
-  if(mb) mb.classList.remove('open');
-});
+document.addEventListener('click',function(e){ var mb=document.getElementById('more-btn'); if(mb&&!mb.contains(e.target)) mb.classList.remove('open'); });
 
 
 /* == NAVIGATION == */
 (function(){
   var pages = {
-    'Dashboard':            'safetypro_v2.html',
-    'Operations':           'safetypro_operations.html',
-    'Control':              'safetypro_control.html',
-    'Reports':              'safetypro_reports.html',
-    'Audit & Compliance':   'safetypro_admin.html',
-    'Documents & Records':  'safetypro_admin.html',
-    'Site & Field Tools':   'safetypro_admin.html',
-    'AI Intelligence':      'safetypro_admin.html',
-    'Auditor Verification': 'safetypro_admin.html',
-    'Admin & Configuration':'safetypro_admin.html',
-  };
+    'Dashboard':              'safetypro_v2.html',
+    'Operations':             'safetypro_operations.html',
+    'Control':                'safetypro_control.html',
+    'Reports':                'safetypro_reports.html',
+    'Audit & Compliance':     'safetypro_audit_compliance.html',
+    'Documents & Records':    'safetypro_documents.html',
+    'Site & Field Tools':     'safetypro_field.html',
+    'HRM & Payroll':          'safetypro_hrm.html',
+    'AI Intelligence':        'safetypro_ai.html',
+    'Client & Auditor Portal':'safetypro_auditor.html',
+    'Admin & Configuration':  'safetypro_admin.html',
+    'Admin':                  'safetypro_admin.html',
+  };;;
 
   function navigate(label){
     var dest = pages[label];
     if(dest) window.location.href = dest;
   }
 
-  // Wire sidebar items
+  // Wire sidebar items — use href directly (reliable, no label parsing)
   document.querySelectorAll('.sb-item').forEach(function(el){
-    var label = el.textContent.trim().replace(/\d+/g,'').trim();
-    var dest = pages[label];
-    if(dest){
-      el.style.cursor = 'pointer';
+    var dest = el.getAttribute('href');
+    if(dest && dest !== '#'){
       el.addEventListener('click', function(e){
         e.preventDefault();
         window.location.href = dest;
       });
+    }
+  });
     }
   });
 
@@ -3182,6 +3331,46 @@ function exportActionsTracker(){
 </script>
 
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+
+
+
+
+
+<script>
+/* sp-sb-link-fix */
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('#sb-more-items .sb-item').forEach(function(el) {
+    var href = el.getAttribute('href');
+    if (!href) return;
+    // Remove all existing listeners by replacing element with its clone
+    var clone = el.cloneNode(true);
+    el.parentNode.replaceChild(clone, el);
+    // Add single clean click handler
+    clone.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = clone.getAttribute('href');
+    });
+  });
+});
+</script>
+<script>
+/* sp-sb-toggle-fix */
+document.addEventListener('DOMContentLoaded', function() {
+  var btn = document.querySelector('.sb-more-btn');
+  var items = document.getElementById('sb-more-items');
+  var arr = document.getElementById('sb-more-arr');
+  if (!btn || !items) return;
+  btn.removeAttribute('onclick');
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var open = items.style.display === 'block';
+    items.style.display = open ? 'none' : 'block';
+    if (arr) arr.style.transform = open ? '' : 'rotate(180deg)';
+  });
+});
+</script>
 </body>
 </html>
 <!-- fix4 --><!-- fix5 --><!-- fix6 --><!-- fix7 --><!-- fix8 --><!-- cache-bust-progress-fix -->

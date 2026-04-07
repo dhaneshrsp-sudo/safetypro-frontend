@@ -282,6 +282,16 @@ footer{background:#050810;border-top:1px solid var(--border);padding:20px 0;}
   .cb-sep{display:none;}
   .ms-flags{gap:10px;}
 }
+
+/* SafetyPro scrollbar v2 */
+.body { overflow: hidden !important; }
+.content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+<style>/* sp-height-fix */
+html,body{height:100%!important;overflow:hidden!important;}
+.body{height:calc(100vh - 52px)!important;overflow:hidden!important;}
 </style>
 </head>
 <body>

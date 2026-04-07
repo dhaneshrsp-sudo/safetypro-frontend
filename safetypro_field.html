@@ -888,7 +888,7 @@ flex-wrap:wrap;}
 
 
 /* ══ STANDARD FOOTER — exact match dashboard ══ */
-.sp-footer{flex-shrink:0;background:var(--sidebar,#080F18);border-top:1px solid var(--border,#162236);padding:7px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--t3,#2E4A66);z-index:10;}
+.sp-footer {flex-shrink:0;background:var(--sidebar,#080F18);padding:7px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--t3,#2E4A66);z-index:10;}
 .sp-footer-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .sp-footer-center{display:flex;align-items:center;gap:14px;}
 .sp-footer-center a{color:var(--t3,#2E4A66);text-decoration:none;transition:.15s;}
@@ -927,9 +927,171 @@ flex-wrap:wrap;}
   .logo-text span { color: var(--green,#22C55E) !important; }
   .logo-shield { width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D) !important;border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35); }
   .logo-shield svg { width:16px;height:16px;fill:#fff; }
-  </style>
+  
+/* SafetyPro scrollbar v2 */
+.body { overflow: hidden !important; }
+.content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 <script src="/safetypro_exports.js"></script>
+
+
+
+
+
+
+<style>
+/* sp-field-fix */
+html{height:100%;overflow:hidden;}
+body{height:100%!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;}
+.topnav{flex-shrink:0!important;height:52px!important;}
+.body{flex:1 1 0%!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:row!important;margin-top:0!important;}
+/* FIX 2: Sidebar scrollable — so MORE items incl. Admin always reachable */
+.sidebar{position:relative!important;flex-shrink:0!important;height:100%!important;min-height:0!important;overflow-y:auto!important;scrollbar-width:none!important;border-right:1px solid var(--border,#1E293B)!important;}
+.sidebar::-webkit-scrollbar{display:none!important;}
+/* FIX 1: sb-more-items scrolls inside sidebar — no overflow into footer */
+#sb-more-items{overflow:visible!important;max-height:none!important;}
+/* Content */
+.content{flex:1 1 0%!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;}
+/* Sub-header: single row, full width */
+.sub-header{position:sticky!important;top:0!important;z-index:10!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important;gap:0!important;width:calc(100% + 4px)!important;margin-right:-4px!important;box-sizing:border-box!important;}
+/* Tab slider */
+.sh-tabs{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;overflow-x:auto!important;overflow-y:hidden!important;scroll-behavior:smooth!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important;gap:2px!important;}
+.sh-tabs::-webkit-scrollbar{display:none!important;}
+.sh-tab{flex-shrink:0!important;white-space:nowrap!important;}
+/* Tab panels */
+.tab-panel{flex:1 1 0%!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:thin;scrollbar-color:var(--border,#1E293B) transparent;}
+.tab-panel::-webkit-scrollbar{width:4px!important;}
+.tab-panel::-webkit-scrollbar-thumb{background:var(--border,#1E293B)!important;border-radius:2px!important;}
+/* Footer */
+footer.sp-footer,.sp-footer{flex-shrink:0!important;display:flex!important;}
+/* FAB above footer */
+#nm-fab{bottom:74px!important;}
+</style>
+<style>/* sp-footer-line-fix */
+footer.sp-footer, .sp-footer {
+  border-top: 1px solid #334155 !important;
+}
+</style>
+<style>
+/* sp-border-fix */
+.topnav{border-bottom:1px solid #334155!important;}
+.sidebar{border-right:1px solid #334155!important;}
+footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
+</style>
+
+
+<style>
+/* sp-dropdown-fix */
+#alert-dropdown,.alert-dropdown,
+#profile-dropdown,.profile-dd {
+  position: fixed !important;
+  z-index: 99999 !important;
+  width: 300px !important;
+  min-width: 300px !important;
+  max-height: calc(100vh - 68px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  background: #131C26 !important;
+  border: 1px solid #475569 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 0 0 1px rgba(71,85,105,0.4), 0 8px 24px rgba(0,0,0,0.6) !important;
+  scrollbar-width: thin;
+  scrollbar-color: #475569 transparent;
+}
+#alert-dropdown::-webkit-scrollbar,
+#profile-dropdown::-webkit-scrollbar { width: 4px; }
+#alert-dropdown::-webkit-scrollbar-thumb,
+#profile-dropdown::-webkit-scrollbar-thumb { background: #475569; border-radius: 2px; }
+.topnav, nav.topnav { overflow: visible !important; }
+</style>
+
+
+
+<style>
+/* sp-topnav-pattern */
+.topnav {
+  display: grid !important;
+  grid-template-columns: 195px 1fr auto !important;
+  align-items: center !important;
+  padding: 0 !important;
+  height: 52px !important;
+  overflow: visible !important;
+  position: relative !important;
+}
+.topnav .logo, .topnav a.logo {
+  width: 195px !important;
+  min-width: 195px !important;
+  max-width: 195px !important;
+  height: 100% !important;
+  padding: 0 16px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  overflow: hidden !important;
+  border-right: 1px solid #334155 !important;
+}
+.nav-links {
+  padding-left: 12px !important;
+  overflow: visible !important;
+  display: flex !important;
+  align-items: center !important;
+  height: 100% !important;
+  position: relative !important;
+}
+.nav-right {
+  padding-right: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  height: 100% !important;
+}
+.sidebar { width: 195px !important; flex-shrink: 0 !important; }
+.topnav::after { display: none !important; }
+.sb-toggle { display: none !important; }
+@media (max-width: 768px) { .sb-toggle { display: flex !important; } }
+/* More dropdown — ensure it renders above everything */
+.more-menu { z-index: 99998 !important; }
+.more-wrap { position: relative !important; }
+</style>
+
+
+
+<style>
+/* sp-more-fix-css */
+/* More dropdown: hidden by default, shown when .open on wrapper */
+#more-btn .more-menu,
+.more-wrap .more-menu {
+  display: none !important;
+  position: absolute !important;
+  top: calc(100% + 4px) !important;
+  left: 0 !important;
+  min-width: 200px !important;
+  z-index: 99999 !important;
+  background: #131C26 !important;
+  border: 1px solid #334155 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+  padding: 4px !important;
+}
+#more-btn.open .more-menu,
+.more-wrap.open .more-menu {
+  display: flex !important;
+  flex-direction: column !important;
+}
+</style>
+
+<style>
+/* sp-content-gap-fix */
+.sub-header {
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
+</style>
 </head>
 <body>
 
@@ -954,7 +1116,7 @@ flex-wrap:wrap;}
         <a class="mm-item" href="safetypro_field" style="color:var(--green);font-weight:700;"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
         <a class="mm-item" href="safetypro_hrm"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>HRM &amp; Payroll</a>
         <a class="mm-item" href="safetypro_ai"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 110 20A10 10 0 0112 2z"/></svg>AI Intelligence</a>
-        <a class="mm-item" href="safetypro_auditor"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Auditor Verification</a>
+        <a class="mm-item" href="safetypro_auditor"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Client &amp; Auditor Portal</a>
         <a class="mm-item" href="safetypro_admin"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/></svg>Admin &amp; Configuration</a>
       </div>
     </div>
@@ -998,38 +1160,42 @@ flex-wrap:wrap;}
     <a class="sb-item" href="safetypro_control.html"><svg   viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
       Control<span class="sb-badge red">5</span>
     </a>
-    <a class="sb-item" href="safetypro_audit_compliance"><svg   viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
+    <a class="sb-item" href="safetypro_reports.html"><svg   viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
       Reports
     </a>
-    <div style="height:1px;background:#1E293B;margin:10px 2px 6px"></div>
-    <div id="sb-more-hdr" onclick="toggleSidebarMore()" style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:6px 10px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border-radius:4px;" onmouseover="this.style.background='rgba(255,255,255,0.04)'" onmouseout="this.style.background='transparent'">MORE <span id="sb-chev" style="font-size:10px;transition:transform .25s;display:inline-block;">&#9660;</span></div>
-<div id="sb-more-items" style="overflow:hidden;max-height:500px;opacity:1;transition:max-height .3s ease,opacity .3s;">
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_reports">
-      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
-      Audit &amp; Compliance
-    </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_documents">
-      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-      Documents & Records
-    </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field">
-      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-      Site & Field Tools
-    </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai">
-      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-      AI Intelligence
-    </a>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_auditor.html">
-      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      Auditor Verification
-    </a>
-    <div style="height:1px;background:#1E293B;margin:6px 2px 4px"></div>
-    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#22C55E" href="safetypro_admin">
-      <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#22C55E"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-      Admin &amp; Configuration
-    </a>
-  </div></div>
+    
+    <div class="sb-more-btn" onclick="var i=document.getElementById('sb-more-items');var a=document.getElementById('sb-more-arr');var o=i.style.display==='block';i.style.display=o?'none':'block';a.style.transform=o?'':'rotate(180deg)';" style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;margin:2px 8px;border-radius:8px;cursor:pointer;color:var(--t2);font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;transition:.2s" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+      <span>More</span>
+      <svg id="sb-more-arr" viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+<div id="sb-more-items" style="display:block">
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_audit_compliance.html">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
+        Audit &amp; Compliance
+      </a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field.html">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        Site &amp; Field Tools
+      </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#8B5CF6" href="safetypro_hrm.html"><svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#8B5CF6"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>HRM &amp; Payroll</a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai.html">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        AI Intelligence
+      </a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_auditor.html">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Client &amp; Auditor Portal
+      </a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_documents.html">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+        Documents &amp; Records
+      </a>
+      <div style="height:1px;background:var(--border);margin:6px 8px"></div>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px;color:var(--green)" href="safetypro_admin.html">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--green)"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Admin &amp; Configuration
+      </a>
+    </div></div>
 
   <!-- CONTENT -->
   <div class="content">
@@ -3070,5 +3236,68 @@ function bamInit() {
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+<script>
+/* sp-field-tab-slider */
+(function(){
+  function initTabSlider(){
+    var tabs = document.querySelector('.sh-tabs');
+    if(!tabs || tabs.dataset.slider) return;
+    tabs.dataset.slider = '1';
+    // Add mouse-drag scroll
+    var isDown=false, startX, scrollLeft;
+    tabs.addEventListener('mousedown',function(e){isDown=true;tabs.classList.add('dragging');startX=e.pageX-tabs.offsetLeft;scrollLeft=tabs.scrollLeft;});
+    tabs.addEventListener('mouseleave',function(){isDown=false;});
+    tabs.addEventListener('mouseup',function(){isDown=false;});
+    tabs.addEventListener('mousemove',function(e){if(!isDown)return;e.preventDefault();var x=e.pageX-tabs.offsetLeft;tabs.scrollLeft=scrollLeft-(x-startX)*1.2;});
+    // Auto scroll active tab into view on tab switch
+    var observer=new MutationObserver(function(){
+      var active=tabs.querySelector('.sh-tab.active,.sh-tab[style*="background"]');
+      if(active) active.scrollIntoView({behavior:'smooth',block:'nearest',inline:'nearest'});
+    });
+    observer.observe(tabs,{attributes:true,subtree:true});
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initTabSlider);
+  else initTabSlider();
+})();
+</script>
+
+
+
+
+<script>
+/* sp-sb-link-fix */
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('#sb-more-items .sb-item').forEach(function(el) {
+    var href = el.getAttribute('href');
+    if (!href) return;
+    // Remove all existing listeners by replacing element with its clone
+    var clone = el.cloneNode(true);
+    el.parentNode.replaceChild(clone, el);
+    // Add single clean click handler
+    clone.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = clone.getAttribute('href');
+    });
+  });
+});
+</script>
+<script>
+/* sp-sb-toggle-fix */
+document.addEventListener('DOMContentLoaded', function() {
+  var btn = document.querySelector('.sb-more-btn');
+  var items = document.getElementById('sb-more-items');
+  var arr = document.getElementById('sb-more-arr');
+  if (!btn || !items) return;
+  btn.removeAttribute('onclick');
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var open = items.style.display === 'block';
+    items.style.display = open ? 'none' : 'block';
+    if (arr) arr.style.transform = open ? '' : 'rotate(180deg)';
+  });
+});
+</script>
 </body>
 </html>

@@ -297,6 +297,16 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 /* ── TOAST ── */
 #toast{position:absolute;bottom:max(env(safe-area-inset-bottom),24px);left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 18px;font-size:13px;font-weight:500;color:var(--t1);white-space:nowrap;z-index:200;transition:transform .3s cubic-bezier(.34,1.56,.64,1);pointer-events:none;font-family:var(--fb);}
 #toast.show{transform:translateX(-50%) translateY(0);}
+
+/* SafetyPro scrollbar v2 */
+.body { overflow: hidden !important; }
+.content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+<style>/* sp-height-fix */
+html,body{height:100%!important;overflow:hidden!important;}
+.body{height:calc(100vh - 52px)!important;overflow:hidden!important;}
 </style>
 </head>
 <body>

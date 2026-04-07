@@ -1,0 +1,55 @@
+/* ================================================================
+   SafetyPro AI — Global Shared Stylesheet
+   Applies uniform scrollbar + layout across ALL pages
+   ================================================================ */
+
+/* ── SCROLLBAR — matches dashboard exactly ────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border, #1E293B); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--t3, #64748B); }
+* { scrollbar-width: thin; scrollbar-color: var(--border, #1E293B) transparent; }
+
+/* ── LAYOUT — content area scrolls at content level ──────────── */
+html, body { height: 100%; overflow: hidden; }
+.body { display: flex; flex: 1 1 0%; overflow: hidden; }
+
+/* Single authoritative .content rule — same across all pages */
+.content {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* The main scrollable area inside content */
+.main-area,
+.tab-panel.active,
+.page-content,
+.content > .scroll-area {
+  flex: 1 1 0%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+}
+
+/* ── RIGHT BORDER SCROLLBAR — on .content (not .body) ─────────── */
+/* This makes the scrollbar sit flush at the right page border
+   matching the dashboard's clean edge */
+.content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border, #1E293B) transparent;
+}
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-track { background: transparent; }
+.content::-webkit-scrollbar-thumb { background: var(--border, #1E293B); border-radius: 2px; }
+
+/* ── SIDEBAR — no scrollbar (hidden) ─────────────────────────── */
+.sidebar { scrollbar-width: none; }
+.sidebar::-webkit-scrollbar { display: none; }
+
+/* ── PREVENT RIGHT OVERFLOW on all pages ─────────────────────── */
+.body, .content, .main-area { max-width: 100vw; }
+.tab-panel { overflow-x: hidden !important; }

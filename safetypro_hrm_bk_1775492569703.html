@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HRM &amp; Payroll — SafetyPro AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0B0F14;--card:#131C26;--raised:#16212B;--sidebar:#0F1720;
+  --border:#1E293B;--div:rgba(255,255,255,0.05);
+  --green:#22C55E;--g-h:#16A34A;--g-s:rgba(34,197,94,.12);--g-b:rgba(34,197,94,.3);
+  --amber:#F59E0B;--a-s:rgba(245,158,11,.12);--a-b:rgba(245,158,11,.3);
+  --red:#EF4444;--r-s:rgba(239,68,68,.12);--r-b:rgba(239,68,68,.35);
+  --blue:#3B82F6;--b-s:rgba(59,130,246,.12);--b-b:rgba(59,130,246,.3);
+  --purple:#8B5CF6;--p-s:rgba(139,92,246,.12);--p-b:rgba(139,92,246,.3);
+  --t1:#E6EDF3;--t2:#94A3B8;--t3:#64748B;
+  --fh:'Montserrat',sans-serif;--fb:'Roboto',sans-serif;
+}
+html{height:100%;}body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fb);overflow:hidden;display:flex;flex-direction:column;}
+/* TOPNAV */
+.topnav{position:fixed;top:0;left:0;right:0;height:52px;background:var(--sidebar);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;z-index:200;gap:8px;}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;}
+.logo-shield-REPLACED{width:28px;height:28px;background:var(--green);border-radius:7px;display:flex;align-items:center;justify-content:center;}
+.logo-mark svg{width:18px;height:18px;fill:#fff;}
+.logo-text{font-family:var(--fh);font-size:15px;font-weight:800;color:var(--t1);}
+.logo-text span{color:var(--green);}
+.sb-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;margin-left:4px;}
+.sb-toggle span{display:block;width:20px;height:2px;background:var(--t2);margin:4px 0;}
+.nav-links{display:flex;align-items:center;gap:2px;margin-left:24px;flex:1;}
+.nl{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:8px;color:var(--t2);font-size:12px;font-weight:500;text-decoration:none;transition:.15s;cursor:pointer;white-space:nowrap;}
+.nl svg{width:14px;height:14px;fill:currentColor;flex-shrink:0;}
+.nl:hover{background:var(--div);color:var(--t1);}
+.nl.active{background:var(--p-s);color:var(--purple);}
+.arr{font-size:8px;margin-left:2px;}
+.more-wrap{position:relative;}
+.more-menu{display:none;position:absolute;top:calc(100% + 6px);left:0;background:#131C26;border:1px solid var(--border);border-radius:10px;min-width:210px;z-index:200;padding:6px;box-shadow:0 12px 32px rgba(0,0,0,.5);}
+.more-wrap.open .more-menu{display:flex;flex-direction:column;gap:1px;}
+.mm-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;font-size:12px;color:var(--t2);cursor:pointer;text-decoration:none;transition:.15s;}
+.mm-item:hover{background:var(--div);color:var(--t1);}
+.mm-item svg{width:14px;height:14px;fill:currentColor;opacity:.7;flex-shrink:0;}
+.mm-item.mm-hrm{color:var(--purple);}
+.mm-item.mm-hrm svg{opacity:1;}
+.mm-item.mm-hrm:hover{background:var(--p-s);}
+.mm-item.mm-admin{color:var(--green);}
+.mm-item.mm-admin svg{opacity:1;}
+.mm-divider{height:1px;background:var(--border);margin:4px 0;}
+.nav-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.icon-btn{position:relative;width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);transition:.15s;}
+.icon-btn:hover{background:var(--div);color:var(--t1);}
+.icon-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;}
+.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--amber);border:2px solid var(--sidebar);}
+.user-pill{display:flex;align-items:center;gap:8px;padding:5px 10px 5px 5px;border-radius:10px;cursor:pointer;transition:.15s;border:1px solid transparent;}
+.user-pill:hover{background:var(--div);border-color:var(--border);}
+.ua{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#8B5CF6,#6D28D9);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:11px;font-weight:800;color:#fff;flex-shrink:0;}
+.un-name{font-size:12px;font-weight:600;color:var(--t1);}
+.un-role{font-size:9px;color:var(--t3);}
+/* LAYOUT */
+.body{display:flex;flex:1;margin-top:52px;overflow:hidden;min-height:0;}
+.sidebar{width:220px;background:var(--sidebar);border-right:1px solid var(--border);padding:10px 8px;overflow-y:auto;flex-shrink:0;transition:transform .3s;}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;transition:.15s;margin-bottom:2px;}
+.sb-item:hover{background:var(--div);color:var(--t1);}
+.sb-item.active{background:var(--p-s);color:var(--purple);}
+.sb-item svg{width:14px;height:14px;fill:currentColor;flex-shrink:0;}
+.sb-badge{font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;margin-left:auto;}
+.sb-badge.amber{background:var(--a-s);color:var(--amber);}
+.sb-badge.red{background:var(--r-s);color:var(--red);}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;}
+.content{flex:1;overflow:hidden;display:flex;flex-direction:column;}
+/* HRM HEADER */
+.hrm-header{background:linear-gradient(135deg,#0F1A2E,#0B1929,#0D1520);border-bottom:1px solid var(--border);padding:0 24px;flex-shrink:0;position:relative;overflow:hidden;}
+.hrm-header::before{content:'';position:absolute;top:-40px;right:80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.08),transparent 70%);pointer-events:none;}
+.hrm-top{display:flex;align-items:center;justify-content:space-between;padding:16px 0 12px;}
+.hrm-icon{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--purple),#6D28D9);display:flex;align-items:center;justify-content:center;}
+.hrm-icon svg{width:20px;height:20px;fill:#fff;}
+.hrm-title{font-family:var(--fh);font-size:18px;font-weight:800;color:var(--t1);letter-spacing:-.3px;}
+.hrm-sub{font-size:11px;color:var(--t3);margin-top:1px;}
+.hrm-live{display:flex;align-items:center;gap:6px;padding:5px 12px;background:var(--g-s);border:1px solid var(--g-b);border-radius:20px;font-size:10px;font-weight:700;color:var(--green);font-family:var(--fh);}
+/* HRM TABS */
+.hrm-tabs{display:flex;gap:2px;overflow-x:auto;}
+.hrm-tabs::-webkit-scrollbar{display:none;}
+.ht{display:flex;align-items:center;gap:6px;padding:10px 14px;font-size:11px;font-weight:700;font-family:var(--fh);color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:.15s;text-transform:uppercase;letter-spacing:.4px;}
+.ht svg{width:13px;height:13px;fill:currentColor;flex-shrink:0;}
+.ht:hover{color:var(--t2);}
+.ht.active{color:var(--purple);border-bottom-color:var(--purple);}
+.ht-badge{font-size:9px;padding:1px 6px;border-radius:10px;background:var(--a-s);color:var(--amber);}
+/* PANELS */
+.hrm-panel{display:none;padding:20px 24px;flex:1;}
+.hrm-panel.active{display:block;flex:1;overflow-y:auto;min-height:0;}
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.kpi.green::before{background:var(--green);}
+.kpi.blue::before{background:var(--blue);}
+.kpi.amber::before{background:var(--amber);}
+.kpi.red::before{background:var(--red);}
+.kpi.purple::before{background:var(--purple);}
+.kpi-icon{position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.kpi-icon svg{width:16px;height:16px;}
+.kpi.green .kpi-icon{background:var(--g-s);} .kpi.green .kpi-icon svg{fill:var(--green);}
+.kpi.blue .kpi-icon{background:var(--b-s);} .kpi.blue .kpi-icon svg{fill:var(--blue);}
+.kpi.amber .kpi-icon{background:var(--a-s);} .kpi.amber .kpi-icon svg{fill:var(--amber);}
+.kpi.red .kpi-icon{background:var(--r-s);} .kpi.red .kpi-icon svg{fill:var(--red);}
+.kpi.purple .kpi-icon{background:var(--p-s);} .kpi.purple .kpi-icon svg{fill:var(--purple);}
+.kpi-val{font-family:var(--fh);font-size:28px;font-weight:900;margin:4px 0 2px;}
+.kpi-val.green{color:var(--green);} .kpi-val.blue{color:var(--blue);} .kpi-val.amber{color:var(--amber);} .kpi-val.red{color:var(--red);} .kpi-val.purple{color:var(--purple);}
+.kpi-label{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;}
+.kpi-sub{font-size:9px;color:var(--t3);margin-top:4px;}
+/* LAYOUT */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.hcard{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.hcard-head{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.hcard-title{font-family:var(--fh);font-size:12px;font-weight:800;color:var(--t1);text-transform:uppercase;letter-spacing:.4px;}
+.hcard-sub{font-size:10px;color:var(--t3);margin-top:2px;}
+/* FEED */
+.feed-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);transition:.15s;}
+.feed-item:hover{background:var(--raised);}
+.feed-avatar{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:11px;font-weight:800;flex-shrink:0;}
+.feed-name{font-size:11px;font-weight:600;color:var(--t1);}
+.feed-meta{font-size:9px;color:var(--t3);margin-top:1px;}
+.feed-badge{font-size:9px;font-weight:800;padding:2px 8px;border-radius:10px;font-family:var(--fh);flex-shrink:0;}
+.feed-badge.in{background:var(--g-s);color:var(--green);border:1px solid var(--g-b);}
+.feed-badge.out{background:var(--r-s);color:var(--red);border:1px solid var(--r-b);}
+.feed-time{font-size:10px;color:var(--t3);margin-left:auto;white-space:nowrap;}
+/* WORKERS */
+.worker-row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);transition:.15s;}
+.worker-row:hover{background:var(--raised);}
+.worker-init{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:12px;font-weight:800;color:#fff;flex-shrink:0;}
+.worker-name{font-size:12px;font-weight:600;color:var(--t1);}
+.worker-meta{font-size:9px;color:var(--t3);margin-top:1px;}
+.status-pill{font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;font-family:var(--fh);}
+.status-pill.active{background:var(--g-s);color:var(--green);}
+.status-pill.pending{background:var(--a-s);color:var(--amber);}
+.status-pill.rejected{background:var(--r-s);color:var(--red);}
+/* SEARCH */
+.search-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--border);}
+.search-input{flex:1;background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--t1);font-size:11px;}
+.search-input:focus{outline:none;border-color:var(--purple);}
+/* QR */
+.qr-card{background:var(--raised);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;}
+.qr-container{background:#fff;padding:12px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;min-width:170px;min-height:170px;margin-bottom:14px;}
+/* OT TABLE */
+.ot-table{width:100%;border-collapse:collapse;}
+.ot-table th{padding:8px 12px;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);text-align:left;}
+.ot-table td{padding:10px 12px;font-size:11px;color:var(--t1);border-bottom:1px solid var(--border);}
+.ot-table tr:hover td{background:var(--raised);}
+/* PAYROLL */
+.comp-row{display:grid;grid-template-columns:1fr 80px 100px 70px 28px;align-items:center;padding:9px 14px;border-bottom:1px solid var(--border);gap:8px;transition:.15s;}
+.comp-row:hover{background:var(--raised);}
+.comp-name{font-size:11px;font-weight:600;color:var(--t1);}
+.comp-type{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:600;}
+.comp-type.earn{color:var(--green);background:var(--g-s);}
+.comp-type.ded{color:var(--amber);background:var(--a-s);}
+.comp-type.lock{color:var(--t3);background:var(--div);}
+.comp-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--t1);font-size:11px;text-align:right;}
+.comp-input:focus{outline:none;border-color:var(--purple);}
+.stat-section{padding:6px 14px;background:rgba(245,158,11,.04);font-size:9px;font-weight:700;color:var(--amber);letter-spacing:.6px;text-transform:uppercase;border-bottom:1px solid var(--border);border-top:1px solid rgba(245,158,11,.15);display:flex;align-items:center;justify-content:space-between;}
+.custom-section{padding:6px 14px;background:rgba(34,197,94,.04);font-size:9px;font-weight:700;color:var(--green);letter-spacing:.6px;text-transform:uppercase;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.lock-tag{font-size:8px;padding:1px 7px;border-radius:8px;background:var(--a-s);color:var(--amber);}
+.custom-tag{font-size:8px;padding:1px 7px;border-radius:8px;background:var(--g-s);color:var(--green);}
+.stat-config{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:14px 16px;}
+.sc-label{font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
+.sc-select{width:100%;background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--t1);font-size:11px;}
+.sc-select:focus{outline:none;border-color:var(--purple);}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:16px;width:380px;padding:22px;box-shadow:0 24px 60px rgba(0,0,0,.6);}
+.modal-title{font-family:var(--fh);font-size:14px;font-weight:800;color:var(--t1);margin-bottom:16px;}
+.form-group{margin-bottom:12px;}
+.form-label{font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;display:block;}
+.form-input,.form-select{width:100%;background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--t1);font-size:12px;}
+.form-input:focus,.form-select:focus{outline:none;border-color:var(--purple);}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;}
+.btn-cancel{padding:8px 16px;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:11px;cursor:pointer;}
+.btn-confirm{padding:8px 16px;background:var(--purple);border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:800;font-family:var(--fh);cursor:pointer;}
+/* TOAST */
+#hrm-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);border-left:3px solid var(--purple);border-radius:10px;padding:10px 18px;font-size:12px;color:var(--t1);z-index:600;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4);}
+#hrm-toast.show{opacity:1;}
+/* FOOTER */
+.sp-footer{flex-shrink:0;background:var(--sidebar,#080F18);border-top:1px solid var(--border,#162236);padding:7px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--t3,#2E4A66);z-index:10;}
+.sp-footer-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.sp-footer-center{display:flex;align-items:center;gap:14px;}
+.sp-footer-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.sp-footer-sep{opacity:.3;}
+.sp-footer-center a{color:var(--t3,#2E4A66);text-decoration:none;transition:.15s;}
+.sp-footer-center a:hover{color:var(--t2,#7A9BBF);}
+.sp-footer-status-dot{width:7px;height:7px;border-radius:50%;background:var(--green,#22C55E);}
+/* RESPONSIVE */
+@media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:900px){.two-col{grid-template-columns:1fr;}.stat-config{grid-template-columns:1fr 1fr;}}
+@media(max-width:768px){
+  .sidebar{position:fixed;left:0;top:52px;bottom:0;transform:translateX(-100%);z-index:160;}
+  .sidebar.open{transform:translateX(0);}
+  .sb-toggle{display:block;}
+  .nav-links{display:none;}
+  .sb-overlay.open{display:block;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .hrm-panel{padding:16px;}
+  .comp-row{grid-template-columns:1fr 70px 28px;}
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35);}
+.logo-text span{color:var(--green,#22C55E);}
+
+  /* content gap fix */
+  .body{display:flex;flex-direction:row;flex:1;overflow:hidden;min-height:0;}
+  .content{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;margin-left:0;}
+  .sidebar{flex-shrink:0;}
+  
+  /* ══ LOGO FIX ══ */
+  .logo { text-decoration: none; color: inherit !important; }
+  .logo-text { color: var(--t1, #E6EDF3) !important; font-weight: 700 !important; }
+  .logo-text span { color: var(--green, #22C55E) !important; }
+  .logo-shield { width: 28px; height: 28px; background: linear-gradient(135deg, #22C55E, #15803D) !important; border-radius: 7px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(34,197,94,.35); }
+  .logo-shield svg { width: 16px; height: 16px; fill: #fff; }
+  
+  /* ══ NAV-RIGHT FIX ══ */
+  .nav-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .user-pill { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 10px; border-radius: 20px; background: var(--raised, #0D1E30); border: 1px solid var(--border, #1E3347); }
+  .user-pill .ua { width: 28px; height: 28px; border-radius: 50%; background: var(--green, #22C55E); color: #0B1A2E; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  
+  /* SIDEBAR-GAP-FIX */
+  .sidebar { top: 0 !important; }
+  
+  /* LOGO-COLOR-FIX */
+  .logo, a.logo { color: inherit !important; }
+  .logo-text { color: var(--t1,#E6EDF3) !important; font-weight: 700 !important; }
+  .logo-text span { color: var(--green,#22C55E) !important; }
+  .logo-shield { width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D) !important;border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35); }
+  .logo-shield svg { width:16px;height:16px;fill:#fff; }
+  
+/* SafetyPro scrollbar v2 */
+.body { overflow: hidden !important; }
+.content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+<script src="/safetypro_exports.js"></script>
+
+
+
+
+
+
+<style>
+/* sp-hrm-font-fix */
+/* FIX 1: Force Roboto as body font (matches all other platform pages) */
+body { font-family: 'Roboto', sans-serif !important; }
+
+/* FIX 2: Compact hrm-header — match sub-header height on other pages */
+.hrm-header {
+  padding: 0 !important;
+  background: var(--sidebar, #0F1720) !important;
+  border-bottom: 1px solid var(--border, #1E293B) !important;
+  /* Remove gradient background — keep consistent with platform */
+  background-image: none !important;
+}
+.hrm-top {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 8px 20px !important;  /* was 16px 0 12px — too tall */
+  gap: 12px !important;
+}
+/* HRM title styling — match .sh-title */
+.hrm-title {
+  font-family: var(--fh, 'Montserrat', sans-serif) !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: var(--t1, #E6EDF3) !important;
+}
+.hrm-sub {
+  font-size: 11px !important;
+  color: var(--t2, #94A3B8) !important;
+}
+/* FIX 3: .ht tabs — match .sh-tab style on other pages */
+/* Remove uppercase and letter-spacing — looks different from rest of platform */
+.ht {
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  padding: 6px 14px !important;
+  color: var(--t2, #94A3B8) !important;
+  border-radius: 6px !important;
+}
+.ht.active {
+  font-weight: 600 !important;
+  color: var(--t1, #E6EDF3) !important;
+  background: var(--card, #131C26) !important;
+}
+/* hrm-tabs row — match sh-tabs style */
+.hrm-tabs {
+  padding: 0 20px 8px !important;
+  gap: 2px !important;
+}
+</style>
+
+
+<style>
+/* sp-hrm-fix */
+html{height:100%;overflow:hidden;}
+body{height:100%!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;}
+.topnav{flex-shrink:0!important;height:52px!important;position:relative!important;z-index:100!important;}
+.body{flex:1 1 0%!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:row!important;margin-top:0!important;}
+.sidebar{width:195px!important;flex-shrink:0!important;position:relative!important;height:100%!important;overflow-y:auto!important;scrollbar-width:none!important;}
+.sidebar::-webkit-scrollbar{display:none!important;}
+.content{flex:1 1 0%!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;}
+.hrm-header{flex-shrink:0!important;position:sticky!important;top:0!important;z-index:10!important;}
+/* Panel switching — NOTE: do NOT use display:none!important here, use specificity only */
+/* The hrmTab() JS clears inline styles, CSS class handles show/hide */
+.hrm-panel{display:none;}
+.hrm-panel.active{
+  display:flex!important;flex-direction:column!important;
+  flex:1 1 0%!important;min-height:0!important;
+  overflow-y:scroll!important;overflow-x:hidden!important;
+  scrollbar-width:thin!important;
+  scrollbar-color:#475569 rgba(255,255,255,0.05)!important;
+}
+.hrm-panel.active::-webkit-scrollbar{width:6px!important;display:block!important;}
+.hrm-panel.active::-webkit-scrollbar-track{background:rgba(255,255,255,0.03)!important;border-radius:3px!important;}
+.hrm-panel.active::-webkit-scrollbar-thumb{background:#475569!important;border-radius:3px!important;min-height:40px!important;}
+.hrm-panel.active::-webkit-scrollbar-thumb:hover{background:#64748B!important;}
+footer.sp-footer,.sp-footer{flex-shrink:0!important;display:flex!important;}
+/* Checked Out card grey top line */
+.kpi.grey::before{background:var(--t2,#94A3B8)!important;}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
+  <a class="logo" href="safetypro_v2.html">
+    <div class="logo-shield"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
+    <span class="logo-text">SafetyPro <span>AI</span></span>
+  </a>
+  <div class="nav-links">
+    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
+    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations</a>
+    <a class="nl" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
+    <a class="nl" href="safetypro_reports"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2"/></svg>Reports</a>
+    
+    <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More&#9660;
+      <div class="more-menu" id="more-menu">
+        <a class="mm-item" href="safetypro_audit_compliance" style="color:var(--green);font-weight:700;"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="safetypro_documents"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/></svg>Documents &amp; Records</a>
+        <a class="mm-item" href="safetypro_field"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="safetypro_hrm" style="color:var(--green);font-weight:700;"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>HRM &amp; Payroll</a>
+        <a class="mm-item" href="safetypro_ai"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 110 20A10 10 0 0112 2z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_auditor"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Client &amp; Auditor Portal</a>
+        <a class="mm-item" href="safetypro_admin"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/></svg>Admin &amp; Configuration</a>
+      </div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="icon-btn" onclick="toggleAlerts()" id="alert-btn" title="Alerts">
+      <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+      <div class="red-dot" id="alert-dot"></div>
+    </div>
+    <div class="user-pill" onclick="toggleProfileMenu()" id="user-pill-btn">
+      <div class="ua" id="nav-initials">--</div>
+      <div class="un">
+        <div class="un-name" id="nav-username">Loading...</div>
+        <div class="un-role" id="nav-role">HSE Officer</div>
+      </div>
+      <span style="color:var(--t3);font-size:9px;margin-left:3px">&#9660;</span>
+    </div>
+  </div>
+</nav>
+<div id="profile-dropdown" style="display:none;position:fixed;top:58px;right:16px;width:240px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:9999;overflow:hidden;">
+    <div style="padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--raised);"><div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:16px;font-weight:800;color:#fff;flex-shrink:0;">DK</div><div><div style="font-size:13px;font-weight:700;color:var(--t1);font-family:var(--fh);">Dhanesh CK</div><div style="font-size:10px;color:var(--t3);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e7838f868982948fc9848ca78e8284848bc98488c98e89">[email&#160;protected]</a></div><div style="margin-top:4px;display:inline-block;padding:2px 8px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);border-radius:10px;font-size:9px;font-weight:700;color:var(--green);font-family:var(--fh);">HSE HEAD</div></div></div>
+    <div style="padding:6px;"><a href="safetypro_v2.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a><a href="safetypro_admin" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Manage Users</a><a href="safetypro_admin" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M2 12h2m16 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>Settings</a><div onclick="changePassword()" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;cursor:pointer;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Change Password</div></div>
+    <div style="padding:8px;border-top:1px solid var(--border);"><div onclick="signOut()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border-radius:8px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:var(--red);font-size:13px;font-weight:700;font-family:var(--fh);cursor:pointer;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out</div></div>
+  </div>
+
+<div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
+<div class="body">
+<div class="sidebar">
+    <a class="sb-item" href="safetypro_v2.html"><svg   viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </a>
+    <a class="sb-item" href="safetypro_operations.html">
+      <svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>
+      Operations<span class="sb-badge amber">12</span>
+    </a>
+    <a class="sb-item" href="safetypro_control.html"><svg   viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
+      Control<span class="sb-badge red">5</span>
+    </a>
+    <a class="sb-item" href="safetypro_audit_compliance"><svg   viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
+      Reports
+    </a>
+    <div style="height:1px;background:#1E293B;margin:10px 2px 6px"></div>
+    <div id="sb-more-hdr" onclick="toggleSidebarMore()" style="font-size:9px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;padding:6px 10px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border-radius:4px;" onmouseover="this.style.background='rgba(255,255,255,0.04)'" onmouseout="this.style.background='transparent'">MORE <span id="sb-chev" style="font-size:10px;transition:transform .25s;display:inline-block;">&#9660;</span></div>
+<div id="sb-more-items" style="overflow:hidden;max-height:500px;opacity:1;transition:max-height .3s ease,opacity .3s;">
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_reports">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
+      Audit &amp; Compliance
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_documents">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      Documents & Records
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field"><svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px;background:rgba(139,92,246,.12);color:#8B5CF6;" href="safetypro_hrm"><svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#8B5CF6"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>HRM &amp; Payroll</a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      AI Intelligence
+    </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_auditor.html">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Client &amp; Auditor Portal
+    </a>
+    <div style="height:1px;background:#1E293B;margin:6px 2px 4px"></div>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#22C55E" href="safetypro_admin">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#22C55E"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Admin &amp; Configuration
+    </a>
+  </div></div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- HRM HEADER -->
+    <div class="hrm-header">
+      <div class="hrm-top">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="hrm-icon"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
+          <div>
+            <div class="hrm-title">Human Resource Management</div>
+            <div class="hrm-sub">Attendance &middot; Workers &middot; Payroll &middot; BOCW Compliance</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <select id="hrm-project" onchange="hrmLoadAttendance()" style="background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--t1);font-size:11px;font-family:var(--fh);">
+            <option value="BBRP-2026">BBRP-2026 &#8212; Birpur&#8211;Bihpur</option>
+            <option value="ALL">All Projects</option>
+          </select>
+          <div class="hrm-live"><div style="width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.4s infinite;"></div>LIVE</div>
+        </div>
+      </div>
+      <div class="hrm-tabs">
+        <div class="ht active" onclick="hrmTab('dashboard',this)"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</div>
+        <div class="ht" onclick="hrmTab('workers',this)"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>Employee Directory<span id="badge-workers" class="ht-badge" style="display:none">0</span></div>
+        <div class="ht" onclick="hrmTab('approvals',this)"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Approvals<span id="badge-pending" class="ht-badge" style="display:none">0</span></div>
+        <div class="ht" onclick="hrmTab('qr',this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Gate QR</div>
+        <div class="ht" onclick="hrmTab('overtime',this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Overtime</div>
+        <div class="ht" onclick="hrmTab('payroll',this)"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm1 14.5h-2v-2h2v2zm0-4h-2V7h2v5.5z"/></svg>Payroll Setup</div>
+        <div class="ht" onclick="hrmTab('wagesheets',this)"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>Wage Sheets</div>
+      </div>
+    </div>
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <div class="hrm-panel active" id="hrm-panel-dashboard">
+      <div class="kpi-grid">
+        <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg></div><div class="kpi-label">On Site Now</div><div class="kpi-val green" id="kpi-onsite">&#8212;</div><div class="kpi-sub">Currently checked in</div></div>
+        <div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="kpi-label">Checked In Today</div><div class="kpi-val blue" id="kpi-today">&#8212;</div><div class="kpi-sub">Total entries today</div></div>
+        <div class="kpi grey"><div class="kpi-icon" style="background:rgba(148,163,184,.1);"><svg viewBox="0 0 24 24" style="fill:var(--t2)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div class="kpi-label">Checked Out</div><div class="kpi-val" style="color:var(--t2)" id="kpi-out">&#8212;</div><div class="kpi-sub">Left site today</div></div>
+        <div class="kpi amber"><div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg></div><div class="kpi-label">Not Checked In</div><div class="kpi-val amber" id="kpi-missing">&#8212;</div><div class="kpi-sub">Expected today</div></div>
+        <div class="kpi purple"><div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg></div><div class="kpi-label">Pending Approval</div><div class="kpi-val purple" id="kpi-pending">&#8212;</div><div class="kpi-sub">Awaiting HR action</div></div>
+      </div>
+      <div class="two-col">
+        <div class="hcard">
+          <div class="hcard-head">
+            <div><div class="hcard-title">Live Attendance Feed</div><div class="hcard-sub" id="feed-sub">Loading from BAM biometric...</div></div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--green);font-weight:700;"><div style="width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.4s infinite;"></div>LIVE</div>
+              <button onclick="hrmExportBOCW()" style="padding:5px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:10px;cursor:pointer;font-family:var(--fh);font-weight:700;">&#8595; BOCW XIII</button>
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;padding:8px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;">
+            <div onclick="hrmFilterFeed('all',this)" style="padding:3px 10px;background:var(--purple);border:1px solid var(--p-b);color:#fff;border-radius:16px;font-size:9px;font-weight:700;cursor:pointer;font-family:var(--fh);">All</div>
+            <div onclick="hrmFilterFeed('in',this)" style="padding:3px 10px;background:var(--raised);border:1px solid var(--border);color:var(--t3);border-radius:16px;font-size:9px;font-weight:700;cursor:pointer;">Checked In</div>
+            <div onclick="hrmFilterFeed('out',this)" style="padding:3px 10px;background:var(--raised);border:1px solid var(--border);color:var(--t3);border-radius:16px;font-size:9px;font-weight:700;cursor:pointer;">Checked Out</div>
+            <div onclick="hrmFilterFeed('missing',this)" style="padding:3px 10px;background:var(--raised);border:1px solid var(--border);color:var(--t3);border-radius:16px;font-size:9px;font-weight:700;cursor:pointer;">Missing</div>
+            <div onclick="hrmFilterFeed('selfie',this)" style="padding:3px 10px;background:var(--raised);border:1px solid var(--border);color:var(--t3);border-radius:16px;font-size:9px;font-weight:700;cursor:pointer;">Biometric</div>
+          </div>
+          <div id="hrm-feed-list" style="max-height:340px;overflow-y:auto;">
+            <div style="padding:30px;text-align:center;color:var(--t3);font-size:11px;">Loading attendance data...</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div class="hcard">
+            <div class="hcard-head"><div><div class="hcard-title">Zone Breakdown</div><div class="hcard-sub">Headcount per zone</div></div></div>
+            <div id="zone-breakdown" style="padding:12px 16px;"><div style="color:var(--t3);font-size:11px;text-align:center;padding:20px;">Loading...</div></div>
+          </div>
+          <div class="hcard">
+            <div class="hcard-head"><div><div class="hcard-title">Avg Check-in Time</div><div class="hcard-sub">BAM biometric data</div></div></div>
+            <div style="padding:16px;text-align:center;">
+              <div style="font-family:var(--fh);font-size:36px;font-weight:900;color:var(--green);" id="avg-time">&#8212;</div>
+              <div style="font-size:10px;color:var(--t3);margin-top:4px;">Average entry time today</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOCW Muster Roll Form XIII -->
+      <div class="card" style="margin-top:14px;padding:0;overflow:hidden;">
+        <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);">📑 BOCW Muster Roll — April 2026</div>
+            <div style="font-size:10px;color:var(--t3);margin-top:2px;">Form XIII · Auto-generated from attendance data · BOCW Act 1996 Section 29(1)</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <select style="font-size:11px;padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-family:var(--fh);">
+              <option>April 2026</option>
+              <option>March 2026</option>
+              <option>February 2026</option>
+            </select>
+            <button onclick="SPExports ? SPExports.bocwFormXIII([], {projectName: localStorage.getItem('sp_active_project')||''}) : hrmToast('Loading...','blue')" style="padding:6px 14px;background:var(--green);border:none;border-radius:6px;color:#0B0F14;font-size:10px;font-weight:800;font-family:var(--fh);cursor:pointer;">↓ Download Excel</button>
+            <button onclick="SPExports ? SPExports.payslip({name:'Download All Payslips'}) : hrmToast('Loading...','blue')" style="padding:6px 14px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t2);font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">↓ PDF</button>
+          </div>
+        </div>
+
+        <!-- Muster roll table -->
+        <div style="overflow-x:auto;padding:0;">
+          <table style="width:100%;border-collapse:collapse;font-size:10px;">
+            <thead>
+              <tr style="background:var(--raised);border-bottom:1px solid var(--border);">
+                <th style="padding:8px 12px;text-align:left;font-family:var(--fh);font-weight:700;color:var(--t3);white-space:nowrap;">S.No</th>
+                <th style="padding:8px 12px;text-align:left;font-family:var(--fh);font-weight:700;color:var(--t3);white-space:nowrap;">Worker Name</th>
+                <th style="padding:8px 12px;text-align:left;font-family:var(--fh);font-weight:700;color:var(--t3);white-space:nowrap;">Trade</th>
+                <th style="padding:8px 12px;text-align:left;font-family:var(--fh);font-weight:700;color:var(--t3);white-space:nowrap;">Contractor</th>
+                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">1</th>
+                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">2</th>
+                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">3</th>
+                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">4</th>
+                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">5</th>
+                <th style="padding:8px 4px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">...</th>
+                <th style="padding:8px 8px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">Present</th>
+                <th style="padding:8px 8px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">Absent</th>
+                <th style="padding:8px 8px;text-align:center;font-family:var(--fh);font-weight:700;color:var(--t3);">OT Hrs</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+                <td style="padding:8px 12px;color:var(--t3);">1</td>
+                <td style="padding:8px 12px;font-weight:600;color:var(--t1);">Rajan Kumar</td>
+                <td style="padding:8px 12px;color:var(--t2);">HSE Officer</td>
+                <td style="padding:8px 12px;color:var(--t2);">IECCL</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">H</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">...</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--green);">24</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--red);">0</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--amber);">4.5</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+                <td style="padding:8px 12px;color:var(--t3);">2</td>
+                <td style="padding:8px 12px;font-weight:600;color:var(--t1);">Vikram Sharma</td>
+                <td style="padding:8px 12px;color:var(--t2);">Supervisor</td>
+                <td style="padding:8px 12px;color:var(--t2);">M/s ABC Const.</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--red);font-weight:700;">A</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">H</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">...</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--green);">22</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--red);">2</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--amber);">2.0</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+                <td style="padding:8px 12px;color:var(--t3);">3</td>
+                <td style="padding:8px 12px;font-weight:600;color:var(--t1);">Priya Desai</td>
+                <td style="padding:8px 12px;color:var(--t2);">HSE Supervisor</td>
+                <td style="padding:8px 12px;color:var(--t2);">IECCL</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">H</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">...</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--green);">25</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--red);">0</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--amber);">1.5</td>
+              </tr>
+              <tr onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+                <td style="padding:8px 12px;color:var(--t3);">4</td>
+                <td style="padding:8px 12px;font-weight:600;color:var(--t1);">Mohan Singh</td>
+                <td style="padding:8px 12px;color:var(--t2);">Mason</td>
+                <td style="padding:8px 12px;color:var(--t2);">M/s XYZ Works</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--red);font-weight:700;">A</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">H</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--green);font-weight:700;">P</td>
+                <td style="padding:8px 4px;text-align:center;color:var(--t3);">...</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--amber);">21</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--red);">3</td>
+                <td style="padding:8px 8px;text-align:center;font-weight:800;color:var(--t3);">0.0</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="padding:10px 14px;font-size:10px;color:var(--t3);border-top:1px solid var(--border);">
+            P = Present &nbsp;·&nbsp; A = Absent &nbsp;·&nbsp; H = Holiday &nbsp;·&nbsp; L = Leave &nbsp;·&nbsp; Showing 4 of 312 workers · Full register in export
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ WORKERS ═══ -->
+    <div class="hrm-panel" id="hrm-panel-workers">
+      <div class="hcard">
+        <div class="hcard-head">
+          <div><div class="hcard-title">Employee Directory</div><div class="hcard-sub" id="dir-count">Loading...</div></div>
+          <div style="display:flex;gap:8px;">
+            <select id="dir-filter" onchange="hrmLoadDirectory()" style="background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--t1);font-size:11px;"><option value="ALL">All Status</option><option value="ACTIVE">Active</option><option value="PENDING">Pending</option><option value="REJECTED">Rejected</option></select>
+            <button onclick="hrmLoadDirectory()" style="padding:6px 12px;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:11px;cursor:pointer;">&#8635; Refresh</button>
+          </div>
+        </div>
+        <div class="search-bar">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:var(--t3);flex-shrink:0;"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input class="search-input" id="dir-search" type="text" placeholder="Search by name or employee ID..." oninput="hrmFilterDirectory(this.value)">
+        </div>
+        <div id="dir-list" style="max-height:480px;overflow-y:auto;"><div style="padding:30px;text-align:center;color:var(--t3);font-size:11px;">Loading employees...</div></div>
+      </div>
+    </div>
+
+    <!-- ═══ APPROVALS ═══ -->
+    <div class="hrm-panel" id="hrm-panel-approvals">
+      <div class="two-col" style="align-items:start;">
+        <div class="hcard">
+          <div class="hcard-head">
+            <div><div class="hcard-title">Pending HR Approval</div><div class="hcard-sub">New BAM registrations awaiting activation</div></div>
+            <button onclick="hrmLoadApprovals()" style="padding:5px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:10px;cursor:pointer;">&#8635; Refresh</button>
+          </div>
+          <div id="approvals-list" style="padding:10px 14px;"><div style="padding:20px;text-align:center;color:var(--t3);font-size:11px;">Loading...</div></div>
+        </div>
+        <div class="hcard">
+          <div class="hcard-head"><div><div class="hcard-title">Approval Guide</div><div class="hcard-sub">How worker registration works</div></div></div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:26px;height:26px;border-radius:50%;background:var(--p-s);border:1px solid var(--p-b);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--purple);flex-shrink:0;">1</div><div><div style="font-size:11px;font-weight:600;color:var(--t1);">Worker scans gate QR</div><div style="font-size:10px;color:var(--t3);margin-top:2px;">Opens BAM on personal phone</div></div></div>
+            <div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:26px;height:26px;border-radius:50%;background:var(--p-s);border:1px solid var(--p-b);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--purple);flex-shrink:0;">2</div><div><div style="font-size:11px;font-weight:600;color:var(--t1);">Register with Face Photo</div><div style="font-size:10px;color:var(--t3);margin-top:2px;">Captures face + enters employee ID</div></div></div>
+            <div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:26px;height:26px;border-radius:50%;background:var(--p-s);border:1px solid var(--p-b);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--purple);flex-shrink:0;">3</div><div><div style="font-size:11px;font-weight:600;color:var(--t1);">Appears here for HR review</div><div style="font-size:10px;color:var(--t3);margin-top:2px;">HR verifies and approves</div></div></div>
+            <div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:26px;height:26px;border-radius:50%;background:var(--g-s);border:1px solid var(--g-b);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--green);flex-shrink:0;">4</div><div><div style="font-size:11px;font-weight:600;color:var(--t1);">Worker checks in via BAM</div><div style="font-size:10px;color:var(--t3);margin-top:2px;">Biometric attendance fully active</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ GATE QR ═══ -->
+    <div class="hrm-panel" id="hrm-panel-qr">
+      <div class="two-col" style="align-items:start;">
+        <div class="hcard">
+          <div class="hcard-head"><div><div class="hcard-title">Gate QR Generator</div><div class="hcard-sub">Print and post at site entry gate</div></div></div>
+          <div style="padding:20px;">
+            <div style="display:flex;gap:8px;margin-bottom:16px;">
+              <select id="qr-project" onchange="hrmDrawQR()" style="flex:1;background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--t1);font-family:var(--fh);font-size:12px;font-weight:700;"><option value="BBRP-2026">BBRP-2026 &#8212; Birpur&#8211;Bihpur</option></select>
+              <select id="qr-zone" onchange="hrmDrawQR()" style="width:120px;background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--t1);font-size:12px;"><option value="">All Zones</option><option value="Zone A">Zone A</option><option value="Zone B">Zone B</option><option value="Zone C">Zone C</option><option value="Zone D">Zone D</option></select>
+            </div>
+            <div class="qr-card">
+              <div class="qr-container" id="hrm-qr-canvas"></div>
+              <div style="font-family:var(--fh);font-size:13px;font-weight:800;color:var(--t1);margin-bottom:4px;" id="hrm-qr-label">BBRP-2026 &middot; All Zones</div>
+              <div style="font-size:9px;color:var(--t3);margin-bottom:14px;word-break:break-all;padding:0 10px;" id="hrm-qr-url"></div>
+              <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+                <button onclick="hrmDownloadQR()" style="padding:8px 16px;background:var(--green);border:none;border-radius:9px;color:#070D12;font-size:12px;font-weight:800;font-family:var(--fh);cursor:pointer;">&#11015; Download PNG</button>
+                <button onclick="hrmShareQR()" style="padding:8px 12px;background:var(--raised);border:1px solid var(--border);border-radius:9px;color:var(--t2);font-size:12px;cursor:pointer;">&#128228; Share</button>
+                <button onclick="hrmDrawQR()" style="padding:8px 12px;background:var(--raised);border:1px solid var(--border);border-radius:9px;color:var(--t2);font-size:12px;cursor:pointer;">&#8635;</button>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:12px;"><div style="width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1.4s infinite;flex-shrink:0;"></div><span style="font-size:10px;color:var(--t3);">Active &middot; Workers scan to open BAM biometric page</span></div>
+          </div>
+        </div>
+        <div class="hcard">
+          <div class="hcard-head"><div><div class="hcard-title">Usage Instructions</div><div class="hcard-sub">For gate supervisors</div></div></div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:10px;">
+            <div style="padding:12px;background:var(--raised);border-radius:10px;border:1px solid var(--border);"><div style="font-size:11px;font-weight:700;color:var(--t1);margin-bottom:5px;">&#128247; Print &amp; Post</div><div style="font-size:10px;color:var(--t3);line-height:1.6;">Download PNG and print at A5 minimum. Laminate and post at site gate at eye level.</div></div>
+            <div style="padding:12px;background:var(--raised);border-radius:10px;border:1px solid var(--border);"><div style="font-size:11px;font-weight:700;color:var(--t1);margin-bottom:5px;">&#128241; Worker Flow</div><div style="font-size:10px;color:var(--t3);line-height:1.6;">Scan QR &#8594; BAM opens pre-filled &#8594; Face scan &#8594; Attendance marked &#8594; &ldquo;Have a safe and great day &#129498;&rdquo;</div></div>
+            <div style="padding:12px;background:var(--raised);border-radius:10px;border:1px solid var(--border);"><div style="font-size:11px;font-weight:700;color:var(--t1);margin-bottom:5px;">&#9888; Zone QR Codes</div><div style="font-size:10px;color:var(--t3);line-height:1.6;">Generate one QR per zone. Workers auto-tagged to their entry zone in BAM.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ OVERTIME ═══ -->
+    <div class="hrm-panel" id="hrm-panel-overtime">
+      <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);">
+        <div class="kpi amber"><div class="kpi-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="kpi-label">Workers OT Today</div><div class="kpi-val amber" id="ot-count">&#8212;</div><div class="kpi-sub">With overtime hours</div></div>
+        <div class="kpi red"><div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg></div><div class="kpi-label">BOCW Violations</div><div class="kpi-val red" id="ot-violations">&#8212;</div><div class="kpi-sub">Over 9 hrs (BOCW limit)</div></div>
+        <div class="kpi green"><div class="kpi-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="kpi-label">Total OT Hours</div><div class="kpi-val green" id="ot-total">&#8212;</div><div class="kpi-sub">Across all workers</div></div>
+        <div class="kpi blue"><div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div><div class="kpi-label">Est. OT Cost</div><div class="kpi-val blue" id="ot-cost">&#8212;</div><div class="kpi-sub">At 2&#215; hourly rate</div></div>
+      </div>
+      <div class="hcard">
+        <div class="hcard-head">
+          <div><div class="hcard-title">Overtime Register &#8212; Today</div><div class="hcard-sub">Auto-calculated from BAM timestamps &middot; Std 8 hrs/day</div></div>
+          <button onclick="SPExports ? SPExports.otReport([], {projectName: localStorage.getItem('sp_active_project')||''}) : hrmToast('Loading...','blue')" style="padding:6px 12px;background:var(--amber);border:none;border-radius:8px;color:#070D12;font-size:10px;font-weight:800;font-family:var(--fh);cursor:pointer;">Export OT Report</button>
+        </div>
+        <div style="overflow-x:auto;"><table class="ot-table"><thead><tr><th>Worker</th><th>Employee ID</th><th>Check In</th><th>Check Out</th><th>Hours Worked</th><th>OT Hours</th><th>Status</th></tr></thead><tbody id="ot-table-body"><tr><td colspan="7" style="text-align:center;color:var(--t3);padding:30px;font-size:11px;">Loading OT data...</td></tr></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ═══ PAYROLL ═══ -->
+    <div class="hrm-panel" id="hrm-panel-payroll">
+      <div class="two-col" style="align-items:start;">
+        <div class="hcard">
+          <div class="hcard-head"><div><div class="hcard-title">HO Roll &#8212; Salary Components</div><div class="hcard-sub">Head Office staff &middot; Monthly salary</div></div><button onclick="openAddComp('ho')" style="padding:6px 14px;background:var(--purple);border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:800;font-family:var(--fh);cursor:pointer;">+ Add</button></div>
+          <div class="stat-section">&#128274; Statutory &#8212; locked by law <span class="lock-tag">Cannot edit</span></div>
+          <div class="comp-row" style="background:rgba(245,158,11,.03);"><div class="comp-name">PF Employee</div><div class="comp-type lock">Deduction</div><div style="font-size:10px;color:var(--t2);">12% of Basic</div><div style="font-size:10px;color:var(--t3);">&#128274;</div><div></div></div>
+          <div class="comp-row" style="background:rgba(245,158,11,.03);"><div class="comp-name">Professional Tax</div><div class="comp-type lock">Deduction</div><div style="font-size:10px;color:var(--t2);">State slab</div><div style="font-size:10px;color:var(--t3);">&#128274;</div><div></div></div>
+          <div class="comp-row" style="background:rgba(245,158,11,.03);"><div class="comp-name">TDS / Income Tax</div><div class="comp-type lock">Deduction</div><div style="font-size:10px;color:var(--t2);">Applicable</div><div style="font-size:10px;color:var(--t3);">&#128274;</div><div></div></div>
+          <div class="custom-section">&#9998; Customizable <span class="custom-tag">Editable</span></div>
+          <div id="ho-comp-list">
+            <div class="comp-row" data-id="ho_basic"><div class="comp-name">Basic Salary</div><div class="comp-type earn">Earning</div><div style="font-size:9px;color:var(--t2);">Fixed &#8377;</div><div><input class="comp-input" type="number" value="35000" onchange="savePayroll()"></div><button onclick="removeComp(this)" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:14px;">&#10005;</button></div>
+            <div class="comp-row" data-id="ho_hra"><div class="comp-name">HRA (40% of Basic)</div><div class="comp-type earn">Earning</div><div style="font-size:9px;color:var(--t2);">% Basic</div><div><input class="comp-input" type="number" value="40" onchange="savePayroll()"></div><button onclick="removeComp(this)" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:14px;">&#10005;</button></div>
+            <div class="comp-row" data-id="ho_conv"><div class="comp-name">Conveyance Allowance</div><div class="comp-type earn">Earning</div><div style="font-size:9px;color:var(--t2);">Fixed &#8377;</div><div><input class="comp-input" type="number" value="1600" onchange="savePayroll()"></div><button onclick="removeComp(this)" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:14px;">&#10005;</button></div>
+            <div class="comp-row" data-id="ho_special"><div class="comp-name">Special Allowance</div><div class="comp-type earn">Earning</div><div style="font-size:9px;color:var(--t2);">Fixed &#8377;</div><div><input class="comp-input" type="number" value="12400" onchange="savePayroll()"></div><button onclick="removeComp(this)" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:14px;">&#10005;</button></div>
+          </div>
+          <div style="padding:10px 14px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;"><button onclick="savePayroll()" style="padding:7px 16px;background:var(--purple);border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:800;font-family:var(--fh);cursor:pointer;">&#128190; Save HO Setup</button></div>
+        </div>
+        <div class="hcard">
+          <div class="hcard-head"><div><div class="hcard-title">Project Roll &#8212; Wage Components</div><div class="hcard-sub">Site workers &middot; Daily wages &middot; BOCW compliant</div></div><button onclick="openAddComp('pr')" style="padding:6px 14px;background:var(--purple);border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:800;font-family:var(--fh);cursor:pointer;">+ Add</button></div>
+          <div class="stat-section">&#128274; Statutory &#8212; locked <span class="lock-tag">Cannot edit</span></div>
+          <div class="comp-row" style="background:rgba(245,158,11,.03);"><div class="comp-name">PF Employee</div><div class="comp-type lock">Deduction</div><div style="font-size:10px;color:var(--t2);">12% Basic+DA</div><div style="font-size:10px;color:var(--t3);">&#128274;</div><div></div></div>
+          <div class="comp-row" style="background:rgba(245,158,11,.03);"><div class="comp-name">ESI Employee</div><div class="comp-type lock">Deduction</div><div style="font-size:10px;color:var(--t2);">0.75% Gross</div><div style="font-size:10px;color:var(--t3);">&#128274;</div><div></div></div>
+          <div class="comp-row" style="background:rgba(245,158,11,.03);"><div class="comp-name">Professional Tax</div><div class="comp-type lock">Deduction</div><div style="font-size:10px;color:var(--t2);">State slab</div><div style="font-size:10px;color:var(--t3);">&#128274;</div><div></div></div>
+          <div class="custom-section">&#9998; Customizable <span class="custom-tag">Editable</span></div>
+          <div id="pr-comp-list">
+            <div class="comp-row" data-id="pr_basic"><div class="comp-name">Basic Wage</div><div class="comp-type earn">Earning</div><div style="font-size:9px;color:var(--t2);">&#8377;/day</div><div><input class="comp-input" type="number" value="630" onchange="savePayroll()"></div><button onclick="removeComp(this)" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:14px;">&#10005;</button></div>
+            <div class="comp-row" data-id="pr_da"><div class="comp-name">DA &#8212; Bihar min. wages</div><div class="comp-type earn">Earning</div><div style="font-size:9px;color:var(--t2);">&#8377;/day</div><div><input class="comp-input" type="number" value="180" onchange="savePayroll()"></div><button onclick="removeComp(this)" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:14px;">&#10005;</button></div>
+            <div class="comp-row" data-id="pr_site"><div class="comp-name">Site Allowance</div><div class="comp-type earn">Earning</div><div style="font-size:9px;color:var(--t2);">&#8377;/day</div><div><input class="comp-input" type="number" value="80" onchange="savePayroll()"></div><button onclick="removeComp(this)" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:14px;">&#10005;</button></div>
+          </div>
+          <div style="padding:10px 14px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;"><button onclick="savePayroll()" style="padding:7px 16px;background:var(--purple);border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:800;font-family:var(--fh);cursor:pointer;">&#128190; Save Project Setup</button></div>
+        </div>
+      </div>
+      <div class="hcard">
+        <div class="hcard-head"><div><div class="hcard-title">Statutory Configuration</div><div class="hcard-sub">Pre-loaded &middot; Verify and confirm</div></div></div>
+        <div class="stat-config">
+          <div><div class="sc-label">State</div><select class="sc-select" id="pay-state" onchange="savePayroll()"><option value="Bihar" selected>Bihar</option><option value="Maharashtra">Maharashtra</option><option value="Delhi">Delhi</option><option value="Karnataka">Karnataka</option><option value="Tamil Nadu">Tamil Nadu</option></select></div>
+          <div><div class="sc-label">PF Wage Ceiling</div><select class="sc-select" id="pay-pf" onchange="savePayroll()"><option value="15000" selected>&#8377;15,000 (statutory cap)</option><option value="actual">Actual Basic</option></select></div>
+          <div><div class="sc-label">ESI Applicability</div><select class="sc-select" id="pay-esi" onchange="savePayroll()"><option value="auto" selected>Auto (if gross &#8804;&#8377;21,000)</option><option value="all">All employees</option><option value="none">Not applicable</option></select></div>
+          <div><div class="sc-label">Std. Working Hours</div><select class="sc-select" id="pay-hrs" onchange="savePayroll()"><option value="8" selected>8 hours/day</option><option value="9">9 hours/day (BOCW)</option></select></div>
+        </div>
+        <div style="padding:10px 16px 14px;font-size:9px;color:var(--t3);line-height:1.7;">&#9432;&nbsp; Employer PF: 13.15% &nbsp;&middot;&nbsp; Employer ESI: 3.25% &nbsp;&middot;&nbsp; OT rate: 2&#215; hourly &nbsp;&middot;&nbsp; These are government-mandated.</div>
+      </div>
+    </div>
+
+    <!-- ═══ WAGE SHEETS ═══ -->
+    <div class="hrm-panel" id="hrm-panel-wagesheets">
+      <div class="hcard" style="margin-bottom:16px;">
+        <div class="hcard-head">
+          <div><div class="hcard-title">Wage Sheet Generator</div><div class="hcard-sub">Monthly payslip from BAM attendance + payroll setup</div></div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <select id="ws-month" style="background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--t1);font-size:11px;"><option value="2026-03">March 2026</option><option value="2026-02">February 2026</option><option value="2026-01">January 2026</option></select>
+            <select id="ws-type" style="background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--t1);font-size:11px;"><option value="project">Project Roll</option><option value="ho">HO Roll</option></select>
+            <button onclick="generateWageSheet()" style="padding:7px 16px;background:var(--purple);border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:800;font-family:var(--fh);cursor:pointer;">&#128196; Generate All</button>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 100px;padding:8px 14px;border-bottom:1px solid var(--border);"><div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;">Employee</div><div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;">Days Present</div><div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;">OT Hours</div><div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;">Est. Net Pay</div><div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;">Action</div></div>
+        <div style="padding:30px;text-align:center;color:var(--t3);font-size:11px;">Select month and roll type to load employees</div>
+      </div>
+      <div style="padding:12px 16px;background:var(--raised);border-radius:10px;border:1px solid var(--border);font-size:10px;color:var(--t3);line-height:1.7;">&#9432;&nbsp; Attendance auto-pulled from BAM. OT calculated from check-in/out timestamps. Net pay uses Payroll Setup components. PDF generation coming in Phase 3-C.</div>
+    </div>
+
+    <!-- FOOTER -->
+    
+
+  </div><!-- end content -->
+</div>
+
+<footer class="sp-footer">
+      <div class="sp-footer-left">
+        <span>&#169; 2026 SafetyPro AI</span>
+        <span class="sp-footer-sep">|</span>
+        <span style="color:#8B5CF6;font-weight:600;">HRM &amp; Payroll</span>
+        <span class="sp-footer-sep">|</span>
+        <span id="sp-footer-version">v1.3.2</span>
+        <span class="sp-footer-sep">|</span>
+        <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
+      </div>
+      <div class="sp-footer-center">
+        <a href="/cdn-cgi/l/email-protection#92e1e7e2e2fde0e6d2e1f3f4f7e6ebe2e0fde5fde0fef6bcf1fdff">HR Guide</a>
+        <a href="/cdn-cgi/l/email-protection#d5a6a0a5a5baa7a195a6b4b3b0a1aca5a7baa2baa7b9b1fbb6bab8">Payroll Help</a>
+        <a href="/cdn-cgi/l/email-protection#ec9f999c9c839e98ac9f8d8a8998959c9e839b839e8088c28f8381">Report Issue</a>
+      </div>
+      <div class="sp-footer-right">
+        <div class="sp-footer-status-dot" id="sp-status-dot"></div>
+        <span id="sp-status-text" style="color:#22C55E;">Operational</span>
+      </div>
+    </footer>
+
+<!-- end body -->
+
+<!-- Add Component Modal -->
+<div class="modal-overlay" id="add-comp-modal">
+  <div class="modal">
+    <div class="modal-title">Add Salary Component</div>
+    <div class="form-group"><label class="form-label">Component Name</label><input class="form-input" id="comp-name" type="text" placeholder="e.g. Medical Allowance"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="form-group"><label class="form-label">Type</label><select class="form-select" id="comp-type"><option value="earning">Earning</option><option value="deduction">Deduction</option></select></div>
+      <div class="form-group"><label class="form-label">Calculation</label><select class="form-select" id="comp-calc"><option value="fixed">Fixed &#8377;</option><option value="pct_basic">% of Basic</option><option value="per_day">&#8377; per day</option></select></div>
+    </div>
+    <div class="form-group"><label class="form-label">Amount / Rate</label><input class="form-input" id="comp-amount" type="number" placeholder="0" min="0"></div>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeAddComp()">Cancel</button><button class="btn-confirm" onclick="confirmAddComp()">Add Component</button></div>
+  </div>
+</div>
+
+<div id="hrm-toast"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+var API_BASE = 'https://safetypro-backend-production.up.railway.app/api/v1';
+var _addTarget = 'ho';
+var _allWorkers = [];
+
+// AUTH
+(function(){
+  var token = localStorage.getItem('sp_token');
+  if(!token){ window.location.replace('safetypro_login.html'); return; }
+  try{
+    var u = JSON.parse(localStorage.getItem('sp_user')||'{}');
+    if(u && u.name){
+      var el = function(id){ return document.getElementById(id); };
+      var ini = u.name.split(' ').map(function(n){return n[0]||'';} ).join('').substring(0,2).toUpperCase();
+      if(el('nav-initials')) el('nav-initials').textContent = ini;
+      if(el('nav-username')) el('nav-username').textContent = u.name;
+      if(el('nav-role')) el('nav-role').textContent = (u.role||'HR Manager').replace(/_/g,' ');
+    }
+  }catch(e){}
+  setTimeout(hrmInit, 300);
+  setTimeout(spFooterInit, 800);
+})();
+
+function signOut(){ localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); window.location.href='safetypro_login.html'; }
+function changePassword(){ hrmToast('Contact admin@safetyproworld.com','blue'); }
+
+// NAV
+function toggleMore(e){ if(e)e.stopPropagation(); var w=document.getElementById('more-btn'); if(!w)return; var isOpen=w.classList.contains('open'); document.querySelectorAll('.more-wrap.open').forEach(function(el){el.classList.remove('open');});  if(!isOpen)w.classList.add('open'); }
+function toggleProfileMenu(){ var d=document.getElementById('profile-dropdown'); if(!d)return; if(d.style.display==='block'){d.style.display='none';}else{d.style.display='block';d.style.position='fixed';d.style.top='54px';d.style.right='12px';d.style.left='auto';d.style.zIndex='9999';} }
+function toggleSidebar(){ var sb=document.getElementById('sidebar'); var ov=document.getElementById('sb-overlay'); if(sb)sb.classList.toggle('open'); if(ov)ov.classList.toggle('open'); }
+function closeSidebar(){ var sb=document.getElementById('sidebar'); var ov=document.getElementById('sb-overlay'); if(sb)sb.classList.remove('open'); if(ov)ov.classList.remove('open'); }
+function toggleSidebarMore(){var el=document.getElementById("sb-more-items"),ch=document.getElementById("sb-chev");if(!el)return;var o=el.style.maxHeight!=="0px";el.style.maxHeight=o?"0px":"500px";el.style.opacity=o?"0":"1";if(ch)ch.style.transform=o?"rotate(-90deg)":"rotate(0deg)";}
+document.addEventListener('click',function(e){ if(!e.target.closest('.more-wrap'))document.querySelectorAll('.more-wrap.open').forEach(function(el){el.classList.remove('open');});  if(!e.target.closest('#user-pill-btn')&&!e.target.closest('#profile-dropdown')){var d=document.getElementById('profile-dropdown');if(d)d.style.display='none';} });
+
+// TABS
+function hrmTab(tab, el){
+  document.querySelectorAll('.ht').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.hrm-panel').forEach(function(p){p.classList.remove('active');p.style.cssText='';});
+  if(el) el.classList.add('active');
+  var panel = document.getElementById('hrm-panel-' + tab);
+  if(panel) panel.classList.add('active');
+  if(tab==='workers') hrmLoadDirectory();
+  if(tab==='approvals') hrmLoadApprovals();
+  if(tab==='qr') hrmDrawQR();
+  if(tab==='overtime') hrmLoadOvertime();
+}
+
+// TOAST
+var _tt;
+function hrmToast(msg, type){
+  var t = document.getElementById('hrm-toast');
+  if(!t) return;
+  var colors = {success:'#22C55E', amber:'#F59E0B', blue:'#3B82F6', error:'#EF4444'};
+  t.textContent = msg;
+  t.style.borderLeftColor = colors[type]||colors.blue;
+  t.classList.add('show');
+  clearTimeout(_tt);
+  _tt = setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+// INIT
+
+function hrmSetDemoData(){
+  var g=function(id){return document.getElementById(id);};
+  if(g('kpi-onsite'))  g('kpi-onsite').textContent='247';
+  if(g('kpi-today'))   g('kpi-today').textContent='312';
+  if(g('kpi-out'))     g('kpi-out').textContent='65';
+  if(g('kpi-missing')) g('kpi-missing').textContent='8';
+  if(g('kpi-pending')) g('kpi-pending').textContent='3';
+  if(g('avg-time'))    g('avg-time').textContent='08:42';
+  if(g('feed-sub'))    g('feed-sub').textContent='Live from BAM biometric · Demo data';
+  var list=g('hrm-feed-list');
+  if(list){
+    var workers=[
+      {n:'Rajan Kumar',   id:'EMP-0042',z:'Zone A',t:'08:42 AM',type:'IN', c:94},
+      {n:'Vikram Sharma', id:'EMP-0018',z:'Zone B',t:'08:55 AM',type:'IN', c:91},
+      {n:'Suresh Das',    id:'EMP-0071',z:'Zone A',t:'09:03 AM',type:'IN', c:88},
+      {n:'Mohan Singh',   id:'EMP-0035',z:'Zone C',t:'09:11 AM',type:'IN', c:96},
+      {n:'Arjun Yadav',   id:'EMP-0056',z:'Zone B',t:'05:48 PM',type:'OUT',c:93},
+    ];
+    var clrs=['#8B5CF6','#22C55E','#3B82F6','#F59E0B','#EC4899'];
+    var rows='';
+    workers.forEach(function(w,i){
+      var ini=w.n.split(' ').map(function(n){return n[0];}).join('');
+      var c=clrs[i%clrs.length];
+      var isIn=w.type==='IN';
+      rows+='<div class="feed-item" data-type="'+(isIn?'in':'out')+'" data-mode="biometric">'+
+        '<div class="feed-avatar" style="background:'+c+'20;color:'+c+';border:1px solid '+c+'40;">'+ini+'</div>'+
+        '<div style="flex:1;min-width:0;"><div class="feed-name">'+w.n+'</div>'+
+        '<div class="feed-meta">'+w.id+' · '+w.z+' · '+w.t+' · '+w.c+'%</div></div>'+
+        '<span class="feed-badge '+(isIn?'in':'out')+'">'+w.type+'</span></div>';
+    });
+    list.innerHTML=rows;
+  }
+  var zones=g('zone-breakdown');
+  if(zones){
+    var zd=[{z:'Zone A',n:98,p:40},{z:'Zone B',n:74,p:30},{z:'Zone C',n:49,p:20},{z:'Zone D',n:26,p:10}];
+    zones.innerHTML=zd.map(function(d){
+      return '<div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;">'+
+        '<span style="font-size:11px;font-weight:600;color:var(--t1);">'+d.z+'</span>'+
+        '<span style="font-size:11px;color:var(--t3);">'+d.n+' ('+d.p+'%)</span></div>'+
+        '<div style="height:6px;background:var(--border);border-radius:3px;">'+
+        '<div style="height:100%;width:'+d.p+'%;background:var(--purple);border-radius:3px;"></div></div></div>';
+    }).join('');
+  }
+  if(g('ot-count'))      g('ot-count').textContent='12';
+  if(g('ot-violations')) g('ot-violations').textContent='2';
+  if(g('ot-total'))      g('ot-total').textContent='38.5h';
+  if(g('ot-cost'))       g('ot-cost').textContent='₹30,240';
+  var tb=g('ot-table-body');
+  if(tb){
+    var ow=[
+      {n:'Rajan Kumar',   id:'EMP-0042',in:'07:45',out:'18:12',h:10.5,ot:2.5,s:'OT'},
+      {n:'Vikram Sharma', id:'EMP-0018',in:'07:50',out:'19:20',h:11.5,ot:3.5,s:'BOCW Violation'},
+      {n:'Suresh Das',    id:'EMP-0071',in:'08:00',out:'16:00',h:8.0, ot:0,  s:'Normal'},
+      {n:'Mohan Singh',   id:'EMP-0035',in:'07:30',out:'',     h:null,ot:0,  s:'Active'},
+    ];
+    var sc={Normal:'var(--green)',OT:'var(--amber)','BOCW Violation':'var(--red)',Active:'var(--blue)'};
+    tb.innerHTML=ow.map(function(w){
+      return '<tr><td><div style="font-size:11px;font-weight:600;color:var(--t1);">'+w.n+'</div></td>'+
+        '<td style="color:var(--t3);">'+w.id+'</td><td>'+w.in+'</td><td>'+(w.out||'—')+'</td>'+
+        '<td>'+(w.h?w.h.toFixed(1)+'h':'Active')+'</td>'+
+        '<td style="color:'+(w.ot>0?'var(--amber)':'var(--t3)')+';">'+(w.ot>0?w.ot.toFixed(1)+'h':'—')+'</td>'+
+        '<td><span style="font-size:9px;font-weight:700;color:'+(sc[w.s]||'var(--t2)')+';">'+w.s+'</span></td></tr>';
+    }).join('');
+  }
+}
+
+function hrmInit(){
+  hrmSetDemoData();
+  hrmLoadAttendance();
+  hrmLoadPendingCount();
+  setInterval(hrmLoadAttendance, 60000);
+  setInterval(hrmLoadPendingCount, 30000);
+}
+
+// ATTENDANCE
+function hrmLoadAttendance(){
+  var token = localStorage.getItem('sp_token')||'';
+  fetch(API_BASE + '/attendance/today', { headers:{'Authorization':'Bearer '+token} })
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      var s = data.summary||{};
+      var g = function(id){ return document.getElementById(id); };
+      if(g('kpi-onsite') && s.currentlyIn!=null) g('kpi-onsite').textContent = s.currentlyIn;
+      if(g('kpi-today') && s.totalCheckedIn!=null) g('kpi-today').textContent = s.totalCheckedIn;
+      if(g('kpi-out') && s.totalCheckedOut!=null) g('kpi-out').textContent = s.totalCheckedOut;
+      var records = data.records||[];
+      if(g('feed-sub')) g('feed-sub').textContent = 'Live from BAM biometric \u00b7 ' + records.length + ' records today';
+      if(records.length) hrmRenderFeed(records);
+      hrmRenderZones(records);
+      hrmCalcAvgTime(records);
+    })
+    .catch(function(){});
+}
+
+function hrmRenderFeed(records){
+  var list = document.getElementById('hrm-feed-list');
+  if(!list) return;
+  var colors = ['#8B5CF6','#22C55E','#3B82F6','#F59E0B','#EC4899','#06B6D4'];
+  var rows = '';
+  for(var i=0;i<Math.min(records.length,30);i++){
+    var r=records[i];
+    var t=r.timestamp?new Date(r.timestamp):null;
+    var ts=t?t.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'--:--';
+    var isIn=(r.type||'IN').toUpperCase()==='IN';
+    var name=r.empName||r.employeeId||'Worker';
+    var ini=name.split(' ').map(function(n){return n[0]||'';} ).join('').substring(0,2).toUpperCase();
+    var color=colors[i%colors.length];
+    var sub=(r.employeeId||'')+' \u00b7 '+(r.zone||r.projectCode||'')+' \u00b7 '+ts+(r.confidence?' \u00b7 '+r.confidence+'%':'');
+    rows+='<div class="feed-item" data-type="'+(isIn?'in':'out')+'" data-mode="biometric">'+
+      '<div class="feed-avatar" style="background:'+color+'20;color:'+color+';border:1px solid '+color+'40;">'+ini+'</div>'+
+      '<div style="flex:1;min-width:0;"><div class="feed-name">'+name+'</div>'+
+      '<div class="feed-meta">'+sub+'</div>'+
+      (r.latitude?'<div style="font-size:9px;color:var(--t3);">&#128205; '+r.latitude+'\u00b0N, '+r.longitude+'\u00b0E</div>':'')+
+      '</div>'+
+      '<span class="feed-badge '+(isIn?'in':'out')+'">'+(r.type||'IN')+'</span></div>';
+  }
+  if(!rows) rows='<div style="padding:30px;text-align:center;color:var(--t3);font-size:11px;">No records yet today</div>';
+  list.innerHTML=rows;
+}
+
+function hrmRenderZones(records){
+  var el=document.getElementById('zone-breakdown');
+  if(!el)return;
+  var zones={};
+  records.forEach(function(r){ var z=r.zone||'Unknown'; if((r.type||'IN').toUpperCase()==='IN'){ zones[z]=(zones[z]||0)+1; } });
+  var total=Object.values(zones).reduce(function(a,b){return a+b;},0)||1;
+  var html='';
+  Object.keys(zones).forEach(function(z){
+    var pct=Math.round((zones[z]/total)*100);
+    html+='<div style="margin-bottom:10px;">'+
+      '<div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:11px;font-weight:600;color:var(--t1);">'+z+'</span><span style="font-size:11px;color:var(--t3);">'+zones[z]+' ('+pct+'%)</span></div>'+
+      '<div style="height:6px;background:var(--border);border-radius:3px;"><div style="height:100%;width:'+pct+'%;background:var(--purple);border-radius:3px;"></div></div></div>';
+  });
+  if(!html) html='<div style="text-align:center;color:var(--t3);font-size:11px;padding:20px;">No zone data</div>';
+  el.innerHTML=html;
+}
+
+function hrmCalcAvgTime(records){
+  var el=document.getElementById('avg-time');
+  if(!el)return;
+  var ins=records.filter(function(r){return (r.type||'IN').toUpperCase()==='IN'&&r.timestamp;});
+  if(!ins.length){el.textContent='\u2014';return;}
+  var avg=Math.round(ins.reduce(function(acc,r){var t=new Date(r.timestamp);return acc+(t.getHours()*60+t.getMinutes());},0)/ins.length);
+  var h=Math.floor(avg/60);var m=avg%60;
+  el.textContent=(h<10?'0':'')+h+':'+(m<10?'0':'')+m;
+}
+
+function hrmFilterFeed(type, el){
+  document.querySelectorAll('[onclick^="hrmFilterFeed"]').forEach(function(b){
+    b.style.background='var(--raised)';b.style.borderColor='var(--border)';b.style.color='var(--t3)';
+  });
+  el.style.background='var(--purple)';el.style.borderColor='rgba(139,92,246,.4)';el.style.color='#fff';
+  document.querySelectorAll('.feed-item').forEach(function(item){
+    if(type==='all'){ item.style.display=''; return; }
+    var dtype=item.getAttribute('data-type')||'';
+    if(type==='in') item.style.display=dtype==='in'?'':'none';
+    else if(type==='out') item.style.display=dtype==='out'?'':'none';
+    else if(type==='missing') item.style.display=dtype==='missing'?'':'none';
+    else if(type==='selfie') item.style.display=(item.getAttribute('data-mode')||'')==='biometric'?'':'none';
+    else item.style.display='';
+  });
+}
+
+// WORKERS
+function hrmLoadDirectory(){
+  var list=document.getElementById('dir-list');
+  var countEl=document.getElementById('dir-count');
+  if(!list)return;
+  list.innerHTML='<div style="padding:20px;text-align:center;color:var(--t3);font-size:11px;">Loading...</div>';
+  var token=localStorage.getItem('sp_token')||'';
+  var filter=(document.getElementById('dir-filter')||{}).value||'ALL';
+  fetch(API_BASE+'/employees/all',{headers:{'Authorization':'Bearer '+token}})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      _allWorkers=Array.isArray(data)?data:(data.data||[]);
+      var filtered=filter==='ALL'?_allWorkers:_allWorkers.filter(function(w){return w.status===filter;});
+      if(countEl) countEl.textContent=filtered.length+' worker'+(filtered.length!==1?'s':'')+' \u00b7 '+_allWorkers.length+' total';
+      hrmRenderWorkers(filtered);
+      var badge=document.getElementById('badge-workers');
+      if(badge){badge.textContent=_allWorkers.length;badge.style.display=_allWorkers.length>0?'inline':'none';}
+    })
+    .catch(function(){list.innerHTML='<div style="padding:20px;text-align:center;color:var(--t3);font-size:10px;">Could not load</div>';});
+}
+
+function hrmRenderWorkers(workers){
+  var list=document.getElementById('dir-list');
+  if(!list)return;
+  if(!workers.length){list.innerHTML='<div style="padding:30px;text-align:center;color:var(--t3);font-size:11px;">No employees found</div>';return;}
+  list.innerHTML='';
+  var colors=['#8B5CF6','#22C55E','#3B82F6','#F59E0B','#EC4899'];
+  workers.forEach(function(w,i){
+    var c=colors[i%colors.length];
+    var sp=w.status==='ACTIVE'?'active':w.status==='PENDING'?'pending':'rejected';
+    var ini=(w.name||'WK').split(' ').map(function(n){return n[0]||'';}).join('').substring(0,2).toUpperCase();
+    var row=document.createElement('div');
+    row.className='worker-row';
+    row.innerHTML='<div class="worker-init" style="background:'+c+'20;color:'+c+';border:1px solid '+c+'40;">'+ini+'</div>'+
+      '<div style="flex:1;min-width:0;"><div class="worker-name">'+w.name+'</div><div class="worker-meta">'+w.employeeId+' · '+w.projectCode+'</div></div>'+
+      '<span class="status-pill '+sp+'">'+w.status+'</span>';
+    if(w.status==='PENDING'){
+      var btnWrap=document.createElement('div');
+      btnWrap.style.cssText='display:flex;gap:5px;margin-left:8px;';
+      var apBtn=document.createElement('button');
+      apBtn.style.cssText='padding:4px 10px;background:var(--green);border:none;border-radius:6px;color:#070D12;font-size:10px;font-weight:800;cursor:pointer;';
+      apBtn.textContent='✓';
+      apBtn.setAttribute('data-id',w.id);
+      apBtn.onclick=function(){hrmApprove(this.getAttribute('data-id'),this);};
+      var rjBtn=document.createElement('button');
+      rjBtn.style.cssText='padding:4px 8px;background:var(--r-s);border:1px solid var(--r-b);border-radius:6px;color:var(--red);font-size:10px;cursor:pointer;';
+      rjBtn.textContent='✕';
+      rjBtn.setAttribute('data-id',w.id);
+      rjBtn.onclick=function(){hrmReject(this.getAttribute('data-id'),this);};
+      btnWrap.appendChild(apBtn);btnWrap.appendChild(rjBtn);
+      row.appendChild(btnWrap);
+    }
+    list.appendChild(row);
+  });
+}
+
+function hrmFilterDirectory(q){
+  if(!q){hrmRenderWorkers(_allWorkers);return;}
+  var lq=q.toLowerCase();
+  hrmRenderWorkers(_allWorkers.filter(function(w){return (w.name||'').toLowerCase().includes(lq)||(w.employeeId||'').toLowerCase().includes(lq);}));
+}
+
+// APPROVALS
+function hrmLoadPendingCount(){
+  var token=localStorage.getItem('sp_token')||'';
+  fetch(API_BASE+'/employees/pending',{headers:{'Authorization':'Bearer '+token}})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var workers=Array.isArray(data)?data:(data.data||[]);
+      var badge=document.getElementById('badge-pending');
+      var kpi=document.getElementById('kpi-pending');
+      if(badge){badge.textContent=workers.length;badge.style.display=workers.length>0?'inline':'none';}
+      if(kpi) kpi.textContent=workers.length;
+    }).catch(function(){});
+}
+
+function hrmLoadApprovals(){
+  var list=document.getElementById('approvals-list');
+  if(!list)return;
+  list.innerHTML='<div style="padding:20px;text-align:center;color:var(--t3);font-size:11px;">Loading...</div>';
+  var token=localStorage.getItem('sp_token')||'';
+  fetch(API_BASE+'/employees/pending',{headers:{'Authorization':'Bearer '+token}})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var workers=Array.isArray(data)?data:(data.data||[]);
+      if(!workers.length){
+        list.innerHTML='<div style="padding:30px;text-align:center;"><div style="font-size:28px;color:var(--green);">&#10003;</div><div style="font-size:11px;color:var(--t3);margin-top:8px;">No pending approvals</div></div>';
+        return;
+      }
+      list.innerHTML='';
+      workers.forEach(function(w){
+        var ini=(w.name||'WK').split(' ').map(function(n){return n[0]||'';}).join('').substring(0,2).toUpperCase();
+        var card=document.createElement('div');
+        card.style.cssText='background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;';
+        var photo=document.createElement('div');
+        photo.style.cssText='width:42px;height:42px;border-radius:12px;background:var(--g-s);border:2px solid var(--g-b);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:16px;font-weight:800;color:var(--green);flex-shrink:0;';
+        photo.textContent=ini;
+        var info=document.createElement('div');
+        info.style.cssText='flex:1;min-width:0;';
+        info.innerHTML='<div style="font-size:13px;font-weight:700;color:var(--t1);font-family:var(--fh);">'+w.name+'</div><div style="font-size:10px;color:var(--t3);margin-top:2px;">'+w.employeeId+' · '+w.projectCode+'</div>';
+        var actions=document.createElement('div');
+        actions.style.cssText='display:flex;gap:6px;flex-shrink:0;';
+        var apBtn=document.createElement('button');
+        apBtn.style.cssText='padding:7px 14px;background:var(--green);border:none;border-radius:8px;color:#070D12;font-size:11px;font-weight:800;font-family:var(--fh);cursor:pointer;';
+        apBtn.textContent='✓ Approve';
+        apBtn.setAttribute('data-id',w.id);
+        apBtn.onclick=function(){hrmApprove(this.getAttribute('data-id'),this);};
+        var rjBtn=document.createElement('button');
+        rjBtn.style.cssText='padding:7px 10px;background:var(--r-s);border:1px solid var(--r-b);border-radius:8px;color:var(--red);font-size:11px;cursor:pointer;';
+        rjBtn.textContent='✕';
+        rjBtn.setAttribute('data-id',w.id);
+        rjBtn.onclick=function(){hrmReject(this.getAttribute('data-id'),this);};
+        actions.appendChild(apBtn);actions.appendChild(rjBtn);
+        card.appendChild(photo);card.appendChild(info);card.appendChild(actions);
+        list.appendChild(card);
+      });
+    })
+    .catch(function(){list.innerHTML='<div style="padding:20px;text-align:center;color:var(--t3);font-size:10px;">Failed to load</div>';});
+}
+
+function hrmApprove(id,btn){
+  var token=localStorage.getItem('sp_token')||'';
+  btn.disabled=true;btn.textContent='...';
+  fetch(API_BASE+'/employees/'+id+'/approve',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'}})
+    .then(function(r){return r.json();})
+    .then(function(){hrmToast('Worker approved \u2713 BAM active','success');setTimeout(hrmLoadApprovals,800);setTimeout(hrmLoadPendingCount,800);})
+    .catch(function(){btn.disabled=false;btn.textContent='\u2713 Approve';hrmToast('Failed','amber');});
+}
+
+function hrmReject(id,btn){
+  var token=localStorage.getItem('sp_token')||'';
+  btn.disabled=true;
+  fetch(API_BASE+'/employees/'+id+'/reject',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'}})
+    .then(function(){hrmToast('Registration rejected','amber');setTimeout(hrmLoadApprovals,800);setTimeout(hrmLoadPendingCount,800);})
+    .catch(function(){btn.disabled=false;hrmToast('Failed','amber');});
+}
+
+// GATE QR
+function hrmGetQRUrl(){
+  var proj=(document.getElementById('qr-project')||{}).value||'BBRP-2026';
+  var zone=(document.getElementById('qr-zone')||{}).value||'';
+  var url='https://www.safetyproworld.com/safetypro_checkin?code='+encodeURIComponent(proj);
+  if(zone) url+='&zone='+encodeURIComponent(zone);
+  return url;
+}
+
+function hrmDrawQR(){
+  var url=hrmGetQRUrl();
+  var proj=(document.getElementById('qr-project')||{}).value||'BBRP-2026';
+  var zone=(document.getElementById('qr-zone')||{}).value||'';
+  var lbl=document.getElementById('hrm-qr-label');
+  var urlEl=document.getElementById('hrm-qr-url');
+  var container=document.getElementById('hrm-qr-canvas');
+  if(!container)return;
+  if(lbl) lbl.textContent=proj+(zone?' \u00b7 '+zone:' \u00b7 All Zones');
+  if(urlEl) urlEl.textContent=url.replace('https://www.','');
+  var apiUrl='https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=6&color=0B1420&bgcolor=FFFFFF&data='+encodeURIComponent(url);
+  var img=document.createElement('img');
+  img.src=apiUrl;img.width=160;img.height=160;img.alt='Gate QR';
+  img.style.cssText='display:block;border-radius:6px;';
+  img.onerror=function(){container.innerHTML='<div style="width:160px;height:60px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--t3);">QR unavailable</div>';};
+  container.innerHTML='';container.appendChild(img);
+}
+
+function hrmDownloadQR(){
+  var img=document.querySelector('#hrm-qr-canvas img');
+  if(!img){hrmToast('QR not ready','amber');return;}
+  var link=document.createElement('a');
+  link.download='Gate-QR-'+((document.getElementById('qr-project')||{}).value||'BAM')+'.png';
+  link.href=img.src;link.click();
+  hrmToast('QR downloading...','success');
+}
+
+function hrmShareQR(){
+  var url=hrmGetQRUrl();
+  if(navigator.share){navigator.share({title:'SafetyPro Gate QR',text:'Scan to mark attendance',url:url}).catch(function(){});}
+  else{try{navigator.clipboard.writeText(url);hrmToast('QR URL copied','success');}catch(e){hrmToast('URL copied','blue');}}
+}
+
+// OVERTIME
+function hrmLoadOvertime(){
+  var token=localStorage.getItem('sp_token')||'';
+  fetch(API_BASE+'/attendance/today',{headers:{'Authorization':'Bearer '+token}})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var records=data.records||[];
+      var stdHrs=parseInt((document.getElementById('pay-hrs')||{}).value||'8');
+      var workers={};
+      records.forEach(function(r){
+        var id=r.employeeId;
+        if(!workers[id]) workers[id]={name:r.empName||id,employeeId:id,ins:[],outs:[]};
+        if((r.type||'IN').toUpperCase()==='IN') workers[id].ins.push(new Date(r.timestamp));
+        else workers[id].outs.push(new Date(r.timestamp));
+      });
+      var rows='',otCount=0,violations=0,totalOT=0;
+      Object.values(workers).forEach(function(w){
+        if(!w.ins.length)return;
+        var checkIn=w.ins[0];var checkOut=w.outs.length?w.outs[w.outs.length-1]:null;
+        var hrsWorked=checkOut?((checkOut-checkIn)/3600000):null;
+        var otHrs=hrsWorked?Math.max(0,hrsWorked-stdHrs):0;
+        if(otHrs>0)otCount++;
+        if(hrsWorked&&hrsWorked>9)violations++;
+        totalOT+=otHrs;
+        var status=!hrsWorked?'Active':(hrsWorked<=stdHrs?'Normal':hrsWorked<=9?'OT':'BOCW Violation');
+        var sc=!hrsWorked?'var(--blue)':hrsWorked<=stdHrs?'var(--green)':hrsWorked<=9?'var(--amber)':'var(--red)';
+        rows+='<tr><td><div style="font-size:11px;font-weight:600;color:var(--t1);">'+w.name+'</div></td><td style="color:var(--t3);">'+w.employeeId+'</td><td>'+checkIn.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})+'</td><td>'+(checkOut?checkOut.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'\u2014')+'</td><td>'+(hrsWorked?hrsWorked.toFixed(1)+'h':'Active')+'</td><td style="color:'+(otHrs>0?'var(--amber)':'var(--t3)')+';">'+(otHrs>0?otHrs.toFixed(1)+'h':'\u2014')+'</td><td><span style="font-size:9px;font-weight:700;color:'+sc+';">'+status+'</span></td></tr>';
+      });
+      var tb=document.getElementById('ot-table-body');
+      if(tb) tb.innerHTML=rows||'<tr><td colspan="7" style="text-align:center;color:var(--t3);padding:30px;font-size:11px;">No attendance records today</td></tr>';
+      var g=function(id){return document.getElementById(id);};
+      if(g('ot-count'))g('ot-count').textContent=otCount;
+      if(g('ot-violations'))g('ot-violations').textContent=violations;
+      if(g('ot-total'))g('ot-total').textContent=totalOT.toFixed(1)+'h';
+      if(g('ot-cost'))g('ot-cost').textContent='\u20b9'+Math.round(totalOT*630/8*2).toLocaleString('en-IN');
+    }).catch(function(){});
+}
+
+// PAYROLL
+function openAddComp(category){ _addTarget=category; document.getElementById('add-comp-modal').classList.add('open'); document.getElementById('comp-name').value=''; document.getElementById('comp-amount').value=''; }
+function closeAddComp(){ document.getElementById('add-comp-modal').classList.remove('open'); }
+function confirmAddComp(){
+  var name=(document.getElementById('comp-name').value||'').trim();
+  var type=document.getElementById('comp-type').value;
+  var calc=document.getElementById('comp-calc').value;
+  var amount=document.getElementById('comp-amount').value||'0';
+  if(!name){hrmToast('Enter a name','amber');return;}
+  var listId=_addTarget==='ho'?'ho-comp-list':'pr-comp-list';
+  var list=document.getElementById(listId);
+  if(!list)return;
+  var row=document.createElement('div');
+  row.className='comp-row';row.setAttribute('data-id',_addTarget+'_'+name.toLowerCase().replace(/\W/g,'_'));
+  row.innerHTML='<div class="comp-name">'+name+'</div>'+
+    '<div class="comp-type '+(type==='earning'?'earn':'ded')+'">'+(type==='earning'?'Earning':'Deduction')+'</div>'+
+    '<div style="font-size:9px;color:var(--t2);">'+{fixed:'Fixed \u20b9',pct_basic:'% Basic',per_day:'\u20b9/day'}[calc]+'</div>'+
+    '<div><input class="comp-input" type="number" value="'+amount+'" onchange="savePayroll()"></div>'+
+    '<button onclick="removeComp(this)" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:14px;">\u2715</button>';
+  list.appendChild(row);
+  closeAddComp();savePayroll();
+  hrmToast(name+' added','success');
+}
+function removeComp(btn){ var row=btn.closest('.comp-row'); if(row){row.remove();savePayroll();} }
+function savePayroll(){
+  var setup={ho:[],pr:[],
+    state:(document.getElementById('pay-state')||{}).value||'Bihar',
+    pfCeiling:(document.getElementById('pay-pf')||{}).value||'15000',
+    esi:(document.getElementById('pay-esi')||{}).value||'auto',
+    stdHrs:(document.getElementById('pay-hrs')||{}).value||'8'
+  };
+  document.querySelectorAll('#ho-comp-list .comp-row').forEach(function(r){ var inp=r.querySelector('input'); setup.ho.push({id:r.getAttribute('data-id'),name:r.querySelector('.comp-name').textContent,amount:inp?inp.value:'0'}); });
+  document.querySelectorAll('#pr-comp-list .comp-row').forEach(function(r){ var inp=r.querySelector('input'); setup.pr.push({id:r.getAttribute('data-id'),name:r.querySelector('.comp-name').textContent,amount:inp?inp.value:'0'}); });
+  try{localStorage.setItem('sp_payroll_setup',JSON.stringify(setup));}catch(e){}
+  hrmToast('Payroll setup saved \u2713','success');
+}
+
+function hrmExportBOCW(){
+  var workers=[];
+  var rows=document.querySelectorAll('table tbody tr');
+  rows.forEach(function(row){
+    var cells=row.querySelectorAll('td');
+    if(cells.length<3)return;
+    var name=cells[1]?cells[1].textContent.trim():'';
+    var trade=cells[2]?cells[2].textContent.trim():'';
+    var present=parseInt((cells[cells.length-3]||{}).textContent)||26;
+    var absent=parseInt((cells[cells.length-2]||{}).textContent)||0;
+    var otHrs=parseFloat((cells[cells.length-1]||{}).textContent)||0;
+    if(name&&name!=='Worker Name')workers.push({name:name,trade:trade,daysWorked:present,daysAbsent:absent,overtimeHrs:otHrs,dailyWage:500,totalWages:present*500});
+  });
+  if(!workers.length)workers=[{name:'Demo Worker',trade:'Mason',daysWorked:26,daysAbsent:0,overtimeHrs:4,dailyWage:500,totalWages:13000}];
+  var project=localStorage.getItem('sp_active_project')||'BBRP — Birpur Bihpur Road Project, NH-106/131, Bihar';
+  if(typeof SPExports!=='undefined'){SPExports.bocwFormXIII(workers,{projectName:project});}
+  else{hrmToast('Export engine not loaded','error');}
+}
+
+function spFooterInit(){
+  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
+  function updateFooter(d){
+    var v=document.getElementById('sp-footer-version');
+    var s=document.getElementById('sp-footer-sync');
+    var dot=document.getElementById('sp-status-dot');
+    var txt=document.getElementById('sp-status-text');
+    if(!v)return;
+    if(d.version)v.textContent=d.version;
+    if(d.lastSync){try{s.textContent=new Date(d.lastSync).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}}
+    var status=d.status||'operational';
+    var colors={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'};
+    if(dot)dot.style.background=colors[status]||'#22C55E';
+    if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#22C55E';}
+  }
+  function fetchStatus(){
+    fetch(API+'/api/system/status')
+      .then(function(r){return r.json();})
+      .then(updateFooter)
+      .catch(function(){updateFooter({status:'operational',version:'v1.3.2',lastSync:new Date().toISOString()});});
+  }
+  fetchStatus();
+  setInterval(fetchStatus,30000);
+}
+
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script>
+
+
+// ── Wage Sheet & Payslip Generator ───────────────────────────────────────
+function generateWageSheet() {
+  var monthEl = document.getElementById('ws-month');
+  var typeEl  = document.getElementById('ws-type');
+  var monthVal = monthEl ? monthEl.value : '2026-03';
+  var rollType = typeEl  ? typeEl.value  : 'project';
+  var parts    = monthVal.split('-');
+  var year     = parseInt(parts[0]);
+  var month    = parseInt(parts[1]) - 1; // 0-indexed
+  var project  = localStorage.getItem('sp_active_project') || 'BBRP — Birpur Bihpur Road Project, NH-106/131, Bihar';
+
+  // Collect workers from wage sheet table rows
+  var workers = [];
+  var rows = document.querySelectorAll('#ws-body tr, .ws-row, [data-ws-row]');
+  if (!rows.length) {
+    // Try muster roll table
+    rows = document.querySelectorAll('table tbody tr');
+  }
+  rows.forEach(function(row) {
+    var cells = row.querySelectorAll('td');
+    if (cells.length < 3) return;
+    var name  = (cells[1] || cells[0]).textContent.trim();
+    var trade = (cells[2] || cells[1]).textContent.trim();
+    if (!name || name === 'Worker Name' || name === 'Name') return;
+    var basicWages   = parseFloat((cells[4] || {}).textContent) || 13000;
+    var otAmount     = parseFloat((cells[5] || {}).textContent) || 0;
+    var pfDeduction  = parseFloat((cells[6] || {}).textContent) || Math.round(basicWages * 0.12);
+    var esiDeduction = parseFloat((cells[7] || {}).textContent) || Math.round(basicWages * 0.0075);
+    var totalWages   = basicWages + otAmount;
+    var netWages     = totalWages - pfDeduction - esiDeduction;
+    workers.push({
+      name: name, trade: trade, daysWorked: 26, daysAbsent: 0,
+      basicWages: basicWages, otAmount: otAmount,
+      pfDeduction: pfDeduction, esiDeduction: esiDeduction,
+      totalWages: totalWages, netWages: netWages,
+      dailyWage: Math.round(basicWages / 26),
+      bocwRegNo: '', category: rollType === 'ho' ? 'Staff' : 'Labour',
+    });
+  });
+
+  if (!workers.length) {
+    // Demo data fallback
+    workers = [
+      {name:'Rajan Kumar',trade:'Mason',daysWorked:26,basicWages:13000,otAmount:1500,pfDeduction:1560,esiDeduction:98,totalWages:14500,netWages:12842,dailyWage:500},
+      {name:'Suresh Yadav',trade:'Helper',daysWorked:24,basicWages:12000,otAmount:0,pfDeduction:1440,esiDeduction:90,totalWages:12000,netWages:10470,dailyWage:500},
+      {name:'Mohan Singh',trade:'Electrician',daysWorked:26,basicWages:16000,otAmount:2000,pfDeduction:1920,esiDeduction:120,totalWages:18000,netWages:15960,dailyWage:615},
+    ];
+    hrmToast('Using demo data — connect attendance for live data', 'blue');
+  }
+
+  hrmToast('Generating wage sheet for ' + workers.length + ' workers...', 'success');
+
+  // Generate individual payslips using SPExports
+  if (typeof SPExports !== 'undefined') {
+    // Generate bulk CSV first
+    SPExports.bocwFormXIII(workers, { month: month, year: year, projectName: project });
+    // Then generate first payslip as sample
+    setTimeout(function() {
+      SPExports.payslip(workers[0], { month: month, year: year, projectName: project });
+    }, 800);
+  } else {
+    hrmToast('Export engine not loaded', 'error');
+  }
+}
+
+function downloadPayslip(workerName) {
+  // Find worker in table and generate their payslip
+  var rows = document.querySelectorAll('table tbody tr');
+  var found = null;
+  rows.forEach(function(row) {
+    var cells = row.querySelectorAll('td');
+    if (cells[1] && cells[1].textContent.trim() === workerName) {
+      found = {
+        name: workerName,
+        trade: (cells[2] || {}).textContent || '',
+        daysWorked: parseInt((cells[cells.length-3] || {}).textContent) || 26,
+        dailyWage: 500,
+        basicWages: (parseInt((cells[cells.length-3] || {}).textContent) || 26) * 500,
+        pfDeduction: Math.round(26 * 500 * 0.12),
+        esiDeduction: Math.round(26 * 500 * 0.0075),
+        totalWages: 26 * 500,
+        netWages: 26 * 500 - Math.round(26 * 500 * 0.12) - Math.round(26 * 500 * 0.0075),
+      };
+    }
+  });
+  if (found && typeof SPExports !== 'undefined') {
+    SPExports.payslip(found);
+  } else {
+    hrmToast('Worker not found or export engine not loaded', 'error');
+  }
+}
+// ─────────────────────────────────────────────────────────────────────────
+
+
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script>
+/* sp-more-fix */
+(function(){
+  function initMore(){
+    var btn = document.querySelector('.more-wrap > button, .more-btn, [onclick*="toggleMore"]');
+    var menu = document.querySelector('.more-menu');
+    if(!menu) return;
+    function toggle(e){
+      if(e) e.stopPropagation();
+      var open = menu.style.display === 'block';
+      menu.style.display = open ? 'none' : 'block';
+    }
+    if(btn) btn.onclick = toggle;
+    document.addEventListener('click', function(e){
+      var wrap = document.querySelector('.more-wrap');
+      if(wrap && !wrap.contains(e.target)){
+        menu.style.display = 'none';
+      }
+    });
+    // Also fix topnav More button
+    var topMore = document.querySelector('.nav-links .more-wrap button, .nav-more');
+    if(topMore) topMore.onclick = toggle;
+  }
+  window.toggleMore = function(e){ if(e) e.stopPropagation(); var m=document.querySelector('.more-menu'); if(m) m.style.display = m.style.display==='block'?'none':'block'; };
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', initMore);
+  else initMore();
+})();
+</script>
+</body>
+</html>
