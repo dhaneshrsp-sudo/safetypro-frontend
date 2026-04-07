@@ -4927,6 +4927,33 @@ function rorRender() {
   document.getElementById('ror-stat-overdue').textContent = totals.overdue;
   document.getElementById('ror-stat-na').textContent = totals.na;
 
+  // Sync to localStorage for Legal Calendar in Reports page
+  try {
+    var syncEntries = [];
+    var fullList = rorGetActList();
+    fullList.forEach(function(item) {
+      var entry = rorGetUserEntry(item.act);
+      syncEntries.push({
+        act: item.act,
+        auth: item.auth || '',
+        country: rorCurrentCountry,
+        state: rorCurrentState,
+        freq: item.freq || '',
+        status: entry.status || 'PENDING',
+        validity: entry.validity || '',
+        responsible: entry.responsible || '',
+        consent: entry.consent || '',
+        remarks: entry.remarks || ''
+      });
+    });
+    localStorage.setItem('sp_ror_data', JSON.stringify({
+      entries: syncEntries,
+      country: rorCurrentCountry,
+      state: rorCurrentState,
+      syncTime: new Date().toLocaleTimeString('en-IN')
+    }));
+  } catch(e) {}
+
   // Build rows
   Object.keys(cats).forEach(function(cat) {
     rows += '<tr style="background:rgba(30,41,59,.4);"><td colspan="9" style="padding:7px 12px;font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;">' + cat + '</td></tr>';

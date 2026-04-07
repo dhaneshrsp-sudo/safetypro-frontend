@@ -1639,86 +1639,51 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 
   <!-- ══ LEGAL CALENDAR TAB ══ -->
   <div class="tab-panel" id="tab-calendar">
+    <!-- Legal Calendar — fed from ROR module in Audit & Compliance -->
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <select style="font-size:11px;padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-family:var(--fh);">
-          <option>All Regions</option>
-          <option>India</option><option>UAE</option><option>Saudi Arabia</option>
-          <option>UK</option><option>USA</option><option>Qatar</option><option>International</option>
+        <select id="lc-region-filter" onchange="lcRender()" style="font-size:11px;padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-family:var(--fh);">
+          <option value="ALL">All Regions</option>
+          <option value="IN">India</option>
+          <option value="AE">UAE</option>
+          <option value="QA">Qatar</option>
+          <option value="SA">Saudi Arabia</option>
+          <option value="GB">United Kingdom</option>
+          <option value="SG">Singapore</option>
+          <option value="INT">International</option>
         </select>
-        <select style="font-size:11px;padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-family:var(--fh);">
-          <option>All Status</option><option>Overdue</option><option>Due This Month</option><option>Upcoming</option><option>Completed</option>
+        <select id="lc-status-filter" onchange="lcRender()" style="font-size:11px;padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-family:var(--fh);">
+          <option value="ALL">All Status</option>
+          <option value="OVERDUE">Overdue</option>
+          <option value="DUE_SOON">Due This Month</option>
+          <option value="PENDING">Upcoming</option>
+          <option value="COMPLIED">Complied</option>
         </select>
       </div>
-      <div style="font-size:10px;color:var(--t3);">Showing global compliance deadlines · Auto-filtered by your project regions</div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:8px;">
-      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:8px 12px;font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);">
-        <div>Due Date</div><div>Regulation &amp; Requirement</div><div>Region</div><div>Responsible</div><div>Status</div>
-      </div>
-      <!-- OVERDUE -->
-      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:8px;align-items:center;">
-        <div style="font-size:11px;font-weight:600;color:var(--red);">15 Mar 2026</div>
-        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">BOCW — Monthly Safety Return</div><div style="font-size:10px;color:var(--t3);">Form XIII submission to Labour Commissioner</div></div>
-        <div style="font-size:10px;color:var(--t2);">&#127470;&#127475; India</div>
-        <div style="font-size:10px;color:var(--t2);">HSE Head</div>
-        <div><span style="font-size:9px;background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">OVERDUE</span></div>
-      </div>
-      <!-- DUE SOON -->
-      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.15);border-radius:8px;align-items:center;">
-        <div style="font-size:11px;font-weight:600;color:var(--amber);">31 Mar 2026</div>
-        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">ISO 45001 — Internal Audit</div><div style="font-size:10px;color:var(--t3);">Annual internal audit completion &amp; management review</div></div>
-        <div style="font-size:10px;color:var(--t2);">&#127758; International</div>
-        <div style="font-size:10px;color:var(--t2);">Audit Lead</div>
-        <div><span style="font-size:9px;background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">4 DAYS</span></div>
-      </div>
-      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.15);border-radius:8px;align-items:center;">
-        <div style="font-size:11px;font-weight:600;color:var(--amber);">15 Apr 2026</div>
-        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">OSHAD-SF — Quarterly Report</div><div style="font-size:10px;color:var(--t3);">UAE Abu Dhabi OSHAD quarterly HSE performance submission</div></div>
-        <div style="font-size:10px;color:var(--t2);">&#127462;&#127466; UAE</div>
-        <div style="font-size:10px;color:var(--t2);">HSE Manager</div>
-        <div><span style="font-size:9px;background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">19 DAYS</span></div>
-      </div>
-      <!-- UPCOMING -->
-      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:var(--card);border:1px solid var(--border);border-radius:8px;align-items:center;">
-        <div style="font-size:11px;font-weight:600;color:var(--t2);">30 Apr 2026</div>
-        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Factories Act — Medical Examination</div><div style="font-size:10px;color:var(--t3);">Annual medical examination records submission — DGFASLI</div></div>
-        <div style="font-size:10px;color:var(--t2);">&#127470;&#127475; India</div>
-        <div style="font-size:10px;color:var(--t2);">Safety Officer</div>
-        <div><span style="font-size:9px;background:var(--blue-dim);color:var(--blue);border:1px solid rgba(59,130,246,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">UPCOMING</span></div>
-      </div>
-      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:var(--card);border:1px solid var(--border);border-radius:8px;align-items:center;">
-        <div style="font-size:11px;font-weight:600;color:var(--t2);">31 May 2026</div>
-        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">HSE RIDDOR — Annual Return</div><div style="font-size:10px;color:var(--t3);">UK Reporting of Injuries, Diseases &amp; Dangerous Occurrences</div></div>
-        <div style="font-size:10px;color:var(--t2);">&#127468;&#127463; UK</div>
-        <div style="font-size:10px;color:var(--t2);">HSE Head</div>
-        <div><span style="font-size:9px;background:var(--blue-dim);color:var(--blue);border:1px solid rgba(59,130,246,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">UPCOMING</span></div>
-      </div>
-      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:var(--card);border:1px solid var(--border);border-radius:8px;align-items:center;">
-        <div style="font-size:11px;font-weight:600;color:var(--t2);">30 Jun 2026</div>
-        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Saudi Labour Law — HSE Compliance Report</div><div style="font-size:10px;color:var(--t3);">Semi-annual HSE performance report to Ministry of HR</div></div>
-        <div style="font-size:10px;color:var(--t2);">&#127480;&#127462; Saudi Arabia</div>
-        <div style="font-size:10px;color:var(--t2);">Project HSE Lead</div>
-        <div><span style="font-size:9px;background:var(--blue-dim);color:var(--blue);border:1px solid rgba(59,130,246,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">UPCOMING</span></div>
-      </div>
-      <!-- COMPLETED -->
-      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:rgba(34,197,94,.03);border:1px solid rgba(34,197,94,.1);border-radius:8px;align-items:center;opacity:.7;">
-        <div style="font-size:11px;font-weight:600;color:var(--green);">28 Feb 2026</div>
-        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">OSHA 300 Log — Annual Summary</div><div style="font-size:10px;color:var(--t3);">US OSHA 29 CFR 1904 annual injury &amp; illness log posting</div></div>
-        <div style="font-size:10px;color:var(--t2);">&#127482;&#127480; USA</div>
-        <div style="font-size:10px;color:var(--t2);">Safety Manager</div>
-        <div><span style="font-size:9px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">DONE</span></div>
-      </div>
-      <div style="display:grid;grid-template-columns:90px 1fr 120px 110px 100px;gap:12px;padding:10px 12px;background:rgba(34,197,94,.03);border:1px solid rgba(34,197,94,.1);border-radius:8px;align-items:center;opacity:.7;">
-        <div style="font-size:11px;font-weight:600;color:var(--green);">15 Jan 2026</div>
-        <div><div style="font-size:11px;font-weight:600;color:var(--t1);">QCS 2014 — Site Safety Plan Review</div><div style="font-size:10px;color:var(--t3);">Qatar Construction Specification annual site safety plan update</div></div>
-        <div style="font-size:10px;color:var(--t2);">&#127478;&#127462; Qatar</div>
-        <div style="font-size:10px;color:var(--t2);">Site HSE Officer</div>
-        <div><span style="font-size:9px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">DONE</span></div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div id="lc-source-badge" style="font-size:10px;color:var(--t3);">Loading from Register of Regulations...</div>
+        <a href="/safetypro_audit_compliance.html" onclick="window.location.href='/safetypro_audit_compliance.html'" style="font-size:10px;padding:4px 10px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:5px;color:var(--green);text-decoration:none;font-family:var(--fh);cursor:pointer;">Manage ROR →</a>
       </div>
     </div>
-    <div style="margin-top:14px;padding:12px 16px;background:rgba(59,130,246,.05);border:1px solid rgba(59,130,246,.15);border-radius:8px;font-size:10px;color:var(--t3);line-height:1.7;">
-      <span style="color:var(--blue);font-weight:600;">Covered regulations:</span> ISO 45001 &bull; BOCW 1996 &bull; Factories Act &bull; DGFASLI &bull; OSHA 29 CFR 1926 &bull; HSE RIDDOR &bull; CDM 2015 &bull; OSHAD-SF &bull; UAE Federal Labour Law &bull; Saudi Labour Law &bull; SASO &bull; QCS 2014 &bull; ISO 14001 &bull; PUWER &bull; EPA &bull; Kahramaa HSE &bull; DOSH Malaysia
+
+    <!-- Summary strip -->
+    <div id="lc-summary" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;"></div>
+
+    <!-- Table header -->
+    <div style="display:grid;grid-template-columns:100px 1fr 110px 110px 110px;gap:12px;padding:8px 12px;font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);">
+      <div>Due / Renewal</div><div>Regulation &amp; Act</div><div>Authority</div><div>Responsible</div><div>Status</div>
+    </div>
+
+    <div id="lc-rows" style="display:flex;flex-direction:column;gap:6px;margin-top:6px;"></div>
+
+    <!-- Footer note -->
+    <div style="margin-top:14px;padding:10px 14px;background:var(--raised);border-radius:7px;border:1px solid var(--border);">
+      <div style="font-size:10px;color:var(--t3);line-height:1.7;">
+        <strong style="color:var(--t2);">Data source:</strong> This calendar is automatically fed from the
+        <strong style="color:var(--green);">Legal &amp; Regulatory Compliance</strong> module in Audit &amp; Compliance.
+        To add consent numbers, validity dates or update compliance status — go to
+        <strong style="color:var(--green);">Audit &amp; Compliance → Legal &amp; Regulatory</strong> tab.
+      </div>
     </div>
   </div>
 
@@ -2569,6 +2534,148 @@ document.addEventListener('DOMContentLoaded', function() {
     items.style.display = open ? 'none' : 'block';
     if (arr) arr.style.transform = open ? '' : 'rotate(180deg)';
   });
+});
+</script>
+
+<script>
+/* legal-calendar-ror-sync-v1 */
+
+// ROR_DB is defined in safetypro_audit_compliance.html
+// Since pages are separate, we use a shared localStorage cache
+// When user visits Audit & Compliance, ROR data is saved to localStorage
+// Legal Calendar reads from localStorage
+
+function lcGetRorData() {
+  // Try localStorage first (synced from ROR module)
+  try {
+    var cached = localStorage.getItem('sp_ror_data');
+    if (cached) return JSON.parse(cached);
+  } catch(e) {}
+  return null;
+}
+
+function lcDaysUntil(dateStr) {
+  if (!dateStr) return null;
+  try {
+    var d = new Date(dateStr);
+    var now = new Date();
+    now.setHours(0,0,0,0);
+    return Math.ceil((d - now) / (1000 * 60 * 60 * 24));
+  } catch(e) { return null; }
+}
+
+function lcStatusBadge(status, validity) {
+  var days = lcDaysUntil(validity);
+  if (days !== null && days < 0 && status !== 'NA')
+    return { label:'OVERDUE', color:'#EF4444', bg:'rgba(239,68,68,.1)', border:'rgba(239,68,68,.25)', key:'OVERDUE' };
+  if (days !== null && days <= 30 && status !== 'NA')
+    return { label: days + ' DAYS', color:'#F59E0B', bg:'rgba(245,158,11,.1)', border:'rgba(245,158,11,.25)', key:'DUE_SOON' };
+  if (status === 'COMPLIED')
+    return { label:'COMPLIED', color:'#22C55E', bg:'rgba(34,197,94,.1)', border:'rgba(34,197,94,.2)', key:'COMPLIED' };
+  if (status === 'NA')
+    return { label:'N/A', color:'#64748B', bg:'rgba(100,116,139,.1)', border:'rgba(100,116,139,.2)', key:'NA' };
+  return { label:'PENDING', color:'#F59E0B', bg:'rgba(245,158,11,.08)', border:'rgba(245,158,11,.2)', key:'PENDING' };
+}
+
+function lcGetCountryLabel(code) {
+  var map = { IN:'🇮🇳 India', AE:'🇦🇪 UAE', QA:'🇶🇦 Qatar', SA:'🇸🇦 Saudi Arabia', GB:'🇬🇧 UK', SG:'🇸🇬 Singapore', INT:'🌐 International' };
+  return map[code] || code;
+}
+
+function lcRender() {
+  var rowsEl = document.getElementById('lc-rows');
+  var summaryEl = document.getElementById('lc-summary');
+  var sourceEl = document.getElementById('lc-source-badge');
+  if (!rowsEl) return;
+
+  var rorData = lcGetRorData();
+  var regionFilter = (document.getElementById('lc-region-filter') || {}).value || 'ALL';
+  var statusFilter = (document.getElementById('lc-status-filter') || {}).value || 'ALL';
+
+  if (!rorData || !rorData.entries || !rorData.entries.length) {
+    rowsEl.innerHTML = '<div style="padding:32px;text-align:center;color:var(--t3);font-size:12px;">' +
+      '<div style="font-size:24px;margin-bottom:8px;">📋</div>' +
+      '<div style="font-weight:600;color:var(--t2);margin-bottom:4px;">No ROR data found</div>' +
+      '<div>Visit <a href="/safetypro_audit_compliance.html" style="color:var(--green);">Audit &amp; Compliance → Legal &amp; Regulatory</a> to set up your Register of Regulations first.</div>' +
+    '</div>';
+    if (sourceEl) sourceEl.textContent = 'No data — set up ROR first';
+    return;
+  }
+
+  if (sourceEl) sourceEl.textContent = 'Live from Register of Regulations · ' + rorData.entries.length + ' acts · Last sync: ' + (rorData.syncTime || 'unknown');
+
+  // Filter entries
+  var entries = rorData.entries.filter(function(e) {
+    if (regionFilter !== 'ALL' && e.country !== regionFilter) return false;
+    var badge = lcStatusBadge(e.status, e.validity);
+    if (statusFilter !== 'ALL' && badge.key !== statusFilter) return false;
+    // Only show entries that have validity dates or are overdue/due soon
+    if (statusFilter === 'ALL' && badge.key === 'NA') return false;
+    return true;
+  });
+
+  // Sort: OVERDUE first, then DUE_SOON, then PENDING, then COMPLIED
+  var order = { OVERDUE:0, DUE_SOON:1, PENDING:2, COMPLIED:3 };
+  entries.sort(function(a, b) {
+    var ba = lcStatusBadge(a.status, a.validity);
+    var bb = lcStatusBadge(b.status, b.validity);
+    return (order[ba.key]||2) - (order[bb.key]||2);
+  });
+
+  // Summary counts
+  var counts = { OVERDUE:0, DUE_SOON:0, PENDING:0, COMPLIED:0 };
+  rorData.entries.forEach(function(e) {
+    var b = lcStatusBadge(e.status, e.validity);
+    if (counts[b.key] !== undefined) counts[b.key]++;
+  });
+
+  summaryEl.innerHTML =
+    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#EF4444;">' + counts.OVERDUE + '</div><div style="font-size:10px;color:var(--t3);">Overdue</div></div>' +
+    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#F59E0B;">' + counts.DUE_SOON + '</div><div style="font-size:10px;color:var(--t3);">Due This Month</div></div>' +
+    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:var(--t2);">' + counts.PENDING + '</div><div style="font-size:10px;color:var(--t3);">Pending</div></div>' +
+    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#22C55E;">' + counts.COMPLIED + '</div><div style="font-size:10px;color:var(--t3);">Complied</div></div>';
+
+  if (!entries.length) {
+    rowsEl.innerHTML = '<div style="padding:24px;text-align:center;color:var(--t3);font-size:12px;">No entries match the selected filter</div>';
+    return;
+  }
+
+  rowsEl.innerHTML = entries.map(function(e) {
+    var badge = lcStatusBadge(e.status, e.validity);
+    var rowBg = badge.key === 'OVERDUE' ? 'background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.12);' :
+                badge.key === 'DUE_SOON' ? 'background:rgba(245,158,11,.04);border:1px solid rgba(245,158,11,.12);' :
+                'background:var(--raised);border:1px solid var(--border);';
+    var displayDate = e.validity ? new Date(e.validity).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : '—';
+    return '<div style="display:grid;grid-template-columns:100px 1fr 110px 110px 110px;gap:12px;padding:10px 12px;border-radius:7px;align-items:center;' + rowBg + '">' +
+      '<div style="font-size:11px;font-weight:600;color:' + (badge.key==='OVERDUE'?'#EF4444':badge.key==='DUE_SOON'?'#F59E0B':'var(--t2)') + ';">' + displayDate + '</div>' +
+      '<div><div style="font-size:11px;font-weight:600;color:var(--t1);line-height:1.4;">' + e.act + '</div>' +
+        '<div style="font-size:10px;color:var(--t3);margin-top:1px;">' + lcGetCountryLabel(e.country) + (e.state && e.state !== 'ALL' ? ' · ' + e.state : '') + (e.freq ? ' · ' + e.freq : '') + '</div></div>' +
+      '<div style="font-size:11px;color:var(--t2);">' + (e.auth || '—') + '</div>' +
+      '<div style="font-size:11px;color:var(--t2);">' + (e.responsible || '—') + '</div>' +
+      '<div><span style="background:' + badge.bg + ';border:1px solid ' + badge.border + ';border-radius:4px;padding:2px 8px;font-size:9px;font-weight:700;color:' + badge.color + ';">' + badge.label + '</span></div>' +
+    '</div>';
+  }).join('');
+}
+
+// Auto-render when tab is clicked
+var lcInitDone = false;
+function lcInit() {
+  if (lcInitDone) return;
+  lcInitDone = true;
+  lcRender();
+}
+
+// Hook into existing switchTab if available
+var _origSwitchTab = window.switchTab;
+window.switchTab = function(el, id) {
+  if (_origSwitchTab) _origSwitchTab(el, id);
+  if (id === 'calendar') setTimeout(lcInit, 100);
+};
+
+// Also listen for tab click directly
+document.addEventListener('click', function(e) {
+  var t = e.target.closest('.sh-tab');
+  if (t && t.textContent.includes('Legal Calendar')) setTimeout(lcInit, 150);
 });
 </script>
 </body>
