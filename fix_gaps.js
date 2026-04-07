@@ -1,19 +1,31 @@
 ﻿const fs = require('fs');
 
-// Fix 1: Documents - add padding-bottom to scroll wrapper
+// Fix Documents - remove the offending nth-child rule and add padding-bottom override
 let h = fs.readFileSync('safetypro_documents.html','utf8');
-h = h.replace(
-  'class="docs-scroll" style="flex:1;overflow-y:scroll;min-height:0;padding:8px 16px 16px 16px;',
-  'class="docs-scroll" style="flex:1;overflow-y:scroll;min-height:0;padding:8px 22px 24px 16px;'
-);
-fs.writeFileSync('safetypro_documents.html', h, 'utf8');
-console.log('docs padding-bottom fixed:', h.includes('24px'));
 
-// Fix 2: AI - increase padding-right for smaller screens
+// Remove the nth-child(2) padding rule
+h = h.replace(/\.content > div:nth-child\(2\)\{[^}]*padding[^}]*\}/g, '');
+h = h.replace(/\.content > div:nth-child\(2\)\s*\{[^}]*\}/g, '');
+
+// Add final override at end of body
+const FIX_DOCS = `<style>
+/* docs-footer-gap */
+.docs-scroll{padding-bottom:24px!important;}
+</style>`;
+if(!h.includes('docs-footer-gap'))
+  h = h.replace('</body>', FIX_DOCS + '\n</body>');
+
+fs.writeFileSync('safetypro_documents.html', h, 'utf8');
+console.log('docs fixed');
+
+// Fix AI - same check
 let h2 = fs.readFileSync('safetypro_ai.html','utf8');
-h2 = h2.replace(
-  'class="ai-scroll" style="flex:1;overflow-y:scroll;min-height:0;padding:8px 22px 16px 16px;',
-  'class="ai-scroll" style="flex:1;overflow-y:scroll;min-height:0;padding:8px 28px 16px 16px;'
-);
+const FIX_AI = `<style>
+/* ai-card-gap */
+.ai-scroll{padding-right:28px!important;}
+</style>`;
+if(!h2.includes('ai-card-gap'))
+  h2 = h2.replace('</body>', FIX_AI + '\n</body>');
+
 fs.writeFileSync('safetypro_ai.html', h2, 'utf8');
-console.log('ai padding-right fixed:', h2.includes('28px'));
+console.log('ai fixed');
