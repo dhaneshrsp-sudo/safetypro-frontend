@@ -4925,7 +4925,34 @@ function rorRender() {
   document.getElementById('ror-stat-complied').textContent = totals.complied;
   document.getElementById('ror-stat-pending').textContent = totals.pending;
   document.getElementById('ror-stat-overdue').textContent = totals.overdue;
+
   document.getElementById('ror-stat-na').textContent = totals.na;
+
+  // Update deadline banner
+  var banner = document.getElementById('ror-deadline-banner');
+  var bannerText = document.getElementById('ror-banner-text');
+  if (banner && bannerText) {
+    var today = new Date(); today.setHours(0,0,0,0);
+    var thirtyDays = new Date(today); thirtyDays.setDate(thirtyDays.getDate() + 30);
+    var acts = rorGetActList();
+    var overdue = 0, dueSoon = 0;
+    acts.forEach(function(item) {
+      var entry = rorGetUserEntry(item.act);
+      if (!entry.validity || entry.status === 'NA') return;
+      var d = new Date(entry.validity);
+      if (d < today) overdue++;
+      else if (d <= thirtyDays) dueSoon++;
+    });
+    if (overdue > 0 || dueSoon > 0) {
+      banner.style.display = 'flex';
+      var parts = [];
+      if (overdue > 0) parts.push('<span style="color:#EF4444;font-weight:700;">' + overdue + ' act' + (overdue>1?'s':'') + ' overdue</span>');
+      if (dueSoon > 0) parts.push('<span style="color:#F59E0B;font-weight:700;">' + dueSoon + ' act' + (dueSoon>1?'s':'') + ' due within 30 days</span>');
+      bannerText.innerHTML = parts.join(' &nbsp;·&nbsp; ') + ' — renewal action required';
+    } else {
+      banner.style.display = 'none';
+    }
+  }
 
   // Sync to localStorage for Legal Calendar in Reports page
   try {
@@ -5434,6 +5461,15 @@ nderMTGRegister(); updateMTGKPIs(); renderActionTracker();
       </div>
 
       <!-- ROR Table -->
+      
+      <!-- Deadline alert banner — dynamic -->
+      <div id="ror-deadline-banner" style="display:none;margin-bottom:12px;padding:10px 14px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:16px;">&#9888;</span>
+          <div id="ror-banner-text" style="font-size:12px;color:var(--t2);font-weight:500;"></div>
+        </div>
+        <a href="/safetypro_reports.html" onclick="window.location.href='/safetypro_reports.html'" style="font-size:11px;padding:5px 12px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:6px;color:#F59E0B;text-decoration:none;font-family:var(--fh);white-space:nowrap;cursor:pointer;">View in Compliance Calendar &#8594;</a>
+      </div>
       <div class="card" style="padding:0;overflow:hidden;">
         <div style="overflow-x:auto;overflow-y:visible;width:100%;-webkit-overflow-scrolling:touch;">
           <table style="width:100%;min-width:880px;border-collapse:collapse;font-size:11px;" id="ror-table">

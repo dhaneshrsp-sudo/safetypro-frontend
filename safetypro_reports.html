@@ -943,7 +943,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
         <div class="sh-tab" onclick="switchTab(this,'objectives')">Objectives &amp; Targets</div>
         <div class="sh-tab" onclick="switchTab(this,'roi')">&#128200; ROI &amp; Value</div>
         <div class="sh-tab" onclick="switchTab(this,'maturity')">&#127919; Maturity Index</div>
-        <div class="sh-tab" onclick="switchTab(this,'calendar')">&#128197; Legal Calendar</div>
+        <div class="sh-tab" onclick="switchTab(this,'calendar')">&#9888; Compliance Deadline Alerts</div>
       </div>
     </div>
     <div class="sh-right">
@@ -2575,6 +2575,126 @@ function lcStatusBadge(status, validity) {
   if (status === 'NA')
     return { label:'N/A', color:'#64748B', bg:'rgba(100,116,139,.1)', border:'rgba(100,116,139,.2)', key:'NA' };
   return { label:'PENDING', color:'#F59E0B', bg:'rgba(245,158,11,.08)', border:'rgba(245,158,11,.2)', key:'PENDING' };
+}
+
+function lcGetCountryLabel(code) {
+  var map = { IN:'🇮🇳 India', AE:'🇦🇪 UAE', QA:'🇶🇦 Qatar', SA:'🇸🇦 Saudi Arabia', GB:'🇬🇧 UK', SG:'🇸🇬 Singapore', INT:'🌐 International' };
+  return map[code] || code;
+}
+
+function lcRender() {
+  var rowsEl = document.getElementById('lc-rows');
+  var summaryEl = document.getElementById('lc-summary');
+  var sourceEl = document.getElementById('lc-source-badge');
+  if (!rowsEl) return;
+
+  var rorData = lcGetRorData();
+  var regionFilter = (document.getElementById('lc-region-filter') || {}).value || 'ALL';
+  var statusFilter = (document.getElementById('lc-status-filter') || {}).value || 'ALL';
+
+  // ── SCENARIO A: No ROR data at all ──────────────────────────
+  if (!rorData || !rorData.entries || !rorData.entries.length) {
+    if (summaryEl) summaryEl.innerHTML = '';
+    rowsEl.innerHTML =
+      '<div style="padding:40px 24px;text-align:center;">' +
+        '<div style="width:48px;height:48px;border-radius:50%;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:22px;">&#128197;</div>' +
+        '<div style="font-size:14px;font-weight:700;color:var(--t1);margin-bottom:6px;">No compliance register found</div>' +
+        '<div style="font-size:12px;color:var(--t3);line-height:1.7;max-width:380px;margin:0 auto 16px;">Set up your Register of Regulations first. Choose your country and state, then this calendar will automatically track all your upcoming renewal deadlines.</div>' +
+        '<a href="/safetypro_audit_compliance.html" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:7px;color:var(--green);font-size:12px;font-weight:600;text-decoration:none;font-family:var(--fh);">Go to Legal &amp; Regulatory &#8594; Set Renewal Dates</a>' +
+      '</div>';
+    if (sourceEl) sourceEl.textContent = 'No ROR data — set up register first';
+    return;
+  }
+
+  // ── SCENARIO B: ROR data exists — check if any validity dates set ──
+  var entriesWithDates = rorData.entries.filter(function(e) { return e.validity && e.validity !== ''; });
+
+  if (!entriesWithDates.length) {
+    if (summaryEl) summaryEl.innerHTML = '';
+    rowsEl.innerHTML =
+      '<div style="padding:40px 24px;text-align:center;">' +
+        '<div style="width:48px;height:48px;border-radius:50%;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:22px;">&#128197;</div>' +
+        '<div style="font-size:14px;font-weight:700;color:var(--t1);margin-bottom:6px;">' + rorData.entries.length + ' acts loaded — no renewal dates set yet</div>' +
+        '<div style="font-size:12px;color:var(--t3);line-height:1.7;max-width:420px;margin:0 auto 16px;">Your register has <strong style="color:var(--t2);">' + rorData.entries.length + ' acts</strong> but none have validity dates entered. Click Edit on each act to add the consent number and expiry date — this calendar will then show only the upcoming deadlines.</div>' +
+        '<a href="/safetypro_audit_compliance.html" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:7px;color:var(--green);font-size:12px;font-weight:600;text-decoration:none;font-family:var(--fh);">Visit Legal &amp; Regulatory &#8594; Add Validity Dates</a>' +
+      '</div>';
+    if (sourceEl) sourceEl.textContent = rorData.entries.length + ' acts in ROR · 0 have validity dates · action required';
+    return;
+  }
+
+  // ── SCENARIO C: Dates exist — filter to 90 days or overdue ──
+  var today = new Date(); today.setHours(0,0,0,0);
+  var ninetyDays = new Date(today); ninetyDays.setDate(ninetyDays.getDate() + 90);
+
+  var actionable = entriesWithDates.filter(function(e) {
+    if (e.status === 'NA') return false;
+    var d = new Date(e.validity);
+    // Show if overdue OR expiring within 90 days
+    return d <= ninetyDays;
+  });
+
+  // Apply region/status filters on top
+  var filtered = actionable.filter(function(e) {
+    if (regionFilter !== 'ALL' && e.country !== regionFilter) return false;
+    var badge = lcStatusBadge(e.status, e.validity);
+    if (statusFilter !== 'ALL' && badge.key !== statusFilter) return false;
+    return true;
+  });
+
+  // Sort: OVERDUE → DUE_SOON → PENDING → COMPLIED, then by date
+  var order = { OVERDUE:0, DUE_SOON:1, PENDING:2, COMPLIED:3 };
+  filtered.sort(function(a, b) {
+    var ba = lcStatusBadge(a.status, a.validity);
+    var bb = lcStatusBadge(b.status, b.validity);
+    var od = (order[ba.key]||2) - (order[bb.key]||2);
+    if (od !== 0) return od;
+    return new Date(a.validity) - new Date(b.validity);
+  });
+
+  // Summary counts (from all actionable, not just filtered)
+  var counts = { OVERDUE:0, DUE_SOON:0, PENDING:0, COMPLIED:0 };
+  actionable.forEach(function(e) {
+    var b = lcStatusBadge(e.status, e.validity);
+    if (counts[b.key] !== undefined) counts[b.key]++;
+  });
+
+  var hidden = rorData.entries.length - entriesWithDates.length;
+  var futureHidden = entriesWithDates.filter(function(e) {
+    var d = new Date(e.validity); return d > ninetyDays && e.status !== 'NA';
+  }).length;
+
+  summaryEl.innerHTML =
+    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#EF4444;">' + counts.OVERDUE + '</div><div style="font-size:10px;color:var(--t3);">Overdue</div></div>' +
+    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#F59E0B;">' + counts.DUE_SOON + '</div><div style="font-size:10px;color:var(--t3);">Due within 30 days</div></div>' +
+    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#3B82F6;">' + counts.PENDING + '</div><div style="font-size:10px;color:var(--t3);">Due in 31–90 days</div></div>' +
+    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#22C55E;">' + counts.COMPLIED + '</div><div style="font-size:10px;color:var(--t3);">Complied</div></div>';
+
+  if (sourceEl) sourceEl.textContent = 'Showing ' + actionable.length + ' acts due in 90 days · ' + (hidden + futureHidden) + ' hidden (no date or not due)';
+
+  if (!filtered.length) {
+    rowsEl.innerHTML = '<div style="padding:24px;text-align:center;color:var(--t3);font-size:12px;">No entries match the selected filter</div>';
+    return;
+  }
+
+  rowsEl.innerHTML = filtered.map(function(e) {
+    var badge = lcStatusBadge(e.status, e.validity);
+    var rowBg = badge.key === 'OVERDUE' ? 'background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.12);' :
+                badge.key === 'DUE_SOON' ? 'background:rgba(245,158,11,.04);border:1px solid rgba(245,158,11,.12);' :
+                'background:var(--raised);border:1px solid var(--border);';
+    var daysLeft = lcDaysUntil(e.validity);
+    var dateLabel = e.validity ? new Date(e.validity).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : '—';
+    var daysLabel = daysLeft !== null ? (daysLeft < 0 ? Math.abs(daysLeft)+' days ago' : 'in '+daysLeft+' days') : '';
+    return '<div style="display:grid;grid-template-columns:110px 1fr 110px 100px 100px;gap:12px;padding:10px 14px;border-radius:7px;align-items:center;' + rowBg + '">' +
+      '<div><div style="font-size:11px;font-weight:700;color:' + (badge.key==='OVERDUE'?'#EF4444':badge.key==='DUE_SOON'?'#F59E0B':'var(--t2)') + ';">' + dateLabel + '</div>' +
+        '<div style="font-size:9px;color:var(--t3);margin-top:1px;">' + daysLabel + '</div></div>' +
+      '<div><div style="font-size:11px;font-weight:600;color:var(--t1);line-height:1.4;">' + e.act + '</div>' +
+        '<div style="font-size:10px;color:var(--t3);margin-top:1px;">' + lcGetCountryLabel(e.country) + (e.state && e.state!=='ALL'?' · '+e.state:'') + (e.freq?' · '+e.freq:'') + (e.consent?' · '+e.consent:'') + '</div></div>' +
+      '<div style="font-size:11px;color:var(--t2);">' + (e.auth||'—') + '</div>' +
+      '<div style="font-size:11px;color:var(--t2);">' + (e.responsible||'—') + '</div>' +
+      '<div><span style="background:' + badge.bg + ';border:1px solid ' + badge.border + ';border-radius:4px;padding:2px 8px;font-size:9px;font-weight:700;color:' + badge.color + ';">' + badge.label + '</span></div>' +
+    '</div>';
+  }).join('');
+
 }
 
 function lcGetCountryLabel(code) {
