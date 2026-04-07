@@ -1092,6 +1092,14 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
   padding-right: 16px !important;
 }
 </style>
+<style>
+/* field-clean-fix */
+.content{display:flex!important;flex-direction:column!important;overflow:hidden!important;}
+.content .sub-header{flex-shrink:0!important;}
+.field-scroll::-webkit-scrollbar{width:6px!important;display:block!important;}
+.field-scroll::-webkit-scrollbar-track{background:#1E293B!important;}
+.field-scroll::-webkit-scrollbar-thumb{background:#475569!important;border-radius:3px!important;}
+</style>
 </head>
 <body>
 
@@ -1224,6 +1232,8 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
         </select>
       </div>
     </div>
+    <div class="field-scroll" style="flex:1;overflow-y:scroll;min-height:0;padding:8px 16px 16px 16px;scrollbar-width:thin;scrollbar-color:#475569 #1E293B;">
+
 
     <!-- SMART ATTENDANCE TAB -->
     <div class="tab-panel" id="field-tab-heatmap" style="display:block;">
@@ -2862,6 +2872,8 @@ function toggleSidebarMore(){var el=document.getElementById("sb-more-items"),ch=
 
 
 <!-- ══ STANDARD FOOTER ══ -->
+
+    </div>
 <footer class="sp-footer">
   <div class="sp-footer-left">
     <span>&#169; 2026 SafetyPro AI</span>

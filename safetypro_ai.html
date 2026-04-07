@@ -1008,6 +1008,31 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 .sidebar::-webkit-scrollbar{display:none;}
 .content{overflow-y:auto;height:100%;}
 </style>
+<style>
+/* ai-clean-fix */
+.content{display:flex!important;flex-direction:column!important;overflow:hidden!important;}
+.content .sub-header{flex-shrink:0!important;}
+.ai-scroll::-webkit-scrollbar{width:6px!important;display:block!important;}
+.ai-scroll::-webkit-scrollbar-track{background:#1E293B!important;}
+.ai-scroll::-webkit-scrollbar-thumb{background:#475569!important;border-radius:3px!important;}
+</style>
+<style>
+/* ai-tabs-clean */
+#ai-tab-insights, #ai-tab-patterns, #ai-tab-predict {
+  overflow-y:scroll!important;
+  scrollbar-width:thin!important;
+  scrollbar-color:#475569 #1E293B!important;
+}
+#ai-tab-insights::-webkit-scrollbar,
+#ai-tab-patterns::-webkit-scrollbar,
+#ai-tab-predict::-webkit-scrollbar{width:6px!important;display:block!important;}
+#ai-tab-insights::-webkit-scrollbar-track,
+#ai-tab-patterns::-webkit-scrollbar-track,
+#ai-tab-predict::-webkit-scrollbar-track{background:#1E293B!important;}
+#ai-tab-insights::-webkit-scrollbar-thumb,
+#ai-tab-patterns::-webkit-scrollbar-thumb,
+#ai-tab-predict::-webkit-scrollbar-thumb{background:#475569!important;border-radius:3px!important;}
+</style>
 </head>
 <body>
 
@@ -1145,6 +1170,8 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
         </div>
       </div>
     </div>
+    <div class="ai-scroll" style="flex:1;overflow-y:scroll;min-height:0;padding:8px 16px 16px 16px;scrollbar-width:thin;scrollbar-color:#475569 #1E293B;">
+
 
     <!-- INSIGHTS TAB -->
     <div id="ai-tab-insights" style="display:block;">
@@ -1410,6 +1437,8 @@ document.addEventListener('click',function(e){
 </script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 
+
+    </div>
 <footer class="sp-footer">
   <div class="sp-footer-left">
     <span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF)">AI Intelligence</span>

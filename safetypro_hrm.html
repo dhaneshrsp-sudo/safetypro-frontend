@@ -446,6 +446,14 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
   padding-right: 16px !important;
 }
 </style>
+<style>
+/* hrm-clean-fix */
+.content{display:flex!important;flex-direction:column!important;overflow:hidden!important;}
+.content .hrm-header{flex-shrink:0!important;}
+.hrm-scroll::-webkit-scrollbar{width:6px!important;display:block!important;}
+.hrm-scroll::-webkit-scrollbar-track{background:#1E293B!important;}
+.hrm-scroll::-webkit-scrollbar-thumb{background:#475569!important;border-radius:3px!important;}
+</style>
 </head>
 <body>
 
@@ -574,6 +582,8 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
         <div class="ht" onclick="hrmTab('wagesheets',this)"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>Wage Sheets</div>
       </div>
     </div>
+    <div class="hrm-scroll" style="flex:1;overflow-y:scroll;min-height:0;padding:8px 16px 16px 16px;scrollbar-width:thin;scrollbar-color:#475569 #1E293B;">
+
 
     <!-- ═══ DASHBOARD ═══ -->
     <div class="hrm-panel active" id="hrm-panel-dashboard">
@@ -886,6 +896,8 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
   </div><!-- end content -->
 </div>
 
+
+    </div>
 <footer class="sp-footer">
       <div class="sp-footer-left">
         <span>&#169; 2026 SafetyPro AI</span>
