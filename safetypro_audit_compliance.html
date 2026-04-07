@@ -1136,6 +1136,36 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
   padding-right: 16px !important;
 }
 </style>
+<style>
+/* sp-scrollbar-uniform */
+.content, .main-area, .ai-scroll, .hrm-scroll, .field-scroll, .docs-scroll, .auditor-scroll,
+#ai-tab-insights, #ai-tab-patterns, #ai-tab-predict {
+  scrollbar-width: thin !important;
+  scrollbar-color: var(--border) transparent !important;
+}
+.content::-webkit-scrollbar, .main-area::-webkit-scrollbar,
+.ai-scroll::-webkit-scrollbar, .hrm-scroll::-webkit-scrollbar,
+.field-scroll::-webkit-scrollbar, .docs-scroll::-webkit-scrollbar,
+#ai-tab-insights::-webkit-scrollbar, #ai-tab-patterns::-webkit-scrollbar,
+#ai-tab-predict::-webkit-scrollbar {
+  width: 6px !important;
+}
+.content::-webkit-scrollbar-track, .main-area::-webkit-scrollbar-track,
+.ai-scroll::-webkit-scrollbar-track, .hrm-scroll::-webkit-scrollbar-track,
+.field-scroll::-webkit-scrollbar-track, .docs-scroll::-webkit-scrollbar-track,
+#ai-tab-insights::-webkit-scrollbar-track, #ai-tab-patterns::-webkit-scrollbar-track,
+#ai-tab-predict::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+.content::-webkit-scrollbar-thumb, .main-area::-webkit-scrollbar-thumb,
+.ai-scroll::-webkit-scrollbar-thumb, .hrm-scroll::-webkit-scrollbar-thumb,
+.field-scroll::-webkit-scrollbar-thumb, .docs-scroll::-webkit-scrollbar-thumb,
+#ai-tab-insights::-webkit-scrollbar-thumb, #ai-tab-patterns::-webkit-scrollbar-thumb,
+#ai-tab-predict::-webkit-scrollbar-thumb {
+  background: var(--border) !important;
+  border-radius: 3px !important;
+}
+</style>
 </head>
 <body>
 <nav class="topnav">
