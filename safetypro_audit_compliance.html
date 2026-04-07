@@ -1288,6 +1288,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
           <div class="sh-tab" onclick="acMainTab(this,'investigation')">&#128269; Incident Investigation</div>
           <div class="sh-tab" onclick="acMainTab(this,'method')">&#128196; Method Statement</div>
           <div class="sh-tab" onclick="acMainTab(this,'meeting')">&#128101; Safety Meeting</div>
+          <div class="sh-tab" onclick="acMainTab(this,'legal')">&#9878; Legal &amp; Regulatory</div>
         </div>
       </div>
     </div>
@@ -4245,6 +4246,457 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+
+<script>
+/* legal-regulatory-v1 */
+
+// ═══════════════════════════════════════════════════
+// REGULATORY DATABASE — Generic, no company names
+// ═══════════════════════════════════════════════════
+var ROR_DB = {
+  IN: {
+    central: [
+      // ENVIRONMENT
+      {id:'IN-ENV-01',cat:'environment',act:'Air (Prevention & Control of Pollution) Act, 1981',short:'Air Act 1981',authority:'State Pollution Control Board',requirement:'Consent to Operate (CTO) under Section 21',frequency:'5 Years',refDoc:'Form-1 (Online PCB portal)',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-ENV-02',cat:'environment',act:'Water (Prevention & Control of Pollution) Act, 1974',short:'Water Act 1974',authority:'State Pollution Control Board',requirement:'Consent to Operate under Section 25; Annual return to SPB',frequency:'5 Years',refDoc:'Form-1 (Online PCB portal)',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-ENV-03',cat:'environment',act:'Water (Prevention & Control of Pollution) Cess Act, 1977',short:'Water Cess Act 1977',authority:'State Pollution Control Board',requirement:'Deposit water cess charges; furnish return; maintain daily water consumption record',frequency:'Annual',refDoc:'Cess Return Form',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-ENV-04',cat:'environment',act:'Environment (Protection) Act, 1986 & Rules 1986',short:'EPA 1986',authority:'MoEF&CC / State PCB',requirement:'Environment audit & statement submission by 30th September each year',frequency:'Annual',refDoc:'Form-V',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-ENV-05',cat:'hazardous',act:'Hazardous & Other Wastes (M, H & TBM) Rules, 2016 (Amended 2019)',short:'HW Rules 2016',authority:'State PCB / CPCB',requirement:'Authorization for collection, storage, transport & disposal of hazardous waste',frequency:'5 Years',refDoc:'Authorization Certificate',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-ENV-06',cat:'environment',act:'Noise Pollution (Regulation & Control) Rules, 2000',short:'Noise Rules 2000',authority:'CPCB / State PCB',requirement:'Noise levels must not exceed ambient standards; DG set acoustic enclosure required',frequency:'Continuous compliance',refDoc:'Noise monitoring records',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-ENV-07',cat:'hazardous',act:'Battery Waste Management Rules, 2022',short:'Battery Rules 2022',authority:'CPCB / State PCB',requirement:'Register, collect & return used batteries to authorised recycler',frequency:'Annual return',refDoc:'Form-1 Return',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-ENV-08',cat:'hazardous',act:'E-Waste (Management) Rules, 2022',short:'E-Waste Rules 2022',authority:'CPCB / State PCB',requirement:'Authorisation for e-waste handling; deposit with authorised dismantler/recycler',frequency:'Annual',refDoc:'Authorisation Certificate',applicableTo:['construction','manufacturing','oil_gas','power']},
+      {id:'IN-ENV-09',cat:'environment',act:'Plastic Waste Management Rules, 2016 (Amended 2022)',short:'Plastic Rules 2022',authority:'CPCB / ULB',requirement:'Reduce single-use plastics; maintain records; hand over to authorised agency',frequency:'Ongoing',refDoc:'Waste Records',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-ENV-10',cat:'environment',act:'Construction & Demolition Waste Management Rules, 2016',short:'C&D Waste Rules 2016',authority:'Municipal Authority',requirement:'Segregate, store and hand over C&D waste to authorised facility',frequency:'Ongoing',refDoc:'Waste transfer records',applicableTo:['construction']},
+      {id:'IN-ENV-11',cat:'environment',act:'National Ambient Air Quality Standards (NAAS)',short:'NAAS 2009',authority:'CPCB',requirement:'Ambient air quality monitoring; maintain within prescribed limits',frequency:'Quarterly monitoring',refDoc:'Air Quality Monitoring Report',applicableTo:['construction','manufacturing','mining']},
+
+      // OCCUPATIONAL SAFETY
+      {id:'IN-SAF-01',cat:'safety',act:'Building & Other Construction Workers (RECS) Act, 1996',short:'BOCW Act 1996',authority:'State BOCW Board / Labour Dept',requirement:'Registration of establishment; safety provisions for construction workers',frequency:'Per EOT',refDoc:'Form-I, Form-II',applicableTo:['construction']},
+      {id:'IN-SAF-02',cat:'safety',act:'BOCW (RECS) Rules, 1998',short:'BOCW Rules 1998',authority:'State BOCW Board',requirement:'Implementation of all welfare and safety measures as per rules; Forms XVI to XXV',frequency:'Ongoing',refDoc:'BOCW Forms Register',applicableTo:['construction']},
+      {id:'IN-SAF-03',cat:'safety',act:'Factories Act, 1948 (Amended 1987 & 2001)',short:'Factories Act 1948',authority:'State Factory Inspector',requirement:'Registration & licence; annual returns; welfare & safety facilities',frequency:'Annual renewal',refDoc:'Form No.2',applicableTo:['manufacturing','oil_gas','power']},
+      {id:'IN-SAF-04',cat:'safety',act:'Mines Act, 1952 (Amended 1983)',short:'Mines Act 1952',authority:'DGMS',requirement:'Mine plan approval; manager appointment; safety committee; returns',frequency:'Annual',refDoc:'As per DGMS circulars',applicableTo:['mining']},
+      {id:'IN-SAF-05',cat:'safety',act:'Petroleum Act, 1934 & Rules, 2002 (Amended 2011)',short:'Petroleum Act 1934',authority:'Petroleum & Explosives Safety Organisation (PESO)',requirement:'Licence for storage of petroleum class A/B/C; loading/unloading compliance',frequency:'5 Years',refDoc:'Form XIV, Form XV',applicableTo:['construction','oil_gas','power','manufacturing','mining']},
+      {id:'IN-SAF-06',cat:'safety',act:'Gas Cylinder Rules, 2016',short:'Gas Cylinder Rules 2016',authority:'PESO',requirement:'Colour coding of cylinders; no employment of persons under 18; no smoking signage; storage limits per type',frequency:'Ongoing',refDoc:'Cylinder Register',applicableTo:['construction','manufacturing','oil_gas','mining']},
+      {id:'IN-SAF-07',cat:'fire',act:'Fire Service Act (State-specific) & NBC 2016 Fire Provisions',short:'Fire Act / NBC 2016',authority:'State Fire Department',requirement:'Fire NOC; fire fighting equipment; mock drills; emergency plan',frequency:'Annual renewal',refDoc:'NOC Application Form',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-SAF-08',cat:'safety',act:'Disaster Management Act, 2005',short:'DM Act 2005',authority:'NDMA / SDMA',requirement:'Compliance with NDMA guidelines; maintain emergency response plan',frequency:'Ongoing',refDoc:'Emergency Response Plan',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-SAF-09',cat:'safety',act:'Code on Occupational Safety, Health & Working Conditions (OSH Code), 2020',short:'OSH Code 2020',authority:'Central / State Labour Dept',requirement:'Replaces BOCW, Factories Act etc. when notified; health & safety provisions',frequency:'When notified',refDoc:'As per Code rules',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+
+      // ELECTRICAL & MECHANICAL
+      {id:'IN-ELE-01',cat:'electrical',act:'Electricity Act, 2003 (Amended 2007) & Indian Electricity Rules, 1956',short:'Electricity Act 2003',authority:'State Electricity Inspector',requirement:'Licensed electricians; ISI marked equipment; earthing; danger notices; DG set inspection',frequency:'Annual inspection',refDoc:'Electrical Installation Records',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-ELE-02',cat:'electrical',act:'Central Electricity Authority (M&S) Regulations, 2010',short:'CEA Regulations 2010',authority:'CEA / State Electricity Dept',requirement:'Safety in electrical installations; periodical inspection of HT/LT; licenced operators',frequency:'Annual',refDoc:'CEA Inspection Certificate',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-ELE-03',cat:'electrical',act:'Acoustic DG Set Rules, 1999',short:'DG Set Rules 1999',authority:'CPCB / SPCB',requirement:'Acoustic enclosure for DG sets; emission standards; Consent from PCB',frequency:'With Air/Water consent',refDoc:'Noise certification',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-ELE-04',cat:'electrical',act:'Standards of Weights & Measures (Enforcement) Act, 1985',short:'Weights & Measures 1985',authority:'Dept of Legal Metrology',requirement:'Verification and stamping of weighing equipment; renewal of certificates',frequency:'Annual',refDoc:'Verification Certificate',applicableTo:['construction','manufacturing','mining']},
+
+      // LABOUR & EMPLOYMENT
+      {id:'IN-LAB-01',cat:'labour',act:'Contract Labour (Regulation & Abolition) Act, 1970',short:'CLRA Act 1970',authority:'Labour Commissioner',requirement:'Registration of principal employer; licence for contractor; maintain Forms I–XXIV; half-yearly returns',frequency:'Annual renewal',refDoc:'Form I to Form XXIV',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-LAB-02',cat:'labour',act:'Building & Other Construction Workers Welfare Cess Act, 1996',short:'BOCW Cess Act 1996',authority:'State BOCW Board',requirement:'Pay 1% cess on construction cost; obtain registration certificate',frequency:'With project registration',refDoc:'Cess Payment Challan',applicableTo:['construction']},
+      {id:'IN-LAB-03',cat:'labour',act:'Minimum Wages Act, 1948 & Rules, 1950',short:'Min Wages Act 1948',authority:'State Labour Dept',requirement:'Pay minimum wages; annual return by 1st February; display wage notice; register of wages',frequency:'Annual',refDoc:'Form X, XI, XII',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-LAB-04',cat:'labour',act:'Workmen Compensation Act, 1923',short:'WC Act 1923',authority:'Commissioner WC',requirement:'Insurance policy for all workers; compensation for injury/death; maintain accident register',frequency:'Annual policy renewal',refDoc:'Insurance Policy',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-LAB-05',cat:'labour',act:'Employee Provident Fund & Miscellaneous Provisions Act, 1952',short:'EPF Act 1952',authority:'EPFO',requirement:'PF registration; monthly deposit of EPF/EPS; annual return',frequency:'Monthly deposit',refDoc:'EPF Challans',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-LAB-06',cat:'labour',act:'Child Labour (Prohibition & Regulation) Act, 1986 & Rules',short:'Child Labour Act 1986',authority:'Labour Dept',requirement:'Prohibition of employment of children below 14 years; no hazardous work for 14-18',frequency:'Ongoing compliance',refDoc:'Declaration / Affidavit',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-LAB-07',cat:'labour',act:'Inter-State Migrant Workmen Act, 1979',short:'ISMW Act 1979',authority:'Labour Commissioner',requirement:'Registration if employing migrant workers; pass book; welfare facilities',frequency:'Annual',refDoc:'Registration Certificate',applicableTo:['construction','manufacturing','mining']},
+      {id:'IN-LAB-08',cat:'labour',act:'Code on Wages, 2019',short:'Wages Code 2019',authority:'Central / State Labour Dept',requirement:'Replaces Min Wages, Payment of Wages, Bonus, Equal Remuneration Acts when notified',frequency:'When notified',refDoc:'As per Code rules',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-LAB-09',cat:'labour',act:'Code on Social Security, 2020',short:'SS Code 2020',authority:'EPFO / ESIC',requirement:'Replaces EPF, ESI, Gratuity Acts when notified; gig workers coverage',frequency:'When notified',refDoc:'As per Code rules',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-LAB-10',cat:'insurance',act:'Public Liability Insurance Act, 1991 (Amended 1992)',short:'PLI Act 1991',authority:'Insurance Regulator',requirement:'Mandatory insurance for handling hazardous substances',frequency:'Annual renewal',refDoc:'Insurance Policy',applicableTo:['manufacturing','oil_gas','mining']},
+      {id:'IN-LAB-11',cat:'labour',act:'Prevention of Sexual Harassment at Workplace (POSH) Act, 2013',short:'POSH Act 2013',authority:'Local Complaints Committee',requirement:'Internal Complaints Committee; annual report; awareness training; display notice',frequency:'Annual report',refDoc:'IC Committee Minutes',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+
+      // HAZARDOUS MATERIALS
+      {id:'IN-HAZ-01',cat:'hazardous',act:'Manufacture, Storage & Import of Hazardous Chemicals Rules, 1989',short:'MSIHC Rules 1989',authority:'State Pollution Control Board',requirement:'Safety report; onsite emergency plan; MSDS for all scheduled chemicals',frequency:'Annual update',refDoc:'Schedule-1 Register',applicableTo:['manufacturing','oil_gas']},
+      {id:'IN-HAZ-02',cat:'hazardous',act:'Ozone Depleting Substances (Regulation & Control) Rules, 2000',short:'ODS Rules 2000',authority:'MoEF&CC',requirement:'Compliance if using ODS in any process; phase-out plan',frequency:'Ongoing',refDoc:'ODS Register',applicableTo:['manufacturing']},
+      {id:'IN-HAZ-03',cat:'hazardous',act:'Bio Medical Waste Management Rules, 2016',short:'BMW Rules 2016',authority:'State PCB / CPCB',requirement:'Authorisation for BMW handling; segregation; disposal through authorised agency',frequency:'Annual renewal',refDoc:'BMW Authorisation',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'IN-HAZ-04',cat:'environment',act:'Energy Conservation Act, 2001 (Amended 2022)',short:'EC Act 2001',authority:'BEE / State Designated Agency',requirement:'Energy audit; maintain energy consumption records; BEE certification for designated consumers',frequency:'Annual records',refDoc:'Energy Audit Report',applicableTo:['manufacturing','oil_gas','power']},
+      {id:'IN-HAZ-05',cat:'environment',act:'Motor Vehicles Act, 2019 & Rules (PUC)',short:'MV Act 2019',authority:'RTA / Transport Dept',requirement:'All vehicles registered, fitness certified; PUC certificate; driver licence valid',frequency:'Annual / Per vehicle',refDoc:'RC, PUC, Fitness Certificate',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+    ],
+    states: {
+      BR: [
+        {id:'IN-BR-01',cat:'safety',act:'Bihar BOCW Board Registration',short:'Bihar BOCW',authority:'Bihar Building & Other Construction Workers Welfare Board, Patna',requirement:'Register all BOCW workers; pay cess; maintain welfare fund contributions',frequency:'Ongoing',applicableTo:['construction']},
+        {id:'IN-BR-02',cat:'environment',act:'Bihar State Pollution Control Board (BSPCB) Consent',short:'BSPCB CTO',authority:'Bihar State Pollution Control Board',requirement:'Obtain state-specific Consent to Establish (CTE) and Consent to Operate (CTO); BSPCB online portal',frequency:'5 Years',applicableTo:['construction','manufacturing']},
+        {id:'IN-BR-03',cat:'labour',act:'Bihar Contract Labour (Regulation) Rules',short:'Bihar CL Rules',authority:'Bihar Labour Department, Patna',requirement:'State-specific forms and procedures for contract labour registration',frequency:'Annual',applicableTo:['construction','manufacturing']},
+      ],
+      MH: [
+        {id:'IN-MH-01',cat:'safety',act:'Maharashtra Factories Rules, 1963',short:'MH Factories Rules',authority:'Maharashtra Factory Inspector',requirement:'State-specific safety provisions; annual returns; welfare officer appointment',frequency:'Annual',applicableTo:['manufacturing','oil_gas','power']},
+        {id:'IN-MH-02',cat:'environment',act:'Maharashtra Pollution Control Board (MPCB) Consent',short:'MPCB CTO',authority:'Maharashtra Pollution Control Board',requirement:'MPCB online consent; combined consent for air & water; EHS audit',frequency:'5 Years',applicableTo:['construction','manufacturing']},
+        {id:'IN-MH-03',cat:'labour',act:'Maharashtra BOCW Board',short:'MH BOCW',authority:'Maharashtra Building & Other Construction Workers Board',requirement:'Worker registration; cess payment; benefits disbursement',frequency:'Ongoing',applicableTo:['construction']},
+      ],
+      GJ: [
+        {id:'IN-GJ-01',cat:'safety',act:'Gujarat Factories Rules, 1963',short:'GJ Factories Rules',authority:'Chief Inspector of Factories, Gujarat',requirement:'State-specific factory compliance; welfare officer; canteen; creche',frequency:'Annual',applicableTo:['manufacturing','oil_gas','power']},
+        {id:'IN-GJ-02',cat:'environment',act:'Gujarat Pollution Control Board (GPCB) Consent',short:'GPCB CTO',authority:'Gujarat Pollution Control Board',requirement:'Online consent application on GPCB portal; renewal with ETP performance data',frequency:'5 Years',applicableTo:['construction','manufacturing']},
+      ],
+      UP: [
+        {id:'IN-UP-01',cat:'safety',act:'Uttar Pradesh Factories Rules, 1950',short:'UP Factories Rules',authority:'UP Factory Inspectorate',requirement:'State-specific safety requirements; annual returns; welfare facilities',frequency:'Annual',applicableTo:['manufacturing']},
+        {id:'IN-UP-02',cat:'environment',act:'Uttar Pradesh Pollution Control Board (UPPCB) Consent',short:'UPPCB CTO',authority:'Uttar Pradesh Pollution Control Board',requirement:'Category-wise consent; red/orange/green/white classification',frequency:'5 Years',applicableTo:['construction','manufacturing']},
+      ],
+      KA: [
+        {id:'IN-KA-01',cat:'safety',act:'Karnataka Factories Rules, 1969',short:'KA Factories Rules',authority:'Chief Inspector of Factories, Karnataka',requirement:'State-specific provisions; safety officer; medical officer',frequency:'Annual',applicableTo:['manufacturing']},
+        {id:'IN-KA-02',cat:'environment',act:'Karnataka State Pollution Control Board (KSPCB) Consent',short:'KSPCB CTO',authority:'Karnataka State Pollution Control Board',requirement:'Online consent on KSPCB portal; industry classification',frequency:'5 Years',applicableTo:['construction','manufacturing']},
+      ],
+      TN: [
+        {id:'IN-TN-01',cat:'safety',act:'Tamil Nadu Factories Rules, 1950',short:'TN Factories Rules',authority:'Chief Inspector of Factories, TN',requirement:'State-specific factory compliance; layout approval; annual return',frequency:'Annual',applicableTo:['manufacturing']},
+        {id:'IN-TN-02',cat:'environment',act:'Tamil Nadu Pollution Control Board (TNPCB) Consent',short:'TNPCB CTO',authority:'Tamil Nadu Pollution Control Board',requirement:'Online consent; combined CTO; ETP compliance',frequency:'5 Years',applicableTo:['construction','manufacturing']},
+      ],
+      RJ: [
+        {id:'IN-RJ-01',cat:'safety',act:'Rajasthan Factories Rules, 1951',short:'RJ Factories Rules',authority:'Labour Department, Rajasthan',requirement:'Factory registration; annual returns; compliance',frequency:'Annual',applicableTo:['manufacturing']},
+        {id:'IN-RJ-02',cat:'environment',act:'Rajasthan Pollution Control Board (RPCB) Consent',short:'RPCB CTO',authority:'Rajasthan State Pollution Control Board',requirement:'Category-wise consent; online application',frequency:'5 Years',applicableTo:['construction','manufacturing']},
+      ],
+      HR: [
+        {id:'IN-HR-01',cat:'safety',act:'Haryana Factories Rules, 1976',short:'HR Factories Rules',authority:'Chief Inspector of Factories, Haryana',requirement:'Factory compliance; welfare officer; hazardous process provisions',frequency:'Annual',applicableTo:['manufacturing']},
+        {id:'IN-HR-02',cat:'environment',act:'Haryana State Pollution Control Board (HSPCB) Consent',short:'HSPCB CTO',authority:'Haryana State Pollution Control Board',requirement:'Online consent; category-wise classification',frequency:'5 Years',applicableTo:['construction','manufacturing']},
+      ],
+      WB: [
+        {id:'IN-WB-01',cat:'safety',act:'West Bengal Factories Rules, 1958',short:'WB Factories Rules',authority:'Chief Inspector of Factories, WB',requirement:'State factory compliance; annual returns',frequency:'Annual',applicableTo:['manufacturing']},
+        {id:'IN-WB-02',cat:'environment',act:'West Bengal Pollution Control Board (WBPCB) Consent',short:'WBPCB CTO',authority:'WBPCB',requirement:'Online consent; green/orange/red category',frequency:'5 Years',applicableTo:['construction','manufacturing']},
+      ],
+      JH: [
+        {id:'IN-JH-01',cat:'safety',act:'Jharkhand BOCW Board Registration',short:'JH BOCW',authority:'Jharkhand BOCW Board',requirement:'Construction worker registration; cess payment',frequency:'Ongoing',applicableTo:['construction']},
+        {id:'IN-JH-02',cat:'environment',act:'Jharkhand State Pollution Control Board (JSPCB) Consent',short:'JSPCB CTO',authority:'JSPCB',requirement:'Online consent; compliance',frequency:'5 Years',applicableTo:['construction','manufacturing']},
+      ],
+    }
+  },
+  AE: {
+    central: [
+      {id:'AE-01',cat:'safety',act:'Federal Law No.8 of 1980 — Labour Law',short:'UAE Labour Law',authority:'MOHRE',requirement:'Work permit; employment contract; worker welfare compliance',frequency:'Annual',applicableTo:['construction','manufacturing','oil_gas']},
+      {id:'AE-02',cat:'safety',act:'OSHAD-SF — Abu Dhabi HSE System Framework',short:'OSHAD-SF',authority:'Abu Dhabi OHS Center',requirement:'HSE management system; quarterly HSE performance reports; incident reporting within 24 hrs',frequency:'Quarterly report',applicableTo:['construction','manufacturing','oil_gas']},
+      {id:'AE-03',cat:'environment',act:'Federal Law No.24 of 1999 — Environment Protection',short:'UAE Environment Law',authority:'MoCC',requirement:'EIA for projects; waste management; no dumping regulations',frequency:'Ongoing',applicableTo:['construction','manufacturing','oil_gas']},
+      {id:'AE-04',cat:'safety',act:'Dubai Municipality Health & Safety Guidelines',short:'DM HSE Guidelines',authority:'Dubai Municipality',requirement:'Contractor registration; site safety plan; regular inspection compliance',frequency:'Per project',applicableTo:['construction']},
+    ],
+    states: {}
+  },
+  GB: {
+    central: [
+      {id:'GB-01',cat:'safety',act:'Health & Safety at Work Act, 1974',short:'HSWA 1974',authority:'Health & Safety Executive (HSE)',requirement:'General duty of care; management arrangements; risk assessment; welfare facilities',frequency:'Ongoing',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'GB-02',cat:'safety',act:'RIDDOR 2013 — Reporting of Injuries, Diseases & Dangerous Occurrences',short:'RIDDOR 2013',authority:'HSE',requirement:'Report fatal/specified injuries within 10 days; RIDDOR returns',frequency:'As required',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'GB-03',cat:'safety',act:'CDM 2015 — Construction (Design & Management) Regulations',short:'CDM 2015',authority:'HSE',requirement:'Principal Designer & Principal Contractor duties; F10 notification; HSE file',frequency:'Per project',applicableTo:['construction']},
+      {id:'GB-04',cat:'safety',act:'COSHH 2002 — Control of Substances Hazardous to Health',short:'COSHH 2002',authority:'HSE',requirement:'Risk assessment for hazardous substances; control measures; health surveillance',frequency:'Ongoing',applicableTo:['construction','manufacturing','oil_gas']},
+      {id:'GB-05',cat:'safety',act:'LOLER 1998 — Lifting Operations & Lifting Equipment',short:'LOLER 1998',authority:'HSE',requirement:'Thorough examination of lifting equipment every 6 months; competent person',frequency:'6 Monthly',applicableTo:['construction','manufacturing','oil_gas']},
+    ],
+    states: {}
+  },
+  QA: {
+    central: [
+      {id:'QA-01',cat:'safety',act:'Qatar Construction Specification (QCS) 2014 — HSE Section',short:'QCS 2014',authority:'Ministry of Municipality',requirement:'HSE plan; site safety supervisor; PPE; welfare facilities as per QCS',frequency:'Per project',applicableTo:['construction']},
+      {id:'QA-02',cat:'safety',act:'Law No.14 of 2004 — Labour Law',short:'Qatar Labour Law 2004',requirement:'Employment contract; working hours; welfare; compensation',authority:'MADLSA',frequency:'Annual compliance',applicableTo:['construction','manufacturing','oil_gas']},
+    ],
+    states: {}
+  },
+  SA: {
+    central: [
+      {id:'SA-01',cat:'safety',act:'Saudi Labour Law — Royal Decree M/51',short:'KSA Labour Law',authority:'MHRSD',requirement:'Employment contract; Saudization; welfare compliance; medical insurance',frequency:'Annual',applicableTo:['construction','manufacturing','oil_gas']},
+      {id:'SA-02',cat:'safety',act:'MOMRA Construction Safety Requirements',short:'MOMRA Safety',authority:'Ministry of Municipal, Rural Affairs & Housing',requirement:'Site safety plan; safety officer; emergency response; incident reporting',frequency:'Per project',applicableTo:['construction']},
+    ],
+    states: {}
+  },
+  SG: {
+    central: [
+      {id:'SG-01',cat:'safety',act:'Workplace Safety & Health Act, 2006',short:'WSH Act 2006',authority:'Ministry of Manpower (MOM)',requirement:'Risk assessment; safety management system; incident reporting within 10 days',frequency:'Ongoing',applicableTo:['construction','manufacturing','oil_gas']},
+      {id:'SG-02',cat:'safety',act:'WSH (Construction) Regulations 2007',short:'WSH Construction 2007',authority:'MOM',requirement:'Site safety plan; MOM notification; WSH Coordinator appointment',frequency:'Per project',applicableTo:['construction']},
+    ],
+    states: {}
+  },
+  AU: {
+    central: [
+      {id:'AU-01',cat:'safety',act:'Work Health & Safety Act 2011 (Model WHS Act)',short:'WHS Act 2011',authority:'Safe Work Australia / State WHS regulator',requirement:'WHS management system; notifiable incidents; return to work',frequency:'Ongoing',applicableTo:['construction','manufacturing','oil_gas','power','mining']},
+      {id:'AU-02',cat:'safety',act:'WHS Regulations 2017',short:'WHS Regulations 2017',authority:'State/Territory WHS Regulator',requirement:'Specific duties for plant, hazardous work, confined spaces, working at heights',frequency:'Ongoing',applicableTo:['construction','manufacturing','oil_gas']},
+    ],
+    states: {}
+  }
+};
+
+// User-editable compliance data (stored in localStorage)
+var ROR_USER_DATA = {};
+try { ROR_USER_DATA = JSON.parse(localStorage.getItem('sp_ror_data')||'{}'); } catch(e){}
+
+function saveRORData() {
+  try { localStorage.setItem('sp_ror_data', JSON.stringify(ROR_USER_DATA)); } catch(e){}
+}
+
+// Current loaded acts
+var currentActs = [];
+
+function onCountryChange() {
+  var country = document.getElementById('ror-country').value;
+  var stateWrap = document.getElementById('state-selector-wrap');
+  if(stateWrap) stateWrap.style.display = country==='IN' ? 'block' : 'none';
+  loadActs();
+}
+
+function onStateChange() { loadActs(); }
+function onSectorChange() { loadActs(); }
+
+function loadActs() {
+  var country = document.getElementById('ror-country').value;
+  var state = document.getElementById('ror-state') ? document.getElementById('ror-state').value : '';
+  var sector = document.getElementById('ror-sector') ? document.getElementById('ror-sector').value : 'construction';
+
+  if(!country) { currentActs=[]; renderROR(); return; }
+  var db = ROR_DB[country];
+  if(!db) { currentActs=[]; renderROR(); return; }
+
+  // Load central acts filtered by sector
+  var acts = (db.central||[]).filter(function(a){ return !a.applicableTo || a.applicableTo.indexOf(sector)>-1; });
+
+  // Add state-specific acts
+  if(state && db.states && db.states[state]) {
+    var stateActs = db.states[state].filter(function(a){ return !a.applicableTo || a.applicableTo.indexOf(sector)>-1; });
+    acts = acts.concat(stateActs);
+  }
+
+  currentActs = acts;
+  renderROR();
+  updateStats();
+}
+
+function renderROR() {
+  var tbody = document.getElementById('ror-table-body');
+  if(!tbody) return;
+
+  var filterCat = document.getElementById('ror-filter-cat') ? document.getElementById('ror-filter-cat').value : '';
+  var filterStatus = document.getElementById('ror-filter-status') ? document.getElementById('ror-filter-status').value : '';
+  var search = document.getElementById('ror-search') ? document.getElementById('ror-search').value.toLowerCase() : '';
+
+  if(!currentActs.length) {
+    tbody.innerHTML='<tr><td colspan="9" style="padding:32px;text-align:center;color:var(--t3);">Select a country to load applicable regulations</td></tr>';
+    return;
+  }
+
+  var filtered = currentActs.filter(function(a){
+    if(filterCat && a.cat!==filterCat) return false;
+    var ud = ROR_USER_DATA[a.id]||{};
+    if(filterStatus){
+      var s = computeStatus(a,ud);
+      if(filterStatus==='complied' && s!=='Complied') return false;
+      if(filterStatus==='due' && s!=='Due Soon') return false;
+      if(filterStatus==='overdue' && s!=='Overdue') return false;
+      if(filterStatus==='na' && s!=='N/A') return false;
+      if(filterStatus==='pending' && s!=='Pending') return false;
+    }
+    if(search && a.act.toLowerCase().indexOf(search)<0 && a.short.toLowerCase().indexOf(search)<0) return false;
+    return true;
+  });
+
+  if(!filtered.length){
+    tbody.innerHTML='<tr><td colspan="9" style="padding:24px;text-align:center;color:var(--t3);">No acts match current filters</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(function(a,idx){
+    var ud = ROR_USER_DATA[a.id]||{};
+    var status = computeStatus(a,ud);
+    var statusBadge = getStatusBadge(status);
+    var daysLeft = getDaysLeft(ud.expiry);
+    var daysTag = '';
+    if(daysLeft!==null && daysLeft>=0 && daysLeft<=90) daysTag = '<span style="font-size:9px;color:'+((daysLeft<=30)?'#EF4444':'#F59E0B')+';">'+daysLeft+' days</span>';
+    return '<tr style="border-bottom:1px solid var(--border);">'+
+      '<td style="padding:8px 12px;color:var(--t3);">'+(idx+1)+'</td>'+
+      '<td style="padding:8px 12px;">'+
+        '<div style="font-size:11px;font-weight:600;color:var(--t1);">'+escHtml(a.short)+'</div>'+
+        '<div style="font-size:9.5px;color:var(--t3);margin-top:1px;">'+escHtml(a.act)+'</div>'+
+        (a.requirement?'<div style="font-size:9px;color:#475569;margin-top:2px;">'+escHtml(a.requirement.substring(0,80))+(a.requirement.length>80?'...':'')+'</div>':'')+
+      '</td>'+
+      '<td style="padding:8px 12px;"><span style="'+getCatStyle(a.cat)+'">'+capFirst(a.cat)+'</span></td>'+
+      '<td style="padding:8px 12px;font-size:10.5px;color:var(--t2);">'+escHtml(a.authority||'-')+'</td>'+
+      '<td style="padding:8px 12px;">'+
+        (ud.consentNo?'<div style="font-size:10.5px;color:var(--t1);font-weight:600;">'+escHtml(ud.consentNo)+'</div>':
+        '<span style="font-size:10px;color:#475569;font-style:italic;">Not entered</span>')+
+      '</td>'+
+      '<td style="padding:8px 12px;">'+
+        (ud.expiry?'<div style="font-size:10.5px;color:var(--t1);">'+escHtml(ud.expiry)+'</div>'+daysTag:
+        '<span style="font-size:10px;color:#475569;font-style:italic;">Not set</span>')+
+      '</td>'+
+      '<td style="padding:8px 12px;font-size:10.5px;color:var(--t2);">'+escHtml(ud.responsible||a.refDoc||'-')+'</td>'+
+      '<td style="padding:8px 12px;">'+statusBadge+'</td>'+
+      '<td style="padding:8px 12px;text-align:center;">'+
+        '<button onclick="editROR(\''+a.id+'\')" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:5px;padding:3px 8px;color:#3B82F6;font-size:10px;cursor:pointer;font-family:var(--fh);">Edit</button>'+
+      '</td>'+
+    '</tr>';
+  }).join('');
+
+  updateStats();
+}
+
+function computeStatus(act, ud) {
+  if(ud.status) return ud.status;
+  if(!ud.expiry) return 'Pending';
+  var d = getDaysLeft(ud.expiry);
+  if(d===null) return 'Pending';
+  if(d<0) return 'Overdue';
+  if(d<=30) return 'Due Soon';
+  return 'Complied';
+}
+
+function getDaysLeft(expiry) {
+  if(!expiry) return null;
+  try {
+    var parts = expiry.split('-');
+    var exp = new Date(parts[0], parts[1]-1, parts[2]);
+    var today = new Date(); today.setHours(0,0,0,0);
+    return Math.floor((exp-today)/(1000*60*60*24));
+  } catch(e){ return null; }
+}
+
+function getStatusBadge(status) {
+  var styles = {
+    'Complied':'background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#22C55E;',
+    'Overdue':'background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#EF4444;',
+    'Due Soon':'background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#F59E0B;',
+    'N/A':'background:rgba(100,116,139,.12);border:1px solid rgba(100,116,139,.25);color:#64748B;',
+    'Pending':'background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);color:#8B5CF6;'
+  };
+  var s = styles[status]||styles['Pending'];
+  return '<span style="'+s+'font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap;">'+status+'</span>';
+}
+
+function getCatStyle(cat) {
+  var styles = {
+    environment:'background:rgba(16,185,129,.1);color:#10B981;',
+    safety:'background:rgba(59,130,246,.1);color:#3B82F6;',
+    labour:'background:rgba(139,92,246,.1);color:#8B5CF6;',
+    electrical:'background:rgba(245,158,11,.1);color:#F59E0B;',
+    fire:'background:rgba(239,68,68,.1);color:#EF4444;',
+    hazardous:'background:rgba(249,115,22,.1);color:#F97316;',
+    insurance:'background:rgba(20,184,166,.1);color:#14B8A6;',
+    other:'background:rgba(100,116,139,.1);color:#64748B;'
+  };
+  return (styles[cat]||styles.other)+'font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;white-space:nowrap;';
+}
+
+function capFirst(s){ return s?s.charAt(0).toUpperCase()+s.slice(1):s; }
+function escHtml(s){ return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'):'';}
+
+function updateStats() {
+  var total=currentActs.length, complied=0, due=0, overdue=0, na=0;
+  currentActs.forEach(function(a){
+    var ud=ROR_USER_DATA[a.id]||{};
+    var s=computeStatus(a,ud);
+    if(s==='Complied') complied++;
+    else if(s==='Due Soon') due++;
+    else if(s==='Overdue') overdue++;
+    else if(s==='N/A') na++;
+  });
+  var els={total,complied,due,overdue,na};
+  Object.keys(els).forEach(function(k){
+    var el=document.getElementById('stat-'+k);
+    if(el) el.textContent=els[k];
+  });
+}
+
+function editROR(actId) {
+  var act = currentActs.find(function(a){ return a.id===actId; });
+  if(!act) return;
+  var ud = ROR_USER_DATA[actId]||{};
+  var content = document.getElementById('ror-edit-content');
+  if(!content) return;
+
+  content.innerHTML =
+    '<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border);">'+
+      '<div style="font-size:12px;font-weight:700;color:var(--t1);">'+escHtml(act.short)+'</div>'+
+      '<div style="font-size:10px;color:var(--t3);margin-top:2px;">'+escHtml(act.act)+'</div>'+
+      '<div style="font-size:10px;color:#475569;margin-top:4px;">Authority: '+escHtml(act.authority||'-')+'</div>'+
+      '<div style="font-size:10px;color:#475569;margin-top:2px;">Requirement: '+escHtml(act.requirement||'-')+'</div>'+
+    '</div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">'+
+      '<div><div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Consent / Licence No.</div>'+
+        '<input id="edit-consent" type="text" value="'+escHtml(ud.consentNo||'')+'" placeholder="e.g. REF.NO.1257" style="width:100%;padding:7px 9px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);box-sizing:border-box;"/></div>'+
+      '<div><div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Valid Until (YYYY-MM-DD)</div>'+
+        '<input id="edit-expiry" type="date" value="'+(ud.expiry||'')+'" style="width:100%;padding:7px 9px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);box-sizing:border-box;"/></div>'+
+      '<div><div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Responsible Person</div>'+
+        '<input id="edit-responsible" type="text" value="'+escHtml(ud.responsible||'')+'" placeholder="e.g. HSE Manager" style="width:100%;padding:7px 9px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);box-sizing:border-box;"/></div>'+
+      '<div><div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Status</div>'+
+        '<select id="edit-status" style="width:100%;padding:7px 9px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);">'+
+          '<option value=""'+(!(ud.status)?'selected':'')+'>Auto (from expiry)</option>'+
+          '<option value="Complied"'+(ud.status==='Complied'?' selected':'')+'>Complied</option>'+
+          '<option value="Pending"'+(ud.status==='Pending'?' selected':'')+'>Pending</option>'+
+          '<option value="N/A"'+(ud.status==='N/A'?' selected':'')+'>Not Applicable</option>'+
+          '<option value="Overdue"'+(ud.status==='Overdue'?' selected':'')+'>Overdue</option>'+
+        '</select></div>'+
+      '<div style="grid-column:span 2;"><div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Remarks / Compliance Notes</div>'+
+        '<textarea id="edit-remarks" rows="2" placeholder="Add compliance remarks..." style="width:100%;padding:7px 9px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);box-sizing:border-box;resize:vertical;">'+escHtml(ud.remarks||'')+'</textarea></div>'+
+    '</div>'+
+    '<div style="display:flex;gap:8px;justify-content:flex-end;">'+
+      '<button onclick="closeROREdit()" style="padding:8px 16px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">Cancel</button>'+
+      '<button onclick="saveROREdit(\''+actId+'\')" style="padding:8px 18px;background:var(--g-s);border:1px solid var(--g-b);border-radius:7px;color:var(--green);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">Save</button>'+
+    '</div>';
+
+  var modal = document.getElementById('ror-edit-modal');
+  if(modal) modal.style.display='flex';
+}
+
+function saveROREdit(actId) {
+  ROR_USER_DATA[actId] = {
+    consentNo: document.getElementById('edit-consent').value.trim(),
+    expiry: document.getElementById('edit-expiry').value,
+    responsible: document.getElementById('edit-responsible').value.trim(),
+    status: document.getElementById('edit-status').value,
+    remarks: document.getElementById('edit-remarks').value.trim()
+  };
+  saveRORData();
+  closeROREdit();
+  renderROR();
+  fieldToast && fieldToast('Compliance details saved','success');
+}
+
+function closeROREdit() {
+  var modal = document.getElementById('ror-edit-modal');
+  if(modal) modal.style.display='none';
+}
+
+function addCustomAct() {
+  fieldToast && fieldToast('Custom act feature coming soon','blue');
+}
+
+function exportROR() {
+  var country = document.getElementById('ror-country') ? document.getElementById('ror-country').value : 'IN';
+  var state = document.getElementById('ror-state') ? document.getElementById('ror-state').value : '';
+  if(!currentActs.length){ fieldToast&&fieldToast('No acts loaded to export','error'); return; }
+  var win = window.open('','_blank');
+  var rows = currentActs.map(function(a,idx){
+    var ud = ROR_USER_DATA[a.id]||{};
+    var status = computeStatus(a,ud);
+    var sc = status==='Complied'?'#16A34A':status==='Overdue'?'#DC2626':status==='Due Soon'?'#D97706':'#64748B';
+    return '<tr style="border-bottom:1px solid #E2E8F0;">'+
+      '<td style="padding:6px 10px;color:#64748B;">'+(idx+1)+'</td>'+
+      '<td style="padding:6px 10px;"><strong>'+a.short+'</strong><br><span style="font-size:10px;color:#64748B;">'+a.act+'</span></td>'+
+      '<td style="padding:6px 10px;font-size:11px;">'+capFirst(a.cat)+'</td>'+
+      '<td style="padding:6px 10px;font-size:11px;">'+(a.authority||'-')+'</td>'+
+      '<td style="padding:6px 10px;font-size:11px;">'+(ud.consentNo||'-')+'</td>'+
+      '<td style="padding:6px 10px;font-size:11px;">'+(ud.expiry||'-')+'</td>'+
+      '<td style="padding:6px 10px;font-size:11px;">'+(ud.responsible||'-')+'</td>'+
+      '<td style="padding:6px 10px;"><span style="color:'+sc+';font-weight:700;font-size:11px;">'+status+'</span></td>'+
+      '<td style="padding:6px 10px;font-size:11px;">'+(ud.remarks||'-')+'</td>'+
+    '</tr>';
+  }).join('');
+  win.document.write('<!DOCTYPE html><html><head><title>Register of Regulations</title>'+
+    '<style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:Arial,sans-serif;padding:24px;font-size:12px;}table{width:100%;border-collapse:collapse;}th{background:#1B3A6B;color:#C9A84C;padding:8px 10px;text-align:left;font-size:11px;}@media print{@page{size:A3 landscape;margin:12mm;}.no-print{display:none;}}</style>'+
+    '</head><body>'+
+    '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;">'+
+      '<div><div style="font-size:18px;font-weight:700;color:#1B3A6B;">Register of Regulations</div>'+
+        '<div style="font-size:11px;color:#64748B;margin-top:3px;">ISO 45001:2018 | ISO 14001:2015 | ISO 9001:2015</div>'+
+        '<div style="font-size:11px;color:#64748B;">Generated: '+new Date().toLocaleDateString('en-IN')+' | Country: '+country+(state?' | State: '+state:'')+'</div></div>'+
+      '<div style="font-size:11px;color:#64748B;text-align:right;">Powered by SafetyPro AI<br>safetyproworld.com</div>'+
+    '</div>'+
+    '<table><thead><tr>'+
+      '<th>#</th><th>Act / Legislation</th><th>Category</th><th>Authority</th>'+
+      '<th>Consent No.</th><th>Valid Until</th><th>Responsible</th><th>Status</th><th>Remarks</th>'+
+    '</tr></thead><tbody>'+rows+'</tbody></table>'+
+    '<div class="no-print" style="margin-top:16px;text-align:center;">'+
+      '<button onclick="window.print()" style="padding:10px 24px;background:#1B3A6B;border:none;border-radius:6px;color:#C9A84C;font-size:13px;font-weight:700;cursor:pointer;">Print / Save as PDF</button>'+
+    '</div></body></html>');
+  win.document.close();
+}
+
+// Auto-load India on tab open
+document.addEventListener('DOMContentLoaded', function(){
+  var panel = document.getElementById('ac-panel-legal');
+  if(panel) { onCountryChange(); }
+});
+
+// Patch acMainTab to trigger load
+var _origAcMainTab = window.acMainTab;
+window.acMainTab = function(el, tab) {
+  if(_origAcMainTab) _origAcMainTab(el, tab);
+  if(tab==='legal') {
+    setTimeout(function(){ if(!currentActs.length) onCountryChange(); }, 50);
+  }
+};
+</script>
 </body></html>';
 
           /* Open in new window for Print / Save as PDF */
@@ -4299,7 +4751,161 @@ document.addEventListener('DOMContentLoaded', function() {
 
         /* ─── INIT ────────────────────────────────── */
         var noEl=document.getElementById('mtg-f-no');if(noEl)noEl.value='MTG-001';
-        renderMTGRegister(); updateMTGKPIs(); renderActionTracker();
+        re
+
+
+<!-- ══ LEGAL & REGULATORY COMPLIANCE TAB ══ -->
+<div id="ac-panel-legal" style="display:none;padding:16px;">
+
+  <!-- Top Controls -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+    <div>
+      <div style="font-size:14px;font-weight:700;color:var(--t1);">Legal &amp; Regulatory Compliance Register</div>
+      <div style="font-size:11px;color:var(--t3);margin-top:2px;">ISO 45001:2018 Cl.9.1.2 &nbsp;|&nbsp; ISO 14001:2015 Cl.9.1.2 &nbsp;|&nbsp; ISO 9001:2015 Cl.9.1</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <button onclick="exportROR()" style="padding:7px 14px;background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.3);border-radius:7px;color:#3B82F6;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--fh);">&#11015; Export ROR</button>
+      <button onclick="addCustomAct()" style="padding:7px 14px;background:var(--g-s);border:1px solid var(--g-b);border-radius:7px;color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--fh);">+ Add Custom Act</button>
+    </div>
+  </div>
+
+  <!-- Country + State Selectors -->
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;">
+    <div style="font-size:11px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;">Select Jurisdiction — Acts auto-load based on selection</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:end;">
+      <div>
+        <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Country *</div>
+        <select id="ror-country" onchange="onCountryChange()" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);">
+          <option value="">Select Country...</option>
+          <option value="IN" selected>&#127470;&#127475; India</option>
+          <option value="AE">&#127462;&#127466; UAE</option>
+          <option value="QA">&#127478;&#127462; Qatar</option>
+          <option value="SA">&#127480;&#127462; Saudi Arabia</option>
+          <option value="GB">&#127468;&#127463; United Kingdom</option>
+          <option value="SG">&#127480;&#127468; Singapore</option>
+          <option value="AU">&#127462;&#127482; Australia</option>
+        </select>
+      </div>
+      <div id="state-selector-wrap">
+        <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">State / Emirate</div>
+        <select id="ror-state" onchange="onStateChange()" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);">
+          <option value="">All States (Central Acts)</option>
+          <option value="BR">Bihar</option>
+          <option value="MH">Maharashtra</option>
+          <option value="GJ">Gujarat</option>
+          <option value="RJ">Rajasthan</option>
+          <option value="KA">Karnataka</option>
+          <option value="TN">Tamil Nadu</option>
+          <option value="UP">Uttar Pradesh</option>
+          <option value="WB">West Bengal</option>
+          <option value="MP">Madhya Pradesh</option>
+          <option value="HR">Haryana</option>
+          <option value="PB">Punjab</option>
+          <option value="OD">Odisha</option>
+          <option value="TG">Telangana</option>
+          <option value="AP">Andhra Pradesh</option>
+          <option value="JH">Jharkhand</option>
+          <option value="CG">Chhattisgarh</option>
+        </select>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Industry Sector</div>
+        <select id="ror-sector" onchange="onSectorChange()" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);">
+          <option value="construction">Construction / Infrastructure</option>
+          <option value="manufacturing">Manufacturing</option>
+          <option value="oil_gas">Oil &amp; Gas</option>
+          <option value="power">Power / Energy</option>
+          <option value="mining">Mining</option>
+        </select>
+      </div>
+    </div>
+    <!-- Stats row -->
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px;" id="ror-stats">
+      <div style="background:var(--raised);border:1px solid var(--border);border-radius:7px;padding:8px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:var(--t1);" id="stat-total">0</div>
+        <div style="font-size:9px;color:var(--t3);margin-top:1px;">Total Acts</div>
+      </div>
+      <div style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:7px;padding:8px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:#22C55E;" id="stat-complied">0</div>
+        <div style="font-size:9px;color:var(--t3);margin-top:1px;">Complied</div>
+      </div>
+      <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:7px;padding:8px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:#F59E0B;" id="stat-due">0</div>
+        <div style="font-size:9px;color:var(--t3);margin-top:1px;">Due Soon</div>
+      </div>
+      <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:7px;padding:8px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:#EF4444;" id="stat-overdue">0</div>
+        <div style="font-size:9px;color:var(--t3);margin-top:1px;">Overdue</div>
+      </div>
+      <div style="background:var(--raised);border:1px solid var(--border);border-radius:7px;padding:8px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:#94A3B8;" id="stat-na">0</div>
+        <div style="font-size:9px;color:var(--t3);margin-top:1px;">Not Applicable</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter bar -->
+  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+    <select id="ror-filter-cat" onchange="renderROR()" style="padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);">
+      <option value="">All Categories</option>
+      <option value="environment">Environment</option>
+      <option value="safety">Occupational Safety</option>
+      <option value="labour">Labour &amp; Employment</option>
+      <option value="electrical">Electrical &amp; Mechanical</option>
+      <option value="fire">Fire &amp; Emergency</option>
+      <option value="hazardous">Hazardous Materials</option>
+      <option value="insurance">Insurance &amp; Welfare</option>
+      <option value="other">Other Requirements</option>
+    </select>
+    <select id="ror-filter-status" onchange="renderROR()" style="padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);">
+      <option value="">All Status</option>
+      <option value="complied">Complied</option>
+      <option value="due">Due Soon (30 days)</option>
+      <option value="overdue">Overdue</option>
+      <option value="na">Not Applicable</option>
+      <option value="pending">Pending</option>
+    </select>
+    <input type="text" id="ror-search" oninput="renderROR()" placeholder="Search act or requirement..." style="flex:1;min-width:180px;padding:6px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);"/>
+  </div>
+
+  <!-- ROR Table -->
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:11px;font-family:var(--fh);">
+        <thead>
+          <tr style="background:var(--raised);border-bottom:1px solid var(--border);">
+            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;width:40px;">#</th>
+            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;min-width:200px;">Act / Legislation</th>
+            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;">Category</th>
+            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;">Authority</th>
+            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;">Consent / Licence No.</th>
+            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;">Valid Until</th>
+            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;">Responsible</th>
+            <th style="padding:9px 12px;text-align:left;color:var(--t3);font-weight:600;white-space:nowrap;">Status</th>
+            <th style="padding:9px 12px;text-align:center;color:var(--t3);font-weight:600;white-space:nowrap;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="ror-table-body">
+          <tr><td colspan="9" style="padding:32px;text-align:center;color:var(--t3);">Select a country to load applicable regulations</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div id="ror-edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99999;align-items:center;justify-content:center;" onclick="if(event.target===this)closeROREdit()">
+    <div style="background:#0F1720;border:1px solid var(--border);border-radius:12px;width:600px;max-height:90vh;overflow-y:auto;scrollbar-width:thin;">
+      <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:#0B1523;border-radius:12px 12px 0 0;">
+        <div style="font-size:13px;font-weight:700;color:var(--t1);">Edit Compliance Details</div>
+        <button onclick="closeROREdit()" style="background:transparent;border:1px solid var(--border);border-radius:6px;width:28px;height:28px;cursor:pointer;color:var(--t2);font-size:16px;line-height:1;">&#10005;</button>
+      </div>
+      <div style="padding:16px 18px;" id="ror-edit-content"></div>
+    </div>
+  </div>
+
+</div>
+
+nderMTGRegister(); updateMTGKPIs(); renderActionTracker();
 
       })();
       </script>
