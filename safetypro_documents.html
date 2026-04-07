@@ -875,7 +875,7 @@ body{height:100%!important;overflow:hidden!important;display:flex!important;flex
 .content::-webkit-scrollbar-thumb{background:var(--border,#1E293B)!important;border-radius:2px!important;}
 .sub-header{position:sticky!important;top:0!important;z-index:10!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important;width:calc(100% + 4px)!important;margin-right:-4px!important;box-sizing:border-box!important;}
 /* Gap: 16px below sub-header, 20px side padding for KPI cards */
-.content>div:nth-child(2){margin-top:16px!important;padding:0 20px!important;}
+
 /* KPI cards: stretch to fill full width */
 .content div[style*="auto-fill"]{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))!important;}
 footer.sp-footer,.sp-footer{flex-shrink:0!important;display:flex!important;}
@@ -1567,6 +1567,7 @@ document.addEventListener('DOMContentLoaded', function() {
 /* docs-footer-gap */
 .docs-scroll{padding-bottom:24px!important;}
 </style>
+
 <style>/* docs-pb-fix */.docs-scroll{padding-bottom:20px!important;padding-right:28px!important;}</style>
 </body>
 </html>
