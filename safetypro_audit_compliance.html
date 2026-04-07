@@ -1287,6 +1287,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
           <div class="sh-tab" onclick="acMainTab(this,'risk')">&#9888; Risk Assessment</div>
           <div class="sh-tab" onclick="acMainTab(this,'investigation')">&#128269; Incident Investigation</div>
           <div class="sh-tab" onclick="acMainTab(this,'method')">&#128196; Method Statement</div>
+          <div class="sh-tab" onclick="acMainTab(this,'legal')">&#9878; Legal &amp; Regulatory</div>
           <div class="sh-tab" onclick="acMainTab(this,'meeting')">&#128101; Safety Meeting</div>
           <div class="sh-tab" onclick="acMainTab(this,'legal')">&#9878; Legal &amp; Regulatory</div>
         </div>
@@ -4678,7 +4679,414 @@ function exportROR() {
     '</tr></thead><tbody>'+rows+'</tbody></table>'+
     '<div class="no-print" style="margin-top:16px;text-align:center;">'+
       '<button onclick="window.print()" style="padding:10px 24px;background:#1B3A6B;border:none;border-radius:6px;color:#C9A84C;font-size:13px;font-weight:700;cursor:pointer;">Print / Save as PDF</button>'+
-    '</div></body></html>');
+    '</div><script>
+/* ror-legal-compliance-v1 */
+
+// ════════════════════════════════════════════════════════════════
+// REGULATORY DATABASE — Generic, No Company Names
+// ════════════════════════════════════════════════════════════════
+var ROR_DB = {
+  IN: {
+    central: [
+      // ENVIRONMENT
+      {cat:'Environment',act:'Air (Prevention & Control of Pollution) Act, 1981 & Rules 1982',auth:'State Pollution Control Board',freq:'5YR',note:'Consent to Operate under Section 21. Annual return to State PCB.'},
+      {cat:'Environment',act:'Water (Prevention & Control of Pollution) Act, 1974 & Rules 1975',auth:'State Pollution Control Board',freq:'5YR',note:'Consent to Operate under Section 25. Annual return to State PCB.'},
+      {cat:'Environment',act:'Water (Prevention & Control of Pollution) Cess Act, 1977',auth:'State Pollution Control Board',freq:'5YR',note:'Deposit water cess charges. Furnish return of water consumption.'},
+      {cat:'Environment',act:'The Environment (Protection) Act, 1986 & Rules 1986',auth:'State Pollution Control Board',freq:'Annual',note:'Environment audit & statement to be submitted by 30 September.'},
+      {cat:'Environment',act:'Hazardous & Other Wastes (Management & Transboundary) Rules, 2016 (Amended 2019)',auth:'State Pollution Control Board',freq:'5YR',note:'Authorization for collection, storage, transport and disposal.'},
+      {cat:'Environment',act:'Noise Pollution (Regulation & Control) Rules, 2000 (Amended 2010)',auth:'State PCB / CPCB',freq:'Annual',note:'Noise levels shall not exceed ambient standards. Monitoring required.'},
+      {cat:'Environment',act:'Plastic Waste Management Rules, 2016 (Amended 2022)',auth:'State PCB / ULB',freq:'Annual',note:'Register with ULB. Maintain records of plastic waste.'},
+      {cat:'Environment',act:'E-Waste (Management) Rules, 2022',auth:'CPCB / Authorised PRO',freq:'Annual',note:'Registration with authorised PRO. Maintain e-waste records.'},
+      {cat:'Environment',act:'Battery Waste Management Rules, 2022',auth:'CPCB',freq:'Annual',note:'Registration with CPCB. Return old batteries on purchase of new.'},
+      {cat:'Environment',act:'Construction & Demolition Waste Management Rules, 2016',auth:'Local Authority / ULB',freq:'Annual',note:'C&D waste to be segregated, stored and sent to authorised facility.'},
+      {cat:'Environment',act:'National Clean Air Programme (NCAP), 2019',auth:'CPCB / State PCB',freq:'Annual',note:'Air quality monitoring and reporting obligations for large sites.'},
+      // SAFETY — CONSTRUCTION
+      {cat:'Safety',act:'Building & Other Construction Workers (RE&CS) Act, 1996 & Rules 1998',auth:'BOCW Board / Labour Dept',freq:'As per EOT',note:'Registration of establishment. Identity cards for all workers.'},
+      {cat:'Safety',act:'Factories Act, 1948 (Amended 1987) — where applicable',auth:'State Factory Inspectorate',freq:'Annual',note:'Applicable if manufacturing operations on site. Annual returns.'},
+      {cat:'Safety',act:'The Gas Cylinder Rules, 2016',auth:'PESO / CCOE',freq:'As required',note:'Colour coding of cylinders. Storage limits — LPG max 100kg at a time.'},
+      {cat:'Safety',act:'The Petroleum Act, 1934 & Petroleum Rules, 2002 (Amended 2011)',auth:'PESO / District Collector',freq:'Annual',note:'Form XIV/XV for storage of petroleum products above threshold quantities.'},
+      {cat:'Safety',act:'Explosive Act, 1884 & Explosive Rules, 2008',auth:'PESO / Explosives Dept',freq:'Annual',note:'Licence for storage and use of explosives at construction sites.'},
+      {cat:'Safety',act:'Disaster Management Act, 2005',auth:'NDMA / SDMA',freq:'Project',note:'Emergency response plan aligned with NDMA guidelines.'},
+      {cat:'Safety',act:'The Mines Act, 1952 (Amendment 1983) & Rules',auth:'DGMS',freq:'As applicable',note:'Applicable for quarrying and underground excavation operations.'},
+      // ELECTRICAL
+      {cat:'Electrical',act:'Electricity Act, 2003 (Amended 2007) & IE Rules, 1956',auth:'State Electricity Dept / CEA',freq:'Annual',note:'Licensed electricians mandatory. Earthing as per Rule 61. DG set inspection.'},
+      {cat:'Electrical',act:'Central Electricity Authority (Measures Relating to Safety) Regulations, 2010',auth:'CEA / State Electricity Inspector',freq:'Annual',note:'Inspection of HT/LT installations. DG set — periodic inspection.'},
+      {cat:'Electrical',act:'Acoustic DG Set Rules, 1999',auth:'State PCB / CPCB',freq:'As installed',note:'DG sets must meet noise limits. Acoustic enclosure mandatory.'},
+      // LABOUR
+      {cat:'Labour',act:'Contract Labour (Regulation & Abolition) Act, 1970 & Central Rules 1971',auth:'Regional Labour Commissioner',freq:'Annual',note:'Registration of Principal Employer (Form I/II). Contractor licence (Form IV/VI). Half-yearly returns (Form XXIV).'},
+      {cat:'Labour',act:'Inter-State Migrant Workmen (RE&CS) Act, 1979',auth:'Labour Dept',freq:'Annual',note:'Registration if employing inter-state migrant workers. Displacement allowance.'},
+      {cat:'Labour',act:'Minimum Wages Act, 1948 & Rules 1960',auth:'State Labour Dept',freq:'Annual',note:'Annual return by 1st February. Display minimum wage notice board. Form X, XI, XII.'},
+      {cat:'Labour',act:'Payment of Wages Act, 1936',auth:'Labour Dept',freq:'Monthly',note:'Wages register, wage slips. Annual return to Labour Dept.'},
+      {cat:'Labour',act:'Employee Provident Fund & Misc. Provisions Act, 1952',auth:'EPFO',freq:'Monthly',note:'Monthly PF challan. Annual return. Registration code mandatory.'},
+      {cat:'Labour',act:'Employees State Insurance Act, 1948',auth:'ESIC',freq:'Monthly',note:'Applicable if 10+ employees. Monthly ESI contribution.'},
+      {cat:'Labour',act:'Child Labour (Prohibition & Regulation) Act, 1986 & Amendment 2016',auth:'Labour Dept',freq:'Project',note:'No employment of children below 14 years. Penalty provisions.'},
+      {cat:'Labour',act:'Prevention of Sexual Harassment (POSH) Act, 2013',auth:'District Officer',freq:'Annual',note:'Internal Committee mandatory if 10+ employees. Annual report to District Officer.'},
+      {cat:'Labour',act:'Workmen Compensation Act, 1923',auth:'Labour Dept / Commissioner',freq:'Annual',note:'Insurance policy mandatory. Report fatal/serious accidents within 7 days.'},
+      {cat:'Labour',act:'Shops & Commercial Establishments Act (State-specific)',auth:'State Labour Dept',freq:'Annual',note:'Registration of offices. Display of working hours. Leave records.'},
+      // HEALTH & SAFETY CODES
+      {cat:'ISO / IMS',act:'ISO 45001:2018 — Occupational Health & Safety',auth:'Certification Body',freq:'3 Years (Surveillance Annual)',note:'IMS certification. Internal audit Clause 9.1.2. Management review annual.'},
+      {cat:'ISO / IMS',act:'ISO 14001:2015 — Environmental Management',auth:'Certification Body',freq:'3 Years (Surveillance Annual)',note:'EMS certification. Environmental aspect register. Legal compliance evaluation.'},
+      {cat:'ISO / IMS',act:'ISO 9001:2015 — Quality Management',auth:'Certification Body',freq:'3 Years (Surveillance Annual)',note:'QMS certification. Document control. Internal audit annual.'},
+      // NEW LABOUR CODES (2020 — notified states)
+      {cat:'Labour Codes 2020',act:'Code on Occupational Safety, Health & Working Conditions, 2020',auth:'Central / State Govt.',freq:'As notified',note:'Consolidates: Factories Act, BOCW, Mines Act, Dock Workers Act etc. Monitor state notification status.'},
+      {cat:'Labour Codes 2020',act:'Code on Wages, 2019',auth:'Central / State Govt.',freq:'As notified',note:'Consolidates: Minimum Wages Act, Payment of Wages Act, Equal Remuneration Act. Monitor state rules.'},
+      {cat:'Labour Codes 2020',act:'Code on Social Security, 2020',auth:'EPFO / ESIC / Central Govt.',freq:'As notified',note:'Consolidates EPF, ESI, Gratuity, Maternity Benefit Acts. Monitor notification.'},
+      // WEIGHTS & MEASURES
+      {cat:'Other',act:'Legal Metrology Act, 2009 (Standards of Weights & Measures)',auth:'State Legal Metrology Dept',freq:'Annual',note:'Certificate of verification for weighing/measuring equipment used on site.'},
+      // FIRE
+      {cat:'Fire Safety',act:'Fire Service Act / State Fire Safety Rules',auth:'State Fire Dept / District Authority',freq:'Annual',note:'Fire NOC for site offices and stores. Fire extinguisher inspection certificates.'},
+      // VEHICLE
+      {cat:'Transport',act:'Motor Vehicles Act, 2019 & Central Motor Vehicles Rules',auth:'RTO / Transport Dept',freq:'Annual',note:'Vehicle registration, fitness certificate, PUC certificate, insurance for all site vehicles.'},
+      // CHEMICALS
+      {cat:'Environment',act:'Manufacture, Storage & Import of Hazardous Chemicals (Amendment) Rules, 2000',auth:'State PCB / PESO',freq:'Project',note:'MSDS for all hazardous chemicals. Major accident reporting as per Schedule 6.'},
+      // ENERGY
+      {cat:'Energy',act:'Energy Conservation Act, 2001 (Amendment 2022)',auth:'BEE / State Energy Dept',freq:'Annual',note:'Designated consumers to submit energy audit reports. Star-rated equipment preferred.'},
+    ],
+    states: {
+      BR: [
+        {cat:'State — Bihar',act:'Bihar BOCW Welfare Board — Worker Registration',auth:'Bihar BOCW Welfare Board, Patna',freq:'Annual',note:'All construction workers must be registered with Bihar BOCW Welfare Board. Cess deduction @ 1%.'},
+        {cat:'State — Bihar',act:'Bihar State Pollution Control Board — Consent to Establish / Operate',auth:'Bihar State Pollution Control Board',freq:'5YR',note:'CTE/CTO from Bihar SPCB for projects with environmental impact. Apply at bspcb.bih.nic.in.'},
+        {cat:'State — Bihar',act:'Bihar Labour Dept — Contractor Registration',auth:'Bihar Labour Commissioner',freq:'Annual',note:'Registration under CLRA with Bihar Labour Department. District-wise registration.'},
+      ],
+      MH: [
+        {cat:'State — Maharashtra',act:'Maharashtra Pollution Control Board (MPCB) — CTE/CTO',auth:'Maharashtra PCB',freq:'5YR',note:'Consent to Establish and Operate from MPCB. Apply through MPCB online portal.'},
+        {cat:'State — Maharashtra',act:'Maharashtra Factories Rules, 1963',auth:'State Factory Inspectorate',freq:'Annual',note:'State-specific rules under Factories Act. Annual returns to Factory Inspector.'},
+        {cat:'State — Maharashtra',act:'Maharashtra BOCW Welfare Board',auth:'Maharashtra BOCW Board, Pune',freq:'Annual',note:'Worker registration and cess collection under Maharashtra BOCW rules.'},
+      ],
+      GJ: [
+        {cat:'State — Gujarat',act:'Gujarat Pollution Control Board (GPCB) — CTE/CTO',auth:'Gujarat PCB',freq:'5YR',note:'Consent from GPCB. Apply online at gpcb.gujarat.gov.in.'},
+        {cat:'State — Gujarat',act:'Gujarat Factories Rules, 1963',auth:'State Factory Inspector',freq:'Annual',note:'State rules under Factories Act. Annual returns. Safety officer appointment.'},
+      ],
+      RJ: [
+        {cat:'State — Rajasthan',act:'Rajasthan State Pollution Control Board — CTE/CTO',auth:'Rajasthan PCB, Jaipur',freq:'5YR',note:'Consent from RSPCB. Apply through online portal.'},
+        {cat:'State — Rajasthan',act:'Rajasthan BOCW Welfare Board',auth:'Rajasthan BOCW Board',freq:'Annual',note:'Construction worker registration. 1% cess collection.'},
+      ],
+      KA: [
+        {cat:'State — Karnataka',act:'Karnataka State Pollution Control Board (KSPCB)',auth:'KSPCB',freq:'5YR',note:'CTE/CTO from KSPCB. Online portal: kspcb.kar.nic.in.'},
+        {cat:'State — Karnataka',act:'Karnataka Factories Rules, 1969',auth:'Labour Dept Karnataka',freq:'Annual',note:'State rules under Factories Act.'},
+      ],
+      TN: [
+        {cat:'State — Tamil Nadu',act:'Tamil Nadu Pollution Control Board (TNPCB)',auth:'TNPCB',freq:'5YR',note:'CTE/CTO from TNPCB. Apply at tnpcb.gov.in.'},
+        {cat:'State — Tamil Nadu',act:'Tamil Nadu Industrial Establishments (National & Festival Holidays) Act, 1958',auth:'Labour Dept TN',freq:'Annual',note:'National and festival holidays compliance. Display notice.'},
+      ],
+      UP: [
+        {cat:'State — Uttar Pradesh',act:'Uttar Pradesh Pollution Control Board (UPPCB)',auth:'UPPCB',freq:'5YR',note:'CTE/CTO from UPPCB. Apply at uppcb.com.'},
+        {cat:'State — Uttar Pradesh',act:'UP BOCW Welfare Board',auth:'UP Labour Dept',freq:'Annual',note:'Construction worker registration. Cess collection.'},
+      ],
+      JH: [
+        {cat:'State — Jharkhand',act:'Jharkhand State Pollution Control Board (JSPCB)',auth:'JSPCB',freq:'5YR',note:'CTE/CTO from JSPCB. Apply at jspcboard.com.'},
+        {cat:'State — Jharkhand',act:'Jharkhand BOCW Welfare Board',auth:'Jharkhand Labour Dept',freq:'Annual',note:'Worker registration. Cess deduction.'},
+      ],
+    }
+  },
+  AE: {
+    central: [
+      {cat:'OHS',act:'Federal Law No. 8 of 1980 — Labour Law (UAE)',auth:'Ministry of Human Resources & Emiratisation',freq:'Annual',note:'Employment contracts. Working hours. Occupational safety obligations.'},
+      {cat:'OHS',act:'OSHAD-SF — Abu Dhabi OHS Management System Framework',auth:'Abu Dhabi Public Health Authority (ADPHA)',freq:'Annual',note:'Mandatory for Abu Dhabi projects. HSE Plan, risk assessment, incident reporting.'},
+      {cat:'OHS',act:'Dubai Municipality Building Code — HSE Requirements',auth:'Dubai Municipality',freq:'Project',note:'HSE plan approval before construction. Safety officer mandatory on site.'},
+      {cat:'Environment',act:'Federal Law No. 24 of 1999 — Environment Protection & Development',auth:'Ministry of Climate Change & Environment',freq:'Annual',note:'EIA for large projects. Waste management. Air quality compliance.'},
+      {cat:'Fire',act:'UAE Fire & Life Safety Code of Practice',auth:'Civil Defence',freq:'Annual',note:'Fire safety plan. Hot work permit. Emergency evacuation plan. Annual inspection.'},
+      {cat:'ISO',act:'ISO 45001:2018 — OHS Management System',auth:'DAkkS / ENAS Accredited Body',freq:'3 Years',note:'Mandatory for ADNOC and major client contracts. Annual surveillance audits.'},
+    ],
+    states: {}
+  },
+  QA: {
+    central: [
+      {cat:'OHS',act:'Law No. 14 of 2004 — Labour Law (Qatar)',auth:'Ministry of Labour',freq:'Annual',note:'Worker welfare. Heat stress policy. Working hours restrictions.'},
+      {cat:'OHS',act:'Qatar Construction Specification (QCS) 2014 — Section 11 HSE',auth:'Ashghal / Public Works Authority',freq:'Project',note:'HSE plan per QCS 2014. Safety officer mandatory. Incident reporting.'},
+      {cat:'OHS',act:'QCDD — Qatar Civil Defence Department Requirements',auth:'Ministry of Interior / QCDD',freq:'Annual',note:'Hot work permit. Fire safety plan. Emergency contact directory.'},
+      {cat:'Environment',act:'Law No. 30 of 2002 — Environment Protection (Qatar)',auth:'Ministry of Municipality',freq:'Annual',note:'Environmental permit for large construction projects. Waste disposal.'},
+    ],
+    states: {}
+  },
+  GB: {
+    central: [
+      {cat:'OHS',act:'Health & Safety at Work Act, 1974',auth:'Health & Safety Executive (HSE)',freq:'Project',note:'Employer duty of care. Risk assessment. Method statements.'},
+      {cat:'OHS',act:'Construction (Design & Management) Regulations 2015 (CDM 2015)',auth:'HSE',freq:'Project',note:'Principal designer / contractor notification. Construction phase plan. HSE file.'},
+      {cat:'OHS',act:'RIDDOR 2013 — Reporting of Injuries, Diseases & Dangerous Occurrences',auth:'HSE',freq:'On event',note:'Report fatalities, specified injuries, over-7-day injuries, dangerous occurrences to HSE.'},
+      {cat:'OHS',act:'COSHH 2002 — Control of Substances Hazardous to Health',auth:'HSE',freq:'Annual review',note:'COSHH assessment for all hazardous substances. Monitoring and health surveillance.'},
+      {cat:'OHS',act:'LOLER 1998 — Lifting Operations & Lifting Equipment Regulations',auth:'HSE',freq:'6 monthly / Annual',note:'Thorough examination of lifting equipment every 6 months (cranes) or 12 months.'},
+      {cat:'Environment',act:'Environmental Protection Act, 1990',auth:'Environment Agency',freq:'Annual',note:'Waste management duty of care. Hazardous waste register. Waste transfer notes.'},
+      {cat:'ISO',act:'ISO 45001:2018',auth:'UKAS Accredited Body',freq:'3 Years',note:'Annual surveillance. Management review. Legal compliance evaluation.'},
+    ],
+    states: {}
+  },
+  SG: {
+    central: [
+      {cat:'OHS',act:'Workplace Safety & Health Act, 2006 (WSH Act)',auth:'Ministry of Manpower (MOM)',freq:'Annual',note:'Risk assessment mandatory. Incident reporting within 10 days. Safety committee.'},
+      {cat:'OHS',act:'WSH (Construction) Regulations, 2007',auth:'MOM / BCA',freq:'Project',note:'Construction notification to MOM. Safety supervisor on site. Risk management.'},
+      {cat:'OHS',act:'MOM — Work Injury Compensation Act (WICA) 2019',auth:'MOM',freq:'Annual',note:'Work injury insurance mandatory. Compensation claims. Medical leave records.'},
+      {cat:'Environment',act:'Environmental Public Health Act — Waste Management',auth:'National Environment Agency (NEA)',freq:'Annual',note:'Waste disposal licence. Toxic industrial waste permit. Contractor registration.'},
+    ],
+    states: {}
+  },
+  INT: {
+    central: [
+      {cat:'ISO',act:'ISO 45001:2018 — Occupational Health & Safety',auth:'Accredited Certification Body',freq:'3 Years',note:'Annual surveillance audits. Clause 9.1.2 compliance evaluation mandatory.'},
+      {cat:'ISO',act:'ISO 14001:2015 — Environmental Management',auth:'Accredited Certification Body',freq:'3 Years',note:'Annual surveillance. Environmental aspect register. Legal register review.'},
+      {cat:'ISO',act:'ISO 9001:2015 — Quality Management',auth:'Accredited Certification Body',freq:'3 Years',note:'Annual surveillance. Document control. Customer satisfaction monitoring.'},
+      {cat:'ILO',act:'ILO Convention C167 — Safety & Health in Construction',auth:'National Labour Authority',freq:'Project',note:'International standards for construction safety. Referenced by most clients.'},
+    ],
+    states: {}
+  }
+};
+
+// User data store (per project, in memory — future: connect to backend)
+var rorUserData = {};
+var rorCurrentCountry = 'IN';
+var rorCurrentState = 'ALL';
+
+function rorGetKey() { return rorCurrentCountry + '_' + rorCurrentState; }
+
+function rorGetActList() {
+  var db = ROR_DB[rorCurrentCountry] || ROR_DB['IN'];
+  var list = (db.central || []).slice();
+  if (rorCurrentState !== 'ALL' && db.states && db.states[rorCurrentState]) {
+    list = list.concat(db.states[rorCurrentState]);
+  }
+  return list;
+}
+
+function rorGetUserEntry(actName) {
+  var key = rorGetKey();
+  if (!rorUserData[key]) rorUserData[key] = {};
+  return rorUserData[key][actName] || { consent:'', validity:'', renewal:'', responsible:'', status:'PENDING', remarks:'' };
+}
+
+function rorSetUserEntry(actName, entry) {
+  var key = rorGetKey();
+  if (!rorUserData[key]) rorUserData[key] = {};
+  rorUserData[key][actName] = entry;
+}
+
+function daysUntil(dateStr) {
+  if (!dateStr) return null;
+  var d = new Date(dateStr);
+  var now = new Date();
+  return Math.ceil((d - now) / (1000 * 60 * 60 * 24));
+}
+
+function statusBadge(status, validityDate) {
+  var days = daysUntil(validityDate);
+  if (status === 'NA') return '<span style="background:rgba(100,116,139,.15);border:1px solid rgba(100,116,139,.25);border-radius:4px;padding:2px 8px;font-size:9px;font-weight:700;color:#64748B;">N/A</span>';
+  if (days !== null && days < 0 && status !== 'NA') return '<span style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);border-radius:4px;padding:2px 8px;font-size:9px;font-weight:700;color:#EF4444;">OVERDUE</span>';
+  if (days !== null && days <= 30 && status !== 'NA') return '<span style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);border-radius:4px;padding:2px 8px;font-size:9px;font-weight:700;color:#F59E0B;">' + days + ' DAYS</span>';
+  if (status === 'COMPLIED') return '<span style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:4px;padding:2px 8px;font-size:9px;font-weight:700;color:#22C55E;">COMPLIED</span>';
+  if (status === 'REVIEW') return '<span style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);border-radius:4px;padding:2px 8px;font-size:9px;font-weight:700;color:#3B82F6;">REVIEW</span>';
+  return '<span style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);border-radius:4px;padding:2px 8px;font-size:9px;font-weight:700;color:#F59E0B;">PENDING</span>';
+}
+
+function rorRender() {
+  var list = rorGetActList();
+  var filterStatus = document.getElementById('ror-status-filter').value;
+  var tbody = document.getElementById('ror-tbody');
+  if (!tbody) return;
+
+  var totals = { total:0, complied:0, pending:0, overdue:0, na:0 };
+  var rows = '';
+  var idx = 0;
+
+  // Group by category
+  var cats = {};
+  list.forEach(function(item) {
+    var entry = rorGetUserEntry(item.act);
+    var days = daysUntil(entry.validity);
+    var effStatus = entry.status;
+    if (days !== null && days < 0 && effStatus !== 'NA') effStatus = 'OVERDUE';
+    else if (days !== null && days <= 30 && effStatus !== 'NA') effStatus = 'DUE_SOON';
+
+    totals.total++;
+    if (entry.status === 'COMPLIED') totals.complied++;
+    else if (entry.status === 'NA') totals.na++;
+    else if (effStatus === 'OVERDUE') totals.overdue++;
+    else totals.pending++;
+
+    if (filterStatus !== 'ALL') {
+      if (filterStatus === 'OVERDUE' && effStatus !== 'OVERDUE') return;
+      else if (filterStatus !== 'OVERDUE' && entry.status !== filterStatus) return;
+    }
+
+    if (!cats[item.cat]) cats[item.cat] = [];
+    cats[item.cat].push({ item, entry, idx });
+    idx++;
+  });
+
+  // Update stats
+  document.getElementById('ror-stat-total').textContent = totals.total;
+  document.getElementById('ror-stat-complied').textContent = totals.complied;
+  document.getElementById('ror-stat-pending').textContent = totals.pending;
+  document.getElementById('ror-stat-overdue').textContent = totals.overdue;
+  document.getElementById('ror-stat-na').textContent = totals.na;
+
+  // Build rows
+  Object.keys(cats).forEach(function(cat) {
+    rows += '<tr style="background:rgba(30,41,59,.4);"><td colspan="9" style="padding:7px 12px;font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;">' + cat + '</td></tr>';
+    cats[cat].forEach(function(r) {
+      var item = r.item, entry = r.entry, i = r.idx;
+      var days = daysUntil(entry.validity);
+      var rowBg = (days !== null && days < 0 && entry.status !== 'NA') ? 'background:rgba(239,68,68,.04);' : (days !== null && days <= 30 && entry.status !== 'NA') ? 'background:rgba(245,158,11,.04);' : '';
+      rows += '<tr style="border-bottom:1px solid var(--border);' + rowBg + '">' +
+        '<td style="padding:10px 12px;color:var(--t3);font-size:10px;">' + (i+1) + '</td>' +
+        '<td style="padding:10px 12px;"><div style="font-size:11px;font-weight:600;color:var(--t1);line-height:1.4;">' + item.act + '</div><div style="font-size:10px;color:var(--t3);margin-top:2px;">' + (item.note || '') + '</div></td>' +
+        '<td style="padding:10px 12px;font-size:11px;color:var(--t2);">' + (item.auth || '') + '</td>' +
+        '<td style="padding:10px 12px;font-size:11px;color:var(--t1);">' + (entry.consent || '<span style="color:var(--t3);">—</span>') + '</td>' +
+        '<td style="padding:10px 12px;font-size:11px;color:var(--t1);">' + (entry.validity || '<span style="color:var(--t3);">—</span>') + '</td>' +
+        '<td style="padding:10px 12px;font-size:11px;color:var(--t1);">' + (entry.renewal || (item.freq || '—')) + '</td>' +
+        '<td style="padding:10px 12px;font-size:11px;color:var(--t1);">' + (entry.responsible || '<span style="color:var(--t3);">—</span>') + '</td>' +
+        '<td style="padding:10px 12px;">' + statusBadge(entry.status, entry.validity) + '</td>' +
+        '<td style="padding:10px 12px;text-align:center;"><button onclick="rorEditRow(' + i + ')" style="background:transparent;border:1px solid var(--border);border-radius:5px;padding:3px 8px;cursor:pointer;color:var(--t2);font-size:10px;font-family:var(--fh);">Edit</button></td>' +
+      '</tr>';
+    });
+  });
+
+  tbody.innerHTML = rows || '<tr><td colspan="9" style="padding:24px;text-align:center;color:var(--t3);font-size:12px;">No entries match the selected filter</td></tr>';
+}
+
+function rorLoadCountry() {
+  rorCurrentCountry = document.getElementById('ror-country').value;
+  var stateWrap = document.getElementById('ror-state-wrap');
+  stateWrap.style.display = rorCurrentCountry === 'IN' ? 'block' : 'none';
+  rorCurrentState = 'ALL';
+  rorRender();
+}
+
+function rorLoadState() {
+  rorCurrentState = document.getElementById('ror-state').value;
+  rorRender();
+}
+
+function rorEditRow(idx) {
+  var list = rorGetActList();
+  var item = list[idx];
+  if (!item) return;
+  var entry = rorGetUserEntry(item.act);
+  document.getElementById('ror-modal-title').textContent = 'Edit: ' + item.act.substring(0,50) + (item.act.length > 50 ? '...' : '');
+  document.getElementById('ror-f-act').value = item.act;
+  document.getElementById('ror-f-auth').value = entry.responsible ? '' : (item.auth || '');
+  document.getElementById('ror-f-auth').placeholder = item.auth || '';
+  document.getElementById('ror-f-resp').value = entry.responsible || '';
+  document.getElementById('ror-f-consent').value = entry.consent || '';
+  document.getElementById('ror-f-validity').value = entry.validity || '';
+  document.getElementById('ror-f-freq').value = entry.renewal || item.freq || '';
+  document.getElementById('ror-f-status').value = entry.status || 'PENDING';
+  document.getElementById('ror-f-remarks').value = entry.remarks || '';
+  document.getElementById('ror-f-idx').value = idx;
+  document.getElementById('ror-edit-modal').style.display = 'flex';
+}
+
+function rorAddRow() {
+  document.getElementById('ror-modal-title').textContent = 'Add New Act / Regulation';
+  ['ror-f-act','ror-f-auth','ror-f-resp','ror-f-consent','ror-f-validity','ror-f-remarks'].forEach(function(id){ document.getElementById(id).value = ''; });
+  document.getElementById('ror-f-freq').value = '';
+  document.getElementById('ror-f-status').value = 'PENDING';
+  document.getElementById('ror-f-idx').value = -1;
+  document.getElementById('ror-edit-modal').style.display = 'flex';
+}
+
+function closeRorModal() {
+  document.getElementById('ror-edit-modal').style.display = 'none';
+}
+
+function rorSaveRow() {
+  var idx = parseInt(document.getElementById('ror-f-idx').value);
+  var actName = document.getElementById('ror-f-act').value.trim();
+  if (!actName) { alert('Act name is required'); return; }
+
+  var entry = {
+    responsible: document.getElementById('ror-f-resp').value.trim(),
+    consent: document.getElementById('ror-f-consent').value.trim(),
+    validity: document.getElementById('ror-f-validity').value,
+    renewal: document.getElementById('ror-f-freq').value,
+    status: document.getElementById('ror-f-status').value,
+    remarks: document.getElementById('ror-f-remarks').value.trim()
+  };
+
+  if (idx === -1) {
+    // Add new entry to the database
+    var db = ROR_DB[rorCurrentCountry] || ROR_DB['IN'];
+    if (!db.central) db.central = [];
+    db.central.push({ cat: 'Custom', act: actName, auth: document.getElementById('ror-f-auth').value.trim(), freq: entry.renewal, note: entry.remarks });
+  }
+
+  rorSetUserEntry(actName, entry);
+  closeRorModal();
+  rorRender();
+}
+
+function rorExport() {
+  var list = rorGetActList();
+  var country = document.getElementById('ror-country').options[document.getElementById('ror-country').selectedIndex].text;
+  var state = rorCurrentCountry === 'IN' && rorCurrentState !== 'ALL' ? ' — ' + document.getElementById('ror-state').options[document.getElementById('ror-state').selectedIndex].text : '';
+  var date = new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'long', year:'numeric'});
+
+  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Register of Regulations</title>' +
+    '<style>body{font-family:Arial,sans-serif;font-size:11px;color:#1E293B;padding:20px;}' +
+    'h1{font-size:16px;font-weight:700;color:#1B3A6B;margin-bottom:4px;}' +
+    'h2{font-size:12px;color:#64748B;font-weight:400;margin-bottom:16px;}' +
+    'table{width:100%;border-collapse:collapse;margin-bottom:24px;}' +
+    'th{background:#1B3A6B;color:#C9A84C;padding:7px 10px;text-align:left;font-size:10px;letter-spacing:.5px;}' +
+    'td{padding:7px 10px;border-bottom:1px solid #E2E8F0;vertical-align:top;}' +
+    '.cat-row{background:#F1F5F9;font-weight:700;font-size:10px;color:#475569;text-transform:uppercase;letter-spacing:.8px;}' +
+    '.badge-c{background:#dcfce7;color:#166534;padding:1px 7px;border-radius:3px;font-weight:700;font-size:9px;}' +
+    '.badge-p{background:#fef9c3;color:#854d0e;padding:1px 7px;border-radius:3px;font-weight:700;font-size:9px;}' +
+    '.badge-n{background:#f1f5f9;color:#64748B;padding:1px 7px;border-radius:3px;font-weight:700;font-size:9px;}' +
+    '.badge-o{background:#fee2e2;color:#991b1b;padding:1px 7px;border-radius:3px;font-weight:700;font-size:9px;}' +
+    '@media print{body{padding:0;}@page{size:A3 landscape;margin:10mm;}}' +
+    '</style></head><body>' +
+    '<h1>Register of Regulations — Legal & Regulatory Compliance</h1>' +
+    '<h2>' + country + state + ' &nbsp;|&nbsp; Generated: ' + date + ' &nbsp;|&nbsp; Powered by SafetyPro AI</h2>' +
+    '<table><thead><tr><th>#</th><th>Legislation / Act</th><th>Regulatory Authority</th>' +
+    '<th>Consent / Licence No.</th><th>Validity</th><th>Frequency</th><th>Responsible</th><th>Status</th></tr></thead><tbody>';
+
+  var cats = {};
+  list.forEach(function(item, i) {
+    if (!cats[item.cat]) cats[item.cat] = [];
+    cats[item.cat].push({ item, i });
+  });
+
+  var rowNum = 1;
+  Object.keys(cats).forEach(function(cat) {
+    html += '<tr class="cat-row"><td colspan="8">' + cat + '</td></tr>';
+    cats[cat].forEach(function(r) {
+      var entry = rorGetUserEntry(r.item.act);
+      var days = daysUntil(entry.validity);
+      var badgeClass = entry.status === 'COMPLIED' ? 'badge-c' : entry.status === 'NA' ? 'badge-n' : (days !== null && days < 0) ? 'badge-o' : 'badge-p';
+      var badgeText = entry.status === 'COMPLIED' ? 'Complied' : entry.status === 'NA' ? 'N/A' : (days !== null && days < 0) ? 'OVERDUE' : (days !== null && days <= 30) ? days + ' Days' : 'Pending';
+      html += '<tr><td>' + rowNum++ + '</td>' +
+        '<td><strong>' + r.item.act + '</strong>' + (r.item.note ? '<br/><small style="color:#64748B;">' + r.item.note + '</small>' : '') + '</td>' +
+        '<td>' + (r.item.auth || '') + '</td>' +
+        '<td>' + (entry.consent || '—') + '</td>' +
+        '<td>' + (entry.validity || '—') + '</td>' +
+        '<td>' + (entry.renewal || r.item.freq || '—') + '</td>' +
+        '<td>' + (entry.responsible || '—') + '</td>' +
+        '<td><span class="' + badgeClass + '">' + badgeText + '</span></td></tr>';
+    });
+  });
+
+  html += '</tbody></table><div style="font-size:10px;color:#94A3B8;border-top:1px solid #E2E8F0;padding-top:8px;display:flex;justify-content:space-between;">' +
+    '<span>This document is auto-generated by SafetyPro AI. Verify with legal counsel before submission.</span>' +
+    '<span>Page 1</span></div>';
+  html += '<div style="margin-top:32px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;">' +
+    '<div><div style="border-bottom:1px solid #1B3A6B;height:32px;margin-bottom:6px;"></div><div style="font-size:11px;font-weight:700;color:#1B3A6B;">Prepared By</div><div style="font-size:10px;color:#64748B;">Name / Designation</div></div>' +
+    '<div><div style="border-bottom:1px solid #1B3A6B;height:32px;margin-bottom:6px;"></div><div style="font-size:11px;font-weight:700;color:#1B3A6B;">Reviewed By</div><div style="font-size:10px;color:#64748B;">Name / Designation</div></div>' +
+    '<div><div style="border-bottom:1px solid #1B3A6B;height:32px;margin-bottom:6px;"></div><div style="font-size:11px;font-weight:700;color:#1B3A6B;">Approved By</div><div style="font-size:10px;color:#64748B;">Name / Designation</div></div>' +
+    '</div></body></html>';
+
+  var win = window.open('', '_blank', 'width=1100,height=700');
+  win.document.write(html);
+  win.document.close();
+  setTimeout(function(){ win.print(); }, 800);
+}
+
+// Init on first load of tab
+var rorInitDone = false;
+function rorInit() {
+  if (rorInitDone) return;
+  rorInitDone = true;
+  rorRender();
+}
+</script>
+</body></html>');
   win.document.close();
 }
 
@@ -4912,7 +5320,169 @@ nderMTGRegister(); updateMTGKPIs(); renderActionTracker();
 
     </div>
 
-  </div><!-- end .content -->
+  <div class="tab-panel" id="ac-legal" style="flex:1;overflow-y:auto;display:none;flex-direction:column;padding:16px 20px 24px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;">
+
+      <!-- Top controls -->
+      <div style="display:grid;grid-template-columns:1fr 1fr auto auto;gap:10px;align-items:end;margin-bottom:16px;">
+        <div>
+          <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;">Country</div>
+          <select id="ror-country" onchange="rorLoadCountry()" style="width:100%;padding:8px 11px;background:var(--card);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);">
+            <option value="IN">🇮🇳 India</option>
+            <option value="AE">🇦🇪 UAE</option>
+            <option value="QA">🇶🇦 Qatar</option>
+            <option value="SA">🇸🇦 Saudi Arabia</option>
+            <option value="GB">🇬🇧 United Kingdom</option>
+            <option value="SG">🇸🇬 Singapore</option>
+            <option value="INT">🌐 International Only</option>
+          </select>
+        </div>
+        <div id="ror-state-wrap">
+          <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;">State / Emirate</div>
+          <select id="ror-state" onchange="rorLoadState()" style="width:100%;padding:8px 11px;background:var(--card);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);">
+            <option value="ALL">All India (Central Acts)</option>
+            <option value="BR">Bihar</option>
+            <option value="MH">Maharashtra</option>
+            <option value="GJ">Gujarat</option>
+            <option value="RJ">Rajasthan</option>
+            <option value="KA">Karnataka</option>
+            <option value="TN">Tamil Nadu</option>
+            <option value="UP">Uttar Pradesh</option>
+            <option value="WB">West Bengal</option>
+            <option value="OR">Odisha</option>
+            <option value="AP">Andhra Pradesh</option>
+            <option value="TS">Telangana</option>
+            <option value="MP">Madhya Pradesh</option>
+            <option value="HR">Haryana</option>
+            <option value="PB">Punjab</option>
+            <option value="JH">Jharkhand</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;">Status Filter</div>
+          <select id="ror-status-filter" onchange="rorRender()" style="padding:8px 11px;background:var(--card);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);">
+            <option value="ALL">All Status</option>
+            <option value="COMPLIED">Complied</option>
+            <option value="PENDING">Pending</option>
+            <option value="OVERDUE">Overdue</option>
+            <option value="NA">Not Applicable</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:8px;align-self:flex-end;">
+          <button onclick="rorExport()" style="padding:8px 14px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);border-radius:7px;color:#3B82F6;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--fh);white-space:nowrap;">⬇ Export ROR</button>
+          <button onclick="rorAddRow()" style="padding:8px 14px;background:var(--g-s);border:1px solid var(--g-b);border-radius:7px;color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--fh);white-space:nowrap;">+ Add Act</button>
+        </div>
+      </div>
+
+      <!-- Summary stats -->
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px;" id="ror-stats">
+        <div class="card" style="padding:10px 12px;text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:var(--t1);font-family:var(--fh);" id="ror-stat-total">0</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px;">Total Acts</div>
+        </div>
+        <div class="card" style="padding:10px 12px;text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:#22C55E;font-family:var(--fh);" id="ror-stat-complied">0</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px;">Complied</div>
+        </div>
+        <div class="card" style="padding:10px 12px;text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:#F59E0B;font-family:var(--fh);" id="ror-stat-pending">0</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px;">Pending</div>
+        </div>
+        <div class="card" style="padding:10px 12px;text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:#EF4444;font-family:var(--fh);" id="ror-stat-overdue">0</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px;">Overdue / Due Soon</div>
+        </div>
+        <div class="card" style="padding:10px 12px;text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:#64748B;font-family:var(--fh);" id="ror-stat-na">0</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px;">Not Applicable</div>
+        </div>
+      </div>
+
+      <!-- ROR Table -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:11px;" id="ror-table">
+            <thead>
+              <tr style="background:var(--raised);border-bottom:1px solid var(--border);">
+                <th style="padding:10px 12px;text-align:left;color:var(--t3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;font-size:10px;min-width:40px;">#</th>
+                <th style="padding:10px 12px;text-align:left;color:var(--t3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;font-size:10px;min-width:220px;">Legislation / Act</th>
+                <th style="padding:10px 12px;text-align:left;color:var(--t3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;font-size:10px;min-width:100px;">Authority</th>
+                <th style="padding:10px 12px;text-align:left;color:var(--t3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;font-size:10px;min-width:120px;">Consent / Licence No.</th>
+                <th style="padding:10px 12px;text-align:left;color:var(--t3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;font-size:10px;min-width:110px;">Validity</th>
+                <th style="padding:10px 12px;text-align:left;color:var(--t3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;font-size:10px;min-width:100px;">Next Renewal</th>
+                <th style="padding:10px 12px;text-align:left;color:var(--t3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;font-size:10px;min-width:100px;">Responsible</th>
+                <th style="padding:10px 12px;text-align:left;color:var(--t3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;font-size:10px;min-width:110px;">Status</th>
+                <th style="padding:10px 12px;text-align:center;color:var(--t3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;font-size:10px;">Edit</th>
+              </tr>
+            </thead>
+            <tbody id="ror-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Edit Modal -->
+      <div id="ror-edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:99999;align-items:center;justify-content:center;" onclick="if(event.target===this)closeRorModal()">
+        <div style="background:#0F1720;border:1px solid var(--border);border-radius:12px;width:100%;max-width:600px;padding:20px;margin:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <div style="font-size:14px;font-weight:700;color:var(--t1);" id="ror-modal-title">Edit Entry</div>
+            <button onclick="closeRorModal()" style="background:transparent;border:1px solid var(--border);border-radius:6px;width:28px;height:28px;cursor:pointer;color:var(--t2);font-size:16px;font-family:var(--fh);">✕</button>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+            <div style="grid-column:span 2;">
+              <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Legislation / Act Name *</div>
+              <input id="ror-f-act" type="text" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Regulatory Authority</div>
+              <input id="ror-f-auth" type="text" placeholder="e.g. State PCB, BOCW Board" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Responsible Person</div>
+              <input id="ror-f-resp" type="text" placeholder="e.g. HSE Manager, HRD" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Consent / Licence No.</div>
+              <input id="ror-f-consent" type="text" placeholder="e.g. REF.NO.1257" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Validity Date</div>
+              <input id="ror-f-validity" type="date" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Renewal Frequency</div>
+              <select id="ror-f-freq" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);">
+                <option value="">Select...</option>
+                <option value="Annual">Annual</option>
+                <option value="5YR">5 Years</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Quarterly">Quarterly</option>
+                <option value="One-time">One-time</option>
+                <option value="Project End">Up to Project End</option>
+              </select>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Status</div>
+              <select id="ror-f-status" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);">
+                <option value="COMPLIED">Complied</option>
+                <option value="PENDING">Pending</option>
+                <option value="REVIEW">Under Review</option>
+                <option value="NA">Not Applicable</option>
+              </select>
+            </div>
+            <div style="grid-column:span 2;">
+              <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Remarks / Notes</div>
+              <textarea id="ror-f-remarks" rows="2" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);resize:vertical;box-sizing:border-box;"></textarea>
+            </div>
+          </div>
+          <input type="hidden" id="ror-f-idx"/>
+          <div style="display:flex;justify-content:flex-end;gap:8px;">
+            <button onclick="closeRorModal()" style="padding:8px 16px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">Cancel</button>
+            <button onclick="rorSaveRow()" style="padding:8px 18px;background:var(--g-s);border:1px solid var(--g-b);border-radius:8px;color:var(--green);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">Save Entry</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    </div><!-- end .content -->
 </div><!-- end .body -->
 
 <footer class="sp-footer">
@@ -4942,6 +5512,7 @@ function acMainTab(el, id) {
   document.querySelectorAll('.tab-panel').forEach(function(p){p.style.display='none';p.classList.remove('active');});
   if(el&&el.classList) el.classList.add('active');
   var panel = document.getElementById('ac-'+id);
+  if(id==='legal') { rorInit && rorInit(); }
   if(panel){panel.style.display='flex';panel.classList.add('active');}
 }
 
