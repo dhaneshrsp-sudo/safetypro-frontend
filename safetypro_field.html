@@ -1502,229 +1502,23 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
   </div>
 
   <!-- ══ SECTION 2: CERTIFICATE GENERATOR ══ -->
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;" id="cert-generator-root">
-    <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-      <div>
-        <div style="font-size:13px;font-weight:700;color:var(--t1);">🎓 Training Certificate Generator</div>
-        <div style="font-size:11px;color:var(--t3);margin-top:1px;">Choose template · Fill details · Add signatures · Download PDF</div>
+  <div id="cert-generator-root" style="background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+    <div style="padding:12px 16px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:36px;height:36px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;">🎓</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--t1);">Training Certificate Generator</div>
+          <div style="font-size:11px;color:var(--t3);margin-top:1px;">Choose template · Fill details · Add signatures · Download PDF</div>
+        </div>
       </div>
-      <button onclick="toggleCertPanel()"
-        style="padding:6px 12px;background:var(--g-s);border:1px solid var(--g-b);border-radius:7px;color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--fh);" id="cert-toggle-btn">
-        + Generate Certificate
+      <button onclick="openCertModal()"
+        style="padding:8px 16px;background:var(--g-s);border:1px solid var(--g-b);border-radius:8px;color:var(--green);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);display:flex;align-items:center;gap:6px;">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--green);"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+        Generate Certificate
       </button>
     </div>
-
-    <!-- Collapsible form panel -->
-    <div id="cert-form-panel" style="display:none;padding:14px 16px;">
-
-      <!-- STEP 1: Template -->
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
-        <div style="background:var(--green);color:#000;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;">1</div>
-        <div style="font-size:11px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.5px;">Choose Design</div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;">
-        <!-- Split Panel -->
-        <div onclick="selectCertTemplate('D')" id="tmpl-D"
-          style="cursor:pointer;border:2px solid var(--border);border-radius:8px;overflow:hidden;transition:.2s;">
-          <div style="background:#1B3A6B;height:48px;display:flex;align-items:center;padding:6px;gap:4px;">
-            <div style="width:12px;height:32px;background:#0F2A50;border-radius:2px;flex-shrink:0;"></div>
-            <div style="flex:1;"><div style="height:5px;background:#C9A84C;border-radius:1px;margin-bottom:3px;"></div><div style="height:3px;background:#1E3A6B;border-radius:1px;margin-bottom:2px;"></div><div style="height:3px;background:#2A4A7B;border-radius:1px;"></div></div>
-          </div>
-          <div style="padding:5px 8px;background:var(--raised);">
-            <div style="font-size:10px;font-weight:600;color:var(--t1);">Split Panel</div>
-            <div style="font-size:9px;color:var(--t3);">Navy sidebar</div>
-          </div>
-        </div>
-        <!-- Luxury Gold -->
-        <div onclick="selectCertTemplate('E')" id="tmpl-E"
-          style="cursor:pointer;border:2px solid var(--border);border-radius:8px;overflow:hidden;transition:.2s;">
-          <div style="background:#FFFBF0;height:48px;border:2px solid #C9A84C;margin:2px;display:flex;align-items:center;justify-content:center;">
-            <div style="font-size:9px;color:#B8860B;letter-spacing:1px;font-weight:600;">✦ CERT ✦</div>
-          </div>
-          <div style="padding:5px 8px;background:var(--raised);">
-            <div style="font-size:10px;font-weight:600;color:var(--t1);">Luxury Gold</div>
-            <div style="font-size:9px;color:var(--t3);">Ornate border</div>
-          </div>
-        </div>
-        <!-- Tech Dark -->
-        <div onclick="selectCertTemplate('F')" id="tmpl-F"
-          style="cursor:pointer;border:2px solid var(--border);border-radius:8px;overflow:hidden;transition:.2s;">
-          <div style="background:#0A0E1A;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px;">
-            <div style="height:1px;width:44px;background:rgba(34,197,94,.4);"></div>
-            <div style="height:8px;width:44px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:2px;"></div>
-          </div>
-          <div style="padding:5px 8px;background:var(--raised);">
-            <div style="font-size:10px;font-weight:600;color:var(--t1);">Tech Dark</div>
-            <div style="font-size:9px;color:var(--t3);">Matches platform</div>
-          </div>
-        </div>
-        <!-- Custom -->
-        <div onclick="selectCertTemplate('custom')" id="tmpl-custom"
-          style="cursor:pointer;border:2px solid var(--border);border-radius:8px;overflow:hidden;transition:.2s;">
-          <div style="background:var(--raised);height:48px;display:flex;align-items:center;justify-content:center;font-size:22px;">🎨</div>
-          <div style="padding:5px 8px;background:var(--raised);">
-            <div style="font-size:10px;font-weight:600;color:var(--t1);">Custom</div>
-            <div style="font-size:9px;color:var(--t3);">Build your own</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Custom Builder (shown only for custom) -->
-      <div id="cert-custom-opts" style="display:none;background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px;">
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
-          <div>
-            <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Primary Color</div>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <input type="color" id="custom-c1" value="#1B3A6B" style="width:36px;height:30px;border:1px solid var(--border);border-radius:6px;padding:2px;background:var(--card);cursor:pointer;"/>
-              <span style="font-size:11px;color:var(--t3);">Header / Title</span>
-            </div>
-          </div>
-          <div>
-            <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Accent Color</div>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <input type="color" id="custom-c2" value="#C9A84C" style="width:36px;height:30px;border:1px solid var(--border);border-radius:6px;padding:2px;background:var(--card);cursor:pointer;"/>
-              <span style="font-size:11px;color:var(--t3);">Borders / Accents</span>
-            </div>
-          </div>
-          <div>
-            <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Background</div>
-            <select id="custom-bg" style="width:100%;padding:6px 10px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);">
-              <option value="white">White</option><option value="cream">Cream</option><option value="dark">Dark</option>
-            </select>
-          </div>
-          <div>
-            <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Border Style</div>
-            <select id="custom-border" style="width:100%;padding:6px 10px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);">
-              <option value="simple">Simple line</option><option value="double">Double border</option><option value="ornate">Ornate gold</option><option value="none">No border</option>
-            </select>
-          </div>
-          <div>
-            <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Certificate Title</div>
-            <input type="text" id="custom-title" value="Certificate of Training" style="width:100%;padding:6px 10px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);box-sizing:border-box;"/>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 2: Details -->
-      <div style="height:1px;background:var(--border);margin-bottom:12px;"></div>
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
-        <div id="cert-step2-num" style="background:var(--green);color:#000;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;">2</div>
-        <div style="font-size:11px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.5px;">Certificate Details</div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;">
-        <div>
-          <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Employee Name *</div>
-          <input id="cert-emp-name" type="text" placeholder="e.g. Rajan Kumar" style="width:100%;padding:7px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Employee ID *</div>
-          <input id="cert-emp-id" type="text" placeholder="e.g. EMP-0042" style="width:100%;padding:7px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Designation</div>
-          <input id="cert-designation" type="text" placeholder="e.g. Site Supervisor" style="width:100%;padding:7px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Training Topic *</div>
-          <select id="cert-topic" style="width:100%;padding:7px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);">
-            <option value="">Select topic...</option>
-            <option>Height Work Safety</option><option>Fire Safety &amp; Emergency Response</option>
-            <option>PPE Usage &amp; Compliance</option><option>Excavation &amp; Confined Space</option>
-            <option>Electrical Safety</option><option>First Aid &amp; CPR</option>
-            <option>Scaffolding Safety</option><option>Manual Handling</option>
-            <option>Road Safety &amp; Traffic Management</option><option>Hazardous Materials Handling</option>
-            <option>ISO 45001 Awareness</option><option>Site Induction</option>
-          </select>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Training Date *</div>
-          <input id="cert-date" type="date" style="width:100%;padding:7px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Validity Period</div>
-          <select id="cert-validity" style="width:100%;padding:7px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);">
-            <option value="1">1 Year</option><option value="2">2 Years</option><option value="3">3 Years</option>
-            <option value="0.5">6 Months</option><option value="0.25">3 Months</option>
-          </select>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Project / Site</div>
-          <input id="cert-project" type="text" placeholder="e.g. BBRP — NH 131" style="width:100%;padding:7px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Training Duration</div>
-          <input id="cert-duration" type="text" placeholder="e.g. 4 Hours" style="width:100%;padding:7px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Score / Marks <span style="color:var(--t3);font-weight:400;">(optional)</span></div>
-          <input id="cert-score" type="text" placeholder="e.g. 85%" style="width:100%;padding:7px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/>
-        </div>
-      </div>
-
-      <!-- STEP 3: Signature Block -->
-      <div style="height:1px;background:var(--border);margin-bottom:12px;"></div>
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
-        <div id="cert-step3-num" style="background:var(--green);color:#000;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;">3</div>
-        <div style="font-size:11px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.5px;">Authorised Signature Block</div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;">
-
-        <!-- Trainer Signature -->
-        <div style="background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:12px;">
-          <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Trainer / Instructor</div>
-          <div style="border-bottom:1px solid #334155;height:32px;margin-bottom:8px;display:flex;align-items:flex-end;padding-bottom:4px;">
-            <span style="font-size:13px;font-style:italic;color:#334155;">Sign here</span>
-          </div>
-          <div style="margin-bottom:6px;">
-            <div style="font-size:9px;color:var(--t3);margin-bottom:3px;">Name *</div>
-            <input id="cert-trainer" type="text" placeholder="Trainer name" style="width:100%;padding:6px 8px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);box-sizing:border-box;"/>
-          </div>
-          <div>
-            <div style="font-size:9px;color:var(--t3);margin-bottom:3px;">Designation</div>
-            <input id="cert-trainer-role" type="text" placeholder="e.g. HSE Engineer" style="width:100%;padding:6px 8px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);box-sizing:border-box;"/>
-          </div>
-        </div>
-
-        <!-- Authorising Officer -->
-        <div style="background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:12px;">
-          <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Authorising Officer</div>
-          <div style="border-bottom:1px solid #334155;height:32px;margin-bottom:8px;display:flex;align-items:flex-end;padding-bottom:4px;">
-            <span style="font-size:13px;font-style:italic;color:#334155;">Sign here</span>
-          </div>
-          <div style="margin-bottom:6px;">
-            <div style="font-size:9px;color:var(--t3);margin-bottom:3px;">Name</div>
-            <input id="cert-auth-name" type="text" placeholder="e.g. Project Manager" style="width:100%;padding:6px 8px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);box-sizing:border-box;"/>
-          </div>
-          <div>
-            <div style="font-size:9px;color:var(--t3);margin-bottom:3px;">Designation</div>
-            <input id="cert-auth-role" type="text" placeholder="e.g. Project Head" style="width:100%;padding:6px 8px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);box-sizing:border-box;"/>
-          </div>
-        </div>
-
-        <!-- Company Seal -->
-        <div style="background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
-          <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;">Company Seal / Stamp</div>
-          <div style="width:60px;height:60px;border:1.5px dashed #334155;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;">🔏</div>
-          <div style="font-size:10px;color:var(--t3);text-align:center;line-height:1.4;">Auto-filled from<br/>company profile</div>
-        </div>
-
-      </div>
-
-      <!-- Action Buttons -->
-      <div style="height:1px;background:var(--border);margin-bottom:12px;"></div>
-      <div style="display:flex;gap:8px;justify-content:flex-end;">
-        <button onclick="toggleCertPanel()"
-          style="padding:8px 16px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">Cancel</button>
-        <button onclick="previewCert()"
-          style="padding:8px 16px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);border-radius:8px;color:#3B82F6;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">👁 Preview</button>
-        <button onclick="generateCertPDF()"
-          style="padding:8px 16px;background:var(--g-s);border:1px solid var(--g-b);border-radius:8px;color:var(--green);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">⬇ Download PDF</button>
-      </div>
-
-    </div>
-
     <!-- Recent Certificates -->
-    <div id="cert-history" style="display:none;padding:12px 16px;border-top:1px solid var(--border);">
+    <div id="cert-history" style="display:none;border-top:1px solid var(--border);padding:10px 16px;">
       <div style="font-size:11px;font-weight:600;color:var(--t2);margin-bottom:8px;">Recent Certificates</div>
       <div id="cert-history-list"></div>
     </div>
@@ -3355,30 +3149,254 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
+<!-- ══ CERTIFICATE GENERATOR MODAL ══ -->
+<div id="cert-modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99999;align-items:center;justify-content:center;padding:16px;">
+  <div style="background:#0F1720;border:1px solid var(--border);border-radius:14px;width:100%;max-width:780px;max-height:92vh;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;position:relative;">
+
+    <!-- Modal Header -->
+    <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#0F1720;z-index:10;border-radius:14px 14px 0 0;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:32px;height:32px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;">🎓</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--t1);">Training Certificate Generator</div>
+          <div style="font-size:10px;color:var(--t3);" id="cert-modal-step-label">Step 1 of 3 — Choose design</div>
+        </div>
+      </div>
+      <button onclick="closeCertModal()" style="background:transparent;border:1px solid var(--border);border-radius:8px;width:32px;height:32px;cursor:pointer;color:var(--t2);font-size:16px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);">✕</button>
+    </div>
+
+    <!-- Step indicators -->
+    <div style="padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;">
+      <div id="cert-step-ind-1" style="display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);">
+        <div style="width:18px;height:18px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#000;">1</div>
+        <span style="font-size:11px;color:var(--green);font-weight:600;">Design</span>
+      </div>
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+      <div id="cert-step-ind-2" style="display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;background:var(--raised);border:1px solid var(--border);">
+        <div style="width:18px;height:18px;background:var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--t2);">2</div>
+        <span style="font-size:11px;color:var(--t3);font-weight:600;">Details</span>
+      </div>
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+      <div id="cert-step-ind-3" style="display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;background:var(--raised);border:1px solid var(--border);">
+        <div style="width:18px;height:18px;background:var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--t2);">3</div>
+        <span style="font-size:11px;color:var(--t3);font-weight:600;">Signatures</span>
+      </div>
+    </div>
+
+    <!-- Modal Body -->
+    <div style="padding:20px;">
+
+      <!-- STEP 1: Choose Template -->
+      <div id="cert-modal-step1">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+          <div onclick="selectCertTmpl('D')" id="tmpl-D" style="cursor:pointer;border:2px solid var(--border);border-radius:10px;overflow:hidden;transition:.2s;">
+            <div style="background:#1B3A6B;height:60px;display:flex;align-items:center;padding:8px;gap:5px;">
+              <div style="width:14px;height:40px;background:#0F2A50;border-radius:2px;flex-shrink:0;"></div>
+              <div style="flex:1;"><div style="height:6px;background:#C9A84C;border-radius:1px;margin-bottom:4px;"></div><div style="height:4px;background:#1E3A6B;border-radius:1px;margin-bottom:3px;"></div><div style="height:3px;background:#2A4A7B;border-radius:1px;"></div></div>
+            </div>
+            <div style="padding:8px 10px;background:var(--raised);">
+              <div style="font-size:11px;font-weight:700;color:var(--t1);">Split Panel</div>
+              <div style="font-size:10px;color:var(--t3);margin-top:1px;">Navy sidebar, gold accent</div>
+            </div>
+          </div>
+          <div onclick="selectCertTmpl('E')" id="tmpl-E" style="cursor:pointer;border:2px solid var(--border);border-radius:10px;overflow:hidden;transition:.2s;">
+            <div style="background:#FFFBF0;height:60px;border:2px solid #C9A84C;margin:3px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;">
+              <div style="font-size:10px;color:#B8860B;letter-spacing:1px;font-weight:600;">✦ CERT ✦</div>
+              <div style="height:3px;background:#1B3A6B;border-radius:1px;width:60%;"></div>
+            </div>
+            <div style="padding:8px 10px;background:var(--raised);">
+              <div style="font-size:11px;font-weight:700;color:var(--t1);">Luxury Gold</div>
+              <div style="font-size:10px;color:var(--t3);margin-top:1px;">Ornate border, premium</div>
+            </div>
+          </div>
+          <div onclick="selectCertTmpl('F')" id="tmpl-F" style="cursor:pointer;border:2px solid var(--border);border-radius:10px;overflow:hidden;transition:.2s;">
+            <div style="background:#0A0E1A;height:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:8px;">
+              <div style="height:1px;width:50px;background:rgba(34,197,94,.5);"></div>
+              <div style="height:10px;width:50px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:3px;"></div>
+              <div style="height:1px;width:50px;background:rgba(34,197,94,.2);"></div>
+            </div>
+            <div style="padding:8px 10px;background:var(--raised);">
+              <div style="font-size:11px;font-weight:700;color:var(--t1);">Tech Dark</div>
+              <div style="font-size:10px;color:var(--t3);margin-top:1px;">Matches SafetyPro UI</div>
+            </div>
+          </div>
+          <div onclick="selectCertTmpl('custom')" id="tmpl-custom" style="cursor:pointer;border:2px solid var(--border);border-radius:10px;overflow:hidden;transition:.2s;">
+            <div style="background:var(--raised);height:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;">
+              <div style="font-size:24px;">🎨</div>
+              <div style="font-size:9px;color:var(--t3);">Pick your style</div>
+            </div>
+            <div style="padding:8px 10px;background:var(--raised);">
+              <div style="font-size:11px;font-weight:700;color:var(--t1);">Custom</div>
+              <div style="font-size:10px;color:var(--t3);margin-top:1px;">Build your own</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom options -->
+        <div id="cert-custom-opts" style="display:none;background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:14px;margin-top:14px;">
+          <div style="font-size:11px;font-weight:600;color:var(--t2);margin-bottom:12px;">Customise your certificate</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+            <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Primary Color</div>
+              <div style="display:flex;align-items:center;gap:8px;"><input type="color" id="custom-c1" value="#1B3A6B" style="width:36px;height:30px;border:1px solid var(--border);border-radius:6px;padding:2px;background:var(--card);cursor:pointer;"/><span style="font-size:11px;color:var(--t3);">Header / Title</span></div></div>
+            <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Accent Color</div>
+              <div style="display:flex;align-items:center;gap:8px;"><input type="color" id="custom-c2" value="#C9A84C" style="width:36px;height:30px;border:1px solid var(--border);border-radius:6px;padding:2px;background:var(--card);cursor:pointer;"/><span style="font-size:11px;color:var(--t3);">Borders / Accents</span></div></div>
+            <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Background</div>
+              <select id="custom-bg" style="width:100%;padding:6px 10px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);"><option value="white">White</option><option value="cream">Cream</option><option value="dark">Dark</option></select></div>
+            <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Border Style</div>
+              <select id="custom-border" style="width:100%;padding:6px 10px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);"><option value="simple">Simple line</option><option value="double">Double border</option><option value="ornate">Ornate gold</option><option value="none">No border</option></select></div>
+            <div style="grid-column:span 2;"><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Certificate Title</div>
+              <input type="text" id="custom-title" value="Certificate of Training" style="width:100%;padding:6px 10px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);box-sizing:border-box;"/></div>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;margin-top:16px;">
+          <button onclick="certModalNext(2)" style="padding:9px 24px;background:var(--g-s);border:1px solid var(--g-b);border-radius:8px;color:var(--green);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">Next — Details →</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Details -->
+      <div id="cert-modal-step2" style="display:none;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;">
+          <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Employee Name *</div>
+            <input id="cert-emp-name" type="text" placeholder="e.g. Rajan Kumar" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/></div>
+          <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Employee ID *</div>
+            <input id="cert-emp-id" type="text" placeholder="e.g. EMP-0042" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/></div>
+          <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Designation</div>
+            <input id="cert-designation" type="text" placeholder="e.g. Site Supervisor" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/></div>
+          <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Training Topic *</div>
+            <select id="cert-topic" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);">
+              <option value="">Select topic...</option>
+              <option>Height Work Safety</option><option>Fire Safety &amp; Emergency Response</option>
+              <option>PPE Usage &amp; Compliance</option><option>Excavation &amp; Confined Space</option>
+              <option>Electrical Safety</option><option>First Aid &amp; CPR</option>
+              <option>Scaffolding Safety</option><option>Manual Handling</option>
+              <option>Road Safety &amp; Traffic Management</option><option>Hazardous Materials Handling</option>
+              <option>ISO 45001 Awareness</option><option>Site Induction</option>
+            </select></div>
+          <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Training Date *</div>
+            <input id="cert-date" type="date" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/></div>
+          <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Validity Period</div>
+            <select id="cert-validity" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);">
+              <option value="1">1 Year</option><option value="2">2 Years</option><option value="3">3 Years</option>
+              <option value="0.5">6 Months</option><option value="0.25">3 Months</option>
+            </select></div>
+          <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Project / Site</div>
+            <input id="cert-project" type="text" placeholder="e.g. BBRP — NH 131" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/></div>
+          <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Training Duration</div>
+            <input id="cert-duration" type="text" placeholder="e.g. 4 Hours" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/></div>
+          <div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">Score / Marks <span style="font-weight:400;">(optional)</span></div>
+            <input id="cert-score" type="text" placeholder="e.g. 85%" style="width:100%;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fh);box-sizing:border-box;"/></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:4px;">
+          <button onclick="certModalNext(1)" style="padding:9px 20px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">← Back</button>
+          <button onclick="certModalNext(3)" style="padding:9px 24px;background:var(--g-s);border:1px solid var(--g-b);border-radius:8px;color:var(--green);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">Next — Signatures →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Signatures -->
+      <div id="cert-modal-step3" style="display:none;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;">
+          <!-- Trainer -->
+          <div style="background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:14px;">
+            <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;">Trainer / Instructor</div>
+            <div style="border-bottom:1px solid #334155;height:36px;margin-bottom:10px;display:flex;align-items:flex-end;padding-bottom:4px;">
+              <span style="font-size:13px;font-style:italic;color:#334155;">Sign here</span>
+            </div>
+            <div style="margin-bottom:8px;"><div style="font-size:9px;color:var(--t3);margin-bottom:4px;">Name *</div>
+              <input id="cert-trainer" type="text" placeholder="Trainer full name" style="width:100%;padding:7px 9px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);box-sizing:border-box;"/></div>
+            <div><div style="font-size:9px;color:var(--t3);margin-bottom:4px;">Designation</div>
+              <input id="cert-trainer-role" type="text" placeholder="e.g. HSE Engineer" style="width:100%;padding:7px 9px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);box-sizing:border-box;"/></div>
+          </div>
+          <!-- Auth Officer -->
+          <div style="background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:14px;">
+            <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;">Authorising Officer</div>
+            <div style="border-bottom:1px solid #334155;height:36px;margin-bottom:10px;display:flex;align-items:flex-end;padding-bottom:4px;">
+              <span style="font-size:13px;font-style:italic;color:#334155;">Sign here</span>
+            </div>
+            <div style="margin-bottom:8px;"><div style="font-size:9px;color:var(--t3);margin-bottom:4px;">Name</div>
+              <input id="cert-auth-name" type="text" placeholder="e.g. Project Manager" style="width:100%;padding:7px 9px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);box-sizing:border-box;"/></div>
+            <div><div style="font-size:9px;color:var(--t3);margin-bottom:4px;">Designation</div>
+              <input id="cert-auth-role" type="text" placeholder="e.g. Project Head" style="width:100%;padding:7px 9px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-family:var(--fh);box-sizing:border-box;"/></div>
+          </div>
+          <!-- Company Seal -->
+          <div style="background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;">Company Seal</div>
+            <div style="width:70px;height:70px;border:2px dashed #334155;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;">🔏</div>
+            <div style="font-size:10px;color:var(--t3);text-align:center;line-height:1.5;">Auto-filled from<br/>company profile</div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+          <button onclick="certModalNext(2)" style="padding:9px 20px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">← Back</button>
+          <div style="display:flex;gap:10px;">
+            <button onclick="previewCert()" style="padding:9px 20px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);border-radius:8px;color:#3B82F6;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">👁 Preview</button>
+            <button onclick="generateCertPDF()" style="padding:9px 24px;background:var(--g-s);border:1px solid var(--g-b);border-radius:8px;color:var(--green);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--fh);">⬇ Download PDF</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 <script>
-/* training-cert-v3 */
+/* training-cert-modal-v1 */
 var certTmpl = 'D';
 var certHistory = [];
 
-function toggleCertPanel() {
-  var p = document.getElementById('cert-form-panel');
-  if (!p) return;
-  var open = p.style.display !== 'none';
-  p.style.display = open ? 'none' : 'block';
-  if (!open) {
-    document.getElementById('cert-date').value = new Date().toISOString().split('T')[0];
-    try {
-      var u = JSON.parse(localStorage.getItem('sp_user')||'{}');
-      var tn = document.getElementById('cert-trainer');
-      var tr = document.getElementById('cert-trainer-role');
-      if (tn && !tn.value) tn.value = u.name || '';
-      if (tr && !tr.value) tr.value = u.designation || 'HSE Professional';
-    } catch(e){}
-    selectCertTemplate('D');
-  }
+function openCertModal() {
+  var o = document.getElementById('cert-modal-overlay');
+  if (!o) return;
+  o.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  certModalNext(1);
+  document.getElementById('cert-date').value = new Date().toISOString().split('T')[0];
+  try {
+    var u = JSON.parse(localStorage.getItem('sp_user')||'{}');
+    var tn = document.getElementById('cert-trainer');
+    var tr = document.getElementById('cert-trainer-role');
+    if (tn && !tn.value) tn.value = u.name||'';
+    if (tr && !tr.value) tr.value = u.designation||'HSE Professional';
+  } catch(e){}
+  selectCertTmpl('D');
 }
 
-function selectCertTemplate(t) {
+function closeCertModal() {
+  var o = document.getElementById('cert-modal-overlay');
+  if (o) o.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function certModalNext(step) {
+  [1,2,3].forEach(function(s){
+    var el = document.getElementById('cert-modal-step'+s);
+    if (el) el.style.display = s===step ? 'block' : 'none';
+    var ind = document.getElementById('cert-step-ind-'+s);
+    if (ind) {
+      if (s < step) {
+        ind.style.background = 'rgba(34,197,94,.08)';
+        ind.style.borderColor = 'rgba(34,197,94,.2)';
+        ind.querySelector('div').style.background = '#16A34A';
+        ind.querySelector('span').style.color = '#16A34A';
+      } else if (s === step) {
+        ind.style.background = 'rgba(34,197,94,.12)';
+        ind.style.borderColor = 'rgba(34,197,94,.3)';
+        ind.querySelector('div').style.background = 'var(--green)';
+        ind.querySelector('span').style.color = 'var(--green)';
+      } else {
+        ind.style.background = 'var(--raised)';
+        ind.style.borderColor = 'var(--border)';
+        ind.querySelector('div').style.background = 'var(--border)';
+        ind.querySelector('span').style.color = 'var(--t3)';
+      }
+    }
+  });
+  var labels = ['','Step 1 of 3 — Choose design','Step 2 of 3 — Certificate details','Step 3 of 3 — Signatures & download'];
+  var lbl = document.getElementById('cert-modal-step-label');
+  if (lbl) lbl.textContent = labels[step]||'';
+}
+
+function selectCertTmpl(t) {
   certTmpl = t;
   ['D','E','F','custom'].forEach(function(x){
     var el = document.getElementById('tmpl-'+x);
@@ -3386,54 +3404,42 @@ function selectCertTemplate(t) {
   });
   var opts = document.getElementById('cert-custom-opts');
   if (opts) opts.style.display = t==='custom' ? 'block' : 'none';
-  var s2 = document.getElementById('cert-step2-num');
-  var s3 = document.getElementById('cert-step3-num');
-  if (s2) s2.textContent = t==='custom' ? '3' : '2';
-  if (s3) s3.textContent = t==='custom' ? '4' : '3';
 }
 
 function getCompanyInfo() {
   try {
     var u = JSON.parse(localStorage.getItem('sp_user')||'{}');
-    return { name: u.companyName || u.company || 'IECCL Engineering Ltd', abbr: u.companyAbbr || 'IECCL' };
-  } catch(e) { return { name: 'IECCL Engineering Ltd', abbr: 'IECCL' }; }
+    return { name: u.companyName||u.company||'IECCL Engineering Ltd', abbr: u.companyAbbr||'IECCL' };
+  } catch(e) { return { name:'IECCL Engineering Ltd', abbr:'IECCL' }; }
 }
 
 function getCertData() {
   var f = function(id){ var el=document.getElementById(id); return el?el.value.trim():''; };
-  var empName=f('cert-emp-name'), empId=f('cert-emp-id'), topic=f('cert-topic'),
-      date=f('cert-date'), trainer=f('cert-trainer');
-  if (!empName||!empId||!topic||!date||!trainer) {
-    fieldToast&&fieldToast('Please fill required fields (*)','error'); return null;
-  }
-  var validity = parseFloat(document.getElementById('cert-validity').value)||1;
-  var dateObj = new Date(date);
-  var expiryObj = new Date(dateObj);
-  expiryObj.setMonth(expiryObj.getMonth() + Math.round(validity*12));
-  var fmt = function(d){ return d.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'}); };
-  var certNo = 'CERT-'+Date.now().toString().slice(-6);
-  var qrUrl = genQR('SP|'+certNo+'|'+empId+'|'+topic);
+  var empName=f('cert-emp-name'), empId=f('cert-emp-id'), topic=f('cert-topic'), date=f('cert-date'), trainer=f('cert-trainer');
+  if (!empName||!empId||!topic||!date||!trainer) { fieldToast&&fieldToast('Please fill required fields (*)','error'); return null; }
+  var validity=parseFloat(document.getElementById('cert-validity').value)||1;
+  var dateObj=new Date(date), expiryObj=new Date(dateObj);
+  expiryObj.setMonth(expiryObj.getMonth()+Math.round(validity*12));
+  var fmt=function(d){ return d.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'}); };
+  var certNo='CERT-'+Date.now().toString().slice(-6);
+  var qrUrl=genQR('SP|'+certNo+'|'+empId+'|'+topic);
   var customOpts = certTmpl==='custom' ? {
-    c1: document.getElementById('custom-c1').value,
-    c2: document.getElementById('custom-c2').value,
-    bg: document.getElementById('custom-bg').value,
-    border: document.getElementById('custom-border').value,
-    title: document.getElementById('custom-title').value||'Certificate of Training'
+    c1:f('custom-c1')||'#1B3A6B', c2:f('custom-c2')||'#C9A84C',
+    bg:document.getElementById('custom-bg').value,
+    border:document.getElementById('custom-border').value,
+    title:f('custom-title')||'Certificate of Training'
   } : {};
-  return {
-    empName, empId, topic, date:fmt(dateObj), expiry:fmt(expiryObj),
-    trainer, trainerRole:f('cert-trainer-role')||'HSE Professional',
-    authName:f('cert-auth-name'), authRole:f('cert-auth-role'),
-    designation:f('cert-designation'), project:f('cert-project'),
-    duration:f('cert-duration'), score:f('cert-score'),
-    certNo, qrUrl, validityYears:validity, company:getCompanyInfo(), customOpts
-  };
+  return { empName,empId,topic,date:fmt(dateObj),expiry:fmt(expiryObj),
+    trainer,trainerRole:f('cert-trainer-role')||'HSE Professional',
+    authName:f('cert-auth-name'),authRole:f('cert-auth-role'),
+    designation:f('cert-designation'),project:f('cert-project'),
+    duration:f('cert-duration'),score:f('cert-score'),
+    certNo,qrUrl,validityYears:validity,company:getCompanyInfo(),customOpts };
 }
 
 function genQR(text) {
   var c=document.createElement('canvas'); c.width=80; c.height=80;
-  var ctx=c.getContext('2d');
-  ctx.fillStyle='#fff'; ctx.fillRect(0,0,80,80); ctx.fillStyle='#000';
+  var ctx=c.getContext('2d'); ctx.fillStyle='#fff'; ctx.fillRect(0,0,80,80);
   var sz=8, hash=0;
   for(var ci=0;ci<text.length;ci++) hash=((hash<<5)-hash)+text.charCodeAt(ci);
   [[0,0],[9,0],[0,9]].forEach(function(p){
@@ -3448,138 +3454,122 @@ function genQR(text) {
   return c.toDataURL();
 }
 
-function sigBlock(name, role, label) {
-  return '<div style="text-align:center;flex:1;">' +
-    '<div style="font-size:9px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">'+label+'</div>' +
-    '<div style="height:32px;border-bottom:1px solid #CBD5E1;margin-bottom:6px;"></div>' +
-    '<div style="font-size:12px;font-weight:700;color:#1E293B;">'+name+'</div>' +
-    '<div style="font-size:10px;color:#64748B;">'+role+'</div>' +
-  '</div>';
+function sigBlock(name,role,label) {
+  return '<div style="text-align:center;flex:1;"><div style="font-size:9px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">'+label+'</div><div style="height:32px;border-bottom:1px solid #CBD5E1;margin-bottom:6px;"></div><div style="font-size:12px;font-weight:700;color:#1E293B;">'+name+'</div><div style="font-size:10px;color:#64748B;">'+role+'</div></div>';
 }
 
 function buildCert(data) {
-  var t = certTmpl, font = 'Montserrat, Arial, sans-serif', co = data.company;
-  var logoSVG = '<div style="width:40px;height:40px;background:#C9A84C;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;">🏗️</div>';
+  var t=certTmpl, font='Montserrat,Arial,sans-serif', co=data.company;
+  var logo='<div style="width:38px;height:38px;background:#C9A84C;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;">🏗️</div>';
+  var vStr = data.validityYears>=1 ? data.validityYears+' Year(s)' : (data.validityYears*12)+' Months';
+  var scoreRow = data.score ? '<div style="display:inline-block;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:5px;padding:3px 10px;font-size:10px;color:#16A34A;font-weight:600;margin-top:4px;">Score: '+data.score+'</div>' : '';
+  var durStr = data.duration ? ' &nbsp;|&nbsp; '+data.duration : '';
 
-  var sigRow = '<div style="display:flex;gap:20px;align-items:flex-start;border-top:1px solid #E2E8F0;padding-top:16px;margin-top:4px;">' +
-    sigBlock(data.trainer, data.trainerRole, 'Trainer / Instructor') +
-    '<div style="width:1px;background:#E2E8F0;align-self:stretch;"></div>' +
-    (data.authName ? sigBlock(data.authName, data.authRole||'', 'Authorising Officer') + '<div style="width:1px;background:#E2E8F0;align-self:stretch;"></div>' : '') +
-    '<div style="text-align:center;flex:1;">' +
-      '<div style="font-size:9px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Company Seal</div>' +
-      '<div style="width:50px;height:50px;border:1.5px dashed #CBD5E1;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:22px;">🔏</div>' +
-      '<div style="font-size:9px;color:#64748B;margin-top:4px;">'+co.abbr+'</div>' +
-    '</div>' +
+  var sigSection = '<div style="display:flex;gap:16px;align-items:flex-start;border-top:1px solid #E2E8F0;padding-top:14px;">'+
+    sigBlock(data.trainer, data.trainerRole, 'Trainer / Instructor')+
+    '<div style="width:1px;background:#E2E8F0;align-self:stretch;"></div>'+
+    (data.authName ? sigBlock(data.authName, data.authRole||'', 'Authorising Officer')+'<div style="width:1px;background:#E2E8F0;align-self:stretch;"></div>' : '')+
+    '<div style="text-align:center;flex:1;"><div style="font-size:9px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Company Seal</div><div style="width:48px;height:48px;border:1.5px dashed #CBD5E1;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:20px;">🔏</div><div style="font-size:9px;color:#64748B;margin-top:3px;">'+co.abbr+'</div></div>'+
   '</div>';
 
-  var scoreRow = data.score ? '<div style="display:inline-block;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:6px;padding:4px 12px;font-size:11px;color:#16A34A;font-weight:600;margin-top:6px;">Score: '+data.score+'</div>' : '';
-  var durationRow = data.duration ? ' &nbsp;|&nbsp; Duration: '+data.duration : '';
-
-  if (t === 'D') {
-    var c1='#1B3A6B', c2='#C9A84C';
-    return '<div style="width:794px;min-height:562px;background:#fff;font-family:'+font+';border:2px solid '+c1+';display:flex;overflow:hidden;">' +
-      '<div style="width:26%;background:'+c1+';padding:24px 12px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;">' +
-        '<div style="text-align:center;">'+logoSVG+'<div style="color:#fff;font-size:13px;font-weight:700;margin-top:8px;">'+co.abbr+'</div><div style="color:'+c2+';font-size:9px;margin-top:2px;">'+co.name+'</div><div style="border-top:1px solid rgba(255,255,255,.15);margin:12px 0;width:100%;"></div><div style="color:rgba(255,255,255,.6);font-size:10px;line-height:1.5;text-align:center;">HSE Training<br/>Certificate</div></div>' +
-        '<div style="text-align:center;width:100%;border-top:1px solid rgba(255,255,255,.15);padding-top:10px;"><div style="background:rgba(201,168,76,.2);border:1px solid '+c2+';border-radius:6px;padding:5px;margin-bottom:8px;"><div style="color:'+c2+';font-size:9px;font-weight:700;letter-spacing:1px;">✓ CERTIFIED</div></div><img src="'+data.qrUrl+'" width="50" height="50" style="border:1px solid rgba(255,255,255,.1);border-radius:4px;"/><div style="color:rgba(255,255,255,.4);font-size:7px;margin-top:3px;">Scan to verify</div></div>' +
-      '</div>' +
-      '<div style="flex:1;padding:28px 26px;">' +
-        '<div style="font-size:9px;letter-spacing:2px;color:#94A3B8;margin-bottom:16px;">'+data.certNo+'</div>' +
-        '<div style="font-size:11px;color:#64748B;margin-bottom:6px;">This is to certify that</div>' +
-        '<div style="font-size:26px;font-weight:800;color:'+c1+';border-bottom:2px solid '+c2+';padding-bottom:8px;margin-bottom:8px;">'+data.empName+'</div>' +
-        '<div style="font-size:11px;color:#64748B;margin-bottom:18px;">'+data.empId+(data.designation?' | '+data.designation:'')+(data.project?' | '+data.project:'')+'</div>' +
-        '<div style="font-size:12px;color:#374151;margin-bottom:4px;">has successfully completed the training in</div>' +
-        '<div style="font-size:18px;font-weight:700;color:'+c1+';margin-bottom:4px;">'+data.topic+'</div>' +
-        '<div style="font-size:10px;color:#64748B;margin-bottom:4px;">'+data.date+durationRow+'</div>' + scoreRow +
-        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:16px 0;">' +
-          '<div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:7px;padding:10px;text-align:center;"><div style="font-size:8px;color:#94A3B8;margin-bottom:3px;">DATE</div><div style="font-size:12px;font-weight:700;color:'+c1+';">'+data.date+'</div></div>' +
-          '<div style="background:#FFF1F2;border:1px solid #FFE4E6;border-radius:7px;padding:10px;text-align:center;"><div style="font-size:8px;color:#94A3B8;margin-bottom:3px;">VALID UNTIL</div><div style="font-size:12px;font-weight:700;color:#EF4444;">'+data.expiry+'</div></div>' +
-          '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:7px;padding:10px;text-align:center;"><div style="font-size:8px;color:#94A3B8;margin-bottom:3px;">VALIDITY</div><div style="font-size:12px;font-weight:700;color:#16A34A;">'+(data.validityYears>=1?data.validityYears+' Year(s)':(data.validityYears*12)+' Months')+'</div></div>' +
-        '</div>' +
-        sigRow +
-      '</div>' +
+  if (t==='D') {
+    var c1='#1B3A6B',c2='#C9A84C';
+    return '<div style="width:794px;min-height:540px;background:#fff;font-family:'+font+';border:2px solid '+c1+';display:flex;overflow:hidden;">'+
+      '<div style="width:26%;background:'+c1+';padding:22px 12px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;">'+
+        '<div style="text-align:center;">'+logo+'<div style="color:#fff;font-size:12px;font-weight:700;margin-top:8px;">'+co.abbr+'</div><div style="color:'+c2+';font-size:9px;margin-top:2px;">'+co.name+'</div><div style="border-top:1px solid rgba(255,255,255,.15);margin:10px 0;width:100%;"></div><div style="color:rgba(255,255,255,.5);font-size:10px;line-height:1.6;text-align:center;">HSE Training<br/>Certificate</div></div>'+
+        '<div style="text-align:center;width:100%;border-top:1px solid rgba(255,255,255,.15);padding-top:10px;"><div style="background:rgba(201,168,76,.2);border:1px solid '+c2+';border-radius:5px;padding:5px;margin-bottom:8px;"><div style="color:'+c2+';font-size:9px;font-weight:700;letter-spacing:1px;">✓ CERTIFIED</div></div><img src="'+data.qrUrl+'" width="50" height="50" style="border:1px solid rgba(255,255,255,.1);border-radius:4px;"/><div style="color:rgba(255,255,255,.4);font-size:7px;margin-top:3px;">Scan to verify</div></div>'+
+      '</div>'+
+      '<div style="flex:1;padding:26px 24px;">'+
+        '<div style="font-size:9px;letter-spacing:2px;color:#94A3B8;margin-bottom:14px;">'+data.certNo+'</div>'+
+        '<div style="font-size:10px;color:#64748B;margin-bottom:5px;">This is to certify that</div>'+
+        '<div style="font-size:24px;font-weight:800;color:'+c1+';border-bottom:2px solid '+c2+';padding-bottom:7px;margin-bottom:7px;">'+data.empName+'</div>'+
+        '<div style="font-size:11px;color:#64748B;margin-bottom:16px;">'+data.empId+(data.designation?' | '+data.designation:'')+(data.project?' | '+data.project:'')+'</div>'+
+        '<div style="font-size:11px;color:#374151;margin-bottom:4px;">has successfully completed the training in</div>'+
+        '<div style="font-size:17px;font-weight:700;color:'+c1+';margin-bottom:4px;">'+data.topic+'</div>'+
+        '<div style="font-size:10px;color:#64748B;">'+data.date+durStr+'</div>'+scoreRow+
+        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:14px 0;">'+
+          '<div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:6px;padding:9px;text-align:center;"><div style="font-size:8px;color:#94A3B8;margin-bottom:3px;">DATE</div><div style="font-size:11px;font-weight:700;color:'+c1+';">'+data.date+'</div></div>'+
+          '<div style="background:#FFF1F2;border:1px solid #FFE4E6;border-radius:6px;padding:9px;text-align:center;"><div style="font-size:8px;color:#94A3B8;margin-bottom:3px;">VALID UNTIL</div><div style="font-size:11px;font-weight:700;color:#EF4444;">'+data.expiry+'</div></div>'+
+          '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:6px;padding:9px;text-align:center;"><div style="font-size:8px;color:#94A3B8;margin-bottom:3px;">VALIDITY</div><div style="font-size:11px;font-weight:700;color:#16A34A;">'+vStr+'</div></div>'+
+        '</div>'+
+        sigSection+
+      '</div>'+
     '</div>';
   }
 
-  if (t === 'E') {
-    var c1='#1B3A6B', c2='#C9A84C', cg='#B8860B';
-    return '<div style="width:794px;min-height:562px;background:#FFFBF0;font-family:'+font+';padding:8px;">' +
-      '<div style="border:3px solid '+c2+';background:#fff;padding:30px;position:relative;">' +
-        '<div style="border:1px solid #E8D5A3;position:absolute;inset:6px;pointer-events:none;"></div>' +
-        '<div style="text-align:center;margin-bottom:16px;"><div style="display:inline-flex;align-items:center;gap:8px;background:'+c1+';padding:6px 16px;border-radius:24px;">'+logoSVG+'<span style="color:#fff;font-size:13px;font-weight:700;">'+co.abbr+'</span><span style="color:'+c2+';font-size:10px;">'+co.name+'</span></div></div>' +
-        '<div style="text-align:center;margin-bottom:12px;"><div style="font-size:12px;letter-spacing:4px;color:'+cg+';font-weight:600;">✦ CERTIFICATE OF ACHIEVEMENT ✦</div></div>' +
-        '<div style="text-align:center;border-top:1px solid #E8D5A3;border-bottom:1px solid #E8D5A3;padding:14px 0;margin-bottom:16px;"><div style="font-size:10px;color:#64748B;margin-bottom:6px;">This certifies that</div><div style="font-size:28px;font-weight:800;color:'+c1+';font-style:italic;margin-bottom:4px;">'+data.empName+'</div><div style="font-size:11px;color:#64748B;">'+data.empId+(data.designation?' | '+data.designation:'')+'</div></div>' +
-        '<div style="text-align:center;margin-bottom:16px;"><div style="font-size:12px;color:#374151;margin-bottom:4px;">has successfully completed training in</div><div style="font-size:20px;font-weight:700;color:'+cg+';">'+data.topic+'</div>'+(data.project?'<div style="font-size:11px;color:#64748B;margin-top:3px;">'+data.project+'</div>':'')+scoreRow+'</div>' +
-        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">' +
-          '<div style="border:1px solid #E8D5A3;border-radius:6px;padding:10px;text-align:center;"><div style="font-size:8px;color:'+c2+';letter-spacing:1px;margin-bottom:3px;">DATE</div><div style="font-size:12px;font-weight:700;color:#1E293B;">'+data.date+'</div></div>' +
-          '<div style="border:1px solid #E8D5A3;border-radius:6px;padding:10px;text-align:center;"><div style="font-size:8px;color:'+c2+';letter-spacing:1px;margin-bottom:3px;">EXPIRES</div><div style="font-size:12px;font-weight:700;color:#E11D48;">'+data.expiry+'</div></div>' +
-          '<div style="border:1px solid #E8D5A3;border-radius:6px;padding:10px;text-align:center;"><div style="font-size:8px;color:'+c2+';letter-spacing:1px;margin-bottom:3px;">CERT NO</div><div style="font-size:11px;font-weight:700;color:'+c1+';">'+data.certNo+'</div></div>' +
-        '</div>' +
-        sigRow +
-      '</div>' +
-    '</div>';
+  if (t==='E') {
+    var c1='#1B3A6B',c2='#C9A84C',cg='#B8860B';
+    return '<div style="width:794px;min-height:540px;background:#FFFBF0;font-family:'+font+';padding:8px;">'+
+      '<div style="border:3px solid '+c2+';background:#fff;padding:26px;position:relative;">'+
+        '<div style="border:1px solid #E8D5A3;position:absolute;inset:6px;pointer-events:none;"></div>'+
+        '<div style="text-align:center;margin-bottom:14px;"><div style="display:inline-flex;align-items:center;gap:8px;background:'+c1+';padding:5px 14px;border-radius:24px;">'+logo+'<span style="color:#fff;font-size:12px;font-weight:700;">'+co.abbr+'</span><span style="color:'+c2+';font-size:10px;">'+co.name+'</span></div></div>'+
+        '<div style="text-align:center;margin-bottom:10px;"><div style="font-size:11px;letter-spacing:3px;color:'+cg+';font-weight:600;">✦ CERTIFICATE OF ACHIEVEMENT ✦</div></div>'+
+        '<div style="text-align:center;border-top:1px solid #E8D5A3;border-bottom:1px solid #E8D5A3;padding:12px 0;margin-bottom:14px;">'+
+          '<div style="font-size:10px;color:#64748B;margin-bottom:5px;">This certifies that</div>'+
+          '<div style="font-size:26px;font-weight:800;color:'+c1+';font-style:italic;margin-bottom:3px;">'+data.empName+'</div>'+
+          '<div style="font-size:10px;color:#64748B;">'+data.empId+(data.designation?' | '+data.designation:'')+'</div>'+
+        '</div>'+
+        '<div style="text-align:center;margin-bottom:14px;"><div style="font-size:11px;color:#374151;margin-bottom:4px;">has successfully completed training in</div><div style="font-size:18px;font-weight:700;color:'+cg+';">'+data.topic+'</div>'+(data.project?'<div style="font-size:10px;color:#64748B;margin-top:2px;">'+data.project+'</div>':'')+scoreRow+'</div>'+
+        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">'+
+          '<div style="border:1px solid #E8D5A3;border-radius:6px;padding:10px;text-align:center;"><div style="font-size:8px;color:'+c2+';letter-spacing:1px;margin-bottom:3px;">DATE</div><div style="font-size:12px;font-weight:700;color:#1E293B;">'+data.date+'</div></div>'+
+          '<div style="border:1px solid #E8D5A3;border-radius:6px;padding:10px;text-align:center;"><div style="font-size:8px;color:'+c2+';letter-spacing:1px;margin-bottom:3px;">EXPIRES</div><div style="font-size:12px;font-weight:700;color:#E11D48;">'+data.expiry+'</div></div>'+
+          '<div style="border:1px solid #E8D5A3;border-radius:6px;padding:10px;text-align:center;"><div style="font-size:8px;color:'+c2+';letter-spacing:1px;margin-bottom:3px;">CERT NO</div><div style="font-size:11px;font-weight:700;color:'+c1+';">'+data.certNo+'</div></div>'+
+        '</div>'+sigSection+'</div></div>';
   }
 
-  if (t === 'F') {
-    var gc='#22C55E', dark='#0A0E1A';
-    var sigRowDark = '<div style="display:flex;gap:20px;align-items:flex-start;border-top:1px solid rgba(255,255,255,.06);padding-top:16px;margin-top:4px;">' +
-      '<div style="text-align:center;flex:1;"><div style="font-size:8px;color:#475569;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Trainer</div><div style="height:28px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:5px;"></div><div style="font-size:11px;font-weight:600;color:#E6EDF3;">'+data.trainer+'</div><div style="font-size:9px;color:#475569;">'+data.trainerRole+'</div></div>' +
-      (data.authName?'<div style="width:1px;background:rgba(255,255,255,.06);align-self:stretch;"></div><div style="text-align:center;flex:1;"><div style="font-size:8px;color:#475569;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Auth. Officer</div><div style="height:28px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:5px;"></div><div style="font-size:11px;font-weight:600;color:#E6EDF3;">'+data.authName+'</div><div style="font-size:9px;color:#475569;">'+data.authRole+'</div></div>':'') +
-      '<div style="width:1px;background:rgba(255,255,255,.06);align-self:stretch;"></div><div style="text-align:center;flex:1;"><div style="font-size:8px;color:#475569;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Company Seal</div><div style="width:44px;height:44px;border:1px dashed rgba(255,255,255,.1);border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:18px;">🔏</div><div style="font-size:9px;color:#334155;margin-top:3px;">'+co.abbr+'</div></div>' +
+  if (t==='F') {
+    var gc='#22C55E',dark='#0A0E1A';
+    var sigDark='<div style="display:flex;gap:14px;align-items:flex-start;border-top:1px solid rgba(255,255,255,.06);padding-top:14px;">'+
+      '<div style="text-align:center;flex:1;"><div style="font-size:8px;color:#475569;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Trainer</div><div style="height:26px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:5px;"></div><div style="font-size:11px;font-weight:600;color:#E6EDF3;">'+data.trainer+'</div><div style="font-size:9px;color:#475569;">'+data.trainerRole+'</div></div>'+
+      (data.authName?'<div style="width:1px;background:rgba(255,255,255,.06);align-self:stretch;"></div><div style="text-align:center;flex:1;"><div style="font-size:8px;color:#475569;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Auth. Officer</div><div style="height:26px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:5px;"></div><div style="font-size:11px;font-weight:600;color:#E6EDF3;">'+data.authName+'</div><div style="font-size:9px;color:#475569;">'+data.authRole+'</div></div>':'')+
+      '<div style="width:1px;background:rgba(255,255,255,.06);align-self:stretch;"></div><div style="text-align:center;flex:1;"><div style="font-size:8px;color:#475569;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Company Seal</div><div style="width:42px;height:42px;border:1px dashed rgba(255,255,255,.1);border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:18px;">🔏</div><div style="font-size:9px;color:#334155;margin-top:2px;">'+co.abbr+'</div></div>'+
     '</div>';
-    return '<div style="width:794px;min-height:562px;background:'+dark+';font-family:'+font+';padding:24px;">' +
-      '<div style="border:1px solid rgba(34,197,94,.2);border-radius:12px;padding:24px;height:100%;">' +
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(34,197,94,.12);">' +
-          '<div style="display:flex;align-items:center;gap:10px;"><div style="width:40px;height:40px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;">🏗️</div><div><div style="color:#E6EDF3;font-size:15px;font-weight:700;">'+co.abbr+'</div><div style="color:'+gc+';font-size:9px;">'+co.name+'</div></div></div>' +
-          '<div style="text-align:right;"><div style="color:#475569;font-size:8px;letter-spacing:1px;margin-bottom:3px;">CERT NO</div><div style="color:#E6EDF3;font-size:12px;font-weight:700;font-family:monospace;">'+data.certNo+'</div><div style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:4px;padding:2px 8px;display:inline-block;margin-top:3px;"><div style="color:'+gc+';font-size:8px;font-weight:700;letter-spacing:1px;">VERIFIED</div></div></div>' +
-        '</div>' +
-        '<div style="height:1px;background:rgba(34,197,94,.3);margin-bottom:18px;"></div>' +
-        '<div style="margin-bottom:16px;"><div style="font-size:9px;color:#475569;letter-spacing:2px;margin-bottom:6px;">THIS CERTIFIES THAT</div><div style="font-size:26px;font-weight:800;color:#E6EDF3;margin-bottom:3px;">'+data.empName+'</div><div style="font-size:11px;color:#475569;">'+data.empId+(data.designation?' | '+data.designation:'')+(data.project?' | '+data.project:'')+'</div></div>' +
-        '<div style="background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.12);border-radius:8px;padding:12px;margin-bottom:14px;"><div style="font-size:9px;color:#475569;letter-spacing:1px;margin-bottom:4px;">COMPLETED TRAINING IN</div><div style="font-size:17px;font-weight:700;color:'+gc+';">'+data.topic+'</div>'+scoreRow+'</div>' +
-        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">' +
-          '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:7px;padding:10px;"><div style="font-size:8px;color:#475569;margin-bottom:3px;">DATE</div><div style="font-size:12px;font-weight:600;color:#E6EDF3;">'+data.date+'</div></div>' +
-          '<div style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.12);border-radius:7px;padding:10px;"><div style="font-size:8px;color:#475569;margin-bottom:3px;">VALID UNTIL</div><div style="font-size:12px;font-weight:600;color:#EF4444;">'+data.expiry+'</div></div>' +
-          '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:7px;padding:10px;"><div style="font-size:8px;color:#475569;margin-bottom:3px;">VALIDITY</div><div style="font-size:12px;font-weight:600;color:#E6EDF3;">'+(data.validityYears>=1?data.validityYears+' Yr':'(data.validityYears*12)+'Months')+'</div></div>' +
-        '</div>' +
-        sigRowDark +
-      '</div>' +
-    '</div>';
+    return '<div style="width:794px;min-height:540px;background:'+dark+';font-family:'+font+';padding:22px;">'+
+      '<div style="border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:22px;height:100%;">'+
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid rgba(34,197,94,.12);">'+
+          '<div style="display:flex;align-items:center;gap:10px;"><div style="width:38px;height:38px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:19px;">🏗️</div><div><div style="color:#E6EDF3;font-size:14px;font-weight:700;">'+co.abbr+'</div><div style="color:'+gc+';font-size:9px;">'+co.name+'</div></div></div>'+
+          '<div style="text-align:right;"><div style="color:#475569;font-size:8px;letter-spacing:1px;margin-bottom:3px;">CERT NO</div><div style="color:#E6EDF3;font-size:12px;font-weight:700;font-family:monospace;">'+data.certNo+'</div><div style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:4px;padding:2px 8px;display:inline-block;margin-top:3px;"><div style="color:'+gc+';font-size:8px;font-weight:700;letter-spacing:1px;">VERIFIED</div></div></div>'+
+        '</div>'+
+        '<div style="height:1px;background:rgba(34,197,94,.3);margin-bottom:16px;"></div>'+
+        '<div style="margin-bottom:14px;"><div style="font-size:9px;color:#475569;letter-spacing:2px;margin-bottom:5px;">THIS CERTIFIES THAT</div><div style="font-size:24px;font-weight:800;color:#E6EDF3;margin-bottom:3px;">'+data.empName+'</div><div style="font-size:11px;color:#475569;">'+data.empId+(data.designation?' | '+data.designation:'')+(data.project?' | '+data.project:'')+'</div></div>'+
+        '<div style="background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.12);border-radius:8px;padding:12px;margin-bottom:14px;"><div style="font-size:9px;color:#475569;letter-spacing:1px;margin-bottom:4px;">COMPLETED TRAINING IN</div><div style="font-size:16px;font-weight:700;color:'+gc+';">'+data.topic+'</div>'+scoreRow+'</div>'+
+        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">'+
+          '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:7px;padding:10px;"><div style="font-size:8px;color:#475569;margin-bottom:3px;">DATE</div><div style="font-size:12px;font-weight:600;color:#E6EDF3;">'+data.date+'</div></div>'+
+          '<div style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.12);border-radius:7px;padding:10px;"><div style="font-size:8px;color:#475569;margin-bottom:3px;">VALID UNTIL</div><div style="font-size:12px;font-weight:600;color:#EF4444;">'+data.expiry+'</div></div>'+
+          '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:7px;padding:10px;"><div style="font-size:8px;color:#475569;margin-bottom:3px;">VALIDITY</div><div style="font-size:12px;font-weight:600;color:#E6EDF3;">'+vStr+'</div></div>'+
+        '</div>'+sigDark+'</div></div>';
   }
 
   // Custom
-  var opts = data.customOpts;
-  var c1=opts.c1||'#1B3A6B', c2=opts.c2||'#C9A84C';
-  var bgCol = opts.bg==='cream'?'#FFFBF0':opts.bg==='dark'?'#0A0E1A':'#ffffff';
-  var txtCol = opts.bg==='dark'?'#E6EDF3':'#1E293B';
-  var subCol = '#64748B';
-  var bdr = opts.border==='double'?'4px double '+c2:opts.border==='ornate'?'3px solid '+c2:opts.border==='none'?'none':'2px solid '+c1;
-  var title = opts.title||'Certificate of Training';
-  return '<div style="width:794px;min-height:562px;background:'+bgCol+';font-family:'+font+';border:'+bdr+';padding:30px;">' +
-    '<div style="text-align:center;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid '+c2+';">' +
-      '<div style="display:inline-flex;align-items:center;gap:10px;background:'+c1+';padding:8px 20px;border-radius:28px;margin-bottom:10px;">'+logoSVG+'<span style="color:#fff;font-size:14px;font-weight:700;">'+co.abbr+'</span><span style="color:'+c2+';font-size:10px;">'+co.name+'</span></div>' +
-      '<div style="font-size:20px;font-weight:700;color:'+c1+';">'+title+'</div>' +
-    '</div>' +
-    '<div style="text-align:center;margin-bottom:18px;"><div style="font-size:11px;color:'+subCol+';margin-bottom:6px;">This certifies that</div><div style="font-size:26px;font-weight:800;color:'+c1+';border-bottom:2px solid '+c2+';display:inline-block;padding:0 16px 6px;">'+data.empName+'</div><div style="font-size:11px;color:'+subCol+';margin-top:6px;">'+data.empId+(data.designation?' | '+data.designation:'')+'</div></div>' +
-    '<div style="text-align:center;margin-bottom:16px;"><div style="font-size:12px;color:'+subCol+';margin-bottom:4px;">has successfully completed training in</div><div style="font-size:20px;font-weight:700;color:'+c2+';">'+data.topic+'</div>'+scoreRow+'</div>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px;">' +
-      '<div style="border:1px solid '+c2+';border-radius:7px;padding:10px;text-align:center;"><div style="font-size:8px;color:'+subCol+';margin-bottom:3px;">DATE</div><div style="font-size:12px;font-weight:700;color:'+txtCol+';">'+data.date+'</div></div>' +
-      '<div style="border:1px solid '+c2+';border-radius:7px;padding:10px;text-align:center;"><div style="font-size:8px;color:'+subCol+';margin-bottom:3px;">EXPIRES</div><div style="font-size:12px;font-weight:700;color:#EF4444;">'+data.expiry+'</div></div>' +
-      '<div style="border:1px solid '+c2+';border-radius:7px;padding:10px;text-align:center;"><div style="font-size:8px;color:'+subCol+';margin-bottom:3px;">CERT NO</div><div style="font-size:11px;font-weight:700;color:'+c1+';">'+data.certNo+'</div></div>' +
-    '</div>' +
-    sigRow +
-  '</div>';
+  var c1=data.customOpts.c1||'#1B3A6B', c2=data.customOpts.c2||'#C9A84C';
+  var bgCol=data.customOpts.bg==='cream'?'#FFFBF0':data.customOpts.bg==='dark'?'#0A0E1A':'#fff';
+  var txtCol=data.customOpts.bg==='dark'?'#E6EDF3':'#1E293B', subCol='#64748B';
+  var bdr=data.customOpts.border==='double'?'4px double '+c2:data.customOpts.border==='ornate'?'3px solid '+c2:data.customOpts.border==='none'?'none':'2px solid '+c1;
+  var title=data.customOpts.title||'Certificate of Training';
+  return '<div style="width:794px;min-height:540px;background:'+bgCol+';font-family:'+font+';border:'+bdr+';padding:28px;">'+
+    '<div style="text-align:center;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid '+c2+';">'+
+      '<div style="display:inline-flex;align-items:center;gap:10px;background:'+c1+';padding:7px 18px;border-radius:26px;margin-bottom:10px;">'+logo+'<span style="color:#fff;font-size:13px;font-weight:700;">'+co.abbr+'</span><span style="color:'+c2+';font-size:10px;">'+co.name+'</span></div>'+
+      '<div style="font-size:20px;font-weight:700;color:'+c1+';">'+title+'</div>'+
+    '</div>'+
+    '<div style="text-align:center;margin-bottom:16px;"><div style="font-size:11px;color:'+subCol+';margin-bottom:6px;">This certifies that</div><div style="font-size:24px;font-weight:800;color:'+c1+';border-bottom:2px solid '+c2+';display:inline-block;padding:0 14px 6px;">'+data.empName+'</div><div style="font-size:11px;color:'+subCol+';margin-top:6px;">'+data.empId+(data.designation?' | '+data.designation:'')+'</div></div>'+
+    '<div style="text-align:center;margin-bottom:16px;"><div style="font-size:12px;color:'+subCol+';margin-bottom:4px;">has successfully completed training in</div><div style="font-size:20px;font-weight:700;color:'+c2+';">'+data.topic+'</div>'+scoreRow+'</div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">'+
+      '<div style="border:1px solid '+c2+';border-radius:7px;padding:10px;text-align:center;"><div style="font-size:8px;color:'+subCol+';margin-bottom:3px;">DATE</div><div style="font-size:12px;font-weight:700;color:'+txtCol+';">'+data.date+'</div></div>'+
+      '<div style="border:1px solid '+c2+';border-radius:7px;padding:10px;text-align:center;"><div style="font-size:8px;color:'+subCol+';margin-bottom:3px;">EXPIRES</div><div style="font-size:12px;font-weight:700;color:#EF4444;">'+data.expiry+'</div></div>'+
+      '<div style="border:1px solid '+c2+';border-radius:7px;padding:10px;text-align:center;"><div style="font-size:8px;color:'+subCol+';margin-bottom:3px;">CERT NO</div><div style="font-size:11px;font-weight:700;color:'+c1+';">'+data.certNo+'</div></div>'+
+    '</div>'+sigSection+'</div>';
 }
 
 function previewCert() {
   var data = getCertData(); if (!data) return;
-  var certHTML = buildCert(data);
   var win = window.open('','_blank','width=880,height=640');
-  win.document.write('<!DOCTYPE html><html><head><title>Preview — '+data.empName+'</title>' +
-    '<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet"/>' +
-    '<style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#f1f5f9;padding:24px;font-family:Montserrat,sans-serif;}@media print{body{background:#fff;padding:0;}div.no-print{display:none!important;}@page{size:A4 landscape;margin:0;}}</style>' +
-    '</head><body>'+certHTML+
-    '<div class="no-print" style="margin-top:16px;display:flex;gap:10px;justify-content:center;">' +
-      '<button onclick="window.print()" style="padding:10px 24px;background:#22C55E;border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;">🖨 Print / Save as PDF</button>' +
-      '<button onclick="window.close()" style="padding:10px 20px;background:#64748B;border:none;border-radius:8px;color:#fff;font-size:13px;cursor:pointer;">Close</button>' +
+  win.document.write('<!DOCTYPE html><html><head><title>Preview — '+data.empName+'</title>'+
+    '<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet"/>'+
+    '<style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#f1f5f9;padding:24px;font-family:Montserrat,sans-serif;}@media print{body{background:#fff;padding:0;}.no-print{display:none!important;}@page{size:A4 landscape;margin:0;}}</style>'+
+    '</head><body>'+buildCert(data)+
+    '<div class="no-print" style="margin-top:16px;display:flex;gap:10px;justify-content:center;">'+
+      '<button onclick="window.print()" style="padding:10px 24px;background:#22C55E;border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;">🖨 Print / Save as PDF</button>'+
+      '<button onclick="window.close()" style="padding:10px 20px;background:#64748B;border:none;border-radius:8px;color:#fff;font-size:13px;cursor:pointer;">Close</button>'+
     '</div></body></html>');
   win.document.close();
 }
@@ -3589,6 +3579,7 @@ function generateCertPDF() {
   previewCert();
   certHistory.unshift({certNo:data.certNo,empName:data.empName,empId:data.empId,topic:data.topic,date:data.date,expiry:data.expiry,tmpl:certTmpl.toUpperCase()});
   renderCertHistory();
+  closeCertModal();
   fieldToast&&fieldToast('Certificate ready — click Print to save as PDF','success');
 }
 
@@ -3597,15 +3588,21 @@ function renderCertHistory() {
   var c=document.getElementById('cert-history'), l=document.getElementById('cert-history-list');
   if (!c||!l) return;
   c.style.display='block';
-  l.innerHTML = certHistory.slice(0,5).map(function(x){
-    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;margin-bottom:6px;">' +
-      '<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎓</span>' +
-      '<div><div style="font-size:11px;font-weight:600;color:var(--t1);">'+x.empName+' <span style="color:var(--t3);font-weight:400;">('+x.empId+')</span></div>' +
-      '<div style="font-size:10px;color:var(--t3);">'+x.topic+'</div></div></div>' +
-      '<div style="text-align:right;"><div style="font-size:10px;color:var(--t3);">'+x.certNo+' · Template '+x.tmpl+'</div>' +
+  l.innerHTML=certHistory.slice(0,5).map(function(x){
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;margin-bottom:6px;">'+
+      '<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">🎓</span>'+
+      '<div><div style="font-size:11px;font-weight:600;color:var(--t1);">'+x.empName+' <span style="font-weight:400;color:var(--t3);">('+x.empId+')</span></div>'+
+      '<div style="font-size:10px;color:var(--t3);">'+x.topic+'</div></div></div>'+
+      '<div style="text-align:right;"><div style="font-size:10px;color:var(--t3);">'+x.certNo+' · Tmpl '+x.tmpl+'</div>'+
       '<div style="font-size:10px;color:#EF4444;">Expires: '+x.expiry+'</div></div></div>';
   }).join('');
 }
+
+// Close on overlay click
+document.addEventListener('click', function(e){
+  var o=document.getElementById('cert-modal-overlay');
+  if (o && e.target===o) closeCertModal();
+});
 </script>
 </body>
 </html>
