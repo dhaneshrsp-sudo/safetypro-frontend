@@ -2577,92 +2577,96 @@ function lcStatusBadge(status, validity) {
   return { label:'PENDING', color:'#F59E0B', bg:'rgba(245,158,11,.08)', border:'rgba(245,158,11,.2)', key:'PENDING' };
 }
 
-function lcGetCountryLabel(code) {
-  var map = { IN:'🇮🇳 India', AE:'🇦🇪 UAE', QA:'🇶🇦 Qatar', SA:'🇸🇦 Saudi Arabia', GB:'🇬🇧 UK', SG:'🇸🇬 Singapore', INT:'🌐 International' };
-  return map[code] || code;
-}
-
-
-
-function lcGetCountryLabel(code) {
-  var map = { IN:'🇮🇳 India', AE:'🇦🇪 UAE', QA:'🇶🇦 Qatar', SA:'🇸🇦 Saudi Arabia', GB:'🇬🇧 UK', SG:'🇸🇬 Singapore', INT:'🌐 International' };
-  return map[code] || code;
-}
-
 function lcRender() {
-  var rowsEl = document.getElementById('lc-rows');
-  var summaryEl = document.getElementById('lc-summary');
-  var sourceEl = document.getElementById('lc-source-badge');
-  if (!rowsEl) return;
+  var rowsEl=document.getElementById('lc-rows');
+  var summaryEl=document.getElementById('lc-summary');
+  var sourceEl=document.getElementById('lc-source-badge');
+  if(!rowsEl) return;
+  var rorData=lcGetRorData();
+  var regionFilter=(document.getElementById('lc-region-filter')||{}).value||'ALL';
+  var statusFilter=(document.getElementById('lc-status-filter')||{}).value||'ALL';
 
-  var rorData = lcGetRorData();
-  var regionFilter = (document.getElementById('lc-region-filter') || {}).value || 'ALL';
-  var statusFilter = (document.getElementById('lc-status-filter') || {}).value || 'ALL';
-
-  if (!rorData || !rorData.entries || !rorData.entries.length) {
-    rowsEl.innerHTML = '<div style="padding:32px;text-align:center;color:var(--t3);font-size:12px;">' +
-      '<div style="font-size:24px;margin-bottom:8px;">📋</div>' +
-      '<div style="font-weight:600;color:var(--t2);margin-bottom:4px;">No ROR data found</div>' +
-      '<div>Visit <a href="/safetypro_audit_compliance.html" style="color:var(--green);">Audit &amp; Compliance → Legal &amp; Regulatory</a> to set up your Register of Regulations first.</div>' +
-    '</div>';
-    if (sourceEl) sourceEl.textContent = 'No data — set up ROR first';
+  if(!rorData||!rorData.entries||!rorData.entries.length){
+    if(summaryEl)summaryEl.innerHTML='';
+    rowsEl.innerHTML='<div style="padding:40px 24px;text-align:center;"><div style="font-size:36px;margin-bottom:12px;">&#128197;</div><div style="font-size:14px;font-weight:700;color:var(--t1);margin-bottom:6px;">No compliance register found</div><div style="font-size:12px;color:var(--t3);line-height:1.7;max-width:380px;margin:0 auto 16px;">Set up your Register of Regulations first. Choose your country and state, then this calendar will automatically track all upcoming renewal deadlines.</div><a href="/safetypro_audit_compliance.html" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:7px;color:var(--green);font-size:12px;font-weight:600;text-decoration:none;font-family:var(--fh);">Go to Legal &amp; Regulatory &#8594; Set Renewal Dates</a></div>';
+    if(sourceEl)sourceEl.textContent='No ROR data — set up register first';
     return;
   }
 
-  if (sourceEl) sourceEl.textContent = 'Live from Register of Regulations · ' + rorData.entries.length + ' acts · Last sync: ' + (rorData.syncTime || 'unknown');
+  var entriesWithDates=rorData.entries.filter(function(e){return e.validity&&e.validity!=='';});
+  if(!entriesWithDates.length){
+    if(summaryEl)summaryEl.innerHTML='';
+    rowsEl.innerHTML='<div style="padding:40px 24px;text-align:center;"><div style="font-size:36px;margin-bottom:12px;">&#128197;</div><div style="font-size:14px;font-weight:700;color:var(--t1);margin-bottom:6px;">'+rorData.entries.length+' acts loaded — no renewal dates set yet</div><div style="font-size:12px;color:var(--t3);line-height:1.7;max-width:420px;margin:0 auto 16px;">Your register has <strong style="color:var(--t2);">'+rorData.entries.length+' acts</strong> but none have validity dates entered. Click Edit on each act to add the expiry date — this calendar will then show only upcoming deadlines.</div><a href="/safetypro_audit_compliance.html" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:7px;color:var(--green);font-size:12px;font-weight:600;text-decoration:none;font-family:var(--fh);">Visit Legal &amp; Regulatory &#8594; Add Validity Dates</a></div>';
+    if(sourceEl)sourceEl.textContent=rorData.entries.length+' acts in ROR · 0 have validity dates · action required';
+    return;
+  }
 
-  // Filter entries
-  var entries = rorData.entries.filter(function(e) {
-    if (regionFilter !== 'ALL' && e.country !== regionFilter) return false;
-    var badge = lcStatusBadge(e.status, e.validity);
-    if (statusFilter !== 'ALL' && badge.key !== statusFilter) return false;
-    // Only show entries that have validity dates or are overdue/due soon
-    if (statusFilter === 'ALL' && badge.key === 'NA') return false;
+  var today=new Date();today.setHours(0,0,0,0);
+  var ninetyDays=new Date(today);ninetyDays.setDate(ninetyDays.getDate()+90);
+  var actionable=entriesWithDates.filter(function(e){
+    if(e.status==='NA')return false;
+    return new Date(e.validity)<=ninetyDays;
+  });
+
+  var filtered=actionable.filter(function(e){
+    if(regionFilter!=='ALL'&&e.country!==regionFilter)return false;
+    var badge=lcStatusBadge(e.status,e.validity);
+    if(statusFilter!=='ALL'&&badge.key!==statusFilter)return false;
     return true;
   });
 
-  // Sort: OVERDUE first, then DUE_SOON, then PENDING, then COMPLIED
-  var order = { OVERDUE:0, DUE_SOON:1, PENDING:2, COMPLIED:3 };
-  entries.sort(function(a, b) {
-    var ba = lcStatusBadge(a.status, a.validity);
-    var bb = lcStatusBadge(b.status, b.validity);
-    return (order[ba.key]||2) - (order[bb.key]||2);
+  var order={OVERDUE:0,DUE_SOON:1,PENDING:2,COMPLIED:3};
+  filtered.sort(function(a,b){
+    var ba=lcStatusBadge(a.status,a.validity),bb=lcStatusBadge(b.status,b.validity);
+    var od=(order[ba.key]||2)-(order[bb.key]||2);
+    return od!==0?od:new Date(a.validity)-new Date(b.validity);
   });
 
-  // Summary counts
-  var counts = { OVERDUE:0, DUE_SOON:0, PENDING:0, COMPLIED:0 };
-  rorData.entries.forEach(function(e) {
-    var b = lcStatusBadge(e.status, e.validity);
-    if (counts[b.key] !== undefined) counts[b.key]++;
-  });
+  var counts={OVERDUE:0,DUE_SOON:0,PENDING:0,COMPLIED:0};
+  actionable.forEach(function(e){var b=lcStatusBadge(e.status,e.validity);if(counts[b.key]!==undefined)counts[b.key]++;});
 
-  summaryEl.innerHTML =
-    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#EF4444;">' + counts.OVERDUE + '</div><div style="font-size:10px;color:var(--t3);">Overdue</div></div>' +
-    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#F59E0B;">' + counts.DUE_SOON + '</div><div style="font-size:10px;color:var(--t3);">Due This Month</div></div>' +
-    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:var(--t2);">' + counts.PENDING + '</div><div style="font-size:10px;color:var(--t3);">Pending</div></div>' +
-    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#22C55E;">' + counts.COMPLIED + '</div><div style="font-size:10px;color:var(--t3);">Complied</div></div>';
+  var hidden=rorData.entries.length-entriesWithDates.length;
+  var futureHidden=entriesWithDates.filter(function(e){return new Date(e.validity)>ninetyDays&&e.status!=='NA';}).length;
 
-  if (!entries.length) {
-    rowsEl.innerHTML = '<div style="padding:24px;text-align:center;color:var(--t3);font-size:12px;">No entries match the selected filter</div>';
-    return;
-  }
+  if(summaryEl)summaryEl.innerHTML=
+    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#EF4444;">'+counts.OVERDUE+'</div><div style="font-size:10px;color:var(--t3);">Overdue</div></div>'+
+    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#F59E0B;">'+counts.DUE_SOON+'</div><div style="font-size:10px;color:var(--t3);">Due within 30 days</div></div>'+
+    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#3B82F6;">'+counts.PENDING+'</div><div style="font-size:10px;color:var(--t3);">Due in 31-90 days</div></div>'+
+    '<div class="card" style="padding:10px 12px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#22C55E;">'+counts.COMPLIED+'</div><div style="font-size:10px;color:var(--t3);">Complied</div></div>';
 
-  rowsEl.innerHTML = entries.map(function(e) {
-    var badge = lcStatusBadge(e.status, e.validity);
-    var rowBg = badge.key === 'OVERDUE' ? 'background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.12);' :
-                badge.key === 'DUE_SOON' ? 'background:rgba(245,158,11,.04);border:1px solid rgba(245,158,11,.12);' :
-                'background:var(--raised);border:1px solid var(--border);';
-    var displayDate = e.validity ? new Date(e.validity).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : '—';
-    return '<div style="display:grid;grid-template-columns:100px 1fr 110px 110px 110px;gap:12px;padding:10px 12px;border-radius:7px;align-items:center;' + rowBg + '">' +
-      '<div style="font-size:11px;font-weight:600;color:' + (badge.key==='OVERDUE'?'#EF4444':badge.key==='DUE_SOON'?'#F59E0B':'var(--t2)') + ';">' + displayDate + '</div>' +
-      '<div><div style="font-size:11px;font-weight:600;color:var(--t1);line-height:1.4;">' + e.act + '</div>' +
-        '<div style="font-size:10px;color:var(--t3);margin-top:1px;">' + lcGetCountryLabel(e.country) + (e.state && e.state !== 'ALL' ? ' · ' + e.state : '') + (e.freq ? ' · ' + e.freq : '') + '</div></div>' +
-      '<div style="font-size:11px;color:var(--t2);">' + (e.auth || '—') + '</div>' +
-      '<div style="font-size:11px;color:var(--t2);">' + (e.responsible || '—') + '</div>' +
-      '<div><span style="background:' + badge.bg + ';border:1px solid ' + badge.border + ';border-radius:4px;padding:2px 8px;font-size:9px;font-weight:700;color:' + badge.color + ';">' + badge.label + '</span></div>' +
+  if(sourceEl)sourceEl.textContent='Showing '+actionable.length+' acts due in 90 days · '+(hidden+futureHidden)+' hidden';
+
+  if(!filtered.length){rowsEl.innerHTML='<div style="padding:24px;text-align:center;color:var(--t3);font-size:12px;">No entries match the selected filter</div>';return;}
+
+  rowsEl.innerHTML=filtered.map(function(e){
+    var badge=lcStatusBadge(e.status,e.validity);
+    var rowBg=badge.key==='OVERDUE'?'background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.12);':badge.key==='DUE_SOON'?'background:rgba(245,158,11,.04);border:1px solid rgba(245,158,11,.12);':'background:var(--raised);border:1px solid var(--border);';
+    var daysLeft=lcDaysUntil(e.validity);
+    var dateLabel=e.validity?new Date(e.validity).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—';
+    var daysLabel=daysLeft!==null?(daysLeft<0?Math.abs(daysLeft)+' days ago':'in '+daysLeft+' days'):'';
+    return '<div style="display:grid;grid-template-columns:110px 1fr 110px 100px 100px;gap:12px;padding:10px 14px;border-radius:7px;align-items:center;'+rowBg+'">'+
+      '<div><div style="font-size:11px;font-weight:700;color:'+(badge.key==='OVERDUE'?'#EF4444':badge.key==='DUE_SOON'?'#F59E0B':'var(--t2)')+';">'+dateLabel+'</div><div style="font-size:9px;color:var(--t3);margin-top:1px;">'+daysLabel+'</div></div>'+
+      '<div><div style="font-size:11px;font-weight:600;color:var(--t1);line-height:1.4;">'+e.act+'</div><div style="font-size:10px;color:var(--t3);margin-top:1px;">'+lcGetCountryLabel(e.country)+(e.state&&e.state!=='ALL'?' · '+e.state:'')+(e.freq?' · '+e.freq:'')+(e.consent?' · '+e.consent:'')+'</div></div>'+
+      '<div style="font-size:11px;color:var(--t2);">'+(e.auth||'—')+'</div>'+
+      '<div style="font-size:11px;color:var(--t2);">'+(e.responsible||'—')+'</div>'+
+      '<div><span style="background:'+badge.bg+';border:1px solid '+badge.border+';border-radius:4px;padding:2px 8px;font-size:9px;font-weight:700;color:'+badge.color+';">'+badge.label+'</span></div>'+
     '</div>';
   }).join('');
 }
+
+function lcGetCountryLabel(code) {
+  var map = { IN:'🇮🇳 India', AE:'🇦🇪 UAE', QA:'🇶🇦 Qatar', SA:'🇸🇦 Saudi Arabia', GB:'🇬🇧 UK', SG:'🇸🇬 Singapore', INT:'🌐 International' };
+  return map[code] || code;
+}
+
+
+
+function lcGetCountryLabel(code) {
+  var map = { IN:'🇮🇳 India', AE:'🇦🇪 UAE', QA:'🇶🇦 Qatar', SA:'🇸🇦 Saudi Arabia', GB:'🇬🇧 UK', SG:'🇸🇬 Singapore', INT:'🌐 International' };
+  return map[code] || code;
+}
+
+
 
 // Auto-render when tab is clicked
 var lcInitDone = false;
