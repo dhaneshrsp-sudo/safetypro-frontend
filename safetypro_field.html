@@ -3195,34 +3195,66 @@ document.addEventListener('DOMContentLoaded', function() {
         <div id="cs1">
           <div style="font-size:11px;font-weight:600;color:#64748B;text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;">Choose Certificate Design</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
-            <div onclick="pickTmpl('D')" id="tmpl-D" style="cursor:pointer;border:2px solid #1E293B;border-radius:9px;overflow:hidden;transition:.15s;">
-              <div style="background:#1B3A6B;height:56px;display:flex;align-items:center;padding:8px;gap:5px;">
-                <div style="width:13px;height:36px;background:#0F2A50;border-radius:2px;flex-shrink:0;"></div>
-                <div style="flex:1;"><div style="height:5px;background:#C9A84C;border-radius:1px;margin-bottom:3px;"></div><div style="height:3px;background:#1E3A6B;border-radius:1px;margin-bottom:2px;"></div><div style="height:3px;background:#2A4A7B;border-radius:1px;"></div></div>
+            <!-- Template G: Imperial Classic -->
+            <div onclick="pickTmpl('G')" id="tmpl-G" style="cursor:pointer;border:2px solid #22C55E;border-radius:9px;overflow:hidden;transition:.15s;">
+              <div style="background:#FAFAF7;height:60px;border:2px solid #C9A84C;margin:3px;position:relative;overflow:hidden;">
+                <div style="position:absolute;top:0;left:0;width:20px;height:20px;background:rgba(201,168,76,.15);"></div>
+                <div style="position:absolute;top:0;right:0;width:20px;height:20px;background:rgba(201,168,76,.15);"></div>
+                <div style="position:absolute;inset:4px;border:0.5px solid rgba(201,168,76,.3);"></div>
+                <div style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:2px;">
+                  <div style="background:#1B3A6B;padding:2px 12px;"><span style="color:#C9A84C;font-size:7px;font-weight:700;letter-spacing:2px;">CERTIFICATE</span></div>
+                  <div style="height:3px;background:#C9A84C;width:40px;"></div>
+                </div>
               </div>
-              <div style="padding:7px 10px;background:#131C26;"><div style="font-size:11px;font-weight:700;color:#E6EDF3;">Split Panel</div><div style="font-size:9px;color:#475569;margin-top:1px;">Navy sidebar + gold accents</div></div>
+              <div style="padding:7px 10px;background:#131C26;"><div style="font-size:11px;font-weight:700;color:#E6EDF3;">Imperial Classic</div><div style="font-size:9px;color:#475569;margin-top:1px;">Ornamental border + crest</div></div>
             </div>
-            <div onclick="pickTmpl('E')" id="tmpl-E" style="cursor:pointer;border:2px solid #1E293B;border-radius:9px;overflow:hidden;transition:.15s;">
-              <div style="background:#FFFBF0;height:56px;border:2px solid #C9A84C;margin:2px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;">
-                <div style="font-size:9px;color:#B8860B;letter-spacing:1px;font-weight:700;">✦ CERT ✦</div>
-                <div style="height:2px;background:#1B3A6B;border-radius:1px;width:55%;"></div>
+            <!-- Template H: Royal Parchment -->
+            <div onclick="pickTmpl('H')" id="tmpl-H" style="cursor:pointer;border:2px solid #1E293B;border-radius:9px;overflow:hidden;transition:.15s;">
+              <div style="background:#FDF8ED;height:60px;position:relative;overflow:hidden;">
+                <div style="position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(139,115,64,.06) 0,rgba(139,115,64,.06) 1px,transparent 0,transparent 12px);"></div>
+                <div style="position:absolute;inset:4px;border:1.5px solid #C9A84C;"></div>
+                <div style="position:absolute;inset:8px;border:0.5px solid rgba(201,168,76,.3);"></div>
+                <div style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:3px;position:relative;">
+                  <div style="font-size:8px;color:#8B7340;letter-spacing:2px;">✦ CERTIFICATE ✦</div>
+                  <div style="height:1.5px;background:#C9A84C;width:50px;"></div>
+                </div>
               </div>
-              <div style="padding:7px 10px;background:#131C26;"><div style="font-size:11px;font-weight:700;color:#E6EDF3;">Luxury Gold</div><div style="font-size:9px;color:#475569;margin-top:1px;">Ornate border, premium feel</div></div>
+              <div style="padding:7px 10px;background:#131C26;"><div style="font-size:11px;font-weight:700;color:#E6EDF3;">Royal Parchment</div><div style="font-size:9px;color:#475569;margin-top:1px;">Warm parchment with gold trim</div></div>
             </div>
-            <div onclick="pickTmpl('F')" id="tmpl-F" style="cursor:pointer;border:2px solid #1E293B;border-radius:9px;overflow:hidden;transition:.15s;">
-              <div style="background:#0A0E1A;height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:8px;">
-                <div style="height:1px;width:48px;background:rgba(34,197,94,.5);"></div>
-                <div style="height:9px;width:48px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:2px;"></div>
-                <div style="height:1px;width:48px;background:rgba(34,197,94,.2);"></div>
+            <!-- Template I: Executive Prestige -->
+            <div onclick="pickTmpl('I')" id="tmpl-I" style="cursor:pointer;border:2px solid #1E293B;border-radius:9px;overflow:hidden;transition:.15s;">
+              <div style="background:#fff;height:60px;border:1.5px solid #1B3A6B;overflow:hidden;">
+                <div style="background:#1B3A6B;height:14px;display:flex;align-items:center;padding:0 6px;">
+                  <div style="height:2px;background:#C9A84C;width:30px;"></div>
+                </div>
+                <div style="height:2px;background:#C9A84C;"></div>
+                <div style="padding:5px 8px;">
+                  <div style="height:5px;background:#E2E8F0;border-left:3px solid #C9A84C;margin-bottom:3px;"></div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;">
+                    <div style="height:8px;background:#F8FAFC;border-top:1.5px solid #1B3A6B;"></div>
+                    <div style="height:8px;background:#FFF5F5;border-top:1.5px solid #DC2626;"></div>
+                    <div style="height:8px;background:#F0FDF4;border-top:1.5px solid #16A34A;"></div>
+                  </div>
+                </div>
               </div>
-              <div style="padding:7px 10px;background:#131C26;"><div style="font-size:11px;font-weight:700;color:#E6EDF3;">Tech Dark</div><div style="font-size:9px;color:#475569;margin-top:1px;">Matches SafetyPro UI</div></div>
+              <div style="padding:7px 10px;background:#131C26;"><div style="font-size:11px;font-weight:700;color:#E6EDF3;">Executive Prestige</div><div style="font-size:9px;color:#475569;margin-top:1px;">Navy bands, crisp white body</div></div>
             </div>
-            <div onclick="pickTmpl('custom')" id="tmpl-custom" style="cursor:pointer;border:2px solid #1E293B;border-radius:9px;overflow:hidden;transition:.15s;">
-              <div style="background:#131C26;height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;">
-                <div style="font-size:22px;">🎨</div>
-                <div style="font-size:9px;color:#475569;">Your style</div>
+            <!-- Template J: Modern Distinction -->
+            <div onclick="pickTmpl('J')" id="tmpl-J" style="cursor:pointer;border:2px solid #1E293B;border-radius:9px;overflow:hidden;transition:.15s;">
+              <div style="background:#fff;height:60px;display:flex;overflow:hidden;">
+                <div style="width:22px;background:#0F2744;position:relative;flex-shrink:0;">
+                  <div style="position:absolute;top:0;right:0;bottom:0;width:2px;background:#C9A84C;"></div>
+                </div>
+                <div style="flex:1;display:flex;flex-direction:column;">
+                  <div style="background:#1B3A6B;height:10px;"></div>
+                  <div style="flex:1;padding:4px 6px;">
+                    <div style="height:5px;background:#E2E8F0;border-left:2px solid #C9A84C;margin-bottom:3px;"></div>
+                    <div style="height:3px;background:#F1F5F9;margin-bottom:2px;"></div>
+                    <div style="height:3px;background:#F1F5F9;width:60%;"></div>
+                  </div>
+                </div>
               </div>
-              <div style="padding:7px 10px;background:#131C26;"><div style="font-size:11px;font-weight:700;color:#E6EDF3;">Custom</div><div style="font-size:9px;color:#475569;margin-top:1px;">Build your own design</div></div>
+              <div style="padding:7px 10px;background:#131C26;"><div style="font-size:11px;font-weight:700;color:#E6EDF3;">Modern Distinction</div><div style="font-size:9px;color:#C9A84C;margin-top:1px;">Bold geometric contemporary</div></div>
             </div>
           </div>
           <!-- Custom opts -->
@@ -3320,9 +3352,11 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </div>
 
+
+
 <script>
-/* cert-live-preview-v1 */
-var cTmpl = 'D';
+/* cert-premium-v1 */
+var cTmpl = 'G';
 var certHist = [];
 
 function openCertModal() {
@@ -3340,7 +3374,7 @@ function openCertModal() {
     if (tn && !tn.value) tn.value = u.name||'';
     if (tr && !tr.value) tr.value = u.designation||'HSE Professional';
   } catch(e){}
-  pickTmpl('D');
+  pickTmpl('G');
 }
 
 function closeCertModal() {
@@ -3379,31 +3413,42 @@ function goStep(n) {
 
 function pickTmpl(t) {
   cTmpl = t;
-  ['D','E','F','custom'].forEach(function(x){
+  ['G','H','I','J'].forEach(function(x){
     var el=document.getElementById('tmpl-'+x);
     if(el) el.style.borderColor = x===t ? '#22C55E' : '#1E293B';
   });
-  var opts=document.getElementById('cert-custom-opts');
-  if(opts) opts.style.display = t==='custom'?'block':'none';
   updatePreview();
 }
 
-function gv(id,def){ var el=document.getElementById(id); return el?el.value.trim()||def:def; }
-
-function getCo(){ try{var u=JSON.parse(localStorage.getItem('sp_user')||'{}');return{name:u.companyName||u.company||'IECCL Engineering Ltd',abbr:u.companyAbbr||'IECCL'};}catch(e){return{name:'IECCL Engineering Ltd',abbr:'IECCL'};} }
-
-function calcExpiry(dateStr, validity) {
-  if (!dateStr) return '—';
-  try {
-    var d=new Date(dateStr), e=new Date(d);
-    e.setMonth(e.getMonth()+Math.round(parseFloat(validity||1)*12));
-    return e.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
-  } catch(x){return '—';}
+function getCo(){
+  try{
+    var u=JSON.parse(localStorage.getItem('sp_user')||'{}');
+    return {
+      name: u.companyName||u.company||'Your Organisation',
+      abbr: u.companyAbbr||u.companyName||'ORG',
+      division: u.division||'Health, Safety & Environment Division',
+      credentials: u.credentials||''
+    };
+  }catch(e){return{name:'Your Organisation',abbr:'ORG',division:'Health, Safety & Environment Division',credentials:''};}
 }
 
-function fmtDate(ds){ if(!ds) return '—'; try{return new Date(ds).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});}catch(x){return ds;} }
+function gv(id,def){ var el=document.getElementById(id); return el?(el.value.trim()||def):def; }
 
-function genQR(text) {
+function fmtDate(ds){
+  if(!ds) return '—';
+  try{return new Date(ds).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});}catch(x){return ds;}
+}
+
+function calcExp(ds,v){
+  if(!ds) return '—';
+  try{
+    var d=new Date(ds),e=new Date(d);
+    e.setMonth(e.getMonth()+Math.round(parseFloat(v||1)*12));
+    return e.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  }catch(x){return '—';}
+}
+
+function genQR(text){
   var c=document.createElement('canvas');c.width=80;c.height=80;
   var ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,80,80);
   var sz=8,hash=0;
@@ -3420,23 +3465,309 @@ function genQR(text) {
   return c.toDataURL();
 }
 
-function sigRow(trainer,trainerRole,auth,authRole,co,dark) {
-  var tc=dark?'#E6EDF3':'#1E293B', sc='#64748B', bd=dark?'rgba(255,255,255,.08)':'#E2E8F0';
-  return '<div style="display:flex;gap:14px;align-items:flex-start;border-top:1px solid '+bd+';padding-top:14px;">'+
-    '<div style="text-align:center;flex:1;"><div style="font-size:8px;color:'+sc+';letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Trainer</div><div style="height:26px;border-bottom:1px solid '+(dark?'rgba(255,255,255,.08)':'#CBD5E1')+';margin-bottom:5px;"></div><div style="font-size:11px;font-weight:700;color:'+tc+';">'+trainer+'</div><div style="font-size:9px;color:'+sc+';">'+trainerRole+'</div></div>'+
-    '<div style="width:1px;background:'+bd+';align-self:stretch;"></div>'+
-    (auth?'<div style="text-align:center;flex:1;"><div style="font-size:8px;color:'+sc+';letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Auth. Officer</div><div style="height:26px;border-bottom:1px solid '+(dark?'rgba(255,255,255,.08)':'#CBD5E1')+';margin-bottom:5px;"></div><div style="font-size:11px;font-weight:700;color:'+tc+';">'+auth+'</div><div style="font-size:9px;color:'+sc+';">'+authRole+'</div></div><div style="width:1px;background:'+bd+';align-self:stretch;"></div>':'')+
-    '<div style="text-align:center;flex:1;"><div style="font-size:8px;color:'+sc+';letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Seal</div><div style="width:40px;height:40px;border:1.5px dashed '+(dark?'rgba(255,255,255,.1)':'#CBD5E1')+';border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:17px;">🔏</div><div style="font-size:8px;color:'+sc+';margin-top:2px;">'+co.abbr+'</div></div>'+
+function sigSection(trainer,trainerRole,trainerCreds,auth,authRole,co,darkMode){
+  var tc=darkMode?'#E6EDF3':'#1E293B', sc='#64748B', bd=darkMode?'rgba(255,255,255,.08)':'#E2E8F0';
+  var bg=darkMode?'rgba(255,255,255,.02)':'#F8FAFC';
+  return '<div style="display:flex;gap:0;border-top:1px solid '+bd+';margin-top:16px;">'+
+    '<div style="flex:1;text-align:center;padding:12px 8px;background:'+bg+';">'+
+      '<div style="height:34px;border-bottom:1px solid '+(darkMode?'#334155':'#CBD5E1')+';margin-bottom:8px;"></div>'+
+      '<div style="font-size:11px;font-weight:700;color:'+tc+';">'+trainer+'</div>'+
+      '<div style="font-size:9px;color:'+sc+';margin-top:1px;">'+trainerRole+'</div>'+
+      (trainerCreds?'<div style="font-size:8px;color:'+(darkMode?'#334155':'#94A3B8')+';margin-top:1px;">'+trainerCreds+'</div>':'')+
+      '<div style="font-size:8px;color:'+(darkMode?'#475569':sc)+';margin-top:2px;letter-spacing:.5px;text-transform:uppercase;">Trainer / Instructor</div>'+
+    '</div>'+
+    '<div style="width:1px;background:'+bd+';"></div>'+
+    '<div style="flex:1;text-align:center;padding:12px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;">'+
+      '<div style="width:54px;height:54px;border:2px solid '+(darkMode?'#1E293B':'#E2E8F0')+';border-radius:50%;display:flex;align-items:center;justify-content:center;background:'+(darkMode?'rgba(255,255,255,.03)':'#F1F5F9')+';">'+
+        '<div style="width:44px;height:44px;border:1px dashed '+(darkMode?'#334155':'#CBD5E1')+';border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;">'+
+          '<div style="font-size:7px;font-weight:700;color:'+(darkMode?'#475569':'#94A3B8')+';letter-spacing:.5px;">'+co.abbr+'</div>'+
+          '<div style="font-size:5px;color:'+(darkMode?'#334155':'#CBD5E1')+';">SEAL</div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="font-size:8px;color:'+(darkMode?'#334155':sc)+';margin-top:4px;text-transform:uppercase;letter-spacing:.5px;">Official Seal</div>'+
+    '</div>'+
+    '<div style="width:1px;background:'+bd+';"></div>'+
+    '<div style="flex:1;text-align:center;padding:12px 8px;background:'+bg+';">'+
+      '<div style="height:34px;border-bottom:1px solid '+(darkMode?'#334155':'#CBD5E1')+';margin-bottom:8px;"></div>'+
+      (auth?
+        '<div style="font-size:11px;font-weight:700;color:'+tc+';">'+auth+'</div>'+
+        '<div style="font-size:9px;color:'+sc+';margin-top:1px;">'+authRole+'</div>':
+        '<div style="font-size:10px;color:'+(darkMode?'#334155':sc)+';font-style:italic;">Authorising Officer</div>'
+      )+
+      '<div style="font-size:8px;color:'+(darkMode?'#475569':sc)+';margin-top:2px;letter-spacing:.5px;text-transform:uppercase;">Authorising Officer</div>'+
+    '</div>'+
   '</div>';
 }
 
-function buildCertHTML() {
-  var font='Montserrat,Arial,sans-serif';
+function cornerSVG(flip){ 
+  var tx = flip ? 'scale(-1,1) translate(-80,0)' : '';
+  return '<svg viewBox="0 0 80 80" style="width:80px;height:80px;position:absolute;'+(flip?'top:0;right:0':'top:0;left:0')+';display:block;"><g transform="'+tx+'"><path d="M0 0 L80 0 L0 80 Z" fill="#F5F0E0" opacity="0.6"/><path d="M0 0 L64 0" stroke="#8B7340" stroke-width="2" fill="none"/><path d="M0 0 L0 64" stroke="#8B7340" stroke-width="2" fill="none"/><path d="M0 0 L0 40 Q10 10 40 0 Z" fill="#C9A84C" opacity="0.08"/><circle cx="14" cy="14" r="4" fill="#C9A84C" opacity="0.7"/><circle cx="7" cy="7" r="2" fill="#8B7340" opacity="0.8"/><path d="M20 0 L0 20" stroke="#C9A84C" stroke-width="0.7" fill="none" opacity="0.4"/><path d="M30 0 L0 30" stroke="#C9A84C" stroke-width="0.5" fill="none" opacity="0.3"/></g></svg>';
+}
+
+function botCornerSVG(flip){
+  var tx = flip ? 'scale(-1,-1) translate(-80,-80)' : 'scale(1,-1) translate(0,-80)';
+  return '<svg viewBox="0 0 80 80" style="width:80px;height:80px;position:absolute;'+(flip?'bottom:0;right:0':'bottom:0;left:0')+';display:block;"><g transform="'+tx+'"><path d="M0 0 L80 0 L0 80 Z" fill="#F5F0E0" opacity="0.6"/><path d="M0 0 L64 0" stroke="#8B7340" stroke-width="2" fill="none"/><path d="M0 0 L0 64" stroke="#8B7340" stroke-width="2" fill="none"/><circle cx="14" cy="14" r="4" fill="#C9A84C" opacity="0.7"/></g></svg>';
+}
+
+function watermarkCrest(){
+  return '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0.035;z-index:0;">'+
+    '<svg viewBox="0 0 200 200" style="width:260px;height:260px;"><circle cx="100" cy="100" r="94" fill="none" stroke="#1B3A6B" stroke-width="5"/><circle cx="100" cy="100" r="78" fill="none" stroke="#1B3A6B" stroke-width="2"/><circle cx="100" cy="100" r="62" fill="none" stroke="#1B3A6B" stroke-width="1"/><path d="M100 16 L118 70 L174 70 L128 102 L146 158 L100 126 L54 158 L72 102 L26 70 L82 70 Z" fill="#1B3A6B"/><circle cx="100" cy="100" r="18" fill="#1B3A6B"/><text x="100" y="106" font-family="Georgia,serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">HSE</text></svg>'+
+  '</div>';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// TEMPLATE G — Imperial Classic (Ornamental corners, watermark, ribbon)
+// ═══════════════════════════════════════════════════════════════════
+function buildG(d){
+  var co=d.co, qr=d.qr;
+  return '<div style="width:794px;min-height:560px;background:#FAFAF7;font-family:Georgia,serif;border:2.5px solid #8B7340;position:relative;overflow:hidden;">'+
+    watermarkCrest()+
+    cornerSVG(false)+cornerSVG(true)+botCornerSVG(false)+botCornerSVG(true)+
+    '<div style="position:absolute;inset:13px;border:0.8px solid #C9A84C;pointer-events:none;z-index:1;"></div>'+
+    '<div style="position:absolute;inset:17px;border:0.3px solid #E8D5A3;pointer-events:none;z-index:1;"></div>'+
+    '<div style="position:relative;z-index:2;padding:34px 52px 24px;">'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #E8D5A3;">'+
+        '<div style="display:flex;align-items:center;gap:12px;">'+
+          '<svg viewBox="0 0 60 68" style="width:46px;height:52px;flex-shrink:0;"><polygon points="30,3 57,17 57,51 30,65 3,51 3,17" fill="#1B3A6B" stroke="#C9A84C" stroke-width="2"/><polygon points="30,11 51,23 51,47 30,57 9,47 9,23" fill="none" stroke="#C9A84C" stroke-width="0.8" opacity="0.5"/><text x="30" y="37" font-family="Georgia,serif" font-size="14" font-weight="bold" fill="#C9A84C" text-anchor="middle">HSE</text><text x="30" y="47" font-family="Arial" font-size="5" fill="#C9A84C" text-anchor="middle" letter-spacing="1.5">SAFETY</text></svg>'+
+          '<div>'+
+            '<div style="font-size:15px;font-weight:700;color:#1B3A6B;letter-spacing:.3px;font-family:Georgia,serif;">'+co.name+'</div>'+
+            '<div style="font-size:8.5px;color:#8B7340;letter-spacing:2px;margin-top:2px;font-family:Arial,sans-serif;">'+co.division.toUpperCase()+'</div>'+
+          '</div>'+
+        '</div>'+
+        '<div style="text-align:right;">'+
+          '<div style="font-size:7.5px;color:#94A3B8;letter-spacing:1px;font-family:Arial;margin-bottom:2px;">CERTIFICATE NO.</div>'+
+          '<div style="font-size:12px;font-weight:700;color:#1B3A6B;font-family:monospace;">'+d.certNo+'</div>'+
+          '<div style="display:flex;gap:4px;justify-content:flex-end;margin-top:5px;">'+
+            '<div style="background:#1B3A6B;color:#C9A84C;font-size:6.5px;font-weight:700;padding:2px 7px;font-family:Arial;letter-spacing:.5px;">ISO 45001</div>'+
+            '<div style="background:#8B7340;color:#fff;font-size:6.5px;font-weight:700;padding:2px 7px;font-family:Arial;letter-spacing:.5px;">IMS CERTIFIED</div>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="text-align:center;margin-bottom:16px;">'+
+        '<div style="display:inline-block;position:relative;">'+
+          '<div style="background:#1B3A6B;padding:7px 36px;position:relative;display:inline-block;">'+
+            '<div style="position:absolute;left:-14px;top:0;bottom:0;width:14px;background:#1B3A6B;clip-path:polygon(100% 0,100% 100%,0 50%);"></div>'+
+            '<div style="position:absolute;right:-14px;top:0;bottom:0;width:14px;background:#1B3A6B;clip-path:polygon(0 0,0 100%,100% 50%);"></div>'+
+            '<span style="color:#C9A84C;font-size:10px;font-weight:700;letter-spacing:4px;font-family:Arial;text-transform:uppercase;">Certificate of Training</span>'+
+          '</div>'+
+        '</div>'+
+        '<div style="font-size:9px;color:#94A3B8;letter-spacing:2px;margin-top:8px;font-family:Arial;">This is to certify that</div>'+
+      '</div>'+
+      '<div style="text-align:center;margin-bottom:7px;">'+
+        '<span style="font-size:32px;font-weight:700;color:#1B3A6B;border-bottom:1.5px solid #C9A84C;padding:0 20px 7px;display:inline-block;letter-spacing:1px;">'+d.name+'</span>'+
+      '</div>'+
+      '<div style="text-align:center;font-size:10.5px;color:#64748B;margin-bottom:15px;font-family:Arial;letter-spacing:.3px;">'+d.empId+(d.desig?' &nbsp;|&nbsp; '+d.desig:'')+(d.proj?' &nbsp;|&nbsp; '+d.proj:'')+'</div>'+
+      '<div style="text-align:center;margin-bottom:6px;">'+
+        '<div style="font-size:11px;color:#374151;margin-bottom:5px;font-family:Arial;">has successfully demonstrated competence and completed the required training in</div>'+
+        '<div style="font-size:21px;font-weight:700;color:#1B3A6B;letter-spacing:.5px;">'+d.topic+'</div>'+
+        (d.dur||d.score?'<div style="font-size:9.5px;color:#64748B;margin-top:4px;font-family:Arial;">'+(d.dur?'Duration: '+d.dur:'')+(d.dur&&d.score?' &nbsp;|&nbsp; ':'')+(d.score?'Score: '+d.score+' &nbsp;|&nbsp; Grade: Distinction':'')+'</div>':'')+
+      '</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;margin:14px 0;">'+
+        '<div style="padding:10px;text-align:center;background:#F8FAFC;"><div style="font-size:7.5px;color:#94A3B8;letter-spacing:1.5px;font-family:Arial;text-transform:uppercase;margin-bottom:3px;">Date of Completion</div><div style="font-size:12.5px;font-weight:700;color:#1B3A6B;font-family:Arial;">'+d.date+'</div></div>'+
+        '<div style="background:#E2E8F0;"></div>'+
+        '<div style="padding:10px;text-align:center;background:#FFF8F0;"><div style="font-size:7.5px;color:#94A3B8;letter-spacing:1.5px;font-family:Arial;text-transform:uppercase;margin-bottom:3px;">Valid Until</div><div style="font-size:12.5px;font-weight:700;color:#DC2626;font-family:Arial;">'+d.expiry+'</div></div>'+
+        '<div style="background:#E2E8F0;"></div>'+
+        '<div style="padding:10px;text-align:center;background:#F0FDF4;"><div style="font-size:7.5px;color:#94A3B8;letter-spacing:1.5px;font-family:Arial;text-transform:uppercase;margin-bottom:3px;">Validity</div><div style="font-size:12.5px;font-weight:700;color:#16A34A;font-family:Arial;">'+d.vStr+'</div></div>'+
+      '</div>'+
+      sigSection(d.trainer,d.trainerRole,d.creds,d.auth,d.authRole,co,false)+
+    '</div>'+
+    '<div style="background:#1B3A6B;padding:6px 52px;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2;">'+
+      '<div style="color:#475569;font-size:7.5px;font-family:Arial;letter-spacing:.3px;">safetyproworld.com &nbsp;|&nbsp; Powered by SafetyPro AI</div>'+
+      '<div style="display:flex;align-items:center;gap:7px;"><img src="'+qr+'" width="28" height="28" style="border:1px solid rgba(255,255,255,.1);border-radius:2px;opacity:.9;"/><span style="color:#C9A84C;font-size:7.5px;font-family:Arial;">Scan to verify</span></div>'+
+      '<div style="color:#475569;font-size:7.5px;font-family:Arial;">'+d.certNo+' &nbsp;|&nbsp; '+new Date().toLocaleDateString('en-IN')+'</div>'+
+    '</div>'+
+  '</div>';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// TEMPLATE H — Royal Parchment (Warm cream, laurel frame, centered formal)
+// ═══════════════════════════════════════════════════════════════════
+function buildH(d){
+  var co=d.co, qr=d.qr;
+  return '<div style="width:794px;min-height:560px;background:#FDF8ED;font-family:Georgia,serif;position:relative;overflow:hidden;">'+
+    '<div style="position:absolute;inset:0;pointer-events:none;opacity:.04;z-index:0;background:repeating-linear-gradient(45deg,#8B7340 0,#8B7340 1px,transparent 0,transparent 20px);"></div>'+
+    '<div style="position:absolute;inset:10px;border:2px solid #C9A84C;pointer-events:none;z-index:1;"></div>'+
+    '<div style="position:absolute;inset:15px;border:1px solid #E8D5A3;pointer-events:none;z-index:1;"></div>'+
+    '<div style="position:absolute;inset:19px;border:0.5px solid #F0E8D0;pointer-events:none;z-index:1;"></div>'+
+    '<div style="position:absolute;top:0;left:0;right:0;height:8px;background:#8B7340;z-index:2;"></div>'+
+    '<div style="position:absolute;bottom:0;left:0;right:0;height:8px;background:#8B7340;z-index:2;"></div>'+
+    '<div style="position:relative;z-index:3;padding:28px 60px 24px;text-align:center;">'+
+      '<div style="margin-bottom:14px;">'+
+        '<div style="display:inline-flex;align-items:center;gap:10px;background:#1B3A6B;padding:7px 20px;border-radius:2px;">'+
+          '<svg viewBox="0 0 40 46" style="width:28px;height:32px;"><polygon points="20,2 38,11 38,35 20,44 2,35 2,11" fill="none" stroke="#C9A84C" stroke-width="1.5"/><text x="20" y="28" font-family="Georgia" font-size="11" font-weight="bold" fill="#C9A84C" text-anchor="middle">HSE</text></svg>'+
+          '<div style="text-align:left;"><div style="color:#fff;font-size:13px;font-weight:700;letter-spacing:.3px;">'+co.name+'</div><div style="color:#C9A84C;font-size:7.5px;letter-spacing:2px;font-family:Arial;">'+co.division.toUpperCase()+'</div></div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:10px;">'+
+        '<div style="height:1px;flex:1;background:linear-gradient(to right,transparent,#C9A84C);"></div>'+
+        '<span style="font-size:9px;letter-spacing:5px;color:#8B7340;font-family:Arial;font-weight:700;text-transform:uppercase;">Certificate of Training</span>'+
+        '<div style="height:1px;flex:1;background:linear-gradient(to left,transparent,#C9A84C);"></div>'+
+      '</div>'+
+      '<div style="font-size:9px;color:#94A3B8;letter-spacing:2px;margin-bottom:10px;font-family:Arial;">Presented to</div>'+
+      '<div style="margin-bottom:8px;">'+
+        '<div style="font-size:36px;font-weight:400;color:#1B3A6B;letter-spacing:2px;font-style:italic;">'+d.name+'</div>'+
+        '<div style="width:200px;height:1px;background:#C9A84C;margin:8px auto;"></div>'+
+        '<div style="width:160px;height:0.5px;background:#E8D5A3;margin:0 auto;"></div>'+
+      '</div>'+
+      '<div style="font-size:10px;color:#64748B;margin-bottom:14px;font-family:Arial;letter-spacing:.3px;">'+d.empId+(d.desig?' &nbsp;·&nbsp; '+d.desig:'')+(d.proj?' &nbsp;·&nbsp; '+d.proj:'')+'</div>'+
+      '<div style="margin-bottom:14px;">'+
+        '<div style="font-size:11px;color:#374151;margin-bottom:5px;font-family:Arial;line-height:1.7;">in recognition of successfully completing the training programme in</div>'+
+        '<div style="font-size:22px;font-weight:700;color:#1B3A6B;margin-bottom:3px;">'+d.topic+'</div>'+
+        (d.score?'<div style="display:inline-block;border:1px solid #E8D5A3;background:#FFF9F0;padding:3px 14px;border-radius:2px;font-size:9px;color:#8B7340;font-family:Arial;margin-top:3px;">Score: '+d.score+(d.dur?' &nbsp;|&nbsp; Duration: '+d.dur:'')+'</div>':'')+(d.dur&&!d.score?'<div style="font-size:9px;color:#94A3B8;font-family:Arial;margin-top:3px;">Duration: '+d.dur+'</div>':'')+
+      '</div>'+
+      '<div style="display:flex;justify-content:center;gap:8px;margin-bottom:14px;">'+
+        '<div style="border:1px solid #E8D5A3;padding:8px 20px;background:#FFF;min-width:120px;"><div style="font-size:7px;color:#8B7340;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;font-family:Arial;">Date</div><div style="font-size:12px;font-weight:700;color:#1B3A6B;font-family:Arial;">'+d.date+'</div></div>'+
+        '<div style="border:1px solid #FECACA;padding:8px 20px;background:#FFF5F5;min-width:120px;"><div style="font-size:7px;color:#8B7340;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;font-family:Arial;">Valid Until</div><div style="font-size:12px;font-weight:700;color:#DC2626;font-family:Arial;">'+d.expiry+'</div></div>'+
+        '<div style="border:1px solid #BBF7D0;padding:8px 20px;background:#F0FDF4;min-width:120px;"><div style="font-size:7px;color:#8B7340;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;font-family:Arial;">Validity</div><div style="font-size:12px;font-weight:700;color:#16A34A;font-family:Arial;">'+d.vStr+'</div></div>'+
+      '</div>'+
+      sigSection(d.trainer,d.trainerRole,d.creds,d.auth,d.authRole,co,false)+
+      '<div style="margin-top:12px;display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:0.5px solid #E8D5A3;">'+
+        '<div style="font-size:7.5px;color:#B0A080;font-family:Arial;letter-spacing:.3px;">Cert No: '+d.certNo+'</div>'+
+        '<div style="display:flex;align-items:center;gap:6px;"><img src="'+qr+'" width="26" height="26" style="opacity:.6;"/><span style="font-size:7.5px;color:#B0A080;font-family:Arial;">Scan to verify</span></div>'+
+        '<div style="font-size:7.5px;color:#B0A080;font-family:Arial;letter-spacing:.3px;">safetyproworld.com</div>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// TEMPLATE I — Executive Prestige (Dark navy bands, crisp white, clean lines)
+// ═══════════════════════════════════════════════════════════════════
+function buildI(d){
+  var co=d.co, qr=d.qr;
+  return '<div style="width:794px;min-height:560px;background:#fff;font-family:Arial,sans-serif;border:1.5px solid #1B3A6B;">'+
+    '<div style="background:#1B3A6B;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;">'+
+      '<div style="display:flex;align-items:center;gap:14px;">'+
+        '<div style="width:46px;height:46px;background:rgba(201,168,76,.15);border:1.5px solid #C9A84C;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;">'+
+          '<div style="color:#C9A84C;font-size:11px;font-weight:700;letter-spacing:.5px;font-family:Georgia,serif;">HSE</div>'+
+          '<div style="color:#C9A84C;font-size:5px;letter-spacing:1.5px;">SAFETY</div>'+
+        '</div>'+
+        '<div>'+
+          '<div style="color:#fff;font-size:16px;font-weight:700;letter-spacing:.3px;">'+co.name+'</div>'+
+          '<div style="color:#C9A84C;font-size:8px;letter-spacing:2.5px;margin-top:2px;">'+co.division.toUpperCase()+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="text-align:right;">'+
+        '<div style="color:#475569;font-size:7px;letter-spacing:1px;margin-bottom:2px;">DOCUMENT NO.</div>'+
+        '<div style="color:#C9A84C;font-size:13px;font-weight:700;font-family:monospace;letter-spacing:1px;">'+d.certNo+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div style="height:3px;background:#C9A84C;"></div>'+
+    '<div style="background:#F8FAFC;padding:10px 40px;display:flex;align-items:center;justify-content:space-between;">'+
+      '<div style="font-size:9px;color:#94A3B8;letter-spacing:2px;text-transform:uppercase;">Certificate of Training</div>'+
+      '<div style="display:flex;gap:6px;">'+
+        '<div style="background:#1B3A6B;color:#C9A84C;font-size:7px;font-weight:700;padding:2px 8px;letter-spacing:.5px;">ISO 45001</div>'+
+        '<div style="background:#1B3A6B;color:#C9A84C;font-size:7px;font-weight:700;padding:2px 8px;letter-spacing:.5px;">IMS CERTIFIED</div>'+
+      '</div>'+
+    '</div>'+
+    '<div style="padding:24px 40px;">'+
+      '<div style="border-left:4px solid #C9A84C;padding:0 0 0 16px;margin-bottom:20px;">'+
+        '<div style="font-size:10px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">This is to certify that</div>'+
+        '<div style="font-size:30px;font-weight:700;color:#1B3A6B;letter-spacing:.5px;line-height:1.1;">'+d.name+'</div>'+
+        '<div style="font-size:11px;color:#64748B;margin-top:5px;letter-spacing:.3px;">'+d.empId+(d.desig?' &nbsp;|&nbsp; '+d.desig:'')+(d.proj?' &nbsp;|&nbsp; '+d.proj:'')+'</div>'+
+      '</div>'+
+      '<div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:2px;padding:14px 16px;margin-bottom:18px;">'+
+        '<div style="font-size:10px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">has successfully completed training in</div>'+
+        '<div style="font-size:20px;font-weight:700;color:#1B3A6B;letter-spacing:.3px;">'+d.topic+'</div>'+
+        (d.dur||d.score?'<div style="font-size:9px;color:#64748B;margin-top:4px;padding-top:6px;border-top:1px solid #E2E8F0;">'+(d.dur?'Duration: '+d.dur:'')+(d.dur&&d.score?' &nbsp;·&nbsp; ':'')+(d.score?'Score: '+d.score+'  (Distinction)':'')+'</div>':'')+
+      '</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px;">'+
+        '<div style="border:1px solid #E2E8F0;border-top:3px solid #1B3A6B;padding:10px;"><div style="font-size:8px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Date of Completion</div><div style="font-size:13px;font-weight:700;color:#1B3A6B;">'+d.date+'</div></div>'+
+        '<div style="border:1px solid #E2E8F0;border-top:3px solid #DC2626;padding:10px;"><div style="font-size:8px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Valid Until</div><div style="font-size:13px;font-weight:700;color:#DC2626;">'+d.expiry+'</div></div>'+
+        '<div style="border:1px solid #E2E8F0;border-top:3px solid #16A34A;padding:10px;"><div style="font-size:8px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Validity Period</div><div style="font-size:13px;font-weight:700;color:#16A34A;">'+d.vStr+'</div></div>'+
+      '</div>'+
+      sigSection(d.trainer,d.trainerRole,d.creds,d.auth,d.authRole,co,false)+
+    '</div>'+
+    '<div style="height:3px;background:#C9A84C;"></div>'+
+    '<div style="background:#1B3A6B;padding:7px 40px;display:flex;justify-content:space-between;align-items:center;">'+
+      '<div style="color:#475569;font-size:7.5px;letter-spacing:.3px;">safetyproworld.com &nbsp;|&nbsp; Powered by SafetyPro AI</div>'+
+      '<div style="display:flex;align-items:center;gap:7px;"><img src="'+qr+'" width="26" height="26" style="border:1px solid rgba(255,255,255,.1);border-radius:2px;opacity:.8;"/><span style="color:#C9A84C;font-size:7.5px;">Scan to verify</span></div>'+
+      '<div style="color:#475569;font-size:7.5px;">'+new Date().toLocaleDateString('en-IN')+'</div>'+
+    '</div>'+
+  '</div>';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// TEMPLATE J — Modern Distinction (STUNNING: Bold geometric left panel, 
+// vibrant teal-to-navy gradient strip, contemporary sans-serif)
+// ═══════════════════════════════════════════════════════════════════
+function buildJ(d){
+  var co=d.co, qr=d.qr;
+  return '<div style="width:794px;min-height:560px;background:#fff;font-family:Arial,sans-serif;display:flex;overflow:hidden;">'+
+    '<div style="width:220px;background:#0F2744;display:flex;flex-direction:column;padding:28px 20px;position:relative;overflow:hidden;flex-shrink:0;">'+
+      '<div style="position:absolute;top:-60px;right:-60px;width:200px;height:200px;border:40px solid rgba(255,255,255,.03);border-radius:50%;"></div>'+
+      '<div style="position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;border:30px solid rgba(201,168,76,.06);border-radius:50%;"></div>'+
+      '<div style="position:absolute;top:0;right:0;width:4px;bottom:0;background:#C9A84C;"></div>'+
+      '<div style="position:relative;z-index:1;">'+
+        '<div style="width:52px;height:52px;border:2px solid #C9A84C;display:flex;align-items:center;justify-content:center;flex-direction:column;margin-bottom:14px;position:relative;">'+
+          '<div style="position:absolute;top:4px;left:4px;right:4px;bottom:4px;border:1px solid rgba(201,168,76,.3);"></div>'+
+          '<div style="color:#C9A84C;font-size:13px;font-weight:700;letter-spacing:1px;font-family:Georgia,serif;">HSE</div>'+
+        '</div>'+
+        '<div style="color:#fff;font-size:13px;font-weight:700;line-height:1.3;margin-bottom:4px;">'+co.name+'</div>'+
+        '<div style="height:2px;background:#C9A84C;width:40px;margin-bottom:8px;"></div>'+
+        '<div style="color:#C9A84C;font-size:7px;letter-spacing:1.5px;line-height:1.5;text-transform:uppercase;">'+co.division.replace(/ Division/i,'').trim()+'</div>'+
+        '<div style="margin:20px 0;height:1px;background:rgba(255,255,255,.1);"></div>'+
+        '<div style="color:rgba(255,255,255,.6);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">Certificate No.</div>'+
+        '<div style="color:#C9A84C;font-size:11px;font-weight:700;font-family:monospace;letter-spacing:1px;word-break:break-all;">'+d.certNo+'</div>'+
+        '<div style="margin:20px 0;height:1px;background:rgba(255,255,255,.1);"></div>'+
+        '<div style="color:rgba(255,255,255,.5);font-size:8px;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Issued On</div>'+
+        '<div style="color:#fff;font-size:9.5px;font-weight:600;">'+d.date+'</div>'+
+        '<div style="margin:12px 0 8px;color:rgba(255,255,255,.5);font-size:8px;letter-spacing:1px;text-transform:uppercase;">Valid Until</div>'+
+        '<div style="color:#EF4444;font-size:9.5px;font-weight:600;">'+d.expiry+'</div>'+
+        '<div style="margin-top:auto;padding-top:20px;text-align:center;">'+
+          '<img src="'+qr+'" width="60" height="60" style="border:1px solid rgba(255,255,255,.1);border-radius:3px;opacity:.7;display:block;margin:0 auto 4px;"/>'+
+          '<div style="color:rgba(255,255,255,.3);font-size:7px;letter-spacing:.5px;">Scan to verify</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>'+
+    '<div style="flex:1;display:flex;flex-direction:column;">'+
+      '<div style="background:#1B3A6B;padding:10px 28px;display:flex;align-items:center;justify-content:space-between;">'+
+        '<div style="font-size:8.5px;color:#C9A84C;letter-spacing:3px;font-weight:700;text-transform:uppercase;">Certificate of Training</div>'+
+        '<div style="display:flex;gap:5px;">'+
+          '<div style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:#C9A84C;font-size:6.5px;font-weight:700;padding:2px 7px;letter-spacing:.5px;">ISO 45001</div>'+
+          '<div style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:#C9A84C;font-size:6.5px;font-weight:700;padding:2px 7px;letter-spacing:.5px;">IMS CERTIFIED</div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="flex:1;padding:24px 28px 20px;display:flex;flex-direction:column;justify-content:space-between;">'+
+        '<div>'+
+          '<div style="font-size:10px;color:#94A3B8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">This is to certify that</div>'+
+          '<div style="font-size:30px;font-weight:700;color:#0F2744;letter-spacing:.3px;line-height:1;margin-bottom:6px;">'+d.name+'</div>'+
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">'+
+            '<div style="height:2px;width:24px;background:#C9A84C;flex-shrink:0;"></div>'+
+            '<div style="font-size:10.5px;color:#64748B;letter-spacing:.2px;">'+d.empId+(d.desig?' &nbsp;|&nbsp; '+d.desig:'')+(d.proj?' &nbsp;|&nbsp; '+d.proj:'')+'</div>'+
+          '</div>'+
+          '<div style="font-size:10px;color:#94A3B8;letter-spacing:.5px;margin-bottom:6px;">has successfully completed the training programme in</div>'+
+          '<div style="background:#F8FAFC;border-left:4px solid #C9A84C;padding:12px 16px;margin-bottom:16px;">'+
+            '<div style="font-size:19px;font-weight:700;color:#0F2744;letter-spacing:.3px;">'+d.topic+'</div>'+
+            (d.dur||d.score?'<div style="font-size:9px;color:#64748B;margin-top:4px;">'+(d.dur?'Duration: '+d.dur:'')+(d.dur&&d.score?' &nbsp;·&nbsp; ':'')+(d.score?'Score: '+d.score+' — Distinction':'')+'</div>':'')+
+          '</div>'+
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">'+
+            '<div style="background:#F8FAFC;padding:8px 12px;display:flex;align-items:center;gap:8px;">'+
+              '<div style="width:3px;height:28px;background:#1B3A6B;flex-shrink:0;"></div>'+
+              '<div><div style="font-size:7.5px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;">Validity</div><div style="font-size:12px;font-weight:700;color:#0F2744;">'+d.vStr+'</div></div>'+
+            '</div>'+
+            '<div style="background:#FFF5F5;padding:8px 12px;display:flex;align-items:center;gap:8px;">'+
+              '<div style="width:3px;height:28px;background:#DC2626;flex-shrink:0;"></div>'+
+              '<div><div style="font-size:7.5px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;">Expiry Date</div><div style="font-size:12px;font-weight:700;color:#DC2626;">'+d.expiry+'</div></div>'+
+            '</div>'+
+          '</div>'+
+        '</div>'+
+        sigSection(d.trainer,d.trainerRole,d.creds,d.auth,d.authRole,co,false)+
+      '</div>'+
+      '<div style="background:#F8FAFC;border-top:1px solid #E2E8F0;padding:6px 28px;display:flex;justify-content:space-between;align-items:center;">'+
+        '<div style="font-size:7.5px;color:#94A3B8;letter-spacing:.3px;">safetyproworld.com &nbsp;|&nbsp; Powered by SafetyPro AI</div>'+
+        '<div style="font-size:7.5px;color:#94A3B8;">'+new Date().toLocaleDateString('en-IN')+'</div>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+}
+
+function buildCertHTML(){
   var co=getCo();
-  var name=gv('ce-name','Your Name Here');
-  var empId=gv('ce-id','EMP-0000');
+  var name=gv('ce-name','Your Name');
+  var empId=gv('ce-id','EMP-XXXX');
   var desig=gv('ce-desig','');
-  var topic=gv('ce-topic','Training Topic');
+  var topic=gv('ce-topic','Training Programme');
   var dateVal=gv('ce-date','');
   var validity=gv('ce-validity','1');
   var proj=gv('ce-proj','');
@@ -3447,134 +3778,53 @@ function buildCertHTML() {
   var auth=gv('ce-auth','');
   var authRole=gv('ce-auth-role','');
   var certNo='CERT-'+Date.now().toString().slice(-6);
-  var dateStr=fmtDate(dateVal);
-  var expiry=calcExpiry(dateVal,validity);
   var vStr=parseFloat(validity)>=1?validity+' Year(s)':(parseFloat(validity)*12)+' Months';
-  var qr=genQR(certNo+'|'+empId+'|'+topic);
-  var scoreRow=score?'<div style="display:inline-block;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:4px;padding:2px 9px;font-size:9px;color:#16A34A;font-weight:600;margin-top:3px;">Score: '+score+'</div>':'';
-  var logo='<div style="width:36px;height:36px;background:#C9A84C;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:17px;">🏗️</div>';
+  var creds=co.credentials||'';
 
-  if (cTmpl==='D') {
-    var c1='#1B3A6B',c2='#C9A84C';
-    return '<div style="width:794px;min-height:530px;background:#fff;font-family:'+font+';border:2px solid '+c1+';display:flex;overflow:hidden;">'+
-      '<div style="width:25%;background:'+c1+';padding:20px 10px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;">'+
-        '<div style="text-align:center;">'+logo+'<div style="color:#fff;font-size:11px;font-weight:700;margin-top:7px;">'+co.abbr+'</div><div style="color:'+c2+';font-size:8px;margin-top:2px;">'+co.name+'</div><div style="border-top:1px solid rgba(255,255,255,.15);margin:9px 0;width:100%;"></div><div style="color:rgba(255,255,255,.5);font-size:9px;text-align:center;line-height:1.6;">HSE Training<br/>Certificate</div></div>'+
-        '<div style="text-align:center;width:100%;border-top:1px solid rgba(255,255,255,.15);padding-top:9px;"><div style="background:rgba(201,168,76,.2);border:1px solid '+c2+';border-radius:4px;padding:4px;margin-bottom:7px;"><div style="color:'+c2+';font-size:8px;font-weight:700;letter-spacing:1px;">✓ CERTIFIED</div></div><img src="'+qr+'" width="46" height="46" style="border:1px solid rgba(255,255,255,.1);border-radius:3px;"/><div style="color:rgba(255,255,255,.4);font-size:7px;margin-top:2px;">Scan to verify</div></div>'+
-      '</div>'+
-      '<div style="flex:1;padding:22px 20px;">'+
-        '<div style="font-size:8px;letter-spacing:2px;color:#94A3B8;margin-bottom:12px;">'+certNo+'</div>'+
-        '<div style="font-size:10px;color:#64748B;margin-bottom:4px;">This is to certify that</div>'+
-        '<div style="font-size:22px;font-weight:800;color:'+c1+';border-bottom:2px solid '+c2+';padding-bottom:6px;margin-bottom:6px;">'+name+'</div>'+
-        '<div style="font-size:10px;color:#64748B;margin-bottom:14px;">'+empId+(desig?' | '+desig:'')+(proj?' | '+proj:'')+'</div>'+
-        '<div style="font-size:10px;color:#374151;margin-bottom:3px;">has successfully completed training in</div>'+
-        '<div style="font-size:16px;font-weight:700;color:'+c1+';margin-bottom:3px;">'+topic+'</div>'+
-        '<div style="font-size:9px;color:#64748B;">'+dateStr+(dur?' | '+dur:'')+'</div>'+scoreRow+
-        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0;">'+
-          '<div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:6px;padding:8px;text-align:center;"><div style="font-size:7px;color:#94A3B8;margin-bottom:2px;">DATE</div><div style="font-size:10px;font-weight:700;color:'+c1+';">'+dateStr+'</div></div>'+
-          '<div style="background:#FFF1F2;border:1px solid #FFE4E6;border-radius:6px;padding:8px;text-align:center;"><div style="font-size:7px;color:#94A3B8;margin-bottom:2px;">VALID UNTIL</div><div style="font-size:10px;font-weight:700;color:#EF4444;">'+expiry+'</div></div>'+
-          '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:6px;padding:8px;text-align:center;"><div style="font-size:7px;color:#94A3B8;margin-bottom:2px;">VALIDITY</div><div style="font-size:10px;font-weight:700;color:#16A34A;">'+vStr+'</div></div>'+
-        '</div>'+
-        sigRow(trainer,trainerRole,auth,authRole,co,false)+
-      '</div>'+
-    '</div>';
-  }
+  var d={co,name,empId,desig,topic,proj,dur,score,trainer,trainerRole,creds,auth,authRole,
+    certNo,date:fmtDate(dateVal),expiry:calcExp(dateVal,validity),vStr,qr:genQR(certNo+'|'+empId+'|'+topic)};
 
-  if (cTmpl==='E') {
-    var c1='#1B3A6B',c2='#C9A84C',cg='#B8860B';
-    return '<div style="width:794px;min-height:530px;background:#FFFBF0;font-family:'+font+';padding:7px;">'+
-      '<div style="border:3px solid '+c2+';background:#fff;padding:22px;position:relative;">'+
-        '<div style="border:1px solid #E8D5A3;position:absolute;inset:5px;pointer-events:none;"></div>'+
-        '<div style="text-align:center;margin-bottom:12px;"><div style="display:inline-flex;align-items:center;gap:7px;background:'+c1+';padding:5px 13px;border-radius:22px;">'+logo+'<span style="color:#fff;font-size:11px;font-weight:700;">'+co.abbr+'</span><span style="color:'+c2+';font-size:9px;">'+co.name+'</span></div></div>'+
-        '<div style="text-align:center;margin-bottom:9px;"><div style="font-size:10px;letter-spacing:3px;color:'+cg+';font-weight:600;">✦ CERTIFICATE OF ACHIEVEMENT ✦</div></div>'+
-        '<div style="text-align:center;border-top:1px solid #E8D5A3;border-bottom:1px solid #E8D5A3;padding:11px 0;margin-bottom:12px;">'+
-          '<div style="font-size:9px;color:#64748B;margin-bottom:4px;">This certifies that</div>'+
-          '<div style="font-size:24px;font-weight:800;color:'+c1+';font-style:italic;margin-bottom:3px;">'+name+'</div>'+
-          '<div style="font-size:9px;color:#64748B;">'+empId+(desig?' | '+desig:'')+'</div>'+
-        '</div>'+
-        '<div style="text-align:center;margin-bottom:12px;"><div style="font-size:10px;color:#374151;margin-bottom:3px;">has successfully completed training in</div><div style="font-size:16px;font-weight:700;color:'+cg+';">'+topic+'</div>'+(proj?'<div style="font-size:9px;color:#64748B;margin-top:2px;">'+proj+'</div>':'')+scoreRow+'</div>'+
-        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">'+
-          '<div style="border:1px solid #E8D5A3;border-radius:5px;padding:8px;text-align:center;"><div style="font-size:7px;color:'+c2+';letter-spacing:1px;margin-bottom:2px;">DATE</div><div style="font-size:10px;font-weight:700;color:#1E293B;">'+dateStr+'</div></div>'+
-          '<div style="border:1px solid #E8D5A3;border-radius:5px;padding:8px;text-align:center;"><div style="font-size:7px;color:'+c2+';letter-spacing:1px;margin-bottom:2px;">EXPIRES</div><div style="font-size:10px;font-weight:700;color:#E11D48;">'+expiry+'</div></div>'+
-          '<div style="border:1px solid #E8D5A3;border-radius:5px;padding:8px;text-align:center;"><div style="font-size:7px;color:'+c2+';letter-spacing:1px;margin-bottom:2px;">CERT NO</div><div style="font-size:9px;font-weight:700;color:'+c1+';">'+certNo+'</div></div>'+
-        '</div>'+sigRow(trainer,trainerRole,auth,authRole,co,false)+'</div></div>';
-  }
-
-  if (cTmpl==='F') {
-    var gc='#22C55E',dk='#0A0E1A';
-    return '<div style="width:794px;min-height:530px;background:'+dk+';font-family:'+font+';padding:20px;">'+
-      '<div style="border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:20px;">'+
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(34,197,94,.1);">'+
-          '<div style="display:flex;align-items:center;gap:9px;"><div style="width:36px;height:36px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;">🏗️</div><div><div style="color:#E6EDF3;font-size:13px;font-weight:700;">'+co.abbr+'</div><div style="color:'+gc+';font-size:8px;">'+co.name+'</div></div></div>'+
-          '<div style="text-align:right;"><div style="color:#475569;font-size:7px;letter-spacing:1px;margin-bottom:2px;">CERT NO</div><div style="color:#E6EDF3;font-size:11px;font-weight:700;font-family:monospace;">'+certNo+'</div><div style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:3px;padding:2px 7px;display:inline-block;margin-top:2px;"><div style="color:'+gc+';font-size:7px;font-weight:700;letter-spacing:1px;">VERIFIED</div></div></div>'+
-        '</div>'+
-        '<div style="height:1px;background:rgba(34,197,94,.3);margin-bottom:14px;"></div>'+
-        '<div style="margin-bottom:12px;"><div style="font-size:8px;color:#475569;letter-spacing:2px;margin-bottom:4px;">THIS CERTIFIES THAT</div><div style="font-size:22px;font-weight:800;color:#E6EDF3;margin-bottom:2px;">'+name+'</div><div style="font-size:10px;color:#475569;">'+empId+(desig?' | '+desig:'')+(proj?' | '+proj:'')+'</div></div>'+
-        '<div style="background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.12);border-radius:7px;padding:10px;margin-bottom:12px;"><div style="font-size:8px;color:#475569;letter-spacing:1px;margin-bottom:3px;">COMPLETED TRAINING IN</div><div style="font-size:15px;font-weight:700;color:'+gc+';">'+topic+'</div>'+scoreRow+'</div>'+
-        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">'+
-          '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:9px;"><div style="font-size:7px;color:#475569;margin-bottom:2px;">DATE</div><div style="font-size:11px;font-weight:600;color:#E6EDF3;">'+dateStr+'</div></div>'+
-          '<div style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.12);border-radius:6px;padding:9px;"><div style="font-size:7px;color:#475569;margin-bottom:2px;">VALID UNTIL</div><div style="font-size:11px;font-weight:600;color:#EF4444;">'+expiry+'</div></div>'+
-          '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:9px;"><div style="font-size:7px;color:#475569;margin-bottom:2px;">VALIDITY</div><div style="font-size:11px;font-weight:600;color:#E6EDF3;">'+vStr+'</div></div>'+
-        '</div>'+sigRow(trainer,trainerRole,auth,authRole,co,true)+'</div></div>';
-  }
-
-  // Custom
-  var c1=document.getElementById('cc1')?document.getElementById('cc1').value:'#1B3A6B';
-  var c2=document.getElementById('cc2')?document.getElementById('cc2').value:'#C9A84C';
-  var bg=gv('cbg','white'); var bdr=gv('cbdr','simple'); var title=gv('ctitle','Certificate of Training');
-  var bgCol=bg==='cream'?'#FFFBF0':bg==='dark'?'#0A0E1A':'#fff';
-  var txtCol=bg==='dark'?'#E6EDF3':'#1E293B', subCol='#64748B';
-  var bdrStyle=bdr==='double'?'4px double '+c2:bdr==='ornate'?'3px solid '+c2:bdr==='none'?'none':'2px solid '+c1;
-  return '<div style="width:794px;min-height:530px;background:'+bgCol+';font-family:'+font+';border:'+bdrStyle+';padding:26px;">'+
-    '<div style="text-align:center;margin-bottom:16px;padding-bottom:13px;border-bottom:2px solid '+c2+';">'+
-      '<div style="display:inline-flex;align-items:center;gap:9px;background:'+c1+';padding:6px 16px;border-radius:24px;margin-bottom:8px;">'+logo+'<span style="color:#fff;font-size:12px;font-weight:700;">'+co.abbr+'</span><span style="color:'+c2+';font-size:9px;">'+co.name+'</span></div>'+
-      '<div style="font-size:18px;font-weight:700;color:'+c1+';">'+title+'</div>'+
-    '</div>'+
-    '<div style="text-align:center;margin-bottom:14px;"><div style="font-size:10px;color:'+subCol+';margin-bottom:5px;">This certifies that</div><div style="font-size:22px;font-weight:800;color:'+c1+';border-bottom:2px solid '+c2+';display:inline-block;padding:0 12px 5px;">'+name+'</div><div style="font-size:10px;color:'+subCol+';margin-top:5px;">'+empId+(desig?' | '+desig:'')+'</div></div>'+
-    '<div style="text-align:center;margin-bottom:14px;"><div style="font-size:10px;color:'+subCol+';margin-bottom:3px;">has successfully completed training in</div><div style="font-size:18px;font-weight:700;color:'+c2+';">'+topic+'</div>'+scoreRow+'</div>'+
-    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">'+
-      '<div style="border:1px solid '+c2+';border-radius:6px;padding:9px;text-align:center;"><div style="font-size:7px;color:'+subCol+';margin-bottom:2px;">DATE</div><div style="font-size:11px;font-weight:700;color:'+txtCol+';">'+dateStr+'</div></div>'+
-      '<div style="border:1px solid '+c2+';border-radius:6px;padding:9px;text-align:center;"><div style="font-size:7px;color:'+subCol+';margin-bottom:2px;">EXPIRES</div><div style="font-size:11px;font-weight:700;color:#EF4444;">'+expiry+'</div></div>'+
-      '<div style="border:1px solid '+c2+';border-radius:6px;padding:9px;text-align:center;"><div style="font-size:7px;color:'+subCol+';margin-bottom:2px;">CERT NO</div><div style="font-size:10px;font-weight:700;color:'+c1+';">'+certNo+'</div></div>'+
-    '</div>'+sigRow(trainer,trainerRole,auth,authRole,co,bg==='dark')+'</div>';
+  if(cTmpl==='G') return buildG(d);
+  if(cTmpl==='H') return buildH(d);
+  if(cTmpl==='I') return buildI(d);
+  return buildJ(d);
 }
 
-function updatePreview() {
-  var el = document.getElementById('cert-preview-inner');
-  if (!el) return;
-  el.innerHTML = buildCertHTML();
+function updatePreview(){
+  var el=document.getElementById('cert-preview-inner');
+  if(el) el.innerHTML=buildCertHTML();
 }
 
-function previewFullCert() {
-  var certHTML = buildCertHTML();
-  var win = window.open('','_blank','width=880,height=640');
+function previewFullCert(){
+  var win=window.open('','_blank','width=880,height=640');
   win.document.write('<!DOCTYPE html><html><head><title>Certificate Preview</title>'+
     '<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet"/>'+
-    '<style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#f1f5f9;padding:24px;font-family:Montserrat,sans-serif;}@media print{body{background:#fff;padding:0;}.no-print{display:none!important;}@page{size:A4 landscape;margin:0;}}</style>'+
-    '</head><body>'+certHTML+
+    '<style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#f1f5f9;padding:24px;font-family:Arial,sans-serif;}@media print{body{background:#fff;padding:0;}.no-print{display:none!important;}@page{size:A4 landscape;margin:0;}}</style>'+
+    '</head><body>'+buildCertHTML()+
     '<div class="no-print" style="margin-top:16px;display:flex;gap:10px;justify-content:center;">'+
-      '<button onclick="window.print()" style="padding:10px 24px;background:#22C55E;border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;">🖨 Print / Save as PDF</button>'+
+      '<button onclick="window.print()" style="padding:10px 24px;background:#22C55E;border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;">Print / Save as PDF</button>'+
       '<button onclick="window.close()" style="padding:10px 20px;background:#64748B;border:none;border-radius:8px;color:#fff;font-size:13px;cursor:pointer;">Close</button>'+
     '</div></body></html>');
   win.document.close();
 }
 
-function downloadCert() {
+function downloadCert(){
   var name=gv('ce-name',''), empId=gv('ce-id',''), topic=gv('ce-topic',''), date=gv('ce-date',''), trainer=gv('ce-trainer','');
-  if (!name||!empId||!topic||!date||!trainer) { fieldToast&&fieldToast('Please fill required fields (*)','error'); goStep(2); return; }
+  if(!name||!empId||!topic||!date||!trainer){ fieldToast&&fieldToast('Please fill required fields (*)','error'); goStep(2); return; }
   previewFullCert();
-  certHist.unshift({empName:name,empId:empId,topic:topic,date:fmtDate(date),expiry:calcExpiry(date,gv('ce-validity','1')),tmpl:cTmpl.toUpperCase()});
+  certHist.unshift({empName:name,empId:empId,topic:topic,date:fmtDate(date),expiry:calcExp(date,gv('ce-validity','1')),tmpl:cTmpl});
   renderCertHist();
   closeCertModal();
   fieldToast&&fieldToast('Certificate opened — click Print to save as PDF','success');
 }
 
-function renderCertHist() {
+function renderCertHist(){
   var c=document.getElementById('cert-history'),l=document.getElementById('cert-history-list');
   if(!c||!l||!certHist.length) return;
   c.style.display='block';
   l.innerHTML=certHist.slice(0,5).map(function(x){
     return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;margin-bottom:6px;">'+
-      '<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:15px;">🎓</span><div><div style="font-size:11px;font-weight:600;color:var(--t1);">'+x.empName+' <span style="font-weight:400;color:var(--t3);">('+x.empId+')</span></div><div style="font-size:10px;color:var(--t3);">'+x.topic+'</div></div></div>'+
+      '<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:15px;">&#127891;</span><div><div style="font-size:11px;font-weight:600;color:var(--t1);">'+x.empName+' <span style="font-weight:400;color:var(--t3);">('+x.empId+')</span></div><div style="font-size:10px;color:var(--t3);">'+x.topic+'</div></div></div>'+
       '<div style="text-align:right;"><div style="font-size:10px;color:var(--t3);">Template '+x.tmpl+'</div><div style="font-size:10px;color:#EF4444;">Expires: '+x.expiry+'</div></div></div>';
   }).join('');
 }
