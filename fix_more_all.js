@@ -1,119 +1,46 @@
-/**
- * fix_more_all.js — Definitive More dropdown fix for ALL pages
- * The more-menu is INSIDE more-wrap. Fix uses CSS class toggle with
- * a single clean event handler. No cloning (avoids stale references).
- */
-const fs = require('fs'), path = require('path');
-const D = process.cwd();
+﻿const fs = require('fs');
 
-const PAGES = [
-  'safetypro_v2.html','safetypro_operations.html','safetypro_control.html',
-  'safetypro_reports.html','safetypro_audit_compliance.html','safetypro_documents.html',
-  'safetypro_field.html','safetypro_hrm.html','safetypro_ai.html',
-  'safetypro_auditor.html','safetypro_admin.html'
+const ALL = [
+  {href:'safetypro_audit_compliance.html', label:'Audit &amp; Compliance', path:'<path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/>', size:'14px', extra:''},
+  {href:'safetypro_field.html', label:'Site &amp; Field Tools', path:'<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>', size:'14px', extra:''},
+  {href:'safetypro_hrm.html', label:'HRM &amp; Payroll', path:'<path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>', size:'13px', extra:';fill:#8B5CF6'},
+  {href:'safetypro_ai.html', label:'AI Intelligence', path:'<path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>', size:'14px', extra:''},
+  {href:'safetypro_auditor.html', label:'Client &amp; Auditor Portal', path:'<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>', size:'13px', extra:''},
+  {href:'safetypro_documents.html', label:'Documents &amp; Records', path:'<path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>', size:'14px', extra:''},
+  {href:'safetypro_admin.html', label:'Admin &amp; Configuration', path:'<circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>', size:'14px', extra:';fill:var(--green)'},
 ];
 
-// Unified CSS: more-menu shows when #more-btn has .open class
-const MORE_CSS = `<style>
-/* sp-more-fix-css */
-/* More dropdown: hidden by default, shown when .open on wrapper */
-#more-btn .more-menu,
-.more-wrap .more-menu {
-  display: none !important;
-  position: absolute !important;
-  top: calc(100% + 4px) !important;
-  left: 0 !important;
-  min-width: 200px !important;
-  z-index: 99999 !important;
-  background: #131C26 !important;
-  border: 1px solid #334155 !important;
-  border-radius: 8px !important;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
-  padding: 4px !important;
-}
-#more-btn.open .more-menu,
-.more-wrap.open .more-menu {
-  display: flex !important;
-  flex-direction: column !important;
-}
-</style>`;
-
-// Clean JS: override onclick without cloning
-const MORE_JS = `<script>
-/* sp-more-fix-js */
-(function() {
-  function init() {
-    var btn = document.getElementById('more-btn') || document.querySelector('.more-wrap');
-    if (!btn) return;
-
-    // Override the inline onclick directly (no cloning)
-    btn.onclick = null;
-    btn.addEventListener('click', function(e) {
-      e.stopImmediatePropagation();
-      e.stopPropagation();
-      if (btn.classList.contains('open')) {
-        btn.classList.remove('open');
-      } else {
-        // Close all other dropdowns
-        var pd = document.getElementById('profile-dropdown');
-        var ad = document.getElementById('alert-dropdown');
-        if (pd) pd.style.display = 'none';
-        if (ad) ad.style.display = 'none';
-        btn.classList.add('open');
-      }
-    });
-
-    // Close on outside click
-    document.addEventListener('click', function(e) {
-      if (!btn.contains(e.target)) {
-        btn.classList.remove('open');
-      }
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-})();
-</script>`;
-
-function patch(file) {
-  const fp = path.join(D, file);
-  if (!fs.existsSync(fp)) { console.log('SKIP:', file); return; }
-  let html = fs.readFileSync(fp, 'utf8');
-  const bk = fp.replace('.html','_bk_more2_'+Date.now()+'.html');
-  fs.copyFileSync(fp, bk);
-
-  // Remove old more-fix blocks
-  ['sp-more-fix-css','sp-more-fix-js','sp-more-fix'].forEach(function(m) {
-    var s = html.indexOf('<style>\n/* '+m+' */');
-    if(s<0) s = html.indexOf('<style>/* '+m+' */');
-    if(s>=0){var e=html.indexOf('</style>',s)+8;html=html.slice(0,s)+html.slice(e);}
-    var sj = html.indexOf('<script>\n/* '+m+' */');
-    if(sj<0) sj = html.indexOf('<script>/* '+m+' */');
-    if(sj>=0){var ej=html.indexOf('</script>',sj)+9;html=html.slice(0,sj)+html.slice(ej);}
+function makeItems(exclude) {
+  let html = '\n';
+  ALL.filter(p => p.href !== exclude).forEach(p => {
+    const color = p.href.includes('hrm') ? ';color:#8B5CF6' : p.href.includes('admin') ? ';color:var(--green)' : '';
+    html += `      <a class="sb-item" style="font-size:12px;padding:7px 10px${color}" href="${p.href}">\n`;
+    html += `        <svg viewBox="0 0 24 24" style="width:${p.size};height:${p.size}${p.extra}">${p.path}</svg>\n`;
+    html += `        ${p.label}\n`;
+    html += `      </a>\n`;
   });
-
-  // Remove initMore function from navigation IIFE
-  var imStart = html.indexOf('\n  function initMore()');
-  if (imStart < 0) imStart = html.indexOf('\n    function initMore()');
-  if (imStart >= 0) {
-    var domCall = html.indexOf('initMore);', imStart);
-    if (domCall >= 0) {
-      html = html.slice(0, imStart) + html.slice(domCall + 'initMore);'.length);
-      console.log('  Removed initMore IIFE');
-    }
-  }
-
-  // Inject CSS before </head> and JS before </body>
-  html = html.replace('</head>', MORE_CSS + '\n</head>');
-  html = html.replace('</body>', MORE_JS + '\n</body>');
-
-  fs.writeFileSync(fp, html, 'utf8');
-  console.log('FIXED:', file);
+  html += '      <div style="height:1px;background:var(--border);margin:6px 8px"></div>\n    ';
+  return html;
 }
 
-PAGES.forEach(patch);
-console.log('\nDeploy: npx wrangler pages deploy . --project-name safetypro-frontend');
+const PAGES = [
+  'safetypro_ai.html','safetypro_hrm.html','safetypro_field.html',
+  'safetypro_auditor.html','safetypro_documents.html',
+  'safetypro_audit_compliance.html','safetypro_operations.html',
+  'safetypro_control.html','safetypro_reports.html','safetypro_admin.html'
+];
+
+PAGES.forEach(f => {
+  if(!fs.existsSync(f)) { console.log('SKIP:', f); return; }
+  let h = fs.readFileSync(f,'utf8');
+  const start = h.indexOf('<div id="sb-more-items"');
+  if(start === -1) { console.log('NO MORE:', f); return; }
+  const openEnd = h.indexOf('>', start) + 1;
+  const closeDiv = h.indexOf('</div>', start) + 6;
+  h = h.substring(0, openEnd) + makeItems(f) + h.substring(closeDiv);
+  fs.writeFileSync(f, h, 'utf8');
+  const links = [...h.matchAll(/href="(safetypro_[^"]+)"/g)].map(m=>m[1]).slice(0,10);
+  const hasSelf = links.includes(f);
+  const hasDup = links.length !== new Set(links).size;
+  console.log(f + ' | self=' + hasSelf + ' | dup=' + hasDup);
+});
