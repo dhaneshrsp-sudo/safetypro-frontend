@@ -856,7 +856,7 @@ flex-wrap:wrap;}
   .pd-header{padding:14px 16px;border-bottom:1px solid var(--border,#1E3347);display:flex;align-items:center;gap:10px;}
   .pd-avatar{width:36px;height:36px;border-radius:50%;background:var(--green,#22C55E);color:#0B1A2E;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--fh,'Inter',sans-serif);flex-shrink:0;}
   .pd-name{font-size:13px;font-weight:700;color:var(--t1,#E2EAF4);}
-  .pd-email{font-size:11px;color:var(--t3,#2E4A66);margin-top:1px;}
+  .pd-email{font-size:11px;color:var(--t3,#64748B);margin-top:1px;}
   .pd-role-badge{font-size:10px;color:var(--green,#22C55E);margin-top:3px;font-weight:600;}
   .pd-menu{padding:6px 0;}
   .pd-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:12px;color:var(--t2,#7A9BBF);cursor:pointer;transition:.15s;text-decoration:none;}
@@ -867,8 +867,8 @@ flex-wrap:wrap;}
   .pd-signout:hover{background:rgba(239,68,68,.08) !important;}
 
   /* ══ FOOTER ══ */
-  .sp-footer{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:32px;background:var(--card,#111D2B);border-top:1px solid var(--border,#1E3347);font-size:11px;color:var(--t3,#2E4A66);flex-shrink:0;gap:12px;}
-  .sp-footer a{color:var(--t3,#2E4A66);text-decoration:none;transition:.15s;}
+  .sp-footer{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:32px;background:var(--card,#111D2B);border-top:1px solid var(--border,#1E3347);font-size:11px;color:var(--t3,#64748B);flex-shrink:0;gap:12px;}
+  .sp-footer a{color:var(--t3,#64748B);text-decoration:none;transition:.15s;}
   .sp-footer a:hover{color:var(--t2,#7A9BBF);}
   .sp-footer-sep{color:var(--border,#1E3347);margin:0 4px;}
   .sp-footer-center{display:flex;gap:16px;}
@@ -1172,6 +1172,12 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
   border-radius: 3px !important;
 }
 </style>
+<style>
+/* ESG text visibility fixes */
+.esg-panel { color: #94A3B8; }
+.esg-panel [style*="color:var(--t3"] { color: #64748B; }
+.esg-panel [style*="color:var(--t4"] { color: #475569; }
+</style>
 </head>
 <body>
 <nav class="topnav">
@@ -1303,7 +1309,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
       <button onclick="esgTab(document.querySelectorAll('.sh-tab')[4],'sdg')" style="padding:2px 8px;background:rgba(248,113,113,.1);border:0.5px solid rgba(248,113,113,.25);border-radius:4px;color:#F87171;font-size:9px;font-weight:600;cursor:pointer;font-family:var(--fh);">UN SDGs</button>
       <button onclick="esgTab(document.querySelectorAll('.sh-tab')[1],'env')" style="padding:2px 8px;background:rgba(167,139,250,.1);border:0.5px solid rgba(167,139,250,.25);border-radius:4px;color:#A78BFA;font-size:9px;font-weight:600;cursor:pointer;font-family:var(--fh);">TNFD</button>
       <button onclick="esgTab(document.querySelectorAll('.sh-tab')[5],'materiality')" style="padding:2px 8px;background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.15);border-radius:4px;color:var(--t2,#7A9BBF);font-size:9px;font-weight:600;cursor:pointer;font-family:var(--fh);">ISO 14001 / 45001</button>
-      <span style="margin-left:auto;font-size:8.5px;color:var(--t4,#1E3347);">Click any framework to jump to relevant section</span>
+      <span style="margin-left:auto;font-size:8.5px;color:var(--t4,#475569);">Click any framework to jump to relevant section</span>
     </div>
 
     <!-- ════════════════════════════════════════════════════════ -->
@@ -1316,7 +1322,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 
         <!-- ESG Score Card -->
         <div class="card" style="padding:14px;">
-          <div style="font-size:10px;font-weight:700;color:var(--t3,#2E4A66);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">ESG Performance Score</div>
+          <div style="font-size:10px;font-weight:700;color:var(--t3,#64748B);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">ESG Performance Score</div>
           <div style="text-align:center;margin-bottom:10px;">
             <svg width="120" height="120" viewBox="0 0 120 120" style="display:block;margin:0 auto 6px;">
               <circle cx="60" cy="60" r="50" fill="none" stroke="var(--border,#1E3347)" stroke-width="10"/>
@@ -1324,7 +1330,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
               <defs><linearGradient id="esg-grad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#22C55E"/><stop offset="100%" stop-color="#C9A84C"/></linearGradient></defs>
               <text x="60" y="55" text-anchor="middle" fill="var(--t1,#E6EDF3)" font-size="26" font-weight="700" font-family="Montserrat,sans-serif">72</text>
               <text x="60" y="70" text-anchor="middle" fill="#C9A84C" font-size="10" font-weight="600" font-family="Montserrat,sans-serif">Good</text>
-              <text x="60" y="82" text-anchor="middle" fill="var(--t3,#2E4A66)" font-size="8" font-family="Montserrat,sans-serif">out of 100</text>
+              <text x="60" y="82" text-anchor="middle" fill="var(--t3,#64748B)" font-size="8" font-family="Montserrat,sans-serif">out of 100</text>
             </svg>
             <div style="font-size:9px;color:var(--green,#22C55E);">&#8679; +6 pts year-on-year &nbsp;&#183;&nbsp; Top 30% in sector</div>
           </div>
@@ -1346,36 +1352,36 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 
         <!-- Framework Compliance -->
         <div class="card" style="padding:14px;">
-          <div style="font-size:10px;font-weight:700;color:var(--t3,#2E4A66);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Framework Compliance Status &nbsp;<span style="background:rgba(201,168,76,.12);color:#C9A84C;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;">6 Frameworks</span></div>
+          <div style="font-size:10px;font-weight:700;color:var(--t3,#64748B);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Framework Compliance Status &nbsp;<span style="background:rgba(201,168,76,.12);color:#C9A84C;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;">6 Frameworks</span></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
             <div style="background:var(--bg,#0B0F14);border:0.5px solid var(--border,#1E3347);border-radius:8px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
               <div style="width:34px;height:34px;border-radius:6px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#22C55E;flex-shrink:0;">GRI</div>
-              <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">GRI Standards 2021</div><div style="font-size:8.5px;color:var(--t3,#2E4A66);margin-top:1px;">Universal + Construction</div>
+              <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">GRI Standards 2021</div><div style="font-size:8.5px;color:var(--t3,#64748B);margin-top:1px;">Universal + Construction</div>
               <div style="width:100%;height:3px;background:var(--border,#1E3347);border-radius:2px;margin-top:4px;overflow:hidden;"><div style="height:100%;width:84%;background:#22C55E;border-radius:2px;"></div></div></div>
               <div style="font-size:13px;font-weight:700;color:#22C55E;flex-shrink:0;">84%</div>
             </div><div style="background:var(--bg,#0B0F14);border:0.5px solid var(--border,#1E3347);border-radius:8px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
               <div style="width:34px;height:34px;border-radius:6px;background:rgba(201,168,76,.1);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#C9A84C;flex-shrink:0;">BRSR</div>
-              <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">SEBI BRSR Core</div><div style="font-size:8.5px;color:var(--t3,#2E4A66);margin-top:1px;">India listed — mandatory</div>
+              <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">SEBI BRSR Core</div><div style="font-size:8.5px;color:var(--t3,#64748B);margin-top:1px;">India listed — mandatory</div>
               <div style="width:100%;height:3px;background:var(--border,#1E3347);border-radius:2px;margin-top:4px;overflow:hidden;"><div style="height:100%;width:71%;background:#C9A84C;border-radius:2px;"></div></div></div>
               <div style="font-size:13px;font-weight:700;color:#C9A84C;flex-shrink:0;">71%</div>
             </div><div style="background:var(--bg,#0B0F14);border:0.5px solid var(--border,#1E3347);border-radius:8px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
               <div style="width:34px;height:34px;border-radius:6px;background:rgba(45,212,191,.1);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#2DD4BF;flex-shrink:0;">TCFD</div>
-              <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">TCFD / ISSB S1+S2</div><div style="font-size:8.5px;color:var(--t3,#2E4A66);margin-top:1px;">Climate risk disclosure</div>
+              <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">TCFD / ISSB S1+S2</div><div style="font-size:8.5px;color:var(--t3,#64748B);margin-top:1px;">Climate risk disclosure</div>
               <div style="width:100%;height:3px;background:var(--border,#1E3347);border-radius:2px;margin-top:4px;overflow:hidden;"><div style="height:100%;width:58%;background:#2DD4BF;border-radius:2px;"></div></div></div>
               <div style="font-size:13px;font-weight:700;color:#2DD4BF;flex-shrink:0;">58%</div>
             </div><div style="background:var(--bg,#0B0F14);border:0.5px solid var(--border,#1E3347);border-radius:8px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
               <div style="width:34px;height:34px;border-radius:6px;background:rgba(96,165,250,.1);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#60A5FA;flex-shrink:0;">CDP</div>
-              <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">CDP Climate</div><div style="font-size:8.5px;color:var(--t3,#2E4A66);margin-top:1px;">Climate / Water disclosure</div>
+              <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">CDP Climate</div><div style="font-size:8.5px;color:var(--t3,#64748B);margin-top:1px;">Climate / Water disclosure</div>
               <div style="width:100%;height:3px;background:var(--border,#1E3347);border-radius:2px;margin-top:4px;overflow:hidden;"><div style="height:100%;width:62%;background:#60A5FA;border-radius:2px;"></div></div></div>
               <div style="font-size:13px;font-weight:700;color:#60A5FA;flex-shrink:0;">62%</div>
             </div><div style="background:var(--bg,#0B0F14);border:0.5px solid var(--border,#1E3347);border-radius:8px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
               <div style="width:34px;height:34px;border-radius:6px;background:rgba(167,139,250,.1);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#A78BFA;flex-shrink:0;">TNFD</div>
-              <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">TNFD Nature</div><div style="font-size:8.5px;color:var(--t3,#2E4A66);margin-top:1px;">Biodiversity &amp; ecosystem</div>
+              <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">TNFD Nature</div><div style="font-size:8.5px;color:var(--t3,#64748B);margin-top:1px;">Biodiversity &amp; ecosystem</div>
               <div style="width:100%;height:3px;background:var(--border,#1E3347);border-radius:2px;margin-top:4px;overflow:hidden;"><div style="height:100%;width:34%;background:#A78BFA;border-radius:2px;"></div></div></div>
               <div style="font-size:13px;font-weight:700;color:#A78BFA;flex-shrink:0;">34%</div>
             </div><div style="background:var(--bg,#0B0F14);border:0.5px solid var(--border,#1E3347);border-radius:8px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
               <div style="width:34px;height:34px;border-radius:6px;background:rgba(248,113,113,.1);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#F87171;flex-shrink:0;">SDG</div>
-              <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">UN SDGs</div><div style="font-size:8.5px;color:var(--t3,#2E4A66);margin-top:1px;">12 of 17 goals mapped</div>
+              <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">UN SDGs</div><div style="font-size:8.5px;color:var(--t3,#64748B);margin-top:1px;">12 of 17 goals mapped</div>
               <div style="width:100%;height:3px;background:var(--border,#1E3347);border-radius:2px;margin-top:4px;overflow:hidden;"><div style="height:100%;width:71%;background:#F87171;border-radius:2px;"></div></div></div>
               <div style="font-size:13px;font-weight:700;color:#F87171;flex-shrink:0;">71%</div>
             </div>
@@ -1388,29 +1394,29 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
         <div class="card" style="padding:12px 14px;border-left:3px solid #22C55E;">
           <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#22C55E;margin-bottom:5px;">&#127807; Environmental</div>
           <div style="font-size:24px;font-weight:700;color:var(--t1,#E6EDF3);line-height:1;">1,842</div>
-          <div style="font-size:9px;color:var(--t3,#2E4A66);margin-top:3px;">tCO&#8322;e &mdash; Total GHG Scope 1+2</div>
-          <div style="font-size:8px;color:var(--t4,#1E3347);margin-top:4px;">GRI 305-1/305-2 &middot; BRSR Principle 6</div>
+          <div style="font-size:9px;color:var(--t3,#64748B);margin-top:3px;">tCO&#8322;e &mdash; Total GHG Scope 1+2</div>
+          <div style="font-size:8px;color:var(--t4,#475569);margin-top:4px;">GRI 305-1/305-2 &middot; BRSR Principle 6</div>
           <div style="font-size:9px;color:#F87171;margin-top:4px;">&#8679; 12% vs last FY &mdash; target: 10%/yr reduction</div>
         </div>
         <div class="card" style="padding:12px 14px;border-left:3px solid #60A5FA;">
           <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#60A5FA;margin-bottom:5px;">&#128101; Social</div>
           <div style="font-size:24px;font-weight:700;color:#22C55E;line-height:1;">0.00</div>
-          <div style="font-size:9px;color:var(--t3,#2E4A66);margin-top:3px;">LTIFR &mdash; Lost Time Injury Frequency Rate</div>
-          <div style="font-size:8px;color:var(--t4,#1E3347);margin-top:4px;">GRI 403-9 &middot; ISO 45001 &middot; BRSR Principle 3</div>
+          <div style="font-size:9px;color:var(--t3,#64748B);margin-top:3px;">LTIFR &mdash; Lost Time Injury Frequency Rate</div>
+          <div style="font-size:8px;color:var(--t4,#475569);margin-top:4px;">GRI 403-9 &middot; ISO 45001 &middot; BRSR Principle 3</div>
           <div style="font-size:9px;color:#22C55E;margin-top:4px;">&#8679; Zero LTI &mdash; 366 days LTI-free streak</div>
         </div>
         <div class="card" style="padding:12px 14px;border-left:3px solid #60A5FA;">
           <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#60A5FA;margin-bottom:5px;">&#128101; Social</div>
           <div style="font-size:24px;font-weight:700;color:var(--t1,#E6EDF3);line-height:1;">18%</div>
-          <div style="font-size:9px;color:var(--t3,#2E4A66);margin-top:3px;">Women in total workforce</div>
-          <div style="font-size:8px;color:var(--t4,#1E3347);margin-top:4px;">GRI 405-1 &middot; BRSR Principle 5 &middot; SDG 5</div>
+          <div style="font-size:9px;color:var(--t3,#64748B);margin-top:3px;">Women in total workforce</div>
+          <div style="font-size:8px;color:var(--t4,#475569);margin-top:4px;">GRI 405-1 &middot; BRSR Principle 5 &middot; SDG 5</div>
           <div style="font-size:9px;color:#22C55E;margin-top:4px;">&#8679; +3% vs FY24 &mdash; target: 25% by 2027</div>
         </div>
         <div class="card" style="padding:12px 14px;border-left:3px solid #A78BFA;">
           <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#A78BFA;margin-bottom:5px;">&#127963; Governance</div>
           <div style="font-size:24px;font-weight:700;color:var(--t1,#E6EDF3);line-height:1;">86%</div>
-          <div style="font-size:9px;color:var(--t3,#2E4A66);margin-top:3px;">Legal &amp; regulatory compliance score</div>
-          <div style="font-size:8px;color:var(--t4,#1E3347);margin-top:4px;">GRI 307 &middot; GRI 419 &middot; BRSR Principle 1</div>
+          <div style="font-size:9px;color:var(--t3,#64748B);margin-top:3px;">Legal &amp; regulatory compliance score</div>
+          <div style="font-size:8px;color:var(--t4,#475569);margin-top:4px;">GRI 307 &middot; GRI 419 &middot; BRSR Principle 1</div>
           <div style="font-size:9px;color:#22C55E;margin-top:4px;">&#8679; +4% vs last quarter</div>
         </div>
       </div>
@@ -1422,27 +1428,27 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><div style="width:60px;font-size:9px;color:#F87171;flex-shrink:0;">Scope 1</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:10px;overflow:hidden;"><div style="height:100%;width:72%;background:#EF4444;border-radius:2px;"></div></div><div style="font-size:9px;font-weight:600;color:#F87171;width:55px;text-align:right;">1,240 t</div></div>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><div style="width:60px;font-size:9px;color:#F59E0B;flex-shrink:0;">Scope 2</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:10px;overflow:hidden;"><div style="height:100%;width:35%;background:#F59E0B;border-radius:2px;"></div></div><div style="font-size:9px;font-weight:600;color:#F59E0B;width:55px;text-align:right;">602 t</div></div>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><div style="width:60px;font-size:9px;color:#60A5FA;flex-shrink:0;">Scope 3</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:10px;overflow:hidden;"><div style="height:100%;width:90%;background:#60A5FA;border-radius:2px;"></div></div><div style="font-size:9px;font-weight:600;color:#60A5FA;width:55px;text-align:right;">5,840 t</div></div>
-          <div style="background:rgba(34,197,94,.05);border:0.5px solid rgba(34,197,94,.1);border-radius:6px;padding:7px 10px;font-size:9px;color:var(--t3,#2E4A66);">
+          <div style="background:rgba(34,197,94,.05);border:0.5px solid rgba(34,197,94,.1);border-radius:6px;padding:7px 10px;font-size:9px;color:var(--t3,#64748B);">
             <span style="color:#22C55E;font-weight:600;">Target: 10% annual reduction &nbsp;&#183;&nbsp;</span>SBTi alignment in progress &nbsp;&#183;&nbsp; Net Zero by 2050
           </div>
         </div>
         <div class="card" style="padding:14px;">
           <div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;">Reporting Calendar <span style="background:rgba(201,168,76,.12);color:#C9A84C;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;">Next 90 days</span></div>
           <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
-            <div style="width:40px;text-align:center;flex-shrink:0;"><div style="font-size:16px;font-weight:700;color:var(--t1,#E6EDF3);line-height:1;">15</div><div style="font-size:8px;color:var(--t3,#2E4A66);">Apr</div></div>
-            <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">BRSR Core submission</div><div style="font-size:8.5px;color:var(--t3,#2E4A66);margin-top:1px;">SEBI Annual Report — FY 2025–26</div></div>
+            <div style="width:40px;text-align:center;flex-shrink:0;"><div style="font-size:16px;font-weight:700;color:var(--t1,#E6EDF3);line-height:1;">15</div><div style="font-size:8px;color:var(--t3,#64748B);">Apr</div></div>
+            <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">BRSR Core submission</div><div style="font-size:8.5px;color:var(--t3,#64748B);margin-top:1px;">SEBI Annual Report — FY 2025–26</div></div>
             <span style="margin-left:auto;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;background:rgba(239,68,68,.12);color:#F87171;">Urgent</span>
           </div><div style="display:flex;align-items:center;gap:10px;padding:7px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
-            <div style="width:40px;text-align:center;flex-shrink:0;"><div style="font-size:16px;font-weight:700;color:var(--t1,#E6EDF3);line-height:1;">30</div><div style="font-size:8px;color:var(--t3,#2E4A66);">Apr</div></div>
-            <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">CDP Climate questionnaire</div><div style="font-size:8.5px;color:var(--t3,#2E4A66);margin-top:1px;">CDP submission portal — Annual</div></div>
+            <div style="width:40px;text-align:center;flex-shrink:0;"><div style="font-size:16px;font-weight:700;color:var(--t1,#E6EDF3);line-height:1;">30</div><div style="font-size:8px;color:var(--t3,#64748B);">Apr</div></div>
+            <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">CDP Climate questionnaire</div><div style="font-size:8.5px;color:var(--t3,#64748B);margin-top:1px;">CDP submission portal — Annual</div></div>
             <span style="margin-left:auto;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;background:rgba(245,158,11,.12);color:#F59E0B;">Due soon</span>
           </div><div style="display:flex;align-items:center;gap:10px;padding:7px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
-            <div style="width:40px;text-align:center;flex-shrink:0;"><div style="font-size:16px;font-weight:700;color:var(--t1,#E6EDF3);line-height:1;">15</div><div style="font-size:8px;color:var(--t3,#2E4A66);">Jun</div></div>
-            <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">GRI Sustainability Report</div><div style="font-size:8.5px;color:var(--t3,#2E4A66);margin-top:1px;">GRI Standards 2021 — Full disclosure</div></div>
+            <div style="width:40px;text-align:center;flex-shrink:0;"><div style="font-size:16px;font-weight:700;color:var(--t1,#E6EDF3);line-height:1;">15</div><div style="font-size:8px;color:var(--t3,#64748B);">Jun</div></div>
+            <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">GRI Sustainability Report</div><div style="font-size:8.5px;color:var(--t3,#64748B);margin-top:1px;">GRI Standards 2021 — Full disclosure</div></div>
             <span style="margin-left:auto;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;background:rgba(34,197,94,.1);color:#22C55E;">Scheduled</span>
           </div><div style="display:flex;align-items:center;gap:10px;padding:7px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
-            <div style="width:40px;text-align:center;flex-shrink:0;"><div style="font-size:16px;font-weight:700;color:var(--t1,#E6EDF3);line-height:1;">30</div><div style="font-size:8px;color:var(--t3,#2E4A66);">Jun</div></div>
-            <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">TCFD / ISSB Climate Disclosure</div><div style="font-size:8.5px;color:var(--t3,#2E4A66);margin-top:1px;">IFRS S1+S2 — Board approval required</div></div>
+            <div style="width:40px;text-align:center;flex-shrink:0;"><div style="font-size:16px;font-weight:700;color:var(--t1,#E6EDF3);line-height:1;">30</div><div style="font-size:8px;color:var(--t3,#64748B);">Jun</div></div>
+            <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">TCFD / ISSB Climate Disclosure</div><div style="font-size:8.5px;color:var(--t3,#64748B);margin-top:1px;">IFRS S1+S2 — Board approval required</div></div>
             <span style="margin-left:auto;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;background:rgba(34,197,94,.1);color:#22C55E;">Scheduled</span>
           </div>
         </div>
@@ -1452,16 +1458,16 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div class="card" style="padding:14px;">
           <div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);margin-bottom:4px;">UN SDG Alignment</div>
-          <div style="font-size:9px;color:var(--t3,#2E4A66);margin-bottom:10px;">12 primary &middot; 3 secondary &middot; Click <a href="#" onclick="esgTab(document.querySelectorAll('.sh-tab')[4],'sdg');return false;" style="color:#60A5FA;text-decoration:none;">UN SDGs tab</a> for full KPI mapping</div>
+          <div style="font-size:9px;color:var(--t3,#64748B);margin-bottom:10px;">12 primary &middot; 3 secondary &middot; Click <a href="#" onclick="esgTab(document.querySelectorAll('.sh-tab')[4],'sdg');return false;" style="color:#60A5FA;text-decoration:none;">UN SDGs tab</a> for full KPI mapping</div>
           <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:5px;">
             <div style="background:rgba(77,166,255,.15);border-radius:5px;padding:5px 3px;text-align:center;cursor:pointer;"><div style="font-size:10px;font-weight:700;color:#4DA6FF;">3</div><div style="font-size:7px;color:#4DA6FF;margin-top:1px;opacity:.85;line-height:1.2;">Good Health</div></div><div style="background:rgba(196,131,8,.15);border-radius:5px;padding:5px 3px;text-align:center;cursor:pointer;"><div style="font-size:10px;font-weight:700;color:#C48308;">4</div><div style="font-size:7px;color:#C48308;margin-top:1px;opacity:.85;line-height:1.2;">Education</div></div><div style="background:rgba(0,145,183,.15);border-radius:5px;padding:5px 3px;text-align:center;cursor:pointer;"><div style="font-size:10px;font-weight:700;color:#0091B7;">6</div><div style="font-size:7px;color:#0091B7;margin-top:1px;opacity:.85;line-height:1.2;">Clean Water</div></div><div style="background:rgba(255,195,11,.15);border-radius:5px;padding:5px 3px;text-align:center;cursor:pointer;"><div style="font-size:10px;font-weight:700;color:#FFC30B;">7</div><div style="font-size:7px;color:#FFC30B;margin-top:1px;opacity:.85;line-height:1.2;">Clean Energy</div></div><div style="background:rgba(161,25,35,.15);border-radius:5px;padding:5px 3px;text-align:center;cursor:pointer;"><div style="font-size:10px;font-weight:700;color:#E5243B;">8</div><div style="font-size:7px;color:#E5243B;margin-top:1px;opacity:.85;line-height:1.2;">Decent Work</div></div><div style="background:rgba(253,105,37,.15);border-radius:5px;padding:5px 3px;text-align:center;cursor:pointer;"><div style="font-size:10px;font-weight:700;color:#FD6925;">9</div><div style="font-size:7px;color:#FD6925;margin-top:1px;opacity:.85;line-height:1.2;">Infrastructure</div></div><div style="background:rgba(221,0,56,.12);border-radius:5px;padding:5px 3px;text-align:center;cursor:pointer;"><div style="font-size:10px;font-weight:700;color:#DD0038;">10</div><div style="font-size:7px;color:#DD0038;margin-top:1px;opacity:.85;line-height:1.2;">Inequality</div></div><div style="background:rgba(253,157,36,.15);border-radius:5px;padding:5px 3px;text-align:center;cursor:pointer;"><div style="font-size:10px;font-weight:700;color:#FD9D24;">11</div><div style="font-size:7px;color:#FD9D24;margin-top:1px;opacity:.85;line-height:1.2;">Sust. Cities</div></div><div style="background:rgba(191,139,46,.15);border-radius:5px;padding:5px 3px;text-align:center;cursor:pointer;"><div style="font-size:10px;font-weight:700;color:#BF8B2E;">12</div><div style="font-size:7px;color:#BF8B2E;margin-top:1px;opacity:.85;line-height:1.2;">Consumption</div></div><div style="background:rgba(63,126,68,.2);border-radius:5px;padding:5px 3px;text-align:center;cursor:pointer;"><div style="font-size:10px;font-weight:700;color:#3F7E44;">13</div><div style="font-size:7px;color:#3F7E44;margin-top:1px;opacity:.85;line-height:1.2;">Climate</div></div><div style="background:rgba(86,192,43,.18);border-radius:5px;padding:5px 3px;text-align:center;cursor:pointer;"><div style="font-size:10px;font-weight:700;color:#56C02B;">15</div><div style="font-size:7px;color:#56C02B;margin-top:1px;opacity:.85;line-height:1.2;">Life on Land</div></div><div style="background:rgba(25,72,106,.3);border-radius:5px;padding:5px 3px;text-align:center;cursor:pointer;"><div style="font-size:10px;font-weight:700;color:#3E7FAB;">17</div><div style="font-size:7px;color:#3E7FAB;margin-top:1px;opacity:.85;line-height:1.2;">Partnerships</div></div>
           </div>
         </div>
         <div class="card" style="padding:14px;">
           <div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);margin-bottom:4px;">Materiality Matrix</div>
-          <div style="font-size:9px;color:var(--t3,#2E4A66);margin-bottom:8px;">Double materiality &middot; GRI 3-1 + ESRS CSRD compatible</div>
+          <div style="font-size:9px;color:var(--t3,#64748B);margin-bottom:8px;">Double materiality &middot; GRI 3-1 + ESRS CSRD compatible</div>
           <div style="position:relative;padding:8px 8px 8px 20px;">
-            <div style="position:absolute;left:2px;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:8px;color:var(--t3,#2E4A66);white-space:nowrap;">Impact on society &amp; environment &#8593;</div>
+            <div style="position:absolute;left:2px;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:8px;color:var(--t3,#64748B);white-space:nowrap;">Impact on society &amp; environment &#8593;</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:5px;height:150px;">
               <div style="background:rgba(239,68,68,.08);border:0.5px solid rgba(239,68,68,.2);border-radius:6px;padding:7px;">
                 <div style="font-size:8px;font-weight:700;color:#F87171;margin-bottom:4px;">HIGH PRIORITY</div>
@@ -1481,12 +1487,12 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
                 <div style="font-size:8.5px;color:var(--t2,#7A9BBF);display:flex;align-items:center;gap:4px;"><div style="width:7px;height:7px;border-radius:50%;background:#C9A84C;flex-shrink:0;"></div>Anti-corruption</div>
               </div>
               <div style="background:rgba(255,255,255,.02);border:0.5px solid var(--border,#1E3347);border-radius:6px;padding:7px;">
-                <div style="font-size:8px;font-weight:700;color:var(--t3,#2E4A66);margin-bottom:4px;">EMERGING</div>
+                <div style="font-size:8px;font-weight:700;color:var(--t3,#64748B);margin-bottom:4px;">EMERGING</div>
                 <div style="font-size:8.5px;color:var(--t2,#7A9BBF);display:flex;align-items:center;gap:4px;margin-bottom:2px;"><div style="width:7px;height:7px;border-radius:50%;background:#475569;flex-shrink:0;"></div>Supply chain</div>
                 <div style="font-size:8.5px;color:var(--t2,#7A9BBF);display:flex;align-items:center;gap:4px;"><div style="width:7px;height:7px;border-radius:50%;background:#475569;flex-shrink:0;"></div>Digital rights</div>
               </div>
             </div>
-            <div style="text-align:center;font-size:8px;color:var(--t3,#2E4A66);margin-top:5px;">Financial impact on company &#8594;</div>
+            <div style="text-align:center;font-size:8px;color:var(--t3,#64748B);margin-top:5px;">Financial impact on company &#8594;</div>
           </div>
         </div>
       </div>
@@ -1501,24 +1507,24 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;">
         <div class="card" style="padding:12px;border-left:3px solid #EF4444;">
           <div style="font-size:20px;font-weight:700;color:#F87171;">1,240 <span style="font-size:13px;">tCO&#8322;e</span></div>
-          <div style="font-size:9px;color:var(--t3,#2E4A66);margin-top:2px;">Scope 1 &mdash; Direct emissions</div>
-          <div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">Diesel, DG sets, vehicles &mdash; GRI 305-1</div>
+          <div style="font-size:9px;color:var(--t3,#64748B);margin-top:2px;">Scope 1 &mdash; Direct emissions</div>
+          <div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">Diesel, DG sets, vehicles &mdash; GRI 305-1</div>
           <div style="margin-top:7px;height:5px;background:var(--border,#1E3347);border-radius:2px;overflow:hidden;"><div style="height:100%;width:72%;background:#EF4444;border-radius:2px;"></div></div>
-          <div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">72% of Scope 1 reduction target</div>
+          <div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">72% of Scope 1 reduction target</div>
         </div>
         <div class="card" style="padding:12px;border-left:3px solid #F59E0B;">
           <div style="font-size:20px;font-weight:700;color:#F59E0B;">602 <span style="font-size:13px;">tCO&#8322;e</span></div>
-          <div style="font-size:9px;color:var(--t3,#2E4A66);margin-top:2px;">Scope 2 &mdash; Indirect (energy)</div>
-          <div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">Grid electricity &mdash; GRI 305-2</div>
+          <div style="font-size:9px;color:var(--t3,#64748B);margin-top:2px;">Scope 2 &mdash; Indirect (energy)</div>
+          <div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">Grid electricity &mdash; GRI 305-2</div>
           <div style="margin-top:7px;height:5px;background:var(--border,#1E3347);border-radius:2px;overflow:hidden;"><div style="height:100%;width:45%;background:#F59E0B;border-radius:2px;"></div></div>
-          <div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">45% renewable energy mix target</div>
+          <div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">45% renewable energy mix target</div>
         </div>
         <div class="card" style="padding:12px;border-left:3px solid #60A5FA;">
           <div style="font-size:20px;font-weight:700;color:#60A5FA;">5,840 <span style="font-size:13px;">tCO&#8322;e</span></div>
-          <div style="font-size:9px;color:var(--t3,#2E4A66);margin-top:2px;">Scope 3 &mdash; Value chain</div>
-          <div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">Materials, logistics, waste &mdash; GRI 305-3</div>
+          <div style="font-size:9px;color:var(--t3,#64748B);margin-top:2px;">Scope 3 &mdash; Value chain</div>
+          <div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">Materials, logistics, waste &mdash; GRI 305-3</div>
           <div style="margin-top:7px;height:5px;background:var(--border,#1E3347);border-radius:2px;overflow:hidden;"><div style="height:100%;width:28%;background:#60A5FA;border-radius:2px;"></div></div>
-          <div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">28% suppliers with ESG disclosure</div>
+          <div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">28% suppliers with ESG disclosure</div>
         </div>
       </div>
 
@@ -1528,15 +1534,15 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><div style="width:100px;font-size:9px;color:var(--t2,#7A9BBF);flex-shrink:0;">Diesel (site)</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:8px;overflow:hidden;"><div style="height:100%;width:85%;background:#EF4444;border-radius:2px;"></div></div><div style="font-size:9px;font-weight:600;color:var(--t2,#7A9BBF);width:55px;text-align:right;">3,420 GJ</div></div>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><div style="width:100px;font-size:9px;color:var(--t2,#7A9BBF);flex-shrink:0;">Grid electricity</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:8px;overflow:hidden;"><div style="height:100%;width:40%;background:#F59E0B;border-radius:2px;"></div></div><div style="font-size:9px;font-weight:600;color:var(--t2,#7A9BBF);width:55px;text-align:right;">1,680 GJ</div></div>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><div style="width:100px;font-size:9px;color:var(--t2,#7A9BBF);flex-shrink:0;">Solar (onsite)</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:8px;overflow:hidden;"><div style="height:100%;width:18%;background:#22C55E;border-radius:2px;"></div></div><div style="font-size:9px;font-weight:600;color:var(--t2,#7A9BBF);width:55px;text-align:right;">740 GJ</div></div>
-          <div style="font-size:9px;color:var(--t4,#1E3347);margin-top:7px;">Energy intensity: 0.42 GJ per &#8377;1L turnover &middot; Target: &lt;0.38</div>
+          <div style="font-size:9px;color:var(--t4,#475569);margin-top:7px;">Energy intensity: 0.42 GJ per &#8377;1L turnover &middot; Target: &lt;0.38</div>
         </div>
         <div class="card" style="padding:14px;">
           <div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);margin-bottom:10px;">Water &amp; Waste Management <span style="background:rgba(96,165,250,.1);color:#60A5FA;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;margin-left:5px;">GRI 303/306</span></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#60A5FA;">14,200</div><div style="font-size:8.5px;color:var(--t3,#2E4A66);margin-top:2px;">kL water consumed</div><div style="font-size:8px;color:var(--t4,#1E3347);">GRI 303-5</div></div>
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">42%</div><div style="font-size:8.5px;color:var(--t3,#2E4A66);margin-top:2px;">water recycled</div><div style="font-size:8px;color:var(--t4,#1E3347);">GRI 303-3</div></div>
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#C9A84C;">1,840</div><div style="font-size:8.5px;color:var(--t3,#2E4A66);margin-top:2px;">tonnes C&amp;D waste</div><div style="font-size:8px;color:var(--t4,#1E3347);">GRI 306-3</div></div>
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">67%</div><div style="font-size:8.5px;color:var(--t3,#2E4A66);margin-top:2px;">waste diversion rate</div><div style="font-size:8px;color:var(--t4,#1E3347);">GRI 306-4/5</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#60A5FA;">14,200</div><div style="font-size:8.5px;color:var(--t3,#64748B);margin-top:2px;">kL water consumed</div><div style="font-size:8px;color:var(--t4,#475569);">GRI 303-5</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">42%</div><div style="font-size:8.5px;color:var(--t3,#64748B);margin-top:2px;">water recycled</div><div style="font-size:8px;color:var(--t4,#475569);">GRI 303-3</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#C9A84C;">1,840</div><div style="font-size:8.5px;color:var(--t3,#64748B);margin-top:2px;">tonnes C&amp;D waste</div><div style="font-size:8px;color:var(--t4,#475569);">GRI 306-3</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">67%</div><div style="font-size:8.5px;color:var(--t3,#64748B);margin-top:2px;">waste diversion rate</div><div style="font-size:8px;color:var(--t4,#475569);">GRI 306-4/5</div></div>
           </div>
         </div>
       </div>
@@ -1547,38 +1553,38 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
           <div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);">Reduction Targets vs Actuals</div>
           <span style="background:rgba(34,197,94,.1);color:#22C55E;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;">SBTi Aligned</span>
         </div>
-        <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 80px;padding:7px 14px;background:var(--bg,#0B0F14);font-size:8px;font-weight:700;color:var(--t4,#1E3347);text-transform:uppercase;letter-spacing:.4px;border-bottom:0.5px solid var(--border,#1E3347);">
+        <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 80px;padding:7px 14px;background:var(--bg,#0B0F14);font-size:8px;font-weight:700;color:var(--t4,#475569);text-transform:uppercase;letter-spacing:.4px;border-bottom:0.5px solid var(--border,#1E3347);">
           <div>Target</div><div>Baseline (FY23)</div><div>Actual (FY25)</div><div>Target FY27</div><div>Status</div>
         </div>
         <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 80px;align-items:center;padding:8px 14px;border-bottom:0.5px solid rgba(255,255,255,.04);font-size:10px;">
           <div style="color:var(--t2,#7A9BBF);">GHG Scope 1 reduction</div>
-          <div style="color:var(--t3,#2E4A66);">1,420 tCO₂e</div>
+          <div style="color:var(--t3,#64748B);">1,420 tCO₂e</div>
           <div style="color:#22C55E;">1,240 tCO₂e</div>
-          <div style="color:var(--t3,#2E4A66);">1,140 tCO₂e</div>
+          <div style="color:var(--t3,#64748B);">1,140 tCO₂e</div>
           <span style="padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;background:rgba(34,197,94,.1);color:#22C55E;">On Track</span>
         </div><div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 80px;align-items:center;padding:8px 14px;border-bottom:0.5px solid rgba(255,255,255,.04);font-size:10px;">
           <div style="color:var(--t2,#7A9BBF);">Renewable energy share</div>
-          <div style="color:var(--t3,#2E4A66);">12%</div>
+          <div style="color:var(--t3,#64748B);">12%</div>
           <div style="color:#C9A84C;">18%</div>
-          <div style="color:var(--t3,#2E4A66);">35%</div>
+          <div style="color:var(--t3,#64748B);">35%</div>
           <span style="padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;background:rgba(201,168,76,.1);color:#C9A84C;">Partial</span>
         </div><div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 80px;align-items:center;padding:8px 14px;border-bottom:0.5px solid rgba(255,255,255,.04);font-size:10px;">
           <div style="color:var(--t2,#7A9BBF);">Water intensity</div>
-          <div style="color:var(--t3,#2E4A66);">0.62 kL/m²</div>
+          <div style="color:var(--t3,#64748B);">0.62 kL/m²</div>
           <div style="color:#22C55E;">0.54 kL/m²</div>
-          <div style="color:var(--t3,#2E4A66);">0.45 kL/m²</div>
+          <div style="color:var(--t3,#64748B);">0.45 kL/m²</div>
           <span style="padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;background:rgba(34,197,94,.1);color:#22C55E;">On Track</span>
         </div><div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 80px;align-items:center;padding:8px 14px;border-bottom:0.5px solid rgba(255,255,255,.04);font-size:10px;">
           <div style="color:var(--t2,#7A9BBF);">C&D waste diversion</div>
-          <div style="color:var(--t3,#2E4A66);">48%</div>
+          <div style="color:var(--t3,#64748B);">48%</div>
           <div style="color:#22C55E;">67%</div>
-          <div style="color:var(--t3,#2E4A66);">80%</div>
+          <div style="color:var(--t3,#64748B);">80%</div>
           <span style="padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;background:rgba(34,197,94,.1);color:#22C55E;">On Track</span>
         </div><div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 80px;align-items:center;padding:8px 14px;border-bottom:0.5px solid rgba(255,255,255,.04);font-size:10px;">
           <div style="color:var(--t2,#7A9BBF);">Trees planted (compensatory)</div>
-          <div style="color:var(--t3,#2E4A66);">—</div>
+          <div style="color:var(--t3,#64748B);">—</div>
           <div style="color:#C9A84C;">840</div>
-          <div style="color:var(--t3,#2E4A66);">2,000</div>
+          <div style="color:var(--t3,#64748B);">2,000</div>
           <span style="padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;background:rgba(201,168,76,.1);color:#C9A84C;">Partial</span>
         </div>
       </div>
@@ -1592,48 +1598,48 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
         <div class="card" style="padding:14px;">
           <div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);margin-bottom:10px;">OHS Key Performance Indicators <span style="background:rgba(34,197,94,.1);color:#22C55E;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;margin-left:4px;">ISO 45001 / GRI 403</span></div>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:8px;">
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">0.00</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">LTIFR</div><div style="font-size:7.5px;color:var(--t4,#1E3347);">GRI 403-9</div></div>
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">0.00</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">TRIR</div><div style="font-size:7.5px;color:var(--t4,#1E3347);">GRI 403-9</div></div>
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">0</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">Fatalities</div><div style="font-size:7.5px;color:var(--t4,#1E3347);">GRI 403-9</div></div>
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">366</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">Safe Days</div><div style="font-size:7.5px;color:var(--t4,#1E3347);">Consecutive</div></div>
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#C9A84C;">3</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">Near Misses</div><div style="font-size:7.5px;color:var(--t4,#1E3347);">Reported</div></div>
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#60A5FA;">98%</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">PPE Compliance</div><div style="font-size:7.5px;color:var(--t4,#1E3347);">Daily</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">0.00</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">LTIFR</div><div style="font-size:7.5px;color:var(--t4,#475569);">GRI 403-9</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">0.00</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">TRIR</div><div style="font-size:7.5px;color:var(--t4,#475569);">GRI 403-9</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">0</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">Fatalities</div><div style="font-size:7.5px;color:var(--t4,#475569);">GRI 403-9</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">366</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">Safe Days</div><div style="font-size:7.5px;color:var(--t4,#475569);">Consecutive</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#C9A84C;">3</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">Near Misses</div><div style="font-size:7.5px;color:var(--t4,#475569);">Reported</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#60A5FA;">98%</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">PPE Compliance</div><div style="font-size:7.5px;color:var(--t4,#475569);">Daily</div></div>
           </div>
-          <div style="background:rgba(34,197,94,.05);border-radius:6px;padding:7px 10px;font-size:9px;color:var(--t4,#1E3347);">Auto-fed from <strong style="color:#22C55E;">MHSE Monthly Report — Section 3</strong> &middot; BOCW 1996 compliant</div>
+          <div style="background:rgba(34,197,94,.05);border-radius:6px;padding:7px 10px;font-size:9px;color:var(--t4,#475569);">Auto-fed from <strong style="color:#22C55E;">MHSE Monthly Report — Section 3</strong> &middot; BOCW 1996 compliant</div>
         </div>
         <div class="card" style="padding:14px;">
           <div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);margin-bottom:10px;">Workforce Composition <span style="background:rgba(96,165,250,.1);color:#60A5FA;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;margin-left:4px;">GRI 401/405</span></div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;"><div style="font-size:10px;color:var(--t3,#2E4A66);width:120px;flex-shrink:0;">Total workforce</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:7px;overflow:hidden;"><div style="height:100%;width:100%;background:#60A5FA;border-radius:2px;"></div></div><div style="font-size:10px;font-weight:600;color:var(--t2,#7A9BBF);width:40px;text-align:right;">842</div></div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;"><div style="font-size:10px;color:var(--t3,#2E4A66);width:120px;flex-shrink:0;">Direct employees</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:7px;overflow:hidden;"><div style="height:100%;width:38%;background:#22C55E;border-radius:2px;"></div></div><div style="font-size:10px;font-weight:600;color:var(--t2,#7A9BBF);width:40px;text-align:right;">318</div></div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;"><div style="font-size:10px;color:var(--t3,#2E4A66);width:120px;flex-shrink:0;">Contract workers</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:7px;overflow:hidden;"><div style="height:100%;width:62%;background:#C9A84C;border-radius:2px;"></div></div><div style="font-size:10px;font-weight:600;color:var(--t2,#7A9BBF);width:40px;text-align:right;">524</div></div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;"><div style="font-size:10px;color:var(--t3,#2E4A66);width:120px;flex-shrink:0;">Women (total)</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:7px;overflow:hidden;"><div style="height:100%;width:18%;background:#F472B6;border-radius:2px;"></div></div><div style="font-size:10px;font-weight:600;color:var(--t2,#7A9BBF);width:40px;text-align:right;">18%</div></div>
-          <div style="display:flex;align-items:center;gap:8px;"><div style="font-size:10px;color:var(--t3,#2E4A66);width:120px;flex-shrink:0;">Local employment</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:7px;overflow:hidden;"><div style="height:100%;width:64%;background:#2DD4BF;border-radius:2px;"></div></div><div style="font-size:10px;font-weight:600;color:var(--t2,#7A9BBF);width:40px;text-align:right;">64%</div></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;"><div style="font-size:10px;color:var(--t3,#64748B);width:120px;flex-shrink:0;">Total workforce</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:7px;overflow:hidden;"><div style="height:100%;width:100%;background:#60A5FA;border-radius:2px;"></div></div><div style="font-size:10px;font-weight:600;color:var(--t2,#7A9BBF);width:40px;text-align:right;">842</div></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;"><div style="font-size:10px;color:var(--t3,#64748B);width:120px;flex-shrink:0;">Direct employees</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:7px;overflow:hidden;"><div style="height:100%;width:38%;background:#22C55E;border-radius:2px;"></div></div><div style="font-size:10px;font-weight:600;color:var(--t2,#7A9BBF);width:40px;text-align:right;">318</div></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;"><div style="font-size:10px;color:var(--t3,#64748B);width:120px;flex-shrink:0;">Contract workers</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:7px;overflow:hidden;"><div style="height:100%;width:62%;background:#C9A84C;border-radius:2px;"></div></div><div style="font-size:10px;font-weight:600;color:var(--t2,#7A9BBF);width:40px;text-align:right;">524</div></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;"><div style="font-size:10px;color:var(--t3,#64748B);width:120px;flex-shrink:0;">Women (total)</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:7px;overflow:hidden;"><div style="height:100%;width:18%;background:#F472B6;border-radius:2px;"></div></div><div style="font-size:10px;font-weight:600;color:var(--t2,#7A9BBF);width:40px;text-align:right;">18%</div></div>
+          <div style="display:flex;align-items:center;gap:8px;"><div style="font-size:10px;color:var(--t3,#64748B);width:120px;flex-shrink:0;">Local employment</div><div style="flex:1;background:var(--border,#1E3347);border-radius:2px;height:7px;overflow:hidden;"><div style="height:100%;width:64%;background:#2DD4BF;border-radius:2px;"></div></div><div style="font-size:10px;font-weight:600;color:var(--t2,#7A9BBF);width:40px;text-align:right;">64%</div></div>
         </div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
         <div class="card" style="padding:14px;">
           <div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);margin-bottom:8px;">Training &amp; Development <span style="background:rgba(201,168,76,.12);color:#C9A84C;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;margin-left:4px;">GRI 404</span></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px;">
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#60A5FA;">24</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">Avg hrs/emp/yr</div></div>
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">96%</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">Induction rate</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#60A5FA;">24</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">Avg hrs/emp/yr</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">96%</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">Induction rate</div></div>
           </div>
-          <div style="font-size:9px;color:var(--t4,#1E3347);">Toolbox talks: 312 sessions &middot; Emergency drills: 4/yr &middot; First-aid trained: 38</div>
+          <div style="font-size:9px;color:var(--t4,#475569);">Toolbox talks: 312 sessions &middot; Emergency drills: 4/yr &middot; First-aid trained: 38</div>
         </div>
         <div class="card" style="padding:14px;">
           <div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);margin-bottom:8px;">Community Impact <span style="background:rgba(34,197,94,.1);color:#22C55E;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;margin-left:4px;">GRI 413</span></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px;">
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#C9A84C;">&#8377;18L</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">Community invest.</div></div>
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">2,400</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">Local jobs created</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#C9A84C;">&#8377;18L</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">Community invest.</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">2,400</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">Local jobs created</div></div>
           </div>
-          <div style="font-size:9px;color:var(--t4,#1E3347);">Road safety camps: 6 &middot; Grievances: 0 received</div>
+          <div style="font-size:9px;color:var(--t4,#475569);">Road safety camps: 6 &middot; Grievances: 0 received</div>
         </div>
         <div class="card" style="padding:14px;">
           <div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);margin-bottom:8px;">Supply Chain <span style="background:rgba(96,165,250,.1);color:#60A5FA;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;margin-left:4px;">GRI 408/409</span></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px;">
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#A78BFA;">28%</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">Suppliers ESG-screened</div></div>
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#2DD4BF;">74%</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">Local suppliers (Bihar)</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#A78BFA;">28%</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">Suppliers ESG-screened</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#2DD4BF;">74%</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">Local suppliers (Bihar)</div></div>
           </div>
-          <div style="font-size:9px;color:var(--t4,#1E3347);">Child labour: Zero &middot; MSME preference: Active &middot; CLRA compliant</div>
+          <div style="font-size:9px;color:var(--t4,#475569);">Child labour: Zero &middot; MSME preference: Active &middot; CLRA compliant</div>
         </div>
       </div>
     </div><!-- /esg-social -->
@@ -1649,43 +1655,43 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
           <div style="width:22px;height:22px;border-radius:4px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#22C55E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Anti-Corruption Policy</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">GRI 205-1 · All operations</div></div>
+          <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Anti-Corruption Policy</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">GRI 205-1 · All operations</div></div>
           <div style="margin-left:auto;font-size:13px;font-weight:700;color:#22C55E;">100%</div>
         </div><div style="display:flex;align-items:center;gap:9px;padding:8px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
           <div style="width:22px;height:22px;border-radius:4px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#22C55E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Ethics Training Completion</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">GRI 205-2 · All employees</div></div>
+          <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Ethics Training Completion</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">GRI 205-2 · All employees</div></div>
           <div style="margin-left:auto;font-size:13px;font-weight:700;color:#22C55E;">94%</div>
         </div><div style="display:flex;align-items:center;gap:9px;padding:8px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
           <div style="width:22px;height:22px;border-radius:4px;background:rgba(245,158,11,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 4v3M6 9v.4" stroke="#F59E0B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Whistleblower Cases</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">GRI 205-3 · Received: 2 / Resolved: 1</div></div>
+          <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Whistleblower Cases</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">GRI 205-3 · Received: 2 / Resolved: 1</div></div>
           <div style="margin-left:auto;font-size:13px;font-weight:700;color:#F59E0B;">50%</div>
         </div><div style="display:flex;align-items:center;gap:9px;padding:8px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
           <div style="width:22px;height:22px;border-radius:4px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#22C55E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Regulatory Compliance Score</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">GRI 307 · From Legal & Regulatory tab</div></div>
+          <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Regulatory Compliance Score</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">GRI 307 · From Legal & Regulatory tab</div></div>
           <div style="margin-left:auto;font-size:13px;font-weight:700;color:#22C55E;">86%</div>
         </div><div style="display:flex;align-items:center;gap:9px;padding:8px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
           <div style="width:22px;height:22px;border-radius:4px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#22C55E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">IMS Certification Status</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">ISO 9001 + 14001 + 45001</div></div>
+          <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">IMS Certification Status</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">ISO 9001 + 14001 + 45001</div></div>
           <div style="margin-left:auto;font-size:13px;font-weight:700;color:#22C55E;">Active</div>
         </div>
         </div>
         <div class="card" style="padding:14px;">
           <div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);margin-bottom:10px;">Leadership &amp; Board <span style="background:rgba(167,139,250,.1);color:#A78BFA;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;margin-left:4px;">GRI 2/405</span></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px;">
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#A78BFA;">22%</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">Women in leadership</div></div>
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#60A5FA;">43%</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">Independent directors</div></div>
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">4</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">Board ESG reviews/yr</div></div>
-            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#C9A84C;">2025</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:2px;">ESG policy reviewed</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#A78BFA;">22%</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">Women in leadership</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#60A5FA;">43%</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">Independent directors</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22C55E;">4</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">Board ESG reviews/yr</div></div>
+            <div style="background:var(--bg,#0B0F14);border-radius:7px;padding:9px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#C9A84C;">2025</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:2px;">ESG policy reviewed</div></div>
           </div>
-          <div style="font-size:9px;color:var(--t4,#1E3347);">ESG KPIs in senior management targets &middot; Annual sustainability statement published</div>
+          <div style="font-size:9px;color:var(--t4,#475569);">ESG KPIs in senior management targets &middot; Annual sustainability statement published</div>
         </div>
       </div>
       <!-- ESG Risk Register -->
@@ -1694,38 +1700,38 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
           <div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);">ESG Risk Register</div>
           <span style="background:rgba(239,68,68,.1);color:#F87171;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;">Top 5 Risks</span>
         </div>
-        <div style="display:grid;grid-template-columns:1.5fr 60px 1fr 1fr 80px;padding:7px 14px;background:var(--bg,#0B0F14);font-size:8px;font-weight:700;color:var(--t4,#1E3347);text-transform:uppercase;letter-spacing:.4px;border-bottom:0.5px solid var(--border,#1E3347);">
+        <div style="display:grid;grid-template-columns:1.5fr 60px 1fr 1fr 80px;padding:7px 14px;background:var(--bg,#0B0F14);font-size:8px;font-weight:700;color:var(--t4,#475569);text-transform:uppercase;letter-spacing:.4px;border-bottom:0.5px solid var(--border,#1E3347);">
           <div>Risk</div><div>Dim.</div><div>Likelihood</div><div>Financial Impact</div><div>Level</div>
         </div>
         <div style="display:grid;grid-template-columns:1.5fr 60px 1fr 1fr 80px;align-items:center;padding:8px 14px;border-bottom:0.5px solid rgba(255,255,255,.04);font-size:10px;">
           <div style="color:var(--t2,#7A9BBF);">Climate change — physical risk to project assets</div>
           <span style="background:rgba(34,197,94,.1);color:#22C55E;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;">E</span>
-          <div style="color:var(--t3,#2E4A66);">High</div>
-          <div style="color:var(--t3,#2E4A66);">₹50-200 Cr</div>
+          <div style="color:var(--t3,#64748B);">High</div>
+          <div style="color:var(--t3,#64748B);">₹50-200 Cr</div>
           <span style="padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;background:rgba(239,68,68,.12);color:#F87171;">High</span>
         </div><div style="display:grid;grid-template-columns:1.5fr 60px 1fr 1fr 80px;align-items:center;padding:8px 14px;border-bottom:0.5px solid rgba(255,255,255,.04);font-size:10px;">
           <div style="color:var(--t2,#7A9BBF);">Environmental consent non-compliance</div>
           <span style="background:rgba(34,197,94,.1);color:#22C55E;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;">E</span>
-          <div style="color:var(--t3,#2E4A66);">Medium</div>
-          <div style="color:var(--t3,#2E4A66);">₹10-50 Cr</div>
+          <div style="color:var(--t3,#64748B);">Medium</div>
+          <div style="color:var(--t3,#64748B);">₹10-50 Cr</div>
           <span style="padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;background:rgba(245,158,11,.1);color:#F59E0B;">Medium</span>
         </div><div style="display:grid;grid-template-columns:1.5fr 60px 1fr 1fr 80px;align-items:center;padding:8px 14px;border-bottom:0.5px solid rgba(255,255,255,.04);font-size:10px;">
           <div style="color:var(--t2,#7A9BBF);">Labour disputes / contractor safety</div>
           <span style="background:rgba(96,165,250,.1);color:#60A5FA;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;">S</span>
-          <div style="color:var(--t3,#2E4A66);">Medium</div>
-          <div style="color:var(--t3,#2E4A66);">₹5-20 Cr</div>
+          <div style="color:var(--t3,#64748B);">Medium</div>
+          <div style="color:var(--t3,#64748B);">₹5-20 Cr</div>
           <span style="padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;background:rgba(245,158,11,.1);color:#F59E0B;">Medium</span>
         </div><div style="display:grid;grid-template-columns:1.5fr 60px 1fr 1fr 80px;align-items:center;padding:8px 14px;border-bottom:0.5px solid rgba(255,255,255,.04);font-size:10px;">
           <div style="color:var(--t2,#7A9BBF);">Anti-corruption / bribery exposure</div>
           <span style="background:rgba(167,139,250,.1);color:#A78BFA;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;">G</span>
-          <div style="color:var(--t3,#2E4A66);">Low</div>
-          <div style="color:var(--t3,#2E4A66);">₹1-10 Cr</div>
+          <div style="color:var(--t3,#64748B);">Low</div>
+          <div style="color:var(--t3,#64748B);">₹1-10 Cr</div>
           <span style="padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;background:rgba(34,197,94,.1);color:#22C55E;">Low</span>
         </div><div style="display:grid;grid-template-columns:1.5fr 60px 1fr 1fr 80px;align-items:center;padding:8px 14px;border-bottom:0.5px solid rgba(255,255,255,.04);font-size:10px;">
           <div style="color:var(--t2,#7A9BBF);">Supply chain disruption (sustainability)</div>
           <span style="background:rgba(96,165,250,.1);color:#60A5FA;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;">S</span>
-          <div style="color:var(--t3,#2E4A66);">Medium</div>
-          <div style="color:var(--t3,#2E4A66);">₹5-15 Cr</div>
+          <div style="color:var(--t3,#64748B);">Medium</div>
+          <div style="color:var(--t3,#64748B);">₹5-15 Cr</div>
           <span style="padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;background:rgba(245,158,11,.1);color:#F59E0B;">Medium</span>
         </div>
       </div>
@@ -1737,7 +1743,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
     <div class="esg-panel" id="esg-sdg" style="display:none;flex:1;overflow-y:auto;padding:16px 20px 24px;">
       <div style="margin-bottom:12px;">
         <div style="font-size:11px;font-weight:600;color:var(--t2,#7A9BBF);margin-bottom:3px;">SDG Alignment Map — Click any active goal to view KPIs and targets</div>
-        <div style="font-size:9px;color:var(--t4,#1E3347);">Primary (active) = actively contributing &middot; Grey = not applicable for construction sector</div>
+        <div style="font-size:9px;color:var(--t4,#475569);">Primary (active) = actively contributing &middot; Grey = not applicable for construction sector</div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px;">
         <div style="background:rgba(229,36,59,.15);border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;" onclick="showSDG(1)" title="SDG 1: No Poverty — local employment"><div style="font-size:11px;font-weight:700;color:#E5243B;">1</div><div style="font-size:7.5px;color:#E5243B;margin-top:2px;line-height:1.2;opacity:.85;">No Poverty</div></div><div style="background:#1E293B;border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;opacity:.35" onclick="" title="SDG 2 — N/A for construction"><div style="font-size:11px;font-weight:700;color:#475569;">2</div><div style="font-size:7.5px;color:#475569;margin-top:2px;line-height:1.2;opacity:.85;">Zero Hunger</div></div><div style="background:rgba(77,166,255,.15);border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;" onclick="showSDG(3)" title="SDG 3: Good Health — OHS performance"><div style="font-size:11px;font-weight:700;color:#4DA6FF;">3</div><div style="font-size:7.5px;color:#4DA6FF;margin-top:2px;line-height:1.2;opacity:.85;">Good Health</div></div><div style="background:rgba(196,131,8,.15);border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;" onclick="showSDG(4)" title="SDG 4: Quality Education — worker training"><div style="font-size:11px;font-weight:700;color:#C48308;">4</div><div style="font-size:7.5px;color:#C48308;margin-top:2px;line-height:1.2;opacity:.85;">Education</div></div><div style="background:#1E293B;border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;opacity:.35" onclick="" title="SDG 5 — indirect contribution"><div style="font-size:11px;font-weight:700;color:#475569;">5</div><div style="font-size:7.5px;color:#475569;margin-top:2px;line-height:1.2;opacity:.85;">Gender Equal.</div></div><div style="background:rgba(0,145,183,.15);border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;" onclick="showSDG(6)" title="SDG 6: Clean Water — wastewater management"><div style="font-size:11px;font-weight:700;color:#0091B7;">6</div><div style="font-size:7.5px;color:#0091B7;margin-top:2px;line-height:1.2;opacity:.85;">Clean Water</div></div><div style="background:rgba(255,195,11,.15);border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;" onclick="showSDG(7)" title="SDG 7: Clean Energy — renewables"><div style="font-size:11px;font-weight:700;color:#FFC30B;">7</div><div style="font-size:7.5px;color:#FFC30B;margin-top:2px;line-height:1.2;opacity:.85;">Clean Energy</div></div><div style="background:rgba(161,25,35,.15);border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;" onclick="showSDG(8)" title="SDG 8: Decent Work — labour practices"><div style="font-size:11px;font-weight:700;color:#E5243B;">8</div><div style="font-size:7.5px;color:#E5243B;margin-top:2px;line-height:1.2;opacity:.85;">Decent Work</div></div><div style="background:rgba(253,105,37,.15);border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;" onclick="showSDG(9)" title="SDG 9: Industry/Infrastructure — project delivery"><div style="font-size:11px;font-weight:700;color:#FD6925;">9</div><div style="font-size:7.5px;color:#FD6925;margin-top:2px;line-height:1.2;opacity:.85;">Infrastructure</div></div><div style="background:rgba(221,0,56,.12);border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;" onclick="showSDG(10)" title="SDG 10: Reduced Inequalities — local hiring"><div style="font-size:11px;font-weight:700;color:#DD0038;">10</div><div style="font-size:7.5px;color:#DD0038;margin-top:2px;line-height:1.2;opacity:.85;">Inequality</div></div><div style="background:rgba(253,157,36,.15);border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;" onclick="showSDG(11)" title="SDG 11: Sustainable Cities — infrastructure"><div style="font-size:11px;font-weight:700;color:#FD9D24;">11</div><div style="font-size:7.5px;color:#FD9D24;margin-top:2px;line-height:1.2;opacity:.85;">Sust. Cities</div></div><div style="background:rgba(191,139,46,.15);border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;" onclick="showSDG(12)" title="SDG 12: Responsible Consumption — waste, materials"><div style="font-size:11px;font-weight:700;color:#BF8B2E;">12</div><div style="font-size:7.5px;color:#BF8B2E;margin-top:2px;line-height:1.2;opacity:.85;">Consumption</div></div><div style="background:rgba(63,126,68,.2);border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;" onclick="showSDG(13)" title="SDG 13: Climate Action — GHG reduction"><div style="font-size:11px;font-weight:700;color:#3F7E44;">13</div><div style="font-size:7.5px;color:#3F7E44;margin-top:2px;line-height:1.2;opacity:.85;">Climate Action</div></div><div style="background:#1E293B;border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;opacity:.35" onclick="" title="SDG 14 — N/A for construction"><div style="font-size:11px;font-weight:700;color:#475569;">14</div><div style="font-size:7.5px;color:#475569;margin-top:2px;line-height:1.2;opacity:.85;">Life Water</div></div><div style="background:rgba(86,192,43,.18);border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;" onclick="showSDG(15)" title="SDG 15: Life on Land — biodiversity"><div style="font-size:11px;font-weight:700;color:#56C02B;">15</div><div style="font-size:7.5px;color:#56C02B;margin-top:2px;line-height:1.2;opacity:.85;">Life on Land</div></div><div style="background:#1E293B;border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;opacity:.35" onclick="" title="SDG 16 — indirect contribution"><div style="font-size:11px;font-weight:700;color:#475569;">16</div><div style="font-size:7.5px;color:#475569;margin-top:2px;line-height:1.2;opacity:.85;">Peace Justice</div></div><div style="background:rgba(25,72,106,.3);border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;" onclick="showSDG(17)" title="SDG 17: Partnerships — supply chain"><div style="font-size:11px;font-weight:700;color:#3E7FAB;">17</div><div style="font-size:7.5px;color:#3E7FAB;margin-top:2px;line-height:1.2;opacity:.85;">Partnerships</div></div><div style="background:;border-radius:7px;padding:8px 5px;text-align:center;cursor:pointer;" onclick="" title=""><div style="font-size:11px;font-weight:700;color:;"></div><div style="font-size:7.5px;color:;margin-top:2px;line-height:1.2;opacity:.85;"></div></div>
@@ -1753,9 +1759,9 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
     <div class="esg-panel" id="esg-materiality" style="display:none;flex:1;overflow-y:auto;padding:16px 20px 24px;">
       <div class="card" style="padding:14px;">
         <div style="font-size:11px;font-weight:600;color:var(--t1,#E6EDF3);margin-bottom:4px;">Double Materiality Assessment <span style="background:rgba(96,165,250,.1);color:#60A5FA;padding:2px 7px;border-radius:4px;font-size:8px;font-weight:700;margin-left:5px;">GRI 3-1 &middot; ESRS CSRD</span></div>
-        <div style="font-size:9px;color:var(--t3,#2E4A66);margin-bottom:12px;">X-axis = Financial impact on company &nbsp;&#183;&nbsp; Y-axis = Company impact on society &amp; environment &nbsp;&#183;&nbsp; Color = E/S/G dimension</div>
+        <div style="font-size:9px;color:var(--t3,#64748B);margin-bottom:12px;">X-axis = Financial impact on company &nbsp;&#183;&nbsp; Y-axis = Company impact on society &amp; environment &nbsp;&#183;&nbsp; Color = E/S/G dimension</div>
         <div style="position:relative;padding:10px 10px 14px 26px;">
-          <div style="position:absolute;left:2px;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:8.5px;color:var(--t3,#2E4A66);white-space:nowrap;">Impact on society &amp; environment &#8593;</div>
+          <div style="position:absolute;left:2px;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:8.5px;color:var(--t3,#64748B);white-space:nowrap;">Impact on society &amp; environment &#8593;</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:8px;">
             <div style="background:rgba(239,68,68,.08);border:0.5px solid rgba(239,68,68,.2);border-radius:8px;padding:10px 12px;">
               <div style="font-size:8.5px;font-weight:700;color:#F87171;margin-bottom:6px;">HIGH PRIORITY — Act now</div>
@@ -1777,18 +1783,18 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
               <div style="display:flex;align-items:center;gap:6px;font-size:9px;color:var(--t2,#7A9BBF);"><div style="width:7px;height:7px;border-radius:50%;background:#22C55E;flex-shrink:0;"></div>Energy efficiency (E) — Score 6.0</div>
             </div>
             <div style="background:rgba(255,255,255,.02);border:0.5px solid var(--border,#1E3347);border-radius:8px;padding:10px 12px;">
-              <div style="font-size:8.5px;font-weight:700;color:var(--t4,#1E3347);margin-bottom:6px;">EMERGING — Low priority now</div>
+              <div style="font-size:8.5px;font-weight:700;color:var(--t4,#475569);margin-bottom:6px;">EMERGING — Low priority now</div>
               <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:9px;color:var(--t2,#7A9BBF);"><div style="width:7px;height:7px;border-radius:50%;background:#475569;flex-shrink:0;"></div>Supply chain ethics — Score 4.2</div>
               <div style="display:flex;align-items:center;gap:6px;font-size:9px;color:var(--t2,#7A9BBF);"><div style="width:7px;height:7px;border-radius:50%;background:#475569;flex-shrink:0;"></div>Digital transformation — Score 3.8</div>
             </div>
           </div>
-          <div style="text-align:center;font-size:8.5px;color:var(--t3,#2E4A66);margin-top:8px;">Financial impact on company (transition + physical risks) &#8594;</div>
+          <div style="text-align:center;font-size:8.5px;color:var(--t3,#64748B);margin-top:8px;">Financial impact on company (transition + physical risks) &#8594;</div>
         </div>
         <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:4px;padding-top:10px;border-top:0.5px solid var(--border,#1E3347);">
-          <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:var(--t3,#2E4A66);"><div style="width:8px;height:8px;border-radius:50%;background:#22C55E;"></div>Environmental (E)</div>
-          <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:var(--t3,#2E4A66);"><div style="width:8px;height:8px;border-radius:50%;background:#60A5FA;"></div>Social (S)</div>
-          <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:var(--t3,#2E4A66);"><div style="width:8px;height:8px;border-radius:50%;background:#A78BFA;"></div>Governance (G)</div>
-          <div style="font-size:9px;color:var(--t4,#1E3347);margin-left:4px;">Bubble size = severity score &nbsp;&#183;&nbsp; Based on GRI 3-1 materiality assessment methodology</div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:var(--t3,#64748B);"><div style="width:8px;height:8px;border-radius:50%;background:#22C55E;"></div>Environmental (E)</div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:var(--t3,#64748B);"><div style="width:8px;height:8px;border-radius:50%;background:#60A5FA;"></div>Social (S)</div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:var(--t3,#64748B);"><div style="width:8px;height:8px;border-radius:50%;background:#A78BFA;"></div>Governance (G)</div>
+          <div style="font-size:9px;color:var(--t4,#475569);margin-left:4px;">Bubble size = severity score &nbsp;&#183;&nbsp; Based on GRI 3-1 materiality assessment methodology</div>
         </div>
       </div>
     </div><!-- /esg-materiality -->
@@ -1798,10 +1804,10 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
     <!-- ════════════════════════════════════════════════════════ -->
     <div class="esg-panel" id="esg-brsr" style="display:none;flex:1;overflow-y:auto;padding:16px 20px 24px;">
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px;">
-        <div class="card" style="padding:12px 14px;border-left:3px solid #22C55E;"><div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#22C55E;margin-bottom:4px;">Done</div><div style="font-size:24px;font-weight:700;color:#22C55E;">12</div><div style="font-size:9px;color:var(--t3,#2E4A66);">Disclosures complete</div></div>
-        <div class="card" style="padding:12px 14px;border-left:3px solid #F59E0B;"><div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#F59E0B;margin-bottom:4px;">Partial</div><div style="font-size:24px;font-weight:700;color:#F59E0B;">8</div><div style="font-size:9px;color:var(--t3,#2E4A66);">In progress</div></div>
-        <div class="card" style="padding:12px 14px;border-left:3px solid #F87171;"><div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#F87171;margin-bottom:4px;">Pending</div><div style="font-size:24px;font-weight:700;color:#F87171;">5</div><div style="font-size:9px;color:var(--t3,#2E4A66);">Not yet started</div></div>
-        <div class="card" style="padding:12px 14px;border-left:3px solid #C9A84C;"><div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#C9A84C;margin-bottom:4px;">Overall</div><div style="font-size:24px;font-weight:700;color:#C9A84C;">71%</div><div style="font-size:9px;color:var(--t3,#2E4A66);">BRSR compliance</div></div>
+        <div class="card" style="padding:12px 14px;border-left:3px solid #22C55E;"><div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#22C55E;margin-bottom:4px;">Done</div><div style="font-size:24px;font-weight:700;color:#22C55E;">12</div><div style="font-size:9px;color:var(--t3,#64748B);">Disclosures complete</div></div>
+        <div class="card" style="padding:12px 14px;border-left:3px solid #F59E0B;"><div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#F59E0B;margin-bottom:4px;">Partial</div><div style="font-size:24px;font-weight:700;color:#F59E0B;">8</div><div style="font-size:9px;color:var(--t3,#64748B);">In progress</div></div>
+        <div class="card" style="padding:12px 14px;border-left:3px solid #F87171;"><div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#F87171;margin-bottom:4px;">Pending</div><div style="font-size:24px;font-weight:700;color:#F87171;">5</div><div style="font-size:9px;color:var(--t3,#64748B);">Not yet started</div></div>
+        <div class="card" style="padding:12px 14px;border-left:3px solid #C9A84C;"><div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#C9A84C;margin-bottom:4px;">Overall</div><div style="font-size:24px;font-weight:700;color:#C9A84C;">71%</div><div style="font-size:9px;color:var(--t3,#64748B);">BRSR compliance</div></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div class="card" style="padding:14px;">
@@ -1810,19 +1816,19 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
               <div style="width:20px;height:20px;border-radius:4px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5l3 3 4.5-4.5" stroke="#22C55E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Corporate identity & overview</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">BRSR Sec-A · GRI 2-1 to 2-6</div></div>
+              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Corporate identity & overview</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">BRSR Sec-A · GRI 2-1 to 2-6</div></div>
               <span style="margin-left:auto;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;background:rgba(34,197,94,.1);color:#22C55E;">Done</span>
             </div><div style="display:flex;align-items:center;gap:9px;padding:7px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
               <div style="width:20px;height:20px;border-radius:4px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5l3 3 4.5-4.5" stroke="#22C55E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Governance structure</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">BRSR Sec-A · GRI 2-9 to 2-18</div></div>
+              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Governance structure</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">BRSR Sec-A · GRI 2-9 to 2-18</div></div>
               <span style="margin-left:auto;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;background:rgba(34,197,94,.1);color:#22C55E;">Done</span>
             </div><div style="display:flex;align-items:center;gap:9px;padding:7px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
               <div style="width:20px;height:20px;border-radius:4px;background:rgba(245,158,11,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 3.5v3M5.5 8.5v.3" stroke="#F59E0B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Stakeholder engagement</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">BRSR Sec-A · GRI 2-29</div></div>
+              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Stakeholder engagement</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">BRSR Sec-A · GRI 2-29</div></div>
               <span style="margin-left:auto;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;background:rgba(245,158,11,.1);color:#F59E0B;">Partial</span>
             </div>
       </div><div class="card" style="padding:14px;">
@@ -1831,19 +1837,19 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
               <div style="width:20px;height:20px;border-radius:4px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5l3 3 4.5-4.5" stroke="#22C55E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Policy & commitments</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">GRI 2-23 / BRSR P1–P9</div></div>
+              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Policy & commitments</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">GRI 2-23 / BRSR P1–P9</div></div>
               <span style="margin-left:auto;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;background:rgba(34,197,94,.1);color:#22C55E;">Done</span>
             </div><div style="display:flex;align-items:center;gap:9px;padding:7px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
               <div style="width:20px;height:20px;border-radius:4px;background:rgba(245,158,11,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 3.5v3M5.5 8.5v.3" stroke="#F59E0B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Grievance mechanisms</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">GRI 2-25 / BRSR Sec-B</div></div>
+              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Grievance mechanisms</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">GRI 2-25 / BRSR Sec-B</div></div>
               <span style="margin-left:auto;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;background:rgba(245,158,11,.1);color:#F59E0B;">Partial</span>
             </div><div style="display:flex;align-items:center;gap:9px;padding:7px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
               <div style="width:20px;height:20px;border-radius:4px;background:rgba(239,68,68,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M3 3l5 5M8 3l-5 5" stroke="#F87171" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Climate transition planning</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">TCFD / ISSB S1 · Climate plan</div></div>
+              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Climate transition planning</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">TCFD / ISSB S1 · Climate plan</div></div>
               <span style="margin-left:auto;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;background:rgba(239,68,68,.1);color:#F87171;">Pending</span>
             </div>
       </div><div class="card" style="padding:14px;">
@@ -1852,19 +1858,19 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
               <div style="width:20px;height:20px;border-radius:4px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5l3 3 4.5-4.5" stroke="#22C55E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Safety performance data</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">GRI 403-9/10 · LTIFR, TRIR, FAR</div></div>
+              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Safety performance data</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">GRI 403-9/10 · LTIFR, TRIR, FAR</div></div>
               <span style="margin-left:auto;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;background:rgba(34,197,94,.1);color:#22C55E;">Done</span>
             </div><div style="display:flex;align-items:center;gap:9px;padding:7px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
               <div style="width:20px;height:20px;border-radius:4px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5l3 3 4.5-4.5" stroke="#22C55E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Worker training & awareness</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">GRI 403-5 · GRI 404-1</div></div>
+              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Worker training & awareness</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">GRI 403-5 · GRI 404-1</div></div>
               <span style="margin-left:auto;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;background:rgba(34,197,94,.1);color:#22C55E;">Done</span>
             </div><div style="display:flex;align-items:center;gap:9px;padding:7px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
               <div style="width:20px;height:20px;border-radius:4px;background:rgba(245,158,11,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 3.5v3M5.5 8.5v.3" stroke="#F59E0B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Social security & benefits</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">GRI 401-2 · PF / ESI / Gratuity</div></div>
+              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Social security & benefits</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">GRI 401-2 · PF / ESI / Gratuity</div></div>
               <span style="margin-left:auto;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;background:rgba(245,158,11,.1);color:#F59E0B;">Partial</span>
             </div>
       </div><div class="card" style="padding:14px;">
@@ -1873,25 +1879,25 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
               <div style="width:20px;height:20px;border-radius:4px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5l3 3 4.5-4.5" stroke="#22C55E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">GHG emissions & intensity</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">GRI 305-1/2/3/4/5 · BRSR P6</div></div>
+              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">GHG emissions & intensity</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">GRI 305-1/2/3/4/5 · BRSR P6</div></div>
               <span style="margin-left:auto;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;background:rgba(34,197,94,.1);color:#22C55E;">Done</span>
             </div><div style="display:flex;align-items:center;gap:9px;padding:7px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
               <div style="width:20px;height:20px;border-radius:4px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5l3 3 4.5-4.5" stroke="#22C55E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Water withdrawal & consumption</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">GRI 303-3/4/5 · BRSR P6</div></div>
+              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Water withdrawal & consumption</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">GRI 303-3/4/5 · BRSR P6</div></div>
               <span style="margin-left:auto;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;background:rgba(34,197,94,.1);color:#22C55E;">Done</span>
             </div><div style="display:flex;align-items:center;gap:9px;padding:7px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
               <div style="width:20px;height:20px;border-radius:4px;background:rgba(239,68,68,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M3 3l5 5M8 3l-5 5" stroke="#F87171" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Biodiversity impact assessment</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">GRI 304-1/2/3/4 · BRSR P6</div></div>
+              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Biodiversity impact assessment</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">GRI 304-1/2/3/4 · BRSR P6</div></div>
               <span style="margin-left:auto;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;background:rgba(239,68,68,.1);color:#F87171;">Pending</span>
             </div><div style="display:flex;align-items:center;gap:9px;padding:7px 10px;background:var(--bg,#0B0F14);border-radius:7px;margin-bottom:5px;">
               <div style="width:20px;height:20px;border-radius:4px;background:rgba(239,68,68,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M3 3l5 5M8 3l-5 5" stroke="#F87171" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Climate risk scenario analysis</div><div style="font-size:8px;color:var(--t4,#1E3347);margin-top:1px;">ISSB S2 · TCFD 11 recommendations</div></div>
+              <div><div style="font-size:10px;font-weight:500;color:var(--t2,#7A9BBF);">Climate risk scenario analysis</div><div style="font-size:8px;color:var(--t4,#475569);margin-top:1px;">ISSB S2 · TCFD 11 recommendations</div></div>
               <span style="margin-left:auto;padding:2px 6px;border-radius:3px;font-size:8px;font-weight:700;background:rgba(239,68,68,.1);color:#F87171;">Pending</span>
             </div>
       </div>
@@ -3767,7 +3773,7 @@ function showSDG(n){
   cont.innerHTML='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">'
     +'<div style="width:36px;height:36px;border-radius:7px;background:'+d.color+'22;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:'+d.color+';">'+n+'</div>'
     +'<div><div style="font-size:12px;font-weight:600;color:'+d.color+';">SDG '+n+': '+d.name+'</div>'
-    +'<div style="font-size:9px;color:var(--t3,#2E4A66);">Birpur–Bihpur Road Project (NH 131) — FY 2025–26</div></div>'
+    +'<div style="font-size:9px;color:var(--t3,#64748B);">Birpur–Bihpur Road Project (NH 131) — FY 2025–26</div></div>'
     +'<button onclick="closeSDGDetail()" style="margin-left:auto;background:none;border:none;color:var(--t2);font-size:18px;cursor:pointer;">&#10005;</button></div>'
     +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">'
     +d.kpis.map(k=>'<div style="background:var(--bg,#0B0F14);border-radius:6px;padding:7px 9px;font-size:9px;color:var(--t2,#7A9BBF);">'+k+'</div>').join('')
