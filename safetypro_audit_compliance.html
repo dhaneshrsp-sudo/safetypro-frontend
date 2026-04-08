@@ -5353,134 +5353,169 @@ window.acMainTab = function(el, tab) {
   
   <!-- ════════ ENVIRONMENTAL ASPECT & IMPACT ASSESSMENT v2 ════════ -->
     <!-- ════════ ENVIRONMENTAL ASPECT & IMPACT ASSESSMENT v2 ════════ -->
-    <div class="tab-panel" id="ac-aspect" style="display:none;flex:1;flex-direction:column;padding:16px 20px 24px;overflow-y:auto;gap:12px;">
+  <div class="tab-panel" id="ac-aspect" style="flex:1;display:flex;flex-direction:column;padding:16px 20px 24px;overflow-y:auto;gap:12px;">
 
-    <!-- Document Header (generic — auto-fills from account profile) -->
-    <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start;">
+    <!-- Register Version Header -->
+    <div style="background:rgba(201,168,76,.06);border:0.5px solid rgba(201,168,76,.25);border-radius:8px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
       <div>
-        <div style="font-size:15px;font-weight:600;color:var(--t1);">Environmental Aspect &amp; Impact Assessment Register</div>
-        <div style="font-size:10px;color:var(--t3);margin-top:3px;">ISO 14001:2015 Cl.6.1.2 &middot; Score = Sc &times; Sv &times; Pr &times; Du &times; De &middot; Threshold &ge; 36 = Significant</div>
+        <div style="font-size:14px;font-weight:600;color:var(--t1);">Environmental Aspect &amp; Impact Assessment Register</div>
+        <div style="font-size:10px;color:var(--t3);margin-top:2px;">ISO 14001:2026 Cl.6.1.2 &nbsp;·&nbsp; IFC PS 3 &nbsp;·&nbsp; MoEF EIA Notification 2006 &nbsp;·&nbsp; SSPD + Legal + Stakeholder Scoring</div>
       </div>
-      <div style="background:var(--raised);border:0.5px solid var(--border);border-radius:8px;padding:8px 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:9px;">
-        <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Doc No.</div><div id="eaia-docno" style="color:var(--t1);font-weight:600;">[Auto-generated]</div></div>
-        <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Revision</div><input id="eaia-rev" placeholder="Rev 00" style="background:transparent;border:none;color:var(--t1);font-size:9px;font-weight:600;width:100%;padding:0;" onchange="eaiaSaveMeta()"/></div>
-        <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Date</div><input id="eaia-date" type="date" style="background:transparent;border:none;color:var(--t2);font-size:9px;width:100%;padding:0;" onchange="eaiaSaveMeta()"/></div>
-        <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Prepared By</div><input id="eaia-prep" placeholder="Name" style="background:transparent;border:none;color:var(--t2);font-size:9px;width:100%;padding:0;" onchange="eaiaSaveMeta()"/></div>
-        <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Reviewed By</div><input id="eaia-review-by" placeholder="Name" style="background:transparent;border:none;color:var(--t2);font-size:9px;width:100%;padding:0;" onchange="eaiaSaveMeta()"/></div>
-        <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Approved By</div><input id="eaia-appr" placeholder="Name" style="background:transparent;border:none;color:var(--t2);font-size:9px;width:100%;padding:0;" onchange="eaiaSaveMeta()"/></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+        <div style="font-size:9px;color:var(--t3);">Rev: <span id="eaia-rev" style="color:#C9A84C;font-weight:700;">01</span></div>
+        <div style="font-size:9px;color:var(--t3);">Reviewed: <span id="eaia-review-date" style="color:var(--t2);">—</span></div>
+        <div style="font-size:9px;color:var(--t3);">Next review: <span id="eaia-next-review" style="color:var(--t2);">Annual</span></div>
+        <button onclick="eaiaOpenVersionModal()" style="padding:4px 10px;background:rgba(201,168,76,.1);border:0.5px solid rgba(201,168,76,.25);border-radius:5px;color:#C9A84C;font-size:10px;cursor:pointer;font-family:var(--fh);">&#9998; Version</button>
       </div>
     </div>
 
-    <!-- Controls -->
+    <!-- Header Row -->
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
         <select id="eaia-filter" onchange="eaiaRender()" style="padding:5px 9px;background:var(--raised);border:1px solid var(--border);color:var(--t2);border-radius:6px;font-size:11px;">
           <option value="ALL">All Activities</option>
-          <option value="SIG">Significant (S)</option>
-          <option value="NS">Non-Significant (NS)</option>
+          <option value="SIG">Significant Only</option>
+          <option value="NONSIG">Non-Significant Only</option>
+          <option value="BEN">Beneficial Aspects</option>
         </select>
-        <select id="eaia-cond-f" onchange="eaiaRender()" style="padding:5px 9px;background:var(--raised);border:1px solid var(--border);color:var(--t2);border-radius:6px;font-size:11px;">
+        <select id="eaia-cond" onchange="eaiaRender()" style="padding:5px 9px;background:var(--raised);border:1px solid var(--border);color:var(--t2);border-radius:6px;font-size:11px;">
           <option value="ALL">All Conditions</option>
           <option value="N">Normal (N)</option>
           <option value="A">Abnormal (A)</option>
           <option value="E">Emergency (E)</option>
         </select>
-        <select id="eaia-act-f" onchange="eaiaRender()" style="padding:5px 9px;background:var(--raised);border:1px solid var(--border);color:var(--t2);border-radius:6px;font-size:11px;">
-          <option value="ALL">All Activities</option>
+        <select id="eaia-lc" onchange="eaiaRender()" style="padding:5px 9px;background:var(--raised);border:1px solid var(--border);color:var(--t2);border-radius:6px;font-size:11px;">
+          <option value="ALL">All Lifecycle</option>
+          <option value="UP">Upstream</option>
+          <option value="ON">On-site</option>
+          <option value="DN">Downstream</option>
+        </select>
+        <select id="eaia-receptor" onchange="eaiaRender()" style="padding:5px 9px;background:var(--raised);border:1px solid var(--border);color:var(--t2);border-radius:6px;font-size:11px;">
+          <option value="ALL">All Receptors</option>
+          <option value="Air">Air</option>
+          <option value="Water">Water</option>
+          <option value="Soil">Soil</option>
+          <option value="Noise">Noise</option>
+          <option value="Bio">Biodiversity</option>
+          <option value="Comm">Community</option>
         </select>
       </div>
       <div style="display:flex;gap:6px;">
-        <button onclick="eaiaOpenAdd()" style="padding:6px 13px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:7px;color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--fh);">+ Add Row</button>
-        <button onclick="eaiaExport()" style="padding:6px 13px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:7px;color:#C9A84C;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--fh);">&#8595; Export EIA / EMP</button>
+        <button onclick="eaiaOpenAdd()" style="padding:6px 12px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:6px;color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--fh);">+ Add Activity</button>
+        <button onclick="eaiaExport()" style="padding:6px 12px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:6px;color:#C9A84C;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--fh);">&#8595; Export EIA / EMP</button>
       </div>
     </div>
 
-    <!-- Summary Cards -->
-    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:7px;">
-      <div class="card" style="padding:9px;text-align:center;"><div style="font-size:20px;font-weight:700;color:var(--t1);" id="eaia-c-total">0</div><div style="font-size:9px;color:var(--t3);margin-top:1px;">Total</div></div>
-      <div class="card" style="padding:9px;text-align:center;"><div style="font-size:20px;font-weight:700;color:#EF4444;" id="eaia-c-sig">0</div><div style="font-size:9px;color:var(--t3);margin-top:1px;">Significant</div></div>
-      <div class="card" style="padding:9px;text-align:center;"><div style="font-size:20px;font-weight:700;color:var(--green);" id="eaia-c-ns">0</div><div style="font-size:9px;color:var(--t3);margin-top:1px;">Non-Significant</div></div>
-      <div class="card" style="padding:9px;text-align:center;"><div style="font-size:20px;font-weight:700;color:#A78BFA;" id="eaia-c-res">0</div><div style="font-size:9px;color:var(--t3);margin-top:1px;">Residual Sig.</div></div>
-      <div class="card" style="padding:9px;text-align:center;"><div style="font-size:20px;font-weight:700;color:var(--amber);" id="eaia-c-ocp">0</div><div style="font-size:9px;color:var(--t3);margin-top:1px;">OCP Required</div></div>
-      <div class="card" style="padding:9px;text-align:center;"><div style="font-size:20px;font-weight:700;color:#3B82F6;" id="eaia-c-lc">0</div><div style="font-size:9px;color:var(--t3);margin-top:1px;">Legal Binding</div></div>
+    <!-- Summary Stats -->
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:7px;">
+      <div class="card" style="padding:9px 10px;text-align:center;"><div style="font-size:18px;font-weight:700;color:var(--t1);" id="eaia-stat-total">0</div><div style="font-size:9px;color:var(--t3);margin-top:2px;">Total</div></div>
+      <div class="card" style="padding:9px 10px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#EF4444;" id="eaia-stat-sig">0</div><div style="font-size:9px;color:var(--t3);margin-top:2px;">Significant</div></div>
+      <div class="card" style="padding:9px 10px;text-align:center;"><div style="font-size:18px;font-weight:700;color:var(--green);" id="eaia-stat-nonsig">0</div><div style="font-size:9px;color:var(--t3);margin-top:2px;">Non-Sig</div></div>
+      <div class="card" style="padding:9px 10px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#22D3EE;" id="eaia-stat-ben">0</div><div style="font-size:9px;color:var(--t3);margin-top:2px;">Beneficial</div></div>
+      <div class="card" style="padding:9px 10px;text-align:center;"><div style="font-size:18px;font-weight:700;color:var(--amber);" id="eaia-stat-ocp">0</div><div style="font-size:9px;color:var(--t3);margin-top:2px;">OCP Req.</div></div>
+      <div class="card" style="padding:9px 10px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#3B82F6;" id="eaia-stat-legal">0</div><div style="font-size:9px;color:var(--t3);margin-top:2px;">Legal Bound</div></div>
+      <div class="card" style="padding:9px 10px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#A78BFA;" id="eaia-stat-residual-sig">0</div><div style="font-size:9px;color:var(--t3);margin-top:2px;">Residual Sig.</div></div>
     </div>
 
-    <!-- Table -->
+    <!-- Scoring Formula Banner -->
+    <div style="background:rgba(59,130,246,.07);border:0.5px solid rgba(59,130,246,.2);border-radius:7px;padding:9px 14px;font-size:10px;color:#60A5FA;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <span style="font-weight:700;">7-Parameter Score:</span>
+      <span>Initial = <strong>Sc × Sv × Pr × Du ÷ De</strong> &nbsp;+&nbsp; <strong>Legal (1–5)</strong> &nbsp;+&nbsp; <strong>Stakeholder (1–5)</strong></span>
+      <span style="background:rgba(239,68,68,.15);border:0.5px solid rgba(239,68,68,.3);padding:2px 8px;border-radius:4px;color:#F87171;font-weight:700;">Initial ≥ 30 = Significant</span>
+      <span style="background:rgba(139,92,246,.15);border:0.5px solid rgba(139,92,246,.3);padding:2px 8px;border-radius:4px;color:#A78BFA;font-weight:700;">Residual = after controls</span>
+      <span style="background:rgba(34,197,94,.12);border:0.5px solid rgba(34,197,94,.25);padding:2px 8px;border-radius:4px;color:var(--green);font-weight:700;">ISO 14001:2026 aligned</span>
+    </div>
+
+    <!-- Register Table -->
     <div class="card" style="overflow:hidden;">
-      <!-- Column header -->
-      <div style="display:grid;grid-template-columns:30px 130px 120px 130px 50px 30px 30px 30px 30px 34px 34px 34px 34px 34px 56px 50px 130px 80px 130px 120px 56px 50px 100px;background:var(--raised);border-bottom:0.5px solid var(--border);font-size:8px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.3px;">
-        <div style="padding:6px 4px;border-right:0.5px solid var(--border);">#</div>
-        <div style="padding:6px 6px;border-right:0.5px solid var(--border);">Activity</div>
-        <div style="padding:6px 6px;border-right:0.5px solid var(--border);">Aspect</div>
-        <div style="padding:6px 6px;border-right:0.5px solid var(--border);">Impact</div>
-        <div style="padding:6px 4px;border-right:0.5px solid var(--border);text-align:center;">Cond.</div>
-        <div style="padding:6px 2px;border-right:0.5px solid var(--border);text-align:center;" title="Legal Compliance">LC</div>
-        <div style="padding:6px 2px;border-right:0.5px solid var(--border);text-align:center;" title="Interested Party Concern">IPC</div>
-        <div style="padding:6px 2px;border-right:0.5px solid var(--border);text-align:center;" title="Binding Commitment">BC</div>
-        <div style="padding:6px 2px;border-right:0.5px solid var(--border);text-align:center;" title="Regulatory Compliance Potential">RCP</div>
-        <div style="padding:6px 2px;border-right:0.5px solid var(--border);text-align:center;" title="Scale">Sc</div>
-        <div style="padding:6px 2px;border-right:0.5px solid var(--border);text-align:center;" title="Severity">Sv</div>
-        <div style="padding:6px 2px;border-right:0.5px solid var(--border);text-align:center;" title="Probability">Pr</div>
-        <div style="padding:6px 2px;border-right:0.5px solid var(--border);text-align:center;" title="Duration">Du</div>
-        <div style="padding:6px 2px;border-right:0.5px solid var(--border);text-align:center;" title="Detection">De</div>
-        <div style="padding:6px 4px;border-right:0.5px solid var(--border);text-align:center;">Score</div>
-        <div style="padding:6px 4px;border-right:0.5px solid var(--border);text-align:center;">S/NS</div>
-        <div style="padding:6px 6px;border-right:0.5px solid var(--border);">Existing Control</div>
-        <div style="padding:6px 6px;border-right:0.5px solid var(--border);">Gap (if any)</div>
-        <div style="padding:6px 6px;border-right:0.5px solid var(--border);">Control Measure</div>
-        <div style="padding:6px 6px;border-right:0.5px solid var(--border);">Competent Authority</div>
-        <div style="padding:6px 4px;border-right:0.5px solid var(--border);text-align:center;">Residual</div>
-        <div style="padding:6px 4px;border-right:0.5px solid var(--border);text-align:center;">R-S/NS</div>
-        <div style="padding:6px 6px;">Actions</div>
+      <div style="overflow-x:auto;">
+        <div style="min-width:1200px;">
+          <div style="display:grid;grid-template-columns:28px 130px 160px 55px 55px 36px 36px 36px 36px 36px 36px 36px 65px 65px 65px 100px 90px;gap:0;background:var(--raised);border-bottom:0.5px solid var(--border);font-size:8px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.3px;">
+            <div style="padding:7px 5px;">#</div>
+            <div style="padding:7px 5px;">Activity</div>
+            <div style="padding:7px 5px;">Aspect → Impact</div>
+            <div style="padding:7px 5px;">Receptor</div>
+            <div style="padding:7px 5px;">Lifecycle</div>
+            <div style="padding:7px 5px;text-align:center;">Cd</div>
+            <div style="padding:7px 3px;text-align:center;">Sc</div>
+            <div style="padding:7px 3px;text-align:center;">Sv</div>
+            <div style="padding:7px 3px;text-align:center;">Pr</div>
+            <div style="padding:7px 3px;text-align:center;">Du</div>
+            <div style="padding:7px 3px;text-align:center;">De</div>
+            <div style="padding:7px 3px;text-align:center;">Lg</div>
+            <div style="padding:7px 5px;text-align:center;">Initial</div>
+            <div style="padding:7px 5px;text-align:center;">Residual</div>
+            <div style="padding:7px 5px;text-align:center;">Status</div>
+            <div style="padding:7px 5px;">Control</div>
+            <div style="padding:7px 5px;text-align:center;">Action</div>
+          </div>
+          <div id="eaia-table-body"></div>
+        </div>
       </div>
-      <div id="eaia-tbody" style="font-size:10px;"></div>
     </div>
 
-    <!-- SSPD Modal -->
+    <!-- SSPD Edit Modal -->
     <div id="eaia-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:99999;align-items:center;justify-content:center;">
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;width:700px;max-width:96vw;max-height:93vh;overflow-y:auto;">
-        <div style="padding:12px 18px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--card);z-index:1;">
-          <div style="font-size:13px;font-weight:600;color:var(--t1);">Score Assessment — <span id="eaia-m-title"></span></div>
-          <button onclick="document.getElementById('eaia-modal').style.display='none'" style="background:none;border:none;color:var(--t2);font-size:18px;cursor:pointer;">&#10005;</button>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;width:680px;max-width:95vw;max-height:92vh;overflow-y:auto;">
+        <div style="padding:13px 17px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--card);z-index:1;">
+          <div style="font-size:13px;font-weight:600;color:var(--t1);">7-Parameter SSPD Assessment — <span id="eaia-modal-title"></span></div>
+          <button onclick="eaiaCloseModal()" style="background:none;border:none;color:var(--t2);cursor:pointer;font-size:18px;line-height:1;">&#10005;</button>
         </div>
-        <div id="eaia-m-body" style="padding:16px 18px;"></div>
+        <div style="padding:15px 17px;" id="eaia-modal-body"></div>
       </div>
     </div>
 
-    <!-- Add Row Modal -->
+    <!-- Add Activity Modal -->
     <div id="eaia-add-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:99999;align-items:center;justify-content:center;">
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;width:540px;max-width:96vw;">
-        <div style="padding:12px 18px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-          <div style="font-size:13px;font-weight:600;color:var(--t1);">Add New Entry</div>
-          <button onclick="document.getElementById('eaia-add-modal').style.display='none'" style="background:none;border:none;color:var(--t2);font-size:18px;cursor:pointer;">&#10005;</button>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;width:560px;max-width:95vw;max-height:90vh;overflow-y:auto;">
+        <div style="padding:13px 17px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:13px;font-weight:600;color:var(--t1);">Add Activity / Aspect</div>
+          <button onclick="eaiaCloseAdd()" style="background:none;border:none;color:var(--t2);cursor:pointer;font-size:18px;">&#10005;</button>
         </div>
-        <div style="padding:16px 18px;display:flex;flex-direction:column;gap:9px;">
-          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Activity / Service / Product</label><input id="add-act" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. Excavation & Soil Transportation"/></div>
+        <div style="padding:15px 17px;display:flex;flex-direction:column;gap:9px;">
+          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Construction Activity</label><input id="add-activity" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. Excavation and earthwork"/></div>
+          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Aspect → Impact</label><input id="add-aspect" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. Soil disturbance → Land contamination"/></div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Condition</label>
+              <select id="add-cond" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="N">Normal (N)</option><option value="A">Abnormal (A)</option><option value="E">Emergency (E)</option></select></div>
+            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Lifecycle Stage</label>
+              <select id="add-lc" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="ON">On-site</option><option value="UP">Upstream</option><option value="DN">Downstream</option></select></div>
+            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Aspect Type</label>
+              <select id="add-type" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="ADV">Adverse</option><option value="BEN">Beneficial</option></select></div>
+          </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Environmental Aspect</label><input id="add-asp" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. Dust Generation"/></div>
-            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Environmental Impact</label><input id="add-imp" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. Air Pollution"/></div>
+            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Environmental Receptor</label>
+              <select id="add-receptor" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="Air">Air</option><option value="Water">Water (Surface)</option><option value="GW">Water (Ground)</option><option value="Soil">Soil</option><option value="Noise">Noise</option><option value="Bio">Biodiversity</option><option value="Comm">Community</option><option value="Workers">Workers</option></select></div>
+            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">India Regulatory Reference</label>
+              <select id="add-reg" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="">None</option><option value="Air Act 1981">Air Act 1981 / CPCB NAAQIS</option><option value="Water Act 1974">Water Act 1974 / PCB CTO</option><option value="HW Rules 2016">HW &amp; Other Wastes Rules 2016</option><option value="C&D Rules 2016">C&amp;D Waste Rules 2016</option><option value="EP Rules 1986">EP Rules 1986 / Noise Sch.III</option><option value="Forest Act 1980">Forest Conservation Act 1980</option><option value="EIA Notif 2006">MoEF EIA Notification 2006</option><option value="Wetlands Rules 2017">Wetlands Rules 2017</option></select></div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:6px;">
-            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Cond.</label>
-              <select id="add-cond" style="width:100%;padding:6px 7px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="N">N</option><option value="A">A</option><option value="E">E</option></select></div>
-            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">LC</label>
-              <select id="add-lc" style="width:100%;padding:6px 7px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="N">N</option><option value="Y">Y</option></select></div>
-            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">IPC</label>
-              <select id="add-ipc" style="width:100%;padding:6px 7px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="N">N</option><option value="Y">Y</option></select></div>
-            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">BC</label>
-              <select id="add-bc" style="width:100%;padding:6px 7px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="N">N</option><option value="Y">Y</option></select></div>
-            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">RCP</label>
-              <select id="add-rcp" style="width:100%;padding:6px 7px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="N">N</option><option value="Y">Y</option></select></div>
+          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Existing Control Measure</label><input id="add-control" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="Describe existing controls..."/></div>
+          <button onclick="eaiaAddActivity()" style="padding:8px 16px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:6px;color:var(--green);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">Add Activity</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Version Control Modal -->
+    <div id="eaia-ver-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:99999;align-items:center;justify-content:center;">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;width:420px;max-width:95vw;">
+        <div style="padding:13px 17px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:13px;font-weight:600;color:var(--t1);">Register Version Control</div>
+          <button onclick="document.getElementById('eaia-ver-modal').style.display='none'" style="background:none;border:none;color:var(--t2);cursor:pointer;font-size:18px;">&#10005;</button>
+        </div>
+        <div style="padding:15px 17px;display:flex;flex-direction:column;gap:9px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Revision No.</label><input id="ver-rev" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. 02"/></div>
+            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Review Date</label><input id="ver-date" type="date" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"/></div>
+            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Reviewed By</label><input id="ver-by" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="Name + Designation"/></div>
+            <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Next Review Date</label><input id="ver-next" type="date" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"/></div>
           </div>
-          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Existing Control Measure</label><input id="add-ctrl1" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="Describe existing controls..."/></div>
-          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Competent Authority</label><input id="add-auth" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. Site In-charge / Site Supervisor"/></div>
-          <button onclick="eaiaDoAdd()" style="padding:8px 16px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:7px;color:var(--green);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">Add to Register</button>
+          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Change Description</label><input id="ver-change" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="What changed in this revision..."/></div>
+          <button onclick="eaiaSaveVersion()" style="padding:8px 16px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:6px;color:#C9A84C;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">Save Version</button>
         </div>
       </div>
     </div>
 
   </div><!-- /ac-aspect -->
-<!-- /ac-aspect -->
 <!-- end ac-aspect panel -->
 <!-- end ac-aspect panel -->
 
@@ -5511,11 +5546,11 @@ var API_BASE = 'https://safetypro-backend-production.up.railway.app';
 
 function acMainTab(el, id) {
   document.querySelectorAll('.sh-tab').forEach(function(t){t.classList.remove('active');});
-  document.querySelectorAll('.tab-panel').forEach(function(p){p.style.display='none';p.classList.remove('active');});
+  document.querySelectorAll('.tab-panel').forEach(function(p){p.style.setProperty('display','none','important');p.classList.remove('active');});
   if(el&&el.classList) el.classList.add('active');
   var panel = document.getElementById('ac-'+id);
   if(id==='legal') { rorInit && rorInit(); }
-  if(panel){panel.style.display='flex';panel.classList.add('active');}
+  if(panel){panel.style.setProperty('display','flex','important');panel.classList.add('active');}
 }
 
 function acSubTab(el, parent, id) {
@@ -5525,7 +5560,7 @@ function acSubTab(el, parent, id) {
   panels.forEach(function(p){p.classList.remove('active');p.style.display='none';});
   if(el&&el.classList) el.classList.add('active');
   var panel = document.getElementById(parent+'-'+id);
-  if(panel){panel.classList.add('active');panel.style.display='flex';panel.style.flexDirection='column';}
+  if(panel){panel.classList.add('active');panel.style.setProperty('display','flex','important');panel.style.flexDirection='column';}
 }
 
 function acToast(msg) {
@@ -6312,13 +6347,12 @@ function switchRiskStd(std){
 
   /* ── Legal & Regulatory tab scroll fix ── */
   #ac-legal {
-    display: block !important;
-    overflow-y: scroll !important;
-    overflow-x: auto !important;
-    height: 100% !important;
-    scrollbar-width: thin !important;
-    scrollbar-color: var(--border) transparent !important;
-  }
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
   #ac-legal::-webkit-scrollbar { width: 6px; }
   #ac-legal::-webkit-scrollbar-track { background: transparent; }
   #ac-legal::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -6342,10 +6376,10 @@ function switchRiskStd(std){
   }
 
 /* ── ENVIRONMENTAL ASPECT & IMPACT ASSESSMENT v2 ── */
-#ac-aspect { display:block !important; overflow-y:auto !important; }
+#ac-aspect {  overflow-y:auto !important; }
 
 /* ── EAIA v2 ── */
-#ac-aspect{display:block !important;}
+#ac-aspect{}
 </style>
 
 <script>
@@ -6539,484 +6573,380 @@ function switchRiskStd(std){
 </script>
 
 
-<script>/* ── EAIA v3 — Your Format + Global Standard | ISO 14001:2015 Cl.6.1.2 ── */
+<script>
+/* ── EAIA v2 — ISO 14001:2026 Aligned ── */
 var EAIA_DEFAULT = [
-  {id:1,activity:'EXCAVATION & SOIL TRANSPORTATION',aspect:'Dust',impact:'Air Pollution',cond:'N',lc:'Y',ipc:'Y',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:3,de:3,ctrl1:'Dust Suppression, Compaction, restricted traffic movement.',gap:'Water for dust suppression',ctrl2:'OCP for controling Air Quality(OCP NO 6)',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:3,rde:3,legalref:'',ocp:true},
-  {id:2,activity:'EXCAVATION & SOIL TRANSPORTATION',aspect:'Noise',impact:'Noise Pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:3,de:2,ctrl1:'Machine body cover, Regular Check-up and Maintenance.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:3,rde:2,legalref:'',ocp:false},
-  {id:3,activity:'EXCAVATION & SOIL TRANSPORTATION',aspect:'Smoke',impact:'Air Pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:3,de:2,ctrl1:'Proper Preventive maintenance. PUC of Vehicles',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:3,rde:2,legalref:'',ocp:false},
-  {id:4,activity:'EXCAVATION & SOIL TRANSPORTATION',aspect:'Contaminated Clothes',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:3,de:2,ctrl1:'Housekeeping',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:3,rde:2,legalref:'',ocp:false},
-  {id:5,activity:'EXCAVATION & SOIL TRANSPORTATION',aspect:'Waste Oil,Grease and Filters',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Housekeeping, Selling to Approved party.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:6,activity:'EXCAVATION & SOIL TRANSPORTATION',aspect:'Diesel Consumption',impact:'Depletion of Natural Resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'Y',sc:2,sv:2,pr:2,du:3,de:2,ctrl1:'Not running in Idle time, Periodically maintenance.PUC of Vehicles',gap:'Poor Condition of Equipment',ctrl2:'Overhauling and Proper Repairing / Replacement/OCP NO 23',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:3,rde:2,legalref:'',ocp:true},
-  {id:7,activity:'CONCRETE WORK',aspect:'Waste Concrete',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:3,de:2,ctrl1:'Control on waste.Use of waste concrete for making barriers. Temporary Road Repairing.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:3,rde:2,legalref:'',ocp:false},
-  {id:8,activity:'CONCRETE WORK',aspect:'Waste Mortar',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:3,de:2,ctrl1:'Control on Waste. Use for potholes filling.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:3,rde:2,legalref:'',ocp:false},
-  {id:9,activity:'CONCRETE WORK',aspect:'Waste Water',impact:'Soil Contamination & Depletion of natural Resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:3,de:2,ctrl1:'Recycling of Water, Techniques for controlling of wasting of Water.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:3,rde:2,legalref:'',ocp:false},
-  {id:10,activity:'CONCRETE WORK',aspect:'Spillage of Diesel',impact:'Soil Contamination & Depletion of natural Resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Proper fueling, Control on leakage',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:11,activity:'CONCRETE WORK',aspect:'Cotton wastes, contaminated cloths',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:1,de:2,ctrl1:'Housekeeping, Provision of bins for all types of waste. Segregaion , Storage of wastes,Labling of waste containers.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:1,rde:2,legalref:'',ocp:false},
-  {id:12,activity:'CONCRETE WORK',aspect:'Fuel Consumption',impact:'Depletion of natural Resources, Not running in idle time',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:3,de:2,ctrl1:'Not Running in Idle time.Preventive maintinance.PUC of Vehicles',gap:'Poor Condition of Equipment',ctrl2:'Overhauling and Proper Repairing / Replacement/OCP NO 23',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:3,rde:2,legalref:'',ocp:true},
-  {id:13,activity:'CONCRETE WORK',aspect:'Noise',impact:'Noise Pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:3,de:2,ctrl1:'Machine body cover.Preventive Maintenance.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:3,rde:2,legalref:'',ocp:false},
-  {id:14,activity:'Tor Steel cutting and Bending',aspect:'Electricity Consumption',impact:'Depletion of natural resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Maintenance of steel cutting machine. Restriction of machine running in idle time.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:15,activity:'Tor Steel cutting and Bending',aspect:'Lubricant / Oil Leackage',impact:'Soil Contamination',cond:'N',lc:'Y',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Maintinance and repairing,',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:16,activity:'Tor Steel cutting and Bending',aspect:'Scrape Generation',impact:'Depletion of natural resources, Soil Contamination',cond:'N',lc:'Y',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Storage Properly. Selling to Authorized Agency.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:17,activity:'Welding, Gas cutting',aspect:'Electricity Consumption',impact:'Depletion of natural resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Maintenance of welding machine. Restriction of machine running in idle time.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:18,activity:'Welding, Gas cutting',aspect:'Gas leakage, Fumes',impact:'Air pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'Control on leakage. Use of soap liquid.colour coding for cylinders. Proper caping.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:19,activity:'Welding, Gas cutting',aspect:'Fire',impact:'Air Pollution / Loss of natural resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Fire Prevention and Protection',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:20,activity:'Welding, Gas cutting',aspect:'Waste Generation (welding buds)',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'Bin at welding place.Proper storage of welding buds.  Ensure that welder depositing the buds to stores.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:21,activity:'PILING ( CRANE OPERATION, RIG MACHINE OPERATION)',aspect:'Smoke',impact:'Air Pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Check up - Maintenance of crane and Rig Machine. PUC Test',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:22,activity:'PILING ( CRANE OPERATION, RIG MACHINE OPERATION)',aspect:'Noise',impact:'Noise Pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Restriction of machine running in idle time.',gap:'-----',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:23,activity:'PILING ( CRANE OPERATION, RIG MACHINE OPERATION)',aspect:'Leakage, Bantonite and Grease,',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Sheet for maintinance work. Drip tray for prevention of spreading oil and grease.',gap:'-----',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:24,activity:'PILING ( CRANE OPERATION, RIG MACHINE OPERATION)',aspect:'Waste Plastic, Polly bags, plastic waste and Welding buds',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:1,sv:1,pr:2,du:2,de:2,ctrl1:'Provision of Separate bins to maintain housekeeping.',gap:'-----',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:1,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:25,activity:'PILING ( CRANE OPERATION, RIG MACHINE OPERATION)',aspect:'Fuel Consumption',impact:'Depletion of natural Resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:3,de:2,ctrl1:'Control on leakage. Safe filling techniques. PUC Test, Restricted running in Idle time. Preventive Maintinance.',gap:'Poor Condition of Equipment',ctrl2:'Overhauling and Proper Repairing / Replacement/OCP NO 23',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:3,rde:2,legalref:'',ocp:true},
-  {id:26,activity:'PAINTING WORK',aspect:'Odor, fumes, Fire',impact:'Air Pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:1,sv:1,pr:2,du:2,de:2,ctrl1:'Separate storage. Caping of containers',gap:'',ctrl2:'---',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:1,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:27,activity:'PAINTING WORK',aspect:'Energy Consumption',impact:'Depletion of natural Resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:1,sv:1,pr:2,du:2,de:2,ctrl1:'Restriction of pump running in idle time.',gap:'',ctrl2:'---',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:1,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:28,activity:'PAINTING WORK',aspect:'Spillage of Paint',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:1,sv:1,pr:2,du:2,de:2,ctrl1:'Checking of containers, Safe Storage.',gap:'',ctrl2:'---',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:1,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:29,activity:'PAINTING WORK',aspect:'Waste Generation',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:1,sv:1,pr:2,du:2,de:2,ctrl1:'Reuse of tins and brushes. Selling to authorize Seller.',gap:'',ctrl2:'---',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:1,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:30,activity:'BRICK WORK',aspect:'Generation of Brickbats',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Safe handling of bricks, Use of Brickbats.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:31,activity:'BRICK WORK',aspect:'Generation of Cement Mortar',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Requirement maintain and consumption. Control on waste generation.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:32,activity:'BRICK WORK',aspect:'Generation of Waste Water',impact:'Soil Contamination, Water pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Maintain Requirement and consumption. Recycling of water.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:33,activity:'EQUIPMENTS MAINTINANCE AND OPERATION',aspect:'Fuel Consumption',impact:'Depletion of natural Resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Maintain Standard Average of fuel consumption. Preventive Maintenance',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:34,activity:'EQUIPMENTS MAINTINANCE AND OPERATION',aspect:'Lubricant Consumption, Spillage',impact:'Soil Contamination, Depletion of natural Resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Control of leakage. Regular Checking of Equipments',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:35,activity:'EQUIPMENTS MAINTINANCE AND OPERATION',aspect:'Hazardous waste Generation (Oil, Grease,batteries etc)',impact:'Soil Contamination',cond:'N',lc:'Y',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'Storage of Waste Oil. Reuse for lubrication of machineries. Sell to authorize agency. Housekeeping.',gap:'Eexceeding Quantity of Wastes',ctrl2:'OCP for  waste Mgmt(OCP NO 22)',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:36,activity:'EQUIPMENTS MAINTINANCE AND OPERATION',aspect:'Waste Generation, metal scrape, contaminated cotton, and Paper, Plastic.',impact:'Soil Contamination',cond:'N',lc:'Y',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'Storage of Waste Oil. Reuse for lubrication of machineries. Sell to authorize agency. Housekeeping.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:37,activity:'EQUIPMENTS MAINTINANCE AND OPERATION',aspect:'Waste water Generation',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Recycling of Water, Techniques for controlling of wasting of Water.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:38,activity:'EQUIPMENTS MAINTINANCE AND OPERATION',aspect:'Energy consumption',impact:'Depletion of natural Resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Restriction of machinery running in idle time.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:39,activity:'EQUIPMENTS MAINTINANCE AND OPERATION',aspect:'Smoke',impact:'Air Pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Preventive Maintenance. PUC test.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:40,activity:'EQUIPMENTS MAINTINANCE AND OPERATION',aspect:'Noise',impact:'Noise Pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Provision of good condition of body cover. Maintenance and checking regularly.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:41,activity:'D.G OPERATION & MAINTINANCE',aspect:'Fuel Consumption',impact:'Depletion of natural Resources',cond:'N',lc:'Y',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Maintain Standard Average of fuel consumption. Preventive Maintenance. Restriction of DG Set running in idle time.',gap:'Exceeding Average',ctrl2:'OCP for Air Quality, Noise Quality and Natural Resources(OCP NO 6 &23',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:42,activity:'D.G OPERATION & MAINTINANCE',aspect:'Smoke',impact:'Air Pollution',cond:'N',lc:'Y',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Preventive Maintenance. PUC test.',gap:'More Smoke',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:43,activity:'D.G OPERATION & MAINTINANCE',aspect:'Noise',impact:'Noise Pollution',cond:'N',lc:'Y',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Provision of good condition of body cover. Maintenance and Checking Regularly.',gap:'Open Body',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:44,activity:'D.G OPERATION & MAINTINANCE',aspect:'Waste Oil, Grease and Filters, contaminated cloths',impact:'Soil contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:1,ctrl1:'Storage of hazardous waste Oil. Reuse for lubrication of machineries. Sell to authorize agency. Housekeeping.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:1,legalref:'',ocp:false},
-  {id:45,activity:'Air Conditioner- Running  & Maintinance',aspect:'Noise',impact:'Noise Pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:3,de:2,ctrl1:'Periodically maintenance of all AC.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:3,rde:2,legalref:'',ocp:false},
-  {id:46,activity:'Air Conditioner- Running  & Maintinance',aspect:'Electricity Consumption',impact:'Depletion of natural Resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:3,de:2,ctrl1:'Good Condition equipments. Restricted running in iIle time. Follow Manufacture\\\'s Guidelines.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:3,rde:2,legalref:'',ocp:false},
-  {id:47,activity:'Air Conditioner- Running  & Maintinance',aspect:'Hazardous gases leakage',impact:'Air Pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Safe maintenance procedures. Control',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:48,activity:'Air Conditioner- Running  & Maintinance',aspect:'Waste water Generation',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:3,de:2,ctrl1:'Use of water for plantation',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:3,rde:2,legalref:'',ocp:false},
-  {id:49,activity:'Material Handling lifting, Shifting and Stackingt',aspect:'Generation of vehicular emission.',impact:'Air Pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Maintenance of Vehicle, hydra and crane.PUC Test.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:50,activity:'Material Handling lifting, Shifting and Stackingt',aspect:'Generation of noise by Dumpers, hydra crane.',impact:'Noise Pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Maintenance of Vehicle, hydra and crane.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:51,activity:'Material Handling lifting, Shifting and Stackingt',aspect:'Soil Contamination by Oil & Others.',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Issue usable quantity. Tyre’s cleaning.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:52,activity:'Material Handling lifting, Shifting and Stackingt',aspect:'Leakage from Machine.',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Maintenance of Vehicle, hydra and crane.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:53,activity:'Material Handling lifting, Shifting and Stackingt',aspect:'Fuel consumption',impact:'Depletion of natural resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Restriction of machinery running in idle time. Regular average checking.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:54,activity:'Shuttering plate Oiling , Painting , Greasing for structural Work',aspect:'Oil Spillage',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:1,sv:2,pr:2,du:2,de:2,ctrl1:'Proper handling of oil / paint/ grease with container.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:1,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:55,activity:'Shuttering plate Oiling , Painting , Greasing for structural Work',aspect:'Fire',impact:'Air Pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:1,sv:2,pr:2,du:2,de:2,ctrl1:'After use, tight cover with container. No storage of combustible material and sources of fire.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:1,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:56,activity:'Shuttering plate Oiling , Painting , Greasing for structural Work',aspect:'Excess use of shuttering oil',impact:'Depletion of natural resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:1,sv:2,pr:2,du:2,de:2,ctrl1:'Adequate quantity with containers. Proper use.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:1,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:57,activity:'Cleaning of Surface of Concrete Structure',aspect:'Generation of metal scrape.',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:1,sv:2,pr:2,du:2,de:2,ctrl1:'Storage of hazardous waste Oil. Reuse for lubrication of machineries. Sell to authorize agency. Housekeeping.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:1,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:58,activity:'Cleaning of Surface of Concrete Structure',aspect:'Generation of waste water',impact:'Water Pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:1,sv:2,pr:2,du:2,de:2,ctrl1:'Recycling of Water, Techniques for controlling of wasting of Water.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:1,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:59,activity:'Curing of Concrete Structure',aspect:'Use water',impact:'Depletion of natural resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:1,pr:2,du:2,de:2,ctrl1:'Recycling of Water, Techniques for controlling of wasting of Water.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:1,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:60,activity:'Storage of Chemicals, Diesal, admixtures etc.',aspect:'Generation of solid waste (Packing material like paper/ metals etc.',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:1,sv:2,pr:2,du:2,de:2,ctrl1:'Storage waste. Sell to authorize agency. Maintaining Housekeeping.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:1,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:61,activity:'Storage of Chemicals, Diesal, admixtures etc.',aspect:'Generation of Hazardous waste (Like Oil drums, chemicals packing, plastics etc.)',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:1,sv:2,pr:2,du:2,de:2,ctrl1:'Storage of hazardous waste Oil. Reuse for lubrication of machineries. Sell to authorize agency. Housekeeping.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:1,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:62,activity:'Provision of Canteen/ Pantry Facilities',aspect:'Water and Power Consumption',impact:'Depletion of natural resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:3,de:1,ctrl1:'Inspection and checking of tabs. Switch off all lights and computer during idle hrs.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:3,rde:1,legalref:'',ocp:false},
-  {id:63,activity:'Provision of Canteen/ Pantry Facilities',aspect:'Waste Water',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:3,de:1,ctrl1:'Inspection and checking of tabs',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:3,rde:1,legalref:'',ocp:false},
-  {id:64,activity:'Use of Paper',aspect:'Generation of Paper Waste',impact:'Depletion of natural resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:3,de:1,ctrl1:'Reuse of Paper,Electronic Communication',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:3,rde:1,legalref:'',ocp:false},
-  {id:65,activity:'Use of Computers/ printers etc.',aspect:'Generation of eWaste',impact:'Soil Contamination',cond:'N',lc:'Y',ipc:'N',bc:'N',rcp:'N',sc:2,sv:3,pr:2,du:3,de:1,ctrl1:'E-Waste to be stored',gap:'Exceeding Quantity',ctrl2:'Handover to authorised Dealer (OCP 22)',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:3,rpr:2,rdu:3,rde:1,legalref:'',ocp:true},
-  {id:66,activity:'Wood Cutting  Work',aspect:'Generation of Scrap',impact:'Soil Contamination',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:1,sv:2,pr:2,du:2,de:2,ctrl1:'Proper Housekeeping and segrigation of scrape to avoid any Soil contamination.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:1,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:67,activity:'Wood Cutting  Work',aspect:'Wooden Dust',impact:'Air Pollution',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:1,sv:2,pr:2,du:2,de:2,ctrl1:'Storage of wooden dust. Water sprinkling to avoid spreading in air.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:1,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:68,activity:'Wood Cutting  Work',aspect:'Electricity Consumption',impact:'Depletion of natural resources',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:1,sv:2,pr:2,du:2,de:2,ctrl1:'Maintenance of wood cutting machine. Restriction of machine running in idle time.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:1,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:69,activity:'Maintinance of Equipments and Machinaries',aspect:'Spillage of Oil, Grease',impact:'Soil Contamination',cond:'N',lc:'Y',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'Designated area for Maintenance at W/Shop. Drip tray for washing parts and other uses.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:70,activity:'Maintinance of Equipments and Machinaries',aspect:'Generation of Waste Oil',impact:'Soil Contamination',cond:'N',lc:'Y',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'Proper storage of waste oil. Labling and caping of containers. Reuse for lubricating of equipments.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:71,activity:'Maintinance of Equipments and Machinaries',aspect:'Generation of Hazardous Waste like oil soaked cotton,grease contaminated clothes etc.',impact:'Soil Contamination',cond:'N',lc:'Y',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'Cleaning of workshop.Collection of contaminated clothes to store seperatly.Reuse of cotton. Safe handling and storage of Oil/Paint/Grease etc.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:72,activity:'Maintinance of Equipments and Machinaries',aspect:'Generation of Water',impact:'Water Pollution',cond:'N',lc:'Y',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'To avoid washing, cleaning and clearing of mud to be manually.',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:73,activity:'Maintinance of Equipments and Machinaries',aspect:'SSPD EVALUATION CRITERIA FOR ENVIRONMENTAL IMPACTS',impact:'',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:74,activity:'Maintinance of Equipments and Machinaries',aspect:'SCALE',impact:'SEVERITY',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:75,activity:'Maintinance of Equipments and Machinaries',aspect:'Within the work place',impact:'Minor spill or fugitive emissions',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:1,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:1,legalref:'',ocp:false},
-  {id:76,activity:'Maintinance of Equipments and Machinaries',aspect:'Within work center',impact:'Controlled environmental release (within limit)',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:77,activity:'Maintinance of Equipments and Machinaries',aspect:'Within Shop floor',impact:'Major sustained environmental release',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:3,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:3,legalref:'',ocp:true},
-  {id:78,activity:'Maintinance of Equipments and Machinaries',aspect:'Within Facility',impact:'Some Permanent Ecological damage',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:4,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:4,legalref:'',ocp:true},
-  {id:79,activity:'Maintinance of Equipments and Machinaries',aspect:'Beyond the facility',impact:'Wide spread',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:5,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:5,legalref:'',ocp:true},
-  {id:80,activity:'Maintinance of Equipments and Machinaries',aspect:'B',impact:'',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:81,activity:'Maintinance of Equipments and Machinaries',aspect:'Water (Prevention and control of pollution) Act, 1974',impact:'',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:82,activity:'Maintinance of Equipments and Machinaries',aspect:'Water Discharge Effluents',impact:'Limit(mg/l)',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:83,activity:'Maintinance of Equipments and Machinaries',aspect:'PH',impact:'5.5-9.0',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:84,activity:'Maintinance of Equipments and Machinaries',aspect:'TDS',impact:'2100',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:75,pr:70,du:2,de:500,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:75,rpr:70,rdu:2,rde:500,legalref:'',ocp:true},
-  {id:85,activity:'Maintinance of Equipments and Machinaries',aspect:'TSS',impact:'100',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:65,pr:55,du:2,de:150,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:65,rpr:55,rdu:2,rde:150,legalref:'',ocp:true},
-  {id:86,activity:'Maintinance of Equipments and Machinaries',aspect:'COD',impact:'250',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:55,pr:45,du:2,de:120,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:55,rpr:45,rdu:2,rde:120,legalref:'',ocp:true},
-  {id:87,activity:'Maintinance of Equipments and Machinaries',aspect:'BOD',impact:'30',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:50,pr:40,du:2,de:120,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:50,rpr:40,rdu:2,rde:120,legalref:'',ocp:true},
-  {id:88,activity:'Maintinance of Equipments and Machinaries',aspect:'DESIGNATION',impact:'',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'NAME',gap:'DESIGNATION',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:89,activity:'Maintinance of Equipments and Machinaries',aspect:'DGM- QC',impact:'',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'VIBHUTI NARAYAN',gap:'PROJECT DIRECTOR',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:90,activity:'Maintinance of Equipments and Machinaries',aspect:'AGM- STRUCTURE',impact:'',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:91,activity:'Maintinance of Equipments and Machinaries',aspect:'AGM-HIGHWAYS',impact:'',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:92,activity:'Maintinance of Equipments and Machinaries',aspect:'AGM- STRUCTURE',impact:'',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:93,activity:'Maintinance of Equipments and Machinaries',aspect:'AGM- P&M',impact:'',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:94,activity:'Maintinance of Equipments and Machinaries',aspect:'Sr.MANAGER-PLANNING',impact:'',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:95,activity:'Maintinance of Equipments and Machinaries',aspect:'Sr. MANAGER-HR',impact:'',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false},
-  {id:96,activity:'Maintinance of Equipments and Machinaries',aspect:'Asst. MANAGER -STORE',impact:'',cond:'N',lc:'N',ipc:'N',bc:'N',rcp:'N',sc:2,sv:2,pr:2,du:2,de:2,ctrl1:'',gap:'',ctrl2:'',auth:'Site In-charge / Site Supervisor',receptor:'',lc_stage:'OS',aspect_type:'ADV',rsc:2,rsv:2,rpr:2,rdu:2,rde:2,legalref:'',ocp:false}
+  /* ON-SITE — ADVERSE */
+  {id:1,activity:'Site Clearing & Vegetation Removal',aspect:'Removal of trees / vegetation → Loss of biodiversity',receptor:'Bio',lc:'ON',type:'ADV',cond:'N',sc:3,sv:3,pr:4,du:3,de:2,lg:4,sk:3,control:'Phased clearing, replanting plan, green belt development',rsc:2,rsv:2,rpr:3,rdu:3,rde:2,rlg:2,rsk:2,ocp:true,reg:'Forest Act 1980',gri:'GRI 304',remarks:''},
+  {id:2,activity:'Excavation & Earthwork',aspect:'Soil disturbance → Soil erosion and siltation of waterbodies',receptor:'Water',lc:'ON',type:'ADV',cond:'N',sc:4,sv:4,pr:5,du:4,de:2,lg:5,sk:3,control:'Silt fencing, haul road maintenance, topsoil preservation',rsc:2,rsv:2,rpr:3,rdu:3,rde:2,rlg:3,rsk:2,ocp:true,reg:'Water Act 1974',gri:'GRI 303',remarks:''},
+  {id:3,activity:'Excavation & Earthwork',aspect:'Dust generation → Air quality degradation (PM10/PM2.5)',receptor:'Air',lc:'ON',type:'ADV',cond:'N',sc:3,sv:3,pr:5,du:4,de:3,lg:4,sk:4,control:'Water sprinkling, vehicle speed limits, dust screens',rsc:2,rsv:2,rpr:3,rdu:3,rde:2,rlg:2,rsk:2,ocp:true,reg:'Air Act 1981',gri:'GRI 305',remarks:''},
+  {id:4,activity:'Batching Plant Operation',aspect:'Cement dust → Air pollution at site boundary',receptor:'Air',lc:'ON',type:'ADV',cond:'N',sc:4,sv:3,pr:4,du:5,de:2,lg:4,sk:4,control:'Dust collectors, enclosure of feed hoppers, green belt',rsc:2,rsv:2,rpr:3,rdu:4,rde:2,rlg:2,rsk:2,ocp:true,reg:'Air Act 1981',gri:'GRI 305',remarks:''},
+  {id:5,activity:'Batching Plant Operation',aspect:'Wastewater/slurry discharge → Surface water contamination',receptor:'Water',lc:'ON',type:'ADV',cond:'N',sc:4,sv:4,pr:3,du:4,de:2,lg:5,sk:3,control:'Settling tanks, ETP, recycling of wash water',rsc:2,rsv:2,rpr:2,rdu:3,rde:2,rlg:3,rsk:2,ocp:true,reg:'Water Act 1974',gri:'GRI 303',remarks:''},
+  {id:6,activity:'DG Set Operation',aspect:'Exhaust emissions → NOx/SOx air quality degradation',receptor:'Air',lc:'ON',type:'ADV',cond:'N',sc:3,sv:3,pr:5,du:5,de:3,lg:4,sk:2,control:'CPCB compliant DG sets, stack height compliance',rsc:2,rsv:2,rpr:4,rdu:4,rde:2,rlg:2,rsk:2,ocp:false,reg:'Air Act 1981',gri:'GRI 305',remarks:''},
+  {id:7,activity:'DG Set Operation',aspect:'Fuel spillage → Soil and groundwater contamination',receptor:'Soil',lc:'ON',type:'ADV',cond:'A',sc:3,sv:4,pr:2,du:3,de:2,lg:4,sk:2,control:'Secondary containment bund, spill kit, drip trays',rsc:2,rsv:2,rpr:1,rdu:2,rde:1,rlg:2,rsk:1,ocp:false,reg:'HW Rules 2016',gri:'GRI 306',remarks:''},
+  {id:8,activity:'Vehicle & Equipment Movement',aspect:'Fugitive dust → Deterioration of air quality and visibility',receptor:'Air',lc:'ON',type:'ADV',cond:'N',sc:3,sv:3,pr:5,du:5,de:3,lg:3,sk:4,control:'Water tanker sprinkling, tyre wash, speed humps',rsc:2,rsv:2,rpr:3,rdu:4,rde:2,rlg:1,rsk:2,ocp:true,reg:'Air Act 1981',gri:'GRI 305',remarks:''},
+  {id:9,activity:'Vehicle & Equipment Movement',aspect:'Fuel / oil leaks → Land contamination',receptor:'Soil',lc:'ON',type:'ADV',cond:'A',sc:2,sv:3,pr:2,du:2,de:2,lg:3,sk:1,control:'Preventive maintenance schedule, drip trays at parking',rsc:1,rsv:2,rpr:1,rdu:2,rde:1,rlg:1,rsk:1,ocp:false,reg:'HW Rules 2016',gri:'GRI 306',remarks:''},
+  {id:10,activity:'Concrete Mixing & Pouring',aspect:'Concrete washout → Surface water contamination',receptor:'Water',lc:'ON',type:'ADV',cond:'N',sc:4,sv:4,pr:3,du:3,de:2,lg:5,sk:3,control:'Designated washout pit with containment bund',rsc:2,rsv:2,rpr:2,rdu:2,rde:1,rlg:2,rsk:2,ocp:true,reg:'Water Act 1974',gri:'GRI 303',remarks:''},
+  {id:11,activity:'Concrete Mixing & Pouring',aspect:'Construction noise → Community and wildlife disturbance',receptor:'Noise',lc:'ON',type:'ADV',cond:'N',sc:2,sv:2,pr:5,du:5,de:3,lg:3,sk:4,control:'Night work restrictions, noise barriers, monitoring',rsc:1,rsv:1,rpr:4,rdu:4,rde:2,rlg:1,rsk:2,ocp:false,reg:'EP Rules 1986',gri:'GRI 304',remarks:''},
+  {id:12,activity:'Welding & Cutting Operations',aspect:'Welding fumes and smoke → Air quality impact on workers',receptor:'Air',lc:'ON',type:'ADV',cond:'N',sc:2,sv:3,pr:4,du:3,de:2,lg:2,sk:2,control:'LEV systems, respirators (FFP2/FFP3), ventilation',rsc:1,rsv:2,rpr:3,rdu:2,rde:1,rlg:1,rsk:1,ocp:false,reg:'Air Act 1981',gri:'GRI 305',remarks:''},
+  {id:13,activity:'Hazardous Material Storage',aspect:'Chemical spill (fuel/paint/bitumen) → Soil and groundwater contamination',receptor:'Soil',lc:'ON',type:'ADV',cond:'E',sc:4,sv:5,pr:2,du:4,de:1,lg:5,sk:3,control:'Bonded store, secondary containment, MSDS, trained handler',rsc:2,rsv:3,rpr:1,rdu:3,rde:1,rlg:3,rsk:2,ocp:true,reg:'HW Rules 2016',gri:'GRI 306',remarks:''},
+  {id:14,activity:'Solid Waste Generation',aspect:'C&D waste mismanagement → Illegal dumping and land degradation',receptor:'Soil',lc:'ON',type:'ADV',cond:'N',sc:3,sv:3,pr:3,du:4,de:2,lg:4,sk:3,control:'Designated waste yard, licensed disposal agency, waste register',rsc:2,rsv:2,rpr:2,rdu:3,rde:1,rlg:2,rsk:2,ocp:false,reg:'C&D Rules 2016',gri:'GRI 306',remarks:''},
+  {id:15,activity:'Labour Camp Operation',aspect:'Domestic sewage discharge → Waterbody contamination',receptor:'Water',lc:'ON',type:'ADV',cond:'N',sc:3,sv:4,pr:4,du:5,de:2,lg:5,sk:3,control:'Mobile STP, portable toilets, regulated discharge',rsc:2,rsv:2,rpr:3,rdu:4,rde:2,rlg:3,rsk:2,ocp:true,reg:'Water Act 1974',gri:'GRI 303',remarks:''},
+  {id:16,activity:'Labour Camp Operation',aspect:'Solid waste accumulation → Rodent infestation and health risk',receptor:'Comm',lc:'ON',type:'ADV',cond:'N',sc:2,sv:2,pr:3,du:5,de:2,lg:2,sk:2,control:'Daily waste collection, pest control programme',rsc:1,rsv:1,rpr:2,rdu:4,rde:1,rlg:1,rsk:1,ocp:false,reg:'',gri:'',remarks:''},
+  {id:17,activity:'River / Nala Crossing Work',aspect:'Bank erosion and bed disturbance → Ecological impact on waterbody',receptor:'Water',lc:'ON',type:'ADV',cond:'N',sc:4,sv:4,pr:4,du:3,de:2,lg:5,sk:4,control:'Gabion walls, geotextile, seasonal work window compliance',rsc:2,rsv:2,rpr:3,rdu:2,rde:1,rlg:3,rsk:2,ocp:true,reg:'Wetlands Rules 2017',gri:'GRI 304',remarks:''},
+  {id:18,activity:'Emergency Fuel Spill',aspect:'Uncontrolled spill → Soil and water body contamination',receptor:'Soil',lc:'ON',type:'ADV',cond:'E',sc:5,sv:5,pr:2,du:3,de:1,lg:5,sk:4,control:'Spill response kit, trained emergency team, spill drill',rsc:3,rsv:3,rpr:1,rdu:2,rde:1,rlg:3,rsk:2,ocp:true,reg:'HW Rules 2016',gri:'GRI 306',remarks:''},
+  /* UPSTREAM */
+  {id:19,activity:'Aggregate / Quarry Material Supply',aspect:'Quarry blasting → Habitat loss and wildlife disturbance',receptor:'Bio',lc:'UP',type:'ADV',cond:'N',sc:4,sv:4,pr:3,du:4,de:3,lg:4,sk:2,control:'Source from licensed quarries, Forest Dept NOC verified',rsc:2,rsv:3,rpr:2,rdu:3,rde:2,rlg:2,rsk:2,ocp:false,reg:'Forest Act 1980',gri:'GRI 304',remarks:'Indirect — monitor supplier compliance'},
+  {id:20,activity:'Cement and Material Transport',aspect:'Fugitive dust during transit → Air quality on transport corridor',receptor:'Air',lc:'UP',type:'ADV',cond:'N',sc:2,sv:2,pr:3,du:3,de:3,lg:2,sk:3,control:'Covered trucks requirement in procurement spec',rsc:1,rsv:1,rpr:2,rdu:2,rde:2,rlg:1,rsk:2,ocp:false,reg:'Air Act 1981',gri:'GRI 305',remarks:'Indirect — contractual obligation'},
+  /* DOWNSTREAM */
+  {id:21,activity:'C&D Waste Disposal (End-of-Life)',aspect:'Landfill disposal of inert debris → Land use and leachate',receptor:'Soil',lc:'DN',type:'ADV',cond:'N',sc:3,sv:3,pr:3,du:5,de:3,lg:4,sk:2,control:'Licensed landfill, waste manifest, recycle first',rsc:2,rsv:2,rpr:2,rdu:4,rde:2,rlg:2,rsk:1,ocp:false,reg:'C&D Rules 2016',gri:'GRI 306',remarks:'Track disposal certificates'},
+  /* BENEFICIAL */
+  {id:22,activity:'Compensatory Afforestation / Replanting',aspect:'Tree plantation → Carbon sequestration and biodiversity gain',receptor:'Bio',lc:'ON',type:'BEN',cond:'N',sc:3,sv:3,pr:4,du:5,de:1,lg:1,sk:2,control:'Survival rate monitoring, species selection',rsc:3,rsv:3,rpr:4,rdu:5,rde:1,rlg:1,rsk:1,ocp:false,reg:'',gri:'GRI 304',remarks:'Positive impact — report in monthly report'},
+  {id:23,activity:'Fly Ash Utilisation in Concrete',aspect:'Industrial waste reuse → Reduced virgin material consumption',receptor:'Soil',lc:'ON',type:'BEN',cond:'N',sc:2,sv:2,pr:4,du:5,de:1,lg:1,sk:1,control:'Fly ash % in mix design as per IRC/IS codes',rsc:2,rsv:2,rpr:4,rdu:5,rde:1,rlg:1,rsk:1,ocp:false,reg:'',gri:'GRI 306',remarks:'Positive — resource efficiency'},
+  {id:24,activity:'Rainwater Harvesting at Site Office',aspect:'Water collection → Conservation of fresh water',receptor:'Water',lc:'ON',type:'BEN',cond:'N',sc:2,sv:2,pr:4,du:5,de:1,lg:1,sk:1,control:'RWH tank capacity, overflow management',rsc:2,rsv:2,rpr:4,rdu:5,rde:1,rlg:1,rsk:1,ocp:false,reg:'',gri:'GRI 303',remarks:'Report monthly volume harvested'}
 ];
 
 var EAIA_DATA = [];
+var EAIA_VER = {rev:'01',reviewDate:'',reviewedBy:'',nextReview:'',changes:[]};
 
-var SSPD_SC = ['1 = Localised within work area','2 = Within site boundary','3 = Site boundary & adjacent area','4 = Nearby community / village','5 = Regional / waterbody affected'];
-var SSPD_SV = ['1 = Negligible, no visible effect','2 = Minor, fully recoverable','3 = Moderate, recoverable over time','4 = Major, difficult to recover','5 = Catastrophic / irreversible'];
-var SSPD_PR = ['1 = Rare — less than 5% probability','2 = Unlikely — 5 to 25%','3 = Possible — 25 to 50%','4 = Likely — 50 to 75%','5 = Almost certain — above 75%'];
-var SSPD_DU = ['1 = Momentary — less than 1 hour','2 = Short-term — less than 1 day','3 = Medium — 1 day to 1 month','4 = Long-term — 1 to 12 months','5 = Permanent — more than 1 year'];
-var SSPD_DE = ['1 = Always detected / easily controlled','2 = Usually detected','3 = Sometimes detected','4 = Rarely detected','5 = Not detectable'];
-
-function eaiaScore(r){ return r.sc * r.sv * r.pr * r.du * r.de; }
-function eaiaResScore(r){ var rs=r.rsc||r.sc,rv=r.rsv||r.sv,rp=r.rpr||r.pr,rd=r.rdu||r.du,re2=r.rde||r.de; return rs*rv*rp*rd*re2; }
-function eaiaSig(s){ return s>=36; }
+var SSPD_DESCS = {
+  sc:['1=Local (within 10m)','2=On-site only','3=Project boundary','4=Adjacent community','5=Regional / waterbody'],
+  sv:['1=Negligible','2=Minor, recoverable','3=Moderate, recoverable','4=Major, difficult to recover','5=Catastrophic/irreversible'],
+  pr:['1=Rare (<5% chance)','2=Unlikely (5–25%)','3=Possible (25–50%)','4=Likely (50–75%)','5=Almost certain (>75%)'],
+  du:['1=Momentary (<1hr)','2=Short (<1 day)','3=Medium (1 day–1 month)','4=Long (1–12 months)','5=Permanent (>1 year)'],
+  de:['5=Not detectable','4=Rarely detected','3=Sometimes detected','2=Usually detected','1=Always detected'],
+  lg:['1=No law applicable','2=Guidance only','3=Regulatory requirement','4=Licence/consent condition','5=Criminal liability'],
+  sk:['1=No community concern','2=Minor local awareness','3=Some stakeholder concern','4=High community concern','5=Regulatory/media attention']
+};
 
 function eaiaLoad(){
-  try{ var d=localStorage.getItem('sp_eaia_v3'); EAIA_DATA=d?JSON.parse(d):EAIA_DEFAULT.map(function(x){return Object.assign({},x);}); }
-  catch(e){ EAIA_DATA=EAIA_DEFAULT.map(function(x){return Object.assign({},x);}); }
-}
-function eaiaSave(){ try{ localStorage.setItem('sp_eaia_v3',JSON.stringify(EAIA_DATA)); }catch(e){} }
-function eaiaSaveMeta(){
-  var m={rev:(document.getElementById('eaia-rev')||{}).value||'',date:(document.getElementById('eaia-date')||{}).value||'',prep:(document.getElementById('eaia-prep')||{}).value||'',reviewBy:(document.getElementById('eaia-review-by')||{}).value||'',appr:(document.getElementById('eaia-appr')||{}).value||''};
-  try{ localStorage.setItem('sp_eaia_meta',JSON.stringify(m)); }catch(e){}
-}
-function eaiaLoadMeta(){
   try{
-    var m=JSON.parse(localStorage.getItem('sp_eaia_meta')||'{}');
-    if(m.rev&&document.getElementById('eaia-rev')) document.getElementById('eaia-rev').value=m.rev;
-    if(m.date&&document.getElementById('eaia-date')) document.getElementById('eaia-date').value=m.date;
-    if(m.prep&&document.getElementById('eaia-prep')) document.getElementById('eaia-prep').value=m.prep;
-    if(m.reviewBy&&document.getElementById('eaia-review-by')) document.getElementById('eaia-review-by').value=m.reviewBy;
-    if(m.appr&&document.getElementById('eaia-appr')) document.getElementById('eaia-appr').value=m.appr;
-    // Doc number from account profile
-    var org=window.SP_USER?window.SP_USER.company||'[Org]':'[Org]';
-    var dn=document.getElementById('eaia-docno');
-    if(dn) dn.textContent=org+'-HSE-EIA-01';
-  }catch(e){}
+    var s=localStorage.getItem('sp_eaia_v2');
+    EAIA_DATA=s?JSON.parse(s):EAIA_DEFAULT.map(function(d){return Object.assign({},d);});
+    var v=localStorage.getItem('sp_eaia_ver');
+    if(v) EAIA_VER=JSON.parse(v);
+  }catch(e){EAIA_DATA=EAIA_DEFAULT.map(function(d){return Object.assign({},d);});}
 }
 
-function eaiaPopulateActivityFilter(){
-  var sel=document.getElementById('eaia-act-f');
-  if(!sel) return;
-  var current=sel.value;
-  sel.innerHTML='<option value="ALL">All Activities</option>';
-  var seen={};
-  EAIA_DATA.forEach(function(r){
-    if(!seen[r.activity]){
-      seen[r.activity]=1;
-      var o=document.createElement('option');
-      o.value=r.activity; o.textContent=r.activity;
-      sel.appendChild(o);
-    }
-  });
-  if(current) sel.value=current;
+function eaiaSave(){
+  try{localStorage.setItem('sp_eaia_v2',JSON.stringify(EAIA_DATA));localStorage.setItem('sp_eaia_ver',JSON.stringify(EAIA_VER));}catch(e){}
+}
+
+function eaiaInitScore(r){
+  var de=Math.max(1,parseInt(r.de)||1);
+  return Math.round(((r.sc*r.sv*r.pr*r.du)/de)+(parseInt(r.lg)||1)+(parseInt(r.sk)||1));
+}
+
+function eaiaResidScore(r){
+  var de=Math.max(1,parseInt(r.rde)||1);
+  return Math.round(((r.rsc*r.rsv*r.rpr*r.rdu)/de)+(parseInt(r.rlg)||1)+(parseInt(r.rsk)||1));
 }
 
 function eaiaRender(){
   eaiaLoad();
-  eaiaPopulateActivityFilter();
   var filter=(document.getElementById('eaia-filter')||{}).value||'ALL';
-  var condF=(document.getElementById('eaia-cond-f')||{}).value||'ALL';
-  var actF=(document.getElementById('eaia-act-f')||{}).value||'ALL';
-  var tbody=document.getElementById('eaia-tbody');
+  var condF=(document.getElementById('eaia-cond')||{}).value||'ALL';
+  var lcF=(document.getElementById('eaia-lc')||{}).value||'ALL';
+  var recF=(document.getElementById('eaia-receptor')||{}).value||'ALL';
+  var tbody=document.getElementById('eaia-table-body');
   if(!tbody) return;
 
-  var totSig=0,totNS=0,totRes=0,totOcp=0,totLc=0;
-  EAIA_DATA.forEach(function(r){
-    var s=eaiaScore(r), rs=eaiaResScore(r);
-    if(eaiaSig(s)) totSig++; else totNS++;
-    if(eaiaSig(rs)) totRes++;
-    if(r.ocp) totOcp++;
-    if(r.lc==='Y'||r.ipc==='Y'||r.bc==='Y'||r.rcp==='Y') totLc++;
-  });
-  function set(id,v){var el=document.getElementById(id);if(el)el.textContent=v;}
-  set('eaia-c-total',EAIA_DATA.length);
-  set('eaia-c-sig',totSig); set('eaia-c-ns',totNS);
-  set('eaia-c-res',totRes); set('eaia-c-ocp',totOcp); set('eaia-c-lc',totLc);
+  // Update version header
+  var revEl=document.getElementById('eaia-rev'); if(revEl) revEl.textContent=EAIA_VER.rev||'01';
+  var rdEl=document.getElementById('eaia-review-date'); if(rdEl) rdEl.textContent=EAIA_VER.reviewDate||'—';
+  var rnEl=document.getElementById('eaia-next-review'); if(rnEl) rnEl.textContent=EAIA_VER.nextReview||'Annual';
 
-  var filtered=EAIA_DATA.filter(function(r,i){
-    var s=eaiaScore(r);
-    if(filter==='SIG'&&!eaiaSig(s)) return false;
-    if(filter==='NS'&&eaiaSig(s)) return false;
+  var total=0,sigC=0,nsC=0,benC=0,ocpC=0,legalC=0,residSigC=0;
+  EAIA_DATA.forEach(function(r){
+    total++;
+    if(r.type==='BEN'){benC++;return;}
+    var init=eaiaInitScore(r),resid=eaiaResidScore(r);
+    if(init>=30) sigC++; else nsC++;
+    if(resid>=30) residSigC++;
+    if(r.ocp) ocpC++;
+    if(r.lg>=3) legalC++;
+  });
+  var setS=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+  setS('eaia-stat-total',total);setS('eaia-stat-sig',sigC);setS('eaia-stat-nonsig',nsC);
+  setS('eaia-stat-ben',benC);setS('eaia-stat-ocp',ocpC);setS('eaia-stat-legal',legalC);
+  setS('eaia-stat-residual-sig',residSigC);
+
+  var filtered=EAIA_DATA.filter(function(r){
+    var init=eaiaInitScore(r);
+    var sig=init>=30;
+    if(filter==='SIG'&&(r.type==='BEN'||!sig)) return false;
+    if(filter==='NONSIG'&&(r.type==='BEN'||sig)) return false;
+    if(filter==='BEN'&&r.type!=='BEN') return false;
     if(condF!=='ALL'&&r.cond!==condF) return false;
-    if(actF!=='ALL'&&r.activity!==actF) return false;
+    if(lcF!=='ALL'&&r.lc!==lcF) return false;
+    if(recF!=='ALL'&&r.receptor!==recF) return false;
     return true;
   });
 
-  tbody.innerHTML=filtered.map(function(r){
-    var realIdx=EAIA_DATA.indexOf(r);
-    var score=eaiaScore(r), rscore=eaiaResScore(r);
-    var sig=eaiaSig(score), rSig=eaiaSig(rscore);
-    var rowBg=sig?'background:rgba(239,68,68,.04);border-left:2px solid #EF4444;':'border-left:2px solid transparent;';
-    var condColor=r.cond==='E'?'#F87171':r.cond==='A'?'#F59E0B':'#22C55E';
-    function yn(v){return v==='Y'?'<span style="color:#22C55E;font-weight:700;">Y</span>':'<span style="color:var(--t4);">N</span>';}
-    var scoreColor=sig?'#EF4444':'#22C55E';
-    var rScoreColor=rSig?'#F59E0B':'#22C55E';
-    var badge=sig
-      ?'<span style="background:rgba(239,68,68,.12);border:0.5px solid rgba(239,68,68,.3);color:#F87171;padding:1px 5px;border-radius:3px;font-size:8px;font-weight:700;">S</span>'
-      :'<span style="background:rgba(34,197,94,.1);border:0.5px solid rgba(34,197,94,.25);color:#22C55E;padding:1px 5px;border-radius:3px;font-size:8px;font-weight:700;">NS</span>';
-    var rBadge=rSig
-      ?'<span style="background:rgba(245,158,11,.12);border:0.5px solid rgba(245,158,11,.3);color:#F59E0B;padding:1px 5px;border-radius:3px;font-size:8px;font-weight:700;">S</span>'
-      :'<span style="background:rgba(34,197,94,.1);border:0.5px solid rgba(34,197,94,.25);color:#22C55E;padding:1px 5px;border-radius:3px;font-size:8px;font-weight:700;">NS</span>';
+  var LC_COLORS={ON:'#22C55E',UP:'#3B82F6',DN:'#F59E0B'};
+  var LC_LABELS={ON:'On-site',UP:'Upstream',DN:'Downstream'};
+  var REC_COLORS={Air:'#60A5FA',Water:'#22D3EE',GW:'#0891B2',Soil:'#D97706',Noise:'#A78BFA',Bio:'#4ADE80',Comm:'#F472B6',Workers:'#FB923C'};
 
-    return '<div style="display:grid;grid-template-columns:30px 130px 120px 130px 50px 30px 30px 30px 30px 34px 34px 34px 34px 34px 56px 50px 130px 80px 130px 120px 56px 50px 100px;border-bottom:0.5px solid var(--border);align-items:center;'+rowBg+'">'
-      +'<div style="padding:5px 4px;color:var(--t3);font-weight:600;font-size:9px;">'+(realIdx+1)+'</div>'
-      +'<div style="padding:5px 6px;font-weight:500;color:var(--t1);font-size:9px;line-height:1.3;">'+r.activity+'</div>'
-      +'<div style="padding:5px 6px;color:var(--t2);font-size:9px;line-height:1.3;">'+r.aspect+'</div>'
-      +'<div style="padding:5px 6px;color:var(--t3);font-size:9px;line-height:1.3;">'+r.impact+'</div>'
-      +'<div style="padding:5px 4px;text-align:center;font-weight:700;color:'+condColor+';">'+r.cond+'</div>'
-      +'<div style="padding:5px 2px;text-align:center;">'+yn(r.lc)+'</div>'
-      +'<div style="padding:5px 2px;text-align:center;">'+yn(r.ipc)+'</div>'
-      +'<div style="padding:5px 2px;text-align:center;">'+yn(r.bc)+'</div>'
-      +'<div style="padding:5px 2px;text-align:center;">'+yn(r.rcp)+'</div>'
-      +'<div style="padding:5px 2px;text-align:center;font-weight:600;">'+r.sc+'</div>'
-      +'<div style="padding:5px 2px;text-align:center;font-weight:600;">'+r.sv+'</div>'
-      +'<div style="padding:5px 2px;text-align:center;font-weight:600;">'+r.pr+'</div>'
-      +'<div style="padding:5px 2px;text-align:center;font-weight:600;">'+r.du+'</div>'
-      +'<div style="padding:5px 2px;text-align:center;font-weight:600;">'+r.de+'</div>'
-      +'<div style="padding:5px 4px;text-align:center;font-size:14px;font-weight:700;color:'+scoreColor+';">'+score+'</div>'
-      +'<div style="padding:5px 4px;text-align:center;">'+badge+'</div>'
-      +'<div style="padding:5px 6px;color:var(--t2);font-size:9px;line-height:1.3;">'+r.ctrl1+'</div>'
-      +'<div style="padding:5px 6px;color:var(--amber);font-size:9px;line-height:1.3;">'+r.gap+'</div>'
-      +'<div style="padding:5px 6px;color:var(--t2);font-size:9px;line-height:1.3;">'+r.ctrl2+'</div>'
-      +'<div style="padding:5px 6px;color:var(--t3);font-size:9px;line-height:1.3;">'+r.auth+'</div>'
-      +'<div style="padding:5px 4px;text-align:center;font-size:12px;font-weight:700;color:'+rScoreColor+';">'+rscore+'</div>'
-      +'<div style="padding:5px 4px;text-align:center;">'+rBadge+'</div>'
-      +'<div style="padding:5px 6px;display:flex;gap:3px;">'
-        +'<button onclick="eaiaOpenEdit('+realIdx+')" style="padding:3px 7px;background:rgba(59,130,246,.1);border:0.5px solid rgba(59,130,246,.2);border-radius:4px;color:#60A5FA;font-size:8px;font-weight:600;cursor:pointer;">Edit</button>'
-        +'<button onclick="eaiaDeleteRow('+realIdx+')" style="padding:3px 6px;background:rgba(239,68,68,.08);border:0.5px solid rgba(239,68,68,.2);border-radius:4px;color:#F87171;font-size:8px;cursor:pointer;">&#10005;</button>'
+  tbody.innerHTML=filtered.map(function(r){
+    var isBen=r.type==='BEN';
+    var init=isBen?null:eaiaInitScore(r);
+    var resid=isBen?null:eaiaResidScore(r);
+    var initSig=!isBen&&init>=30;
+    var residSig=!isBen&&resid>=30;
+    var condC=r.cond==='E'?'#F87171':r.cond==='A'?'#F59E0B':'#22C55E';
+    var lcC=LC_COLORS[r.lc]||'#94A3B8';
+    var recC=REC_COLORS[r.receptor]||'#94A3B8';
+    var rowBg=isBen?'background:rgba(34,211,238,.04);border-left:2px solid #22D3EE;':initSig?'background:rgba(239,68,68,.06);border-left:2px solid #EF4444;':'background:transparent;border-left:2px solid transparent;';
+    var idx=EAIA_DATA.indexOf(r);
+    var initBadge=isBen?'<span style="background:rgba(34,211,238,.12);border:0.5px solid rgba(34,211,238,.3);color:#22D3EE;padding:2px 6px;border-radius:4px;font-size:8px;font-weight:700;">BENEFICIAL</span>':
+      (initSig?'<span style="color:#F87171;font-size:13px;font-weight:700;">'+init+'</span>':'<span style="color:#22C55E;font-size:13px;font-weight:700;">'+init+'</span>');
+    var residBadge=isBen?'—':
+      (residSig?'<span style="background:rgba(239,68,68,.1);border:0.5px solid rgba(239,68,68,.25);color:#F87171;padding:2px 6px;border-radius:4px;font-size:8px;font-weight:700;">'+resid+' SIG</span>':'<span style="background:rgba(34,197,94,.1);border:0.5px solid rgba(34,197,94,.25);color:#22C55E;padding:2px 6px;border-radius:4px;font-size:8px;font-weight:700;">'+resid+' OK</span>');
+    return '<div style="display:grid;grid-template-columns:28px 130px 160px 55px 55px 36px 36px 36px 36px 36px 36px 36px 65px 65px 65px 100px 90px;gap:0;border-bottom:0.5px solid var(--border);align-items:center;font-size:10px;'+rowBg+'">'
+      +'<div style="padding:6px 5px;color:var(--t3);font-weight:600;">'+(idx+1)+'</div>'
+      +'<div style="padding:6px 5px;font-weight:500;color:var(--t1);line-height:1.3;font-size:9px;">'+r.activity+'</div>'
+      +'<div style="padding:6px 5px;color:var(--t2);line-height:1.3;font-size:9px;">'+r.aspect+(r.reg?'<br><span style="font-size:8px;color:#60A5FA;">'+r.reg+'</span>':'')+'</div>'
+      +'<div style="padding:6px 5px;"><span style="background:'+recC+'22;border:0.5px solid '+recC+'44;color:'+recC+';padding:2px 5px;border-radius:3px;font-size:8px;font-weight:700;">'+r.receptor+'</span></div>'
+      +'<div style="padding:6px 5px;"><span style="background:'+lcC+'22;border:0.5px solid '+lcC+'44;color:'+lcC+';padding:2px 5px;border-radius:3px;font-size:8px;font-weight:700;">'+(LC_LABELS[r.lc]||r.lc)+'</span></div>'
+      +'<div style="padding:6px 3px;text-align:center;"><span style="font-weight:700;color:'+condC+';">'+r.cond+'</span></div>'
+      +'<div style="padding:6px 3px;text-align:center;font-weight:600;">'+r.sc+'</div>'
+      +'<div style="padding:6px 3px;text-align:center;font-weight:600;">'+r.sv+'</div>'
+      +'<div style="padding:6px 3px;text-align:center;font-weight:600;">'+r.pr+'</div>'
+      +'<div style="padding:6px 3px;text-align:center;font-weight:600;">'+r.du+'</div>'
+      +'<div style="padding:6px 3px;text-align:center;font-weight:600;">'+r.de+'</div>'
+      +'<div style="padding:6px 3px;text-align:center;font-weight:600;color:'+(r.lg>=4?'#F87171':r.lg>=3?'#F59E0B':'#22C55E')+';">'+r.lg+'</div>'
+      +'<div style="padding:6px 5px;text-align:center;">'+initBadge+'</div>'
+      +'<div style="padding:6px 5px;text-align:center;">'+residBadge+'</div>'
+      +'<div style="padding:6px 5px;text-align:center;">'+(isBen?'<span style="font-size:9px;color:#22D3EE;">Beneficial</span>':initSig?'<span style="font-size:9px;color:#F87171;font-weight:700;">SIGNIFICANT</span>':'<span style="font-size:9px;color:#22C55E;">Non-Sig</span>')+'</div>'
+      +'<div style="padding:6px 5px;font-size:9px;color:var(--t3);line-height:1.3;">'+r.control.substring(0,40)+(r.control.length>40?'...':'')+'</div>'
+      +'<div style="padding:6px 5px;display:flex;gap:3px;">'
+        +'<button onclick="eaiaOpenEdit('+idx+')" style="padding:3px 7px;background:rgba(59,130,246,.1);border:0.5px solid rgba(59,130,246,.2);border-radius:4px;color:#60A5FA;font-size:9px;font-weight:600;cursor:pointer;">SSPD</button>'
+        +'<button onclick="eaiaDelete('+idx+')" style="padding:3px 6px;background:rgba(239,68,68,.08);border:0.5px solid rgba(239,68,68,.2);border-radius:4px;color:#F87171;font-size:9px;cursor:pointer;">&#10005;</button>'
       +'</div>'
     +'</div>';
-  }).join('')||'<div style="padding:20px;text-align:center;color:var(--t3);font-size:11px;">No entries match the filter</div>';
+  }).join('');
 }
 
 function eaiaOpenEdit(idx){
   var r=EAIA_DATA[idx];
-  var mb=document.getElementById('eaia-m-body');
-  var mt=document.getElementById('eaia-m-title');
-  if(!mb||!mt) return;
-  mt.textContent=r.activity;
+  var titleEl=document.getElementById('eaia-modal-title');
+  if(titleEl) titleEl.textContent=r.activity;
+  var isBen=r.type==='BEN';
+  var initScore=isBen?0:eaiaInitScore(r);
+  var residScore=isBen?0:eaiaResidScore(r);
 
-  function scoreBox(sc,sv,pr,du,de,isRes){
-    var s=sc*sv*pr*du*de;
-    var sig=eaiaSig(s);
-    var color=isRes?(sig?'#F59E0B':'#22C55E'):(sig?'#EF4444':'#22C55E');
-    var bg=isRes?(sig?'rgba(245,158,11,.08)':'rgba(34,197,94,.07)'):(sig?'rgba(239,68,68,.08)':'rgba(34,197,94,.07)');
-    return '<div style="background:'+bg+';border-radius:6px;padding:8px;text-align:center;margin-top:8px;">'
-      +'<div style="font-size:9px;color:var(--t3);margin-bottom:2px;">Score = Sc &times; Sv &times; Pr &times; Du &times; De</div>'
-      +'<div id="'+(isRes?'ev-rscore':'ev-score')+'" style="font-size:30px;font-weight:700;color:'+color+';">'+s+'</div>'
-      +'<div id="'+(isRes?'ev-rlabel':'ev-label')+'" style="font-size:10px;font-weight:700;color:'+color+';">'+(sig?(isRes?'Still Significant':'SIGNIFICANT'):(isRes?'Residual Non-Significant':'Non-Significant'))+'</div>'
-      +'</div>';
-  }
+  var params=[['sc','Scale'],['sv','Severity'],['pr','Probability'],['du','Duration'],['de','Detection'],['lg','Legal Relevance'],['sk','Stakeholder Concern']];
+  var initColors={sc:'amber',sv:'red',pr:'red',du:'amber',de:'green',lg:'blue',sk:'purple'};
 
-  function srow(param,val,max,descs,isRes){
-    var prefix=isRes?'r':'';
-    var id='ev-'+prefix+param;
-    var color=val>=4?'#EF4444':val>=3?'#F59E0B':'#22C55E';
-    var desc=descs[val-1]||'';
-    var d=document.createElement('div');
-    d.style.cssText='display:flex;align-items:center;gap:6px;margin-bottom:6px;';
-    var lbl=document.createElement('span');
-    lbl.style.cssText='width:80px;font-size:9px;color:var(--t2);flex-shrink:0;';
-    lbl.textContent=(isRes?'Residual ':'')+{sc:'Scale',sv:'Severity',pr:'Probability',du:'Duration',de:'Detection'}[param];
-    var inp=document.createElement('input');
-    inp.type='range'; inp.min=1; inp.max=max; inp.value=val; inp.step=1; inp.style.cssText='flex:1;';
-    inp.setAttribute('data-idx',idx); inp.setAttribute('data-param',(isRes?'r':'')+param); inp.setAttribute('data-res',isRes?'1':'0');
-    inp.oninput=function(){ eaiaModalSlider(this); };
-    var vsp=document.createElement('span');
-    vsp.id=id; vsp.style.cssText='width:20px;text-align:center;font-weight:700;font-size:11px;color:'+color+';';
-    vsp.textContent=val;
-    var dsp=document.createElement('span');
-    dsp.style.cssText='flex:2;font-size:9px;color:var(--t3);';
-    dsp.id=id+'-desc'; dsp.textContent=desc;
-    d.appendChild(lbl); d.appendChild(inp); d.appendChild(vsp); d.appendChild(dsp);
-    return d;
-  }
+  var html='<div style="background:var(--raised);border-radius:7px;padding:9px 12px;margin-bottom:12px;">'
+    +'<div style="font-size:9px;color:var(--t3);margin-bottom:2px;">Aspect → Impact &nbsp;|&nbsp; Receptor: <strong style="color:var(--t2);">'+r.receptor+'</strong> &nbsp;|&nbsp; Lifecycle: <strong style="color:var(--t2);">'+(r.lc==='ON'?'On-site':r.lc==='UP'?'Upstream':'Downstream')+'</strong></div>'
+    +'<div style="font-size:11px;color:var(--t1);">'+r.aspect+'</div>'
+    +(r.reg?'<div style="font-size:9px;color:#60A5FA;margin-top:3px;">'+r.reg+'</div>':'')
+    +'</div>';
 
-  mb.innerHTML='';
-
-  // Aspect/Impact info
-  var info=document.createElement('div');
-  info.style.cssText='background:var(--raised);border-radius:7px;padding:9px 12px;margin-bottom:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:10px;';
-  info.innerHTML='<div><div style="font-size:8px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Aspect</div><div style="color:var(--t1);">'+r.aspect+'</div></div>'
-    +'<div><div style="font-size:8px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Impact</div><div style="color:var(--t1);">'+r.impact+'</div></div>'
-    +'<div style="display:flex;gap:8px;font-size:9px;margin-top:2px;">'
-    +'<span style="color:var(--t3);">Cond:</span><strong style="color:'+(r.cond==='E'?'#F87171':r.cond==='A'?'#F59E0B':'#22C55E')+';">'+r.cond+'</strong>'
-    +'<span style="color:var(--t3);margin-left:8px;">Impact Criteria:</span>'
-    +(r.lc==='Y'?'<span style="background:rgba(59,130,246,.1);color:#60A5FA;padding:1px 5px;border-radius:3px;font-size:8px;font-weight:700;">LC</span>':'')+
-    (r.ipc==='Y'?'<span style="background:rgba(139,92,246,.1);color:#A78BFA;padding:1px 5px;border-radius:3px;font-size:8px;font-weight:700;">IPC</span>':'')+
-    (r.bc==='Y'?'<span style="background:rgba(245,158,11,.1);color:#F59E0B;padding:1px 5px;border-radius:3px;font-size:8px;font-weight:700;">BC</span>':'')+
-    (r.rcp==='Y'?'<span style="background:rgba(34,197,94,.1);color:#22C55E;padding:1px 5px;border-radius:3px;font-size:8px;font-weight:700;">RCP</span>':'')
-    +'</div><div></div>';
-  mb.appendChild(info);
-
-  // Two columns: initial | residual
-  var grid=document.createElement('div');
-  grid.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;';
-
-  var initDiv=document.createElement('div');
-  initDiv.style.cssText='background:var(--raised);border-radius:8px;padding:10px;';
-  initDiv.innerHTML='<div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Initial Score (before controls)</div>';
-  [['sc',r.sc,5,SSPD_SC],['sv',r.sv,5,SSPD_SV],['pr',r.pr,5,SSPD_PR],['du',r.du,5,SSPD_DU],['de',r.de,5,SSPD_DE]].forEach(function(p){
-    initDiv.appendChild(srow(p[0],p[1],p[2],p[3],false));
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">';
+  html+='<div><div style="font-size:10px;font-weight:600;color:var(--t2);margin-bottom:8px;padding-bottom:5px;border-bottom:0.5px solid var(--border);">INITIAL Score (without controls)</div>';
+  params.forEach(function(p){
+    var key=p[0],lbl=p[1];
+    var val=r[key]||1;
+    var desc=SSPD_DESCS[key][val-1]||'';
+    html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;">'
+      +'<span style="width:110px;font-size:9px;color:var(--t2);flex-shrink:0;">'+lbl+'</span>'
+      +'<input type="range" min="1" max="5" value="'+val+'" step="1" oninput="eaiaUpdateParam('+idx+',\''+key+'\',this.value)" style="flex:1;"/>'
+      +'<span style="width:24px;text-align:center;font-size:12px;font-weight:700;color:var(--t1);" id="ev-'+key+'">'+val+'</span>'
+      +'<span style="font-size:8px;color:var(--t3);width:130px;" id="ed-'+key+'">'+desc+'</span>'
+    +'</div>';
   });
-  initDiv.innerHTML+=scoreBox(r.sc,r.sv,r.pr,r.du,r.de,false);
-  grid.appendChild(initDiv);
+  html+='<div style="background:var(--raised);border-radius:6px;padding:9px;text-align:center;margin-top:6px;">'
+    +'<div style="font-size:9px;color:var(--t3);">Score = (Sc×Sv×Pr×Du÷De)+Legal+Stakeholder</div>'
+    +'<div style="font-size:28px;font-weight:700;margin-top:4px;color:'+(initScore>=30?'#EF4444':'#22C55E')+'" id="ev-init-score">'+initScore+'</div>'
+    +'<div style="font-size:11px;font-weight:600;color:'+(initScore>=30?'#EF4444':'#22C55E')+'" id="ev-init-label">'+(initScore>=30?'SIGNIFICANT':'Non-Significant')+'</div>'
+    +'</div></div>';
 
-  var resDiv=document.createElement('div');
-  resDiv.style.cssText='background:rgba(139,92,246,.06);border:0.5px solid rgba(139,92,246,.2);border-radius:8px;padding:10px;';
-  resDiv.innerHTML='<div style="font-size:9px;color:#A78BFA;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Residual Score (after controls)</div>';
-  [['sc',r.rsc||r.sc],['sv',r.rsv||r.sv],['pr',r.rpr||r.pr],['du',r.rdu||r.du],['de',r.rde||r.de]].forEach(function(p,i){
-    var descs=[SSPD_SC,SSPD_SV,SSPD_PR,SSPD_DU,SSPD_DE][i];
-    resDiv.appendChild(srow(p[0],p[1],5,descs,true));
+  html+='<div><div style="font-size:10px;font-weight:600;color:var(--t2);margin-bottom:8px;padding-bottom:5px;border-bottom:0.5px solid var(--border);">RESIDUAL Score (after controls)</div>';
+  params.forEach(function(p){
+    var key='r'+p[0],lbl=p[1];
+    var val=r[key]||1;
+    var desc=SSPD_DESCS[p[0]][val-1]||'';
+    html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;">'
+      +'<span style="width:110px;font-size:9px;color:var(--t2);flex-shrink:0;">'+lbl+'</span>'
+      +'<input type="range" min="1" max="5" value="'+val+'" step="1" oninput="eaiaUpdateResid('+idx+',\'r'+p[0]+'\',this.value)" style="flex:1;"/>'
+      +'<span style="width:24px;text-align:center;font-size:12px;font-weight:700;color:var(--t1);" id="erv-'+p[0]+'">'+val+'</span>'
+      +'<span style="font-size:8px;color:var(--t3);width:130px;" id="erd-'+p[0]+'">'+desc+'</span>'
+    +'</div>';
   });
-  resDiv.innerHTML+=scoreBox(r.rsc||r.sc,r.rsv||r.sv,r.rpr||r.pr,r.rdu||r.du,r.rde||r.de,true);
-  grid.appendChild(resDiv);
-  mb.appendChild(grid);
+  html+='<div style="background:var(--raised);border-radius:6px;padding:9px;text-align:center;margin-top:6px;">'
+    +'<div style="font-size:9px;color:var(--t3);">Residual = score after applying controls</div>'
+    +'<div style="font-size:28px;font-weight:700;margin-top:4px;color:'+(residScore>=30?'#A78BFA':'#22C55E')+'" id="ev-resid-score">'+residScore+'</div>'
+    +'<div style="font-size:11px;font-weight:600;color:'+(residScore>=30?'#A78BFA':'#22C55E')+'" id="ev-resid-label">'+(residScore>=30?'Still Significant — additional OCP required':'Adequately controlled')+'</div>'
+    +'</div></div></div>';
 
-  // Control fields
-  var fields=document.createElement('div');
-  fields.style.cssText='display:flex;flex-direction:column;gap:8px;';
-  function frow(label,fid,val){
-    var d=document.createElement('div');
-    d.innerHTML='<label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">'+label+'</label>'
-      +'<input id="'+fid+'" value="'+val.replace(/"/g,'&quot;')+'" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" onchange="eaiaFieldChange('+idx+',\''+fid+'\',this.value)"/>';
-    return d;
-  }
-  fields.appendChild(frow('Existing Control',     'ef-ctrl1',  r.ctrl1));
-  fields.appendChild(frow('Gap (if any)',          'ef-gap',    r.gap));
-  fields.appendChild(frow('Control Measure (OCP)', 'ef-ctrl2',  r.ctrl2));
-  fields.appendChild(frow('Competent Authority',   'ef-auth',   r.auth));
-  var ocpRow=document.createElement('label');
-  ocpRow.style.cssText='display:flex;align-items:center;gap:8px;font-size:11px;color:var(--t2);cursor:pointer;';
-  ocpRow.innerHTML='<input type="checkbox"'+(r.ocp?' checked':'')+' onchange="EAIA_DATA['+idx+'].ocp=this.checked;eaiaSave();eaiaRender();"> OCP Required';
-  fields.appendChild(ocpRow);
-  mb.appendChild(fields);
+  html+='<div style="margin-top:12px;display:flex;flex-direction:column;gap:7px;">'
+    +'<div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Control Measure (existing)</label>'
+    +'<input id="eaia-ctrl" value="'+r.control+'" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" onchange="eaiaUpdateCtrl('+idx+',this.value)"/></div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">'
+    +'<div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">GRI Disclosure</label>'
+    +'<input id="eaia-gri" value="'+(r.gri||'')+'" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" onchange="eaiaUpdateField('+idx+',\'gri\',this.value)" placeholder="e.g. GRI 305"/></div>'
+    +'<div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">India Regulatory Reference</label>'
+    +'<input id="eaia-reg" value="'+(r.reg||'')+'" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" onchange="eaiaUpdateField('+idx+',\'reg\',this.value)" placeholder="e.g. Air Act 1981"/></div>'
+    +'</div>'
+    +'<label style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--t2);cursor:pointer;">'
+    +'<input type="checkbox"'+(r.ocp?' checked':'')+' onchange="eaiaUpdateField('+idx+',\'ocp\',this.checked)"/> OCP (Operational Control Procedure) required</label>'
+    +'<div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Remarks / Gap</label>'
+    +'<input id="eaia-rem" value="'+(r.remarks||'')+'" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" onchange="eaiaUpdateField('+idx+',\'remarks\',this.value)"/></div>'
+    +'</div>';
 
-  document.getElementById('eaia-modal').style.display='flex';
+  var mb=document.getElementById('eaia-modal-body');
+  if(mb) mb.innerHTML=html;
+  var m=document.getElementById('eaia-modal');
+  if(m) m.style.display='flex';
 }
 
-function eaiaModalSlider(inp){
-  var idx=parseInt(inp.getAttribute('data-idx'));
-  var param=inp.getAttribute('data-param');
-  var val=parseInt(inp.value);
-  EAIA_DATA[idx][param]=val;
-  var el=document.getElementById('ev-'+param);
-  if(el) el.textContent=val;
-  // update desc
-  var descMap={sc:SSPD_SC,sv:SSPD_SV,pr:SSPD_PR,du:SSPD_DU,de:SSPD_DE,
-               rsc:SSPD_SC,rsv:SSPD_SV,rpr:SSPD_PR,rdu:SSPD_DU,rde:SSPD_DE};
-  var descs=descMap[param];
-  var dEl=document.getElementById('ev-'+param+'-desc');
-  if(dEl&&descs) dEl.textContent=descs[val-1]||'';
-  // recalc scores
-  var r=EAIA_DATA[idx];
-  var s=eaiaScore(r), rs=eaiaResScore(r);
-  var sigC=eaiaSig(s)?'#EF4444':'#22C55E';
-  var resC=eaiaSig(rs)?'#F59E0B':'#22C55E';
-  function upd(id,val,color){var e=document.getElementById(id);if(e){e.textContent=val;e.style.color=color;}}
-  upd('ev-score',s,sigC);
-  upd('ev-label',eaiaSig(s)?'SIGNIFICANT':'Non-Significant',sigC);
-  upd('ev-rscore',rs,resC);
-  upd('ev-rlabel',eaiaSig(rs)?'Still Significant':'Residual Non-Significant',resC);
+function eaiaUpdateParam(idx,param,val){
+  EAIA_DATA[idx][param]=parseInt(val);
+  var ve=document.getElementById('ev-'+param); if(ve) ve.textContent=val;
+  var de=document.getElementById('ed-'+param); if(de) de.textContent=SSPD_DESCS[param]?SSPD_DESCS[param][parseInt(val)-1]||'':'';
+  var score=eaiaInitScore(EAIA_DATA[idx]);
+  var sig=score>=30;
+  var se=document.getElementById('ev-init-score'); if(se){se.textContent=score;se.style.color=sig?'#EF4444':'#22C55E';}
+  var sl=document.getElementById('ev-init-label'); if(sl){sl.textContent=sig?'SIGNIFICANT':'Non-Significant';sl.style.color=sig?'#EF4444':'#22C55E';}
   eaiaSave(); eaiaRender();
 }
 
-function eaiaFieldChange(idx,fid,val){
-  var map={'ef-ctrl1':'ctrl1','ef-gap':'gap','ef-ctrl2':'ctrl2','ef-auth':'auth'};
-  if(map[fid]) EAIA_DATA[idx][map[fid]]=val;
-  eaiaSave();
+function eaiaUpdateResid(idx,param,val){
+  EAIA_DATA[idx][param]=parseInt(val);
+  var pKey=param.substring(1);
+  var ve=document.getElementById('erv-'+pKey); if(ve) ve.textContent=val;
+  var de=document.getElementById('erd-'+pKey); if(de) de.textContent=SSPD_DESCS[pKey]?SSPD_DESCS[pKey][parseInt(val)-1]||'':'';
+  var score=eaiaResidScore(EAIA_DATA[idx]);
+  var sig=score>=30;
+  var se=document.getElementById('ev-resid-score'); if(se){se.textContent=score;se.style.color=sig?'#A78BFA':'#22C55E';}
+  var sl=document.getElementById('ev-resid-label'); if(sl){sl.textContent=sig?'Still Significant — additional OCP required':'Adequately controlled';sl.style.color=sig?'#A78BFA':'#22C55E';}
+  eaiaSave(); eaiaRender();
 }
 
-function eaiaDeleteRow(idx){
-  if(!confirm('Remove this entry?')) return;
-  EAIA_DATA.splice(idx,1); eaiaSave(); eaiaRender();
+function eaiaUpdateCtrl(idx,val){EAIA_DATA[idx].control=val;eaiaSave();}
+function eaiaUpdateField(idx,field,val){EAIA_DATA[idx][field]=val;eaiaSave();eaiaRender();}
+function eaiaCloseModal(){var m=document.getElementById('eaia-modal');if(m)m.style.display='none';}
+function eaiaCloseAdd(){var m=document.getElementById('eaia-add-modal');if(m)m.style.display='none';}
+function eaiaOpenAdd(){var m=document.getElementById('eaia-add-modal');if(m)m.style.display='flex';}
+function eaiaOpenVersionModal(){
+  var m=document.getElementById('eaia-ver-modal');
+  if(m){
+    var ri=document.getElementById('ver-rev'); if(ri) ri.value=EAIA_VER.rev||'';
+    var di=document.getElementById('ver-date'); if(di) di.value=EAIA_VER.reviewDate||'';
+    var bi=document.getElementById('ver-by'); if(bi) bi.value=EAIA_VER.reviewedBy||'';
+    var ni=document.getElementById('ver-next'); if(ni) ni.value=EAIA_VER.nextReview||'';
+    var ci=document.getElementById('ver-change'); if(ci) ci.value='';
+    m.style.display='flex';
+  }
 }
 
-function eaiaOpenAdd(){ document.getElementById('eaia-add-modal').style.display='flex'; }
+function eaiaSaveVersion(){
+  EAIA_VER.rev=document.getElementById('ver-rev').value||EAIA_VER.rev;
+  EAIA_VER.reviewDate=document.getElementById('ver-date').value||EAIA_VER.reviewDate;
+  EAIA_VER.reviewedBy=document.getElementById('ver-by').value||EAIA_VER.reviewedBy;
+  EAIA_VER.nextReview=document.getElementById('ver-next').value||EAIA_VER.nextReview;
+  var ch=document.getElementById('ver-change').value;
+  if(ch) EAIA_VER.changes.push({date:new Date().toLocaleDateString('en-IN'),desc:ch,by:EAIA_VER.reviewedBy});
+  eaiaSave(); eaiaRender();
+  document.getElementById('eaia-ver-modal').style.display='none';
+  acToast('Version updated: Rev '+EAIA_VER.rev);
+}
 
-function eaiaDoAdd(){
-  var act=(document.getElementById('add-act')||{}).value||'';
-  var asp=(document.getElementById('add-asp')||{}).value||'';
+function eaiaAddActivity(){
+  var act=(document.getElementById('add-activity')||{}).value||'';
+  var asp=(document.getElementById('add-aspect')||{}).value||'';
   if(!act||!asp){alert('Activity and Aspect are required');return;}
   var maxId=EAIA_DATA.reduce(function(m,r){return Math.max(m,r.id);},0);
   EAIA_DATA.push({
-    id:maxId+1, activity:act, aspect:asp,
-    impact:(document.getElementById('add-imp')||{}).value||'',
+    id:maxId+1,activity:act,aspect:asp,
+    receptor:(document.getElementById('add-receptor')||{}).value||'Air',
+    lc:(document.getElementById('add-lc')||{}).value||'ON',
+    type:(document.getElementById('add-type')||{}).value||'ADV',
     cond:(document.getElementById('add-cond')||{}).value||'N',
-    lc:(document.getElementById('add-lc')||{}).value||'N',
-    ipc:(document.getElementById('add-ipc')||{}).value||'N',
-    bc:(document.getElementById('add-bc')||{}).value||'N',
-    rcp:(document.getElementById('add-rcp')||{}).value||'N',
-    sc:2,sv:2,pr:2,du:2,de:2,
-    ctrl1:(document.getElementById('add-ctrl1')||{}).value||'',
-    gap:'', ctrl2:'',
-    auth:(document.getElementById('add-auth')||{}).value||'Site In-charge / Site Supervisor',
-    rsc:2,rsv:2,rpr:2,rdu:2,rde:2,
-    ocp:false
+    sc:3,sv:3,pr:3,du:3,de:3,lg:2,sk:2,
+    rsc:2,rsv:2,rpr:2,rdu:2,rde:2,rlg:1,rsk:1,
+    control:(document.getElementById('add-control')||{}).value||'',
+    ocp:false,
+    reg:(document.getElementById('add-reg')||{}).value||'',
+    gri:'',remarks:''
   });
-  eaiaSave();
-  document.getElementById('eaia-add-modal').style.display='none';
-  eaiaRender();
-  if(typeof acToast==='function') acToast('Entry added — open Edit to set scores');
+  eaiaSave(); eaiaCloseAdd(); eaiaRender();
+  acToast('Activity added — open SSPD to calibrate scores');
+}
+
+function eaiaDelete(idx){
+  if(!confirm('Delete this activity?')) return;
+  EAIA_DATA.splice(idx,1); eaiaSave(); eaiaRender();
 }
 
 function eaiaExport(){
-  eaiaLoad();
-  var rev=(document.getElementById('eaia-rev')||{}).value||'Rev 00';
-  var prep=(document.getElementById('eaia-prep')||{}).value||'—';
-  var appr=(document.getElementById('eaia-appr')||{}).value||'—';
-  var date=(document.getElementById('eaia-date')||{}).value||new Date().toLocaleDateString('en-IN');
-  var sigRows=EAIA_DATA.filter(function(r){return eaiaSig(eaiaScore(r));});
-
-  var doc='<!DOCTYPE html><html><head><meta charset="utf-8"><title>EIA Register</title>'
-    +'<style>body{font-family:Arial,sans-serif;font-size:8.5px;margin:16px;color:#1a1a1a;}'
-    +'h1{font-size:13px;color:#1B2A4A;margin:0 0 6px;}'
-    +'.meta{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:8px;padding:7px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;}'
-    +'.ml{font-size:7px;color:#64748B;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;}'
-    +'.formula{background:#EFF6FF;border:1px solid #BFDBFE;padding:5px 9px;border-radius:4px;font-size:8.5px;color:#1D4ED8;margin-bottom:7px;}'
-    +'table{width:100%;border-collapse:collapse;font-size:7.5px;}'
-    +'th{background:#1B2A4A;color:#fff;padding:4px 5px;text-align:left;border:1px solid #374151;}'
-    +'td{padding:3px 5px;border:0.5px solid #E2E8F0;vertical-align:top;}'
-    +'.sig{background:#FEF2F2;} .sc{color:#DC2626;font-weight:700;} .ns{color:#16A34A;font-weight:700;}'
-    +'.res-s{color:#D97706;font-weight:700;} .res-ns{color:#16A34A;font-weight:700;}'
-    +'</style></head><body>'
-    +'<h1>Environmental Aspect &amp; Impact Assessment Register</h1>'
-    +'<div class="meta">'
-    +'<div><div class="ml">Doc No.</div><strong>[Org]-HSE-EIA-01</strong></div>'
-    +'<div><div class="ml">Revision</div><strong>'+rev+'</strong></div>'
-    +'<div><div class="ml">Date</div>'+date+'</div>'
-    +'<div><div class="ml">Standard</div>ISO 14001:2015 Cl.6.1.2</div>'
-    +'<div><div class="ml">Prepared By</div>'+prep+'</div>'
-    +'<div><div class="ml">Approved By</div>'+appr+'</div>'
-    +'</div>'
-    +'<div class="formula"><strong>Scoring Method:</strong> Score = Scale &times; Severity &times; Probability &times; Duration &times; Detection &nbsp;|&nbsp; <strong>Threshold: Score &ge; 36 = Significant (S) &nbsp;|&nbsp; Score &lt; 36 = Non-Significant (NS)</strong></div>'
-    +'<p style="margin-bottom:6px;font-size:8.5px;"><strong>Summary:</strong> Total: '+EAIA_DATA.length+' &nbsp;|&nbsp; Significant: '+sigRows.length+' &nbsp;|&nbsp; Non-Significant: '+(EAIA_DATA.length-sigRows.length)+'</p>'
-    +'<table><thead><tr>'
-    +'<th>Sl.</th><th>Activity / Service / Product</th><th>Env. Aspect</th><th>Env. Impact</th>'
-    +'<th>Cond</th><th>LC</th><th>IPC</th><th>BC</th><th>RCP</th>'
-    +'<th>Sc</th><th>Sv</th><th>Pr</th><th>Du</th><th>De</th>'
-    +'<th>Score</th><th>S/NS</th>'
-    +'<th>Existing Control</th><th>Gap (if any)</th><th>Control Measure</th><th>Competent Authority</th>'
-    +'<th>Residual Score</th><th>Residual S/NS</th>'
-    +'</tr></thead><tbody>'
-    +EAIA_DATA.map(function(r,i){
-      var s=eaiaScore(r), rs=eaiaResScore(r);
-      return '<tr class="'+(eaiaSig(s)?'sig':'')+'">'
-        +'<td>'+(i+1)+'</td><td>'+r.activity+'</td><td>'+r.aspect+'</td><td>'+r.impact+'</td>'
-        +'<td style="text-align:center;">'+r.cond+'</td>'
-        +'<td style="text-align:center;">'+r.lc+'</td><td style="text-align:center;">'+r.ipc+'</td>'
-        +'<td style="text-align:center;">'+r.bc+'</td><td style="text-align:center;">'+r.rcp+'</td>'
-        +'<td style="text-align:center;">'+r.sc+'</td><td style="text-align:center;">'+r.sv+'</td>'
-        +'<td style="text-align:center;">'+r.pr+'</td><td style="text-align:center;">'+r.du+'</td>'
-        +'<td style="text-align:center;">'+r.de+'</td>'
-        +'<td class="'+(eaiaSig(s)?'sc':'ns')+'" style="text-align:center;">'+s+'</td>'
-        +'<td style="text-align:center;font-weight:700;">'+(eaiaSig(s)?'S':'NS')+'</td>'
-        +'<td>'+r.ctrl1+'</td><td>'+r.gap+'</td><td>'+r.ctrl2+'</td><td>'+r.auth+'</td>'
-        +'<td class="'+(eaiaSig(rs)?'res-s':'res-ns')+'" style="text-align:center;">'+rs+'</td>'
-        +'<td style="text-align:center;font-weight:700;">'+(eaiaSig(rs)?'S':'NS')+'</td>'
-      +'</tr>';
-    }).join('')
-    +'</tbody></table>'
-    +'<p style="margin-top:10px;font-size:7.5px;color:#94A3B8;">Generated by SafetyPro AI &nbsp;|&nbsp; ISO 14001:2015 Clause 6.1.2 &nbsp;|&nbsp; '+new Date().toLocaleDateString('en-IN')+'</p>'
-    +'</body></html>';
-
-  var win=window.open('','_blank','width=1300,height=750');
-  win.document.write(doc); win.document.close();
+  var sigRows=EAIA_DATA.filter(function(r){return r.type!=='BEN'&&eaiaInitScore(r)>=30;});
+  var benRows=EAIA_DATA.filter(function(r){return r.type==='BEN';});
+  var today=new Date().toLocaleDateString('en-IN');
+  var css=[
+    'body{font-family:Arial,sans-serif;font-size:9px;margin:18px;color:#1E293B;}',
+    'h1{font-size:13px;color:#1B2A4A;border-bottom:2px solid #1B2A4A;padding-bottom:4px;}',
+    'h2{font-size:11px;color:#1B2A4A;margin-top:10px;}',
+    'table{width:100%;border-collapse:collapse;}',
+    'th{background:#1B2A4A;color:#fff;padding:5px 6px;text-align:left;font-size:8px;}',
+    'td{padding:4px 6px;border-bottom:1px solid #e2e8f0;font-size:8px;vertical-align:top;}',
+    '.sig{background:#FEF2F2;}.ben{background:#ECFDF5;}',
+    '.score-sig{color:#DC2626;font-weight:700;}.score-ns{color:#16A34A;font-weight:700;}',
+    '.key{color:#64748B;}'
+  ].join('');
+  var rows=EAIA_DATA.map(function(r,i){
+    var isBen=r.type==='BEN';
+    var init=isBen?'—':eaiaInitScore(r);
+    var resid=isBen?'—':eaiaResidScore(r);
+    var initSig=!isBen&&init>=30;
+    var residSig=!isBen&&resid>=30;
+    var cls=isBen?'ben':initSig?'sig':'';
+    return '<tr class="'+cls+'"><td>'+(i+1)+'</td><td>'+r.activity+'</td><td>'+r.aspect+'</td>'
+      +'<td>'+r.receptor+'</td><td>'+(r.lc==='ON'?'On-site':r.lc==='UP'?'Upstream':'Downstream')+'</td>'
+      +'<td>'+r.cond+'</td><td>'+r.sc+'</td><td>'+r.sv+'</td><td>'+r.pr+'</td><td>'+r.du+'</td>'
+      +'<td>'+r.de+'</td><td>'+r.lg+'</td>'
+      +'<td class="'+(isBen?'score-ns':initSig?'score-sig':'score-ns')+'">'+init+'</td>'
+      +'<td class="'+(isBen?'score-ns':residSig?'score-sig':'score-ns')+'">'+resid+'</td>'
+      +'<td>'+(isBen?'Beneficial':initSig?'SIGNIFICANT':'Non-Sig')+'</td>'
+      +'<td>'+(r.reg||'—')+'</td><td>'+(r.gri||'—')+'</td>'
+      +'<td>'+r.control+'</td><td>'+(r.ocp?'Yes':'No')+'</td></tr>';
+  }).join('');
+  var empRows=sigRows.map(function(r,i){
+    var resid=eaiaResidScore(r);
+    return '<tr class="sig"><td>'+(i+1)+'</td><td>'+r.activity+'</td><td>'+r.aspect+'</td>'
+      +'<td>'+r.receptor+'</td><td>'+(r.reg||'—')+'</td><td>'+r.control+'</td>'
+      +'<td>'+(r.ocp?'Yes':'No')+'</td>'
+      +'<td class="'+(resid>=30?'score-sig':'score-ns')+'">'+resid+'</td>'
+      +'<td>'+(resid>=30?'Additional OCP required':'Adequately controlled')+'</td>'
+      +'<td>HSE Manager</td><td>Monthly</td></tr>';
+  }).join('');
+  var win=window.open('','_blank','width=1200,height=750');
+  win.document.open();
+  win.document.write('<!DOCTYPE html><html>');
+  win.document.write('<head><meta charset="UTF-8"><title>EIA/EMP Report</title>');
+  win.document.write('<st'+'yle>'+css+'<'+'/st'+'yle>');
+  win.document.write('<'+'/head><body>');
+  win.document.write('<h1>Environmental Aspect &amp; Impact Assessment Register</h1>');
+  win.document.write('<p>ISO 14001:2026 Cl.6.1.2 &middot; IFC PS 3 &middot; MoEF EIA Notification 2006 &middot; Generated: '+today+' &middot; Rev '+( EAIA_VER.rev||'01')+'</p>');
+  win.document.write('<p>Total: '+EAIA_DATA.length+' activities &middot; Significant: '+sigRows.length+' &middot; Beneficial: '+benRows.length+'</p>');
+  win.document.write('<h2>Full Aspect &amp; Impact Register</h2>');
+  win.document.write('<table><thead><tr><th>#</th><th>Activity</th><th>Aspect/Impact</th><th>Receptor</th><th>Lifecycle</th><th>Cond</th><th>Sc</th><th>Sv</th><th>Pr</th><th>Du</th><th>De</th><th>Lg</th><th>Initial</th><th>Residual</th><th>Status</th><th>India Reg.</th><th>GRI</th><th>Control</th><th>OCP</th></tr><'+'/thead><tbody>'+rows+'<'+'/tbody><'+'/table>');
+  win.document.write('<h2>EMP — Significant Aspects</h2>');
+  win.document.write('<table><thead><tr><th>#</th><th>Activity</th><th>Aspect</th><th>Receptor</th><th>India Reg.</th><th>Control</th><th>OCP</th><th>Residual</th><th>Residual Status</th><th>Responsible</th><th>Frequency</th></tr><'+'/thead><tbody>'+empRows+'<'+'/tbody><'+'/table>');
+  if(benRows.length){
+    var bRows=benRows.map(function(r,i){return '<tr class="ben"><td>'+(i+1)+'</td><td>'+r.activity+'</td><td>'+r.aspect+'</td><td>'+(r.gri||'—')+'</td><td>Monthly in MHSE Section 11</td></tr>';}).join('');
+    win.document.write('<h2>Beneficial Aspects</h2>');
+    win.document.write('<table><thead><tr><th>#</th><th>Activity</th><th>Beneficial Aspect</th><th>GRI</th><th>Monitoring</th></tr><'+'/thead><tbody>'+bRows+'<'+'/tbody><'+'/table>');
+  }
+  win.document.write('<'+'/body><'+'/html>');
+  win.document.close();
   setTimeout(function(){
-    win.document.title='EIA_Register_'+new Date().toISOString().slice(0,10);
-    if(typeof acToast==='function') acToast('EIA report opened — Ctrl+P to save as PDF');
+    win.document.title='EIA_EMP_'+today.replace(/\//g,'-');
+    acToast('EIA/EMP report opened — Ctrl+P to save as PDF');
   },300);
 }
-
-/* Hook into acMainTab */
-(function(){
-  var _orig=window.acMainTab;
-  window.acMainTab=function(el,tab){
-    if(_orig) _orig(el,tab);
-    if(tab==='aspect'){ setTimeout(function(){ eaiaLoad(); eaiaLoadMeta(); eaiaRender(); },60); }
-  };
-})();
 </script>
 </body>
 </html>
