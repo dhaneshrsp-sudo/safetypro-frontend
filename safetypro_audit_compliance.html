@@ -1172,6 +1172,18 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
   border-radius: 3px !important;
 }
 </style>
+<style>
+/* EAIA header editable fields */
+#aspect-register input[type="text"],
+#aspect-register input[type="date"],
+#aspect-register input:not([type]) {
+    outline: none;
+    transition: border-color .15s;
+}
+#aspect-register input:focus {
+    border-bottom-color: var(--green, #22C55E) !important;
+}
+</style>
 </head>
 <body>
 <nav class="topnav">
@@ -5373,13 +5385,16 @@ window.acMainTab = function(el, tab) {
           <div style="font-size:15px;font-weight:600;color:var(--t1);">Environmental Aspect &amp; Impact Assessment Register</div>
           <div style="font-size:10px;color:var(--t3);margin-top:3px;">ISO 14001:2015 Cl.6.1.2 &middot; Score = Sc &times; Sv &times; Pr &times; Du &times; De &middot; Threshold &ge; 36 = Significant</div>
         </div>
-        <div style="background:var(--raised);border:0.5px solid var(--border);border-radius:8px;padding:8px 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:9px;">
-          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Doc No.</div><div id="eaia-docno" style="color:var(--t1);font-weight:600;">[Org]-HSE-EIA-01</div></div>
-          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Revision</div><input id="eaia-rev" placeholder="Rev 00" style="background:transparent;border:none;color:var(--t1);font-size:9px;font-weight:600;width:100%;padding:0;" onchange="eaiaSaveMeta()"/></div>
-          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Date</div><input id="eaia-date" type="date" style="background:transparent;border:none;color:var(--t2);font-size:9px;width:100%;padding:0;" onchange="eaiaSaveMeta()"/></div>
-          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Prepared By</div><input id="eaia-prep" placeholder="Name" style="background:transparent;border:none;color:var(--t2);font-size:9px;width:100%;padding:0;" onchange="eaiaSaveMeta()"/></div>
-          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Reviewed By</div><input id="eaia-review-by" placeholder="Name" style="background:transparent;border:none;color:var(--t2);font-size:9px;width:100%;padding:0;" onchange="eaiaSaveMeta()"/></div>
-          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Approved By</div><input id="eaia-appr" placeholder="Name" style="background:transparent;border:none;color:var(--t2);font-size:9px;width:100%;padding:0;" onchange="eaiaSaveMeta()"/></div>
+        <div style="background:var(--raised);border:0.5px solid var(--border);border-radius:8px;padding:8px 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px 12px;font-size:9px;min-width:480px;">
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Organisation / Company</div><input id="eaia-org" placeholder="e.g. IL&amp;FS Engineering" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t1);font-size:9px;font-weight:600;width:100%;padding:1px 0;" onchange="eaiaSaveMeta();eaiaUpdateDocNo()"/></div>
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Project / Site</div><input id="eaia-project" placeholder="e.g. BBRP — NH 131" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t1);font-size:9px;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Department / Section</div><input id="eaia-dept" placeholder="e.g. HSE / Roads" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t2);font-size:9px;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Doc No.</div><input id="eaia-docno" placeholder="[Org]-HSE-EIA-01" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:#C9A84C;font-size:9px;font-weight:600;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Revision</div><input id="eaia-rev" placeholder="Rev 00" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t1);font-size:9px;font-weight:600;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Date</div><input id="eaia-date" type="date" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t2);font-size:9px;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Prepared By</div><input id="eaia-prep" placeholder="Name, designation" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t2);font-size:9px;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Reviewed By</div><input id="eaia-review-by" placeholder="Name, designation" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t2);font-size:9px;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Approved By</div><input id="eaia-appr" placeholder="Name, designation" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t2);font-size:9px;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
         </div>
       </div>
 
@@ -5564,32 +5579,76 @@ window.acMainTab = function(el, tab) {
 
   <!-- Add Row Modal -->
   <div id="eaia-add-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:99999;align-items:center;justify-content:center;">
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;width:540px;max-width:96vw;">
-      <div style="padding:12px 18px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;width:640px;max-width:96vw;max-height:92vh;overflow-y:auto;">
+      <div style="padding:12px 18px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--card);z-index:1;">
         <div style="font-size:13px;font-weight:600;color:var(--t1);">Add New Entry</div>
         <button onclick="document.getElementById('eaia-add-modal').style.display='none'" style="background:none;border:none;color:var(--t2);font-size:18px;cursor:pointer;">&#10005;</button>
       </div>
-      <div style="padding:16px 18px;display:flex;flex-direction:column;gap:9px;">
-        <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Activity / Service / Product</label><input id="add-act" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. Excavation &amp; Soil Transportation"/></div>
+      <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
+
+        <!-- Activity — dropdown feed from existing + new option -->
+        <div>
+          <label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Activity / Service / Product</label>
+          <div style="display:flex;gap:6px;">
+            <select id="add-act-sel" style="flex:1;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" onchange="eaiaActSelChange(this)">
+              <option value="">— Select existing activity —</option>
+            </select>
+            <span style="padding:7px 4px;font-size:10px;color:var(--t3);flex-shrink:0;">or</span>
+            <input id="add-act-new" style="flex:1;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="Type new activity..."/>
+          </div>
+          <input id="add-act" type="hidden"/>
+        </div>
+
+        <!-- Aspect + Impact -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
           <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Environmental Aspect</label><input id="add-asp" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. Dust Generation"/></div>
           <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Environmental Impact</label><input id="add-imp" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. Air Pollution"/></div>
         </div>
+
+        <!-- Condition + LC/IPC/BC/RCP -->
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:6px;">
-          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Cond.</label>
-            <select id="add-cond" style="width:100%;padding:6px 7px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="N">N</option><option value="A">A</option><option value="E">E</option></select></div>
-          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">LC</label>
+          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Condition</label>
+            <select id="add-cond" style="width:100%;padding:6px 7px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="N">Normal (N)</option><option value="A">Abnormal (A)</option><option value="E">Emergency (E)</option></select></div>
+          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;" title="Legal Compliance">LC</label>
             <select id="add-lc" style="width:100%;padding:6px 7px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="N">N</option><option value="Y">Y</option></select></div>
-          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">IPC</label>
+          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;" title="Interested Party Concern">IPC</label>
             <select id="add-ipc" style="width:100%;padding:6px 7px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="N">N</option><option value="Y">Y</option></select></div>
-          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">BC</label>
+          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;" title="Binding Commitment">BC</label>
             <select id="add-bc" style="width:100%;padding:6px 7px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="N">N</option><option value="Y">Y</option></select></div>
-          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">RCP</label>
+          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;" title="Regulatory Compliance Potential">RCP</label>
             <select id="add-rcp" style="width:100%;padding:6px 7px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="N">N</option><option value="Y">Y</option></select></div>
         </div>
-        <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Existing Control Measure</label><input id="add-ctrl1" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="Describe existing controls..."/></div>
-        <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Competent Authority</label><input id="add-auth" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. Site In-charge / Site Supervisor"/></div>
-        <button onclick="eaiaDoAdd()" style="padding:8px 16px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:7px;color:var(--green);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">Add to Register</button>
+
+        <!-- SSPD Scores -->
+        <div style="background:var(--raised);border-radius:7px;padding:10px 12px;">
+          <div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;">SSPD Scores (1–5) &nbsp;&middot;&nbsp; Score = Sc &times; Sv &times; Pr &times; Du &times; De</div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
+            <div style="text-align:center;"><label style="font-size:9px;color:var(--t3);display:block;margin-bottom:4px;" title="Scale — Geographic extent">Scale (Sc)</label><input id="add-sc" type="number" min="1" max="5" value="2" style="width:100%;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--t1);font-size:13px;font-weight:600;text-align:center;" oninput="eaiaAddScoreUpdate()"/></div>
+            <div style="text-align:center;"><label style="font-size:9px;color:var(--t3);display:block;margin-bottom:4px;" title="Severity of impact">Severity (Sv)</label><input id="add-sv" type="number" min="1" max="5" value="2" style="width:100%;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--t1);font-size:13px;font-weight:600;text-align:center;" oninput="eaiaAddScoreUpdate()"/></div>
+            <div style="text-align:center;"><label style="font-size:9px;color:var(--t3);display:block;margin-bottom:4px;" title="Probability of occurrence">Prob. (Pr)</label><input id="add-pr" type="number" min="1" max="5" value="2" style="width:100%;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--t1);font-size:13px;font-weight:600;text-align:center;" oninput="eaiaAddScoreUpdate()"/></div>
+            <div style="text-align:center;"><label style="font-size:9px;color:var(--t3);display:block;margin-bottom:4px;" title="Duration of impact">Duration (Du)</label><input id="add-du" type="number" min="1" max="5" value="2" style="width:100%;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--t1);font-size:13px;font-weight:600;text-align:center;" oninput="eaiaAddScoreUpdate()"/></div>
+            <div style="text-align:center;"><label style="font-size:9px;color:var(--t3);display:block;margin-bottom:4px;" title="Detection — ease of control">Detection (De)</label><input id="add-de" type="number" min="1" max="5" value="2" style="width:100%;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--t1);font-size:13px;font-weight:600;text-align:center;" oninput="eaiaAddScoreUpdate()"/></div>
+          </div>
+          <!-- Live score preview -->
+          <div style="margin-top:8px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:10px;color:var(--t3);">Score preview:</span>
+            <span id="add-score-preview" style="font-size:18px;font-weight:700;color:#22C55E;">16</span>
+            <span id="add-sig-preview" style="font-size:10px;font-weight:700;color:#22C55E;">Non-Significant</span>
+          </div>
+        </div>
+
+        <!-- Control fields -->
+        <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Existing Control Measure</label><input id="add-ctrl1" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="Describe existing controls in place..."/></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Gap (if any)</label><input id="add-gap" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid rgba(245,158,11,.3);border-radius:6px;color:#F59E0B;font-size:11px;" placeholder="Describe any control gap..."/></div>
+          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Control Measure (OCP reference)</label><input id="add-ctrl2" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. OCP for Air Quality (OCP No. 6)"/></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;">
+          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Competent Authority</label><input id="add-auth" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. Site In-charge / Site Supervisor"/></div>
+          <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);cursor:pointer;white-space:nowrap;margin-top:12px;"><input id="add-ocp" type="checkbox"/> OCP Required</label>
+        </div>
+
+        <button onclick="eaiaDoAdd()" style="padding:9px 18px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:7px;color:var(--green);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">Add to Register</button>
       </div>
     </div>
   </div>
@@ -6772,21 +6831,37 @@ function eaiaLoad(){
 }
 function eaiaSave(){ try{ localStorage.setItem('sp_eaia_v3',JSON.stringify(EAIA_DATA)); }catch(e){} }
 function eaiaSaveMeta(){
-  var m={rev:(document.getElementById('eaia-rev')||{}).value||'',date:(document.getElementById('eaia-date')||{}).value||'',prep:(document.getElementById('eaia-prep')||{}).value||'',reviewBy:(document.getElementById('eaia-review-by')||{}).value||'',appr:(document.getElementById('eaia-appr')||{}).value||''};
+  var m={
+    org:(document.getElementById('eaia-org')||{}).value||'',
+    project:(document.getElementById('eaia-project')||{}).value||'',
+    dept:(document.getElementById('eaia-dept')||{}).value||'',
+    docno:(document.getElementById('eaia-docno')||{}).value||'',
+    rev:(document.getElementById('eaia-rev')||{}).value||'',
+    date:(document.getElementById('eaia-date')||{}).value||'',
+    prep:(document.getElementById('eaia-prep')||{}).value||'',
+    reviewBy:(document.getElementById('eaia-review-by')||{}).value||'',
+    appr:(document.getElementById('eaia-appr')||{}).value||''
+  };
   try{ localStorage.setItem('sp_eaia_meta',JSON.stringify(m)); }catch(e){}
+}
+function eaiaUpdateDocNo(){
+  var org=(document.getElementById('eaia-org')||{}).value||'[Org]';
+  var dn=document.getElementById('eaia-docno');
+  if(dn&&!dn.value) dn.placeholder=org+'-HSE-EIA-01';
 }
 function eaiaLoadMeta(){
   try{
     var m=JSON.parse(localStorage.getItem('sp_eaia_meta')||'{}');
-    if(m.rev&&document.getElementById('eaia-rev')) document.getElementById('eaia-rev').value=m.rev;
-    if(m.date&&document.getElementById('eaia-date')) document.getElementById('eaia-date').value=m.date;
-    if(m.prep&&document.getElementById('eaia-prep')) document.getElementById('eaia-prep').value=m.prep;
-    if(m.reviewBy&&document.getElementById('eaia-review-by')) document.getElementById('eaia-review-by').value=m.reviewBy;
-    if(m.appr&&document.getElementById('eaia-appr')) document.getElementById('eaia-appr').value=m.appr;
-    // Doc number from account profile
-    var org=window.SP_USER?window.SP_USER.company||'[Org]':'[Org]';
+    function setVal(id,val){var el=document.getElementById(id);if(el&&val)el.value=val;}
+    setVal('eaia-org',m.org); setVal('eaia-project',m.project); setVal('eaia-dept',m.dept);
+    setVal('eaia-docno',m.docno); setVal('eaia-rev',m.rev); setVal('eaia-date',m.date);
+    setVal('eaia-prep',m.prep); setVal('eaia-review-by',m.reviewBy); setVal('eaia-appr',m.appr);
+    // Auto-compose doc no if blank
     var dn=document.getElementById('eaia-docno');
-    if(dn) dn.textContent=org+'-HSE-EIA-01';
+    if(dn&&!m.docno){
+      var org=m.org||(window.SP_USER&&window.SP_USER.company)||'[Org]';
+      dn.placeholder=org+'-HSE-EIA-01';
+    }
   }catch(e){}
 }
 
@@ -7030,30 +7105,83 @@ function eaiaDeleteRow(idx){
 
 function eaiaOpenAdd(){ document.getElementById('eaia-add-modal').style.display='flex'; }
 
+function eaiaActSelChange(sel){
+  var newInp=document.getElementById('add-act-new');
+  var hidden=document.getElementById('add-act');
+  if(sel.value){
+    if(newInp) newInp.value='';
+    if(hidden) hidden.value=sel.value;
+  }
+}
+function eaiaAddScoreUpdate(){
+  var sc=parseInt((document.getElementById('add-sc')||{}).value)||2;
+  var sv=parseInt((document.getElementById('add-sv')||{}).value)||2;
+  var pr=parseInt((document.getElementById('add-pr')||{}).value)||2;
+  var du=parseInt((document.getElementById('add-du')||{}).value)||2;
+  var de=parseInt((document.getElementById('add-de')||{}).value)||2;
+  var score=sc*sv*pr*du*de;
+  var sig=score>=36;
+  var sp=document.getElementById('add-score-preview');
+  var sl=document.getElementById('add-sig-preview');
+  if(sp){sp.textContent=score;sp.style.color=sig?'#EF4444':'#22C55E';}
+  if(sl){sl.textContent=sig?'SIGNIFICANT':'Non-Significant';sl.style.color=sig?'#EF4444':'#22C55E';}
+}
+function eaiaPopulateAddActDropdown(){
+  var sel=document.getElementById('add-act-sel');
+  if(!sel) return;
+  var seen={};
+  sel.innerHTML='<option value="">— Select existing activity —</option>';
+  EAIA_DATA.forEach(function(r){
+    if(!seen[r.activity]){
+      seen[r.activity]=1;
+      var o=document.createElement('option');
+      o.value=r.activity; o.textContent=r.activity;
+      sel.appendChild(o);
+    }
+  });
+}
 function eaiaDoAdd(){
-  var act=(document.getElementById('add-act')||{}).value||'';
-  var asp=(document.getElementById('add-asp')||{}).value||'';
+  var sel=(document.getElementById('add-act-sel')||{}).value||'';
+  var newAct=((document.getElementById('add-act-new')||{}).value||'').trim();
+  var act=newAct||sel;
+  var asp=((document.getElementById('add-asp')||{}).value||'').trim();
   if(!act||!asp){alert('Activity and Aspect are required');return;}
+  var sc=Math.min(5,Math.max(1,parseInt((document.getElementById('add-sc')||{}).value)||2));
+  var sv=Math.min(5,Math.max(1,parseInt((document.getElementById('add-sv')||{}).value)||2));
+  var pr=Math.min(5,Math.max(1,parseInt((document.getElementById('add-pr')||{}).value)||2));
+  var du=Math.min(5,Math.max(1,parseInt((document.getElementById('add-du')||{}).value)||2));
+  var de=Math.min(5,Math.max(1,parseInt((document.getElementById('add-de')||{}).value)||2));
   var maxId=EAIA_DATA.reduce(function(m,r){return Math.max(m,r.id);},0);
   EAIA_DATA.push({
-    id:maxId+1, activity:act, aspect:asp,
-    impact:(document.getElementById('add-imp')||{}).value||'',
+    id:maxId+1,
+    activity:act,
+    aspect:asp,
+    impact:((document.getElementById('add-imp')||{}).value||'').trim(),
     cond:(document.getElementById('add-cond')||{}).value||'N',
     lc:(document.getElementById('add-lc')||{}).value||'N',
     ipc:(document.getElementById('add-ipc')||{}).value||'N',
     bc:(document.getElementById('add-bc')||{}).value||'N',
     rcp:(document.getElementById('add-rcp')||{}).value||'N',
-    sc:2,sv:2,pr:2,du:2,de:2,
-    ctrl1:(document.getElementById('add-ctrl1')||{}).value||'',
-    gap:'', ctrl2:'',
-    auth:(document.getElementById('add-auth')||{}).value||'Site In-charge / Site Supervisor',
-    rsc:2,rsv:2,rpr:2,rdu:2,rde:2,
-    ocp:false
+    sc:sc,sv:sv,pr:pr,du:du,de:de,
+    ctrl1:((document.getElementById('add-ctrl1')||{}).value||'').trim(),
+    gap:((document.getElementById('add-gap')||{}).value||'').trim(),
+    ctrl2:((document.getElementById('add-ctrl2')||{}).value||'').trim(),
+    auth:((document.getElementById('add-auth')||{}).value||'Site In-charge / Site Supervisor').trim(),
+    rsc:sc,rsv:sv,rpr:pr,rdu:du,rde:de,
+    ocp:document.getElementById('add-ocp')?document.getElementById('add-ocp').checked:false
   });
   eaiaSave();
   document.getElementById('eaia-add-modal').style.display='none';
+  // Reset form
+  ['add-act-sel','add-act-new','add-asp','add-imp','add-ctrl1','add-gap','add-ctrl2','add-auth'].forEach(function(id){
+    var el=document.getElementById(id); if(el)el.value='';
+  });
+  ['add-sc','add-sv','add-pr','add-du','add-de'].forEach(function(id){
+    var el=document.getElementById(id); if(el)el.value=2;
+  });
+  eaiaAddScoreUpdate();
   eaiaRender();
-  if(typeof acToast==='function') acToast('Entry added — open Edit to set scores');
+  if(typeof acToast==='function') acToast('Entry added successfully');
 }
 
 function eaiaExport(){
