@@ -3767,11 +3767,16 @@ function showSDG(n){
     +'<div style="width:36px;height:36px;border-radius:7px;background:'+d.color+'22;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:'+d.color+';">'+n+'</div>'
     +'<div><div style="font-size:12px;font-weight:600;color:'+d.color+';">SDG '+n+': '+d.name+'</div>'
     +'<div style="font-size:9px;color:var(--t3,#2E4A66);">Birpur–Bihpur Road Project (NH 131) — FY 2025–26</div></div>'
-    +'<button onclick="document.getElementById('sdg-detail-box').style.display='none'" style="margin-left:auto;background:none;border:none;color:var(--t2);font-size:18px;cursor:pointer;">&#10005;</button></div>'
+    +'<button onclick="closeSDGDetail()" style="margin-left:auto;background:none;border:none;color:var(--t2);font-size:18px;cursor:pointer;">&#10005;</button></div>'
     +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">'
     +d.kpis.map(k=>'<div style="background:var(--bg,#0B0F14);border-radius:6px;padding:7px 9px;font-size:9px;color:var(--t2,#7A9BBF);">'+k+'</div>').join('')
     +'</div>';
 }
+function closeSDGDetail(){
+  var box = document.getElementById('sdg-detail-box');
+  if(box) box.style.display = 'none';
+}
+
 /* Init first tab on load */
 document.addEventListener('DOMContentLoaded',function(){
   // Let platform scripts run first, then show ESG dashboard
