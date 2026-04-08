@@ -1293,16 +1293,17 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
       </div>
     </div>
 
-    <!-- SUB-HEADER INFO BAR -->
-    <div style="padding:6px 20px;background:rgba(34,197,94,.04);border-bottom:0.5px solid var(--border,#1E3347);font-size:9.5px;color:var(--t3,#2E4A66);display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
-      <span style="color:var(--green,#22C55E);font-weight:600;">&#127807; ESG Global Standard</span>
-      <span>GRI 2021</span><span>&#183;</span>
-      <span>SEBI BRSR</span><span>&#183;</span>
-      <span>TCFD / ISSB S1+S2</span><span>&#183;</span>
-      <span>CDP</span><span>&#183;</span>
-      <span>UN SDGs</span><span>&#183;</span>
-      <span>TNFD</span><span>&#183;</span>
-      <span>ISO 14001 / 45001</span>
+    <!-- SUB-HEADER INFO BAR — Framework Quick-Access Pills -->
+    <div style="padding:5px 20px;background:rgba(34,197,94,.04);border-bottom:0.5px solid var(--border,#1E3347);display:flex;gap:5px;flex-wrap:wrap;align-items:center;">
+      <span style="font-size:9px;font-weight:600;color:var(--green,#22C55E);margin-right:4px;">&#127807; Frameworks:</span>
+      <button onclick="esgTab(document.querySelectorAll('.sh-tab')[1],'env')" style="padding:2px 8px;background:rgba(34,197,94,.1);border:0.5px solid rgba(34,197,94,.25);border-radius:4px;color:#22C55E;font-size:9px;font-weight:600;cursor:pointer;font-family:var(--fh);">GRI 2021</button>
+      <button onclick="esgTab(document.querySelectorAll('.sh-tab')[6],'brsr')" style="padding:2px 8px;background:rgba(201,168,76,.1);border:0.5px solid rgba(201,168,76,.25);border-radius:4px;color:#C9A84C;font-size:9px;font-weight:600;cursor:pointer;font-family:var(--fh);">SEBI BRSR</button>
+      <button onclick="esgTab(document.querySelectorAll('.sh-tab')[1],'env')" style="padding:2px 8px;background:rgba(45,212,191,.1);border:0.5px solid rgba(45,212,191,.25);border-radius:4px;color:#2DD4BF;font-size:9px;font-weight:600;cursor:pointer;font-family:var(--fh);">TCFD / ISSB S1+S2</button>
+      <button onclick="esgTab(document.querySelectorAll('.sh-tab')[1],'env')" style="padding:2px 8px;background:rgba(96,165,250,.1);border:0.5px solid rgba(96,165,250,.25);border-radius:4px;color:#60A5FA;font-size:9px;font-weight:600;cursor:pointer;font-family:var(--fh);">CDP Climate</button>
+      <button onclick="esgTab(document.querySelectorAll('.sh-tab')[4],'sdg')" style="padding:2px 8px;background:rgba(248,113,113,.1);border:0.5px solid rgba(248,113,113,.25);border-radius:4px;color:#F87171;font-size:9px;font-weight:600;cursor:pointer;font-family:var(--fh);">UN SDGs</button>
+      <button onclick="esgTab(document.querySelectorAll('.sh-tab')[1],'env')" style="padding:2px 8px;background:rgba(167,139,250,.1);border:0.5px solid rgba(167,139,250,.25);border-radius:4px;color:#A78BFA;font-size:9px;font-weight:600;cursor:pointer;font-family:var(--fh);">TNFD</button>
+      <button onclick="esgTab(document.querySelectorAll('.sh-tab')[5],'materiality')" style="padding:2px 8px;background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.15);border-radius:4px;color:var(--t2,#7A9BBF);font-size:9px;font-weight:600;cursor:pointer;font-family:var(--fh);">ISO 14001 / 45001</button>
+      <span style="margin-left:auto;font-size:8.5px;color:var(--t4,#1E3347);">Click any framework to jump to relevant section</span>
     </div>
 
     <!-- ════════════════════════════════════════════════════════ -->
