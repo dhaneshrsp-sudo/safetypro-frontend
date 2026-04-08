@@ -5178,7 +5178,7 @@ window.acMainTab = function(el, tab) {
 
     </div>
 
-  <div class="tab-panel" id="ac-legal" style="flex:1;display:flex;flex-direction:column;padding:16px 20px 24px;overflow-y:scroll;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;min-width:0;min-height:0;box-sizing:border-box;">
+  <div class="tab-panel" id="ac-legal" style="flex:1;display:none;flex-direction:column;padding:16px 20px 24px;overflow-y:scroll;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;min-width:0;min-height:0;box-sizing:border-box;">
 
       <!-- Top controls -->
       <div style="display:grid;grid-template-columns:1fr 1fr auto auto;gap:10px;align-items:end;margin-bottom:16px;">
@@ -5353,7 +5353,7 @@ window.acMainTab = function(el, tab) {
   
   <!-- ════════ ENVIRONMENTAL ASPECT & IMPACT ASSESSMENT v2 ════════ -->
     <!-- ════════ ENVIRONMENTAL ASPECT & IMPACT ASSESSMENT v2 ════════ -->
-  <div class="tab-panel" id="ac-aspect" style="flex:1;display:flex;flex-direction:column;padding:16px 20px 24px;overflow-y:auto;gap:12px;">
+  <div class="tab-panel" id="ac-aspect" style="flex:1;display:none;flex-direction:column;padding:16px 20px 24px;overflow-y:auto;gap:12px;">
 
     <!-- Register Version Header -->
     <div style="background:rgba(201,168,76,.06);border:0.5px solid rgba(201,168,76,.25);border-radius:8px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
@@ -5546,11 +5546,11 @@ var API_BASE = 'https://safetypro-backend-production.up.railway.app';
 
 function acMainTab(el, id) {
   document.querySelectorAll('.sh-tab').forEach(function(t){t.classList.remove('active');});
-  document.querySelectorAll('.tab-panel').forEach(function(p){p.style.display='none';p.classList.remove('active');});
+  document.querySelectorAll('.tab-panel').forEach(function(p){p.style.setProperty('display','none','important');p.classList.remove('active');});
   if(el&&el.classList) el.classList.add('active');
   var panel = document.getElementById('ac-'+id);
   if(id==='legal') { rorInit && rorInit(); }
-  if(panel){panel.style.display='flex';panel.classList.add('active');}
+  if(panel){panel.style.setProperty('display','flex','important');panel.classList.add('active');}
 }
 
 function acSubTab(el, parent, id) {
@@ -5560,7 +5560,7 @@ function acSubTab(el, parent, id) {
   panels.forEach(function(p){p.classList.remove('active');p.style.display='none';});
   if(el&&el.classList) el.classList.add('active');
   var panel = document.getElementById(parent+'-'+id);
-  if(panel){panel.classList.add('active');panel.style.display='flex';panel.style.flexDirection='column';}
+  if(panel){panel.classList.add('active');panel.style.setProperty('display','flex','important');panel.style.flexDirection='column';}
 }
 
 function acToast(msg) {
@@ -6346,14 +6346,7 @@ function switchRiskStd(std){
 
 
   /* ── Legal & Regulatory tab scroll fix ── */
-  #ac-legal {
-    display: block !important;
-    overflow-y: scroll !important;
-    overflow-x: auto !important;
-    height: 100% !important;
-    scrollbar-width: thin !important;
-    scrollbar-color: var(--border) transparent !important;
-  }
+  
   #ac-legal::-webkit-scrollbar { width: 6px; }
   #ac-legal::-webkit-scrollbar-track { background: transparent; }
   #ac-legal::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -6377,10 +6370,15 @@ function switchRiskStd(std){
   }
 
 /* ── ENVIRONMENTAL ASPECT & IMPACT ASSESSMENT v2 ── */
-#ac-aspect { display:block !important; overflow-y:auto !important; }
+
 
 /* ── EAIA v2 ── */
-#ac-aspect{display:block !important;}
+
+
+/* Legal & Aspect panels — scroll without display override */
+#ac-legal { overflow-y: auto; overflow-x: hidden; }
+#ac-aspect { overflow-y: auto; overflow-x: hidden; }
+
 </style>
 
 <script>
