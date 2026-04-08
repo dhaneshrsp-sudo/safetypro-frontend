@@ -1172,6 +1172,19 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
   border-radius: 3px !important;
 }
 </style>
+<style>
+/* EAIA panel section spacing */
+#ac-aspect > div { margin-bottom: 12px; }
+#ac-aspect > div:last-child { margin-bottom: 0; }
+/* EAIA vertical scrollbar */
+#ac-aspect::-webkit-scrollbar { width: 5px; }
+#ac-aspect::-webkit-scrollbar-track { background: transparent; }
+#ac-aspect::-webkit-scrollbar-thumb { background: var(--border,#1E293B); border-radius: 3px; }
+/* EAIA table horizontal scrollbar */
+#ac-aspect .card > div::-webkit-scrollbar { height: 5px; }
+#ac-aspect .card > div::-webkit-scrollbar-track { background: transparent; }
+#ac-aspect .card > div::-webkit-scrollbar-thumb { background: var(--border,#1E293B); border-radius: 3px; }
+</style>
 </head>
 <body>
 <nav class="topnav">
@@ -5406,7 +5419,8 @@ window.acMainTab = function(el, tab) {
     </div>
 
     <!-- Table -->
-    <div class="card" style="overflow:visible;">
+    <div class="card" style="overflow:hidden;"><div style="overflow-x:auto;overflow-y:visible;scrollbar-width:thin;scrollbar-color:var(--border,#1E293B) transparent;">
+<div class="card" style="overflow:hidden;">
       <!-- Column header -->
       <div style="display:grid;grid-template-columns:30px 130px 120px 130px 50px 30px 30px 30px 30px 34px 34px 34px 34px 34px 56px 50px 130px 80px 130px 120px 56px 50px 100px;background:var(--raised);border-bottom:0.5px solid var(--border);font-size:8px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.3px;">
         <div style="padding:6px 4px;border-right:0.5px solid var(--border);">#</div>
@@ -5434,6 +5448,7 @@ window.acMainTab = function(el, tab) {
         <div style="padding:6px 6px;">Actions</div>
       </div>
       <div id="eaia-tbody" style="font-size:10px;"></div>
+</div>
     </div>
 
     <!-- SSPD Modal -->
@@ -5493,7 +5508,7 @@ window.acMainTab = function(el, tab) {
     <span class="sp-footer-sep">|</span>
     <span id="sp-footer-version">v1.3.2</span>
     <span class="sp-footer-sep">|</span>
-    <span>Build:040441 Sync: <span id="sp-footer-sync">--:-- --</span></span>
+    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
   </div>
   <div class="sp-footer-center">
     <a href="/cdn-cgi/l/email-protection#3e4d4b4e4e514c4a7e4d5f585b4a474e4c5149514c525a105d5153">Upload Guide</a>
@@ -6345,12 +6360,6 @@ function switchRiskStd(std){
 
 /* ── EAIA v2 ── */
 #ac-aspect{}
-
-/* EAIA panel scroll */
-#ac-aspect::-webkit-scrollbar { width: 5px; }
-#ac-aspect::-webkit-scrollbar-track { background: transparent; }
-#ac-aspect::-webkit-scrollbar-thumb { background: var(--border, #1E293B); border-radius: 3px; }
-
 </style>
 
 <script>
@@ -7019,18 +7028,17 @@ function eaiaExport(){
   var _orig=window.acMainTab;
   window.acMainTab=function(el,tab){
     if(_orig) _orig(el,tab);
-    if(tab==='aspect'){
-      var p=document.getElementById('ac-aspect');
-      if(p) p.style.setProperty('display','block','important');
-      setTimeout(function(){ eaiaLoad(); eaiaLoadMeta(); eaiaRender(); },60);
-    }
+    if(tab==='aspect'){ var _p=document.getElementById('ac-aspect');if(_p) _p.style.setProperty('display','block','important');
+      setTimeout(function(){ eaiaLoad(); eaiaLoadMeta(); eaiaRender(); },60); }
   };
 })();
 </script>
 <script>
-/* Panel state init on DOMContentLoaded */
+/* Panel state init */
 document.addEventListener('DOMContentLoaded',function(){
-  document.querySelectorAll('.tab-panel').forEach(function(p){p.style.setProperty('display','none','important');});
+  document.querySelectorAll('.tab-panel').forEach(function(p){
+    p.style.setProperty('display','none','important');
+  });
   var first=document.getElementById('ac-ims');
   if(first) first.style.setProperty('display','flex','important');
 });
