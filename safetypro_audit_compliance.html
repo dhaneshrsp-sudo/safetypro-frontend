@@ -1172,18 +1172,6 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
   border-radius: 3px !important;
 }
 </style>
-<style>
-/* EAIA header editable fields */
-#aspect-register input[type="text"],
-#aspect-register input[type="date"],
-#aspect-register input:not([type]) {
-    outline: none;
-    transition: border-color .15s;
-}
-#aspect-register input:focus {
-    border-bottom-color: var(--green, #22C55E) !important;
-}
-</style>
 </head>
 <body>
 <nav class="topnav">
@@ -1207,7 +1195,8 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
         <a class="mm-item" href="safetypro_hrm"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>HRM &amp; Payroll</a>
         <a class="mm-item" href="safetypro_ai"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 110 20A10 10 0 0112 2z"/></svg>AI Intelligence</a>
         <a class="mm-item" href="safetypro_auditor"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Client &amp; Auditor Portal</a>
-        <a class="mm-item" href="safetypro_admin"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/></svg>Admin &amp; Configuration</a>
+                <a class="mm-item" href="safetypro_esg" style="color:#22C55E;"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z" fill="#22C55E"/></svg>ESG Global Standard</a>
+<a class="mm-item" href="safetypro_admin"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/></svg>Admin &amp; Configuration</a>
       </div>
     </div>
   </div>
@@ -1290,7 +1279,11 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
         <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--green)"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         Admin &amp; Configuration
       </a>
-      <div style="height:1px;background:var(--border);margin:6px 8px"></div>
+            <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#22C55E;font-weight:600" href="safetypro_esg.html">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#22C55E"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z"/></svg>
+        ESG Global Standard <span style="background:rgba(34,197,94,.15);color:#22C55E;padding:1px 5px;border-radius:3px;font-size:8px;margin-left:3px;">New</span>
+      </a>
+<div style="height:1px;background:var(--border);margin:6px 8px"></div>
     </div>
   </div>
   <div class="content">
@@ -5379,22 +5372,53 @@ window.acMainTab = function(el, tab) {
   <div class="ac-sub-panel active" id="aspect-register" style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
     <div style="display:block;overflow-y:auto;overflow-x:hidden;height:100%;padding:14px 20px 20px;scrollbar-width:thin;scrollbar-color:var(--border,#1E293B) transparent;">
 
-      <!-- Document Header -->
+      <!-- Document Header — read-only display with Edit button -->
       <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start;margin-bottom:12px;">
         <div>
-          <div style="font-size:15px;font-weight:600;color:var(--t1);">Environmental Aspect &amp; Impact Assessment Register</div>
+          <div style="font-size:15px;font-weight:600;color:var(--t1);" id="eaia-hdr-title">Environmental Aspect &amp; Impact Assessment Register</div>
           <div style="font-size:10px;color:var(--t3);margin-top:3px;">ISO 14001:2015 Cl.6.1.2 &middot; Score = Sc &times; Sv &times; Pr &times; Du &times; De &middot; Threshold &ge; 36 = Significant</div>
         </div>
-        <div style="background:var(--raised);border:0.5px solid var(--border);border-radius:8px;padding:8px 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px 12px;font-size:9px;min-width:480px;">
-          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Organisation / Company</div><input id="eaia-org" placeholder="e.g. IL&amp;FS Engineering" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t1);font-size:9px;font-weight:600;width:100%;padding:1px 0;" onchange="eaiaSaveMeta();eaiaUpdateDocNo()"/></div>
-          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Project / Site</div><input id="eaia-project" placeholder="e.g. BBRP — NH 131" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t1);font-size:9px;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
-          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Department / Section</div><input id="eaia-dept" placeholder="e.g. HSE / Roads" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t2);font-size:9px;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
-          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Doc No.</div><input id="eaia-docno" placeholder="[Org]-HSE-EIA-01" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:#C9A84C;font-size:9px;font-weight:600;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
-          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Revision</div><input id="eaia-rev" placeholder="Rev 00" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t1);font-size:9px;font-weight:600;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
-          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Date</div><input id="eaia-date" type="date" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t2);font-size:9px;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
-          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Prepared By</div><input id="eaia-prep" placeholder="Name, designation" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t2);font-size:9px;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
-          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Reviewed By</div><input id="eaia-review-by" placeholder="Name, designation" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t2);font-size:9px;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
-          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Approved By</div><input id="eaia-appr" placeholder="Name, designation" style="background:transparent;border:none;border-bottom:0.5px solid var(--border);color:var(--t2);font-size:9px;width:100%;padding:1px 0;" onchange="eaiaSaveMeta()"/></div>
+        <div style="background:var(--raised);border:0.5px solid var(--border);border-radius:8px;padding:8px 14px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px 16px;font-size:9px;position:relative;">
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Organisation</div><div id="hdr-org" style="color:var(--t1);font-weight:600;min-height:12px;">—</div></div>
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Project / Site</div><div id="hdr-project" style="color:var(--t1);min-height:12px;">—</div></div>
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Department</div><div id="hdr-dept" style="color:var(--t2);min-height:12px;">—</div></div>
+          <div style="display:flex;align-items:flex-start;justify-content:flex-end;padding-top:2px;">
+            <button onclick="eaiaOpenEditHeader()" style="padding:4px 10px;background:rgba(201,168,76,.1);border:0.5px solid rgba(201,168,76,.3);border-radius:6px;color:#C9A84C;font-size:9px;font-weight:600;cursor:pointer;font-family:var(--fh);white-space:nowrap;">&#9998; Edit Header</button>
+          </div>
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Doc No.</div><div id="hdr-docno" style="color:#C9A84C;font-weight:600;min-height:12px;">[Org]-HSE-EIA-01</div></div>
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Revision</div><div id="hdr-rev" style="color:var(--t1);font-weight:600;min-height:12px;">Rev 00</div></div>
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Date</div><div id="hdr-date" style="color:var(--t2);min-height:12px;">—</div></div>
+          <div><div style="color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Prepared / Reviewed / Approved</div><div id="hdr-signatories" style="color:var(--t2);min-height:12px;font-size:8px;line-height:1.5;">—</div></div>
+        </div>
+      </div>
+
+      <!-- Edit Header Modal -->
+      <div id="eaia-hdr-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:99999;align-items:center;justify-content:center;">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;width:520px;max-width:96vw;">
+          <div style="padding:12px 18px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-size:13px;font-weight:600;color:var(--t1);">Edit Document Header</div>
+            <button onclick="document.getElementById('eaia-hdr-modal').style.display='none'" style="background:none;border:none;color:var(--t2);font-size:18px;cursor:pointer;">&#10005;</button>
+          </div>
+          <div style="padding:16px 18px;display:flex;flex-direction:column;gap:10px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Organisation / Company</label><input id="eaia-org" placeholder="e.g. IL&FS Engineering" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"/></div>
+              <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Project / Site</label><input id="eaia-project" placeholder="e.g. BBRP — NH 131, Bihar" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"/></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Department / Section</label><input id="eaia-dept" placeholder="e.g. HSE / Roads" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"/></div>
+              <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Doc No.</label><input id="eaia-docno" placeholder="e.g. [Org]-HSE-EIA-01" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid rgba(201,168,76,.3);border-radius:6px;color:#C9A84C;font-size:11px;font-weight:600;"/></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Revision</label><input id="eaia-rev" placeholder="Rev 00" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;font-weight:600;"/></div>
+              <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Date of Revision</label><input id="eaia-date" type="date" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"/></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+              <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Prepared By</label><input id="eaia-prep" placeholder="Name, designation" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"/></div>
+              <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Reviewed By</label><input id="eaia-review-by" placeholder="Name, designation" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"/></div>
+              <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Approved By</label><input id="eaia-appr" placeholder="Name, designation" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"/></div>
+            </div>
+            <button onclick="eaiaSaveHeader()" style="padding:9px 18px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:7px;color:var(--green);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">&#10003; Save Header</button>
+          </div>
         </div>
       </div>
 
@@ -5585,27 +5609,20 @@ window.acMainTab = function(el, tab) {
         <button onclick="document.getElementById('eaia-add-modal').style.display='none'" style="background:none;border:none;color:var(--t2);font-size:18px;cursor:pointer;">&#10005;</button>
       </div>
       <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
-
-        <!-- Activity — dropdown feed from existing + new option -->
         <div>
           <label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Activity / Service / Product</label>
-          <div style="display:flex;gap:6px;">
-            <select id="add-act-sel" style="flex:1;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" onchange="eaiaActSelChange(this)">
+          <div style="display:flex;gap:6px;align-items:center;">
+            <select id="add-act-sel" style="flex:1;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" onchange="if(this.value){document.getElementById('add-act-new').value='';}">
               <option value="">— Select existing activity —</option>
             </select>
-            <span style="padding:7px 4px;font-size:10px;color:var(--t3);flex-shrink:0;">or</span>
+            <span style="font-size:10px;color:var(--t3);flex-shrink:0;">or</span>
             <input id="add-act-new" style="flex:1;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="Type new activity..."/>
           </div>
-          <input id="add-act" type="hidden"/>
         </div>
-
-        <!-- Aspect + Impact -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
           <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Environmental Aspect</label><input id="add-asp" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. Dust Generation"/></div>
           <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Environmental Impact</label><input id="add-imp" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. Air Pollution"/></div>
         </div>
-
-        <!-- Condition + LC/IPC/BC/RCP -->
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:6px;">
           <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Condition</label>
             <select id="add-cond" style="width:100%;padding:6px 7px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="N">Normal (N)</option><option value="A">Abnormal (A)</option><option value="E">Emergency (E)</option></select></div>
@@ -5618,36 +5635,30 @@ window.acMainTab = function(el, tab) {
           <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;" title="Regulatory Compliance Potential">RCP</label>
             <select id="add-rcp" style="width:100%;padding:6px 7px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;"><option value="N">N</option><option value="Y">Y</option></select></div>
         </div>
-
-        <!-- SSPD Scores -->
         <div style="background:var(--raised);border-radius:7px;padding:10px 12px;">
           <div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;">SSPD Scores (1–5) &nbsp;&middot;&nbsp; Score = Sc &times; Sv &times; Pr &times; Du &times; De</div>
           <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
-            <div style="text-align:center;"><label style="font-size:9px;color:var(--t3);display:block;margin-bottom:4px;" title="Scale — Geographic extent">Scale (Sc)</label><input id="add-sc" type="number" min="1" max="5" value="2" style="width:100%;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--t1);font-size:13px;font-weight:600;text-align:center;" oninput="eaiaAddScoreUpdate()"/></div>
-            <div style="text-align:center;"><label style="font-size:9px;color:var(--t3);display:block;margin-bottom:4px;" title="Severity of impact">Severity (Sv)</label><input id="add-sv" type="number" min="1" max="5" value="2" style="width:100%;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--t1);font-size:13px;font-weight:600;text-align:center;" oninput="eaiaAddScoreUpdate()"/></div>
-            <div style="text-align:center;"><label style="font-size:9px;color:var(--t3);display:block;margin-bottom:4px;" title="Probability of occurrence">Prob. (Pr)</label><input id="add-pr" type="number" min="1" max="5" value="2" style="width:100%;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--t1);font-size:13px;font-weight:600;text-align:center;" oninput="eaiaAddScoreUpdate()"/></div>
-            <div style="text-align:center;"><label style="font-size:9px;color:var(--t3);display:block;margin-bottom:4px;" title="Duration of impact">Duration (Du)</label><input id="add-du" type="number" min="1" max="5" value="2" style="width:100%;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--t1);font-size:13px;font-weight:600;text-align:center;" oninput="eaiaAddScoreUpdate()"/></div>
-            <div style="text-align:center;"><label style="font-size:9px;color:var(--t3);display:block;margin-bottom:4px;" title="Detection — ease of control">Detection (De)</label><input id="add-de" type="number" min="1" max="5" value="2" style="width:100%;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--t1);font-size:13px;font-weight:600;text-align:center;" oninput="eaiaAddScoreUpdate()"/></div>
+            <div style="text-align:center;"><label style="font-size:9px;color:var(--t3);display:block;margin-bottom:4px;" title="Scale">Scale (Sc)</label><input id="add-sc" type="number" min="1" max="5" value="2" style="width:100%;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--t1);font-size:13px;font-weight:600;text-align:center;" oninput="eaiaAddScoreUpdate()"/></div>
+            <div style="text-align:center;"><label style="font-size:9px;color:var(--t3);display:block;margin-bottom:4px;" title="Severity">Severity (Sv)</label><input id="add-sv" type="number" min="1" max="5" value="2" style="width:100%;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--t1);font-size:13px;font-weight:600;text-align:center;" oninput="eaiaAddScoreUpdate()"/></div>
+            <div style="text-align:center;"><label style="font-size:9px;color:var(--t3);display:block;margin-bottom:4px;" title="Probability">Prob. (Pr)</label><input id="add-pr" type="number" min="1" max="5" value="2" style="width:100%;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--t1);font-size:13px;font-weight:600;text-align:center;" oninput="eaiaAddScoreUpdate()"/></div>
+            <div style="text-align:center;"><label style="font-size:9px;color:var(--t3);display:block;margin-bottom:4px;" title="Duration">Duration (Du)</label><input id="add-du" type="number" min="1" max="5" value="2" style="width:100%;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--t1);font-size:13px;font-weight:600;text-align:center;" oninput="eaiaAddScoreUpdate()"/></div>
+            <div style="text-align:center;"><label style="font-size:9px;color:var(--t3);display:block;margin-bottom:4px;" title="Detection">Detection (De)</label><input id="add-de" type="number" min="1" max="5" value="2" style="width:100%;padding:5px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--t1);font-size:13px;font-weight:600;text-align:center;" oninput="eaiaAddScoreUpdate()"/></div>
           </div>
-          <!-- Live score preview -->
           <div style="margin-top:8px;display:flex;align-items:center;gap:10px;">
             <span style="font-size:10px;color:var(--t3);">Score preview:</span>
             <span id="add-score-preview" style="font-size:18px;font-weight:700;color:#22C55E;">16</span>
             <span id="add-sig-preview" style="font-size:10px;font-weight:700;color:#22C55E;">Non-Significant</span>
           </div>
         </div>
-
-        <!-- Control fields -->
         <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Existing Control Measure</label><input id="add-ctrl1" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="Describe existing controls in place..."/></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
           <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Gap (if any)</label><input id="add-gap" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid rgba(245,158,11,.3);border-radius:6px;color:#F59E0B;font-size:11px;" placeholder="Describe any control gap..."/></div>
-          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Control Measure (OCP reference)</label><input id="add-ctrl2" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. OCP for Air Quality (OCP No. 6)"/></div>
+          <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Control Measure (OCP ref.)</label><input id="add-ctrl2" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. OCP for Air Quality (OCP No. 6)"/></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;">
           <div><label style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px;">Competent Authority</label><input id="add-auth" style="width:100%;padding:7px 9px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:11px;" placeholder="e.g. Site In-charge / Site Supervisor"/></div>
           <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);cursor:pointer;white-space:nowrap;margin-top:12px;"><input id="add-ocp" type="checkbox"/> OCP Required</label>
         </div>
-
         <button onclick="eaiaDoAdd()" style="padding:9px 18px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:7px;color:var(--green);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);">Add to Register</button>
       </div>
     </div>
@@ -6830,39 +6841,57 @@ function eaiaLoad(){
   catch(e){ EAIA_DATA=EAIA_DEFAULT.map(function(x){return Object.assign({},x);}); }
 }
 function eaiaSave(){ try{ localStorage.setItem('sp_eaia_v3',JSON.stringify(EAIA_DATA)); }catch(e){} }
+function eaiaGetVal(id){ return (document.getElementById(id)||{}).value||''; }
+function eaiaSetVal(id,v){ var el=document.getElementById(id); if(el&&v) el.value=v; }
+
 function eaiaSaveMeta(){
   var m={
-    org:(document.getElementById('eaia-org')||{}).value||'',
-    project:(document.getElementById('eaia-project')||{}).value||'',
-    dept:(document.getElementById('eaia-dept')||{}).value||'',
-    docno:(document.getElementById('eaia-docno')||{}).value||'',
-    rev:(document.getElementById('eaia-rev')||{}).value||'',
-    date:(document.getElementById('eaia-date')||{}).value||'',
-    prep:(document.getElementById('eaia-prep')||{}).value||'',
-    reviewBy:(document.getElementById('eaia-review-by')||{}).value||'',
-    appr:(document.getElementById('eaia-appr')||{}).value||''
+    org:eaiaGetVal('eaia-org'), project:eaiaGetVal('eaia-project'),
+    dept:eaiaGetVal('eaia-dept'), docno:eaiaGetVal('eaia-docno'),
+    rev:eaiaGetVal('eaia-rev'), date:eaiaGetVal('eaia-date'),
+    prep:eaiaGetVal('eaia-prep'), reviewBy:eaiaGetVal('eaia-review-by'),
+    appr:eaiaGetVal('eaia-appr')
   };
   try{ localStorage.setItem('sp_eaia_meta',JSON.stringify(m)); }catch(e){}
+  eaiaRefreshHeader(m);
 }
-function eaiaUpdateDocNo(){
-  var org=(document.getElementById('eaia-org')||{}).value||'[Org]';
-  var dn=document.getElementById('eaia-docno');
-  if(dn&&!dn.value) dn.placeholder=org+'-HSE-EIA-01';
+
+function eaiaRefreshHeader(m){
+  function set(id,v,fallback){ var el=document.getElementById(id); if(el) el.textContent=v||fallback||'—'; }
+  set('hdr-org', m.org);
+  set('hdr-project', m.project);
+  set('hdr-dept', m.dept);
+  var orgPfx = m.org ? m.org.replace(/\s+/g,'').substring(0,8).toUpperCase() : '[Org]';
+  set('hdr-docno', m.docno || (orgPfx+'-HSE-EIA-01'));
+  set('hdr-rev', m.rev, 'Rev 00');
+  set('hdr-date', m.date ? new Date(m.date).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : '—');
+  var sigs = [m.prep&&('Prep: '+m.prep), m.reviewBy&&('Rev: '+m.reviewBy), m.appr&&('Appr: '+m.appr)].filter(Boolean).join(' | ');
+  set('hdr-signatories', sigs);
 }
+
 function eaiaLoadMeta(){
   try{
     var m=JSON.parse(localStorage.getItem('sp_eaia_meta')||'{}');
-    function setVal(id,val){var el=document.getElementById(id);if(el&&val)el.value=val;}
-    setVal('eaia-org',m.org); setVal('eaia-project',m.project); setVal('eaia-dept',m.dept);
-    setVal('eaia-docno',m.docno); setVal('eaia-rev',m.rev); setVal('eaia-date',m.date);
-    setVal('eaia-prep',m.prep); setVal('eaia-review-by',m.reviewBy); setVal('eaia-appr',m.appr);
-    // Auto-compose doc no if blank
-    var dn=document.getElementById('eaia-docno');
-    if(dn&&!m.docno){
-      var org=m.org||(window.SP_USER&&window.SP_USER.company)||'[Org]';
-      dn.placeholder=org+'-HSE-EIA-01';
-    }
+    eaiaSetVal('eaia-org',m.org); eaiaSetVal('eaia-project',m.project);
+    eaiaSetVal('eaia-dept',m.dept); eaiaSetVal('eaia-docno',m.docno);
+    eaiaSetVal('eaia-rev',m.rev); eaiaSetVal('eaia-date',m.date);
+    eaiaSetVal('eaia-prep',m.prep); eaiaSetVal('eaia-review-by',m.reviewBy);
+    eaiaSetVal('eaia-appr',m.appr);
+    eaiaRefreshHeader(m);
   }catch(e){}
+}
+
+function eaiaOpenEditHeader(){
+  eaiaLoadMeta();
+  var m=document.getElementById('eaia-hdr-modal');
+  if(m) m.style.display='flex';
+}
+
+function eaiaSaveHeader(){
+  eaiaSaveMeta();
+  var m=document.getElementById('eaia-hdr-modal');
+  if(m) m.style.display='none';
+  if(typeof acToast==='function') acToast('Header saved');
 }
 
 function eaiaPopulateActivityFilter(){
@@ -7105,20 +7134,13 @@ function eaiaDeleteRow(idx){
 
 function eaiaOpenAdd(){ document.getElementById('eaia-add-modal').style.display='flex'; }
 
-function eaiaActSelChange(sel){
-  var newInp=document.getElementById('add-act-new');
-  var hidden=document.getElementById('add-act');
-  if(sel.value){
-    if(newInp) newInp.value='';
-    if(hidden) hidden.value=sel.value;
-  }
-}
+
 function eaiaAddScoreUpdate(){
-  var sc=parseInt((document.getElementById('add-sc')||{}).value)||2;
-  var sv=parseInt((document.getElementById('add-sv')||{}).value)||2;
-  var pr=parseInt((document.getElementById('add-pr')||{}).value)||2;
-  var du=parseInt((document.getElementById('add-du')||{}).value)||2;
-  var de=parseInt((document.getElementById('add-de')||{}).value)||2;
+  var sc=Math.min(5,Math.max(1,parseInt((document.getElementById('add-sc')||{}).value)||2));
+  var sv=Math.min(5,Math.max(1,parseInt((document.getElementById('add-sv')||{}).value)||2));
+  var pr=Math.min(5,Math.max(1,parseInt((document.getElementById('add-pr')||{}).value)||2));
+  var du=Math.min(5,Math.max(1,parseInt((document.getElementById('add-du')||{}).value)||2));
+  var de=Math.min(5,Math.max(1,parseInt((document.getElementById('add-de')||{}).value)||2));
   var score=sc*sv*pr*du*de;
   var sig=score>=36;
   var sp=document.getElementById('add-score-preview');
@@ -7127,19 +7149,16 @@ function eaiaAddScoreUpdate(){
   if(sl){sl.textContent=sig?'SIGNIFICANT':'Non-Significant';sl.style.color=sig?'#EF4444':'#22C55E';}
 }
 function eaiaPopulateAddActDropdown(){
-  var sel=document.getElementById('add-act-sel');
-  if(!sel) return;
+  var sel=document.getElementById('add-act-sel'); if(!sel) return;
   var seen={};
   sel.innerHTML='<option value="">— Select existing activity —</option>';
   EAIA_DATA.forEach(function(r){
-    if(!seen[r.activity]){
-      seen[r.activity]=1;
-      var o=document.createElement('option');
-      o.value=r.activity; o.textContent=r.activity;
-      sel.appendChild(o);
+    if(!seen[r.activity]){seen[r.activity]=1;
+      var o=document.createElement('option');o.value=r.activity;o.textContent=r.activity;sel.appendChild(o);
     }
   });
 }
+function eaiaOpenAdd(){ eaiaLoad(); eaiaPopulateAddActDropdown(); eaiaAddScoreUpdate(); var m=document.getElementById('eaia-add-modal'); if(m) m.style.display='flex'; }
 function eaiaDoAdd(){
   var sel=(document.getElementById('add-act-sel')||{}).value||'';
   var newAct=((document.getElementById('add-act-new')||{}).value||'').trim();
@@ -7153,9 +7172,7 @@ function eaiaDoAdd(){
   var de=Math.min(5,Math.max(1,parseInt((document.getElementById('add-de')||{}).value)||2));
   var maxId=EAIA_DATA.reduce(function(m,r){return Math.max(m,r.id);},0);
   EAIA_DATA.push({
-    id:maxId+1,
-    activity:act,
-    aspect:asp,
+    id:maxId+1, activity:act, aspect:asp,
     impact:((document.getElementById('add-imp')||{}).value||'').trim(),
     cond:(document.getElementById('add-cond')||{}).value||'N',
     lc:(document.getElementById('add-lc')||{}).value||'N',
@@ -7172,13 +7189,9 @@ function eaiaDoAdd(){
   });
   eaiaSave();
   document.getElementById('eaia-add-modal').style.display='none';
-  // Reset form
-  ['add-act-sel','add-act-new','add-asp','add-imp','add-ctrl1','add-gap','add-ctrl2','add-auth'].forEach(function(id){
-    var el=document.getElementById(id); if(el)el.value='';
-  });
-  ['add-sc','add-sv','add-pr','add-du','add-de'].forEach(function(id){
-    var el=document.getElementById(id); if(el)el.value=2;
-  });
+  ['add-act-sel','add-act-new','add-asp','add-imp','add-ctrl1','add-gap','add-ctrl2','add-auth'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  ['add-sc','add-sv','add-pr','add-du','add-de'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=2;});
+  var ocp=document.getElementById('add-ocp');if(ocp)ocp.checked=false;
   eaiaAddScoreUpdate();
   eaiaRender();
   if(typeof acToast==='function') acToast('Entry added successfully');
