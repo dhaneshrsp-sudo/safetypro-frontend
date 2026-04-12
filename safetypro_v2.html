@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -23,9 +23,13 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;overflow:hidden;}
-body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;flex-direction:column;}
+body{background:
+radial-gradient(circle at top left,rgba(34,197,94,.12),transparent 24%),
+radial-gradient(circle at 85% 12%,rgba(59,130,246,.12),transparent 22%),
+linear-gradient(180deg,#071019 0%,#060B11 32%,#04080F 100%);
+font-family:var(--fb);color:var(--t1);display:flex;flex-direction:column;}
 
-/* ══ TOP NAV ══ */
+/* â•â• TOP NAV â•â• */
 .topnav{height:var(--nav-h);flex-shrink:0;background:var(--sidebar);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 rgba(34,197,94,.05);}
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none;margin-right:20px;flex-shrink:0;}
 .logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35);}
@@ -64,7 +68,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .un-name{font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);}
 .un-role{font-size:9px;color:var(--t3);}
 
-/* ══ ALERT DROPDOWN ══ */
+/* â•â• ALERT DROPDOWN â•â• */
 .alert-dropdown{display:none;position:fixed;top:calc(var(--nav-h) + 6px);right:12px;width:300px;background:#0C1824;border:1px solid var(--border);border-radius:12px;box-shadow:0 16px 48px rgba(0,0,0,.7);z-index:9999;overflow:hidden;}
 .alert-head{padding:11px 14px;font-family:var(--fh);font-size:10px;font-weight:700;color:var(--t2);letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px;}
 .alert-head::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--red);animation:rdpulse 1.5s ease-in-out infinite;flex-shrink:0;}
@@ -75,7 +79,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .alert-title{font-size:12px;color:var(--t1);font-weight:600;font-family:var(--fh);}
 .alert-sub{font-size:10px;color:var(--t3);margin-top:2px;}
 
-/* ══ PROFILE DROPDOWN ══ */
+/* â•â• PROFILE DROPDOWN â•â• */
 .profile-dd{display:none;position:fixed;top:calc(var(--nav-h) + 6px);right:12px;width:252px;background:#0C1824;border:1px solid var(--border);border-radius:13px;box-shadow:0 16px 48px rgba(0,0,0,.7);z-index:9999;overflow:hidden;}
 .pd-header{padding:14px 16px;background:linear-gradient(135deg,rgba(34,197,94,.07),transparent);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
 .pd-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:13px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 0 14px rgba(34,197,94,.25);}
@@ -91,7 +95,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .pd-signout:hover{opacity:.85;transform:translateY(-1px);}
 .pd-signout svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;}
 
-/* ══ LAYOUT ══ */
+/* â•â• LAYOUT â•â• */
 .body{display:flex;flex:1;overflow:hidden;}
 .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:140;top:var(--nav-h);}
 .sb-overlay.show{display:block;}
@@ -111,7 +115,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .content::-webkit-scrollbar{width:4px;}
 .content::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 
-/* ══ SUBNAV ══ */
+/* â•â• SUBNAV â•â• */
 .subnav{display:flex;align-items:center;justify-content:space-between;padding:8px 18px;border-bottom:1px solid var(--border);background:var(--sidebar);flex-shrink:0;flex-wrap:wrap;gap:8px;}
 .sn-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .sn-label{font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:6px;}
@@ -128,7 +132,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .exp-btn:hover{border-color:var(--green);color:var(--green);}
 .exp-btn svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;}
 
-/* ══ DASH INNER ══ */
+/* â•â• DASH INNER â•â• */
 .dash{padding:14px 16px;}
 
 /* 12-column grid */
@@ -139,28 +143,76 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .col-4{grid-column:span 4;}
 .col-3{grid-column:span 3;}
 
-/* ══ GLOBAL HSE SCORE STRIP ══ */
-.score-strip{background:linear-gradient(135deg,rgba(34,197,94,.07) 0%,rgba(34,197,94,.02) 50%,var(--card) 100%);border:1px solid rgba(34,197,94,.18);border-radius:var(--r);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
-.score-left{display:flex;align-items:center;gap:16px;}
-.score-icon{width:40px;height:40px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 20px rgba(34,197,94,.1);}
-.score-icon svg{width:20px;height:20px;fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;}
-.score-label{font-family:var(--fh);font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px;}
-.score-value{font-family:var(--fh);font-size:28px;font-weight:800;color:var(--green);letter-spacing:-1px;line-height:1;}
-.score-trend{display:inline-flex;align-items:center;gap:4px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.15);border-radius:5px;padding:3px 8px;font-family:var(--fh);font-size:9px;font-weight:700;color:var(--green);margin-top:3px;}
-.score-right{display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
-.score-meta{text-align:center;min-width:60px;}
-.score-meta-val{font-family:var(--fh);font-size:16px;font-weight:800;color:var(--t1);line-height:1;}
-.score-meta-label{font-size:9px;color:var(--t3);font-family:var(--fh);margin-top:2px;text-transform:uppercase;letter-spacing:.5px;}
+/* â•â• GLOBAL HSE SCORE STRIP â•â• */
+.score-strip{position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(34,197,94,.12) 0%,rgba(59,130,246,.10) 48%,rgba(139,92,246,.04) 100%);border:1px solid rgba(122,155,191,.18);border-radius:22px;padding:24px;display:flex;align-items:stretch;justify-content:space-between;flex-wrap:wrap;gap:18px;box-shadow:0 26px 70px rgba(0,0,0,.28);}
+.score-strip::before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:40px 40px;mask-image:linear-gradient(180deg,#000,transparent 88%);pointer-events:none;}
+.score-left{display:flex;align-items:flex-start;gap:18px;max-width:620px;position:relative;z-index:1;}
+.score-icon{width:58px;height:58px;background:linear-gradient(135deg,rgba(34,197,94,.22),rgba(34,197,94,.08));border:1px solid rgba(34,197,94,.25);border-radius:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 26px rgba(34,197,94,.16);}
+.score-icon svg{width:28px;height:28px;fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.score-label{font-family:var(--fh);font-size:10px;font-weight:800;color:#9AD8B0;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.score-value{font-family:var(--fh);font-size:54px;font-weight:900;color:var(--green);letter-spacing:-2px;line-height:.92;}
+.score-trend{display:inline-flex;align-items:center;gap:6px;background:rgba(8,15,24,.52);border:1px solid rgba(34,197,94,.15);border-radius:999px;padding:6px 11px;font-family:var(--fh);font-size:10px;font-weight:700;color:#9AE6B4;margin-top:10px;}
+.score-right{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:10px;flex:1;min-width:320px;position:relative;z-index:1;}
+.score-meta{text-align:left;min-width:0;padding:14px;border-radius:16px;background:rgba(8,15,24,.68);border:1px solid rgba(122,155,191,.14);}
+.score-right .score-div{display:none;}
+.score-meta-val{font-family:var(--fh);font-size:22px;font-weight:800;color:var(--t1);line-height:1;}
+.score-meta-label{font-size:9px;color:var(--t3);font-family:var(--fh);margin-top:8px;text-transform:uppercase;letter-spacing:.7px;}
 .score-div{width:1px;height:30px;background:var(--border);}
-.daf-pill{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:7px 14px;}
+.daf-pill{display:flex;align-items:center;gap:10px;background:rgba(8,15,24,.72);border:1px solid rgba(122,155,191,.14);border-radius:16px;padding:14px;}
 .daf-num{font-family:var(--fh);font-size:20px;font-weight:800;color:var(--green);letter-spacing:-1px;}
 .daf-txt{font-size:9px;color:var(--t3);font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.5px;line-height:1.4;}
 .daf-pulse{width:6px;height:6px;border-radius:50%;background:var(--green);animation:rdpulse 1.5s ease-in-out infinite;flex-shrink:0;}
-.benchmark-pill{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:7px 14px;}
+.benchmark-pill{display:flex;align-items:center;gap:8px;background:rgba(8,15,24,.72);border:1px solid rgba(122,155,191,.14);border-radius:16px;padding:14px;}
 .bench-label{font-size:9px;color:var(--t3);font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.4px;line-height:1.4;}
 .bench-val{font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t2);}
+/* ?? EXECUTIVE COMMAND HERO ?? */
+.command-stage{position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(34,197,94,.09),rgba(59,130,246,.07) 45%,rgba(139,92,246,.04) 100%);border:1px solid rgba(122,155,191,.16);border-radius:22px;padding:24px;box-shadow:0 26px 70px rgba(0,0,0,.32);}
+.command-stage::before{content:'';position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(180deg,#000,transparent 85%);pointer-events:none;}
+.command-stage::after{content:'';position:absolute;inset:auto -12% -38% auto;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(34,197,94,.18),transparent 68%);pointer-events:none;}
+.command-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(340px,.95fr);gap:18px;position:relative;z-index:1;}
+.command-copy{display:flex;flex-direction:column;gap:18px;}
+.command-eyebrow{display:inline-flex;align-items:center;gap:8px;width:max-content;padding:7px 12px;border-radius:999px;background:rgba(8,15,24,.68);border:1px solid rgba(122,155,191,.16);font-family:var(--fh);font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--green);}
+.command-eyebrow-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 14px rgba(34,197,94,.55);animation:rdpulse 1.8s ease-in-out infinite;}
+.command-title{font-family:var(--fh);font-size:34px;font-weight:900;line-height:1.04;letter-spacing:-1.5px;max-width:760px;}
+.command-title em{font-style:normal;color:#9BE7BC;}
+.command-sub{max-width:760px;font-size:14px;line-height:1.75;color:#A7BED7;}
+.command-scoreband{display:grid;grid-template-columns:minmax(240px,1.15fr) repeat(4,minmax(110px,.7fr));gap:10px;}
+.command-score-main,.command-stat{background:rgba(8,15,24,.72);border:1px solid rgba(122,155,191,.15);border-radius:18px;backdrop-filter:blur(16px);}
+.command-score-main{display:flex;align-items:center;gap:16px;padding:18px;}
+.command-shield{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:linear-gradient(135deg,rgba(34,197,94,.22),rgba(34,197,94,.08));border:1px solid rgba(34,197,94,.24);box-shadow:0 0 26px rgba(34,197,94,.16);}
+.command-shield svg{width:28px;height:28px;fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.command-main-label{font-family:var(--fh);font-size:10px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--t2);}
+.command-main-value{display:flex;align-items:flex-end;gap:8px;margin-top:6px;}
+.command-main-value .score-value{font-size:52px;line-height:.9;margin:0;}
+.command-main-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.signal-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-family:var(--fh);font-size:10px;font-weight:700;}
+.signal-pill strong{color:var(--t1);}
+.signal-good{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.16);color:#8BE7AE;}
+.signal-blue{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.18);color:#8DBFFF;}
+.command-stat{padding:14px 14px 12px;display:flex;flex-direction:column;justify-content:space-between;min-height:122px;}
+.command-stat-label{font-family:var(--fh);font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--t3);}
+.command-stat-value{font-family:var(--fh);font-size:24px;font-weight:800;letter-spacing:-1px;color:var(--t1);margin-top:10px;}
+.command-stat-note{font-size:10px;line-height:1.55;color:var(--t2);margin-top:10px;}
+.command-side{display:flex;flex-direction:column;gap:12px;}
+.command-panel{background:rgba(8,15,24,.78);border:1px solid rgba(122,155,191,.14);border-radius:18px;padding:16px 16px 14px;backdrop-filter:blur(16px);}
+.command-panel-title{display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:var(--fh);font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--t2);margin-bottom:12px;}
+.command-panel-title span{color:var(--t3);font-size:9px;font-weight:600;}
+.trust-stack,.hierarchy-stack,.priority-stack{display:flex;flex-direction:column;gap:10px;}
+.trust-item,.hierarchy-item,.priority-item{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid var(--border);}
+.trust-icon,.hierarchy-mark,.priority-mark{width:28px;height:28px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--fh);font-size:10px;font-weight:800;}
+.trust-icon{background:rgba(34,197,94,.1);color:var(--green);}
+.hierarchy-mark{background:rgba(59,130,246,.1);color:var(--blue);}
+.priority-mark{background:rgba(239,68,68,.1);color:var(--red);}
+.trust-copy strong,.hierarchy-copy strong,.priority-copy strong{display:block;font-family:var(--fh);font-size:11px;color:var(--t1);margin-bottom:2px;}
+.trust-copy div,.hierarchy-copy div,.priority-copy div{font-size:10px;line-height:1.55;color:var(--t2);}
+.priority-item.warn .priority-mark{background:rgba(245,158,11,.12);color:var(--amber);}
+.priority-item.info .priority-mark{background:rgba(59,130,246,.1);color:var(--blue);}
+.priority-tag{margin-left:auto;white-space:nowrap;padding:4px 7px;border-radius:999px;font-family:var(--fh);font-size:8px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+.priority-tag.red{background:var(--red-dim);color:var(--red);}
+.priority-tag.amber{background:var(--amber-dim);color:var(--amber);}
+.priority-tag.blue{background:var(--blue-dim);color:var(--blue);}
 
-/* ══ KPI CARDS ══ */
+/* â•â• KPI CARDS â•â• */
 .kpi{border-radius:var(--r);padding:16px 16px 14px;position:relative;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;border:1px solid var(--border);}
 .kpi:hover{transform:translateY(-2px);}
 .kpi-g{background:linear-gradient(145deg,rgba(34,197,94,.07),rgba(34,197,94,.02) 60%,var(--card));}
@@ -202,16 +254,17 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .pulse-ring::before{content:'';position:absolute;top:-3px;left:-3px;right:-3px;bottom:-3px;border-radius:50%;border:1.5px solid var(--red);animation:pring 1.8s ease-out infinite;opacity:0;}
 @keyframes pring{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.5);opacity:0}}
 
-/* ══ GENERIC CARD ══ */
-.g-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;}
-.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.card-title{font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:6px;}
-.card-sub{font-size:10px;color:var(--t3);margin-top:1px;}
-.card-link{font-family:var(--fh);font-size:9px;font-weight:600;color:var(--t3);cursor:pointer;padding:3px 7px;border-radius:4px;transition:.15s;}
-.card-link:hover{color:var(--green);}
+/* â•â• GENERIC CARD â•â• */
+.g-card{position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(16,28,42,.96),rgba(12,21,33,.98));border:1px solid rgba(122,155,191,.12);border-radius:18px;padding:16px;box-shadow:0 18px 48px rgba(0,0,0,.18);}
+.g-card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.025),transparent 45%);pointer-events:none;}
+.card-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;gap:12px;position:relative;z-index:1;}
+.card-title{font-family:var(--fh);font-size:12px;font-weight:800;color:var(--t1);display:flex;align-items:center;gap:7px;letter-spacing:.25px;}
+.card-sub{font-size:10px;color:#89A5C1;margin-top:4px;line-height:1.5;}
+.card-link{font-family:var(--fh);font-size:9px;font-weight:700;color:#9AC2E8;cursor:pointer;padding:5px 9px;border-radius:999px;transition:.15s;border:1px solid rgba(122,155,191,.12);background:rgba(255,255,255,.02);}
+.card-link:hover{color:var(--green);border-color:rgba(34,197,94,.24);background:rgba(34,197,94,.06);}
 .sec-badge{font-size:8px;font-weight:700;font-family:var(--fh);padding:2px 6px;border-radius:4px;letter-spacing:.3px;}
 
-/* ══ MAIN CHART (col-8) ══ */
+/* â•â• MAIN CHART (col-8) â•â• */
 .ctabs{display:flex;gap:3px;}
 .ctab{font-family:var(--fh);font-size:9px;font-weight:600;padding:3px 8px;border-radius:4px;cursor:pointer;transition:.15s;color:var(--t3);border:1px solid transparent;}
 .ctab.active{color:var(--green);background:var(--green-dim);border-color:rgba(34,197,94,.15);}
@@ -225,9 +278,9 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .cs-num{font-family:var(--fh);font-size:16px;font-weight:800;letter-spacing:-1px;}
 .cs-label{font-size:9px;color:var(--t3);font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-top:2px;}
 
-/* ══ LIVE RISK PANEL (col-4) ══ */
+/* â•â• LIVE RISK PANEL (col-4) â•â• */
 .risk-counters{display:flex;gap:6px;margin-bottom:10px;}
-.risk-counter-box{flex:1;padding:8px;background:var(--elevated);border-radius:8px;border:1px solid var(--border);text-align:center;}
+.risk-counter-box{flex:1;padding:10px;background:rgba(255,255,255,.025);border-radius:12px;border:1px solid rgba(122,155,191,.12);text-align:center;}
 .rc-num{font-family:var(--fh);font-size:18px;font-weight:800;letter-spacing:-1px;line-height:1;}
 .rc-label{font-size:8px;color:var(--t3);font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-top:2px;}
 .risk-list{display:flex;flex-direction:column;gap:6px;}
@@ -248,9 +301,9 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .rb-a{background:var(--amber-dim);color:var(--amber);}
 .rb-g{background:var(--green-dim);color:var(--green);}
 
-/* ══ SITE HEALTH (col-6) ══ */
+/* â•â• SITE HEALTH (col-6) â•â• */
 .proj-list{display:flex;flex-direction:column;gap:7px;}
-.proj-item{padding:9px 11px;border-radius:8px;border:1px solid var(--border);background:var(--elevated);transition:.15s;}
+.proj-item{padding:12px 13px;border-radius:14px;border:1px solid rgba(122,155,191,.12);background:rgba(255,255,255,.02);transition:.15s;}
 .proj-item:hover{border-color:var(--border2);}
 .proj-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
 .proj-name{font-family:var(--fh);font-size:10px;font-weight:700;color:var(--t1);}
@@ -261,7 +314,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .proj-meta{display:flex;justify-content:space-between;margin-top:4px;}
 .proj-issues{font-size:9px;color:var(--t3);}
 
-/* ══ TARGET vs ACTUAL (col-6) ══ */
+/* â•â• TARGET vs ACTUAL (col-6) â•â• */
 .tva-list{display:flex;flex-direction:column;gap:12px;}
 .tva-item{}
 .tva-header{display:flex;justify-content:space-between;margin-bottom:6px;}
@@ -274,7 +327,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .tva-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
 .tva-num{font-size:9px;font-family:var(--fh);font-weight:700;width:26px;flex-shrink:0;}
 
-/* ══ ACTIVITY PERFORMANCE (col-4) ══ */
+/* â•â• ACTIVITY PERFORMANCE (col-4) â•â• */
 .ap-list{display:flex;flex-direction:column;gap:7px;}
 .ap-item{display:flex;align-items:center;gap:9px;padding:9px 10px;background:var(--elevated);border-radius:8px;border:1px solid var(--border);}
 .ap-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -287,7 +340,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .ap-count{font-family:var(--fh);font-size:11px;font-weight:700;}
 .ap-pct{font-size:9px;color:var(--t3);}
 
-/* ══ AUDIT & COMPLIANCE (col-4) ══ */
+/* â•â• AUDIT & COMPLIANCE (col-4) â•â• */
 .audit-ring-row{display:flex;align-items:center;gap:14px;padding:10px;background:var(--elevated);border-radius:8px;border:1px solid var(--border);margin-bottom:9px;}
 .audit-ring-wrap{position:relative;width:54px;height:54px;flex-shrink:0;}
 .audit-ring-wrap svg{transform:rotate(-90deg);}
@@ -302,11 +355,11 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .audit-row-val{font-family:var(--fh);font-size:11px;font-weight:700;}
 .audit-row-badge{font-size:8px;font-weight:700;font-family:var(--fh);padding:2px 6px;border-radius:4px;}
 
-/* ══ AI INSIGHTS (col-4) ══ */
+/* â•â• AI INSIGHTS (col-4) â•â• */
 .insight-header{display:flex;align-items:center;gap:7px;margin-bottom:10px;}
 .insight-ai-badge{display:flex;align-items:center;gap:5px;background:var(--purple-dim);border:1px solid rgba(139,92,246,.2);border-radius:5px;padding:3px 8px;font-family:var(--fh);font-size:9px;font-weight:700;color:var(--purple);}
 .insight-list{display:flex;flex-direction:column;gap:7px;}
-.insight-item{padding:9px 11px;background:var(--elevated);border-radius:8px;border-left:3px solid var(--border);transition:.15s;}
+.insight-item{padding:12px 13px;background:rgba(255,255,255,.02);border-radius:14px;border-left:3px solid var(--border);transition:.15s;}
 .insight-item.warn{border-left-color:var(--amber);}
 .insight-item.danger{border-left-color:var(--red);}
 .insight-item.good{border-left-color:var(--green);}
@@ -315,9 +368,9 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .insight-emoji{font-size:11px;}
 .insight-desc{font-size:10px;color:var(--t3);line-height:1.5;}
 
-/* ══ ACCOUNTABILITY (col-6) ══ */
+/* â•â• ACCOUNTABILITY (col-6) â•â• */
 .acc-list{display:flex;flex-direction:column;gap:7px;}
-.acc-person{padding:9px 10px;background:var(--elevated);border-radius:8px;border:1px solid var(--border);}
+.acc-person{padding:12px;background:rgba(255,255,255,.02);border-radius:14px;border:1px solid rgba(122,155,191,.12);}
 .acc-top{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
 .acc-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:8px;font-weight:700;color:#fff;flex-shrink:0;}
 .acc-name{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);flex:1;}
@@ -328,9 +381,9 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .acc-role{font-size:9px;color:var(--t3);}
 .acc-overdue{font-size:9px;font-family:var(--fh);font-weight:600;}
 
-/* ══ TOP PERFORMERS (col-6) ══ */
+/* â•â• TOP PERFORMERS (col-6) â•â• */
 .perf-list{display:flex;flex-direction:column;gap:6px;}
-.perf-item{display:flex;align-items:center;gap:9px;padding:9px 10px;background:var(--elevated);border-radius:8px;border:1px solid var(--border);transition:.15s;}
+.perf-item{display:flex;align-items:center;gap:10px;padding:12px;background:rgba(255,255,255,.02);border-radius:14px;border:1px solid rgba(122,155,191,.12);transition:.15s;}
 .perf-item:hover{border-color:var(--border2);}
 .perf-rank{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:9px;font-weight:700;flex-shrink:0;}
 .rank-1{background:rgba(255,215,0,.15);color:#FFD700;}
@@ -341,9 +394,9 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .perf-role{font-size:9px;color:var(--t3);}
 .perf-score{font-family:var(--fh);font-size:13px;font-weight:800;color:var(--green);}
 
-/* ══ RECENT ACTIVITY full width (col-12) ══ */
+/* â•â• RECENT ACTIVITY full width (col-12) â•â• */
 .act-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-.act-item{display:flex;gap:9px;align-items:flex-start;padding:10px;background:var(--elevated);border-radius:8px;border:1px solid var(--border);transition:.15s;}
+.act-item{display:flex;gap:10px;align-items:flex-start;padding:12px;background:rgba(255,255,255,.02);border-radius:14px;border:1px solid rgba(122,155,191,.12);transition:.15s;}
 .act-item:hover{border-color:var(--border2);}
 .act-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:9px;font-weight:700;color:#fff;flex-shrink:0;}
 .act-body{flex:1;min-width:0;}
@@ -357,7 +410,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .act-site{font-size:9px;color:var(--t3);}
 .act-time{font-size:8px;color:var(--t4);margin-top:3px;font-family:var(--fh);}
 
-/* ══ QUICK ACTIONS BAR (col-12) ══ */
+/* â•â• QUICK ACTIONS BAR (col-12) â•â• */
 .qa-bar{display:flex;gap:10px;padding:12px 16px;background:var(--sidebar);border-top:1px solid var(--border);flex-wrap:wrap;align-items:center;justify-content:center;}
 .qa-btn{display:flex;align-items:center;gap:7px;padding:9px 18px;border-radius:9px;font-family:var(--fh);font-size:11px;font-weight:700;cursor:pointer;border:none;transition:all .2s;letter-spacing:.2px;flex:1;min-width:130px;max-width:200px;justify-content:center;}
 .qa-btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;flex-shrink:0;}
@@ -370,7 +423,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .qa-audit{background:var(--elevated);color:var(--t1);border:1px solid var(--border2);}
 .qa-audit:hover{border-color:var(--purple);color:var(--purple);background:var(--purple-dim);}
 
-/* ══ MODALS ══ */
+/* â•â• MODALS â•â• */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(3px);}
 .modal-bg.open{display:flex;}
 .modal{background:#0C1824;border:1px solid var(--border);border-radius:16px;width:540px;max-width:95vw;max-height:88vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.8);}
@@ -400,12 +453,12 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .u-active{background:var(--green-dim);color:var(--green);}
 .u-inactive{background:var(--red-dim);color:var(--red);}
 
-/* ══ TOAST ══ */
+/* â•â• TOAST â•â• */
 .toast{position:fixed;bottom:16px;right:16px;background:#0C1824;border:1px solid var(--border);border-radius:9px;padding:10px 16px;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t1);box-shadow:0 8px 28px rgba(0,0,0,.5);z-index:9000;display:flex;align-items:center;gap:7px;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;}
 .toast.show{opacity:1;transform:translateY(0);}
 .toast-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
 
-/* ══ RESPONSIVE ══ */
+/* â•â• RESPONSIVE â•â• */
 @media(max-width:1280px){
   .col-8{grid-column:span 8;}
   .col-4{grid-column:span 4;}
@@ -443,7 +496,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
   .act-grid{grid-template-columns:repeat(2,1fr);}
   .score-strip{flex-direction:column;align-items:flex-start;}
   .score-right{width:100%;justify-content:space-between;}
-  /* DROPDOWN FIX — responsive positioning */
+  /* DROPDOWN FIX â€” responsive positioning */
   .profile-dd{position:fixed;top:calc(var(--nav-h) + 6px);right:8px;width:calc(100vw - 16px);max-width:300px;}
   .alert-dropdown{position:fixed;top:calc(var(--nav-h) + 6px);right:8px;width:calc(100vw - 16px);max-width:300px;}
   .qa-bar{gap:7px;padding:10px 12px;}
@@ -468,10 +521,10 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
   .score-meta-val{font-size:14px;}
 }
 
-/* ══ UNIVERSAL MOBILE FIXES ══ */
+/* â•â• UNIVERSAL MOBILE FIXES â•â• */
 @media(max-width:768px){
 
-  /* ── Sub-header: stack vertically ── */
+  /* â”€â”€ Sub-header: stack vertically â”€â”€ */
   .sub-header{
     flex-direction:column !important;
     align-items:flex-start !important;
@@ -486,7 +539,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
   }
   .sh-title{font-size:14px !important;}
 
-  /* ── Tab bar: scroll horizontally, never overflow ── */
+  /* â”€â”€ Tab bar: scroll horizontally, never overflow â”€â”€ */
   .sh-tabs{
     display:flex !important;
     overflow-x:auto !important;
@@ -507,7 +560,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
     padding:5px 12px !important;
   }
 
-  /* ── Selects in subheader ── */
+  /* â”€â”€ Selects in subheader â”€â”€ */
   .sh-right select,.sel{
     flex:1 !important;
     min-width:80px !important;
@@ -515,7 +568,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
     font-size:11px !important;
   }
 
-  /* ── Main 2-col layout → single col ── */
+  /* â”€â”€ Main 2-col layout â†’ single col â”€â”€ */
   .ops-grid{
     grid-template-columns:1fr !important;
     display:flex !important;
@@ -524,7 +577,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
   .left-col,.right-col{width:100% !important;}
   .two-col,.two-col-grid{grid-template-columns:1fr !important;}
 
-  /* ── Control page specific ── */
+  /* â”€â”€ Control page specific â”€â”€ */
   .esc-grid{grid-template-columns:1fr !important;}
   .od-grid{grid-template-columns:1fr !important;}
   .team-grid{grid-template-columns:1fr !important;}
@@ -534,14 +587,14 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
   .delay-chart-wrap{height:160px !important;}
   .cs-grid{grid-template-columns:1fr 1fr !important;}
 
-  /* ── Reports page specific ── */
+  /* â”€â”€ Reports page specific â”€â”€ */
   .charts-grid{grid-template-columns:1fr !important;}
   .monthly-grid{grid-template-columns:1fr !important;}
   .bench-grid{grid-template-columns:1fr !important;}
   .apr-grid{grid-template-columns:1fr !important;}
   .obj-card{padding:12px !important;}
 
-  /* ── Admin page specific ── */
+  /* â”€â”€ Admin page specific â”€â”€ */
   .billing-grid{grid-template-columns:1fr !important;}
   .notif-grid{grid-template-columns:1fr !important;}
   .wf-grid{
@@ -552,7 +605,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
   .form-grid{grid-template-columns:1fr !important;}
   .plan-card{width:100% !important;}
 
-  /* ── Cards: full width, comfortable padding ── */
+  /* â”€â”€ Cards: full width, comfortable padding â”€â”€ */
   .card,.g-card,.chart-card,.panel,.cs-card{
     width:100% !important;
     padding:12px !important;
@@ -563,25 +616,25 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
   }
   .card-btns{flex-wrap:wrap !important; gap:4px !important;}
 
-  /* ── Tab panels ── */
+  /* â”€â”€ Tab panels â”€â”€ */
   .tab-panel{width:100% !important; overflow-x:hidden !important;}
 
-  /* ── Inputs full width ── */
+  /* â”€â”€ Inputs full width â”€â”€ */
   .form-group{margin-bottom:12px !important;}
   .form-input,.form-select,.form-textarea,.sel{
     width:100% !important;
     font-size:14px !important;
   }
 
-  /* ── Chart heights ── */
+  /* â”€â”€ Chart heights â”€â”€ */
   .chart-wrap,[id$="Chart"]{height:160px !important;}
 
-  /* ── Action table ── */
+  /* â”€â”€ Action table â”€â”€ */
   .action-table{font-size:11px !important;}
   .action-table th,.action-table td{padding:6px 8px !important;}
 }
 
-/* ══ SMALL MOBILE: 480px ══ */
+/* â•â• SMALL MOBILE: 480px â•â• */
 @media(max-width:480px){
   .sh-title{font-size:13px !important;}
   .sh-tab{font-size:10px !important; padding:4px 10px !important;}
@@ -611,10 +664,10 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 @keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 
 
-/* ══ STANDARD LOGO SHIELD (shared) ══ */
+/* â•â• STANDARD LOGO SHIELD (shared) â•â• */
 .logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35);}
 .logo-shield svg{width:15px;height:15px;fill:#fff;}
-/* ══ STANDARD PROFILE DROPDOWN (shared) ══ */
+/* â•â• STANDARD PROFILE DROPDOWN (shared) â•â• */
 .profile-dd{display:none;position:fixed;top:calc(var(--nav-h,52px) + 6px);right:12px;width:252px;background:#0C1824;border:1px solid var(--border);border-radius:13px;box-shadow:0 16px 48px rgba(0,0,0,.7);z-index:9999;overflow:hidden;}
 .pd-header{padding:14px 16px;background:linear-gradient(135deg,rgba(34,197,94,.07),transparent);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
 .pd-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh,'Montserrat',sans-serif);font-size:13px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 0 14px rgba(34,197,94,.25);}
@@ -629,7 +682,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .pd-signout{margin:5px 10px 10px;padding:10px 14px;font-size:12px;font-weight:700;color:#fff;background:linear-gradient(135deg,#EF4444,#DC2626);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:8px;transition:.15s;}
 .pd-signout:hover{opacity:.85;transform:translateY(-1px);}
 .pd-signout svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;}
-/* ══ STANDARD FOOTER (shared) ══ */
+/* â•â• STANDARD FOOTER (shared) â•â• */
 .sp-footer{flex-shrink:0;background:var(--sidebar,#080F18);border-top:1px solid var(--border,#162236);padding:7px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--t3,#2E4A66);z-index:10;}
 .sp-footer-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .sp-footer-center{display:flex;align-items:center;gap:14px;}
@@ -640,7 +693,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;fle
 .sp-footer-sep{opacity:.3;}
 
 
-/* ══ ANTI-BLEED FIXES ══ */
+/* â•â• ANTI-BLEED FIXES â•â• */
 .card{overflow:hidden;word-break:break-word;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;}
 .tab-panel{min-width:0;}
 .tab-panel.active{min-width:0;overflow:hidden;}
@@ -731,7 +784,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 .topnav::after { display: none !important; }
 .sb-toggle { display: none !important; }
 @media (max-width: 768px) { .sb-toggle { display: flex !important; } }
-/* More dropdown — ensure it renders above everything */
+/* More dropdown â€” ensure it renders above everything */
 .more-menu { z-index: 99998 !important; }
 .more-wrap { position: relative !important; }
 </style>
@@ -794,7 +847,13 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 </head>
 <body>
 
-<!-- ══ TOP NAV ══ -->
+<!-- SESSION EXPIRY WARNING -->
+<div id="sp-session-warn" style="display:none;position:fixed;top:0;left:0;right:0;z-index:99999;background:#F59E0B;color:#000;padding:7px 16px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;align-items:center;justify-content:center;gap:12px;">
+  <span>âš  Your session will expire soon due to inactivity. Move your mouse or press a key to stay signed in.</span>
+  <button onclick="document.getElementById('sp-session-warn').style.display='none'" style="background:rgba(0,0,0,.15);border:none;color:#000;padding:3px 10px;border-radius:4px;font-family:inherit;font-size:10px;font-weight:700;cursor:pointer">Dismiss</button>
+</div>
+
+<!-- â•â• TOP NAV â•â• -->
 <nav class="topnav">
   <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
   <a class="logo" href="safetypro_v2.html">
@@ -810,7 +869,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
     <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
       <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More&#9660;
       <div class="more-menu" id="more-menu">
-        <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_audit_compliance"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_audit_compliance"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Compliance Assurance</a>
         <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_field" onmousedown="event.stopPropagation()" onmousedown="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
         <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_hrm.html" style="color:#8B5CF6;"><svg viewBox="0 0 24 24" style="fill:#8B5CF6;"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>HRM &amp; Payroll</a>
         <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_ai" onmousedown="event.stopPropagation()" onmousedown="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg>AI Intelligence</a>
@@ -837,13 +896,13 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
   </div>
 </nav>
 
-<!-- ══ ALERT DROPDOWN ══ -->
+<!-- â•â• ALERT DROPDOWN â•â• -->
 <div id="alert-dropdown" class="alert-dropdown" style="display:none">
   <div class="alert-head">Live Alerts</div>
   <div id="alert-list"><div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Loading...</div></div>
 </div>
 
-<!-- ══ PROFILE DROPDOWN ══ -->
+<!-- â•â• PROFILE DROPDOWN â•â• -->
 <div id="profile-dropdown" class="profile-dd">
   <div class="pd-header">
     <div class="pd-avatar" id="pd-initials">--</div>
@@ -869,14 +928,14 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 <!-- SIDEBAR OVERLAY -->
 <div class="sb-overlay" id="sb-overlay" onclick="toggleSidebar()"></div>
 
-<!-- ══ ALERT DROPDOWN ══ -->
+<!-- â•â• ALERT DROPDOWN â•â• -->
 <div id="alert-dropdown" class="alert-dropdown">
   <div class="alert-head">Live Alerts</div>
   <div id="alert-list"><div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Loading...</div></div>
 </div>
 
 
-<!-- ══ BODY ══ -->
+<!-- â•â• BODY â•â• -->
 <div class="body">
 
   <!-- SIDEBAR -->
@@ -894,7 +953,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
     <div id="sb-more-items" style="display:none">
       <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_audit_compliance.html">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
-        Audit &amp; Compliance
+        Compliance Assurance
       </a>
       <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field.html" onmousedown="event.stopPropagation()" onmousedown="event.stopPropagation()">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -940,10 +999,6 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
       <div class="sn-right">
         <select class="filter-sel" id="filter-project" onchange="onProjectChange(this.value)">
           <option value="">All Projects</option>
-          <option value="birpur">Birpur Dam</option>
-          <option value="mumbai">Mumbai Metro</option>
-          <option value="tirora">Tirora Plant</option>
-          <option value="delhi">Delhi NH-8</option>
         </select>
         <select class="filter-sel" id="filter-region">
           <option value="">All Regions</option>
@@ -978,15 +1033,15 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
               <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
             </div>
             <div>
-              <div class="score-label">Global HSE Score</div>
+              <div class="score-label">Global Trust &amp; HSE Score</div><div style="font-family:var(--fh);font-size:32px;font-weight:900;line-height:1.08;letter-spacing:-1.2px;color:var(--t1);max-width:520px;margin-bottom:8px;">Executive command view for multi-tenant safety oversight.</div><div style="font-size:13px;line-height:1.7;color:#A7BED7;max-width:520px;">Hierarchy-aware visibility from top management to site teams, with portfolio risk, isolation trust, and cross-project action signals in one surface.</div>
               <div class="score-value" id="global-score">8.7<span style="font-size:16px;color:var(--t3);font-weight:500">/10</span></div>
-              <div class="score-trend">&#9650; +0.3 this week &nbsp;&middot;&nbsp; Improving</div>
+              <div class="score-trend">&#9650; +0.3 this week &nbsp;&middot;&nbsp; Isolation enforced &nbsp;&middot;&nbsp; Portfolio improving</div>
             </div>
           </div>
           <div class="score-right">
             <div class="score-meta">
               <div class="score-meta-val" style="color:var(--t2)">7.9</div>
-              <div class="score-meta-label">Industry Avg</div>
+              <div class="score-meta-label">Industry Benchmark</div>
             </div>
             <div class="score-div"></div>
             <div class="daf-pill">
@@ -998,8 +1053,8 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             </div>
             <div class="score-div"></div>
             <div class="score-meta">
-              <div class="score-meta-val">183</div>
-              <div class="score-meta-label">Record Days</div>
+              <div class="score-meta-val">100%</div>
+              <div class="score-meta-label">Tenant Scope Integrity</div>
             </div>
             <div class="score-div"></div>
             <div class="score-meta">
@@ -1009,8 +1064,8 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div class="score-div"></div>
             <div class="benchmark-pill">
               <div>
-                <div class="bench-val">4 Projects</div>
-                <div class="bench-label">Active Sites</div>
+                <div class="bench-val">4 Live Projects</div>
+                <div class="bench-label">Cross-Project Oversight</div>
               </div>
             </div>
           </div>
@@ -1026,59 +1081,59 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
               <div style="width:28px;height:28px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:7px;display:flex;align-items:center;justify-content:center;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
               </div>
-              <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);">Today's Priority</div>
+              <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);">Executive Priority Feed</div>
             </div>
             <div style="display:flex;gap:10px;flex-wrap:wrap;flex:1;">
-              <div id="priority-1" style="display:flex;align-items:center;gap:7px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:7px;padding:5px 12px;cursor:pointer;" onclick="showDashToast('Opening overdue actions...','red')">
+              <div id="priority-1" style="display:flex;align-items:center;gap:7px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:7px;padding:5px 12px;cursor:pointer;" onclick="window.location.href='safetypro_operations.html'">
                 <div style="width:6px;height:6px;border-radius:50%;background:var(--red);animation:rdpulse 1.5s ease-in-out infinite;flex-shrink:0;"></div>
-                <span style="font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);">Close 3 overdue actions</span>
+                <span style="font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);" id="priority-text-1">Loading priorities...</span>
                 <span style="font-size:9px;padding:1px 6px;border-radius:3px;background:var(--red-dim);color:var(--red);font-family:var(--fh);font-weight:700;">Critical</span>
               </div>
-              <div style="display:flex;align-items:center;gap:7px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:7px;padding:5px 12px;cursor:pointer;" onclick="showDashToast('Opening Mumbai Metro NCR...')">
+              <div style="display:flex;align-items:center;gap:7px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:7px;padding:5px 12px;cursor:pointer;" onclick="window.location.href='safetypro_control.html'">
                 <div style="width:6px;height:6px;border-radius:50%;background:var(--amber);flex-shrink:0;"></div>
-                <span style="font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);">Review NCR — Mumbai Metro</span>
+                <span style="font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);">Review NCR â€” Project B</span>
                 <span style="font-size:9px;padding:1px 6px;border-radius:3px;background:var(--amber-dim);color:var(--amber);font-family:var(--fh);font-weight:700;">High</span>
               </div>
               <div style="display:flex;align-items:center;gap:7px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:7px;padding:5px 12px;cursor:pointer;" onclick="showDashToast('Starting PPE audit...')">
                 <div style="width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0;"></div>
-                <span style="font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);">Conduct PPE Audit</span>
+                <span style="font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);">Replicate Project D best practice</span>
                 <span style="font-size:9px;padding:1px 6px;border-radius:3px;background:var(--blue-dim);color:var(--blue);font-family:var(--fh);font-weight:700;">Scheduled</span>
               </div>
             </div>
-            <div style="font-family:var(--fh);font-size:9px;font-weight:600;color:var(--t3);flex-shrink:0;">Auto-generated from your actions</div>
+            <div style="font-family:var(--fh);font-size:9px;font-weight:600;color:var(--t3);flex-shrink:0;">Auto-ranked from escalation, compliance, and trend signals</div>
           </div>
         </div>
       </div>
 
       <!-- ROW 2: KPI CARDS (4 x col-3) -->
       <div class="grid-12">
-        <div class="col-3 kpi kpi-g" onclick="showDashToast('Safe Actions detail')">
+        <div class="col-3 kpi kpi-g" onclick="showDashToast('Preventive Actions detail')">
           <div class="kpi-orb"></div>
           <div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg></div>
-          <div class="kpi-num" id="kn1">—</div>
-          <div class="kpi-label">Safe Actions</div>
-          <div class="kpi-foot"><div class="kpi-trend trend-up">+14% vs last month</div><div class="kpi-sub">This month</div></div>
+          <div class="kpi-num" id="kn1">â€”</div>
+          <div class="kpi-label">Preventive Actions</div>
+          <div class="kpi-foot"><div class="kpi-trend trend-up">+14% vs last month</div><div class="kpi-sub">Current cycle</div></div>
         </div>
         <div class="col-3 kpi kpi-a" onclick="showDashToast('Pending actions detail')">
           <div class="kpi-orb"></div>
           <div class="kpi-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-          <div class="kpi-num" id="kn2">—</div>
-          <div class="kpi-label">Actions Due</div>
+          <div class="kpi-num" id="kn2">â€”</div>
+          <div class="kpi-label">Closure Pressure</div>
           <div class="kpi-foot"><div class="kpi-trend trend-neutral">3 overdue</div><div class="kpi-sub">Pending closure</div></div>
         </div>
-        <div class="col-3 kpi kpi-r" onclick="showDashToast('Escalated items detail')">
+        <div class="col-3 kpi kpi-r" onclick="showDashToast('Escalation Load items detail')">
           <div class="kpi-orb"></div>
           <div class="pulse-ring"></div>
           <div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
-          <div class="kpi-num" id="kn3">—</div>
-          <div class="kpi-label">Escalated</div>
+          <div class="kpi-num" id="kn3">â€”</div>
+          <div class="kpi-label">Escalation Load</div>
           <div class="kpi-foot"><div class="kpi-trend trend-down">Needs attention</div><div class="kpi-sub">Critical</div></div>
         </div>
         <div class="col-3 kpi kpi-b" onclick="showDashToast('Audit score detail')">
           <div class="kpi-orb"></div>
           <div class="kpi-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-          <div class="kpi-num" id="kn4">—</div>
-          <div class="kpi-label">Audit Score</div>
+          <div class="kpi-num" id="kn4">â€”</div>
+          <div class="kpi-label">Standard Score</div>
           <div class="kpi-foot"><div class="kpi-trend trend-up">+5% this period</div><div class="kpi-sub">Out of 100%</div></div>
         </div>
       </div>
@@ -1092,9 +1147,9 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div>
               <div class="card-title">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                HSE Trend Analysis
+                Portfolio Risk Trajectory
               </div>
-              <div class="card-sub">Incidents, NCRs &amp; Actions over time</div>
+              <div class="card-sub">Cross-project movement across incidents, NCRs, closures, and risk pressure</div>
             </div>
             <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
               <div class="ctabs">
@@ -1124,9 +1179,9 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div>
               <div class="card-title">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                Live Risk Panel
+                Escalation Command Queue
               </div>
-              <div class="card-sub">Real-time escalations &amp; overdue</div>
+              <div class="card-sub">Live intervention list across projects and hierarchy scopes</div>
             </div>
             <div class="card-link" onclick="showDashToast('Opening risk details...')">View all</div>
           </div>
@@ -1146,11 +1201,11 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             </div>
           </div>
           <!-- People at risk -->
-          <div class="risk-list">
+          <div class="risk-list" id="risk-list">
             <div class="risk-item crit">
               <div class="risk-dot"></div>
               <div class="risk-body">
-                <div class="risk-title">James G.</div>
+                <div class="risk-title">Area Head - Zone C</div>
                 <div class="risk-meta">Height work NCR &bull; 5 days overdue</div>
               </div>
               <div class="risk-badge rb-r">Critical</div>
@@ -1158,7 +1213,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div class="risk-item warn">
               <div class="risk-dot"></div>
               <div class="risk-body">
-                <div class="risk-title">Gary M.</div>
+                <div class="risk-title">Supervisor - Project B</div>
                 <div class="risk-meta">PPE compliance &bull; High risk</div>
               </div>
               <div class="risk-badge rb-a">High</div>
@@ -1166,7 +1221,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div class="risk-item ok">
               <div class="risk-dot"></div>
               <div class="risk-body">
-                <div class="risk-title">Rajesh P.</div>
+                <div class="risk-title">Crew Lead - Project A</div>
                 <div class="risk-meta">Scaffolding check &bull; On track</div>
               </div>
               <div class="risk-badge rb-g">Normal</div>
@@ -1174,7 +1229,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div class="risk-item warn">
               <div class="risk-dot"></div>
               <div class="risk-body">
-                <div class="risk-title">Mohan S.</div>
+                <div class="risk-title">Electrical Lead - Project C</div>
                 <div class="risk-meta">Electrical PTW &bull; 2 days overdue</div>
               </div>
               <div class="risk-badge rb-a">Overdue</div>
@@ -1182,10 +1237,10 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div class="risk-item crit">
               <div class="risk-dot"></div>
               <div class="risk-body">
-                <div class="risk-title">Tirora Site</div>
+                <div class="risk-title">Cluster Risk Node C</div>
                 <div class="risk-meta">L3 Escalation active &bull; 6h ago</div>
               </div>
-              <div class="risk-badge rb-r">Escalated</div>
+              <div class="risk-badge rb-r">Escalation Load</div>
             </div>
           </div>
         </div>
@@ -1200,32 +1255,32 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div>
               <div class="card-title">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
-                Project / Site Health
+                Portfolio Health Matrix
               </div>
             </div>
-            <div class="card-link">All projects</div>
+            <div class="card-link">Portfolio view</div>
           </div>
           <div class="proj-list">
             <div class="proj-item">
-              <div class="proj-top"><div><div class="proj-name">Birpur Dam</div><div class="proj-loc">Bihar, India</div></div><div class="proj-score" style="color:var(--green)">88%</div></div>
+              <div class="proj-top"><div><div class="proj-name">Project A</div><div class="proj-loc">Region A</div></div><div class="proj-score" style="color:var(--green)">88%</div></div>
               <div class="proj-bar-wrap"><div class="proj-bar" style="width:0%;background:var(--green)" data-w="88%"></div></div>
               <div class="proj-meta"><div class="proj-issues">2 open NCRs</div><div class="proj-status" style="color:var(--green)">Good</div></div>
               <div style="font-size:9px;color:var(--t3);margin-top:3px;font-family:var(--fh);"><span style="color:var(--green);font-weight:600;">DNA:</span> Balanced &bull; Strong compliance</div>
             </div>
             <div class="proj-item">
-              <div class="proj-top"><div><div class="proj-name">Mumbai Metro</div><div class="proj-loc">Maharashtra, India</div></div><div class="proj-score" style="color:var(--amber)">62%</div></div>
+              <div class="proj-top"><div><div class="proj-name">Project B</div><div class="proj-loc">Region B</div></div><div class="proj-score" style="color:var(--amber)">62%</div></div>
               <div class="proj-bar-wrap"><div class="proj-bar" style="width:0%;background:var(--amber)" data-w="62%"></div></div>
               <div class="proj-meta"><div class="proj-issues">7 open NCRs</div><div class="proj-status" style="color:var(--amber)">Needs attention</div></div>
               <div style="font-size:9px;color:var(--t3);margin-top:3px;font-family:var(--fh);"><span style="color:var(--amber);font-weight:600;">DNA:</span> High NCR &bull; Low Training completion</div>
             </div>
             <div class="proj-item">
-              <div class="proj-top"><div><div class="proj-name">Tirora Plant</div><div class="proj-loc">Maharashtra, India</div></div><div class="proj-score" style="color:var(--red)">41%</div></div>
+              <div class="proj-top"><div><div class="proj-name">Project C</div><div class="proj-loc">Region B</div></div><div class="proj-score" style="color:var(--red)">41%</div></div>
               <div class="proj-bar-wrap"><div class="proj-bar" style="width:0%;background:var(--red)" data-w="41%"></div></div>
               <div class="proj-meta"><div class="proj-issues" style="color:var(--red)">11 open NCRs</div><div class="proj-status" style="color:var(--red)">Critical</div></div>
               <div style="font-size:9px;color:var(--t3);margin-top:3px;font-family:var(--fh);"><span style="color:var(--red);font-weight:600;">DNA:</span> High Risk &bull; Repeat scaffolding violations</div>
             </div>
             <div class="proj-item">
-              <div class="proj-top"><div><div class="proj-name">Delhi NH-8</div><div class="proj-loc">New Delhi, India</div></div><div class="proj-score" style="color:var(--green)">95%</div></div>
+              <div class="proj-top"><div><div class="proj-name">Project D</div><div class="proj-loc">Region D</div></div><div class="proj-score" style="color:var(--green)">95%</div></div>
               <div class="proj-bar-wrap"><div class="proj-bar" style="width:0%;background:var(--green)" data-w="95%"></div></div>
               <div class="proj-meta"><div class="proj-issues">0 open NCRs</div><div class="proj-status" style="color:var(--green)">Excellent</div></div>
               <div style="font-size:9px;color:var(--t3);margin-top:3px;font-family:var(--fh);"><span style="color:var(--green);font-weight:600;">DNA:</span> Zero incidents &bull; PPE 100% compliant</div>
@@ -1239,11 +1294,11 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div>
               <div class="card-title">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-                Target vs Actual
+                Global Standard Attainment
               </div>
-              <div class="card-sub">Monthly performance against targets</div>
+              <div class="card-sub">How far each global operating standard is from target state</div>
             </div>
-            <div class="card-link">Details</div>
+            <div class="card-link">Gap detail</div>
           </div>
           <div class="tva-list">
             <div class="tva-item">
@@ -1287,9 +1342,9 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
               <div>
                 <div class="card-title">
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                  Root Cause Analysis
+                  Systemic Root Cause Intelligence
                 </div>
-                <div class="card-sub">Incidents this period — contributing factors</div>
+                <div class="card-sub">Incidents this period â€” contributing factors</div>
               </div>
               <div style="display:flex;gap:6px;align-items:center;">
                 <span style="font-size:9px;padding:2px 8px;border-radius:4px;background:var(--purple-dim);color:var(--purple);font-family:var(--fh);font-weight:700;">AI Engine</span>
@@ -1307,7 +1362,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
               </div>
               <!-- Breakdown bars -->
               <div style="display:flex;flex-direction:column;gap:8px;">
-                <div class="rca-row" onclick="showDashToast('Human Error incidents — filtering...','red')" style="cursor:pointer;">
+                <div class="rca-row" onclick="showDashToast('Human Error incidents â€” filtering...','red')" style="cursor:pointer;">
                   <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
                     <div style="display:flex;align-items:center;gap:6px;">
                       <div style="width:8px;height:8px;border-radius:50%;background:#EF4444;flex-shrink:0;"></div>
@@ -1320,7 +1375,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
                   </div>
                   <div style="font-size:9px;color:var(--t3);margin-top:3px;">Lack of awareness &bull; Procedure not followed</div>
                 </div>
-                <div class="rca-row" onclick="showDashToast('Training Gap incidents — filtering...','amber')" style="cursor:pointer;">
+                <div class="rca-row" onclick="showDashToast('Training Gap incidents â€” filtering...','amber')" style="cursor:pointer;">
                   <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
                     <div style="display:flex;align-items:center;gap:6px;">
                       <div style="width:8px;height:8px;border-radius:50%;background:#F59E0B;flex-shrink:0;"></div>
@@ -1333,7 +1388,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
                   </div>
                   <div style="font-size:9px;color:var(--t3);margin-top:3px;">Insufficient induction &bull; Skills gap identified</div>
                 </div>
-                <div class="rca-row" onclick="showDashToast('Equipment issues — filtering...','blue')" style="cursor:pointer;">
+                <div class="rca-row" onclick="showDashToast('Equipment issues â€” filtering...','blue')" style="cursor:pointer;">
                   <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
                     <div style="display:flex;align-items:center;gap:6px;">
                       <div style="width:8px;height:8px;border-radius:50%;background:#3B82F6;flex-shrink:0;"></div>
@@ -1346,7 +1401,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
                   </div>
                   <div style="font-size:9px;color:var(--t3);margin-top:3px;">Defective tools &bull; Maintenance backlog</div>
                 </div>
-                <div class="rca-row" onclick="showDashToast('Environment issues — filtering...','blue')">
+                <div class="rca-row" onclick="showDashToast('Environment issues â€” filtering...','blue')">
                   <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
                     <div style="display:flex;align-items:center;gap:6px;">
                       <div style="width:8px;height:8px;border-radius:50%;background:#22C55E;flex-shrink:0;"></div>
@@ -1383,7 +1438,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div>
               <div class="card-title">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                Activity Performance
+                Operational Throughput
               </div>
             </div>
           </div>
@@ -1391,7 +1446,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div class="ap-item">
               <div class="ap-icon" style="background:rgba(34,197,94,.1)"><svg viewBox="0 0 24 24" style="stroke:var(--green)"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0"/></svg></div>
               <div class="ap-body">
-                <div class="ap-name">Observations</div>
+                <div class="ap-name">Field Observations</div>
                 <div class="ap-track"><div class="ap-fill" style="width:0%;background:var(--green)" data-w="85%"></div></div>
                 <div class="ap-foot"><div class="ap-count" style="color:var(--green)">120</div><div class="ap-pct">Target: 140</div></div>
               </div>
@@ -1399,7 +1454,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div class="ap-item">
               <div class="ap-icon" style="background:rgba(245,158,11,.1)"><svg viewBox="0 0 24 24" style="stroke:var(--amber)"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></div>
               <div class="ap-body">
-                <div class="ap-name">NCR Raised</div>
+                <div class="ap-name">NCR Throughput</div>
                 <div class="ap-track"><div class="ap-fill" style="width:0%;background:var(--amber)" data-w="64%"></div></div>
                 <div class="ap-foot"><div class="ap-count" style="color:var(--amber)">45</div><div class="ap-pct">Open: 18</div></div>
               </div>
@@ -1407,7 +1462,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div class="ap-item">
               <div class="ap-icon" style="background:rgba(59,130,246,.1)"><svg viewBox="0 0 24 24" style="stroke:var(--blue)"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/></svg></div>
               <div class="ap-body">
-                <div class="ap-name">HSE Inspections</div>
+                <div class="ap-name">Inspection Coverage</div>
                 <div class="ap-track"><div class="ap-fill" style="width:0%;background:var(--blue)" data-w="88%"></div></div>
                 <div class="ap-foot"><div class="ap-count" style="color:var(--blue)">88</div><div class="ap-pct">Target: 100</div></div>
               </div>
@@ -1415,7 +1470,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div class="ap-item">
               <div class="ap-icon" style="background:rgba(139,92,246,.1)"><svg viewBox="0 0 24 24" style="stroke:var(--purple)"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
               <div class="ap-body">
-                <div class="ap-name">HSE Trainings</div>
+                <div class="ap-name">Training Completion</div>
                 <div class="ap-track"><div class="ap-fill" style="width:0%;background:var(--purple)" data-w="95%"></div></div>
                 <div class="ap-foot"><div class="ap-count" style="color:var(--purple)">95</div><div class="ap-pct">Target: 100</div></div>
               </div>
@@ -1429,7 +1484,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div>
               <div class="card-title">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                Audit &amp; Compliance
+                Compliance Assurance
               </div>
             </div>
           </div>
@@ -1442,34 +1497,34 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
               <div class="audit-ring-num">91%</div>
             </div>
             <div>
-              <div class="audit-info-title">Audit Score</div>
+              <div class="audit-info-title">Standard Score</div>
               <div class="audit-info-sub">ISO 45001 Compliant<br>78% actions closed &nbsp;&bull;&nbsp; 12 pending</div>
             </div>
           </div>
           <div class="audit-rows">
             <div class="audit-row">
-              <div class="audit-row-label">Actions Closed</div>
+              <div class="audit-row-label">Assurance actions closed</div>
               <div style="display:flex;align-items:center;gap:6px;">
                 <div class="audit-row-val" style="color:var(--green)">78%</div>
                 <div class="audit-row-badge" style="background:var(--green-dim);color:var(--green)">Good</div>
               </div>
             </div>
             <div class="audit-row">
-              <div class="audit-row-label">Pending Actions</div>
+              <div class="audit-row-label">Pending findings</div>
               <div style="display:flex;align-items:center;gap:6px;">
                 <div class="audit-row-val" style="color:var(--red)">12</div>
                 <div class="audit-row-badge" style="background:var(--red-dim);color:var(--red)">Review</div>
               </div>
             </div>
             <div class="audit-row">
-              <div class="audit-row-label">ISO 45001 Status</div>
+              <div class="audit-row-label">ISO 45001 control status</div>
               <div style="display:flex;align-items:center;gap:6px;">
                 <div class="audit-row-val" style="color:var(--green)">Active</div>
                 <div class="audit-row-badge" style="background:var(--green-dim);color:var(--green)">Valid</div>
               </div>
             </div>
             <div class="audit-row">
-              <div class="audit-row-label">Next Audit Date</div>
+              <div class="audit-row-label">Next surveillance audit</div>
               <div class="audit-row-val" style="color:var(--amber)">14 Apr 2025</div>
             </div>
           </div>
@@ -1481,29 +1536,29 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div>
               <div class="card-title">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-                AI Insights
+                Predictive Intelligence
               </div>
             </div>
             <div class="insight-ai-badge">
               <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4"/></svg>
-              Auto-generated
+              AI signal
             </div>
           </div>
           <div class="insight-list">
             <div class="insight-item danger">
-              <div class="insight-title"><span class="insight-emoji">&#9888;</span>Incident Rate Increasing</div>
-              <div class="insight-desc">Tirora Plant shows 42% spike in incidents vs last month. Immediate site review recommended.</div>
+              <div class="insight-title"><span class="insight-emoji">&#9888;</span>Incident pressure rising</div>
+              <div class="insight-desc">Project C shows 42% spike in incidents vs last month. Immediate site review recommended.</div>
             </div>
             <div class="insight-item warn">
-              <div class="insight-title"><span class="insight-emoji">&#128200;</span>NCR +12% This Month</div>
-              <div class="insight-desc">NCR volume is up across Mumbai Metro. Root cause: scaffolding &amp; PPE gaps identified.</div>
+              <div class="insight-title"><span class="insight-emoji">&#128200;</span>NCR acceleration detected</div>
+              <div class="insight-desc">NCR volume is up across Project B. Root cause: scaffolding &amp; PPE gaps identified.</div>
             </div>
             <div class="insight-item good">
-              <div class="insight-title"><span class="insight-emoji">&#9989;</span>PPE Compliance Improving</div>
-              <div class="insight-desc">Delhi NH-8 PPE compliance up 18% after last week's toolbox talks. Best practice to replicate.</div>
+              <div class="insight-title"><span class="insight-emoji">&#9989;</span>PPE discipline improving</div>
+              <div class="insight-desc">Project D PPE compliance up 18% after last week's toolbox talks. Best practice to replicate.</div>
             </div>
             <div class="insight-item info">
-              <div class="insight-title"><span class="insight-emoji">&#128203;</span>Audit Due in 18 Days</div>
+              <div class="insight-title"><span class="insight-emoji">&#128203;</span>Audit readiness window open</div>
               <div class="insight-desc">ISO 45001 annual surveillance audit scheduled. 12 actions must be closed beforehand.</div>
             </div>
           </div>
@@ -1519,32 +1574,32 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div>
               <div class="card-title">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-                Accountability
+                Ownership Heatmap
               </div>
             </div>
             <div class="sec-badge" style="background:var(--amber-dim);color:var(--amber)">3 overdue</div>
           </div>
           <div class="acc-list">
             <div class="acc-person">
-              <div class="acc-top"><div class="acc-av" style="background:linear-gradient(135deg,#22C55E,#16A34A)">RK</div><div class="acc-name">Rajan Kumar</div><div class="acc-pct" style="color:var(--green)">87%</div></div>
+              <div class="acc-top"><div class="acc-av" style="background:linear-gradient(135deg,#22C55E,#16A34A)">OB</div><div class="acc-name">Officer B</div><div class="acc-pct" style="color:var(--green)">87%</div></div>
               <div class="acc-bar-wrap"><div class="acc-bar" style="width:0%;background:var(--green)" data-w="87%"></div></div>
-              <div class="acc-footer"><div class="acc-role">Site HSE Officer</div><div class="acc-overdue" style="color:var(--t3)">13 closed</div></div>
+              <div class="acc-footer"><div class="acc-role">Tier 3 owner</div><div class="acc-overdue" style="color:var(--t3)">13 closed</div></div>
             </div>
             <div class="acc-person">
-              <div class="acc-top"><div class="acc-av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">MS</div><div class="acc-name">Mohan Singh</div><div class="acc-pct" style="color:var(--amber)">61%</div></div>
+              <div class="acc-top"><div class="acc-av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">OC</div><div class="acc-name">Officer C</div><div class="acc-pct" style="color:var(--amber)">61%</div></div>
               <div class="acc-bar-wrap"><div class="acc-bar" style="width:0%;background:var(--amber)" data-w="61%"></div></div>
-              <div class="acc-footer"><div class="acc-role">Project Manager</div><div class="acc-overdue" style="color:var(--red)">2 overdue</div></div>
+              <div class="acc-footer"><div class="acc-role">Project leadership</div><div class="acc-overdue" style="color:var(--red)">2 overdue</div></div>
             </div>
             <div class="acc-person">
               <div class="acc-top"><div class="acc-av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">JM</div><div class="acc-name">John M.</div><div class="acc-pct" style="color:var(--green)">86%</div></div>
               <div class="acc-bar-wrap"><div class="acc-bar" style="width:0%;background:var(--green)" data-w="86%"></div></div>
-              <div class="acc-footer"><div class="acc-role">HSE Supervisor</div><div class="acc-overdue" style="color:var(--t3)">1 pending</div></div>
+              <div class="acc-footer"><div class="acc-role">Execution lead</div><div class="acc-overdue" style="color:var(--t3)">1 pending</div></div>
             </div>
             <div class="acc-person">
               <div class="acc-top"><div class="acc-av" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED)">AK</div><div class="acc-name">Amit Kumar</div><div class="acc-pct" style="color:var(--red)">38%</div></div>
               <div class="acc-bar-wrap"><div class="acc-bar" style="width:0%;background:var(--red)" data-w="38%"></div></div>
-              <div class="acc-footer"><div class="acc-role">Contractor Lead</div><div class="acc-overdue" style="color:var(--red)">1 overdue</div></div>
-              <div style="font-size:9px;background:rgba(239,68,68,.08);color:var(--red);border:1px solid rgba(239,68,68,.2);border-radius:4px;padding:2px 7px;display:inline-block;margin-top:4px;font-family:var(--fh);font-weight:600;">Needs Attention</div>
+              <div class="acc-footer"><div class="acc-role">External accountable owner</div><div class="acc-overdue" style="color:var(--red)">1 overdue</div></div>
+              <div style="font-size:9px;background:rgba(239,68,68,.08);color:var(--red);border:1px solid rgba(239,68,68,.2);border-radius:4px;padding:2px 7px;display:inline-block;margin-top:4px;font-family:var(--fh);font-weight:600;">Escalate owner</div>
             </div>
           </div>
         </div>
@@ -1555,35 +1610,35 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div>
               <div class="card-title">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Top Performers
+                Safety Champions
               </div>
             </div>
-            <div class="card-link">This month</div>
+            <div class="card-link">Current cycle</div>
           </div>
           <div class="perf-list">
             <div class="perf-item">
               <div class="perf-rank rank-1">1</div>
-              <div><div class="perf-name">Priya Desai</div><div class="perf-role">Safety Supervisor &bull; Birpur</div></div>
+              <div><div class="perf-name">Officer A</div><div class="perf-role">Safety Supervisor &bull; Project A</div></div>
               <div class="perf-score">98</div>
             </div>
             <div class="perf-item">
               <div class="perf-rank rank-2">2</div>
-              <div><div class="perf-name">Rajan Kumar</div><div class="perf-role">HSE Officer &bull; Delhi NH-8</div></div>
+              <div><div class="perf-name">Officer B</div><div class="perf-role">HSE Officer &bull; Project D</div></div>
               <div class="perf-score">91</div>
             </div>
             <div class="perf-item">
               <div class="perf-rank rank-3">3</div>
-              <div><div class="perf-name">Deepa Nair</div><div class="perf-role">Site Inspector &bull; Mumbai</div></div>
+              <div><div class="perf-name">Officer D</div><div class="perf-role">Site Inspector &bull; Project B</div></div>
               <div class="perf-score">87</div>
             </div>
             <div class="perf-item">
               <div class="perf-rank rank-n">4</div>
-              <div><div class="perf-name">Vikram Shah</div><div class="perf-role">HSE Engineer &bull; Tirora</div></div>
+              <div><div class="perf-name">Officer E</div><div class="perf-role">HSE Engineer &bull; Project C</div></div>
               <div class="perf-score" style="color:var(--t2)">82</div>
             </div>
             <div class="perf-item">
               <div class="perf-rank rank-n">5</div>
-              <div><div class="perf-name">Anita Roy</div><div class="perf-role">Safety Officer &bull; Mumbai</div></div>
+              <div><div class="perf-name">Officer F</div><div class="perf-role">Safety Officer &bull; Project B</div></div>
               <div class="perf-score" style="color:var(--t2)">79</div>
             </div>
           </div>
@@ -1597,42 +1652,42 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div>
               <div class="card-title">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9" stroke-dasharray="4 2"/></svg>
-                Recent Activity
+                Live Cross-Project Feed
               </div>
-              <div class="card-sub">Live feed &bull; All projects</div>
+              <div class="card-sub">Realtime movements across all projects and users</div>
             </div>
-            <div class="card-link" onclick="showDashToast('Full activity log opening...')">View all activity</div>
+            <div class="card-link" onclick="showDashToast('Full activity log opening...')">Open event stream</div>
           </div>
           <div class="act-grid">
             <div class="act-item">
               <div class="act-av" style="background:linear-gradient(135deg,#EF4444,#DC2626)">VS</div>
               <div class="act-body">
-                <div class="act-title">Unsafe Condition NCR raised</div>
-                <div class="act-meta"><span class="act-badge ab-a">NCR</span><span class="act-site">Mumbai Metro</span></div>
+                <div class="act-title">Unsafe condition NCR raised in live environment</div>
+                <div class="act-meta"><span class="act-badge ab-a">NCR</span><span class="act-site">Project B</span></div>
                 <div class="act-time">2 min ago &bull; Vikram S.</div>
               </div>
             </div>
             <div class="act-item">
               <div class="act-av" style="background:linear-gradient(135deg,#22C55E,#16A34A)">PR</div>
               <div class="act-body">
-                <div class="act-title">Action closed &mdash; PPE Audit</div>
-                <div class="act-meta"><span class="act-badge ab-g">CLOSED</span><span class="act-site">Birpur Dam</span></div>
+                <div class="act-title">Preventive action closed - PPE audit</div>
+                <div class="act-meta"><span class="act-badge ab-g">CLOSED</span><span class="act-site">Project A</span></div>
                 <div class="act-time">18 min ago &bull; Priya R.</div>
               </div>
             </div>
             <div class="act-item">
               <div class="act-av" style="background:linear-gradient(135deg,#EF4444,#B91C1C)">RK</div>
               <div class="act-body">
-                <div class="act-title">Incident reported &mdash; Height Work</div>
-                <div class="act-meta"><span class="act-badge ab-r">INCIDENT</span><span class="act-site">Tirora Plant</span></div>
-                <div class="act-time">1 hr ago &bull; Rajan K.</div>
+                <div class="act-title">Incident reported - work at height</div>
+                <div class="act-meta"><span class="act-badge ab-r">INCIDENT</span><span class="act-site">Project C</span></div>
+                <div class="act-time">1 hr ago &bull; Officer B</div>
               </div>
             </div>
             <div class="act-item">
               <div class="act-av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">AK</div>
               <div class="act-body">
                 <div class="act-title">ISO 45001 audit completed</div>
-                <div class="act-meta"><span class="act-badge ab-b">AUDIT</span><span class="act-site">Delhi NH-8</span></div>
+                <div class="act-meta"><span class="act-badge ab-b">AUDIT</span><span class="act-site">Project D</span></div>
                 <div class="act-time">3 hr ago &bull; Amit K.</div>
               </div>
             </div>
@@ -1646,7 +1701,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 <div id="view-project" style="display:none">
   <div class="dash" id="pv-dash">
 
-    <!-- PROJECT SELECTOR — dynamic dropdown from /projects API -->
+    <!-- PROJECT SELECTOR â€” dynamic dropdown from /projects API -->
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px 18px;">
       <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;flex-shrink:0;">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="margin-right:5px;vertical-align:middle;"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
@@ -1655,7 +1710,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
       <div style="flex:1;position:relative;">
         <select id="pv-proj-select" onchange="pvSelectProjectByDropdown(this)"
           style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-family:var(--fh);font-size:12px;font-weight:600;padding:8px 32px 8px 12px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;transition:.15s;">
-          <option value="">— Choose project —</option>
+          <option value="">â€” Choose project â€”</option>
         </select>
         <svg style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:12px;height:12px;fill:none;stroke:var(--t3);stroke-width:2.5;pointer-events:none;" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
@@ -1732,31 +1787,31 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
           <!-- KPI 1: Open Actions -->
           <div class="card" style="padding:16px;text-align:center;">
             <div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Open Actions</div>
-            <div id="pv-k1" style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--amber);line-height:1;">—</div>
+            <div id="pv-k1" style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--amber);line-height:1;">â€”</div>
             <div id="pv-k1-sub" style="font-size:10px;color:var(--t3);margin-top:4px;"></div>
           </div>
           <!-- KPI 2: Overdue -->
           <div class="card" style="padding:16px;text-align:center;">
             <div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Overdue</div>
-            <div id="pv-k2" style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--red);line-height:1;">—</div>
+            <div id="pv-k2" style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--red);line-height:1;">â€”</div>
             <div id="pv-k2-sub" style="font-size:10px;color:var(--t3);margin-top:4px;"></div>
           </div>
           <!-- KPI 3: Incidents -->
           <div class="card" style="padding:16px;text-align:center;">
             <div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Incidents</div>
-            <div id="pv-k3" style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--blue);line-height:1;">—</div>
-            <div id="pv-k3-sub" style="font-size:10px;color:var(--t3);margin-top:4px;">This month</div>
+            <div id="pv-k3" style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--blue);line-height:1;">â€”</div>
+            <div id="pv-k3-sub" style="font-size:10px;color:var(--t3);margin-top:4px;">Current cycle</div>
           </div>
           <!-- KPI 4: Manpower -->
           <div class="card" style="padding:16px;text-align:center;">
             <div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Manpower</div>
-            <div id="pv-k4" style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--purple);line-height:1;">—</div>
+            <div id="pv-k4" style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--purple);line-height:1;">â€”</div>
             <div id="pv-k4-sub" style="font-size:10px;color:var(--t3);margin-top:4px;">On site today</div>
           </div>
           <!-- KPI 5: Safe Man-hours -->
           <div class="card" style="padding:16px;text-align:center;">
             <div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Safe Man-hrs</div>
-            <div id="pv-k5" style="font-family:var(--fh);font-size:24px;font-weight:800;color:var(--green);line-height:1;">—</div>
+            <div id="pv-k5" style="font-family:var(--fh);font-size:24px;font-weight:800;color:var(--green);line-height:1;">â€”</div>
             <div id="pv-k5-sub" style="font-size:10px;color:var(--t3);margin-top:4px;">Accumulated</div>
           </div>
         </div>
@@ -1822,7 +1877,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
       <div class="col-12">
         <div class="card" style="padding:16px 20px;">
           <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);margin-bottom:14px;">
-            Compliance Scorecard — <span id="pv-compliance-title" style="color:var(--green);"></span>
+            Compliance Scorecard â€” <span id="pv-compliance-title" style="color:var(--green);"></span>
           </div>
           <div id="pv-compliance-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;">
             <!-- Injected by JS -->
@@ -1869,7 +1924,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
         <div class="form-group"><label class="form-label">Incident Type</label><select class="form-select" id="inc-type"><option>Near Miss</option><option>First Aid</option><option>Medical Treatment</option><option>Lost Time Injury</option><option>Fatal</option></select></div>
         <div class="form-group"><label class="form-label">Severity</label><select class="form-select" id="inc-severity"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
       </div>
-      <div class="form-group"><label class="form-label">Project / Site *</label><select class="form-select" id="inc-project"><option value="">Select Project</option><option>Birpur Dam</option><option>Mumbai Metro</option><option>Tirora Plant</option><option>Delhi NH-8</option></select></div>
+      <div class="form-group"><label class="form-label">Project / Site *</label><select class="form-select" id="inc-project"><option value="">Select Project</option></select></div>
       <div class="form-group"><label class="form-label">Description *</label><textarea class="form-textarea" id="inc-desc" placeholder="Describe what happened, where, and initial response taken..."></textarea></div>
       <div class="form-row">
         <div class="form-group"><label class="form-label">Injured Person</label><input class="form-input" id="inc-person" placeholder="Name or N/A"/></div>
@@ -1889,7 +1944,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
         <div class="form-group"><label class="form-label">NCR Category</label><select class="form-select" id="ncr-cat"><option>PPE Non-compliance</option><option>Scaffolding</option><option>Electrical Safety</option><option>Housekeeping</option><option>Method Statement</option><option>Permit to Work</option></select></div>
         <div class="form-group"><label class="form-label">Priority</label><select class="form-select" id="ncr-priority"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
       </div>
-      <div class="form-group"><label class="form-label">Project *</label><select class="form-select" id="ncr-project"><option value="">Select Project</option><option>Birpur Dam</option><option>Mumbai Metro</option><option>Tirora Plant</option><option>Delhi NH-8</option></select></div>
+      <div class="form-group"><label class="form-label">Project *</label><select class="form-select" id="ncr-project"><option value="">Select Project</option></select></div>
       <div class="form-group"><label class="form-label">Non-Conformance Description *</label><textarea class="form-textarea" id="ncr-desc" placeholder="Describe the non-conformance observed..."></textarea></div>
       <div class="form-group"><label class="form-label">Corrective Action Required</label><textarea class="form-textarea" id="ncr-action" placeholder="Describe the corrective action to be taken..." style="min-height:60px"></textarea></div>
     </div>
@@ -1909,23 +1964,137 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 <script>
 var API_BASE = 'https://safetypro-backend-production.up.railway.app/api/v1';
 
-/* AUTH FETCH WRAPPER — auto-redirects to login on 401 */
+/* â”€â”€ TENANT HELPER â”€â”€ */
+function spGetTenantId() {
+  try { var u = JSON.parse(localStorage.getItem('sp_user')||'{}'); return u.tenantId || u.organizationId || ''; } catch(e){ return ''; }
+}
+
+/* â”€â”€ JWT DECODE (no verify â€” just read claims) â”€â”€ */
+function spDecodeToken(token) {
+  try { return JSON.parse(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))); } catch(e){ return null; }
+}
+function spDecodeHeader(token) {
+  try { return JSON.parse(atob(token.split('.')[0].replace(/-/g,'+').replace(/_/g,'/'))); } catch(e){ return null; }
+}
+function spTokenExpired(token) {
+  var p = spDecodeToken(token); if (!p) return true;
+  return p.exp && (p.exp * 1000) < Date.now();
+}
+/* FIX 8: Reject HS256 â€” symmetric algorithm unsafe on public API */
+function spTokenAlgSafe(token) {
+  var h = spDecodeHeader(token); if (!h) return false;
+  var alg = (h.alg || '').toUpperCase();
+  if (alg === 'HS256' || alg === 'HS384' || alg === 'HS512') {
+    console.warn('[SafetyPro] Rejected token: insecure algorithm ' + alg + '. RS256/ES256 required.');
+    return false;
+  }
+  return true;
+}
+/* FIX 1: Silent refresh token â€” call /auth/refresh before token expires */
+function spScheduleRefresh(token) {
+  var p = spDecodeToken(token); if (!p || !p.exp) return;
+  var msUntilExpiry = (p.exp * 1000) - Date.now();
+  var refreshAt = msUntilExpiry - (3 * 60 * 1000); /* 3 min before expiry */
+  if (refreshAt <= 0) return; /* already too late */
+  setTimeout(function() {
+    var rt = localStorage.getItem('sp_refresh_token');
+    if (!rt) return; /* no refresh token â€” user must re-login */
+    fetch(API_BASE + '/auth/refresh', {
+      method: 'POST', credentials: 'include',
+      headers: { 'Content-Type': 'application/json', 'X-Tenant-ID': spGetTenantId() },
+      body: JSON.stringify({ refreshToken: rt })
+    }).then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      if (!data || !data.accessToken) { window.location.replace('safetypro_login.html?reason=refresh_failed'); return; }
+      localStorage.setItem('sp_token', data.accessToken);
+      if (data.refreshToken) localStorage.setItem('sp_refresh_token', data.refreshToken);
+      spScheduleRefresh(data.accessToken); /* schedule next refresh */
+    }).catch(function() { /* silent fail â€” session timeout will catch it */ });
+  }, refreshAt);
+}
+/* FIX 3: Role-based session timeout durations */
+function spGetSessionTimeout(role) {
+  var r = (role || '').toLowerCase();
+  if (r === 'admin' || r === 'operator' || r === 'platform:admin' || r === 'tenant:admin' || r === 'tenant:owner') {
+    return { warn: 3.5 * 60 * 60 * 1000, expire: 4 * 60 * 60 * 1000 }; /* 4hr */
+  }
+  return { warn: 7.5 * 60 * 60 * 1000, expire: 8 * 60 * 60 * 1000 }; /* 8hr default */
+}
+
+/* AUTH FETCH WRAPPER â€” injects Tenant ID, handles 401/403 */
 function spFetch(url, opts) {
+  opts = opts || {};
+  opts.headers = opts.headers || {};
+  var tenantId = spGetTenantId();
+  if (tenantId) opts.headers['X-Tenant-ID'] = tenantId;
   return fetch(url, opts).then(function(r) {
-    if (r.status === 401) {
+    if (r.status === 401 || r.status === 403) {
       localStorage.removeItem('sp_token');
       localStorage.removeItem('sp_user');
-      window.location.replace('safetypro_login.html?logout=1');
-      throw new Error('401');
+      localStorage.removeItem('sp_company');
+      window.location.replace('safetypro_login.html?reason=session_expired');
+      throw new Error(r.status);
     }
     return r;
   });
 }
 
-/* AUTH GUARD */
+/* SESSION TIMEOUT â€” role-based: admin/operator=4hr, viewer/analyst=8hr */
+(function(){
+  var timeouts = spGetSessionTimeout('viewer'); /* default until role loads */
+  var WARN_MS = timeouts.warn, EXPIRE_MS = timeouts.expire;
+  var lastActivity = Date.now(), warnShown = false;
+  /* Update timeouts when role is known */
+  window.spApplyRoleTimeout = function(role) {
+    var t = spGetSessionTimeout(role);
+    WARN_MS = t.warn; EXPIRE_MS = t.expire; warnShown = false;
+  };
+  function resetActivity(){ lastActivity = Date.now(); warnShown = false; var w=document.getElementById('sp-session-warn'); if(w)w.style.display='none'; }
+  ['click','keydown','scroll','mousemove'].forEach(function(e){ document.addEventListener(e, resetActivity, {passive:true}); });
+  setInterval(function(){
+    var idle = Date.now() - lastActivity;
+    if (idle >= EXPIRE_MS) { localStorage.removeItem('sp_token'); localStorage.removeItem('sp_refresh_token'); window.location.replace('safetypro_login.html?reason=idle_timeout'); return; }
+    if (idle >= WARN_MS && !warnShown) {
+      warnShown = true;
+      var w = document.getElementById('sp-session-warn');
+      if (w) w.style.display = 'flex';
+    }
+  }, 30000);
+})();
+
+/* AUTH GUARD â€” checks token exists, algorithm safe, not expired, MFA if required */
 (function(){
   var token = localStorage.getItem('sp_token');
   if (!token) { window.location.replace('safetypro_login.html'); return; }
+  /* FIX 8: Algorithm warning only â€” backend currently uses HS256.
+     Change to hard-block once NestJS JwtModule is updated to RS256/ES256.
+     To upgrade backend: app.module.ts â†’ JwtModule.register({ secret: undefined, privateKey, publicKey, signOptions: { algorithm: 'RS256' } }) */
+  if (!spTokenAlgSafe(token)) {
+    console.warn('[SafetyPro Security] Token uses weak algorithm (HS256). Upgrade backend to RS256/ES256.');
+    /* DO NOT REDIRECT â€” warn only until backend is upgraded */
+  }
+  if (spTokenExpired(token)) {
+    /* Try refresh token before giving up */
+    var rt = localStorage.getItem('sp_refresh_token');
+    if (!rt) {
+      localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user');
+      window.location.replace('safetypro_login.html?reason=token_expired'); return;
+    }
+    /* Has refresh token â€” will attempt silent refresh after load */
+  }
+  /* FIX 4: MFA check â€” admin/operator must have MFA enrolled */
+  var claims = spDecodeToken(token);
+  if (claims) {
+    var role = (claims.role || '').toLowerCase();
+    var mfaRequired = (role === 'admin' || role === 'operator' || role === 'tenant:admin' || role === 'tenant:owner');
+    if (mfaRequired && claims.mfa_enrolled === false) {
+      window.location.replace('safetypro_login.html?reason=mfa_required'); return;
+    }
+    /* FIX 3: Apply role-based session timeout */
+    if (window.spApplyRoleTimeout) spApplyRoleTimeout(role);
+  }
+  /* FIX 1: Schedule silent token refresh */
+  spScheduleRefresh(token);
   try {
     var cached = localStorage.getItem('sp_user');
     if (cached) { var u = JSON.parse(cached); if (u && u.name) applyNavProfile(u); }
@@ -2135,6 +2304,54 @@ function applyNavProfile(u) {
   var initials = (parts.length > 1 ? parts[0][0] + parts[parts.length-1][0] : name.substring(0,2)).toUpperCase();
   var ids = { 'nav-initials':initials, 'nav-username':name.length>14?name.substring(0,14)+'...':name, 'nav-role':role, 'pd-initials':initials, 'profile-name':name, 'profile-email':u.email||'', 'profile-role-badge':role };
   Object.keys(ids).forEach(function(id) { var el=document.getElementById(id); if(el) el.textContent=ids[id]; });
+
+  /* FIX 2: Role-based UI â€” hide elements based on RBAC */
+  var r = role.toLowerCase();
+  var isAdmin    = (r==='admin'||r==='tenant:admin'||r==='tenant:owner'||r==='platform:admin');
+  var isOperator = isAdmin || (r==='operator'||r==='tenant:operator');
+  var isAnalyst  = isOperator || (r==='analyst'||r==='tenant:analyst');
+  /* Hide admin nav item for non-admins */
+  document.querySelectorAll('.mm-admin, [href="safetypro_admin.html"]').forEach(function(el){
+    el.style.display = isAdmin ? '' : 'none';
+  });
+  /* Hide Manage Users for non-admins */
+  var manageUsers = document.querySelector('[onclick="openManageUsers()"]');
+  if (manageUsers) manageUsers.style.display = isAdmin ? '' : 'none';
+  /* Hide Report Incident / Log NCR quick-action buttons for viewer/analyst */
+  var qaButtons = document.querySelectorAll('.qa-btn');
+  qaButtons.forEach(function(btn) {
+    var text = btn.textContent.trim();
+    if ((text.indexOf('Incident') !== -1 || text.indexOf('NCR') !== -1) && !isOperator) {
+      btn.style.display = 'none';
+    }
+  });
+  /* Apply role-based session timeout */
+  if (window.spApplyRoleTimeout) spApplyRoleTimeout(role);
+
+  /* FIX 7: API key rotation reminder â€” check last rotation */
+  spCheckApiKeyAge();
+}
+
+/* FIX 7: Check API key age â€” show banner if >60 days since rotation */
+function spCheckApiKeyAge() {
+  var token = localStorage.getItem('sp_token'); if (!token) return;
+  spFetch(API_BASE + '/api-keys/status', { headers:{ 'Authorization':'Bearer ' + token } })
+  .then(function(r){ return r.ok ? r.json() : null; })
+  .then(function(data){
+    if (!data) return;
+    var daysSince = data.daysSinceRotation || 0;
+    if (daysSince >= 60) {
+      var banner = document.getElementById('sp-apikey-warn');
+      if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'sp-apikey-warn';
+        banner.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9998;background:#F59E0B;color:#000;padding:6px 16px;font-family:Montserrat,sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:12px;';
+        var daysLeft = 90 - daysSince;
+        banner.innerHTML = '<span>âš  API key rotation ' + (daysLeft <= 0 ? 'overdue' : 'due in ' + daysLeft + ' day(s)') + '. Rotate in Admin â†’ API Keys to maintain security.</span><button onclick="document.getElementById(\'sp-apikey-warn\').remove()" style="background:rgba(0,0,0,.15);border:none;color:#000;padding:2px 9px;border-radius:4px;font-family:inherit;font-size:10px;font-weight:700;cursor:pointer">Dismiss</button>';
+        document.body.appendChild(banner);
+      }
+    }
+  }).catch(function(){}); /* silent â€” non-critical */
 }
 
 /* DROPDOWNS */
@@ -2166,13 +2383,13 @@ function loadAlerts() {
   .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
   .then(function(data) {
     var html = '';
-    if (data.escalated > 0) html += '<div class="alert-item"><div class="alert-dot" style="background:var(--red)"></div><div><div class="alert-title">' + data.escalated + ' Escalated Actions</div><div class="alert-sub">Require immediate attention</div></div></div>';
+    if (data.escalated > 0) html += '<div class="alert-item"><div class="alert-dot" style="background:var(--red)"></div><div><div class="alert-title">' + data.escalated + ' Escalation Load Actions</div><div class="alert-sub">Require immediate attention</div></div></div>';
     if (data.openNCRs > 0) html += '<div class="alert-item"><div class="alert-dot" style="background:var(--amber)"></div><div><div class="alert-title">' + data.openNCRs + ' Open NCRs</div><div class="alert-sub">Non-conformances pending closure</div></div></div>';
     if (data.overdueActions > 0) html += '<div class="alert-item"><div class="alert-dot" style="background:var(--purple)"></div><div><div class="alert-title">' + data.overdueActions + ' Overdue Actions</div><div class="alert-sub">Past due date</div></div></div>';
     list.innerHTML = html || '<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">No active alerts</div>';
   })
   .catch(function() {
-    list.innerHTML = '<div class="alert-item"><div class="alert-dot" style="background:var(--red)"></div><div><div class="alert-title">5 Escalated Actions</div><div class="alert-sub">Require immediate attention</div></div></div><div class="alert-item"><div class="alert-dot" style="background:var(--amber)"></div><div><div class="alert-title">12 Open NCRs</div><div class="alert-sub">Pending closure</div></div></div>';
+    list.innerHTML = '<div class="alert-item"><div class="alert-dot" style="background:var(--red)"></div><div><div class="alert-title">5 Escalation Load Actions</div><div class="alert-sub">Require immediate attention</div></div></div><div class="alert-item"><div class="alert-dot" style="background:var(--amber)"></div><div><div class="alert-title">12 Open NCRs</div><div class="alert-sub">Pending closure</div></div></div>';
   });
 }
 
@@ -2264,26 +2481,74 @@ function loadProjectOptions() {
   spFetch(API_BASE + '/projects', { headers:{ 'Authorization':'Bearer ' + token } })
   .then(function(r) { return r.ok ? r.json() : null; })
   .then(function(data) {
-    if (!data) return;
+    if (!data) { spLoadDemoProjects(); return; }
     var projects = Array.isArray(data) ? data : (data.data || data.projects || []);
-    if (!projects.length) return;
+    if (!projects.length) { spLoadDemoProjects(); return; }
     var opts = '<option value="">Select Project</option>' + 
       projects.map(function(p){ return '<option value="'+p.id+'">'+(p.name||p.title||p.id)+'</option>'; }).join('');
-    // Populate modal dropdowns
     ['inc-project','ncr-project'].forEach(function(id){
       var el = document.getElementById(id); if (el) el.innerHTML = opts;
     });
-    // Populate filter dropdown
     var fp = document.getElementById('filter-project');
     if (fp) fp.innerHTML = '<option value="">All Projects</option>' + 
       projects.map(function(p){ return '<option value="'+p.id+'">'+(p.name||p.title||p.id)+'</option>'; }).join('');
   })
-  .catch(function(){});
+  .catch(function(){ spLoadDemoProjects(); });
+}
+
+/* Demo project fallback â€” shows when API is unavailable (dev mode) */
+function spLoadDemoProjects() {
+  var demoProjects = [
+    {id:'proj-a', name:'Project A'},
+    {id:'proj-b', name:'Project B'},
+    {id:'proj-c', name:'Project C'},
+    {id:'proj-d', name:'Project D'}
+  ];
+  var filterOpts = '<option value="">All Projects</option>' +
+    demoProjects.map(function(p){ return '<option value="'+p.id+'">'+p.name+'</option>'; }).join('');
+  var modalOpts = '<option value="">Select Project</option>' +
+    demoProjects.map(function(p){ return '<option value="'+p.id+'">'+p.name+'</option>'; }).join('');
+  var fp = document.getElementById('filter-project');
+  if (fp) fp.innerHTML = filterOpts;
+  ['inc-project','ncr-project'].forEach(function(id){
+    var el = document.getElementById(id); if (el) el.innerHTML = modalOpts;
+  });
 }
 
 function signOut() {
-  localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); localStorage.removeItem('sp_company');
+  localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); localStorage.removeItem('sp_company'); localStorage.removeItem('sp_refresh_token');
   window.location.href = 'safetypro_login.html?logout=1';
+}
+
+/* FIX 5: Audit event emitter â€” fires on every mutation, non-blocking */
+function spEmitAudit(action, resource, meta) {
+  var token = localStorage.getItem('sp_token'); if (!token) return;
+  var claims = spDecodeToken(token) || {};
+  var payload = {
+    action: action,
+    resource: resource,
+    tenantId: spGetTenantId(),
+    userId: claims.sub || claims.userId || 'unknown',
+    timestamp: new Date().toISOString(),
+    page: 'dashboard',
+    meta: meta || {}
+  };
+  /* Fire and forget â€” never block the UI for audit logging */
+  spFetch(API_BASE + '/audit/events', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(function(){}); /* silent fail â€” audit must never break the app */
+}
+
+/* FIX 6: SHA-256 hash of sensitive content â€” never log raw prompts */
+function spHashContent(text) {
+  if (!text || typeof text !== 'string') return Promise.resolve('[empty]');
+  var encoder = new TextEncoder();
+  return crypto.subtle.digest('SHA-256', encoder.encode(text))
+    .then(function(buf) {
+      return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,'0'); }).join('').slice(0,16) + '...';
+    }).catch(function(){ return '[hash-unavailable]'; });
 }
 
 /* MODALS */
@@ -2307,7 +2572,7 @@ function loadUsers() {
     wrap.innerHTML = '<table class="users-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table>';
   })
   .catch(function() {
-    wrap.innerHTML = '<table class="users-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th></tr></thead><tbody><tr><td style="color:var(--t1);font-family:var(--fh);font-size:12px;font-weight:600">Dhanesh CK</td><td style="color:var(--t3)">dhanesh@ieccl.com</td><td><span class="u-role-badge u-active">Admin</span></td><td><span class="u-role-badge u-active">Active</span></td></tr><tr><td style="color:var(--t1);font-family:var(--fh);font-size:12px;font-weight:600">Rajan Kumar</td><td style="color:var(--t3)">rajan@ieccl.com</td><td><span class="u-role-badge u-active">HSE Officer</span></td><td><span class="u-role-badge u-active">Active</span></td></tr></tbody></table>';
+    wrap.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3);font-size:12px">Unable to load users. Please check your connection.</div>';
   });
 }
 
@@ -2317,7 +2582,12 @@ function submitIncident() {
   if (!desc || !project) { showDashToast('Fill all required fields','amber'); return; }
   spFetch(API_BASE + '/incidents', { method:'POST', headers:{ 'Authorization':'Bearer '+token, 'Content-Type':'application/json' }, body:JSON.stringify({ type:document.getElementById('inc-type').value, severity:document.getElementById('inc-severity').value, projectId:project, description:desc, reportedBy:document.getElementById('inc-reporter').value }) })
   .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
-  .then(function() { closeModal('incident-modal'); showDashToast('Incident reported successfully','green'); setTimeout(loadDashboardData,1000); })
+  .then(function() {
+    closeModal('incident-modal');
+    showDashToast('Incident reported successfully','green');
+    spEmitAudit('incident.create', 'incidents', { type: document.getElementById('inc-type').value, severity: document.getElementById('inc-severity').value });
+    setTimeout(loadDashboardData,1000);
+  })
   .catch(function() { closeModal('incident-modal'); showDashToast('Incident logged (offline mode)','amber'); });
 }
 
@@ -2327,10 +2597,46 @@ function submitNcr() {
   if (!desc || !project) { showDashToast('Fill all required fields','amber'); return; }
   spFetch(API_BASE + '/ncrs', { method:'POST', headers:{ 'Authorization':'Bearer '+token, 'Content-Type':'application/json' }, body:JSON.stringify({ category:document.getElementById('ncr-cat').value, priority:document.getElementById('ncr-priority').value, projectId:project, description:desc, correctiveAction:document.getElementById('ncr-action').value }) })
   .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
-  .then(function() { closeModal('ncr-modal'); showDashToast('NCR logged successfully','green'); setTimeout(loadDashboardData,1000); })
+  .then(function() {
+    closeModal('ncr-modal');
+    showDashToast('NCR logged successfully','green');
+    spEmitAudit('ncr.create', 'ncrs', { category: document.getElementById('ncr-cat').value, priority: document.getElementById('ncr-priority').value });
+    setTimeout(loadDashboardData,1000);
+  })
   .catch(function() { closeModal('ncr-modal'); showDashToast('NCR logged (offline mode)','amber'); });
 }
 
+
+/* LOAD TODAY'S PRIORITIES DYNAMICALLY */
+function loadTodaysPriorities() {
+  var token = localStorage.getItem('sp_token'); if (!token) return;
+  spFetch(API_BASE + '/dashboard/priorities', { headers:{ 'Authorization':'Bearer ' + token } })
+  .then(function(r) { return r.ok ? r.json() : null; })
+  .then(function(data) {
+    if (!data || !data.length) {
+      var p1 = document.getElementById('priority-text-1');
+      if (p1) p1.textContent = 'No critical priorities â€” all clear';
+      return;
+    }
+    if (data[0]) { var p1 = document.getElementById('priority-text-1'); if (p1) p1.textContent = data[0].text || data[0].description || 'Check overdue actions'; }
+  })
+  .catch(function() {
+    spFetch(API_BASE + '/actions?status=OVERDUE&limit=1', { headers:{ 'Authorization':'Bearer ' + token } })
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(d){ 
+      var count = (d && d.total) || (Array.isArray(d) ? d.length : 0);
+      var p1 = document.getElementById('priority-text-1');
+      if (p1) p1.textContent = count > 0 ? 'Close ' + count + ' overdue actions' : 'No overdue actions';
+    }).catch(function(){
+      var p1 = document.getElementById('priority-text-1');
+      if (p1) p1.textContent = 'Review open actions';
+    });
+  });
+}
+setTimeout(loadTodaysPriorities, 1400);
+
+/* FIX 5: Emit audit event on dashboard page view */
+setTimeout(function(){ spEmitAudit('page.view', 'dashboard', {}); }, 1500);
 /* TOAST */
 var toastTimer = null;
 function showDashToast(msg, type) {
@@ -2422,42 +2728,42 @@ function spBindEvents() {
 
   /* Server confirmed connection */
   SP_SOCKET.on('connected', function(data) {
-    console.log('[SafetyPro WS] Authenticated as:', data.userId);
+    console.log('[SafetyPro WS] Authenticated');
   });
 
   /*  KPIs UPDATED  */
   SP_SOCKET.on('kpis.updated', function(data) {
-    console.log('[SafetyPro WS] kpis.updated', data);
+    /* FIX 6: Never log raw event data */ console.log('[SafetyPro WS] kpis.updated');
     spOnKpisUpdated(data);
   });
 
   /*  INCIDENT CREATED  */
   SP_SOCKET.on('incident.created', function(data) {
-    console.log('[SafetyPro WS] incident.created', data);
+    spHashContent(JSON.stringify(data)).then(function(h){ console.log('[SafetyPro WS] incident.created hash:', h); });
     spOnIncidentCreated(data);
   });
 
   /*  NCR CREATED  */
   SP_SOCKET.on('ncr.created', function(data) {
-    console.log('[SafetyPro WS] ncr.created', data);
+    spHashContent(JSON.stringify(data)).then(function(h){ console.log('[SafetyPro WS] ncr.created hash:', h); });
     spOnNcrCreated(data);
   });
 
   /*  ACTION UPDATED  */
   SP_SOCKET.on('action.updated', function(data) {
-    console.log('[SafetyPro WS] action.updated', data);
+    console.log('[SafetyPro WS] action.updated');
     spOnActionUpdated(data);
   });
 
   /*  ESCALATION TRIGGERED  */
   SP_SOCKET.on('escalation.triggered', function(data) {
-    console.log('[SafetyPro WS] escalation.triggered', data);
+    console.log('[SafetyPro WS] escalation.triggered');
     spOnEscalationTriggered(data);
   });
 
   /*  USER ACTIVITY  */
   SP_SOCKET.on('user.activity', function(data) {
-    console.log('[SafetyPro WS] user.activity', data);
+    console.log('[SafetyPro WS] user.activity');
     spOnUserActivity(data);
   });
 
@@ -2553,7 +2859,7 @@ function spOnKpisUpdated(data) {
 
 function spOnIncidentCreated(data) {
   var inc = data.incident || {};
-  /* Add to Recent Activity grid */
+  /* Add to Live Cross-Project Feed grid */
   spAddToActivityFeed({
     initials: spInitials(inc.reportedBy),
     color: spSeverityColor(inc.severity),
@@ -2610,7 +2916,7 @@ function spOnEscalationTriggered(data) {
     var c2 = parseInt(rcCrit.textContent) || 0;
     spAnimateNum(rcCrit, c2 + 1);
   }
-  /* Add to Live Risk Panel */
+  /* Add to Escalation Command Queue */
   spAddToRiskPanel(esc);
   /* Pulse alert bell */
   spPulseAlertBell();
@@ -2719,7 +3025,7 @@ window.addEventListener('beforeunload', function() {
 </script>
 <script>
 
-/* ══ SHARED TOPBAR FUNCTIONS ══ */
+/* â•â• SHARED TOPBAR FUNCTIONS â•â• */
 function closeAllDropdowns(){
   var d=document.getElementById('profile-dropdown');
   var a=document.getElementById('alert-dropdown');
@@ -2749,7 +3055,7 @@ function spLoadAlerts(){
     .then(function(r){if(!r.ok)throw new Error();return r.json();})
     .then(function(data){
       var html='';
-      if(data.escalated>0) html+='<div class="alert-item"><div class="alert-dot" style="background:var(--red)"></div><div><div class="alert-title">'+data.escalated+' Escalated Actions</div><div class="alert-sub">Require immediate attention</div></div></div>';
+      if(data.escalated>0) html+='<div class="alert-item"><div class="alert-dot" style="background:var(--red)"></div><div><div class="alert-title">'+data.escalated+' Escalation Load Actions</div><div class="alert-sub">Require immediate attention</div></div></div>';
       if(data.openNCRs>0) html+='<div class="alert-item"><div class="alert-dot" style="background:var(--amber)"></div><div><div class="alert-title">'+data.openNCRs+' Open NCRs</div><div class="alert-sub">Pending closure</div></div></div>';
       if(data.overdueActions>0) html+='<div class="alert-item"><div class="alert-dot" style="background:var(--purple,#8B5CF6)"></div><div><div class="alert-title">'+data.overdueActions+' Overdue Actions</div><div class="alert-sub">Past due date</div></div></div>';
       list.innerHTML=html||'<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">No active alerts</div>';
@@ -2766,7 +3072,7 @@ document.addEventListener('click',function(e){
   if(!e.target.closest('#user-pill-btn')&&!e.target.closest('#profile-dropdown')){var d=document.getElementById('profile-dropdown');if(d)d.style.display='none';}
   if(!e.target.closest('#more-btn')){var m=document.getElementById('more-btn');if(m)m.classList.remove('open');}
 });
-/* ══ INIT USER IN TOPBAR ══ */
+/* â•â• INIT USER IN TOPBAR â•â• */
 (function spInitTopbar(){
   var u=localStorage.getItem('sp_user');
   if(!u)return;
@@ -2788,7 +3094,7 @@ document.addEventListener('click',function(e){
 })();
 </script>
 
-<!-- ══ STANDARD FOOTER ══ -->
+<!-- â•â• STANDARD FOOTER â•â• -->
 <footer class="sp-footer">
   <div class="sp-footer-left">
     <span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF)">Dashboard</span>
@@ -2834,19 +3140,19 @@ document.addEventListener('click',function(e){
 })();
 
 
-/* ═══════════════════════════════════════════════════
-   PROJECT VIEW — Phase 1
-   API: /dashboard/kpis?projectId=X  ✅
-        /incidents?projectId=X       ✅
-        /actions?projectId=X         ✅
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   PROJECT VIEW â€” Phase 1
+   API: /dashboard/kpis?projectId=X  âœ…
+        /incidents?projectId=X       âœ…
+        /actions?projectId=X         âœ…
    Metadata: hardcoded per project (Phase 2: /projects)
-═══════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-/* ── Project metadata (Phase 2: fetch from /projects) ── */
+/* â”€â”€ Project metadata (Phase 2: fetch from /projects) â”€â”€ */
 var PV_PROJECTS = {
-  birpur: {
-    name: 'Birpur Dam', icon: '🏗️',
-    location: 'Birpur, Jharkhand', contractor: 'IECCL',
+  proj_a: {
+    name: 'Project A', icon: 'ðŸ—ï¸',
+    location: 'Region A', contractor: 'Your Contractor',
     phase: 'Construction', phaseColor: 'var(--amber)',
     completion: 42, safeDays: 124, daysLeft: 380,
     manpower: 347, safeManHrs: '2.8L',
@@ -2860,8 +3166,8 @@ var PV_PROJECTS = {
     ]
   },
   mu: {
-    name: 'Mumbai Metro', icon: '🚇',
-    location: 'Mumbai, Maharashtra', contractor: 'IECCL',
+    name: 'Project B', icon: 'ðŸš‡',
+    location: 'Region B', contractor: 'Your Contractor',
     phase: 'Commissioning', phaseColor: 'var(--blue)',
     completion: 88, safeDays: 412, daysLeft: 45,
     manpower: 189, safeManHrs: '8.4L',
@@ -2874,9 +3180,9 @@ var PV_PROJECTS = {
       { label: 'IMS', pct: 93 }
     ]
   },
-  tirora: {
-    name: 'Tirora Plant', icon: '⚡',
-    location: 'Tirora, Maharashtra', contractor: 'IECCL',
+  proj_c: {
+    name: 'Project C', icon: 'âš¡',
+    location: 'Region C', contractor: 'Your Contractor',
     phase: 'Operations', phaseColor: 'var(--green)',
     completion: 100, safeDays: 892, daysLeft: 0,
     manpower: 512, safeManHrs: '24.6L',
@@ -2890,8 +3196,8 @@ var PV_PROJECTS = {
     ]
   },
   delhi: {
-    name: 'Delhi NH-8', icon: '🛣️',
-    location: 'Delhi-Gurugram, NCR', contractor: 'IECCL',
+    name: 'Project D', icon: 'ðŸ›£ï¸',
+    location: 'Region D', contractor: 'Your Contractor',
     phase: 'Design', phaseColor: 'var(--purple)',
     completion: 18, safeDays: 38, daysLeft: 720,
     manpower: 94, safeManHrs: '0.4L',
@@ -2928,14 +3234,14 @@ function pvRenderHero(proj, kpis) {
     name: liveP.name,
     icon: pvGetIcon(liveP.name + ' ' + (liveP.sector||'')),
     location: liveP.location || liveP.state || '',
-    contractor: 'IECCL',
+    contractor: 'Your Contractor',
     phase: liveP.sector || 'Active',
     phaseColor: 'var(--blue)',
     completion: 65,
     safeDays: 0,
     daysLeft: 0,
     manpower: 0,
-    safeManHrs: '—',
+    safeManHrs: 'â€”',
     scoreColor: 'var(--green)',
     compliance: [
       {label:'ISO 45001',pct:80},{label:'BOCW 1996',pct:85},
@@ -2969,8 +3275,8 @@ function pvRenderHero(proj, kpis) {
   // Meta
   var meta = document.getElementById('pv-meta');
   if (meta) meta.innerHTML =
-    '<span>📍 ' + p.location + '</span>' +
-    '<span>🏢 ' + p.contractor + '</span>';
+    '<span>ðŸ“ ' + p.location + '</span>' +
+    '<span>ðŸ¢ ' + p.contractor + '</span>';
 
   // Safe days
   var sd = document.getElementById('pv-safe-days');
@@ -3005,7 +3311,7 @@ function pvRenderHero(proj, kpis) {
 
 function pvRenderKPIs(proj, kpis) {
   var liveP = _pvProjectsMap[proj];
-  var p = PV_PROJECTS[proj] || (liveP ? {manpower:0, safeManHrs:'—'} : null);
+  var p = PV_PROJECTS[proj] || (liveP ? {manpower:0, safeManHrs:'â€”'} : null);
   if (!p) return;
 
   pvAnimate(document.getElementById('pv-k1'), kpis ? (kpis.pending || 0) : 0);
@@ -3093,10 +3399,10 @@ function pvRenderActions(data) {
       var srcRaw = String(a.source || 'MANUAL');
       var src = srcRaw==='INCIDENT'?'Incident':srcRaw==='NCR'?'NCR':srcRaw==='AUDIT'?'Audit':srcRaw==='INVESTIGATION'?'Investigation':'Manual';
       var srcColor = srcRaw==='INCIDENT'?'var(--red)':srcRaw==='NCR'?'var(--amber)':'var(--blue)';
-      var assigned = '—';
-      if (a.assignedTo) { assigned = typeof a.assignedTo === 'string' ? a.assignedTo : (a.assignedTo.name || a.assignedTo.email || '—'); }
+      var assigned = 'â€”';
+      if (a.assignedTo) { assigned = typeof a.assignedTo === 'string' ? a.assignedTo : (a.assignedTo.name || a.assignedTo.email || 'â€”'); }
       var due = a.dueDate || '';
-      var dueStr = due ? new Date(due).toLocaleDateString('en-IN', {day:'numeric', month:'short'}) : '—';
+      var dueStr = due ? new Date(due).toLocaleDateString('en-IN', {day:'numeric', month:'short'}) : 'â€”';
       var dueColor = stKey === 'over' ? 'var(--red)' : 'var(--t2)';
       var prog = typeof a.progressPct === 'number' ? a.progressPct : 0;
       var progColor = stKey==='over'?'var(--red)':stKey==='done'?'var(--green)':'var(--amber)';
@@ -3144,8 +3450,8 @@ function pvRenderActions(data) {
   }).join('');
 }
 
-/* ── Dynamic project bar ── */
-var PV_ICONS = {dam:'🏗️',metro:'🚇',plant:'⚡',highway:'🛣️',road:'🛣️',power:'⚡',water:'💧',building:'🏢',default:'📋'};
+/* â”€â”€ Dynamic project bar â”€â”€ */
+var PV_ICONS = {dam:'ðŸ—ï¸',metro:'ðŸš‡',plant:'âš¡',highway:'ðŸ›£ï¸',road:'ðŸ›£ï¸',power:'âš¡',water:'ðŸ’§',building:'ðŸ¢',default:'ðŸ“‹'};
 function pvGetIcon(name){var n=(name||'').toLowerCase();for(var k in PV_ICONS){if(n.indexOf(k)>-1)return PV_ICONS[k];}return PV_ICONS.default;}
 
 function pvLoadProjectBar(){
@@ -3160,13 +3466,13 @@ function pvLoadProjectBar(){
 }
 
 function pvFallbackProjects(){
-  return [{id:'birpur',name:'Birpur Dam',location:'Birpur, Jharkhand',sector:'Dam'},
-    {id:'mu',name:'Mumbai Metro',location:'Mumbai, Maharashtra',sector:'Metro'},
-    {id:'tirora',name:'Tirora Plant',location:'Tirora, Maharashtra',sector:'Power Plant'},
-    {id:'delhi',name:'Delhi NH-8',location:'Delhi-Gurugram, NCR',sector:'Highway'}];
+  return [{id:'proj-a',name:'Project A',location:'Region A',sector:'Construction'},
+    {id:'proj-b',name:'Project B',location:'Region B',sector:'Infrastructure'},
+    {id:'proj-c',name:'Project C',location:'Region C',sector:'Industrial'},
+    {id:'proj-d',name:'Project D',location:'Region D',sector:'Highway'}];
 }
 
-// Live project map: id → project data (works with both real cuid & fallback keys)
+// Live project map: id â†’ project data (works with both real cuid & fallback keys)
 var _pvProjectsMap = {};
 
 function pvRenderProjectBar(projects){
@@ -3176,10 +3482,10 @@ function pvRenderProjectBar(projects){
   // Populate dropdown
   var sel = document.getElementById('pv-proj-select');
   if (!sel) return;
-  sel.innerHTML = '<option value="">— Choose project —</option>' +
+  sel.innerHTML = '<option value="">â€” Choose project â€”</option>' +
     projects.map(function(p){
       var icon = pvGetIcon(p.name+' '+(p.sector||''));
-      return '<option value="'+p.id+'">'+icon+' '+p.name+(p.location?' — '+p.location:'')+'</option>';
+      return '<option value="'+p.id+'">'+icon+' '+p.name+(p.location?' â€” '+p.location:'')+'</option>';
     }).join('');
   // Style the select
   sel.style.borderColor = 'var(--border)';
@@ -3199,7 +3505,7 @@ function pvSelectProjectByDropdown(sel) {
   var p = _pvProjectsMap[proj];
   if (info && p) {
     info.style.display = 'block';
-    if (loc) loc.textContent = '📍 ' + (p.location || p.state || '');
+    if (loc) loc.textContent = 'ðŸ“ ' + (p.location || p.state || '');
   }
   // Highlight select
   sel.style.borderColor = 'rgba(34,197,94,.4)';
@@ -3251,7 +3557,7 @@ function loadProjectView(projectId) {
   // Reset to loading state
   ['pv-k1','pv-k2','pv-k3'].forEach(function(id) {
     var el = document.getElementById(id);
-    if (el) el.textContent = '—';
+    if (el) el.textContent = 'â€”';
   });
 
   // Render static metadata immediately (no API needed)
@@ -3329,21 +3635,21 @@ function loadProjectView(projectId) {
 /* Fallback demo data per project */
 function pvDemoIncidents(proj) {
   var data = {
-    birpur: [
-      { description: 'Loose railing — Block 3, Level 2', severity: 'HIGH', createdAt: '2026-03-28' },
-      { description: 'Scaffolding not braced — Zone C', severity: 'HIGH', createdAt: '2026-03-25' },
+    proj_a: [
+      { description: 'Loose railing â€” Block 3, Level 2', severity: 'HIGH', createdAt: '2026-03-28' },
+      { description: 'Scaffolding not braced â€” Zone C', severity: 'HIGH', createdAt: '2026-03-25' },
       { description: 'Worker without PPE near excavation', severity: 'MEDIUM', createdAt: '2026-03-20' },
     ],
     mu: [
-      { description: 'Electrical hazard — panel exposed', severity: 'HIGH', createdAt: '2026-03-29' },
-      { description: 'Fire extinguisher missing — Tunnel B', severity: 'MEDIUM', createdAt: '2026-03-22' },
+      { description: 'Electrical hazard â€” panel exposed', severity: 'HIGH', createdAt: '2026-03-29' },
+      { description: 'Fire extinguisher missing â€” Tunnel B', severity: 'MEDIUM', createdAt: '2026-03-22' },
     ],
-    tirora: [
-      { description: 'Ash handling belt — guarding removed', severity: 'HIGH', createdAt: '2026-03-26' },
+    proj_c: [
+      { description: 'Ash handling belt â€” guarding removed', severity: 'HIGH', createdAt: '2026-03-26' },
     ],
     delhi: [
       { description: 'Excavation without barricading', severity: 'HIGH', createdAt: '2026-03-30' },
-      { description: 'Survey team — no hi-vis vests', severity: 'MEDIUM', createdAt: '2026-03-27' },
+      { description: 'Survey team â€” no hi-vis vests', severity: 'MEDIUM', createdAt: '2026-03-27' },
     ]
   };
   if (data[proj]) return data[proj];
@@ -3356,35 +3662,14 @@ function pvDemoIncidents(proj) {
 }
 
 function pvDemoActions(proj) {
-  // Try hardcoded first (works for fallback IDs birpur/mu/tirora/delhi)
-  var data = {
-    birpur: [
-      { description: 'Fix loose railing Block 3', source: 'Incident', assignedTo: 'Rajesh K.', dueDate: '2026-04-02', status: 'Overdue', progress: 30 },
-      { description: 'Replace unsafe scaffolding Floor 5', source: 'NCR', assignedTo: 'Meera K.', dueDate: '2026-04-05', status: 'In Progress', progress: 60 },
-      { description: 'Install fire extinguishers Zone D', source: 'Audit', assignedTo: 'Arvind S.', dueDate: '2026-04-10', status: 'Open', progress: 0 },
-    ],
-    mu: [
-      { description: 'Replace exposed panel cover', source: 'Incident', assignedTo: 'Suresh P.', dueDate: '2026-04-01', status: 'Overdue', progress: 20 },
-      { description: 'Install extinguisher Tunnel B', source: 'Audit', assignedTo: 'Anita R.', dueDate: '2026-04-06', status: 'In Progress', progress: 80 },
-    ],
-    tirora: [
-      { description: 'Restore guarding on ash belt', source: 'Incident', assignedTo: 'Vikram N.', dueDate: '2026-04-03', status: 'In Progress', progress: 70 },
-    ],
-    delhi: [
-      { description: 'Barricade all excavation zones', source: 'Incident', assignedTo: 'Priya S.', dueDate: '2026-04-01', status: 'Overdue', progress: 0 },
-      { description: 'Issue hi-vis vests to survey team', source: 'Incident', assignedTo: 'Rahul M.', dueDate: '2026-04-04', status: 'Open', progress: 0 },
-    ]
-  };
-  // For real DB project IDs (cuid format) - use project name from live map
-  if (data[proj]) return data[proj];
   var liveP = _pvProjectsMap[proj] || {};
-  var projName = liveP.name || 'This Project';
+  var label = liveP.name || 'Project ' + proj.slice(-1).toUpperCase();
   var sector = liveP.sector || '';
   return [
-    { description: 'HSE inspection — ' + projName, source: 'Audit', assignedTo: 'HSE Officer', dueDate: '2026-04-15', status: 'Open', progress: 0 },
-    { description: 'PPE compliance check — ' + sector, source: 'NCR', assignedTo: 'Site Supervisor', dueDate: '2026-04-12', status: 'In Progress', progress: 35 },
-    { description: 'Toolbox talk — working at height', source: 'Incident', assignedTo: 'Safety Officer', dueDate: '2026-04-10', status: 'Open', progress: 20 },
-    { description: 'Emergency drill documentation', source: 'Audit', assignedTo: 'HSE Manager', dueDate: '2026-04-20', status: 'Open', progress: 0 },
+    { description: 'HSE inspection â€” ' + label, source: 'Audit', assignedTo: 'HSE Officer', dueDate: new Date(Date.now()+3*86400000).toISOString().slice(0,10), status: 'Open', progress: 0 },
+    { description: 'PPE compliance check â€” ' + sector, source: 'NCR', assignedTo: 'Site Supervisor', dueDate: new Date(Date.now()+5*86400000).toISOString().slice(0,10), status: 'In Progress', progress: 35 },
+    { description: 'Toolbox talk â€” working at height', source: 'Incident', assignedTo: 'Safety Officer', dueDate: new Date(Date.now()+2*86400000).toISOString().slice(0,10), status: 'Open', progress: 20 },
+    { description: 'Emergency response drill documentation', source: 'Audit', assignedTo: 'HSE Manager', dueDate: new Date(Date.now()+8*86400000).toISOString().slice(0,10), status: 'Open', progress: 0 },
   ];
 }
 
@@ -3452,3 +3737,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- autofix-20260401203651 -->
 <!-- srcfix-20260401204502 -->
 <!-- barfix-20260401205122 -->
+
+
+
+
+
