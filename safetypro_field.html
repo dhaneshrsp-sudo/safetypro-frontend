@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- v=2026-04-09T09:21:56 -->
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Site &amp; Field Tools — SafetyPro AI</title>
@@ -76,7 +75,7 @@ svg{flex-shrink:0}
 .un-role{font-size:9px;color:var(--t3)}
 
 /* BODY */
-.body{display:flex;flex:1;margin-top:52px}
+.body{display:flex;flex:1}
 
 /* SIDEBAR */
 .sidebar{width:195px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:10px 8px;min-height:calc(100vh - 52px);position:sticky;top:52px;align-self:flex-start}
@@ -107,7 +106,7 @@ flex-wrap:wrap;}
 .sh-tab:hover{color:var(--t2)}
 .sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
 .sh-right{display:flex;gap:8px;align-items:center}
-.btn-primary{display:flex;align-items:center;gap:5px;background:var(--green);color:#0B0F14;border:none;padding:5px 12px;border-radius:7px;font-family:var(--fh);font-size:11px;font-weight:700;cursor:pointer;transition:opacity .15s;white-space:nowrap}
+.btn-primary{display:flex;align-items:center;gap:6px;background:var(--green);color:#0B0E12;border:none;padding:8px 16px;border-radius:8px;font-family:var(--fb);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
 .btn-primary:hover{background:var(--g-h);transform:translateY(-1px)}
 .btn-primary svg{width:13px;height:13px;fill:#0B0E12}
 .btn-outline{display:flex;align-items:center;gap:6px;background:transparent;color:var(--t2);border:1px solid var(--border);padding:7px 14px;border-radius:8px;font-family:var(--fb);font-size:13px;cursor:pointer;transition:all .2s}
@@ -549,7 +548,7 @@ flex-wrap:wrap;}
   }
   .sidebar.open{left:0 !important;box-shadow:4px 0 24px rgba(0,0,0,.5);}
 
-  .body{flex-direction:column;min-height:0;}
+  .body{flex-direction:column;overflow:visible !important;height:auto !important;}
   .content{overflow:visible !important;height:auto !important;}
 
   .subnav,.subnav-row{
@@ -934,34 +933,6 @@ flex-wrap:wrap;}
 .content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .content::-webkit-scrollbar { width: 4px; }
 .content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-  /* ── TOUCH-FRIENDLY BUTTONS (mobile) ── */
-  @media (max-width: 768px) {
-    button { min-height: 36px; }
-    .btn-primary, .btn-secondary { min-height: 28px; padding: 5px 12px !important; }
-    .eye-btn { min-width: 44px !important; min-height: 44px !important; padding: 10px !important; }
-    .sb-toggle { min-width: 44px !important; min-height: 44px !important; }
-    input, select, textarea { min-height: 40px; font-size: 16px !important; } /* prevent iOS zoom */
-  }
-
-
-  /* ── BUTTON SIZE FIXES — all interactive buttons ≥36px ── */
-  .exp-btn { min-height: 36px !important; padding: 6px 12px !important; }
-  .ca-btn { min-height: 30px !important; padding: 4px 10px !important; }
-  .qa-btn { min-height: 40px !important; padding: 10px 14px !important; font-size: 12px !important; }
-  .card-btn, .filter-btn, .sh-tab { min-height: 36px !important; }
-  .sn-btn, .act-btn, .kpi-btn { min-height: 36px !important; }
-  .badge-btn, .tag-btn { min-height: 28px !important; }  /* badge/tag buttons can be smaller */
-  
-  /* Mobile overrides */
-  @media (max-width: 768px) {
-    .qa-btn { min-height: 44px !important; font-size: 11px !important; padding: 8px 10px !important; }
-    .qa-bar { gap: 8px !important; flex-wrap: wrap !important; }
-    .exp-btn { min-height: 40px !important; }
-    .ca-btn { min-height: 32px !important; padding: 6px 12px !important; }
-    .range-btns { gap: 4px !important; }
-  }
-
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 <script src="/safetypro_exports.js"></script>
@@ -976,7 +947,7 @@ flex-wrap:wrap;}
 html{height:100%;overflow:hidden;}
 body{height:100%!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;}
 .topnav{flex-shrink:0!important;height:52px!important;}
-.body{flex:1 1 0%!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:row!important;margin-top:52px!important;}
+.body{flex:1 1 0%!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:row!important;margin-top:0!important;}
 /* FIX 2: Sidebar scrollable — so MORE items incl. Admin always reachable */
 .sidebar{position:relative!important;flex-shrink:0!important;height:100%!important;min-height:0!important;overflow-y:auto!important;scrollbar-width:none!important;border-right:1px solid var(--border,#1E293B)!important;}
 .sidebar::-webkit-scrollbar{display:none!important;}
@@ -1048,11 +1019,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
   padding: 0 !important;
   height: 52px !important;
   overflow: visible !important;
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 200 !important;
+  position: relative !important;
 }
 .topnav .logo, .topnav a.logo {
   width: 195px !important;
@@ -1181,8 +1148,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
         <a class="mm-item" href="safetypro_hrm"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>HRM &amp; Payroll</a>
         <a class="mm-item" href="safetypro_ai"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 110 20A10 10 0 0112 2z"/></svg>AI Intelligence</a>
         <a class="mm-item" href="safetypro_auditor"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Client &amp; Auditor Portal</a>
-                <a class="mm-item" href="safetypro_esg" style="color:#22C55E;"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z" fill="#22C55E"/></svg>Sustainability &amp; ESG</a>
-<a class="mm-item" href="safetypro_admin"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/></svg>Admin &amp; Configuration</a>
+        <a class="mm-item" href="safetypro_admin"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/></svg>Admin &amp; Configuration</a>
       </div>
     </div>
   </div>
@@ -1203,7 +1169,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 </nav>
   <!-- Profile Dropdown -->
   <div id="profile-dropdown" style="display:none;position:fixed;top:58px;right:16px;width:240px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:9999;overflow:hidden;">
-    <div style="padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--raised);"><div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:16px;font-weight:800;color:#fff;flex-shrink:0;">DK</div><div><div style="font-size:13px;font-weight:700;color:var(--t1);font-family:var(--fh);">Project HSE Head</div><div style="font-size:10px;color:var(--t3);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e7838f868982948fc9848ca78e8284848bc98488c98e89">[email&#160;protected]</a></div><div style="margin-top:4px;display:inline-block;padding:2px 8px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);border-radius:10px;font-size:9px;font-weight:700;color:var(--green);font-family:var(--fh);">HSE HEAD</div></div></div>
+    <div style="padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--raised);"><div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:16px;font-weight:800;color:#fff;flex-shrink:0;">DK</div><div><div style="font-size:13px;font-weight:700;color:var(--t1);font-family:var(--fh);">Dhanesh CK</div><div style="font-size:10px;color:var(--t3);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e7838f868982948fc9848ca78e8284848bc98488c98e89">[email&#160;protected]</a></div><div style="margin-top:4px;display:inline-block;padding:2px 8px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);border-radius:10px;font-size:9px;font-weight:700;color:var(--green);font-family:var(--fh);">HSE HEAD</div></div></div>
     <div style="padding:6px;"><a href="safetypro_v2.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a><a href="safetypro_admin" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Manage Users</a><a href="safetypro_admin" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M2 12h2m16 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>Settings</a><div onclick="changePassword()" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;cursor:pointer;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Change Password</div></div>
     <div style="padding:8px;border-top:1px solid var(--border);"><div onclick="signOut()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border-radius:8px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:var(--red);font-size:13px;font-weight:700;font-family:var(--fh);cursor:pointer;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out</div></div>
   </div>    </div>
@@ -1258,11 +1224,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
         <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--green)"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         Admin &amp; Configuration
       </a>
-            <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#22C55E;font-weight:600" href="safetypro_esg.html">
-        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#22C55E"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z"/></svg>
-        Sustainability &amp; ESG <span style="background:rgba(34,197,94,.15);color:#22C55E;padding:1px 5px;border-radius:3px;font-size:8px;margin-left:3px;">New</span>
-      </a>
-<div style="height:1px;background:var(--border);margin:6px 8px"></div>
+      <div style="height:1px;background:var(--border);margin:6px 8px"></div>
     </div></div>
 
   <!-- CONTENT -->
@@ -1478,89 +1440,280 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 
     
     <!-- TRAINING ATTENDANCE TAB -->
-    <div class="tab-panel" id="field-tab-attendance" style="display:none;padding:16px;display:none;">
+    <div class="tab-panel" id="field-tab-attendance" style="display:none;">
 
-  <!-- ══ SECTION 1: TRAINING OVERVIEW ══ -->
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:14px;">
-    <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-      <div>
-        <div style="font-size:13px;font-weight:700;color:var(--t1);">Training Overview</div>
-        <div style="font-size:11px;color:var(--t3);margin-top:1px;">Live attendance &amp; training status</div>
-      </div>
-      <button onclick="fieldToast('Training log feature coming soon','blue')"
-        style="padding:6px 12px;background:var(--g-s);border:1px solid var(--g-b);border-radius:7px;color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--fh);">
-        + Log Training
-      </button>
-    </div>
-    <div style="padding:12px 14px;">
-      <!-- Stat cards — compact 4 col -->
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;" id="att-stats-grid">
-        <div class="card" style="text-align:center;padding:10px;">
-          <div style="font-size:22px;font-weight:800;color:#3B82F6;font-family:var(--fh);" id="att-sessions">47</div>
-          <div style="font-size:10px;color:var(--t3);margin-top:3px;">Sessions This Month</div>
+      <!-- Stats -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:18px;">
+        <div class="card" style="padding:16px;text-align:center;">
+          <div style="font-size:28px;font-weight:800;color:var(--blue);font-family:var(--fh);">47</div>
+          <div style="font-size:10px;font-weight:600;color:var(--t2);">Sessions This Month</div>
         </div>
-        <div class="card" style="text-align:center;padding:10px;">
-          <div style="font-size:22px;font-weight:800;color:var(--green);font-family:var(--fh);" id="att-total">1,284</div>
-          <div style="font-size:10px;color:var(--t3);margin-top:3px;">Worker-Sessions Logged</div>
+        <div class="card" style="padding:16px;text-align:center;">
+          <div style="font-size:28px;font-weight:800;color:var(--green);font-family:var(--fh);">1,284</div>
+          <div style="font-size:10px;font-weight:600;color:var(--t2);">Worker-Sessions Logged</div>
         </div>
-        <div class="card" style="text-align:center;padding:10px;">
-          <div style="font-size:22px;font-weight:800;color:#F59E0B;font-family:var(--fh);" id="att-certs">23</div>
-          <div style="font-size:10px;color:var(--t3);margin-top:3px;">Certs Issued This Month</div>
+        <div class="card" style="padding:16px;text-align:center;">
+          <div style="font-size:28px;font-weight:800;color:var(--amber);font-family:var(--fh);">23</div>
+          <div style="font-size:10px;font-weight:600;color:var(--t2);">Certs Issued This Month</div>
         </div>
-        <div class="card" style="text-align:center;padding:10px;">
-          <div style="font-size:22px;font-weight:800;color:#EF4444;font-family:var(--fh);" id="att-overdue">8</div>
-          <div style="font-size:10px;color:var(--t3);margin-top:3px;">Overdue Training</div>
+        <div class="card" style="padding:16px;text-align:center;">
+          <div style="font-size:28px;font-weight:800;color:var(--red);font-family:var(--fh);">8</div>
+          <div style="font-size:10px;font-weight:600;color:var(--t2);">Overdue Training</div>
         </div>
       </div>
-      <!-- Attendance log -->
-      <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;">Recent Attendance</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" id="att-log">
-        <div style="background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:8px;">
-          <div style="width:28px;height:28px;border-radius:50%;background:#1B3A6B;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#60A5FA;flex-shrink:0;">RK</div>
-          <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1);">Rajan Kumar</div><div style="font-size:10px;color:var(--t3);">EMP-0042 · Zone A</div></div>
-          <span style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:4px;padding:2px 7px;font-size:9px;font-weight:700;color:#22C55E;">Present</span>
-        </div>
-        <div style="background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:8px;">
-          <div style="width:28px;height:28px;border-radius:50%;background:#1E2D4A;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#94A3B8;flex-shrink:0;">VS</div>
-          <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1);">Vikram Sharma</div><div style="font-size:10px;color:var(--t3);">EMP-0018 · Zone B</div></div>
-          <span style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:4px;padding:2px 7px;font-size:9px;font-weight:700;color:#22C55E;">Present</span>
-        </div>
-        <div style="background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:8px;">
-          <div style="width:28px;height:28px;border-radius:50%;background:#2D1E1E;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#F87171;flex-shrink:0;">AM</div>
-          <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1);">Arjun Mehta</div><div style="font-size:10px;color:var(--t3);">EMP-0031 · Zone C</div></div>
-          <span style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:4px;padding:2px 7px;font-size:9px;font-weight:700;color:#EF4444;">Absent</span>
-        </div>
-        <div style="background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:8px;">
-          <div style="width:28px;height:28px;border-radius:50%;background:#1E2D1E;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#86EFAC;flex-shrink:0;">PP</div>
-          <div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:600;color:var(--t1);">Priya Patel</div><div style="font-size:10px;color:var(--t3);">EMP-0055 · Zone A</div></div>
-          <span style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:4px;padding:2px 7px;font-size:9px;font-weight:700;color:#F59E0B;">Pending</span>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- ══ SECTION 2: CERTIFICATE GENERATOR ══ -->
-  <div id="cert-generator-root" style="background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
-    <div style="padding:12px 16px;display:flex;align-items:center;justify-content:space-between;">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div style="width:36px;height:36px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;">🎓</div>
-        <div>
-          <div style="font-size:13px;font-weight:700;color:var(--t1);">Training Certificate Generator</div>
-          <div style="font-size:11px;color:var(--t3);margin-top:1px;">Choose template · Fill details · Live preview · Download PDF</div>
-        </div>
-      </div>
-      <button onclick="openCertModal()" style="padding:8px 16px;background:var(--g-s);border:1px solid var(--g-b);border-radius:8px;color:var(--green);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fh);display:flex;align-items:center;gap:6px;">
-        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--green);"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
-        Generate Certificate
-      </button>
-    </div>
-    <div id="cert-history" style="display:none;border-top:1px solid var(--border);padding:10px 16px;">
-      <div style="font-size:11px;font-weight:600;color:var(--t2);margin-bottom:8px;">Recent Certificates</div>
-      <div id="cert-history-list"></div>
-    </div>
-  </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
 
-</div>
+        <!-- LEFT: LOG NEW TRAINING SESSION -->
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);">🎓 Log Training Session</div>
+              <div style="font-size:10px;color:var(--t3);margin-top:2px;">Record completed training with attendance</div>
+            </div>
+            <button onclick="toggleTrainingForm()" style="padding:6px 12px;background:var(--blue);border:none;border-radius:6px;color:#fff;font-size:10px;font-weight:800;font-family:var(--fh);cursor:pointer;">+ New Session</button>
+          </div>
+
+          <!-- Training Log Form -->
+          <div id="training-form" style="display:none;padding:14px;border-bottom:1px solid var(--border);background:rgba(59,130,246,0.03);">
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div>
+                <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Training Topic *</div>
+                <select id="tr-topic" style="width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fb);">
+                  <option>First Aid & CPR</option>
+                  <option>Fire Fighting & Extinguisher Use</option>
+                  <option>Working at Height — Scaffold & Harness</option>
+                  <option>Confined Space Entry</option>
+                  <option>Electrical Safety LV/HV</option>
+                  <option>Excavation & Trenching Safety</option>
+                  <option>Crane & Rigging Operations</option>
+                  <option>Chemical Handling & MSDS</option>
+                  <option>ISO 45001 Awareness</option>
+                  <option>BOCW Worker Rights & Benefits</option>
+                  <option>Emergency Response & Evacuation</option>
+                  <option>PPE Selection & Usage</option>
+                  <option>PTW System Training</option>
+                  <option>Incident Investigation</option>
+                  <option>Induction Training</option>
+                  <option>Custom topic...</option>
+                </select>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div>
+                  <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Training Date *</div>
+                  <input type="date" id="tr-date" style="width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fb);" />
+                </div>
+                <div>
+                  <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Duration (hours)</div>
+                  <input type="number" id="tr-duration" placeholder="e.g. 4" min="0.5" max="40" step="0.5" style="width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fb);" />
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div>
+                  <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Trainer Name *</div>
+                  <input type="text" id="tr-trainer" placeholder="Internal / External trainer..." style="width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fb);" />
+                </div>
+                <div>
+                  <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Training Type</div>
+                  <select id="tr-type" style="width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fb);">
+                    <option>Classroom</option>
+                    <option>On-the-Job (OJT)</option>
+                    <option>Toolbox Talk</option>
+                    <option>E-Learning</option>
+                    <option>Mock Drill</option>
+                    <option>External Certification</option>
+                  </select>
+                </div>
+              </div>
+              <!-- Attendance Count -->
+              <div>
+                <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;">Workers Attended</div>
+                <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--raised);border-radius:8px;border:1px solid var(--border);">
+                  <button onclick="trCount(-1)" style="width:28px;height:28px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:16px;cursor:pointer;">-</button>
+                  <div id="tr-count" style="font-size:28px;font-weight:800;font-family:var(--fh);color:var(--blue);min-width:50px;text-align:center;">12</div>
+                  <button onclick="trCount(1)" style="width:28px;height:28px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-size:16px;cursor:pointer;">+</button>
+                  <span style="font-size:11px;color:var(--t3);">workers attended</span>
+                  <div style="margin-left:auto;">
+                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;color:var(--t2);">
+                      <input type="checkbox" id="tr-cert" style="accent-color:var(--green);"> Certificate issued
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <!-- Validity period -->
+              <div id="tr-validity-row" style="display:none;">
+                <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Certificate Valid Until</div>
+                <input type="date" id="tr-valid-till" style="width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fb);" />
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button onclick="saveTraining()" style="flex:1;padding:10px;background:var(--blue);border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:800;font-family:var(--fh);cursor:pointer;">✓ Save Training Record</button>
+                <button onclick="toggleTrainingForm()" style="padding:10px 14px;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:11px;cursor:pointer;font-family:var(--fh);">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Training Sessions -->
+          <div style="padding:8px 0;max-height:380px;overflow-y:auto;">
+            <!-- Session 1 -->
+            <div style="padding:11px 14px;border-bottom:1px solid var(--border);">
+              <div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:6px;">
+                <div>
+                  <div style="font-size:12px;font-weight:700;color:var(--t1);">First Aid & CPR</div>
+                  <div style="font-size:10px;color:var(--t3);">01 Apr 2026 · 4 hours · Classroom · Rajan Kumar</div>
+                </div>
+                <span style="font-size:9px;padding:2px 8px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:10px;font-weight:700;font-family:var(--fh);white-space:nowrap;">✓ CERT</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="font-size:11px;color:var(--blue);font-weight:700;">28 attended</div>
+                <div style="flex:1;height:3px;background:var(--border);border-radius:2px;"><div style="height:100%;width:93%;background:var(--blue);border-radius:2px;"></div></div>
+                <div style="font-size:10px;color:var(--t3);">93% attendance</div>
+                <button onclick="SPExports ? SPExports.attendanceRegister([], {projectName:localStorage.getItem('sp_active_project')||''}) : fieldToast('Loading...','success')" style="padding:3px 8px;background:var(--raised);border:1px solid var(--border);border-radius:5px;color:var(--t3);font-size:9px;cursor:pointer;">↓</button>
+              </div>
+            </div>
+            <!-- Session 2 -->
+            <div style="padding:11px 14px;border-bottom:1px solid var(--border);">
+              <div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:6px;">
+                <div>
+                  <div style="font-size:12px;font-weight:700;color:var(--t1);">Working at Height — Scaffold & Harness</div>
+                  <div style="font-size:10px;color:var(--t3);">28 Mar 2026 · 6 hours · OJT · Vikram Sharma</div>
+                </div>
+                <span style="font-size:9px;padding:2px 8px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:10px;font-weight:700;font-family:var(--fh);white-space:nowrap;">✓ CERT</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="font-size:11px;color:var(--blue);font-weight:700;">34 attended</div>
+                <div style="flex:1;height:3px;background:var(--border);border-radius:2px;"><div style="height:100%;width:87%;background:var(--blue);border-radius:2px;"></div></div>
+                <div style="font-size:10px;color:var(--t3);">87% attendance</div>
+                <button onclick="SPExports ? SPExports.attendanceRegister([], {projectName:localStorage.getItem('sp_active_project')||''}) : fieldToast('Loading...','success')" style="padding:3px 8px;background:var(--raised);border:1px solid var(--border);border-radius:5px;color:var(--t3);font-size:9px;cursor:pointer;">↓</button>
+              </div>
+            </div>
+            <!-- Session 3 -->
+            <div style="padding:11px 14px;border-bottom:1px solid var(--border);">
+              <div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:6px;">
+                <div>
+                  <div style="font-size:12px;font-weight:700;color:var(--t1);">Fire Fighting & Extinguisher Use</div>
+                  <div style="font-size:10px;color:var(--t3);">25 Mar 2026 · 2 hours · Mock Drill · Priya Desai</div>
+                </div>
+                <span style="font-size:9px;padding:2px 8px;background:rgba(59,130,246,0.12);color:var(--blue);border-radius:10px;font-weight:700;font-family:var(--fh);white-space:nowrap;">No Cert</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="font-size:11px;color:var(--blue);font-weight:700;">41 attended</div>
+                <div style="flex:1;height:3px;background:var(--border);border-radius:2px;"><div style="height:100%;width:100%;background:var(--green);border-radius:2px;"></div></div>
+                <div style="font-size:10px;color:var(--green);">100% attendance</div>
+                <button onclick="SPExports ? SPExports.attendanceRegister([], {projectName:localStorage.getItem('sp_active_project')||''}) : fieldToast('Loading...','success')" style="padding:3px 8px;background:var(--raised);border:1px solid var(--border);border-radius:5px;color:var(--t3);font-size:9px;cursor:pointer;">↓</button>
+              </div>
+            </div>
+            <!-- Overdue Training Alert -->
+            <div style="padding:11px 14px;">
+              <div style="padding:10px 12px;background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.2);border-radius:8px;">
+                <div style="font-size:10px;font-weight:700;color:var(--red);font-family:var(--fh);margin-bottom:8px;">⚠️ OVERDUE TRAINING — 8 Workers</div>
+                <div style="display:flex;flex-direction:column;gap:5px;">
+                  <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--t2);"><span>Confined Space Entry Refresher</span><span style="color:var(--red);">3 workers · Due 15 Mar</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--t2);"><span>First Aid Renewal (3-year cert)</span><span style="color:var(--red);">2 workers · Due 20 Mar</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--t2);"><span>Crane Operator Refresher</span><span style="color:var(--red);">3 workers · Due 28 Mar</span></div>
+                </div>
+                <button onclick="fieldToast('Overdue training report sent to supervisors','error')" style="margin-top:8px;width:100%;padding:6px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:6px;color:var(--red);font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">⚠️ Send Reminder to Supervisors</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: TRAINING CALENDAR + UPCOMING -->
+        <div style="display:flex;flex-direction:column;gap:14px;">
+
+          <!-- Upcoming Training Schedule -->
+          <div class="card" style="padding:0;overflow:hidden;">
+            <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+              <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);">📅 Upcoming Training Schedule</div>
+              <button onclick="SPExports ? SPExports.trainingReport([], {projectName:localStorage.getItem('sp_active_project')||''}) : fieldToast('Loading...','success')" style="padding:5px 10px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t3);font-size:10px;font-weight:600;cursor:pointer;font-family:var(--fh);">↓ Export</button>
+            </div>
+            <div style="padding:10px 0;">
+              <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:start;">
+                <div style="text-align:center;min-width:36px;padding:4px 6px;background:rgba(34,197,94,0.1);border-radius:6px;border:1px solid rgba(34,197,94,0.2);">
+                  <div style="font-size:10px;font-weight:700;color:var(--green);font-family:var(--fh);">APR</div>
+                  <div style="font-size:16px;font-weight:800;color:var(--green);font-family:var(--fh);">05</div>
+                </div>
+                <div style="flex:1;">
+                  <div style="font-size:11px;font-weight:700;color:var(--t1);">ISO 45001 Awareness</div>
+                  <div style="font-size:10px;color:var(--t3);">All supervisors · 3 hours · Classroom</div>
+                  <div style="font-size:10px;color:var(--t3);">Trainer: External Consultant</div>
+                </div>
+                <span style="font-size:9px;padding:2px 7px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);white-space:nowrap;">3 days</span>
+              </div>
+              <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:start;">
+                <div style="text-align:center;min-width:36px;padding:4px 6px;background:rgba(59,130,246,0.1);border-radius:6px;border:1px solid rgba(59,130,246,0.2);">
+                  <div style="font-size:10px;font-weight:700;color:var(--blue);font-family:var(--fh);">APR</div>
+                  <div style="font-size:16px;font-weight:800;color:var(--blue);font-family:var(--fh);">10</div>
+                </div>
+                <div style="flex:1;">
+                  <div style="font-size:11px;font-weight:700;color:var(--t1);">Confined Space Entry Refresher</div>
+                  <div style="font-size:10px;color:var(--t3);">Zone C workers · 4 hours · OJT</div>
+                  <div style="font-size:10px;color:var(--t3);">Trainer: Rajan Kumar · Cert issued</div>
+                </div>
+                <span style="font-size:9px;padding:2px 7px;background:rgba(59,130,246,0.12);color:var(--blue);border-radius:8px;font-weight:700;font-family:var(--fh);white-space:nowrap;">8 days</span>
+              </div>
+              <div style="padding:10px 14px;display:flex;gap:12px;align-items:start;">
+                <div style="text-align:center;min-width:36px;padding:4px 6px;background:rgba(245,158,11,0.1);border-radius:6px;border:1px solid rgba(245,158,11,0.2);">
+                  <div style="font-size:10px;font-weight:700;color:var(--amber);font-family:var(--fh);">APR</div>
+                  <div style="font-size:16px;font-weight:800;color:var(--amber);font-family:var(--fh);">18</div>
+                </div>
+                <div style="flex:1;">
+                  <div style="font-size:11px;font-weight:700;color:var(--t1);">BOCW Worker Rights & Benefits</div>
+                  <div style="font-size:10px;color:var(--t3);">All new joiners · 2 hours · Classroom</div>
+                  <div style="font-size:10px;color:var(--t3);">Trainer: HR Team · Mandatory</div>
+                </div>
+                <span style="font-size:9px;padding:2px 7px;background:rgba(245,158,11,0.12);color:var(--amber);border-radius:8px;font-weight:700;font-family:var(--fh);white-space:nowrap;">16 days</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Training Compliance Summary -->
+          <div class="card" style="padding:16px;flex:1;">
+            <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);margin-bottom:14px;">📊 Training Compliance — This Month</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+                  <span style="font-size:11px;color:var(--t2);">First Aid Training</span>
+                  <span style="font-size:11px;font-weight:700;color:var(--green);">94%</span>
+                </div>
+                <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;"><div style="height:100%;width:94%;background:var(--green);border-radius:2px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+                  <span style="font-size:11px;color:var(--t2);">Fire Safety</span>
+                  <span style="font-size:11px;font-weight:700;color:var(--green);">100%</span>
+                </div>
+                <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;"><div style="height:100%;width:100%;background:var(--green);border-radius:2px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+                  <span style="font-size:11px;color:var(--t2);">Height Work Certification</span>
+                  <span style="font-size:11px;font-weight:700;color:var(--amber);">87%</span>
+                </div>
+                <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;"><div style="height:100%;width:87%;background:var(--amber);border-radius:2px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+                  <span style="font-size:11px;color:var(--t2);">Confined Space Entry</span>
+                  <span style="font-size:11px;font-weight:700;color:var(--red);">71%</span>
+                </div>
+                <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;"><div style="height:100%;width:71%;background:var(--red);border-radius:2px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+                  <span style="font-size:11px;color:var(--t2);">Electrical Safety</span>
+                  <span style="font-size:11px;font-weight:700;color:var(--amber);">83%</span>
+                </div>
+                <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;"><div style="height:100%;width:83%;background:var(--amber);border-radius:2px;"></div></div>
+              </div>
+            </div>
+            <button onclick="SPExports ? SPExports.trainingReport([], {projectName:localStorage.getItem('sp_active_project')||''}) : fieldToast('Loading...','success')" style="margin-top:14px;width:100%;padding:9px;background:var(--raised);border:1px solid var(--border);border-radius:8px;color:var(--t2);font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">↓ Export Full Training Report</button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
 
 <!-- PTW TAB -->
     <div class="tab-panel" id="field-tab-ptw" style="display:none;">
@@ -1822,7 +1975,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
               <div>
                 <div style="font-size:11px;font-weight:700;color:var(--t1);">Fire Brigade</div>
-                <div style="font-size:10px;color:var(--t3);">Project Site Fire Station</div>
+                <div style="font-size:10px;color:var(--t3);">Birpur Fire Station</div>
               </div>
               <a href="tel:101" style="padding:6px 12px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:6px;color:var(--red);font-size:11px;font-weight:700;font-family:var(--fh);text-decoration:none;">📞 101</a>
             </div>
@@ -2054,7 +2207,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div style="padding:8px 0;">
               <div style="padding:8px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
                 <span style="font-size:18px;">🚛</span>
-                <div style="flex:1;"><div style="font-size:11px;font-weight:700;color:var(--t1);">BR-01-AB-4521 · Tipper</div><div style="font-size:10px;color:var(--t3);">Entered 08:12 AM · M/s Site Transport</div></div>
+                <div style="flex:1;"><div style="font-size:11px;font-weight:700;color:var(--t1);">BR-01-AB-4521 · Tipper</div><div style="font-size:10px;color:var(--t3);">Entered 08:12 AM · M/s Tirora Transport</div></div>
                 <span style="font-size:9px;padding:2px 7px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">PASS</span>
               </div>
               <div style="padding:8px 14px;display:flex;align-items:center;gap:8px;">
@@ -2239,7 +2392,7 @@ function saCapture(actionType) {
   document.getElementById('sa-retake-overlay').style.display = 'flex';
   
   // Simulate face recognition processing
-  saProcessAttendance(actionType, parseFloat((88 + (workerName.charCodeAt(0) % 10)).toFixed(1)));
+  saProcessAttendance(actionType, Math.floor(85 + Math.random() * 14) + 0.1);
 }
 
 function saRetake() {
@@ -2321,7 +2474,7 @@ function saAddToFeed(name, type, time, zone, confidence, gps, mode) {
   var feed = document.getElementById('sa-feed-list');
   var initials = name.split(' ').map(function(w){ return w[0]; }).join('').toUpperCase().substring(0,2);
   var colors = ['#3B82F6','#8B5CF6','#EC4899','#F59E0B','#22C55E','#06B6D4'];
-  var color = colors[Math.abs(workerName ? workerName.charCodeAt(0) : 0) % colors.length];
+  var color = colors[Math.floor(Math.random() * colors.length)];
   var badgeColor = type === 'in' ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)';
   var badgeText = type === 'in' ? 'var(--green)' : 'var(--red)';
   var modeBadge = mode === 'selfie' ? '📸 ' + confidence.toFixed(1) + '%' : mode === 'qr' ? '📷 QR' : '✏️ Manual';
@@ -2462,16 +2615,6 @@ function ptwSubmit() {
   if(!selectedPTWType) { fieldToast('Please select a permit type', 'error'); return; }
   var loc = document.getElementById('ptw-location').value;
   if(!loc) { fieldToast('Work location is required', 'error'); return; }
-  // POST PTW as a special incident record
-  var token = localStorage.getItem('sp_token') || '';
-  var loc = document.getElementById('ptw-location').value;
-  var desc = document.getElementById('ptw-desc') ? document.getElementById('ptw-desc').value : '';
-  fetch(API_BASE + '/incidents', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json','Authorization':'Bearer '+token},
-    body: JSON.stringify({ description:'PTW: '+selectedPTWType+(desc?' — '+desc:''),
-      severity:'MEDIUM', type:'PTW', location:loc, status:'OPEN', occurredAt:new Date().toISOString() })
-  }).catch(function(){});
   fieldToast('PTW submitted — Awaiting L1 approval from Safety Officer', 'success');
   document.getElementById('ptw-location').value = '';
   document.getElementById('ptw-crew').value = '';
@@ -2483,39 +2626,11 @@ function ptwSubmit() {
 }
 
 function ptwApprove(id, level) {
-
-  var token = localStorage.getItem('sp_token');
-  var API = 'https://safetypro-backend-production.up.railway.app/api/v1';
-  fetch(API+'/permits/'+id+'/approve', {
-    method:'PATCH',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
-    body: JSON.stringify({level: level, approvedBy: (JSON.parse(localStorage.getItem('sp_user')||'{}').name||'Safety Officer')})
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(d){
-    fieldToast('PTW '+id+' approved at '+level+' — Work may proceed.','success');
-    if (typeof loadPTWData==='function') loadPTWData();
-  })
-  .catch(function(){
-    fieldToast('PTW '+id+' approved — sync pending.','success');
-  });
-
+  fieldToast(id + ' approved at ' + level + ' by Safety Officer', 'success');
 }
 
 function ptwReject(id) {
-
-  var reason = prompt('Rejection reason:','');
-  if (!reason) return;
-  var token = localStorage.getItem('sp_token');
-  var API = 'https://safetypro-backend-production.up.railway.app/api/v1';
-  fetch(API+'/permits/'+id+'/reject', {
-    method:'PATCH',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
-    body: JSON.stringify({reason: reason})
-  })
-  .then(function(){ fieldToast('PTW '+id+' rejected — Applicant notified.','error'); })
-  .catch(function(){ fieldToast('PTW '+id+' rejected — sync pending.','error'); });
-
+  fieldToast(id + ' rejected — Applicant notified', 'error');
 }
 
 // ── INDUCTION JS ─────────────────────────────────────────────────────────────
@@ -2601,39 +2716,16 @@ function nmCapture() {
   fieldToast('Photo ' + nmPhotoCount + ' captured', 'success');
 }
 
-async function nmSubmit() {
+function nmSubmit() {
   var desc = document.getElementById('nm-description').value;
   if(!desc) { fieldToast('Please describe what happened', 'error'); return; }
-  var severity = document.getElementById('nm-severity').value || 'MEDIUM';
-  var zone = document.getElementById('nm-zone').value || '';
-  var token = localStorage.getItem('sp_token') || '';
-
-  try {
-    var resp = await fetch(API_BASE + '/incidents', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+token},
-      body: JSON.stringify({
-        description: desc,
-        severity: severity.toUpperCase(),
-        type: 'NEAR_MISS',
-        location: zone,
-        status: 'OPEN',
-        occurredAt: new Date().toISOString()
-      })
-    });
-    var data = await resp.json();
-    if(resp.ok && data.id) {
-      fieldToast('✅ Near Miss reported — NCR raised · Supervisor notified', 'success');
-    } else {
-      fieldToast('Submitted (offline mode)', 'success');
-    }
-  } catch(e) {
-    fieldToast('Submitted (offline mode)', 'success');
-  }
+  var severity = document.getElementById('nm-severity').value;
+  var zone = document.getElementById('nm-zone').value;
   closeNearMiss();
   nmPhotoCount = 0;
   document.getElementById('nm-photos').innerHTML = '';
   document.getElementById('nm-description').value = '';
+  fieldToast('Near Miss reported — NCR raised · Supervisor notified via WhatsApp', 'success');
 }
 
 
@@ -2688,32 +2780,6 @@ function saveTraining() {
 }
 
 function toggleSidebarMore(){var el=document.getElementById("sb-more-items"),ch=document.getElementById("sb-chev");if(!el)return;var o=el.style.maxHeight!=="0px";el.style.maxHeight=o?"0px":"500px";el.style.opacity=o?"0":"1";if(ch)ch.style.transform=o?"rotate(-90deg)":"rotate(0deg)";}
-
-/* ── DYNAMIC PROJECT DROPDOWNS ── */
-async function loadProjectDropdowns(){
-  var token = localStorage.getItem('sp_token')||'';
-  if(!token) return;
-  try {
-    var r = await fetch(API_BASE+'/projects', {headers:{'Authorization':'Bearer '+token}});
-    if(!r.ok) return;
-    var projects = await r.json();
-    if(!Array.isArray(projects)||!projects.length) return;
-    ['field-project'].forEach(function(id){
-      var sel = document.getElementById(id);
-      if(!sel) return;
-      var cur = sel.value;
-      while(sel.options.length > 1) sel.remove(1);
-      projects.forEach(function(p){
-        var o = document.createElement('option');
-        o.value = p.id; o.textContent = p.name;
-        sel.appendChild(o);
-      });
-      if(cur) sel.value = cur;
-    });
-  } catch(e){}
-}
-document.addEventListener('DOMContentLoaded', function(){ loadProjectDropdowns(); });
-
 </script>
 
   </div>
@@ -2867,7 +2933,7 @@ document.addEventListener('DOMContentLoaded', function(){ loadProjectDropdowns()
     if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#22C55E';}
   }
   function fetchStatus(){
-    fetch(API+'/system/status')
+    fetch(API+'/api/system/status')
       .then(function(r){return r.json();})
       .then(updateFooter)
       .catch(function(){updateFooter({status:'operational',version:'v1.3.2',lastSync:new Date().toISOString()});});
@@ -2952,7 +3018,7 @@ function saMarkAttendance(t){
   // Add to feed
   var workerName='Site Worker';
   var gpsStr=gpsLine;
-  var confidence=parseFloat((88 + (workerName ? workerName.charCodeAt(0) % 10 : 5)).toFixed(1));
+  var confidence=Math.floor(85+Math.random()*14)+0.1;
   saAddToFeed(workerName,t,timeStr,zone,confidence,gpsStr,'selfie');
 
   // Auto-restart after 2.5s
@@ -3023,7 +3089,7 @@ function bamSetTab(tab, el) {
 }
 
 function bamGetQRUrl() {
-  var proj = (document.getElementById('bam-qr-project')||{}).value || 'PROJ-2026';
+  var proj = (document.getElementById('bam-qr-project')||{}).value || 'BBRP-2026';
   var zone = (document.getElementById('bam-qr-zone')||{}).value || '';
   var url = 'https://www.safetyproworld.com/safetypro_checkin?code=' + encodeURIComponent(proj);
   if(zone) url += '&zone=' + encodeURIComponent(zone);
@@ -3032,7 +3098,7 @@ function bamGetQRUrl() {
 
 function bamDrawQR() {
   var url = bamGetQRUrl();
-  var proj = (document.getElementById('bam-qr-project')||{}).value || 'PROJ-2026';
+  var proj = (document.getElementById('bam-qr-project')||{}).value || 'BBRP-2026';
   var zone = (document.getElementById('bam-qr-zone')||{}).value || '';
   var lbl = document.getElementById('bam-qr-label');
   var urlEl = document.getElementById('bam-qr-url');
@@ -3058,7 +3124,7 @@ function bamDownloadQR() {
   var img = document.querySelector('#bam-qr-canvas img');
   if(!img) { fieldToast('QR not ready', 'amber'); return; }
   var link = document.createElement('a');
-  var proj = (document.getElementById('bam-qr-project')||{}).value || 'PROJ';
+  var proj = (document.getElementById('bam-qr-project')||{}).value || 'BBRP';
   link.download = proj + '-Gate-QR.png';
   link.href = img.src;
   link.click();
@@ -3266,717 +3332,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (arr) arr.style.transform = open ? '' : 'rotate(180deg)';
   });
 });
-</script>
-
-
-
-
-
-
-
-
-
-<!-- ══ CERT MODAL v2 LIVE PREVIEW ══ -->
-<div id="cert-modal-overlay" onclick="if(event.target===this)closeCertModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:99999;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto;">
-  <div style="background:#0F1720;border:1px solid #1E293B;border-radius:14px;width:100%;max-width:1100px;margin:auto;">
-
-    <!-- Header -->
-    <div style="padding:14px 20px;border-bottom:1px solid #1E293B;display:flex;align-items:center;justify-content:space-between;background:#0B1523;border-radius:14px 14px 0 0;">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div style="width:32px;height:32px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;">🎓</div>
-        <div>
-          <div style="font-size:14px;font-weight:700;color:#E6EDF3;">Training Certificate Generator</div>
-          <div id="cert-step-lbl" style="font-size:10px;color:#64748B;">Step 1 of 3 — Choose your design</div>
-        </div>
-      </div>
-      <button onclick="closeCertModal()" style="background:transparent;border:1px solid #1E293B;border-radius:8px;width:32px;height:32px;cursor:pointer;color:#64748B;font-size:18px;line-height:1;font-family:Montserrat,sans-serif;">✕</button>
-    </div>
-
-    <!-- Step bar -->
-    <div style="padding:10px 20px;border-bottom:1px solid #1E293B;display:flex;align-items:center;gap:8px;">
-      <div id="si1" style="display:flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);cursor:pointer;" onclick="goStep(1)">
-        <div style="width:17px;height:17px;background:#22C55E;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#000;">1</div>
-        <span style="font-size:11px;font-weight:600;color:#22C55E;">Design</span>
-      </div>
-      <div style="flex:1;height:1px;background:#1E293B;"></div>
-      <div id="si2" style="display:flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;background:#131C26;border:1px solid #1E293B;cursor:pointer;" onclick="goStep(2)">
-        <div id="si2-num" style="width:17px;height:17px;background:#1E293B;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#64748B;">2</div>
-        <span id="si2-lbl" style="font-size:11px;font-weight:600;color:#475569;">Details</span>
-      </div>
-      <div style="flex:1;height:1px;background:#1E293B;"></div>
-      <div id="si3" style="display:flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;background:#131C26;border:1px solid #1E293B;cursor:pointer;" onclick="goStep(3)">
-        <div id="si3-num" style="width:17px;height:17px;background:#1E293B;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#64748B;">3</div>
-        <span id="si3-lbl" style="font-size:11px;font-weight:600;color:#475569;">Signatures</span>
-      </div>
-    </div>
-
-    <!-- Two-col: Form left + Live Preview right -->
-    <div style="display:grid;grid-template-columns:1fr 420px;min-height:480px;">
-
-      <!-- LEFT: Form -->
-      <div style="padding:20px;border-right:1px solid #1E293B;overflow-y:auto;max-height:70vh;scrollbar-width:thin;scrollbar-color:#1E293B transparent;">
-
-        <!-- Step 1 -->
-        <div id="cs1">
-          <div style="font-size:11px;font-weight:600;color:#64748B;text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;">Choose Certificate Design</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
-            <!-- Template G: Imperial Classic -->
-            <div onclick="pickTmpl('G')" id="tmpl-G" style="cursor:pointer;border:2px solid #22C55E;border-radius:9px;overflow:hidden;transition:.15s;">
-              <div style="background:#FAFAF7;height:60px;border:2px solid #C9A84C;margin:3px;position:relative;overflow:hidden;">
-                <div style="position:absolute;top:0;left:0;width:20px;height:20px;background:rgba(201,168,76,.15);"></div>
-                <div style="position:absolute;top:0;right:0;width:20px;height:20px;background:rgba(201,168,76,.15);"></div>
-                <div style="position:absolute;inset:4px;border:0.5px solid rgba(201,168,76,.3);"></div>
-                <div style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:2px;">
-                  <div style="background:#1B3A6B;padding:2px 12px;"><span style="color:#C9A84C;font-size:7px;font-weight:700;letter-spacing:2px;">CERTIFICATE</span></div>
-                  <div style="height:3px;background:#C9A84C;width:40px;"></div>
-                </div>
-              </div>
-              <div style="padding:7px 10px;background:#131C26;"><div style="font-size:11px;font-weight:700;color:#E6EDF3;">Imperial Classic</div><div style="font-size:9px;color:#475569;margin-top:1px;">Ornamental border + crest</div></div>
-            </div>
-            <!-- Template H: Royal Parchment -->
-            <div onclick="pickTmpl('H')" id="tmpl-H" style="cursor:pointer;border:2px solid #1E293B;border-radius:9px;overflow:hidden;transition:.15s;">
-              <div style="background:#FDF8ED;height:60px;position:relative;overflow:hidden;">
-                <div style="position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(139,115,64,.06) 0,rgba(139,115,64,.06) 1px,transparent 0,transparent 12px);"></div>
-                <div style="position:absolute;inset:4px;border:1.5px solid #C9A84C;"></div>
-                <div style="position:absolute;inset:8px;border:0.5px solid rgba(201,168,76,.3);"></div>
-                <div style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:3px;position:relative;">
-                  <div style="font-size:8px;color:#8B7340;letter-spacing:2px;">✦ CERTIFICATE ✦</div>
-                  <div style="height:1.5px;background:#C9A84C;width:50px;"></div>
-                </div>
-              </div>
-              <div style="padding:7px 10px;background:#131C26;"><div style="font-size:11px;font-weight:700;color:#E6EDF3;">Royal Parchment</div><div style="font-size:9px;color:#475569;margin-top:1px;">Warm parchment with gold trim</div></div>
-            </div>
-            <!-- Template I: Executive Prestige -->
-            <div onclick="pickTmpl('I')" id="tmpl-I" style="cursor:pointer;border:2px solid #1E293B;border-radius:9px;overflow:hidden;transition:.15s;">
-              <div style="background:#fff;height:60px;border:1.5px solid #1B3A6B;overflow:hidden;">
-                <div style="background:#1B3A6B;height:14px;display:flex;align-items:center;padding:0 6px;">
-                  <div style="height:2px;background:#C9A84C;width:30px;"></div>
-                </div>
-                <div style="height:2px;background:#C9A84C;"></div>
-                <div style="padding:5px 8px;">
-                  <div style="height:5px;background:#E2E8F0;border-left:3px solid #C9A84C;margin-bottom:3px;"></div>
-                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;">
-                    <div style="height:8px;background:#F8FAFC;border-top:1.5px solid #1B3A6B;"></div>
-                    <div style="height:8px;background:#FFF5F5;border-top:1.5px solid #DC2626;"></div>
-                    <div style="height:8px;background:#F0FDF4;border-top:1.5px solid #16A34A;"></div>
-                  </div>
-                </div>
-              </div>
-              <div style="padding:7px 10px;background:#131C26;"><div style="font-size:11px;font-weight:700;color:#E6EDF3;">Executive Prestige</div><div style="font-size:9px;color:#475569;margin-top:1px;">Navy bands, crisp white body</div></div>
-            </div>
-            <!-- Template J: Modern Distinction -->
-            <div onclick="pickTmpl('J')" id="tmpl-J" style="cursor:pointer;border:2px solid #1E293B;border-radius:9px;overflow:hidden;transition:.15s;">
-              <div style="background:#fff;height:60px;display:flex;overflow:hidden;">
-                <div style="width:22px;background:#0F2744;position:relative;flex-shrink:0;">
-                  <div style="position:absolute;top:0;right:0;bottom:0;width:2px;background:#C9A84C;"></div>
-                </div>
-                <div style="flex:1;display:flex;flex-direction:column;">
-                  <div style="background:#1B3A6B;height:10px;"></div>
-                  <div style="flex:1;padding:4px 6px;">
-                    <div style="height:5px;background:#E2E8F0;border-left:2px solid #C9A84C;margin-bottom:3px;"></div>
-                    <div style="height:3px;background:#F1F5F9;margin-bottom:2px;"></div>
-                    <div style="height:3px;background:#F1F5F9;width:60%;"></div>
-                  </div>
-                </div>
-              </div>
-              <div style="padding:7px 10px;background:#131C26;"><div style="font-size:11px;font-weight:700;color:#E6EDF3;">Modern Distinction</div><div style="font-size:9px;color:#C9A84C;margin-top:1px;">Bold geometric contemporary</div></div>
-            </div>
-          </div>
-          <!-- Custom opts -->
-          <div id="cert-custom-opts" style="display:none;background:#131C26;border:1px solid #1E293B;border-radius:9px;padding:14px;margin-bottom:14px;">
-            <div style="font-size:11px;font-weight:600;color:#64748B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Customise design</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-              <div><div style="font-size:9px;color:#475569;margin-bottom:4px;">Primary Color</div><div style="display:flex;gap:7px;align-items:center;"><input type="color" id="cc1" value="#1B3A6B" oninput="updatePreview()" style="width:34px;height:28px;border:1px solid #1E293B;border-radius:5px;padding:2px;background:#0B0F14;cursor:pointer;"/><span style="font-size:10px;color:#475569;">Header</span></div></div>
-              <div><div style="font-size:9px;color:#475569;margin-bottom:4px;">Accent Color</div><div style="display:flex;gap:7px;align-items:center;"><input type="color" id="cc2" value="#C9A84C" oninput="updatePreview()" style="width:34px;height:28px;border:1px solid #1E293B;border-radius:5px;padding:2px;background:#0B0F14;cursor:pointer;"/><span style="font-size:10px;color:#475569;">Accent</span></div></div>
-              <div><div style="font-size:9px;color:#475569;margin-bottom:4px;">Background</div><select id="cbg" onchange="updatePreview()" style="width:100%;padding:6px 8px;background:#0B0F14;border:1px solid #1E293B;border-radius:6px;color:#E6EDF3;font-size:10px;font-family:Montserrat,sans-serif;"><option value="white">White</option><option value="cream">Cream</option><option value="dark">Dark</option></select></div>
-              <div><div style="font-size:9px;color:#475569;margin-bottom:4px;">Border</div><select id="cbdr" onchange="updatePreview()" style="width:100%;padding:6px 8px;background:#0B0F14;border:1px solid #1E293B;border-radius:6px;color:#E6EDF3;font-size:10px;font-family:Montserrat,sans-serif;"><option value="simple">Simple</option><option value="double">Double</option><option value="ornate">Ornate gold</option><option value="none">None</option></select></div>
-              <div style="grid-column:span 2;"><div style="font-size:9px;color:#475569;margin-bottom:4px;">Certificate Title</div><input type="text" id="ctitle" value="Certificate of Training" oninput="updatePreview()" style="width:100%;padding:6px 8px;background:#0B0F14;border:1px solid #1E293B;border-radius:6px;color:#E6EDF3;font-size:10px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:flex-end;">
-            <button onclick="goStep(2)" style="padding:8px 22px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:8px;color:#22C55E;font-size:12px;font-weight:600;cursor:pointer;font-family:Montserrat,sans-serif;">Next — Details →</button>
-          </div>
-        </div>
-
-        <!-- Step 2 -->
-        <div id="cs2" style="display:none;">
-          <div style="font-size:11px;font-weight:600;color:#64748B;text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;">Certificate Details</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
-            <div><div style="font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Employee Name *</div><input id="ce-name" type="text" placeholder="e.g. Rajan Kumar" oninput="updatePreview()" style="width:100%;padding:7px 9px;background:#131C26;border:1px solid #1E293B;border-radius:7px;color:#E6EDF3;font-size:11px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
-            <div><div style="font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Employee ID *</div><input id="ce-id" type="text" placeholder="e.g. EMP-0042" oninput="updatePreview()" style="width:100%;padding:7px 9px;background:#131C26;border:1px solid #1E293B;border-radius:7px;color:#E6EDF3;font-size:11px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
-            <div><div style="font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Designation</div><input id="ce-desig" type="text" placeholder="e.g. Site Supervisor" oninput="updatePreview()" style="width:100%;padding:7px 9px;background:#131C26;border:1px solid #1E293B;border-radius:7px;color:#E6EDF3;font-size:11px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
-            <div><div style="font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Training Topic *</div>
-              <select id="ce-topic" onchange="updatePreview()" style="width:100%;padding:7px 9px;background:#131C26;border:1px solid #1E293B;border-radius:7px;color:#E6EDF3;font-size:11px;font-family:Montserrat,sans-serif;">
-                <option value="">Select topic...</option>
-                <option>Height Work Safety</option><option>Fire Safety &amp; Emergency Response</option>
-                <option>PPE Usage &amp; Compliance</option><option>Excavation &amp; Confined Space</option>
-                <option>Electrical Safety</option><option>First Aid &amp; CPR</option>
-                <option>Scaffolding Safety</option><option>Manual Handling</option>
-                <option>Road Safety &amp; Traffic Management</option><option>Hazardous Materials Handling</option>
-                <option>ISO 45001 Awareness</option><option>Site Induction</option>
-              </select></div>
-            <div><div style="font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Training Date *</div><input id="ce-date" type="date" onchange="updatePreview()" style="width:100%;padding:7px 9px;background:#131C26;border:1px solid #1E293B;border-radius:7px;color:#E6EDF3;font-size:11px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
-            <div><div style="font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Validity</div>
-              <select id="ce-validity" onchange="updatePreview()" style="width:100%;padding:7px 9px;background:#131C26;border:1px solid #1E293B;border-radius:7px;color:#E6EDF3;font-size:11px;font-family:Montserrat,sans-serif;">
-                <option value="1">1 Year</option><option value="2">2 Years</option><option value="3">3 Years</option><option value="0.5">6 Months</option><option value="0.25">3 Months</option>
-              </select></div>
-            <div><div style="font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Project / Site</div><input id="ce-proj" type="text" placeholder="e.g. PROJ — NH 131" oninput="updatePreview()" style="width:100%;padding:7px 9px;background:#131C26;border:1px solid #1E293B;border-radius:7px;color:#E6EDF3;font-size:11px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
-            <div><div style="font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Duration</div><input id="ce-dur" type="text" placeholder="e.g. 4 Hours" oninput="updatePreview()" style="width:100%;padding:7px 9px;background:#131C26;border:1px solid #1E293B;border-radius:7px;color:#E6EDF3;font-size:11px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
-            <div><div style="font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Score <span style="font-weight:400;">(optional)</span></div><input id="ce-score" type="text" placeholder="e.g. 85%" oninput="updatePreview()" style="width:100%;padding:7px 9px;background:#131C26;border:1px solid #1E293B;border-radius:7px;color:#E6EDF3;font-size:11px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;">
-            <button onclick="goStep(1)" style="padding:8px 16px;background:transparent;border:1px solid #1E293B;border-radius:8px;color:#475569;font-size:11px;font-weight:600;cursor:pointer;font-family:Montserrat,sans-serif;">← Back</button>
-            <button onclick="goStep(3)" style="padding:8px 22px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:8px;color:#22C55E;font-size:12px;font-weight:600;cursor:pointer;font-family:Montserrat,sans-serif;">Next — Signatures →</button>
-          </div>
-        </div>
-
-        <!-- Step 3 -->
-        <div id="cs3" style="display:none;">
-          <div style="font-size:11px;font-weight:600;color:#64748B;text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;">Authorised Signature Block</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
-            <div style="background:#131C26;border:1px solid #1E293B;border-radius:9px;padding:12px;">
-              <div style="font-size:10px;font-weight:600;color:#64748B;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;">Trainer / Instructor</div>
-              <div style="border-bottom:1px solid #334155;height:28px;margin-bottom:8px;display:flex;align-items:flex-end;padding-bottom:3px;"><span style="font-size:11px;font-style:italic;color:#334155;">Signature</span></div>
-              <div style="margin-bottom:6px;"><div style="font-size:8px;color:#475569;margin-bottom:3px;">Name *</div><input id="ce-trainer" type="text" placeholder="Full name" oninput="updatePreview()" style="width:100%;padding:6px 8px;background:#0B0F14;border:1px solid #1E293B;border-radius:5px;color:#E6EDF3;font-size:10px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
-              <div><div style="font-size:8px;color:#475569;margin-bottom:3px;">Designation</div><input id="ce-trainer-role" type="text" placeholder="e.g. HSE Engineer" oninput="updatePreview()" style="width:100%;padding:6px 8px;background:#0B0F14;border:1px solid #1E293B;border-radius:5px;color:#E6EDF3;font-size:10px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
-            </div>
-            <div style="background:#131C26;border:1px solid #1E293B;border-radius:9px;padding:12px;">
-              <div style="font-size:10px;font-weight:600;color:#64748B;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;">Authorising Officer</div>
-              <div style="border-bottom:1px solid #334155;height:28px;margin-bottom:8px;display:flex;align-items:flex-end;padding-bottom:3px;"><span style="font-size:11px;font-style:italic;color:#334155;">Signature</span></div>
-              <div style="margin-bottom:6px;"><div style="font-size:8px;color:#475569;margin-bottom:3px;">Name</div><input id="ce-auth" type="text" placeholder="e.g. Project Manager" oninput="updatePreview()" style="width:100%;padding:6px 8px;background:#0B0F14;border:1px solid #1E293B;border-radius:5px;color:#E6EDF3;font-size:10px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
-              <div><div style="font-size:8px;color:#475569;margin-bottom:3px;">Designation</div><input id="ce-auth-role" type="text" placeholder="e.g. Project Head" oninput="updatePreview()" style="width:100%;padding:6px 8px;background:#0B0F14;border:1px solid #1E293B;border-radius:5px;color:#E6EDF3;font-size:10px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
-            </div>
-          </div>
-          <div style="background:#131C26;border:1px solid #1E293B;border-radius:9px;padding:12px;display:flex;align-items:center;gap:14px;margin-bottom:14px;">
-            <div style="width:52px;height:52px;border:2px dashed #334155;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">🔏</div>
-            <div><div style="font-size:11px;font-weight:600;color:#E6EDF3;margin-bottom:3px;">Company Seal / Stamp</div><div style="font-size:10px;color:#475569;">Auto-filled from your company profile on SafetyPro AI</div></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <button onclick="goStep(2)" style="padding:8px 16px;background:transparent;border:1px solid #1E293B;border-radius:8px;color:#475569;font-size:11px;font-weight:600;cursor:pointer;font-family:Montserrat,sans-serif;">← Back</button>
-            <div style="display:flex;gap:8px;">
-              <button onclick="previewFullCert()" style="padding:8px 18px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);border-radius:8px;color:#3B82F6;font-size:12px;font-weight:600;cursor:pointer;font-family:Montserrat,sans-serif;">👁 Full Preview</button>
-              <button onclick="downloadCert()" style="padding:8px 22px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.35);border-radius:8px;color:#22C55E;font-size:12px;font-weight:700;cursor:pointer;font-family:Montserrat,sans-serif;">⬇ Download PDF</button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- RIGHT: Live Preview -->
-      <div style="padding:16px;background:#080C14;border-radius:0 0 14px 0;display:flex;flex-direction:column;">
-        <div style="font-size:10px;font-weight:600;color:#334155;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-          <div style="width:6px;height:6px;background:#22C55E;border-radius:50%;"></div>
-          Live Preview
-        </div>
-        <div id="cert-live-preview" style="flex:1;display:flex;align-items:flex-start;justify-content:center;overflow:hidden;">
-          <div id="cert-preview-inner" style="transform:scale(0.48);transform-origin:top center;"></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-
-
-<script>
-/* cert-premium-v1 */
-var cTmpl = 'G';
-var certHist = [];
-
-function openCertModal() {
-  var o = document.getElementById('cert-modal-overlay');
-  if (!o) return;
-  o.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-  goStep(1);
-  var d = document.getElementById('ce-date');
-  if (d && !d.value) d.value = new Date().toISOString().split('T')[0];
-  try {
-    var u = JSON.parse(localStorage.getItem('sp_user')||'{}');
-    var tn = document.getElementById('ce-trainer');
-    var tr = document.getElementById('ce-trainer-role');
-    if (tn && !tn.value) tn.value = u.name||'';
-    if (tr && !tr.value) tr.value = u.designation||'HSE Professional';
-  } catch(e){}
-  pickTmpl('G');
-}
-
-function closeCertModal() {
-  var o = document.getElementById('cert-modal-overlay');
-  if (o) o.style.display = 'none';
-  document.body.style.overflow = '';
-}
-
-function goStep(n) {
-  [1,2,3].forEach(function(s){
-    var cs = document.getElementById('cs'+s);
-    if (cs) cs.style.display = s===n ? 'block' : 'none';
-    var si = document.getElementById('si'+s);
-    var snum = document.getElementById('si'+s+'-num');
-    var slbl = document.getElementById('si'+s+'-lbl');
-    if (!si) return;
-    if (s < n) {
-      si.style.background='rgba(34,197,94,.07)'; si.style.borderColor='rgba(34,197,94,.15)';
-      if(snum){snum.style.background='#16A34A';snum.style.color='#fff';}
-      if(slbl){slbl.style.color='#16A34A';}
-    } else if (s===n) {
-      si.style.background='rgba(34,197,94,.12)'; si.style.borderColor='rgba(34,197,94,.3)';
-      if(snum){snum.style.background='#22C55E';snum.style.color='#000';}
-      if(slbl){slbl.style.color='#22C55E';}
-    } else {
-      si.style.background='#131C26'; si.style.borderColor='#1E293B';
-      if(snum){snum.style.background='#1E293B';snum.style.color='#64748B';}
-      if(slbl){slbl.style.color='#475569';}
-    }
-  });
-  var labels=['','Step 1 of 3 — Choose your design','Step 2 of 3 — Certificate details','Step 3 of 3 — Signatures & download'];
-  var lbl=document.getElementById('cert-step-lbl');
-  if(lbl) lbl.textContent=labels[n]||'';
-  updatePreview();
-}
-
-function pickTmpl(t) {
-  cTmpl = t;
-  ['G','H','I','J'].forEach(function(x){
-    var el=document.getElementById('tmpl-'+x);
-    if(el) el.style.borderColor = x===t ? '#22C55E' : '#1E293B';
-  });
-  updatePreview();
-}
-
-function getCo(){
-  try{
-    var u=JSON.parse(localStorage.getItem('sp_user')||'{}');
-    return {
-      name: u.companyName||u.company||'Your Organisation',
-      abbr: u.companyAbbr||u.companyName||'ORG',
-      division: u.division||'Health, Safety & Environment Division',
-      credentials: u.credentials||''
-    };
-  }catch(e){return{name:'Your Organisation',abbr:'ORG',division:'Health, Safety & Environment Division',credentials:''};}
-}
-
-function gv(id,def){ var el=document.getElementById(id); return el?(el.value.trim()||def):def; }
-
-function fmtDate(ds){
-  if(!ds) return '—';
-  try{return new Date(ds).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});}catch(x){return ds;}
-}
-
-function calcExp(ds,v){
-  if(!ds) return '—';
-  try{
-    var d=new Date(ds),e=new Date(d);
-    e.setMonth(e.getMonth()+Math.round(parseFloat(v||1)*12));
-    return e.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
-  }catch(x){return '—';}
-}
-
-function genQR(text){
-  var c=document.createElement('canvas');c.width=80;c.height=80;
-  var ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,80,80);
-  var sz=8,hash=0;
-  for(var ci=0;ci<text.length;ci++) hash=((hash<<5)-hash)+text.charCodeAt(ci);
-  [[0,0],[9,0],[0,9]].forEach(function(p){
-    ctx.fillStyle='#000';ctx.fillRect(p[0]*sz,p[1]*sz,3*sz,3*sz);
-    ctx.fillStyle='#fff';ctx.fillRect((p[0]+.5)*sz,(p[1]+.5)*sz,2*sz,2*sz);
-    ctx.fillStyle='#000';ctx.fillRect((p[0]+1)*sz,(p[1]+1)*sz,sz,sz);
-  });
-  for(var r=0;r<10;r++) for(var cc=0;cc<10;cc++){
-    if((r<3&&cc<3)||(r<3&&cc>6)||(r>6&&cc<3)) continue;
-    if((hash>>(r*10+cc))&1){ctx.fillStyle='#000';ctx.fillRect(cc*sz,r*sz,sz-1,sz-1);}
-  }
-  return c.toDataURL();
-}
-
-function sigSection(trainer,trainerRole,trainerCreds,auth,authRole,co,darkMode){
-  var tc=darkMode?'#E6EDF3':'#1E293B', sc='#64748B', bd=darkMode?'rgba(255,255,255,.08)':'#E2E8F0';
-  var bg=darkMode?'rgba(255,255,255,.02)':'#F8FAFC';
-  return '<div style="display:flex;gap:0;border-top:1px solid '+bd+';margin-top:16px;">'+
-    '<div style="flex:1;text-align:center;padding:12px 8px;background:'+bg+';">'+
-      '<div style="height:34px;border-bottom:1px solid '+(darkMode?'#334155':'#CBD5E1')+';margin-bottom:8px;"></div>'+
-      '<div style="font-size:11px;font-weight:700;color:'+tc+';">'+trainer+'</div>'+
-      '<div style="font-size:9px;color:'+sc+';margin-top:1px;">'+trainerRole+'</div>'+
-      (trainerCreds?'<div style="font-size:8px;color:'+(darkMode?'#334155':'#94A3B8')+';margin-top:1px;">'+trainerCreds+'</div>':'')+
-      '<div style="font-size:8px;color:'+(darkMode?'#475569':sc)+';margin-top:2px;letter-spacing:.5px;text-transform:uppercase;">Trainer / Instructor</div>'+
-    '</div>'+
-    '<div style="width:1px;background:'+bd+';"></div>'+
-    '<div style="flex:1;text-align:center;padding:12px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;">'+
-      '<div style="width:54px;height:54px;border:2px solid '+(darkMode?'#1E293B':'#E2E8F0')+';border-radius:50%;display:flex;align-items:center;justify-content:center;background:'+(darkMode?'rgba(255,255,255,.03)':'#F1F5F9')+';">'+
-        '<div style="width:44px;height:44px;border:1px dashed '+(darkMode?'#334155':'#CBD5E1')+';border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;">'+
-          '<div style="font-size:7px;font-weight:700;color:'+(darkMode?'#475569':'#94A3B8')+';letter-spacing:.5px;">'+co.abbr+'</div>'+
-          '<div style="font-size:5px;color:'+(darkMode?'#334155':'#CBD5E1')+';">SEAL</div>'+
-        '</div>'+
-      '</div>'+
-      '<div style="font-size:8px;color:'+(darkMode?'#334155':sc)+';margin-top:4px;text-transform:uppercase;letter-spacing:.5px;">Official Seal</div>'+
-    '</div>'+
-    '<div style="width:1px;background:'+bd+';"></div>'+
-    '<div style="flex:1;text-align:center;padding:12px 8px;background:'+bg+';">'+
-      '<div style="height:34px;border-bottom:1px solid '+(darkMode?'#334155':'#CBD5E1')+';margin-bottom:8px;"></div>'+
-      (auth?
-        '<div style="font-size:11px;font-weight:700;color:'+tc+';">'+auth+'</div>'+
-        '<div style="font-size:9px;color:'+sc+';margin-top:1px;">'+authRole+'</div>':
-        '<div style="font-size:10px;color:'+(darkMode?'#334155':sc)+';font-style:italic;">Authorising Officer</div>'
-      )+
-      '<div style="font-size:8px;color:'+(darkMode?'#475569':sc)+';margin-top:2px;letter-spacing:.5px;text-transform:uppercase;">Authorising Officer</div>'+
-    '</div>'+
-  '</div>';
-}
-
-function cornerSVG(flip){ 
-  var tx = flip ? 'scale(-1,1) translate(-80,0)' : '';
-  return '<svg viewBox="0 0 80 80" style="width:80px;height:80px;position:absolute;'+(flip?'top:0;right:0':'top:0;left:0')+';display:block;"><g transform="'+tx+'"><path d="M0 0 L80 0 L0 80 Z" fill="#F5F0E0" opacity="0.6"/><path d="M0 0 L64 0" stroke="#8B7340" stroke-width="2" fill="none"/><path d="M0 0 L0 64" stroke="#8B7340" stroke-width="2" fill="none"/><path d="M0 0 L0 40 Q10 10 40 0 Z" fill="#C9A84C" opacity="0.08"/><circle cx="14" cy="14" r="4" fill="#C9A84C" opacity="0.7"/><circle cx="7" cy="7" r="2" fill="#8B7340" opacity="0.8"/><path d="M20 0 L0 20" stroke="#C9A84C" stroke-width="0.7" fill="none" opacity="0.4"/><path d="M30 0 L0 30" stroke="#C9A84C" stroke-width="0.5" fill="none" opacity="0.3"/></g></svg>';
-}
-
-function botCornerSVG(flip){
-  var tx = flip ? 'scale(-1,-1) translate(-80,-80)' : 'scale(1,-1) translate(0,-80)';
-  return '<svg viewBox="0 0 80 80" style="width:80px;height:80px;position:absolute;'+(flip?'bottom:0;right:0':'bottom:0;left:0')+';display:block;"><g transform="'+tx+'"><path d="M0 0 L80 0 L0 80 Z" fill="#F5F0E0" opacity="0.6"/><path d="M0 0 L64 0" stroke="#8B7340" stroke-width="2" fill="none"/><path d="M0 0 L0 64" stroke="#8B7340" stroke-width="2" fill="none"/><circle cx="14" cy="14" r="4" fill="#C9A84C" opacity="0.7"/></g></svg>';
-}
-
-function watermarkCrest(){
-  return '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0.035;z-index:0;">'+
-    '<svg viewBox="0 0 200 200" style="width:260px;height:260px;"><circle cx="100" cy="100" r="94" fill="none" stroke="#1B3A6B" stroke-width="5"/><circle cx="100" cy="100" r="78" fill="none" stroke="#1B3A6B" stroke-width="2"/><circle cx="100" cy="100" r="62" fill="none" stroke="#1B3A6B" stroke-width="1"/><path d="M100 16 L118 70 L174 70 L128 102 L146 158 L100 126 L54 158 L72 102 L26 70 L82 70 Z" fill="#1B3A6B"/><circle cx="100" cy="100" r="18" fill="#1B3A6B"/><text x="100" y="106" font-family="Georgia,serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">HSE</text></svg>'+
-  '</div>';
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// TEMPLATE G — Imperial Classic (Ornamental corners, watermark, ribbon)
-// ═══════════════════════════════════════════════════════════════════
-function buildG(d){
-  var co=d.co, qr=d.qr;
-  return '<div style="width:794px;min-height:560px;background:#FAFAF7;font-family:Georgia,serif;border:2.5px solid #8B7340;position:relative;overflow:hidden;">'+
-    watermarkCrest()+
-    cornerSVG(false)+cornerSVG(true)+botCornerSVG(false)+botCornerSVG(true)+
-    '<div style="position:absolute;inset:13px;border:0.8px solid #C9A84C;pointer-events:none;z-index:1;"></div>'+
-    '<div style="position:absolute;inset:17px;border:0.3px solid #E8D5A3;pointer-events:none;z-index:1;"></div>'+
-    '<div style="position:relative;z-index:2;padding:34px 52px 24px;">'+
-      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #E8D5A3;">'+
-        '<div style="display:flex;align-items:center;gap:12px;">'+
-          '<svg viewBox="0 0 60 68" style="width:46px;height:52px;flex-shrink:0;"><polygon points="30,3 57,17 57,51 30,65 3,51 3,17" fill="#1B3A6B" stroke="#C9A84C" stroke-width="2"/><polygon points="30,11 51,23 51,47 30,57 9,47 9,23" fill="none" stroke="#C9A84C" stroke-width="0.8" opacity="0.5"/><text x="30" y="37" font-family="Georgia,serif" font-size="14" font-weight="bold" fill="#C9A84C" text-anchor="middle">HSE</text><text x="30" y="47" font-family="Arial" font-size="5" fill="#C9A84C" text-anchor="middle" letter-spacing="1.5">SAFETY</text></svg>'+
-          '<div>'+
-            '<div style="font-size:15px;font-weight:700;color:#1B3A6B;letter-spacing:.3px;font-family:Georgia,serif;">'+co.name+'</div>'+
-            '<div style="font-size:8.5px;color:#8B7340;letter-spacing:2px;margin-top:2px;font-family:Arial,sans-serif;">'+co.division.toUpperCase()+'</div>'+
-          '</div>'+
-        '</div>'+
-        '<div style="text-align:right;">'+
-          '<div style="font-size:7.5px;color:#94A3B8;letter-spacing:1px;font-family:Arial;margin-bottom:2px;">CERTIFICATE NO.</div>'+
-          '<div style="font-size:12px;font-weight:700;color:#1B3A6B;font-family:monospace;">'+d.certNo+'</div>'+
-          '<div style="display:flex;gap:4px;justify-content:flex-end;margin-top:5px;">'+
-            '<div style="background:#1B3A6B;color:#C9A84C;font-size:6.5px;font-weight:700;padding:2px 7px;font-family:Arial;letter-spacing:.5px;">ISO 45001</div>'+
-            '<div style="background:#8B7340;color:#fff;font-size:6.5px;font-weight:700;padding:2px 7px;font-family:Arial;letter-spacing:.5px;">IMS CERTIFIED</div>'+
-          '</div>'+
-        '</div>'+
-      '</div>'+
-      '<div style="text-align:center;margin-bottom:16px;">'+
-        '<div style="display:inline-block;position:relative;">'+
-          '<div style="background:#1B3A6B;padding:7px 36px;position:relative;display:inline-block;">'+
-            '<div style="position:absolute;left:-14px;top:0;bottom:0;width:14px;background:#1B3A6B;clip-path:polygon(100% 0,100% 100%,0 50%);"></div>'+
-            '<div style="position:absolute;right:-14px;top:0;bottom:0;width:14px;background:#1B3A6B;clip-path:polygon(0 0,0 100%,100% 50%);"></div>'+
-            '<span style="color:#C9A84C;font-size:10px;font-weight:700;letter-spacing:4px;font-family:Arial;text-transform:uppercase;">Certificate of Training</span>'+
-          '</div>'+
-        '</div>'+
-        '<div style="font-size:9px;color:#94A3B8;letter-spacing:2px;margin-top:8px;font-family:Arial;">This is to certify that</div>'+
-      '</div>'+
-      '<div style="text-align:center;margin-bottom:7px;">'+
-        '<span style="font-size:32px;font-weight:700;color:#1B3A6B;border-bottom:1.5px solid #C9A84C;padding:0 20px 7px;display:inline-block;letter-spacing:1px;">'+d.name+'</span>'+
-      '</div>'+
-      '<div style="text-align:center;font-size:10.5px;color:#64748B;margin-bottom:15px;font-family:Arial;letter-spacing:.3px;">'+d.empId+(d.desig?' &nbsp;|&nbsp; '+d.desig:'')+(d.proj?' &nbsp;|&nbsp; '+d.proj:'')+'</div>'+
-      '<div style="text-align:center;margin-bottom:6px;">'+
-        '<div style="font-size:11px;color:#374151;margin-bottom:5px;font-family:Arial;">has successfully demonstrated competence and completed the required training in</div>'+
-        '<div style="font-size:21px;font-weight:700;color:#1B3A6B;letter-spacing:.5px;">'+d.topic+'</div>'+
-        (d.dur||d.score?'<div style="font-size:9.5px;color:#64748B;margin-top:4px;font-family:Arial;">'+(d.dur?'Duration: '+d.dur:'')+(d.dur&&d.score?' &nbsp;|&nbsp; ':'')+(d.score?'Score: '+d.score+' &nbsp;|&nbsp; Grade: Distinction':'')+'</div>':'')+
-      '</div>'+
-      '<div style="display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;margin:14px 0;">'+
-        '<div style="padding:10px;text-align:center;background:#F8FAFC;"><div style="font-size:7.5px;color:#94A3B8;letter-spacing:1.5px;font-family:Arial;text-transform:uppercase;margin-bottom:3px;">Date of Completion</div><div style="font-size:12.5px;font-weight:700;color:#1B3A6B;font-family:Arial;">'+d.date+'</div></div>'+
-        '<div style="background:#E2E8F0;"></div>'+
-        '<div style="padding:10px;text-align:center;background:#FFF8F0;"><div style="font-size:7.5px;color:#94A3B8;letter-spacing:1.5px;font-family:Arial;text-transform:uppercase;margin-bottom:3px;">Valid Until</div><div style="font-size:12.5px;font-weight:700;color:#DC2626;font-family:Arial;">'+d.expiry+'</div></div>'+
-        '<div style="background:#E2E8F0;"></div>'+
-        '<div style="padding:10px;text-align:center;background:#F0FDF4;"><div style="font-size:7.5px;color:#94A3B8;letter-spacing:1.5px;font-family:Arial;text-transform:uppercase;margin-bottom:3px;">Validity</div><div style="font-size:12.5px;font-weight:700;color:#16A34A;font-family:Arial;">'+d.vStr+'</div></div>'+
-      '</div>'+
-      sigSection(d.trainer,d.trainerRole,d.creds,d.auth,d.authRole,co,false)+
-    '</div>'+
-    '<div style="background:#1B3A6B;padding:6px 52px;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2;">'+
-      '<div style="color:#475569;font-size:7.5px;font-family:Arial;letter-spacing:.3px;">safetyproworld.com &nbsp;|&nbsp; Powered by SafetyPro AI</div>'+
-      '<div style="display:flex;align-items:center;gap:7px;"><img src="'+qr+'" width="28" height="28" style="border:1px solid rgba(255,255,255,.1);border-radius:2px;opacity:.9;"/><span style="color:#C9A84C;font-size:7.5px;font-family:Arial;">Scan to verify</span></div>'+
-      '<div style="color:#475569;font-size:7.5px;font-family:Arial;">'+d.certNo+' &nbsp;|&nbsp; '+new Date().toLocaleDateString('en-IN')+'</div>'+
-    '</div>'+
-  '</div>';
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// TEMPLATE H — Royal Parchment (Warm cream, laurel frame, centered formal)
-// ═══════════════════════════════════════════════════════════════════
-function buildH(d){
-  var co=d.co, qr=d.qr;
-  return '<div style="width:794px;min-height:560px;background:#FDF8ED;font-family:Georgia,serif;position:relative;overflow:hidden;">'+
-    '<div style="position:absolute;inset:0;pointer-events:none;opacity:.04;z-index:0;background:repeating-linear-gradient(45deg,#8B7340 0,#8B7340 1px,transparent 0,transparent 20px);"></div>'+
-    '<div style="position:absolute;inset:10px;border:2px solid #C9A84C;pointer-events:none;z-index:1;"></div>'+
-    '<div style="position:absolute;inset:15px;border:1px solid #E8D5A3;pointer-events:none;z-index:1;"></div>'+
-    '<div style="position:absolute;inset:19px;border:0.5px solid #F0E8D0;pointer-events:none;z-index:1;"></div>'+
-    '<div style="position:absolute;top:0;left:0;right:0;height:8px;background:#8B7340;z-index:2;"></div>'+
-    '<div style="position:absolute;bottom:0;left:0;right:0;height:8px;background:#8B7340;z-index:2;"></div>'+
-    '<div style="position:relative;z-index:3;padding:28px 60px 24px;text-align:center;">'+
-      '<div style="margin-bottom:14px;">'+
-        '<div style="display:inline-flex;align-items:center;gap:10px;background:#1B3A6B;padding:7px 20px;border-radius:2px;">'+
-          '<svg viewBox="0 0 40 46" style="width:28px;height:32px;"><polygon points="20,2 38,11 38,35 20,44 2,35 2,11" fill="none" stroke="#C9A84C" stroke-width="1.5"/><text x="20" y="28" font-family="Georgia" font-size="11" font-weight="bold" fill="#C9A84C" text-anchor="middle">HSE</text></svg>'+
-          '<div style="text-align:left;"><div style="color:#fff;font-size:13px;font-weight:700;letter-spacing:.3px;">'+co.name+'</div><div style="color:#C9A84C;font-size:7.5px;letter-spacing:2px;font-family:Arial;">'+co.division.toUpperCase()+'</div></div>'+
-        '</div>'+
-      '</div>'+
-      '<div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:10px;">'+
-        '<div style="height:1px;flex:1;background:linear-gradient(to right,transparent,#C9A84C);"></div>'+
-        '<span style="font-size:9px;letter-spacing:5px;color:#8B7340;font-family:Arial;font-weight:700;text-transform:uppercase;">Certificate of Training</span>'+
-        '<div style="height:1px;flex:1;background:linear-gradient(to left,transparent,#C9A84C);"></div>'+
-      '</div>'+
-      '<div style="font-size:9px;color:#94A3B8;letter-spacing:2px;margin-bottom:10px;font-family:Arial;">Presented to</div>'+
-      '<div style="margin-bottom:8px;">'+
-        '<div style="font-size:36px;font-weight:400;color:#1B3A6B;letter-spacing:2px;font-style:italic;">'+d.name+'</div>'+
-        '<div style="width:200px;height:1px;background:#C9A84C;margin:8px auto;"></div>'+
-        '<div style="width:160px;height:0.5px;background:#E8D5A3;margin:0 auto;"></div>'+
-      '</div>'+
-      '<div style="font-size:10px;color:#64748B;margin-bottom:14px;font-family:Arial;letter-spacing:.3px;">'+d.empId+(d.desig?' &nbsp;·&nbsp; '+d.desig:'')+(d.proj?' &nbsp;·&nbsp; '+d.proj:'')+'</div>'+
-      '<div style="margin-bottom:14px;">'+
-        '<div style="font-size:11px;color:#374151;margin-bottom:5px;font-family:Arial;line-height:1.7;">in recognition of successfully completing the training programme in</div>'+
-        '<div style="font-size:22px;font-weight:700;color:#1B3A6B;margin-bottom:3px;">'+d.topic+'</div>'+
-        (d.score?'<div style="display:inline-block;border:1px solid #E8D5A3;background:#FFF9F0;padding:3px 14px;border-radius:2px;font-size:9px;color:#8B7340;font-family:Arial;margin-top:3px;">Score: '+d.score+(d.dur?' &nbsp;|&nbsp; Duration: '+d.dur:'')+'</div>':'')+(d.dur&&!d.score?'<div style="font-size:9px;color:#94A3B8;font-family:Arial;margin-top:3px;">Duration: '+d.dur+'</div>':'')+
-      '</div>'+
-      '<div style="display:flex;justify-content:center;gap:8px;margin-bottom:14px;">'+
-        '<div style="border:1px solid #E8D5A3;padding:8px 20px;background:#FFF;min-width:120px;"><div style="font-size:7px;color:#8B7340;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;font-family:Arial;">Date</div><div style="font-size:12px;font-weight:700;color:#1B3A6B;font-family:Arial;">'+d.date+'</div></div>'+
-        '<div style="border:1px solid #FECACA;padding:8px 20px;background:#FFF5F5;min-width:120px;"><div style="font-size:7px;color:#8B7340;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;font-family:Arial;">Valid Until</div><div style="font-size:12px;font-weight:700;color:#DC2626;font-family:Arial;">'+d.expiry+'</div></div>'+
-        '<div style="border:1px solid #BBF7D0;padding:8px 20px;background:#F0FDF4;min-width:120px;"><div style="font-size:7px;color:#8B7340;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;font-family:Arial;">Validity</div><div style="font-size:12px;font-weight:700;color:#16A34A;font-family:Arial;">'+d.vStr+'</div></div>'+
-      '</div>'+
-      sigSection(d.trainer,d.trainerRole,d.creds,d.auth,d.authRole,co,false)+
-      '<div style="margin-top:12px;display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:0.5px solid #E8D5A3;">'+
-        '<div style="font-size:7.5px;color:#B0A080;font-family:Arial;letter-spacing:.3px;">Cert No: '+d.certNo+'</div>'+
-        '<div style="display:flex;align-items:center;gap:6px;"><img src="'+qr+'" width="26" height="26" style="opacity:.6;"/><span style="font-size:7.5px;color:#B0A080;font-family:Arial;">Scan to verify</span></div>'+
-        '<div style="font-size:7.5px;color:#B0A080;font-family:Arial;letter-spacing:.3px;">safetyproworld.com</div>'+
-      '</div>'+
-    '</div>'+
-  '</div>';
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// TEMPLATE I — Executive Prestige (Dark navy bands, crisp white, clean lines)
-// ═══════════════════════════════════════════════════════════════════
-function buildI(d){
-  var co=d.co, qr=d.qr;
-  return '<div style="width:794px;min-height:560px;background:#fff;font-family:Arial,sans-serif;border:1.5px solid #1B3A6B;">'+
-    '<div style="background:#1B3A6B;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;">'+
-      '<div style="display:flex;align-items:center;gap:14px;">'+
-        '<div style="width:46px;height:46px;background:rgba(201,168,76,.15);border:1.5px solid #C9A84C;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;">'+
-          '<div style="color:#C9A84C;font-size:11px;font-weight:700;letter-spacing:.5px;font-family:Georgia,serif;">HSE</div>'+
-          '<div style="color:#C9A84C;font-size:5px;letter-spacing:1.5px;">SAFETY</div>'+
-        '</div>'+
-        '<div>'+
-          '<div style="color:#fff;font-size:16px;font-weight:700;letter-spacing:.3px;">'+co.name+'</div>'+
-          '<div style="color:#C9A84C;font-size:8px;letter-spacing:2.5px;margin-top:2px;">'+co.division.toUpperCase()+'</div>'+
-        '</div>'+
-      '</div>'+
-      '<div style="text-align:right;">'+
-        '<div style="color:#475569;font-size:7px;letter-spacing:1px;margin-bottom:2px;">DOCUMENT NO.</div>'+
-        '<div style="color:#C9A84C;font-size:13px;font-weight:700;font-family:monospace;letter-spacing:1px;">'+d.certNo+'</div>'+
-      '</div>'+
-    '</div>'+
-    '<div style="height:3px;background:#C9A84C;"></div>'+
-    '<div style="background:#F8FAFC;padding:10px 40px;display:flex;align-items:center;justify-content:space-between;">'+
-      '<div style="font-size:9px;color:#94A3B8;letter-spacing:2px;text-transform:uppercase;">Certificate of Training</div>'+
-      '<div style="display:flex;gap:6px;">'+
-        '<div style="background:#1B3A6B;color:#C9A84C;font-size:7px;font-weight:700;padding:2px 8px;letter-spacing:.5px;">ISO 45001</div>'+
-        '<div style="background:#1B3A6B;color:#C9A84C;font-size:7px;font-weight:700;padding:2px 8px;letter-spacing:.5px;">IMS CERTIFIED</div>'+
-      '</div>'+
-    '</div>'+
-    '<div style="padding:24px 40px;">'+
-      '<div style="border-left:4px solid #C9A84C;padding:0 0 0 16px;margin-bottom:20px;">'+
-        '<div style="font-size:10px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">This is to certify that</div>'+
-        '<div style="font-size:30px;font-weight:700;color:#1B3A6B;letter-spacing:.5px;line-height:1.1;">'+d.name+'</div>'+
-        '<div style="font-size:11px;color:#64748B;margin-top:5px;letter-spacing:.3px;">'+d.empId+(d.desig?' &nbsp;|&nbsp; '+d.desig:'')+(d.proj?' &nbsp;|&nbsp; '+d.proj:'')+'</div>'+
-      '</div>'+
-      '<div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:2px;padding:14px 16px;margin-bottom:18px;">'+
-        '<div style="font-size:10px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">has successfully completed training in</div>'+
-        '<div style="font-size:20px;font-weight:700;color:#1B3A6B;letter-spacing:.3px;">'+d.topic+'</div>'+
-        (d.dur||d.score?'<div style="font-size:9px;color:#64748B;margin-top:4px;padding-top:6px;border-top:1px solid #E2E8F0;">'+(d.dur?'Duration: '+d.dur:'')+(d.dur&&d.score?' &nbsp;·&nbsp; ':'')+(d.score?'Score: '+d.score+'  (Distinction)':'')+'</div>':'')+
-      '</div>'+
-      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px;">'+
-        '<div style="border:1px solid #E2E8F0;border-top:3px solid #1B3A6B;padding:10px;"><div style="font-size:8px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Date of Completion</div><div style="font-size:13px;font-weight:700;color:#1B3A6B;">'+d.date+'</div></div>'+
-        '<div style="border:1px solid #E2E8F0;border-top:3px solid #DC2626;padding:10px;"><div style="font-size:8px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Valid Until</div><div style="font-size:13px;font-weight:700;color:#DC2626;">'+d.expiry+'</div></div>'+
-        '<div style="border:1px solid #E2E8F0;border-top:3px solid #16A34A;padding:10px;"><div style="font-size:8px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Validity Period</div><div style="font-size:13px;font-weight:700;color:#16A34A;">'+d.vStr+'</div></div>'+
-      '</div>'+
-      sigSection(d.trainer,d.trainerRole,d.creds,d.auth,d.authRole,co,false)+
-    '</div>'+
-    '<div style="height:3px;background:#C9A84C;"></div>'+
-    '<div style="background:#1B3A6B;padding:7px 40px;display:flex;justify-content:space-between;align-items:center;">'+
-      '<div style="color:#475569;font-size:7.5px;letter-spacing:.3px;">safetyproworld.com &nbsp;|&nbsp; Powered by SafetyPro AI</div>'+
-      '<div style="display:flex;align-items:center;gap:7px;"><img src="'+qr+'" width="26" height="26" style="border:1px solid rgba(255,255,255,.1);border-radius:2px;opacity:.8;"/><span style="color:#C9A84C;font-size:7.5px;">Scan to verify</span></div>'+
-      '<div style="color:#475569;font-size:7.5px;">'+new Date().toLocaleDateString('en-IN')+'</div>'+
-    '</div>'+
-  '</div>';
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// TEMPLATE J — Modern Distinction (STUNNING: Bold geometric left panel, 
-// vibrant teal-to-navy gradient strip, contemporary sans-serif)
-// ═══════════════════════════════════════════════════════════════════
-function buildJ(d){
-  var co=d.co, qr=d.qr;
-  return '<div style="width:794px;min-height:560px;background:#fff;font-family:Arial,sans-serif;display:flex;overflow:hidden;">'+
-    '<div style="width:220px;background:#0F2744;display:flex;flex-direction:column;padding:28px 20px;position:relative;overflow:hidden;flex-shrink:0;">'+
-      '<div style="position:absolute;top:-60px;right:-60px;width:200px;height:200px;border:40px solid rgba(255,255,255,.03);border-radius:50%;"></div>'+
-      '<div style="position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;border:30px solid rgba(201,168,76,.06);border-radius:50%;"></div>'+
-      '<div style="position:absolute;top:0;right:0;width:4px;bottom:0;background:#C9A84C;"></div>'+
-      '<div style="position:relative;z-index:1;">'+
-        '<div style="width:52px;height:52px;border:2px solid #C9A84C;display:flex;align-items:center;justify-content:center;flex-direction:column;margin-bottom:14px;position:relative;">'+
-          '<div style="position:absolute;top:4px;left:4px;right:4px;bottom:4px;border:1px solid rgba(201,168,76,.3);"></div>'+
-          '<div style="color:#C9A84C;font-size:13px;font-weight:700;letter-spacing:1px;font-family:Georgia,serif;">HSE</div>'+
-        '</div>'+
-        '<div style="color:#fff;font-size:13px;font-weight:700;line-height:1.3;margin-bottom:4px;">'+co.name+'</div>'+
-        '<div style="height:2px;background:#C9A84C;width:40px;margin-bottom:8px;"></div>'+
-        '<div style="color:#C9A84C;font-size:7px;letter-spacing:1.5px;line-height:1.5;text-transform:uppercase;">'+co.division.replace(/ Division/i,'').trim()+'</div>'+
-        '<div style="margin:20px 0;height:1px;background:rgba(255,255,255,.1);"></div>'+
-        '<div style="color:rgba(255,255,255,.6);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">Certificate No.</div>'+
-        '<div style="color:#C9A84C;font-size:11px;font-weight:700;font-family:monospace;letter-spacing:1px;word-break:break-all;">'+d.certNo+'</div>'+
-        '<div style="margin:20px 0;height:1px;background:rgba(255,255,255,.1);"></div>'+
-        '<div style="color:rgba(255,255,255,.5);font-size:8px;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Issued On</div>'+
-        '<div style="color:#fff;font-size:9.5px;font-weight:600;">'+d.date+'</div>'+
-        '<div style="margin:12px 0 8px;color:rgba(255,255,255,.5);font-size:8px;letter-spacing:1px;text-transform:uppercase;">Valid Until</div>'+
-        '<div style="color:#EF4444;font-size:9.5px;font-weight:600;">'+d.expiry+'</div>'+
-        '<div style="margin-top:auto;padding-top:20px;text-align:center;">'+
-          '<img src="'+qr+'" width="60" height="60" style="border:1px solid rgba(255,255,255,.1);border-radius:3px;opacity:.7;display:block;margin:0 auto 4px;"/>'+
-          '<div style="color:rgba(255,255,255,.3);font-size:7px;letter-spacing:.5px;">Scan to verify</div>'+
-        '</div>'+
-      '</div>'+
-    '</div>'+
-    '<div style="flex:1;display:flex;flex-direction:column;">'+
-      '<div style="background:#1B3A6B;padding:10px 28px;display:flex;align-items:center;justify-content:space-between;">'+
-        '<div style="font-size:8.5px;color:#C9A84C;letter-spacing:3px;font-weight:700;text-transform:uppercase;">Certificate of Training</div>'+
-        '<div style="display:flex;gap:5px;">'+
-          '<div style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:#C9A84C;font-size:6.5px;font-weight:700;padding:2px 7px;letter-spacing:.5px;">ISO 45001</div>'+
-          '<div style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:#C9A84C;font-size:6.5px;font-weight:700;padding:2px 7px;letter-spacing:.5px;">IMS CERTIFIED</div>'+
-        '</div>'+
-      '</div>'+
-      '<div style="flex:1;padding:24px 28px 20px;display:flex;flex-direction:column;justify-content:space-between;">'+
-        '<div>'+
-          '<div style="font-size:10px;color:#94A3B8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">This is to certify that</div>'+
-          '<div style="font-size:30px;font-weight:700;color:#0F2744;letter-spacing:.3px;line-height:1;margin-bottom:6px;">'+d.name+'</div>'+
-          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">'+
-            '<div style="height:2px;width:24px;background:#C9A84C;flex-shrink:0;"></div>'+
-            '<div style="font-size:10.5px;color:#64748B;letter-spacing:.2px;">'+d.empId+(d.desig?' &nbsp;|&nbsp; '+d.desig:'')+(d.proj?' &nbsp;|&nbsp; '+d.proj:'')+'</div>'+
-          '</div>'+
-          '<div style="font-size:10px;color:#94A3B8;letter-spacing:.5px;margin-bottom:6px;">has successfully completed the training programme in</div>'+
-          '<div style="background:#F8FAFC;border-left:4px solid #C9A84C;padding:12px 16px;margin-bottom:16px;">'+
-            '<div style="font-size:19px;font-weight:700;color:#0F2744;letter-spacing:.3px;">'+d.topic+'</div>'+
-            (d.dur||d.score?'<div style="font-size:9px;color:#64748B;margin-top:4px;">'+(d.dur?'Duration: '+d.dur:'')+(d.dur&&d.score?' &nbsp;·&nbsp; ':'')+(d.score?'Score: '+d.score+' — Distinction':'')+'</div>':'')+
-          '</div>'+
-          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">'+
-            '<div style="background:#F8FAFC;padding:8px 12px;display:flex;align-items:center;gap:8px;">'+
-              '<div style="width:3px;height:28px;background:#1B3A6B;flex-shrink:0;"></div>'+
-              '<div><div style="font-size:7.5px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;">Validity</div><div style="font-size:12px;font-weight:700;color:#0F2744;">'+d.vStr+'</div></div>'+
-            '</div>'+
-            '<div style="background:#FFF5F5;padding:8px 12px;display:flex;align-items:center;gap:8px;">'+
-              '<div style="width:3px;height:28px;background:#DC2626;flex-shrink:0;"></div>'+
-              '<div><div style="font-size:7.5px;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;">Expiry Date</div><div style="font-size:12px;font-weight:700;color:#DC2626;">'+d.expiry+'</div></div>'+
-            '</div>'+
-          '</div>'+
-        '</div>'+
-        sigSection(d.trainer,d.trainerRole,d.creds,d.auth,d.authRole,co,false)+
-      '</div>'+
-      '<div style="background:#F8FAFC;border-top:1px solid #E2E8F0;padding:6px 28px;display:flex;justify-content:space-between;align-items:center;">'+
-        '<div style="font-size:7.5px;color:#94A3B8;letter-spacing:.3px;">safetyproworld.com &nbsp;|&nbsp; Powered by SafetyPro AI</div>'+
-        '<div style="font-size:7.5px;color:#94A3B8;">'+new Date().toLocaleDateString('en-IN')+'</div>'+
-      '</div>'+
-    '</div>'+
-  '</div>';
-}
-
-function buildCertHTML(){
-  var co=getCo();
-  var name=gv('ce-name','Your Name');
-  var empId=gv('ce-id','EMP-XXXX');
-  var desig=gv('ce-desig','');
-  var topic=gv('ce-topic','Training Programme');
-  var dateVal=gv('ce-date','');
-  var validity=gv('ce-validity','1');
-  var proj=gv('ce-proj','');
-  var dur=gv('ce-dur','');
-  var score=gv('ce-score','');
-  var trainer=gv('ce-trainer','Trainer Name');
-  var trainerRole=gv('ce-trainer-role','HSE Professional');
-  var auth=gv('ce-auth','');
-  var authRole=gv('ce-auth-role','');
-  var certNo='CERT-'+Date.now().toString().slice(-6);
-  var vStr=parseFloat(validity)>=1?validity+' Year(s)':(parseFloat(validity)*12)+' Months';
-  var creds=co.credentials||'';
-
-  var d={co,name,empId,desig,topic,proj,dur,score,trainer,trainerRole,creds,auth,authRole,
-    certNo,date:fmtDate(dateVal),expiry:calcExp(dateVal,validity),vStr,qr:genQR(certNo+'|'+empId+'|'+topic)};
-
-  if(cTmpl==='G') return buildG(d);
-  if(cTmpl==='H') return buildH(d);
-  if(cTmpl==='I') return buildI(d);
-  return buildJ(d);
-}
-
-function updatePreview(){
-  var el=document.getElementById('cert-preview-inner');
-  if(el) el.innerHTML=buildCertHTML();
-}
-
-function previewFullCert(){
-  var win=window.open('','_blank','width=880,height=640');
-  win.document.write('<!DOCTYPE html><html><head><title>Certificate Preview</title>'+
-    '<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet"/>'+
-    '<style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#f1f5f9;padding:24px;font-family:Arial,sans-serif;}@media print{body{background:#fff;padding:0;}.no-print{display:none!important;}@page{size:A4 landscape;margin:0;}}
-</style>'+
-    '</head><body>'+buildCertHTML()+
-    '<div class="no-print" style="margin-top:16px;display:flex;gap:10px;justify-content:center;">'+
-      '<button onclick="window.print()" style="padding:10px 24px;background:#22C55E;border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;">Print / Save as PDF</button>'+
-      '<button onclick="window.close()" style="padding:10px 20px;background:#64748B;border:none;border-radius:8px;color:#fff;font-size:13px;cursor:pointer;">Close</button>'+
-    '</div></body></html>');
-  win.document.close();
-}
-
-function downloadCert(){
-  var name=gv('ce-name',''), empId=gv('ce-id',''), topic=gv('ce-topic',''), date=gv('ce-date',''), trainer=gv('ce-trainer','');
-  if(!name||!empId||!topic||!date||!trainer){ fieldToast&&fieldToast('Please fill required fields (*)','error'); goStep(2); return; }
-  previewFullCert();
-  certHist.unshift({empName:name,empId:empId,topic:topic,date:fmtDate(date),expiry:calcExp(date,gv('ce-validity','1')),tmpl:cTmpl});
-  renderCertHist();
-  closeCertModal();
-  fieldToast&&fieldToast('Certificate opened — click Print to save as PDF','success');
-}
-
-function renderCertHist(){
-  var c=document.getElementById('cert-history'),l=document.getElementById('cert-history-list');
-  if(!c||!l||!certHist.length) return;
-  c.style.display='block';
-  l.innerHTML=certHist.slice(0,5).map(function(x){
-    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--raised);border:1px solid var(--border);border-radius:7px;margin-bottom:6px;">'+
-      '<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:15px;">&#127891;</span><div><div style="font-size:11px;font-weight:600;color:var(--t1);">'+x.empName+' <span style="font-weight:400;color:var(--t3);">('+x.empId+')</span></div><div style="font-size:10px;color:var(--t3);">'+x.topic+'</div></div></div>'+
-      '<div style="text-align:right;"><div style="font-size:10px;color:var(--t3);">Template '+x.tmpl+'</div><div style="font-size:10px;color:#EF4444;">Expires: '+x.expiry+'</div></div></div>';
-  }).join('');
-}
-
-/* ── LIVE SIDEBAR BADGES ── */
-(function updateSidebarBadges(){
-  var token = localStorage.getItem('sp_token')||'';
-  if(!token) return;
-  var base = (typeof API_BASE!=='undefined'?API_BASE:typeof ADMIN_API!=='undefined'?ADMIN_API:
-    'https://safetypro-backend-production.up.railway.app/api/v1');
-  fetch(base+'/dashboard/kpis',{headers:{'Authorization':'Bearer '+token}})
-  .then(function(r){return r.ok?r.json():null;})
-  .then(function(d){
-    if(!d) return;
-    // Update all sidebar badges across the platform
-    document.querySelectorAll('.sb-badge').forEach(function(badge){
-      var item = badge.closest('.sb-item, a');
-      if(!item) return;
-      var href = item.getAttribute('href')||'';
-      if(href.includes('operations')) badge.textContent = (d.openIncidents||d.totalIncidents||0);
-      else if(href.includes('control')) badge.textContent = (d.openNCRs||0);
-      else if(href.includes('field')) badge.textContent = (d.pendingActions||0);
-    });
-  }).catch(function(){});
-})();
-
 </script>
 </body>
 </html>
