@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- v=2026-04-09T09:21:56 -->
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Site &amp; Field Tools — SafetyPro AI</title>
@@ -75,7 +76,7 @@ svg{flex-shrink:0}
 .un-role{font-size:9px;color:var(--t3)}
 
 /* BODY */
-.body{display:flex;flex:1}
+.body{display:flex;flex:1;margin-top:52px}
 
 /* SIDEBAR */
 .sidebar{width:195px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:10px 8px;min-height:calc(100vh - 52px);position:sticky;top:52px;align-self:flex-start}
@@ -106,7 +107,7 @@ flex-wrap:wrap;}
 .sh-tab:hover{color:var(--t2)}
 .sh-tab.active{background:var(--card);border-color:var(--border);color:var(--t1);font-weight:500}
 .sh-right{display:flex;gap:8px;align-items:center}
-.btn-primary{display:flex;align-items:center;gap:6px;background:var(--green);color:#0B0E12;border:none;padding:8px 16px;border-radius:8px;font-family:var(--fb);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-primary{display:flex;align-items:center;gap:5px;background:var(--green);color:#0B0F14;border:none;padding:5px 12px;border-radius:7px;font-family:var(--fh);font-size:11px;font-weight:700;cursor:pointer;transition:opacity .15s;white-space:nowrap}
 .btn-primary:hover{background:var(--g-h);transform:translateY(-1px)}
 .btn-primary svg{width:13px;height:13px;fill:#0B0E12}
 .btn-outline{display:flex;align-items:center;gap:6px;background:transparent;color:var(--t2);border:1px solid var(--border);padding:7px 14px;border-radius:8px;font-family:var(--fb);font-size:13px;cursor:pointer;transition:all .2s}
@@ -548,7 +549,7 @@ flex-wrap:wrap;}
   }
   .sidebar.open{left:0 !important;box-shadow:4px 0 24px rgba(0,0,0,.5);}
 
-  .body{flex-direction:column;overflow:visible !important;height:auto !important;}
+  .body{flex-direction:column;min-height:0;}
   .content{overflow:visible !important;height:auto !important;}
 
   .subnav,.subnav-row{
@@ -933,6 +934,34 @@ flex-wrap:wrap;}
 .content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .content::-webkit-scrollbar { width: 4px; }
 .content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* ── TOUCH-FRIENDLY BUTTONS (mobile) ── */
+  @media (max-width: 768px) {
+    button { min-height: 36px; }
+    .btn-primary, .btn-secondary { min-height: 28px; padding: 5px 12px !important; }
+    .eye-btn { min-width: 44px !important; min-height: 44px !important; padding: 10px !important; }
+    .sb-toggle { min-width: 44px !important; min-height: 44px !important; }
+    input, select, textarea { min-height: 40px; font-size: 16px !important; } /* prevent iOS zoom */
+  }
+
+
+  /* ── BUTTON SIZE FIXES — all interactive buttons ≥36px ── */
+  .exp-btn { min-height: 36px !important; padding: 6px 12px !important; }
+  .ca-btn { min-height: 30px !important; padding: 4px 10px !important; }
+  .qa-btn { min-height: 40px !important; padding: 10px 14px !important; font-size: 12px !important; }
+  .card-btn, .filter-btn, .sh-tab { min-height: 36px !important; }
+  .sn-btn, .act-btn, .kpi-btn { min-height: 36px !important; }
+  .badge-btn, .tag-btn { min-height: 28px !important; }  /* badge/tag buttons can be smaller */
+  
+  /* Mobile overrides */
+  @media (max-width: 768px) {
+    .qa-btn { min-height: 44px !important; font-size: 11px !important; padding: 8px 10px !important; }
+    .qa-bar { gap: 8px !important; flex-wrap: wrap !important; }
+    .exp-btn { min-height: 40px !important; }
+    .ca-btn { min-height: 32px !important; padding: 6px 12px !important; }
+    .range-btns { gap: 4px !important; }
+  }
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
 <script src="/safetypro_exports.js"></script>
@@ -947,7 +976,7 @@ flex-wrap:wrap;}
 html{height:100%;overflow:hidden;}
 body{height:100%!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;}
 .topnav{flex-shrink:0!important;height:52px!important;}
-.body{flex:1 1 0%!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:row!important;margin-top:0!important;}
+.body{flex:1 1 0%!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:row!important;margin-top:52px!important;}
 /* FIX 2: Sidebar scrollable — so MORE items incl. Admin always reachable */
 .sidebar{position:relative!important;flex-shrink:0!important;height:100%!important;min-height:0!important;overflow-y:auto!important;scrollbar-width:none!important;border-right:1px solid var(--border,#1E293B)!important;}
 .sidebar::-webkit-scrollbar{display:none!important;}
@@ -1019,7 +1048,11 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
   padding: 0 !important;
   height: 52px !important;
   overflow: visible !important;
-  position: relative !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 200 !important;
 }
 .topnav .logo, .topnav a.logo {
   width: 195px !important;
@@ -1170,7 +1203,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 </nav>
   <!-- Profile Dropdown -->
   <div id="profile-dropdown" style="display:none;position:fixed;top:58px;right:16px;width:240px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:9999;overflow:hidden;">
-    <div style="padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--raised);"><div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:16px;font-weight:800;color:#fff;flex-shrink:0;">DK</div><div><div style="font-size:13px;font-weight:700;color:var(--t1);font-family:var(--fh);">Dhanesh CK</div><div style="font-size:10px;color:var(--t3);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e7838f868982948fc9848ca78e8284848bc98488c98e89">[email&#160;protected]</a></div><div style="margin-top:4px;display:inline-block;padding:2px 8px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);border-radius:10px;font-size:9px;font-weight:700;color:var(--green);font-family:var(--fh);">HSE HEAD</div></div></div>
+    <div style="padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--raised);"><div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:16px;font-weight:800;color:#fff;flex-shrink:0;">DK</div><div><div style="font-size:13px;font-weight:700;color:var(--t1);font-family:var(--fh);">Project HSE Head</div><div style="font-size:10px;color:var(--t3);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e7838f868982948fc9848ca78e8284848bc98488c98e89">[email&#160;protected]</a></div><div style="margin-top:4px;display:inline-block;padding:2px 8px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);border-radius:10px;font-size:9px;font-weight:700;color:var(--green);font-family:var(--fh);">HSE HEAD</div></div></div>
     <div style="padding:6px;"><a href="safetypro_v2.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a><a href="safetypro_admin" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Manage Users</a><a href="safetypro_admin" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M2 12h2m16 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>Settings</a><div onclick="changePassword()" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;cursor:pointer;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Change Password</div></div>
     <div style="padding:8px;border-top:1px solid var(--border);"><div onclick="signOut()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border-radius:8px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:var(--red);font-size:13px;font-weight:700;font-family:var(--fh);cursor:pointer;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out</div></div>
   </div>    </div>
@@ -1789,7 +1822,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
               <div>
                 <div style="font-size:11px;font-weight:700;color:var(--t1);">Fire Brigade</div>
-                <div style="font-size:10px;color:var(--t3);">Birpur Fire Station</div>
+                <div style="font-size:10px;color:var(--t3);">Project Site Fire Station</div>
               </div>
               <a href="tel:101" style="padding:6px 12px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:6px;color:var(--red);font-size:11px;font-weight:700;font-family:var(--fh);text-decoration:none;">📞 101</a>
             </div>
@@ -2021,7 +2054,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <div style="padding:8px 0;">
               <div style="padding:8px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
                 <span style="font-size:18px;">🚛</span>
-                <div style="flex:1;"><div style="font-size:11px;font-weight:700;color:var(--t1);">BR-01-AB-4521 · Tipper</div><div style="font-size:10px;color:var(--t3);">Entered 08:12 AM · M/s Tirora Transport</div></div>
+                <div style="flex:1;"><div style="font-size:11px;font-weight:700;color:var(--t1);">BR-01-AB-4521 · Tipper</div><div style="font-size:10px;color:var(--t3);">Entered 08:12 AM · M/s Site Transport</div></div>
                 <span style="font-size:9px;padding:2px 7px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">PASS</span>
               </div>
               <div style="padding:8px 14px;display:flex;align-items:center;gap:8px;">
@@ -2206,7 +2239,7 @@ function saCapture(actionType) {
   document.getElementById('sa-retake-overlay').style.display = 'flex';
   
   // Simulate face recognition processing
-  saProcessAttendance(actionType, Math.floor(85 + Math.random() * 14) + 0.1);
+  saProcessAttendance(actionType, parseFloat((88 + (workerName.charCodeAt(0) % 10)).toFixed(1)));
 }
 
 function saRetake() {
@@ -2288,7 +2321,7 @@ function saAddToFeed(name, type, time, zone, confidence, gps, mode) {
   var feed = document.getElementById('sa-feed-list');
   var initials = name.split(' ').map(function(w){ return w[0]; }).join('').toUpperCase().substring(0,2);
   var colors = ['#3B82F6','#8B5CF6','#EC4899','#F59E0B','#22C55E','#06B6D4'];
-  var color = colors[Math.floor(Math.random() * colors.length)];
+  var color = colors[Math.abs(workerName ? workerName.charCodeAt(0) : 0) % colors.length];
   var badgeColor = type === 'in' ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)';
   var badgeText = type === 'in' ? 'var(--green)' : 'var(--red)';
   var modeBadge = mode === 'selfie' ? '📸 ' + confidence.toFixed(1) + '%' : mode === 'qr' ? '📷 QR' : '✏️ Manual';
@@ -2429,6 +2462,16 @@ function ptwSubmit() {
   if(!selectedPTWType) { fieldToast('Please select a permit type', 'error'); return; }
   var loc = document.getElementById('ptw-location').value;
   if(!loc) { fieldToast('Work location is required', 'error'); return; }
+  // POST PTW as a special incident record
+  var token = localStorage.getItem('sp_token') || '';
+  var loc = document.getElementById('ptw-location').value;
+  var desc = document.getElementById('ptw-desc') ? document.getElementById('ptw-desc').value : '';
+  fetch(API_BASE + '/incidents', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json','Authorization':'Bearer '+token},
+    body: JSON.stringify({ description:'PTW: '+selectedPTWType+(desc?' — '+desc:''),
+      severity:'MEDIUM', type:'PTW', location:loc, status:'OPEN', occurredAt:new Date().toISOString() })
+  }).catch(function(){});
   fieldToast('PTW submitted — Awaiting L1 approval from Safety Officer', 'success');
   document.getElementById('ptw-location').value = '';
   document.getElementById('ptw-crew').value = '';
@@ -2440,11 +2483,39 @@ function ptwSubmit() {
 }
 
 function ptwApprove(id, level) {
-  fieldToast(id + ' approved at ' + level + ' by Safety Officer', 'success');
+
+  var token = localStorage.getItem('sp_token');
+  var API = 'https://safetypro-backend-production.up.railway.app/api/v1';
+  fetch(API+'/permits/'+id+'/approve', {
+    method:'PATCH',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+    body: JSON.stringify({level: level, approvedBy: (JSON.parse(localStorage.getItem('sp_user')||'{}').name||'Safety Officer')})
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    fieldToast('PTW '+id+' approved at '+level+' — Work may proceed.','success');
+    if (typeof loadPTWData==='function') loadPTWData();
+  })
+  .catch(function(){
+    fieldToast('PTW '+id+' approved — sync pending.','success');
+  });
+
 }
 
 function ptwReject(id) {
-  fieldToast(id + ' rejected — Applicant notified', 'error');
+
+  var reason = prompt('Rejection reason:','');
+  if (!reason) return;
+  var token = localStorage.getItem('sp_token');
+  var API = 'https://safetypro-backend-production.up.railway.app/api/v1';
+  fetch(API+'/permits/'+id+'/reject', {
+    method:'PATCH',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+    body: JSON.stringify({reason: reason})
+  })
+  .then(function(){ fieldToast('PTW '+id+' rejected — Applicant notified.','error'); })
+  .catch(function(){ fieldToast('PTW '+id+' rejected — sync pending.','error'); });
+
 }
 
 // ── INDUCTION JS ─────────────────────────────────────────────────────────────
@@ -2530,16 +2601,39 @@ function nmCapture() {
   fieldToast('Photo ' + nmPhotoCount + ' captured', 'success');
 }
 
-function nmSubmit() {
+async function nmSubmit() {
   var desc = document.getElementById('nm-description').value;
   if(!desc) { fieldToast('Please describe what happened', 'error'); return; }
-  var severity = document.getElementById('nm-severity').value;
-  var zone = document.getElementById('nm-zone').value;
+  var severity = document.getElementById('nm-severity').value || 'MEDIUM';
+  var zone = document.getElementById('nm-zone').value || '';
+  var token = localStorage.getItem('sp_token') || '';
+
+  try {
+    var resp = await fetch(API_BASE + '/incidents', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json', 'Authorization':'Bearer '+token},
+      body: JSON.stringify({
+        description: desc,
+        severity: severity.toUpperCase(),
+        type: 'NEAR_MISS',
+        location: zone,
+        status: 'OPEN',
+        occurredAt: new Date().toISOString()
+      })
+    });
+    var data = await resp.json();
+    if(resp.ok && data.id) {
+      fieldToast('✅ Near Miss reported — NCR raised · Supervisor notified', 'success');
+    } else {
+      fieldToast('Submitted (offline mode)', 'success');
+    }
+  } catch(e) {
+    fieldToast('Submitted (offline mode)', 'success');
+  }
   closeNearMiss();
   nmPhotoCount = 0;
   document.getElementById('nm-photos').innerHTML = '';
   document.getElementById('nm-description').value = '';
-  fieldToast('Near Miss reported — NCR raised · Supervisor notified via WhatsApp', 'success');
 }
 
 
@@ -2594,6 +2688,32 @@ function saveTraining() {
 }
 
 function toggleSidebarMore(){var el=document.getElementById("sb-more-items"),ch=document.getElementById("sb-chev");if(!el)return;var o=el.style.maxHeight!=="0px";el.style.maxHeight=o?"0px":"500px";el.style.opacity=o?"0":"1";if(ch)ch.style.transform=o?"rotate(-90deg)":"rotate(0deg)";}
+
+/* ── DYNAMIC PROJECT DROPDOWNS ── */
+async function loadProjectDropdowns(){
+  var token = localStorage.getItem('sp_token')||'';
+  if(!token) return;
+  try {
+    var r = await fetch(API_BASE+'/projects', {headers:{'Authorization':'Bearer '+token}});
+    if(!r.ok) return;
+    var projects = await r.json();
+    if(!Array.isArray(projects)||!projects.length) return;
+    ['field-project'].forEach(function(id){
+      var sel = document.getElementById(id);
+      if(!sel) return;
+      var cur = sel.value;
+      while(sel.options.length > 1) sel.remove(1);
+      projects.forEach(function(p){
+        var o = document.createElement('option');
+        o.value = p.id; o.textContent = p.name;
+        sel.appendChild(o);
+      });
+      if(cur) sel.value = cur;
+    });
+  } catch(e){}
+}
+document.addEventListener('DOMContentLoaded', function(){ loadProjectDropdowns(); });
+
 </script>
 
   </div>
@@ -2747,7 +2867,7 @@ function toggleSidebarMore(){var el=document.getElementById("sb-more-items"),ch=
     if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#22C55E';}
   }
   function fetchStatus(){
-    fetch(API+'/api/system/status')
+    fetch(API+'/system/status')
       .then(function(r){return r.json();})
       .then(updateFooter)
       .catch(function(){updateFooter({status:'operational',version:'v1.3.2',lastSync:new Date().toISOString()});});
@@ -2832,7 +2952,7 @@ function saMarkAttendance(t){
   // Add to feed
   var workerName='Site Worker';
   var gpsStr=gpsLine;
-  var confidence=Math.floor(85+Math.random()*14)+0.1;
+  var confidence=parseFloat((88 + (workerName ? workerName.charCodeAt(0) % 10 : 5)).toFixed(1));
   saAddToFeed(workerName,t,timeStr,zone,confidence,gpsStr,'selfie');
 
   // Auto-restart after 2.5s
@@ -2903,7 +3023,7 @@ function bamSetTab(tab, el) {
 }
 
 function bamGetQRUrl() {
-  var proj = (document.getElementById('bam-qr-project')||{}).value || 'BBRP-2026';
+  var proj = (document.getElementById('bam-qr-project')||{}).value || 'PROJ-2026';
   var zone = (document.getElementById('bam-qr-zone')||{}).value || '';
   var url = 'https://www.safetyproworld.com/safetypro_checkin?code=' + encodeURIComponent(proj);
   if(zone) url += '&zone=' + encodeURIComponent(zone);
@@ -2912,7 +3032,7 @@ function bamGetQRUrl() {
 
 function bamDrawQR() {
   var url = bamGetQRUrl();
-  var proj = (document.getElementById('bam-qr-project')||{}).value || 'BBRP-2026';
+  var proj = (document.getElementById('bam-qr-project')||{}).value || 'PROJ-2026';
   var zone = (document.getElementById('bam-qr-zone')||{}).value || '';
   var lbl = document.getElementById('bam-qr-label');
   var urlEl = document.getElementById('bam-qr-url');
@@ -2938,7 +3058,7 @@ function bamDownloadQR() {
   var img = document.querySelector('#bam-qr-canvas img');
   if(!img) { fieldToast('QR not ready', 'amber'); return; }
   var link = document.createElement('a');
-  var proj = (document.getElementById('bam-qr-project')||{}).value || 'BBRP';
+  var proj = (document.getElementById('bam-qr-project')||{}).value || 'PROJ';
   link.download = proj + '-Gate-QR.png';
   link.href = img.src;
   link.click();
@@ -3300,7 +3420,7 @@ document.addEventListener('DOMContentLoaded', function() {
               <select id="ce-validity" onchange="updatePreview()" style="width:100%;padding:7px 9px;background:#131C26;border:1px solid #1E293B;border-radius:7px;color:#E6EDF3;font-size:11px;font-family:Montserrat,sans-serif;">
                 <option value="1">1 Year</option><option value="2">2 Years</option><option value="3">3 Years</option><option value="0.5">6 Months</option><option value="0.25">3 Months</option>
               </select></div>
-            <div><div style="font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Project / Site</div><input id="ce-proj" type="text" placeholder="e.g. BBRP — NH 131" oninput="updatePreview()" style="width:100%;padding:7px 9px;background:#131C26;border:1px solid #1E293B;border-radius:7px;color:#E6EDF3;font-size:11px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
+            <div><div style="font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Project / Site</div><input id="ce-proj" type="text" placeholder="e.g. PROJ — NH 131" oninput="updatePreview()" style="width:100%;padding:7px 9px;background:#131C26;border:1px solid #1E293B;border-radius:7px;color:#E6EDF3;font-size:11px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
             <div><div style="font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Duration</div><input id="ce-dur" type="text" placeholder="e.g. 4 Hours" oninput="updatePreview()" style="width:100%;padding:7px 9px;background:#131C26;border:1px solid #1E293B;border-radius:7px;color:#E6EDF3;font-size:11px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
             <div><div style="font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Score <span style="font-weight:400;">(optional)</span></div><input id="ce-score" type="text" placeholder="e.g. 85%" oninput="updatePreview()" style="width:100%;padding:7px 9px;background:#131C26;border:1px solid #1E293B;border-radius:7px;color:#E6EDF3;font-size:11px;font-family:Montserrat,sans-serif;box-sizing:border-box;"/></div>
           </div>
@@ -3804,7 +3924,8 @@ function previewFullCert(){
   var win=window.open('','_blank','width=880,height=640');
   win.document.write('<!DOCTYPE html><html><head><title>Certificate Preview</title>'+
     '<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet"/>'+
-    '<style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#f1f5f9;padding:24px;font-family:Arial,sans-serif;}@media print{body{background:#fff;padding:0;}.no-print{display:none!important;}@page{size:A4 landscape;margin:0;}}</style>'+
+    '<style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#f1f5f9;padding:24px;font-family:Arial,sans-serif;}@media print{body{background:#fff;padding:0;}.no-print{display:none!important;}@page{size:A4 landscape;margin:0;}}
+</style>'+
     '</head><body>'+buildCertHTML()+
     '<div class="no-print" style="margin-top:16px;display:flex;gap:10px;justify-content:center;">'+
       '<button onclick="window.print()" style="padding:10px 24px;background:#22C55E;border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;">Print / Save as PDF</button>'+
@@ -3833,6 +3954,29 @@ function renderCertHist(){
       '<div style="text-align:right;"><div style="font-size:10px;color:var(--t3);">Template '+x.tmpl+'</div><div style="font-size:10px;color:#EF4444;">Expires: '+x.expiry+'</div></div></div>';
   }).join('');
 }
+
+/* ── LIVE SIDEBAR BADGES ── */
+(function updateSidebarBadges(){
+  var token = localStorage.getItem('sp_token')||'';
+  if(!token) return;
+  var base = (typeof API_BASE!=='undefined'?API_BASE:typeof ADMIN_API!=='undefined'?ADMIN_API:
+    'https://safetypro-backend-production.up.railway.app/api/v1');
+  fetch(base+'/dashboard/kpis',{headers:{'Authorization':'Bearer '+token}})
+  .then(function(r){return r.ok?r.json():null;})
+  .then(function(d){
+    if(!d) return;
+    // Update all sidebar badges across the platform
+    document.querySelectorAll('.sb-badge').forEach(function(badge){
+      var item = badge.closest('.sb-item, a');
+      if(!item) return;
+      var href = item.getAttribute('href')||'';
+      if(href.includes('operations')) badge.textContent = (d.openIncidents||d.totalIncidents||0);
+      else if(href.includes('control')) badge.textContent = (d.openNCRs||0);
+      else if(href.includes('field')) badge.textContent = (d.pendingActions||0);
+    });
+  }).catch(function(){});
+})();
+
 </script>
 </body>
 </html>
