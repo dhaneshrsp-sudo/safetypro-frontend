@@ -5299,3 +5299,23 @@ a.logo .logo-name > span[style*="C6583E"] {
   font-weight: 700 !important;
   font-style: normal !important;
 }
+
+/* ════════════════════════════════════════════════════════════════════
+   OPSLIX BRAND — Pass 19: Logo period color (positional fallback)
+   
+   Pass 18 needed .logo-dot class which sp-shell.js v8 didn't apply at
+   runtime. Pass 19 uses positional selectors (last-child + style attr)
+   that work without any JS class dependency. Specificity 0,4,2 beats
+   the 0,2,1 ink rule causing the override.
+   ════════════════════════════════════════════════════════════════════ */
+
+nav.topnav a.logo .logo-name > span:last-child,
+nav.topnav a.logo .logo-name > span[style*="C6583E"],
+.topnav a.logo .logo-name > span:last-child,
+.topnav a.logo .logo-name > span[style*="C6583E"],
+a.logo .logo-name > span:last-child,
+a.logo .logo-name > span[style*="C6583E"] {
+  color: #C6583E !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+}
