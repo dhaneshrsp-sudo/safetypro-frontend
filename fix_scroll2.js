@@ -1,55 +1,33 @@
 ﻿const fs = require('fs');
-let h = fs.readFileSync('safetypro_audit_compliance.html','utf8');
+const path = 'C:/safetypro_complete_frontend/safetypro_audit_compliance.html';
+let content = fs.readFileSync(path, 'utf8');
 
-// Fix the ac-legal panel style completely
-const OLD_PANEL_STYLE = 'id="ac-legal" style="flex:1;overflow:auto;display:flex;flex-direction:column;padding:16px 20px 24px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;min-width:0;"';
-const NEW_PANEL_STYLE = 'id="ac-legal" style="flex:1;display:flex;flex-direction:column;padding:16px 20px 24px;overflow-y:scroll;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;min-width:0;min-height:0;box-sizing:border-box;"';
+// Replace the ims cssText that sets overflow:hidden
+const old = "ims.style.cssText = 'flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;';";
+const fix = "ims.style.cssText = 'flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;'; ims.style.overflowY='auto';";
 
-if(h.includes(OLD_PANEL_STYLE)){
-  h = h.replace(OLD_PANEL_STYLE, NEW_PANEL_STYLE);
-  console.log('Panel style fixed');
+if (content.includes(old)) {
+  content = content.replace(old, fix);
+  console.log('✅ Fixed ac-ims overflow');
 } else {
-  // Try original style
-  const ORIG = 'id="ac-legal" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;padding:16px 20px 24px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;"';
-  if(h.includes(ORIG)){
-    h = h.replace(ORIG, NEW_PANEL_STYLE);
-    console.log('Panel style fixed from original');
-  } else {
-    console.log('Trying regex...');
-    h = h.replace(/id="ac-legal" style="[^"]*"/, NEW_PANEL_STYLE);
-    console.log('Regex replace done');
-  }
+  // Check what line 1428 actually contains
+  const lines = content.split('\n');
+  console.log('Line 1428:', lines[1427]);
 }
 
-// Fix table wrapper - needs overflow-x:auto with proper width constraint
-h = h.replace(
-  /(<div style="overflow-x:auto[^"]*">)\s*(<table[^>]*id="ror-table")/,
-  '<div style="overflow-x:auto;overflow-y:visible;width:100%;-webkit-overflow-scrolling:touch;">\n          $2'
-);
+// Also fix the scroll fix CSS to properly enable scroll on active tab
+const oldStyle = '<style id="ac-scroll-fix">\n.tab-panel { min-height: 0 !important; }\n.tab-panel.active { overflow-y: auto !important; min-height: 0 !important; }\n.ac-sub-panel.active { overflow-y: auto !important; min-height: 0 !important; }\n</style>';
+const newStyle = '<style id="ac-scroll-fix">\n.tab-panel { min-height: 0 !important; }\n.tab-panel.active { overflow-y: auto !important; min-height: 0 !important; flex: 1 1 0% !important; }\n.ac-sub-panel.active { overflow-y: auto !important; min-height: 0 !important; }\n#ac-ims { overflow-y: auto !important; }\n</style>';
 
-// Fix table min-width
-h = h.replace(
-  /id="ror-table" style="[^"]*"/,
-  'id="ror-table" style="width:100%;min-width:880px;border-collapse:collapse;font-size:11px;"'
-);
-h = h.replace(
-  '<table style="width:100%;min-width:900px;border-collapse:collapse;font-size:11px;" id="ror-table">',
-  '<table style="width:100%;min-width:880px;border-collapse:collapse;font-size:11px;" id="ror-table">'
-);
-h = h.replace(
-  '<table style="width:100%;border-collapse:collapse;font-size:11px;" id="ror-table">',
-  '<table style="width:100%;min-width:880px;border-collapse:collapse;font-size:11px;" id="ror-table">'
-);
+const idx = content.indexOf('<style id="ac-scroll-fix">');
+const end = content.indexOf('</style>', idx) + 8;
+if (idx > -1) {
+  content = content.slice(0, idx) + newStyle + content.slice(end);
+  console.log('✅ Updated scroll CSS');
+}
 
-// Also inject a CSS fix for ac-legal in the <style> block
-const CSS_FIX = `
-  #ac-legal { overflow-y: scroll !important; overflow-x: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-  #ac-legal::-webkit-scrollbar { width: 6px; height: 6px; }
-  #ac-legal::-webkit-scrollbar-track { background: transparent; }
-  #ac-legal::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-  #ac-legal .card > div { overflow-x: auto !important; }`;
-
-h = h.replace('</style>', CSS_FIX + '\n</style>');
-
-fs.writeFileSync('safetypro_audit_compliance.html', h);
-console.log('Done. ac-legal style:', h.match(/id="ac-legal" style="([^"]+)"/)?.[1]?.substring(0,80));
+const buf = Buffer.from(content, 'utf8');
+fs.writeFileSync(path, buf);
+const check = fs.readFileSync(path);
+console.log('First 3 bytes:', check[0], check[1], check[2]);
+console.log('Size:', check.length);

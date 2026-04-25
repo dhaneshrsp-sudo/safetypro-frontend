@@ -1,0 +1,14 @@
+  <div class="sp-page-identity" data-page="audit-compliance">
+    <div class="sp-page-identity-left">
+      <nav class="sp-page-breadcrumb">
+        <a href="/safetypro_v2">Home</a>
+        <span class="sp-page-breadcrumb-separator">/</span>
+        <a href="/safetypro_v2">Dashboard</a>
+      </nav>
+      <h1 class="sp-page-title">Audit and Compliance</h1>
+    </div>
+    <div class="sp-page-identity-right">
+      <button class="sp-page-action" onclick="window.open('https://docs.safetyproworld.com/audit','_blank')">? Help</button>
+      <button class="sp-page-action sp-page-action--primary" onclick="alert('New Audit form coming soon')">+ New Audit</button>
+    </div>
+  </div>

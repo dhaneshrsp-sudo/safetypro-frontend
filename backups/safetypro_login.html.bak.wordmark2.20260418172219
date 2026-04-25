@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html lang="en" style="background:#0F1E35;">
+<head>
+<meta charset="UTF-8"/>
+<style>html,body{background:#0F1E35 !important;}
+.bp-card{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(34,197,94,.05);border:1.5px solid rgba(34,197,94,.25);border-radius:10px;text-decoration:none;margin-top:8px;transition:.2s;}
+.bp-card:hover{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.5);}
+.bp-card-left{display:flex;align-items:center;gap:10px;}
+.bp-card-icon{width:34px;height:34px;background:rgba(34,197,94,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.bp-card-icon svg{width:18px;height:18px;fill:none;stroke:#22C55E;stroke-width:1.8;stroke-linecap:round;}
+.bp-card-title{font-size:13px;font-weight:800;color:#E6EDF3;font-family:var(--fh);}
+.bp-card-sub{font-size:10px;color:#7A9BBF;margin-top:1px;}
+.bp-card-arrow{color:#22C55E;font-size:16px;}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SafetyPro AI - Sign In</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--navy:#0F1E35;--green:#22C55E;--green2:#16A34A;--gold:#C9A84C;--t1:#F0F6FF;--t2:#A8BDD4;--t3:#5A7A9A;--border:rgba(255,255,255,.08);--input:rgba(255,255,255,.06);}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--navy);color:var(--t1);}
+.page{display:flex;height:100vh;width:100vw;}
+.left{flex:0 0 55%;background:linear-gradient(135deg,#0A1628 0%,#0F1E35 40%,#162640 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:28px 40px 28px 44px;}
+.left::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(34,197,94,.06) 0%,transparent 70%);top:-100px;left:-100px;pointer-events:none;}
+.left::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.04) 0%,transparent 70%);bottom:-80px;right:-80px;pointer-events:none;}
+.left-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:60px 60px;}
+.brand{display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
+.brand-shield{width:44px;height:44px;background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(34,197,94,.3);}
+.brand-shield svg{width:24px;height:24px;}
+.brand-name{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:20px;font-weight:800;color:var(--t1);}
+.brand-name span{color:var(--green);}
+.badge{display:inline-flex;align-items:center;gap:8px;margin-top:20px;position:relative;z-index:1;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:100px;padding:6px 16px;font-size:11px;font-weight:600;letter-spacing:.8px;color:var(--green);text-transform:uppercase;}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.hero{margin-top:16px;position:relative;z-index:1;}
+.hero h1{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:30px;font-weight:800;line-height:1.15;color:var(--t1);}
+.hero h1 span{color:var(--green);}
+.hero p{margin-top:10px;font-size:13px;color:var(--t2);line-height:1.6;max-width:420px;}
+.stats{display:flex;gap:12px;margin-top:20px;position:relative;z-index:1;}
+.stat{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:12px 14px;}
+.stat-val{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:22px;font-weight:800;color:var(--green);}
+.stat-val.gold{color:var(--gold);}
+.stat-val.white{color:var(--t1);}
+.stat-lbl{font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--t3);margin-top:4px;}
+.industries{position:relative;z-index:1;}
+.ind-label{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:8px;}
+.ind-list{display:flex;gap:8px;flex-wrap:wrap;}
+.ind-tag{font-size:11px;color:var(--t2);background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:6px;padding:4px 10px;}
+.right{flex:1;background:#111D2E;display:flex;align-items:flex-start;justify-content:center;padding:60px 40px 40px;position:relative;overflow-y:auto;}
+.right::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(34,197,94,.05) 0%,transparent 60%);pointer-events:none;}
+.form-card{width:100%;max-width:400px;position:relative;z-index:1;margin:auto;}
+.form-title{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:24px;font-weight:800;color:var(--t1);margin-bottom:6px;}
+.form-sub{font-size:14px;color:var(--t2);margin-bottom:20px;}
+.grp{margin-bottom:12px;}
+.grp label{display:block;font-size:11px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--t3);margin-bottom:8px;}
+.inp-wrap{position:relative;}
+.inp-wrap > svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--t3);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;}
+.inp-wrap input{width:100%;height:48px;background:var(--input);border:1px solid var(--border);border-radius:10px;padding:0 44px 0 42px;font-size:14px;color:var(--t1);outline:none;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;transition:.2s;}
+.inp-wrap input::placeholder{color:var(--t3);}
+.inp-wrap input:focus{border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.04);box-shadow:0 0 0 3px rgba(34,197,94,.08);}
+.eye-btn{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;}
+.eye-btn svg{stroke:var(--t3);width:16px;height:16px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.forgot-row{display:flex;justify-content:flex-end;margin-top:6px;}
+.forgot{font-size:12px;color:var(--t3);text-decoration:none;transition:.15s;}
+.forgot:hover{color:var(--green);}
+.btn-signin{width:100%;height:46px;margin-top:16px;background:var(--green);border:none;border-radius:10px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;font-weight:600;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s;box-shadow:0 4px 20px rgba(34,197,94,.3);}
+.btn-signin:hover{background:var(--green2);}
+.btn-signin:disabled{opacity:.6;cursor:not-allowed;}
+.btn-signin svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.spinner{display:none;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.error-box{display:none;margin-top:14px;padding:12px 14px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:8px;font-size:13px;color:#FCA5A5;align-items:center;gap:8px;}
+.error-box svg{width:15px;height:15px;stroke:#FCA5A5;flex-shrink:0;fill:none;stroke-width:2;stroke-linecap:round;}
+.divider{display:flex;align-items:center;gap:12px;margin:14px 0;}
+.divider-line{flex:1;height:1px;background:var(--border);}
+.divider span{font-size:12px;color:var(--t3);}
+.trial{text-align:center;}
+.trial p{font-size:13px;color:var(--t3);}
+.trial a{color:var(--green);font-weight:600;text-decoration:none;}
+.version{text-align:center;margin-top:12px;font-size:11px;color:var(--t3);display:flex;align-items:center;justify-content:center;gap:6px;}
+.version-dot{width:5px;height:5px;border-radius:50%;background:var(--green);}
+@media(max-width:768px){.page{flex-direction:column;overflow:auto;}html,body{overflow:auto;}.left{flex:0 0 auto;padding:32px 28px;}.left::before,.left::after,.left-grid{display:none;}.hero h1{font-size:30px;}.stats{gap:10px;}.right{padding:32px 24px;}}
+
+/* SafetyPro scrollbar v2 */
+.body { overflow: hidden !important; }
+.content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+<link rel="preconnect" href="https://www.safetyproworld.com"/>
+<link rel="dns-prefetch" href="https://www.safetyproworld.com"/>
+<link rel="preconnect" href="https://www.safetyproworld.com"/>
+<link rel="dns-prefetch" href="https://www.safetyproworld.com"/>
+<style>/* sp-height-fix */
+html,body{height:100%!important;overflow:hidden!important;}
+.body{height:calc(100vh - 52px)!important;overflow:hidden!important;}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="left">
+    <div class="left-grid"></div>
+    <div>
+      <div class="brand">
+        <div class="brand-shield">
+          <svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2z" fill="white"/><path d="M9 12l2 2 4-4" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="brand-name">Safety<span>Pro</span> AI</div>
+      </div>
+      <div class="badge"><div class="badge-dot"></div>Live Beta &nbsp;&middot;&nbsp; ISO 45001 Ready</div>
+      <div class="hero">
+        <h1>Real-Time<br/><span>HSE Intelligence</span><br/>for Every Industry</h1>
+        <p>From incident to resolution in minutes. Automated escalation, live dashboards, and full audit trails &mdash; across construction, manufacturing, oil &amp; gas, and more.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="stat-val">40%</div><div class="stat-lbl">Faster Incident Reporting</div></div>
+        <div class="stat"><div class="stat-val gold">L1&ndash;L5</div><div class="stat-lbl">Auto Escalation Chain</div></div>
+        <div class="stat"><div class="stat-val white">100%</div><div class="stat-lbl">Audit Trail Coverage</div></div>
+      </div>
+    </div>
+    <div class="industries">
+      <div class="ind-label">Trusted Across Industries</div>
+      <div class="ind-list">
+        <div class="ind-tag">Construction</div><div class="ind-tag">Manufacturing</div>
+        <div class="ind-tag">Oil &amp; Gas</div><div class="ind-tag">Infrastructure</div>
+        <div class="ind-tag">Power</div><div class="ind-tag">Metro Rail</div>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="form-card">
+      <div class="form-title">Welcome back</div>
+      <div class="form-sub">Sign in to your HSE management platform</div>
+      <div class="grp">
+        <label for="companyId">Company ID</label>
+        <div class="inp-wrap">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <input id="companyId" type="text" placeholder="e.g. your-company" autocomplete="organization"/>
+        </div>
+      </div>
+      <div class="grp">
+        <label for="email">Email Address</label>
+        <div class="inp-wrap">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <input id="email" type="email" placeholder="you@company.com" autocomplete="email"/>
+        </div>
+      </div>
+      <div class="grp">
+        <label for="password">Password</label>
+        <div class="inp-wrap">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input id="password" type="password" placeholder="Enter your password" autocomplete="current-password"/>
+          <button class="eye-btn" onclick="togglePwd()" type="button">
+            <svg viewBox="0 0 24 24" id="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="forgot-row"><a href="#" class="forgot">Forgot password?</a></div>
+      </div>
+      <button class="btn-signin" id="login-btn" onclick="doLogin()">
+        <div class="spinner" id="loading"></div>
+        <svg id="btn-icon" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        <span id="btn-text">Sign In</span>
+      </button>
+      <div class="error-box" id="error-box">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="error-text"></span>
+      </div>
+      <div class="divider"><div class="divider-line"></div><span>New to SafetyPro?</span><div class="divider-line"></div></div>
+      <a href="safetypro_checkin" class="bp-card">
+        <div class="bp-card-left">
+          <div class="bp-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2z" fill="rgba(34,197,94,.2)"/><path d="M9 12l2 2 4-4" stroke-width="2"/></svg>
+          </div>
+          <div>
+            <div class="bp-card-title">Biometric Portal</div>
+            <div class="bp-card-sub">Mark attendance — no login required</div>
+          </div>
+        </div>
+        <div class="bp-card-arrow">→</div>
+      </a>
+      <div class="trial"><p><a href="https://www.safetyproworld.com" target="_blank">Request a 30-day free trial &rarr;</a></p></div>
+      <div class="version"><div class="version-dot"></div>v1.0 &nbsp;&middot;&nbsp; Live Beta</div>
+    </div>
+  </div>
+</div>
+<script>
+var API_BASE='https://safetypro-backend.onrender.com/api/v1';
+var urlParams=new URLSearchParams(window.location.search);
+if(urlParams.get('logout')==='1'){localStorage.removeItem('sp_token');localStorage.removeItem('sp_user');}
+if(localStorage.getItem('sp_token')){window.location.replace('safetypro_v2');}
+function togglePwd(){var inp=document.getElementById('password');var icon=document.getElementById('eye-icon');if(inp.type==='password'){inp.type='text';icon.innerHTML='<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';}else{inp.type='password';icon.innerHTML='<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';}}
+function doLogin(){var email=document.getElementById('email').value.trim();var password=document.getElementById('password').value;var companyId=document.getElementById('companyId').value.trim();var btn=document.getElementById('login-btn');var loading=document.getElementById('loading');var btnIcon=document.getElementById('btn-icon');var btnText=document.getElementById('btn-text');var errorBox=document.getElementById('error-box');if(!email||!password||!companyId){showError('Please fill in all fields');return;}btn.disabled=true;loading.style.display='block';btnIcon.style.display='none';btnText.textContent='Signing in...';errorBox.style.display='none';fetch(API_BASE+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,password:password,companyId:companyId})}).then(function(res){return res.json().then(function(data){return{ok:res.ok,data:data};});}).then(function(result){if(!result.ok){var msg=result.data.message;if(msg&&typeof msg==='object'&&!Array.isArray(msg)){msg=msg.message||msg.error||'Login failed';}if(Array.isArray(msg))msg=msg.join(', ');throw new Error(msg||'Invalid credentials');}localStorage.setItem('sp_token',result.data.accessToken);if(result.data.user){localStorage.setItem('sp_user',JSON.stringify(result.data.user));}window.location.replace('safetypro_v2');}).catch(function(err){showError(err.message||'Login failed.');btn.disabled=false;loading.style.display='none';btnIcon.style.display='block';btnText.textContent='Sign In';});}
+function showError(msg){var el=document.getElementById('error-box');document.getElementById('error-text').textContent=msg;el.style.display='flex';}
+document.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+</script>
+</body>
+</html><!-- v2 -->

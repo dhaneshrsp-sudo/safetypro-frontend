@@ -3,136 +3,172 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet"/>
+<title>Terms of Service — OpsLix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0B0F14;--card:#131C26;--border:#1E293B;--green:#22C55E;--blue:#3B82F6;--t1:#E6EDF3;--t2:#94A3B8;--t3:#64748B;--fh:'Montserrat',sans-serif;--fb:'Roboto',sans-serif;}
-body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.8;}
-.topbar{background:#0F1720;border-bottom:1px solid var(--border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:7px;display:flex;align-items:center;justify-content:center;}
-.logo-shield svg{width:16px;height:16px;fill:#fff;}
-.logo-text{font-family:var(--fh);font-size:14px;font-weight:800;color:var(--t1);}
-.logo-text span{color:var(--green);}
-.nav-links{display:flex;gap:20px;}
-.nav-links a{font-size:11px;color:var(--t3);text-decoration:none;font-family:var(--fh);font-weight:600;}
-.nav-links a:hover{color:var(--t1);}
-.hero{background:linear-gradient(180deg,rgba(34,197,94,.04),transparent);border-bottom:1px solid var(--border);padding:48px 24px 36px;text-align:center;}
-.hero-badge{display:inline-block;font-size:10px;font-weight:700;padding:4px 12px;border-radius:100px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);font-family:var(--fh);margin-bottom:16px;}
-.hero h1{font-family:var(--fh);font-size:28px;font-weight:800;color:var(--t1);margin-bottom:8px;}
-.hero-sub{font-size:13px;color:var(--t3);max-width:500px;margin:0 auto;}
-.content{max-width:800px;margin:0 auto;padding:40px 24px;}
-.section{margin-bottom:36px;}
-.section h2{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
-.section h3{font-family:var(--fh);font-size:13px;font-weight:600;color:var(--t2);margin:16px 0 8px;}
-.section p{font-size:13px;color:var(--t2);margin-bottom:10px;}
-.section ul{font-size:13px;color:var(--t2);padding-left:20px;margin-bottom:10px;}
-.section ul li{margin-bottom:6px;}
-.highlight{background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.15);border-radius:8px;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--t2);}
-.highlight strong{color:var(--green);}
-.footer-legal{background:#0F1720;border-top:1px solid var(--border);padding:24px;text-align:center;margin-top:40px;}
-.footer-legal a{color:var(--t3);text-decoration:none;font-size:11px;margin:0 10px;font-family:var(--fh);}
-.footer-legal a:hover{color:var(--t1);}
-.footer-copy{font-size:11px;color:var(--t3);margin-top:8px;}
+:root{
+  --cream:#F5F2EB;--cream-2:#EEE9DD;--cream-3:#E6DFD0;
+  --ink:#1F1B17;--ink-2:#4A4239;--ink-3:#7A7168;
+  --accent:#C6583E;--accent-2:#A84A35;
+  --sage:#7A8B6D;--gold:#B8935C;
+  --border:rgba(31,27,23,.1);--border-2:rgba(31,27,23,.2);
+  --fh:'Fraunces',Georgia,'Times New Roman',serif;
+  --fb:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+html,body{background:var(--cream);color:var(--ink);font-family:var(--fb);line-height:1.7;font-weight:400;}
 
-/* SafetyPro scrollbar v2 */
-.body { overflow: hidden !important; }
-.content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-.content::-webkit-scrollbar { width: 4px; }
-.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+/* Top bar */
+.topbar{background:var(--cream);border-bottom:1px solid var(--border);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;backdrop-filter:saturate(180%) blur(6px);}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;}
+.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--accent-2));border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-shield svg{width:16px;height:16px;}
+.logo-text{font-family:var(--fh);font-size:20px;font-weight:500;color:var(--ink);letter-spacing:-.01em;}
+.logo-text .dot{color:var(--accent);font-weight:700;margin:0 4px;font-style:normal;}
+.nav-links{display:flex;gap:24px;align-items:center;}
+.nav-links a{font-size:13px;color:var(--ink-2);text-decoration:none;font-family:var(--fb);font-weight:400;transition:color .15s;}
+.nav-links a:hover{color:var(--accent);}
+.nav-links a.active{color:var(--ink);font-weight:500;}
+.nav-cta{font-size:13px;color:var(--cream)!important;background:var(--ink);padding:7px 14px;border-radius:6px;font-weight:500;transition:.18s;}
+.nav-cta:hover{background:#000;color:var(--cream)!important;}
+
+/* Hero */
+.hero{background:var(--cream);border-bottom:1px solid var(--border);padding:64px 24px 56px;text-align:center;}
+.hero-badge{display:inline-block;font-size:10px;font-weight:500;padding:4px 12px;border-radius:100px;background:rgba(198,88,62,.08);color:var(--accent);border:1px solid rgba(198,88,62,.25);font-family:var(--fb);margin-bottom:18px;text-transform:uppercase;letter-spacing:.08em;}
+.hero h1{font-family:var(--fh);font-size:44px;font-weight:400;color:var(--ink);margin-bottom:12px;letter-spacing:-.025em;line-height:1.1;}
+.hero h1 em{font-style:italic;color:var(--accent);font-weight:400;}
+.hero-sub{font-size:14px;color:var(--ink-3);max-width:560px;margin:0 auto;font-weight:400;}
+
+/* Content */
+.content{max-width:760px;margin:0 auto;padding:48px 24px 32px;}
+.section{margin-bottom:40px;}
+.section h2{font-family:var(--fh);font-size:22px;font-weight:500;color:var(--ink);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);letter-spacing:-.015em;}
+.section h3{font-family:var(--fh);font-size:16px;font-weight:500;color:var(--ink);margin:22px 0 8px;letter-spacing:-.005em;}
+.section p{font-size:14px;color:var(--ink-2);margin-bottom:12px;line-height:1.75;}
+.section ul{font-size:14px;color:var(--ink-2);padding-left:20px;margin-bottom:12px;line-height:1.75;}
+.section ul li{margin-bottom:8px;}
+.section a{color:var(--accent);text-decoration:none;font-weight:500;}
+.section a:hover{text-decoration:underline;}
+.section strong{color:var(--ink);font-weight:500;}
+
+.highlight{background:rgba(198,88,62,.05);border:1px solid rgba(198,88,62,.18);border-radius:10px;padding:18px 20px;margin:22px 0;font-size:14px;color:var(--ink-2);line-height:1.7;}
+.highlight strong{color:var(--accent);font-weight:500;}
+
+/* Footer */
+.footer-legal{background:var(--cream-2);border-top:1px solid var(--border);padding:32px 24px;text-align:center;margin-top:48px;}
+.footer-legal a{color:var(--ink-2);text-decoration:none;font-size:12px;margin:0 12px;font-family:var(--fb);font-weight:400;transition:color .15s;}
+.footer-legal a:hover{color:var(--accent);}
+.footer-copy{font-size:12px;color:var(--ink-3);margin-top:10px;}
+
+@media(max-width:680px){
+  .nav-links a:not(.nav-cta){display:none;}
+  .hero{padding:44px 20px 36px;}
+  .hero h1{font-size:32px;}
+  .content{padding:32px 20px;}
+  .section h2{font-size:19px;}
+}
 </style>
-<style>/* sp-height-fix */
-html,body{height:100%!important;overflow:hidden!important;}
-.body{height:calc(100vh - 52px)!important;overflow:hidden!important;}
-</style>
-</head><title>Terms of Service — SafetyPro AI</title>
+</head>
 <body>
 <div class="topbar">
-  <a class="logo" href="safetypro_landing.html">
-    <div class="logo-shield"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
-    <span class="logo-text">SafetyPro <span>AI</span></span>
+  <a class="logo" href="safetypro_landing">
+    <div class="logo-shield"><svg viewBox="0 0 24 24" fill="white"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2z"/><path d="M8 10h1.5v4.5H8zM11 8h1.5v6.5H11zM14 11h1.5v3.5H14z" fill="#1F1B17"/></svg></div>
+    <span class="logo-text">OpsLix<span class="dot">.</span></span>
   </a>
   <div class="nav-links">
-    <a href="safetypro_terms.html">Terms</a>
-    <a href="safetypro_privacy.html">Privacy</a>
-    <a href="safetypro_dpa.html">DPA</a>
-    <a href="safetypro_login.html">Sign In</a>
+    <a href="safetypro_terms" class="active">Terms</a>
+    <a href="safetypro_privacy">Privacy</a>
+    <a href="safetypro_dpa">DPA</a>
+    <a href="safetypro_login" class="nav-cta">Sign in</a>
   </div>
 </div>
 <div class="hero">
   <div class="hero-badge">Legal</div>
-  <h1>Terms of Service</h1>
-  <div class="hero-sub">Effective date: 1 April 2026 &nbsp;&bull;&nbsp; Last updated: 27 March 2026</div>
+  <h1>Terms of <em>Service</em></h1>
+  <div class="hero-sub">Effective: 1 April 2026 &nbsp;&middot;&nbsp; Last updated: 25 April 2026</div>
 </div>
 <div class="content">
-  <div class="highlight"><strong>Plain language summary:</strong> SafetyPro AI provides HSE management software. You own your data. We process it only to provide the service. You can export or delete your data at any time. We never sell your data.</div>
+  <div class="highlight"><strong>Plain language summary:</strong> OpsLix provides HSE and HRM operations software. You own your data. We process it only to provide the service. You can export or delete your data at any time. We never sell your data.</div>
 
   <div class="section">
-    <h2>1. Acceptance of Terms</h2>
-    <p>By accessing or using SafetyPro AI ("the Platform"), you agree to be bound by these Terms of Service. If you are using the Platform on behalf of an organisation, you represent that you have authority to bind that organisation to these terms.</p>
+    <h2>1. Acceptance of terms</h2>
+    <p>By accessing or using OpsLix ("the Platform"), you agree to be bound by these Terms of Service. If you are using the Platform on behalf of an organisation, you represent that you have authority to bind that organisation to these terms.</p>
   </div>
 
   <div class="section">
-    <h2>2. Description of Service</h2>
-    <p>SafetyPro AI is a cloud-based Health, Safety and Environment (HSE) management platform that provides incident reporting, corrective action management, escalation workflows, audit management, and HSE analytics.</p>
+    <h2>2. Description of service</h2>
+    <p>OpsLix is a multi-tenant cloud platform that automates Health, Safety &amp; Environment (HSE) and Human Resource Management (HRM) operations. The Platform provides workspaces for HSE Operations, Workforce, Field, Client Portal, and Admin functions, including incident reporting, risk assessment, audits, employee records, attendance, payroll, training, compliance, and analytics across these domains.</p>
     <h3>2.1 Service availability</h3>
-    <p>We target 99.9% uptime. Planned maintenance will be communicated at least 24 hours in advance. We are not liable for downtime caused by third-party infrastructure (Railway, Cloudflare).</p>
+    <p>We target 99.9% uptime. Planned maintenance will be communicated at least 24 hours in advance. We are not liable for downtime caused by third-party infrastructure (Render, Neon, Cloudflare).</p>
+    <h3>2.2 Industry coverage</h3>
+    <p>OpsLix is designed for organisations of any size, industry, or geography &mdash; including manufacturing, production, construction, oil &amp; gas, power, mining, logistics, healthcare, and any other industry where HSE and HRM operations need to run as disciplined, auditable, connected functions.</p>
   </div>
 
   <div class="section">
-    <h2>3. Account and Access</h2>
-    <p>Each company account is isolated. Users may only access data belonging to their company. You are responsible for maintaining the security of your login credentials.</p>
-    <h3>3.1 Super Admin access</h3>
-    <p>SafetyPro platform administrators cannot access your company data by default. Access requires your explicit approval through the Access Request system. Every access session is time-limited, logged, and visible to your Company Admin.</p>
-    <h3>3.2 Client Viewer access</h3>
-    <p>You may grant read-only access to external auditors or clients through the Auditor Portal. This access is filtered strictly to the projects you specify and cannot be used to modify data.</p>
+    <h2>3. Account and access</h2>
+    <p>Each tenant account is isolated. Users may only access data belonging to their tenant organisation. You are responsible for maintaining the security of your login credentials.</p>
+    <h3>3.1 Platform administrator access</h3>
+    <p>OpsLix platform administrators cannot access your tenant data by default. Access requires your explicit approval through the Access Request system. Every access session is time-limited, logged, and visible to your Tenant Admin.</p>
+    <h3>3.2 Step-up authentication</h3>
+    <p>Sensitive workspaces (Workforce, Admin) and sensitive sections (incident investigations, audit findings, payroll) require identity re-verification. This is enforced regardless of role and applies to all users.</p>
+    <h3>3.3 Client and Auditor portal access</h3>
+    <p>You may grant read-only access to external auditors or clients through the Client Portal workspace. This access is filtered strictly to the projects or sites you specify and cannot be used to modify data.</p>
   </div>
 
   <div class="section">
-    <h2>4. Data Ownership</h2>
-    <p>You retain full ownership of all data you input into SafetyPro AI, including incidents, NCRs, actions, user profiles, and documents. We do not claim any intellectual property rights over your content.</p>
-    <p>On termination of your account, you may request a full data export within 30 days. After 30 days, data is permanently deleted from our systems.</p>
+    <h2>4. Data ownership</h2>
+    <p>You retain full ownership of all data you input into OpsLix, including HSE records (incidents, NCRs, hazards, audits, permits), HR records (employees, attendance, payroll, training), user profiles, and uploaded documents. We do not claim any intellectual property rights over your content.</p>
+    <p>On termination of your account, you may request a full data export within 30 days. After 30 days, data is permanently deleted from our systems, except where retention is required for legal or regulatory compliance.</p>
   </div>
 
   <div class="section">
-    <h2>5. Acceptable Use</h2>
+    <h2>5. Acceptable use</h2>
     <p>You agree not to use the Platform to:</p>
     <ul>
-      <li>Upload false, misleading, or fraudulent safety data</li>
-      <li>Attempt to access other companies&apos; data</li>
-      <li>Reverse engineer or copy the Platform</li>
+      <li>Upload false, misleading, or fraudulent records (HSE, HR, or otherwise)</li>
+      <li>Attempt to access other tenants&apos; data</li>
+      <li>Reverse engineer, copy, or create derivative works of the Platform</li>
       <li>Use the Platform in a manner that violates applicable law</li>
+      <li>Process personal data without a lawful basis under your applicable privacy laws</li>
     </ul>
   </div>
 
   <div class="section">
-    <h2>6. Subscription and Payment</h2>
-    <p>Plans are billed monthly or annually. Prices are listed at safetyproworld.com/pricing. We reserve the right to change pricing with 30 days&apos; notice. No refunds are provided for partial months.</p>
+    <h2>6. Subscription and payment</h2>
+    <p>Plans are billed monthly or annually. Pricing is published at safetyproworld.com/pricing. We reserve the right to change pricing with 30 days&apos; notice. No refunds are provided for partial billing periods unless required by applicable consumer protection law.</p>
   </div>
 
   <div class="section">
-    <h2>7. Limitation of Liability</h2>
-    <p>SafetyPro AI is a software tool to support HSE management. We are not liable for any incident, injury, or regulatory breach that occurs regardless of Platform use. The Platform does not replace qualified HSE professionals or legal compliance advice.</p>
+    <h2>7. Limitation of liability</h2>
+    <p>OpsLix is a software tool to support HSE and HRM operations. We are not liable for any incident, injury, regulatory breach, employment dispute, payroll error, or compliance failure that occurs regardless of Platform use. The Platform does not replace qualified HSE professionals, HR practitioners, payroll specialists, or legal compliance advice.</p>
+    <p>To the fullest extent permitted by applicable law, our aggregate liability under these Terms shall not exceed the fees paid by you to OpsLix in the twelve months preceding the claim.</p>
   </div>
 
   <div class="section">
-    <h2>8. Governing Law</h2>
-    <p>These terms are governed by the laws of India. Disputes shall be subject to the exclusive jurisdiction of the courts of Maharashtra, India. For clients in the UAE, Saudi Arabia, Qatar, UK, or USA, local data protection laws also apply as specified in our Privacy Policy and DPA.</p>
+    <h2>8. Governing law</h2>
+    <p>These terms are governed by the laws of India. Disputes shall be subject to the exclusive jurisdiction of the courts of Maharashtra, India. For tenants in the EU, UK, UAE, Saudi Arabia, Qatar, USA, Singapore, or other jurisdictions, local data protection and consumer laws also apply as specified in our Privacy Policy and Data Processing Agreement.</p>
   </div>
 
   <div class="section">
-    <h2>9. Contact</h2>
-    <p>For questions about these Terms: <strong style="color:var(--blue);">legal@safetyproworld.com</strong></p>
+    <h2>9. Changes to these terms</h2>
+    <p>We may update these Terms from time to time. Material changes will be communicated to Tenant Admins at least 30 days before they take effect. Continued use of the Platform after the effective date of changes constitutes acceptance.</p>
+  </div>
+
+  <div class="section">
+    <h2>10. Contact</h2>
+    <p>For questions about these Terms: <a href="mailto:legal@safetyproworld.com">legal@safetyproworld.com</a></p>
   </div>
 </div>
 <div class="footer-legal">
   <div>
-    <a href="safetypro_terms.html">Terms of Service</a>
-    <a href="safetypro_privacy.html">Privacy Policy</a>
-    <a href="safetypro_dpa.html">Data Processing Agreement</a>
-    <a href="safetypro_landing.html">Home</a>
+    <a href="safetypro_terms">Terms of Service</a>
+    <a href="safetypro_privacy">Privacy Policy</a>
+    <a href="safetypro_dpa">Data Processing Agreement</a>
+    <a href="safetypro_landing">Home</a>
   </div>
-  <div class="footer-copy">&copy; 2026 SafetyPro AI &middot; All rights reserved</div>
+  <div class="footer-copy">&copy; 2026 OpsLix &middot; All rights reserved</div>
 </div>
 </body>
 </html>

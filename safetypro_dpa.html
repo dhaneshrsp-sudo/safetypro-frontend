@@ -3,157 +3,194 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet"/>
+<title>Data Processing Agreement — OpsLix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0B0F14;--card:#131C26;--border:#1E293B;--green:#22C55E;--blue:#3B82F6;--t1:#E6EDF3;--t2:#94A3B8;--t3:#64748B;--fh:'Montserrat',sans-serif;--fb:'Roboto',sans-serif;}
-body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.8;}
-.topbar{background:#0F1720;border-bottom:1px solid var(--border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:7px;display:flex;align-items:center;justify-content:center;}
-.logo-shield svg{width:16px;height:16px;fill:#fff;}
-.logo-text{font-family:var(--fh);font-size:14px;font-weight:800;color:var(--t1);}
-.logo-text span{color:var(--green);}
-.nav-links{display:flex;gap:20px;}
-.nav-links a{font-size:11px;color:var(--t3);text-decoration:none;font-family:var(--fh);font-weight:600;}
-.nav-links a:hover{color:var(--t1);}
-.hero{background:linear-gradient(180deg,rgba(34,197,94,.04),transparent);border-bottom:1px solid var(--border);padding:48px 24px 36px;text-align:center;}
-.hero-badge{display:inline-block;font-size:10px;font-weight:700;padding:4px 12px;border-radius:100px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);font-family:var(--fh);margin-bottom:16px;}
-.hero h1{font-family:var(--fh);font-size:28px;font-weight:800;color:var(--t1);margin-bottom:8px;}
-.hero-sub{font-size:13px;color:var(--t3);max-width:500px;margin:0 auto;}
-.content{max-width:800px;margin:0 auto;padding:40px 24px;}
-.section{margin-bottom:36px;}
-.section h2{font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
-.section h3{font-family:var(--fh);font-size:13px;font-weight:600;color:var(--t2);margin:16px 0 8px;}
-.section p{font-size:13px;color:var(--t2);margin-bottom:10px;}
-.section ul{font-size:13px;color:var(--t2);padding-left:20px;margin-bottom:10px;}
-.section ul li{margin-bottom:6px;}
-.highlight{background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.15);border-radius:8px;padding:14px 16px;margin:16px 0;font-size:13px;color:var(--t2);}
-.highlight strong{color:var(--green);}
-.footer-legal{background:#0F1720;border-top:1px solid var(--border);padding:24px;text-align:center;margin-top:40px;}
-.footer-legal a{color:var(--t3);text-decoration:none;font-size:11px;margin:0 10px;font-family:var(--fh);}
-.footer-legal a:hover{color:var(--t1);}
-.footer-copy{font-size:11px;color:var(--t3);margin-top:8px;}
-
-/* SafetyPro scrollbar v2 */
-.body { overflow: hidden !important; }
-.content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-.content::-webkit-scrollbar { width: 4px; }
-.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+:root{
+  --cream:#F5F2EB;--cream-2:#EEE9DD;--cream-3:#E6DFD0;
+  --ink:#1F1B17;--ink-2:#4A4239;--ink-3:#7A7168;
+  --accent:#C6583E;--accent-2:#A84A35;
+  --sage:#7A8B6D;--gold:#B8935C;
+  --border:rgba(31,27,23,.1);--border-2:rgba(31,27,23,.2);
+  --fh:'Fraunces',Georgia,'Times New Roman',serif;
+  --fb:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+html,body{background:var(--cream);color:var(--ink);font-family:var(--fb);line-height:1.7;font-weight:400;}
+.topbar{background:var(--cream);border-bottom:1px solid var(--border);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;backdrop-filter:saturate(180%) blur(6px);}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;}
+.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--accent-2));border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-shield svg{width:16px;height:16px;}
+.logo-text{font-family:var(--fh);font-size:20px;font-weight:500;color:var(--ink);letter-spacing:-.01em;}
+.logo-text .dot{color:var(--accent);font-weight:700;margin:0 4px;font-style:normal;}
+.nav-links{display:flex;gap:24px;align-items:center;}
+.nav-links a{font-size:13px;color:var(--ink-2);text-decoration:none;font-family:var(--fb);font-weight:400;transition:color .15s;}
+.nav-links a:hover{color:var(--accent);}
+.nav-links a.active{color:var(--ink);font-weight:500;}
+.nav-cta{font-size:13px;color:var(--cream)!important;background:var(--ink);padding:7px 14px;border-radius:6px;font-weight:500;transition:.18s;}
+.nav-cta:hover{background:#000;color:var(--cream)!important;}
+.hero{background:var(--cream);border-bottom:1px solid var(--border);padding:64px 24px 56px;text-align:center;}
+.hero-badge{display:inline-block;font-size:10px;font-weight:500;padding:4px 12px;border-radius:100px;background:rgba(198,88,62,.08);color:var(--accent);border:1px solid rgba(198,88,62,.25);font-family:var(--fb);margin-bottom:18px;text-transform:uppercase;letter-spacing:.08em;}
+.hero h1{font-family:var(--fh);font-size:44px;font-weight:400;color:var(--ink);margin-bottom:12px;letter-spacing:-.025em;line-height:1.1;}
+.hero h1 em{font-style:italic;color:var(--accent);font-weight:400;}
+.hero-sub{font-size:14px;color:var(--ink-3);max-width:560px;margin:0 auto;font-weight:400;}
+.content{max-width:760px;margin:0 auto;padding:48px 24px 32px;}
+.section{margin-bottom:40px;}
+.section h2{font-family:var(--fh);font-size:22px;font-weight:500;color:var(--ink);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);letter-spacing:-.015em;}
+.section h3{font-family:var(--fh);font-size:16px;font-weight:500;color:var(--ink);margin:22px 0 8px;letter-spacing:-.005em;}
+.section p{font-size:14px;color:var(--ink-2);margin-bottom:12px;line-height:1.75;}
+.section ul{font-size:14px;color:var(--ink-2);padding-left:20px;margin-bottom:12px;line-height:1.75;}
+.section ul li{margin-bottom:8px;}
+.section a{color:var(--accent);text-decoration:none;font-weight:500;}
+.section a:hover{text-decoration:underline;}
+.section strong{color:var(--ink);font-weight:500;}
+.highlight{background:rgba(198,88,62,.05);border:1px solid rgba(198,88,62,.18);border-radius:10px;padding:18px 20px;margin:22px 0;font-size:14px;color:var(--ink-2);line-height:1.7;}
+.highlight strong{color:var(--accent);font-weight:500;}
+.footer-legal{background:var(--cream-2);border-top:1px solid var(--border);padding:32px 24px;text-align:center;margin-top:48px;}
+.footer-legal a{color:var(--ink-2);text-decoration:none;font-size:12px;margin:0 12px;font-family:var(--fb);font-weight:400;transition:color .15s;}
+.footer-legal a:hover{color:var(--accent);}
+.footer-copy{font-size:12px;color:var(--ink-3);margin-top:10px;}
+@media(max-width:680px){
+  .nav-links a:not(.nav-cta){display:none;}
+  .hero{padding:44px 20px 36px;}
+  .hero h1{font-size:32px;}
+  .content{padding:32px 20px;}
+  .section h2{font-size:19px;}
+}
 </style>
-<style>/* sp-height-fix */
-html,body{height:100%!important;overflow:hidden!important;}
-.body{height:calc(100vh - 52px)!important;overflow:hidden!important;}
-</style>
-</head><title>Data Processing Agreement — SafetyPro AI</title>
+</head>
 <body>
 <div class="topbar">
-  <a class="logo" href="safetypro_landing.html">
-    <div class="logo-shield"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
-    <span class="logo-text">SafetyPro <span>AI</span></span>
+  <a class="logo" href="safetypro_landing">
+    <div class="logo-shield"><svg viewBox="0 0 24 24" fill="white"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2z"/><path d="M8 10h1.5v4.5H8zM11 8h1.5v6.5H11zM14 11h1.5v3.5H14z" fill="#1F1B17"/></svg></div>
+    <span class="logo-text">OpsLix<span class="dot">.</span></span>
   </a>
   <div class="nav-links">
-    <a href="safetypro_terms.html">Terms</a>
-    <a href="safetypro_privacy.html">Privacy</a>
-    <a href="safetypro_dpa.html">DPA</a>
-    <a href="safetypro_login.html">Sign In</a>
+    <a href="safetypro_terms">Terms</a>
+    <a href="safetypro_privacy">Privacy</a>
+    <a href="safetypro_dpa" class="active">DPA</a>
+    <a href="safetypro_login" class="nav-cta">Sign in</a>
   </div>
 </div>
 <div class="hero">
   <div class="hero-badge">Legal</div>
-  <h1>Data Processing Agreement</h1>
-  <div class="hero-sub">Required for GDPR, PDPL, and enterprise procurement &nbsp;&bull;&nbsp; Version 1.0 &nbsp;&bull;&nbsp; April 2026</div>
+  <h1>Data Processing <em>Agreement</em></h1>
+  <div class="hero-sub">Required for GDPR, PDPL, and enterprise procurement &nbsp;&middot;&nbsp; Version 1.1 &nbsp;&middot;&nbsp; April 2026</div>
 </div>
 <div class="content">
-  <div class="highlight"><strong>Purpose:</strong> This DPA is required by GDPR (Article 28), PDPL, and most enterprise procurement processes. By using SafetyPro AI, your organisation (the Controller) and SafetyPro AI (the Processor) agree to the terms below. A signed version is available on request for enterprise clients.</div>
+  <div class="highlight"><strong>Purpose:</strong> This DPA is required by GDPR (Article 28), PDPL, DPDP Act, and most enterprise procurement processes. By using OpsLix, your organisation (the Controller) and OpsLix (the Processor) agree to the terms below. A countersigned version is available on request for enterprise tenants.</div>
 
   <div class="section">
     <h2>1. Definitions</h2>
     <ul>
-      <li><strong style="color:var(--t1);">Controller:</strong> Your organisation — the entity that determines the purposes and means of processing personal data using SafetyPro AI.</li>
-      <li><strong style="color:var(--t1);">Processor:</strong> SafetyPro AI — processes personal data on behalf of the Controller.</li>
-      <li><strong style="color:var(--t1);">Personal Data:</strong> Any information relating to an identified or identifiable person, including employee names, email addresses, and phone numbers stored in the Platform.</li>
-      <li><strong style="color:var(--t1);">Processing:</strong> Any operation performed on personal data including storage, retrieval, and transmission.</li>
+      <li><strong>Controller:</strong> Your organisation (the tenant) &mdash; the entity that determines the purposes and means of processing personal data using OpsLix.</li>
+      <li><strong>Processor:</strong> OpsLix &mdash; processes personal data on behalf of the Controller.</li>
+      <li><strong>Personal Data:</strong> Any information relating to an identified or identifiable person, including employee names, email addresses, phone numbers, salary, bank details, and statutory identifiers stored in the Platform.</li>
+      <li><strong>Sensitive Personal Data:</strong> A subset of Personal Data including health information, biometric data, and statutory identifiers, processed within HSE incident records, medical surveillance, or HR records.</li>
+      <li><strong>Processing:</strong> Any operation performed on personal data including collection, storage, retrieval, transmission, and deletion.</li>
     </ul>
   </div>
 
   <div class="section">
-    <h2>2. Scope of Processing</h2>
-    <p>SafetyPro AI processes personal data only as necessary to:</p>
+    <h2>2. Scope of processing</h2>
+    <p>OpsLix processes personal data only as necessary to:</p>
     <ul>
-      <li>Provide the HSE management platform as described in the Terms of Service</li>
-      <li>Send notifications (email, WhatsApp) on behalf of the Controller</li>
-      <li>Generate HSE reports and analytics within the Controller&apos;s account</li>
+      <li>Provide the HSE Operations and Workforce workspaces as described in the Terms of Service</li>
+      <li>Send notifications (email, SMS, WhatsApp) on behalf of the Controller</li>
+      <li>Generate operational reports and analytics within the Controller&apos;s tenant account</li>
       <li>Provide technical support when explicitly authorised by the Controller</li>
+      <li>Maintain audit logs and security records as required by ISO 27001 and SOC 2 Trust Services Criteria</li>
     </ul>
   </div>
 
   <div class="section">
-    <h2>3. Controller Obligations</h2>
+    <h2>3. Controller obligations</h2>
     <p>The Controller agrees to:</p>
     <ul>
-      <li>Ensure a lawful basis exists for processing personal data via SafetyPro AI</li>
-      <li>Notify SafetyPro AI promptly of any data subject rights requests</li>
-      <li>Ensure data subjects have been informed that their data is processed by SafetyPro AI</li>
+      <li>Ensure a lawful basis exists for processing personal data via OpsLix</li>
+      <li>Provide privacy notices to data subjects (employees, contractors) informing them their data is processed by OpsLix</li>
+      <li>Notify OpsLix promptly of any data subject rights requests</li>
+      <li>Configure access controls and role assignments appropriately</li>
+      <li>Promptly remove access for terminated employees</li>
     </ul>
   </div>
 
   <div class="section">
-    <h2>4. Processor Obligations</h2>
-    <p>SafetyPro AI agrees to:</p>
+    <h2>4. Processor obligations</h2>
+    <p>OpsLix agrees to:</p>
     <ul>
       <li>Process personal data only on documented instructions from the Controller</li>
       <li>Ensure all personnel with access to personal data are bound by confidentiality obligations</li>
-      <li>Implement appropriate technical and organisational security measures</li>
+      <li>Implement appropriate technical and organisational security measures (Section 7)</li>
       <li>Assist the Controller with data subject rights requests within 30 days</li>
-      <li>Delete or return all personal data on termination of the agreement</li>
-      <li>Notify the Controller within 72 hours of becoming aware of a personal data breach</li>
+      <li>Delete or return all personal data on termination of the agreement (subject to legal retention obligations)</li>
+      <li>Notify the Controller without undue delay (and in any event within 72 hours) of becoming aware of a personal data breach</li>
+      <li>Maintain records of processing activities (RoPA) under Article 30</li>
+      <li>Cooperate with supervisory authorities as required</li>
     </ul>
   </div>
 
   <div class="section">
     <h2>5. Sub-processors</h2>
-    <p>SafetyPro AI uses the following sub-processors. The Controller provides general authorisation for these sub-processors:</p>
+    <p>OpsLix uses the following sub-processors. The Controller provides general authorisation for these sub-processors:</p>
     <ul>
-      <li><strong style="color:var(--t1);">Railway Technologies Inc.</strong> — cloud hosting and database (USA/EU)</li>
-      <li><strong style="color:var(--t1);">Twilio Inc. (SendGrid)</strong> — email delivery (USA)</li>
-      <li><strong style="color:var(--t1);">Cloudflare Inc.</strong> — CDN and security (USA/Global)</li>
+      <li><strong>Render Services Inc.</strong> &mdash; cloud application hosting (USA, with regional deployment options)</li>
+      <li><strong>Neon Inc.</strong> &mdash; managed PostgreSQL database (USA / EU regions)</li>
+      <li><strong>Cloudflare Inc.</strong> &mdash; CDN, DDoS protection, edge security (Global)</li>
+      <li><strong>Twilio Inc. (SendGrid)</strong> &mdash; transactional email delivery (USA)</li>
     </ul>
-    <p>All sub-processors are required to implement equivalent data protection standards. The Controller will be notified of sub-processor changes with 30 days&apos; notice.</p>
+    <p>All sub-processors are bound by data processing agreements equivalent to or stricter than this DPA. The Controller will be notified of any sub-processor changes with 30 days&apos; notice and may object on reasonable grounds.</p>
   </div>
 
   <div class="section">
-    <h2>6. International Transfers</h2>
-    <p>Data may be transferred outside your country to sub-processors. For EU/UK data subjects, transfers are protected by Standard Contractual Clauses. For Saudi Arabia (PDPL) and UAE data subjects, we implement equivalent safeguards.</p>
-    <p>Clients with strict data residency requirements (e.g. Saudi Arabia data must remain in-region) should contact us at <strong style="color:var(--blue);">enterprise@safetyproworld.com</strong> for regional hosting options.</p>
+    <h2>6. International transfers</h2>
+    <p>Data may be transferred outside your country to sub-processors. For EU / UK data subjects, transfers are protected by Standard Contractual Clauses (2021 SCCs) and supplementary measures where required by Schrems II. For Saudi Arabia (PDPL), India (DPDP Act), and UAE data subjects, we implement equivalent safeguards aligned with each jurisdiction's cross-border transfer requirements.</p>
+    <p>Tenants with strict data residency requirements should contact <a href="mailto:enterprise@safetyproworld.com">enterprise@safetyproworld.com</a> for regional hosting options.</p>
   </div>
 
   <div class="section">
-    <h2>7. Security Measures</h2>
+    <h2>7. Security measures</h2>
     <ul>
       <li>TLS 1.3 encryption for all data in transit</li>
-      <li>AES-256 encryption for data at rest</li>
-      <li>JWT-based authentication with 24-hour token expiry</li>
-      <li>Role-based access control (RBAC) with audit logging</li>
-      <li>Zero-default-access policy for platform administrators</li>
-      <li>Regular security assessments (ISO 27001 certification in progress)</li>
+      <li>AES-256 encryption for data at rest, with envelope encryption for sensitive fields (salary, bank details, statutory IDs)</li>
+      <li>JWT-based authentication with short-lived tokens (15 minutes) and rotating refresh tokens</li>
+      <li>Step-up authentication for sensitive workspaces (Workforce, Admin) and sensitive actions (payroll, incident investigations, audit findings)</li>
+      <li>Row-Level Security policies on all tenant data tables</li>
+      <li>Role-Based Access Control (RBAC) with workspace-scoped permissions</li>
+      <li>Comprehensive audit logging of all data access and modification</li>
+      <li>Zero-default-access policy for OpsLix platform administrators</li>
+      <li>Encrypted backups with 7-day point-in-time recovery</li>
+      <li>Regular security assessments; ISO 27001 and SOC 2 Type II certifications in progress</li>
+      <li>Annual third-party penetration testing</li>
     </ul>
   </div>
 
   <div class="section">
-    <h2>8. Signed DPA for Enterprise Clients</h2>
-    <p>A countersigned DPA document is available for enterprise clients who require it for procurement. This is typically required for Aramco, BP, Shell, NHAI, and other large organisations.</p>
-    <p>Request a signed DPA: <strong style="color:var(--blue);">enterprise@safetyproworld.com</strong></p>
+    <h2>8. Audit rights</h2>
+    <p>The Controller may, at its own cost and with reasonable notice, audit OpsLix's compliance with this DPA, either directly or through an independent third party bound by confidentiality. OpsLix will respond to reasonable audit requests including SOC 2 reports, ISO 27001 certificates, and security questionnaires (CAIQ, SIG) when these become available.</p>
+  </div>
+
+  <div class="section">
+    <h2>9. Liability</h2>
+    <p>Liability for data protection breaches is governed by the limitations set out in the Terms of Service, save where mandatory law (such as GDPR Article 82) applies different liability provisions.</p>
+  </div>
+
+  <div class="section">
+    <h2>10. Signed DPA for enterprise tenants</h2>
+    <p>A countersigned DPA document is available for enterprise tenants who require it for procurement processes. This is typically required by large industrial groups, regulated industries, and government procurement frameworks.</p>
+    <p>Request a signed DPA: <a href="mailto:enterprise@safetyproworld.com">enterprise@safetyproworld.com</a></p>
   </div>
 </div>
 <div class="footer-legal">
   <div>
-    <a href="safetypro_terms.html">Terms of Service</a>
-    <a href="safetypro_privacy.html">Privacy Policy</a>
-    <a href="safetypro_dpa.html">Data Processing Agreement</a>
-    <a href="safetypro_landing.html">Home</a>
+    <a href="safetypro_terms">Terms of Service</a>
+    <a href="safetypro_privacy">Privacy Policy</a>
+    <a href="safetypro_dpa">Data Processing Agreement</a>
+    <a href="safetypro_landing">Home</a>
   </div>
-  <div class="footer-copy">&copy; 2026 SafetyPro AI &middot; All rights reserved</div>
+  <div class="footer-copy">&copy; 2026 OpsLix &middot; All rights reserved</div>
 </div>
 </body>
 </html>

@@ -1,0 +1,451 @@
+﻿/* =============================================================
+   SafetyPro AI — KPI Methodology Modal (v1)
+   Reusable modal showing formula + standards + benchmarks for any KPI
+   Click the (i) icon on any card to open.
+   ============================================================= */
+(function(){
+  "use strict";
+
+  // -----------------------------------------------------------
+  // METHODOLOGY DATABASE — expand as more sections are locked
+  // -----------------------------------------------------------
+  var METHODOLOGY_DB = {
+    "safe-man-hours": {
+      title: "Safe Man-Hours",
+      icon: "📊",
+      subtitle: "Cumulative working hours without a Lost Time Injury (LTI)",
+      definition: "Cumulative working hours completed without a Lost Time Injury across all workers on active projects. Auto-calculated from SafetyPro AI's integrated HRM, BAM (Biometric Access Management), and Contractor Labour Log modules.",
+      formula: {
+        main: "Total Man-hours = Regular Hours + Overtime Hours",
+        parts: [
+          { label: "REGULAR HOURS (auto from HRM + BAM + Contractor Log)", value: "Σ (Workers × Daily hours × Working days) for each category:\n  • Direct employees\n  • Subcontract workers (organized)\n  • Subcontract workers (unorganized)\n  • Supervisory staff" },
+          { label: "OVERTIME HOURS (auto from BAM timestamps & time-keeper entries)", value: "Σ max(0, actual_hours − 8) per worker per day\n\nStandard shift: 8 hrs/day (configurable)\nBOCW flag triggered at > 9 hrs/day\nOT cost auto-calculated at 2× hourly rate" }
+        ]
+      },
+      dataSources: [
+        { tier: "Tier 1", label: "Biometric (Face + QR)", source: "BAM Module", coverage: "Direct employees + organized tier-1 subcontractor (~40-60%)" },
+        { tier: "Tier 2", label: "QR Card Enrollment", source: "BAM Module — gate scan", coverage: "Semi-organized contract workers with ID cards (~20-30%)" },
+        { tier: "Tier 3", label: "Time-Keeper Manual Entry", source: "HRM → Contractor Labour Log", coverage: "Unorganized daily-wage / transient labor (~20-40%)" }
+      ],
+      standards: [
+        { name: "OSHA 29 CFR 1904.7(b)(3)", clause: "Days Away from Work", purpose: "LTI reset criteria" },
+        { name: "ILO Code of Practice (1996)", clause: "Sec. 3.2", purpose: "Man-hour & LTI definition" },
+        { name: "ISO 45001:2018", clause: "Cl. 9.1.1 Performance evaluation", purpose: "Reporting framework" },
+        { name: "ISO 19011:2018", clause: "Auditing management systems", purpose: "Override audit defensibility" },
+        { name: "Factories Act 1948 (India)", clause: "Sec. 51, 59, 62", purpose: "OT tracking + hours register" },
+        { name: "BOCW Act 1996 (India)", clause: "Sec. 34, Form VIII/XIII", purpose: "Contract labor muster" },
+        { name: "EU Working Time Directive 2003/88/EC", clause: "Art. 6", purpose: "Max weekly working time" },
+        { name: "ANSI/AIHA Z16.1", clause: "Work injury exposure calculation", purpose: "Historical baseline" }
+      ],
+      benchmarks: [
+        { range: "> 5M hrs", rating: "🏆 Exemplary", note: "ONGC major rigs, GAIL pipelines (1+ year LTI-free)" },
+        { range: "1M – 5M hrs", rating: "🟢 Excellent", note: "Typical large EPC project milestone" },
+        { range: "500K – 1M hrs", rating: "🟢 Good", note: "Medium project · Healthy program" },
+        { range: "< 500K hrs", rating: "🟡 Tracking", note: "Early project phase or post-reset recovery" }
+      ],
+      ltiDefinition: "A Lost Time Injury (LTI) triggers counter reset if worker is unable to perform regular duties on next scheduled workday. Includes: days away from work (≥1 day), restricted duty, or job transfer due to injury. Excludes: first aid only, day of injury.",
+      competitiveAdvantage: "SafetyPro AI's 3-tier capture (Biometric + QR Card + Time-Keeper Log) is unique globally. Western competitors (Intelex, Cority, Enablon) assume 100% biometric coverage — breaks audit trail when deployed on mixed-workforce EPC projects worldwide."
+    },
+
+    "global-hse-score": {
+      title: "Global HSE Score",
+      icon: "🎯",
+      subtitle: "Composite safety performance score (0-100) across organization",
+      definition: "The single most important board-level KPI representing overall HSE maturity across all active projects and sites. Composite weighted score combining incident performance, audit compliance, training, action closure, and leading indicators — all normalized 0-100 and aggregated per globally-recognized frameworks.",
+      formula: {
+        main: "HSE Score = (0.30 × IP) + (0.25 × AC) + (0.20 × TC) + (0.15 × ACR) + (0.10 × LI)",
+        parts: [
+          { label: "COMPONENT WEIGHTS (based on DNV ISRS & British Safety Council 5-Star)", value: "IP  = Incident Performance     — 30% weight\nAC  = Audit Compliance         — 25% weight\nTC  = Training Completion      — 20% weight\nACR = Action Closure Rate      — 15% weight\nLI  = Leading Indicators       — 10% weight\n\nAll components normalized to 0-100 scale." },
+          { label: "INCIDENT PERFORMANCE (IP)", value: "IP = 100 − (10 × LTIFR) − (2 × TRIFR)\n    Capped at [0, 100]\n\nLTIFR = (LTIs × 1,000,000) / Total Man-hours\n        (per ILO Code 1996)\nTRIFR = (Total Recordable × 1,000,000) / Total Man-hours\n        (per OSHA 29 CFR 1904.32)" },
+          { label: "OTHER SUB-COMPONENTS", value: "AC  = Σ(audit × weight × recency) / Σ(weights)  [12-month rolling]\nTC  = (Completed mandatory / Required mandatory) × 100\nACR = (Closed on-time / Total due) × 100  [90-day rolling]\nLI  = min(100, (Observations / Monthly target) × 100)\n      Target: 2 observations per worker per month" }
+        ]
+      },
+      dataSources: [
+        { tier: "IP", label: "Incident Performance", source: "Control module → Incident register", coverage: "All LTIs, MTCs, First Aid cases with outcome classification" },
+        { tier: "AC", label: "Audit Compliance", source: "Audit & Compliance module", coverage: "Internal + External + Regulatory audits (rolling 12 months)" },
+        { tier: "TC", label: "Training Completion", source: "HRM → Training LMS", coverage: "Mandatory training completion rate per active worker" },
+        { tier: "ACR", label: "Action Closure Rate", source: "Operations → CAPA tracker", coverage: "Corrective/preventive actions closed within due date" },
+        { tier: "LI", label: "Leading Indicators", source: "Operations → BBS + Observations", coverage: "Proactive safety observations, hazard IDs, near-miss reports" }
+      ],
+      standards: [
+        { name: "ISO 45001:2018", clause: "Cl. 9.1.1 Performance evaluation", purpose: "Primary framework" },
+        { name: "ISO 45001:2018", clause: "Cl. 10.2 Corrective action", purpose: "ACR component basis" },
+        { name: "ISO 45001:2018", clause: "Cl. 7.2 Competence", purpose: "TC component basis" },
+        { name: "ILO-OSH 2001", clause: "Sec. 3.10 Performance monitoring", purpose: "Validation framework" },
+        { name: "OSHA 29 CFR 1904", clause: "Recordkeeping", purpose: "LTIFR/TRIFR definitions" },
+        { name: "ANSI/AIHA Z10-2012", clause: "Sec. 6.0 Evaluation", purpose: "IP + ACR methodology" },
+        { name: "DNV ISRS", clause: "Chapter 18 — Measurement", purpose: "Weight rationale" },
+        { name: "British Safety Council 5-Star", clause: "Audit framework", purpose: "Benchmark thresholds" },
+        { name: "DuPont Bradley Curve", clause: "—", purpose: "Leading indicator ratio" },
+        { name: "OGP (IPIECA / API)", clause: "Safety Data Framework", purpose: "Oil & gas benchmarks" }
+      ],
+      benchmarks: [
+        { range: "90–100", rating: "🏆 Excellent", note: "British Safety Council 5-Star · DNV 5-Star · Top quartile" },
+        { range: "80–89", rating: "🟢 Good", note: "ISO 45001 certification threshold · DNV 3-Star" },
+        { range: "70–79", rating: "🟡 Average", note: "Industry median · Improvement needed" },
+        { range: "60–69", rating: "🟡 Below Average", note: "Corrective action required" },
+        { range: "< 60", rating: "🔴 Critical", note: "Systemic deficiencies · Major intervention" }
+      ],
+      competitiveAdvantage: "Default weights reflect DNV ISRS and British Safety Council 5-Star methodologies — the most widely adopted global frameworks. Unlike Intelex/Enablon which offer fully customizable weights (prone to gaming), SafetyPro AI ships with defensible industry-standard defaults while allowing customer-level customization via Admin → HSE Score Configuration (all changes logged for audit)."
+    },
+
+    "critical-risks": {
+      title: "Critical Risks",
+      icon: "🔴",
+      subtitle: "Open risks classified as Critical or High severity",
+      definition: "Count of open risks in the Risk Register classified as Critical or High severity based on likelihood × consequence assessment. Real-time indicator of unmitigated hazards requiring management attention. Uses the ISO 31000:2018 / ISO 31010:2019 5×5 risk matrix — the most widely adopted risk framework globally.",
+      formula: {
+        main: "Critical Risks = COUNT(risks WHERE status ∈ {Open, Under-Review, In-Mitigation} AND severity ∈ {Critical, High})",
+        parts: [
+          { label: "RISK SCORING (ISO 31000:2018 5×5 Matrix)", value: "Risk Score = Likelihood (1-5) × Consequence (1-5)\n\n  C = Critical  (score 15+)  — immediate senior mgmt attention\n  H = High      (score 8-14) — formal mitigation plan\n  M = Medium    (score 4-7)  — standard controls\n  L = Low       (score 1-3)  — monitoring only\n\nConsequence scale aligned with:\n  • OSHA 29 CFR 1904 injury classifications\n  • ISO 14001:2015 environmental aspects\n  • ISO 31000:2018 financial categorization" },
+          { label: "5×5 MATRIX (default; customizable per IMS)", value: "Consequence  |  L1    L2    L3    L4    L5\n─────────────────────────────────────────────\nCatastrophic |  H(5)  H(10) C(15) C(20) C(25)\nMajor        |  M(4)  H(8)  H(12) C(16) C(20)\nModerate     |  L(3)  M(6)  H(9)  H(12) C(15)\nMinor        |  L(2)  L(4)  M(6)  M(8)  H(10)\nNegligible   |  L(1)  L(2)  L(3)  M(4)  M(5)" }
+        ]
+      },
+      dataSources: [
+        { tier: "Register", label: "Risk Register", source: "Risk Management module", coverage: "HIRA (Hazard Identification & Risk Assessment) entries" },
+        { tier: "EIA", label: "Environmental Aspect Assessment", source: "Risk Management module", coverage: "Environmental aspects per ISO 14001:2015" },
+        { tier: "MS", label: "Method Statement Risks", source: "Risk Management module", coverage: "Activity-specific risk assessments per work method" }
+      ],
+      standards: [
+        { name: "ISO 31000:2018", clause: "Risk management — Principles", purpose: "Primary framework" },
+        { name: "ISO/IEC 31010:2019", clause: "Risk assessment techniques", purpose: "HAZOP, HAZID, FMEA, Bow-Tie" },
+        { name: "ISO 45001:2018", clause: "Cl. 6.1.2 Hazard identification", purpose: "Risk identification basis" },
+        { name: "ISO 14001:2015", clause: "Cl. 6.1.2 Environmental aspects", purpose: "EIA basis" },
+        { name: "ILO-OSH 2001", clause: "Sec. 3.10 Hazard prevention", purpose: "Continuous elimination principle" },
+        { name: "OSHA 29 CFR 1910.119", clause: "Process Safety Management", purpose: "High-hazard definition" },
+        { name: "UK HSE HSG65", clause: "Managing for H&S", purpose: "Plan-Do-Check-Act framework" },
+        { name: "API RP 754", clause: "Process Safety Performance", purpose: "Hierarchical risk framework" },
+        { name: "IEC 61882", clause: "HAZOP studies", purpose: "Technique standard" }
+      ],
+      benchmarks: [
+        { range: "0", rating: "🟢 Excellent", note: "All critical risks mitigated — best-in-class" },
+        { range: "1–2", rating: "🟡 Acceptable", note: "Normal project activity — new risks emerge continuously" },
+        { range: "3–5", rating: "🟡 Attention", note: "Focused mitigation required — management review" },
+        { range: "> 5", rating: "🔴 Critical", note: "Executive escalation required — project risk review" }
+      ],
+      competitiveAdvantage: "SafetyPro AI's Risk Register follows ISO 31000 + ISO 31010 with full HIRA + Environmental Aspect + Method Statement workflow. Unlike SafetyCulture's checkbox approach, SafetyPro provides quantified 5×5 risk scoring with integrated mitigation tracking. Default matrix customizable via Admin → Risk Framework (3×3, 4×4, or N×N)."
+    },
+
+    "audit-score": {
+      title: "Audit Score",
+      icon: "📋",
+      subtitle: "Weighted compliance score from internal + external + regulatory audits",
+      definition: "Weighted compliance percentage (0-100%) across all completed internal, external (certification body), and regulatory audits in the last 12 months. Aligned with ISO 19011:2018 audit management framework. The primary indicator of audit-readiness for ISO 45001 / 14001 / 9001 certifications.",
+      formula: {
+        main: "Audit Score = Σ(audit_score × criticality × recency) / Σ(criticality × recency)",
+        parts: [
+          { label: "COMPONENT WEIGHTS (per ISO 19011:2018)", value: "Internal Audits       — 50% weight\nExternal Audits       — 30% weight (certification bodies)\nRegulatory Compliance — 20% weight (jurisdiction-specific)\n\nTotal audit_score_i = (Conforming items / Total items) × 100" },
+          { label: "CRITICALITY WEIGHTS", value: "5 — Critical: Third-party certification (DNV/BV/SGS/TÜV)\n               Client procurement audits\n3 — Major:    Management review, quarterly internal\n               Client recurring audits\n1 — Minor:    Routine site walks, monthly checklists" },
+          { label: "RECENCY DECAY", value: "recency_factor = max(0.5, 1 − (months_since_audit / 12))\n\nRecent audits count fully.\nOlder audits decay linearly to 50% by month 12.\nWindow: Rolling 12 months." }
+        ]
+      },
+      dataSources: [
+        { tier: "Internal", label: "Internal Audits", source: "Audit & Compliance → Internal tab", coverage: "Management-driven audits per ISO 19011:2018" },
+        { tier: "External", label: "External Audits", source: "Audit & Compliance → External tab", coverage: "ISO 45001/14001/9001 certification bodies (DNV, BV, SGS, TÜV) + client audits" },
+        { tier: "Regulatory", label: "Regulatory Compliance", source: "Audit & Compliance → Legal & Regulatory tab", coverage: "Jurisdiction-specific labor + environmental compliance" }
+      ],
+      standards: [
+        { name: "ISO 19011:2018", clause: "Guidelines for auditing MS", purpose: "Primary framework" },
+        { name: "ISO 45001:2018", clause: "Cl. 9.2 Internal audit", purpose: "OHS audits" },
+        { name: "ISO 14001:2015", clause: "Cl. 9.2 Internal audit", purpose: "Environmental audits" },
+        { name: "ISO 9001:2015", clause: "Cl. 9.2 Internal audit", purpose: "Quality audits (IMS)" },
+        { name: "ISO 17021-1:2015", clause: "Requirements for audit bodies", purpose: "External audit methodology" },
+        { name: "IAF MD 5:2019", clause: "Duration of MS audits", purpose: "External audit hours" },
+        { name: "IAF MD 1:2023", clause: "Multi-site audits", purpose: "Multi-project organizations" },
+        { name: "DNV ISRS Chapter 19", clause: "Audit measurement", purpose: "Industry benchmarks" }
+      ],
+      benchmarks: [
+        { range: "≥ 95%", rating: "🏆 Exemplary", note: "DNV 5-Star · Audit-ready · Best-in-class" },
+        { range: "85–94%", rating: "🟢 Excellent", note: "ISO 45001 certifiable · Top quartile" },
+        { range: "75–84%", rating: "🟡 Good", note: "Industry average · Minor gaps" },
+        { range: "65–74%", rating: "🟡 Marginal", note: "ISO certification at risk" },
+        { range: "< 65%", rating: "🔴 Critical", note: "Certification loss risk · Major corrective action" }
+      ],
+      competitiveAdvantage: "Multi-standard audit aggregation with criticality weighting supports Integrated Management System (IMS — ISO 9001/14001/45001 combined) audits natively. Regulatory compliance scope is configured per deployment jurisdiction, supporting OSHA (US), Working Time Directive (EU), Factories Act + BOCW (India), Kafala (GCC), and more. Customers can adjust weights via Admin → Audit Configuration."
+    }
+
+    // Future sections: "global-hse-score", "critical-risks", "overdue-actions", etc.
+  };
+
+  // -----------------------------------------------------------
+  // MODAL RENDER
+  // -----------------------------------------------------------
+  function renderModal(kpiId) {
+    var data = METHODOLOGY_DB[kpiId];
+    if (!data) {
+      console.warn("[methodology] No data for: " + kpiId);
+      return;
+    }
+
+    // Remove any existing modal
+    var existing = document.getElementById("sp-methodology-modal");
+    if (existing) existing.remove();
+
+    var html = '' +
+      '<div id="sp-methodology-modal" class="sp-meth-overlay" onclick="spCloseMethodology(event)">' +
+        '<div class="sp-meth-modal" onclick="event.stopPropagation()">' +
+          '<div class="sp-meth-header">' +
+            '<div class="sp-meth-title">' +
+              '<span class="sp-meth-icon">' + (data.icon || "📊") + '</span>' +
+              '<div>' +
+                '<h2>' + data.title + ' — How it is calculated</h2>' +
+                '<p class="sp-meth-subtitle">' + (data.subtitle || "") + '</p>' +
+              '</div>' +
+            '</div>' +
+            '<button class="sp-meth-close" onclick="spCloseMethodology()" aria-label="Close">✕</button>' +
+          '</div>' +
+
+          '<div class="sp-meth-body">' +
+            // Definition
+            (data.definition ? (
+              '<section class="sp-meth-section">' +
+                '<h3>Definition</h3>' +
+                '<p>' + data.definition + '</p>' +
+              '</section>'
+            ) : "") +
+
+            // Formula
+            (data.formula ? (
+              '<section class="sp-meth-section">' +
+                '<h3>📐 Formula</h3>' +
+                '<div class="sp-meth-formula-main">' + data.formula.main + '</div>' +
+                data.formula.parts.map(function(p) {
+                  return '<div class="sp-meth-formula-part">' +
+                    '<div class="sp-meth-formula-label">' + p.label + '</div>' +
+                    '<pre class="sp-meth-formula-code">' + p.value + '</pre>' +
+                  '</div>';
+                }).join("") +
+              '</section>'
+            ) : "") +
+
+            // Data Sources (3-tier)
+            (data.dataSources ? (
+              '<section class="sp-meth-section">' +
+                '<h3>📥 Data Sources (Live in SafetyPro AI)</h3>' +
+                '<div class="sp-meth-tiers">' +
+                  data.dataSources.map(function(t) {
+                    return '<div class="sp-meth-tier">' +
+                      '<span class="sp-meth-tier-badge">' + t.tier + '</span>' +
+                      '<div class="sp-meth-tier-body">' +
+                        '<div class="sp-meth-tier-label">' + t.label + '</div>' +
+                        '<div class="sp-meth-tier-source">' + t.source + '</div>' +
+                        '<div class="sp-meth-tier-coverage">' + t.coverage + '</div>' +
+                      '</div>' +
+                    '</div>';
+                  }).join("") +
+                '</div>' +
+              '</section>'
+            ) : "") +
+
+            // Standards
+            (data.standards ? (
+              '<section class="sp-meth-section">' +
+                '<h3>📚 Global Standards Referenced</h3>' +
+                '<table class="sp-meth-table">' +
+                  '<thead><tr><th>Standard</th><th>Clause</th><th>Purpose</th></tr></thead>' +
+                  '<tbody>' +
+                    data.standards.map(function(s) {
+                      return '<tr>' +
+                        '<td><strong>' + s.name + '</strong></td>' +
+                        '<td>' + s.clause + '</td>' +
+                        '<td>' + s.purpose + '</td>' +
+                      '</tr>';
+                    }).join("") +
+                  '</tbody>' +
+                '</table>' +
+              '</section>'
+            ) : "") +
+
+            // Benchmarks
+            (data.benchmarks ? (
+              '<section class="sp-meth-section">' +
+                '<h3>🎯 Benchmarks</h3>' +
+                '<table class="sp-meth-table">' +
+                  '<thead><tr><th>Range</th><th>Rating</th><th>Note</th></tr></thead>' +
+                  '<tbody>' +
+                    data.benchmarks.map(function(b) {
+                      return '<tr>' +
+                        '<td><strong>' + b.range + '</strong></td>' +
+                        '<td>' + b.rating + '</td>' +
+                        '<td>' + b.note + '</td>' +
+                      '</tr>';
+                    }).join("") +
+                  '</tbody>' +
+                '</table>' +
+              '</section>'
+            ) : "") +
+
+            // LTI Definition (specific)
+            (data.ltiDefinition ? (
+              '<section class="sp-meth-section">' +
+                '<h3>⚖️ LTI Definition (Reset Trigger)</h3>' +
+                '<p>' + data.ltiDefinition + '</p>' +
+              '</section>'
+            ) : "") +
+
+            // Competitive Advantage
+            (data.competitiveAdvantage ? (
+              '<section class="sp-meth-section sp-meth-advantage">' +
+                '<h3>✨ Why SafetyPro AI is Different</h3>' +
+                '<p>' + data.competitiveAdvantage + '</p>' +
+              '</section>'
+            ) : "") +
+          '</div>' +
+
+          '<div class="sp-meth-footer">' +
+            '<button class="sp-meth-btn-secondary" onclick="spCloseMethodology()">Close</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+    document.body.insertAdjacentHTML("beforeend", html);
+
+    // Lock body scroll while modal is open
+    document.body.style.overflow = "hidden";
+
+    // ESC key to close
+    document.addEventListener("keydown", escHandler);
+  }
+
+  function escHandler(e) {
+    if (e.key === "Escape") spCloseMethodology();
+  }
+
+  // -----------------------------------------------------------
+  // PUBLIC API (exposed on window)
+  // -----------------------------------------------------------
+  window.spShowMethodology = function(kpiId) {
+    renderModal(kpiId);
+  };
+
+  window.spCloseMethodology = function(e) {
+    // If called from overlay click, ensure target is the overlay itself
+    if (e && e.target && e.target.id !== "sp-methodology-modal" && e.type === "click") {
+      // Not the overlay — ignore (must be clicked on overlay or close button)
+      if (!e.target.closest || !e.target.closest(".sp-meth-close")) {
+        // Check if it's close button or overlay
+        var t = e.target;
+        if (t.id !== "sp-methodology-modal" && !(t.classList && t.classList.contains("sp-meth-close"))) {
+          return;
+        }
+      }
+    }
+    var modal = document.getElementById("sp-methodology-modal");
+    if (modal) modal.remove();
+    document.body.style.overflow = "";
+    document.removeEventListener("keydown", escHandler);
+  };
+
+  console.log("[sp-methodology] v1 loaded. KPIs available: " + Object.keys(METHODOLOGY_DB).join(", "));
+})();
+
+/* =============================================================
+   AUTO-INJECT INFO ICONS (v2 — smarter targeting)
+   Finds CLEANEST label element (no descendants, exact text match)
+   ============================================================= */
+(function() {
+  // Remove any previous v1 injector leftovers
+  var oldIcons = document.querySelectorAll('.sp-info-icon[data-auto-injected]');
+  oldIcons.forEach(function(i) { i.remove(); });
+
+  var INJECTION_CONFIG = [
+    // Exact text match (after stripping trailing number/percent)
+    { kpiId: 'global-hse-score', exactText: ['Global HSE Score', 'GLOBAL HSE SCORE'] },
+    { kpiId: 'critical-risks',   exactText: ['Critical Risks', 'CRITICAL RISKS'] },
+    { kpiId: 'audit-score',      exactText: ['Audit Score', 'AUDIT SCORE'] }
+  ];
+
+  function makeIcon(kpiId) {
+    var span = document.createElement('span');
+    span.className = 'sp-info-icon';
+    span.setAttribute('onclick', "event.stopPropagation();spShowMethodology('" + kpiId + "')");
+    span.setAttribute('title', 'How this is calculated');
+    span.setAttribute('data-auto-injected', '1');
+    span.style.marginLeft = '6px';
+    span.textContent = 'i';
+    return span;
+  }
+
+  function isVisible(el) {
+    var r = el.getBoundingClientRect();
+    if (r.width < 2 || r.height < 2) return false;
+    var cs = window.getComputedStyle(el);
+    if (cs.display === 'none' || cs.visibility === 'hidden') return false;
+    return true;
+  }
+
+  function findCleanestLabel(targetTexts) {
+    // Prefer elements that are LABEL-ONLY: no long descriptive text mixed in
+    // Strip trailing digits/percent from text before matching
+    var candidates = [];
+    var all = document.querySelectorAll('div, span, h1, h2, h3, h4, h5, h6, p, label');
+    
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      if (el.children.length > 3) continue;  // skip big wrappers
+      if (!isVisible(el)) continue;
+      
+      var raw = (el.textContent || '').trim().replace(/\s+/g, ' ');
+      if (raw.length > 60) continue;  // skip descriptive wrappers
+      
+      // Strip trailing counters/percentages
+      var clean = raw.replace(/\s+\d+\.?\d*\s*%?$/, '').trim();
+      
+      for (var t = 0; t < targetTexts.length; t++) {
+        if (clean === targetTexts[t]) {
+          candidates.push({
+            el: el,
+            fontSize: parseFloat(window.getComputedStyle(el).fontSize) || 12,
+            textLen: raw.length,
+            childCount: el.children.length
+          });
+          break;
+        }
+      }
+    }
+    
+    if (candidates.length === 0) return null;
+    
+    // Prefer: larger font (more likely to be card title), fewer children (cleaner label)
+    candidates.sort(function(a, b) {
+      if (a.childCount !== b.childCount) return a.childCount - b.childCount;
+      return b.fontSize - a.fontSize;
+    });
+    
+    return candidates[0].el;
+  }
+
+  function hasIconFor(kpiId, el) {
+    if (!el) return false;
+    // Check element itself and parent for existing icon
+    var selector = '.sp-info-icon[onclick*="' + kpiId + '"]';
+    if (el.querySelector && el.querySelector(selector)) return true;
+    if (el.parentElement && el.parentElement.querySelector && el.parentElement.querySelector(selector)) return true;
+    return false;
+  }
+
+  function injectIcons() {
+    INJECTION_CONFIG.forEach(function(cfg) {
+      var target = findCleanestLabel(cfg.exactText);
+      if (!target) {
+        console.warn('[sp-methodology] No target found for ' + cfg.kpiId);
+        return;
+      }
+      if (hasIconFor(cfg.kpiId, target)) return;
+      target.appendChild(makeIcon(cfg.kpiId));
+      console.log('[sp-methodology] Injected icon for ' + cfg.kpiId + ' into', target);
+    });
+  }
+
+  function init() {
+    injectIcons();
+    setTimeout(injectIcons, 800);
+    setTimeout(injectIcons, 2000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();

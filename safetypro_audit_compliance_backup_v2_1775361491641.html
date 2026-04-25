@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -3787,7 +3787,7 @@ Insufficient PPE supply</textarea></div>
 </footer>
 
 <script>
-var API_BASE = 'https://safetypro-backend-production.up.railway.app';
+var API_BASE = 'https://safetypro-backend.onrender.com';
 
 function acMainTab(el, id) {
   document.querySelectorAll('.sh-tab').forEach(function(t){t.classList.remove('active');});
@@ -3907,7 +3907,7 @@ document.addEventListener('click',function(e){
 </script>
 <script>
 function spFooterInit(){
-  var API_BASE='https://safetypro-backend-production.up.railway.app';
+  var API_BASE='https://safetypro-backend.onrender.com';
   fetch(API_BASE+'/api/v1/system/status',{headers:{'Authorization':'Bearer '+(localStorage.getItem('sp_token')||'')}})
   .then(function(r){return r.json();})
   .then(function(d){

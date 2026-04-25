@@ -1,0 +1,119 @@
+﻿<!--
+===============================================================================
+SafetyPro AI - Unified Page Header Template v1.0
+===============================================================================
+Reference HTML structure for ALL platform pages.
+Multi-tenant 3-row pattern. Total height: 132px.
+
+USAGE:
+1. Copy this entire block into the top of your page's main content area.
+2. Replace placeholders (BREADCRUMB, PAGE_TITLE, TABS, FILTERS).
+3. Per-tenant visibility is auto-handled by data attributes on .sp-page-header:
+   - data-multi-org="true"     -> shows Organization filter
+   - data-multi-bu="true"      -> shows Business Unit filter
+   - data-multi-region="true"  -> shows Region filter
+4. JS sets these attributes based on tenant config from backend at page load.
+===============================================================================
+-->
+
+<div class="sp-page-header"
+     data-multi-org="false"
+     data-multi-bu="false"
+     data-multi-region="false">
+
+  <!-- ========== ROW 1: PAGE IDENTITY (48px) ========== -->
+  <div class="sp-page-identity">
+    <div class="sp-page-identity-left">
+      <nav class="sp-page-breadcrumb" aria-label="Breadcrumb">
+        <a href="/safetypro_v2">Home</a>
+        <span class="sp-page-breadcrumb-separator">/</span>
+        <a href="/safetypro_v2">Dashboard</a>
+      </nav>
+      <h1 class="sp-page-title">PAGE_TITLE_HERE</h1>
+    </div>
+
+    <div class="sp-page-identity-right">
+      <button class="sp-page-action" title="Help">
+        <span>?</span> Help
+      </button>
+      <button class="sp-page-action">
+        <span>&#8595;</span> Export
+      </button>
+      <button class="sp-page-action sp-page-action--primary">
+        <span>+</span> New
+      </button>
+    </div>
+  </div>
+
+  <!-- ========== ROW 2: TENANT SCOPE FILTERS (44px) ========== -->
+  <div class="sp-scope-filters">
+    <!-- Organization filter (hidden unless data-multi-org="true") -->
+    <button class="sp-scope-filter sp-scope-filter--org">
+      <span class="sp-scope-filter-label">Org:</span>
+      <span class="sp-scope-filter-value">Current Tenant</span>
+      <span class="sp-scope-filter-chevron">&#9662;</span>
+    </button>
+
+    <!-- Business Unit filter (hidden unless data-multi-bu="true") -->
+    <button class="sp-scope-filter sp-scope-filter--businessunit">
+      <span class="sp-scope-filter-label">BU:</span>
+      <span class="sp-scope-filter-value">All Units</span>
+      <span class="sp-scope-filter-chevron">&#9662;</span>
+    </button>
+
+    <!-- Project filter (always visible) -->
+    <button class="sp-scope-filter sp-scope-filter--project">
+      <span class="sp-scope-filter-label">Project:</span>
+      <span class="sp-scope-filter-value">All Projects</span>
+      <span class="sp-scope-filter-chevron">&#9662;</span>
+    </button>
+
+    <!-- Region filter (hidden unless data-multi-region="true") -->
+    <button class="sp-scope-filter sp-scope-filter--region">
+      <span class="sp-scope-filter-label">Region:</span>
+      <span class="sp-scope-filter-value">All Regions</span>
+      <span class="sp-scope-filter-chevron">&#9662;</span>
+    </button>
+
+    <!-- Period filter (always visible, pushed right) -->
+    <button class="sp-scope-filter sp-scope-filter--period">
+      <span class="sp-scope-filter-label">Period:</span>
+      <span class="sp-scope-filter-value">Last 30 Days</span>
+      <span class="sp-scope-filter-chevron">&#9662;</span>
+    </button>
+
+    <!-- Search (always visible, rightmost) -->
+    <button class="sp-scope-filter sp-scope-filter--search">
+      <span>&#128269;</span>
+      <span class="sp-scope-filter-value">Search...</span>
+    </button>
+  </div>
+
+  <!-- ========== ROW 3: PAGE-SPECIFIC CONTROLS (40px) ========== -->
+  <!-- Use either .sp-page-tabs OR .sp-page-filters - not both -->
+
+  <!-- VARIANT A: Tab Navigation -->
+  <div class="sp-page-controls">
+    <div class="sp-page-tabs">
+      <button class="sp-page-tab sp-page-tab--active">Overview</button>
+      <button class="sp-page-tab">
+        Statistics
+        <span class="sp-page-tab-badge">12</span>
+      </button>
+      <button class="sp-page-tab">Monthly Reports</button>
+      <button class="sp-page-tab">Incident Investigation</button>
+    </div>
+  </div>
+
+  <!-- VARIANT B: Page-level filters (use instead of tabs)
+  <div class="sp-page-controls">
+    <div class="sp-page-filters">
+      <button class="sp-page-filter">All Severity &#9662;</button>
+      <button class="sp-page-filter">All Status &#9662;</button>
+      <button class="sp-page-filter">Assigned to Me &#9662;</button>
+    </div>
+  </div>
+  -->
+
+</div>
+<!-- ========== END UNIFIED PAGE HEADER ========== -->

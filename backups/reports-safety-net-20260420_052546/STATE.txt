@@ -1,0 +1,22 @@
+﻿REPORTS HEADER STATE PRE-REWRITE
+Timestamp: 20260420_052546
+
+PRE-REWRITE STRUCTURE:
+- Container class: .sub-header
+- Height: 89px
+- Row 1 (40px): 10 tabs (Reports label + 9 report types)
+- Row 2 (48px): 9 native <select> dropdowns + Export button + inline <style> + <script>
+
+PRE-EXISTING BEHAVIORS TO PRESERVE (verify after rewrite):
+[ ] 9 filter dropdowns visually present (Company, Project, Zone, Period, Department, Standard, etc.)
+[ ] Filter selections change KPI cards (Total Incidents YTD etc.)
+[ ] Filter selections change charts (Incident Trend, NCR by Type)
+[ ] < and > arrows scroll tab bar horizontally on narrow screens
+[ ] "Clear" button resets filters
+[ ] Export dropdown opens and exports work
+[ ] Tab clicks switch active view
+
+ROLLBACK COMMAND:
+  Copy-Item "backups\reports-safety-net-20260420_052546\safetypro_reports.html" safetypro_reports.html -Force
+  Copy-Item "backups\reports-safety-net-20260420_052546\sp-shell.css" sp-shell.css -Force
+  .\deploy.ps1

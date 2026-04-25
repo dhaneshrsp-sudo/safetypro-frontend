@@ -1,0 +1,51 @@
+﻿================================================================
+SafetyPro AI - Session Snapshot
+Timestamp: 20260419_185719
+================================================================
+
+STATE AT TIME OF BACKUP:
+- sp-shell.css       @ v52 (Corner Glow design, Audit card restored)
+- sp-methodology.js  @ v11 (15 KPIs + proper emojis)
+- sp-dynamic-states.js @ v5 (Corner Glow engine)
+- sp-charts.js       @ v7
+
+15 METHODOLOGY MODALS LIVE:
+ 1. Safe Man-Hours          [Chart icon]
+ 2. Global HSE Score        [Target icon]
+ 3. Critical Risks          [Red circle]
+ 4. Audit Score             [Clipboard]
+ 5. Overdue Actions         [Warning]
+ 6. Open Incidents          [Magnifier]
+ 7. Permits at Risk         [Orange circle]
+ 8. Project / Site Health   [Construction]
+ 9. Root Cause Analysis     [Search]
+10. Accountability          [Users]
+11. Top Performers          [Trophy]
+12. Closed This Week        [Check]
+13. Safe Actions            [Shield]
+14. Actions Due             [Calendar]
+15. Escalated               [Up arrow]
+
+LEGACY CLEANUP COMPLETED:
+- spShowManHoursInfo() tooltip DIV removed from Safe Man-Hours card
+- spShowPHSEInfo() tooltip DIV removed from Top Performers card
+
+LIVE DEPLOYMENT:
+https://www.safetyproworld.com/safetypro_v2
+
+CONFIRMED WORKING:
+- All 15 ⓘ icons inject via DOM auto-injector
+- All 15 modals open with correct content + formula + standards + benchmarks
+- Corner Glow active on score cards (Audit & Compliance green at 91%)
+- Safe Man-Hours card plain (cumulative total)
+- Clean card corners (no legacy tooltips)
+
+FILES BACKED UP: 19
+================================================================
+
+TO ROLLBACK THIS SNAPSHOT:
+  Set-Location C:\safetypro_complete_frontend
+  Copy-Item "backups\session-snapshot-20260419_185719\*" . -Force -Recurse
+  .\deploy.ps1
+
+================================================================

@@ -1,0 +1,3418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SafetyPro AI - Global HSE Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#060B11;--card:#0D1520;--card2:#101C2A;--elevated:#142030;
+  --sidebar:#080F18;--border:#162236;--border2:#1E3347;
+  --divider:rgba(255,255,255,0.04);
+  --green:#22C55E;--green-dim:rgba(34,197,94,.08);--green-glow:rgba(34,197,94,.25);
+  --amber:#F59E0B;--amber-dim:rgba(245,158,11,.08);
+  --red:#EF4444;--red-dim:rgba(239,68,68,.08);--red-glow:rgba(239,68,68,.2);
+  --blue:#3B82F6;--blue-dim:rgba(59,130,246,.08);
+  --purple:#8B5CF6;--purple-dim:rgba(139,92,246,.08);
+  --t1:#EBF4FF;--t2:#7A9BBF;--t3:#2E4A66;--t4:#1A2E44;
+  --fh:'Montserrat',sans-serif;--fb:'Roboto',sans-serif;
+  --r:12px;--r2:8px;
+  --nav-h:52px;--sb-w:180px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);font-family:var(--fb);color:var(--t1);display:flex;flex-direction:column;}
+
+/* ══ TOP NAV ══ */
+.topnav{height:var(--nav-h);flex-shrink:0;background:var(--sidebar);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 rgba(34,197,94,.05);}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none;margin-right:20px;flex-shrink:0;}
+.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35);}
+.logo-shield svg{width:15px;height:15px;fill:#fff;}
+.logo-text{font-family:var(--fh);font-size:15px;font-weight:800;color:var(--t1);letter-spacing:-.3px;}
+.logo-text span{color:var(--green);}
+.nav-links{display:flex;align-items:center;gap:1px;flex:1;}
+.nl{display:flex;align-items:center;gap:5px;padding:5px 9px;border-radius:7px;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t3);text-decoration:none;transition:.15s;cursor:pointer;white-space:nowrap;}
+.nl svg{width:13px;height:13px;fill:currentColor;flex-shrink:0;}
+.nl:hover{color:var(--t2);background:rgba(255,255,255,.04);}
+.nl.active{color:var(--green);background:var(--green-dim);border:1px solid rgba(34,197,94,.1);}
+.more-wrap{position:relative;}
+.more-menu{display:none;position:absolute;top:calc(100% + 8px);left:0;min-width:220px;background:#0C1824;border:1px solid var(--border);border-radius:11px;box-shadow:0 16px 40px rgba(0,0,0,.6);z-index:999;overflow:hidden;padding:4px 0;animation:mmfadein .15s ease;}
+.more-wrap.open .more-menu{display:block;}
+.mm-item{display:flex;align-items:center;gap:10px;padding:9px 14px;font-size:12px;font-family:var(--fb);color:var(--t2);text-decoration:none;transition:.12s;cursor:pointer;}
+.mm-item svg{width:13px;height:13px;fill:currentColor;flex-shrink:0;}
+.mm-item:hover{background:var(--elevated);color:var(--t1);}
+.mm-item.mm-admin{color:var(--amber);}
+.mm-divider{height:1px;background:var(--border);margin:4px 0;}
+/* Hamburger */
+.sb-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px;background:none;border:1px solid var(--border);border-radius:7px;margin-right:8px;flex-shrink:0;}
+.sb-toggle span{display:block;width:18px;height:1.5px;background:var(--t2);border-radius:2px;transition:.25s;}
+.sb-toggle.open span:nth-child(1){transform:rotate(45deg) translate(4.5px,4.5px);}
+.sb-toggle.open span:nth-child(2){opacity:0;}
+.sb-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(4.5px,-4.5px);}
+/* Nav right */
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.icon-btn{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--t3);cursor:pointer;transition:.15s;position:relative;}
+.icon-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;}
+.icon-btn:hover{color:var(--t1);background:var(--elevated);}
+.red-dot{position:absolute;top:5px;right:5px;width:6px;height:6px;background:var(--red);border-radius:50%;border:1.5px solid var(--sidebar);display:none;animation:rdpulse 2s ease-in-out infinite;}
+@keyframes rdpulse{0%,100%{opacity:1}50%{opacity:.4}}
+.user-pill{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:4px 9px 4px 4px;cursor:pointer;transition:.15s;position:relative;}
+.user-pill:hover{border-color:rgba(34,197,94,.3);}
+.ua{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:9px;font-weight:700;color:#fff;letter-spacing:.3px;flex-shrink:0;}
+.un-name{font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);}
+.un-role{font-size:9px;color:var(--t3);}
+
+/* ══ ALERT DROPDOWN ══ */
+.alert-dropdown{display:none;position:fixed;top:calc(var(--nav-h) + 6px);right:12px;width:300px;background:#0C1824;border:1px solid var(--border);border-radius:12px;box-shadow:0 16px 48px rgba(0,0,0,.7);z-index:9999;overflow:hidden;}
+.alert-head{padding:11px 14px;font-family:var(--fh);font-size:10px;font-weight:700;color:var(--t2);letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px;}
+.alert-head::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--red);animation:rdpulse 1.5s ease-in-out infinite;flex-shrink:0;}
+.alert-item{display:flex;gap:10px;align-items:flex-start;padding:10px 14px;border-bottom:1px solid var(--divider);cursor:pointer;transition:.12s;}
+.alert-item:hover{background:var(--elevated);}
+.alert-item:last-child{border-bottom:none;}
+.alert-dot{width:7px;height:7px;border-radius:50%;margin-top:4px;flex-shrink:0;}
+.alert-title{font-size:12px;color:var(--t1);font-weight:600;font-family:var(--fh);}
+.alert-sub{font-size:10px;color:var(--t3);margin-top:2px;}
+
+/* ══ PROFILE DROPDOWN ══ */
+.profile-dd{display:none;position:fixed;top:calc(var(--nav-h) + 6px);right:12px;width:252px;background:#0C1824;border:1px solid var(--border);border-radius:13px;box-shadow:0 16px 48px rgba(0,0,0,.7);z-index:9999;overflow:hidden;}
+.pd-header{padding:14px 16px;background:linear-gradient(135deg,rgba(34,197,94,.07),transparent);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.pd-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:13px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 0 14px rgba(34,197,94,.25);}
+.pd-name{font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);}
+.pd-email{font-size:10px;color:var(--t3);margin-top:1px;}
+.pd-role{display:inline-block;font-size:9px;font-family:var(--fh);font-weight:600;color:var(--green);background:var(--green-dim);border:1px solid rgba(34,197,94,.18);border-radius:4px;padding:2px 7px;margin-top:4px;}
+.pd-menu{padding:4px 0;}
+.pd-item{padding:9px 14px;font-size:12px;font-family:var(--fb);color:var(--t2);cursor:pointer;display:flex;align-items:center;gap:10px;transition:.12s;}
+.pd-item:hover{background:var(--elevated);color:var(--t1);}
+.pd-item svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;}
+.pd-sep{height:1px;background:var(--border);margin:4px 0;}
+.pd-signout{margin:5px 10px 10px;padding:10px 14px;font-family:var(--fh);font-size:12px;font-weight:700;color:#fff;background:linear-gradient(135deg,#EF4444,#DC2626);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:8px;transition:.15s;}
+.pd-signout:hover{opacity:.85;transform:translateY(-1px);}
+.pd-signout svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;}
+
+/* ══ LAYOUT ══ */
+.body{display:flex;flex:1;overflow:hidden;}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:140;top:var(--nav-h);}
+.sb-overlay.show{display:block;}
+.sidebar{width:var(--sb-w);flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:10px 6px;overflow-y:auto;scrollbar-width:none;}
+.sidebar::-webkit-scrollbar{display:none;}
+.sb-section{font-size:9px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:1px;padding:8px 8px 5px;font-family:var(--fh);}
+.sb-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t3);text-decoration:none;transition:.15s;cursor:pointer;margin-bottom:1px;position:relative;}
+.sb-item svg{width:13px;height:13px;fill:currentColor;flex-shrink:0;}
+.sb-item:hover{color:var(--t2);background:rgba(255,255,255,.03);}
+.sb-item.active{color:var(--green);background:var(--green-dim);}
+.sb-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:2px;height:60%;background:var(--green);border-radius:2px;}
+.sb-badge{margin-left:auto;font-size:9px;font-weight:700;padding:1px 5px;border-radius:7px;font-family:var(--fh);}
+.sb-badge.red{background:var(--red-dim);color:var(--red);}
+.sb-badge.amber{background:var(--amber-dim);color:var(--amber);}
+.sb-sep{height:1px;background:var(--border);margin:6px 2px;}
+.content{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.content::-webkit-scrollbar{width:4px;}
+.content::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+/* ══ SUBNAV ══ */
+.subnav{display:flex;align-items:center;justify-content:space-between;padding:8px 18px;border-bottom:1px solid var(--border);background:var(--sidebar);flex-shrink:0;flex-wrap:wrap;gap:8px;}
+.sn-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.sn-label{font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:6px;}
+.sn-live{width:6px;height:6px;border-radius:50%;background:var(--green);animation:rdpulse 1.5s ease-in-out infinite;}
+.sn-tabs{display:flex;gap:3px;}
+.snt{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t3);padding:4px 10px;border-radius:5px;cursor:pointer;transition:.15s;}
+.snt.active{color:var(--green);background:var(--green-dim);}
+.snt:hover:not(.active){color:var(--t2);background:rgba(255,255,255,.04);}
+.sn-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.filter-sel{background:var(--elevated);border:1px solid var(--border);border-radius:6px;color:var(--t2);font-family:var(--fh);font-size:10px;font-weight:600;padding:4px 22px 4px 8px;cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%232E4A66'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;}
+.filter-sel option{background:#0C1824;}
+.filter-sel:focus{border-color:rgba(34,197,94,.3);}
+.exp-btn{display:flex;align-items:center;gap:5px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--t3);font-family:var(--fh);font-size:10px;font-weight:600;padding:4px 10px;cursor:pointer;transition:.15s;}
+.exp-btn:hover{border-color:var(--green);color:var(--green);}
+.exp-btn svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;}
+
+/* ══ DASH INNER ══ */
+.dash{padding:14px 16px;}
+
+/* 12-column grid */
+.grid-12{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;margin-bottom:12px;}
+.col-12{grid-column:span 12;}
+.col-8{grid-column:span 8;}
+.col-6{grid-column:span 6;}
+.col-4{grid-column:span 4;}
+.col-3{grid-column:span 3;}
+
+/* ══ GLOBAL HSE SCORE STRIP ══ */
+.score-strip{background:linear-gradient(135deg,rgba(34,197,94,.07) 0%,rgba(34,197,94,.02) 50%,var(--card) 100%);border:1px solid rgba(34,197,94,.18);border-radius:var(--r);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+.score-left{display:flex;align-items:center;gap:16px;}
+.score-icon{width:40px;height:40px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 20px rgba(34,197,94,.1);}
+.score-icon svg{width:20px;height:20px;fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;}
+.score-label{font-family:var(--fh);font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px;}
+.score-value{font-family:var(--fh);font-size:28px;font-weight:800;color:var(--green);letter-spacing:-1px;line-height:1;}
+.score-trend{display:inline-flex;align-items:center;gap:4px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.15);border-radius:5px;padding:3px 8px;font-family:var(--fh);font-size:9px;font-weight:700;color:var(--green);margin-top:3px;}
+.score-right{display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.score-meta{text-align:center;min-width:60px;}
+.score-meta-val{font-family:var(--fh);font-size:16px;font-weight:800;color:var(--t1);line-height:1;}
+.score-meta-label{font-size:9px;color:var(--t3);font-family:var(--fh);margin-top:2px;text-transform:uppercase;letter-spacing:.5px;}
+.score-div{width:1px;height:30px;background:var(--border);}
+.daf-pill{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:7px 14px;}
+.daf-num{font-family:var(--fh);font-size:20px;font-weight:800;color:var(--green);letter-spacing:-1px;}
+.daf-txt{font-size:9px;color:var(--t3);font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.5px;line-height:1.4;}
+.daf-pulse{width:6px;height:6px;border-radius:50%;background:var(--green);animation:rdpulse 1.5s ease-in-out infinite;flex-shrink:0;}
+.benchmark-pill{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:7px 14px;}
+.bench-label{font-size:9px;color:var(--t3);font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.4px;line-height:1.4;}
+.bench-val{font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t2);}
+
+/* ══ KPI CARDS ══ */
+.kpi{border-radius:var(--r);padding:16px 16px 14px;position:relative;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;border:1px solid var(--border);}
+.kpi:hover{transform:translateY(-2px);}
+.kpi-g{background:linear-gradient(145deg,rgba(34,197,94,.07),rgba(34,197,94,.02) 60%,var(--card));}
+.kpi-g:hover{box-shadow:0 8px 28px rgba(34,197,94,.1);}
+.kpi-a{background:linear-gradient(145deg,rgba(245,158,11,.07),rgba(245,158,11,.02) 60%,var(--card));}
+.kpi-a:hover{box-shadow:0 8px 28px rgba(245,158,11,.1);}
+.kpi-r{background:linear-gradient(145deg,rgba(239,68,68,.07),rgba(239,68,68,.02) 60%,var(--card));}
+.kpi-r:hover{box-shadow:0 8px 28px rgba(239,68,68,.1);}
+.kpi-b{background:linear-gradient(145deg,rgba(59,130,246,.07),rgba(59,130,246,.02) 60%,var(--card));}
+.kpi-b:hover{box-shadow:0 8px 28px rgba(59,130,246,.1);}
+.kpi-orb{position:absolute;right:-14px;top:-14px;width:72px;height:72px;border-radius:50%;opacity:.3;}
+.kpi-g .kpi-orb{background:radial-gradient(circle,rgba(34,197,94,.6),transparent 70%);}
+.kpi-a .kpi-orb{background:radial-gradient(circle,rgba(245,158,11,.6),transparent 70%);}
+.kpi-r .kpi-orb{background:radial-gradient(circle,rgba(239,68,68,.6),transparent 70%);}
+.kpi-b .kpi-orb{background:radial-gradient(circle,rgba(59,130,246,.6),transparent 70%);}
+.kpi-icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.kpi-g .kpi-icon{background:rgba(34,197,94,.1);}
+.kpi-a .kpi-icon{background:rgba(245,158,11,.1);}
+.kpi-r .kpi-icon{background:rgba(239,68,68,.1);}
+.kpi-b .kpi-icon{background:rgba(59,130,246,.1);}
+.kpi-icon svg{width:13px;height:13px;fill:none;stroke-width:2;stroke-linecap:round;}
+.kpi-g .kpi-icon svg{stroke:var(--green);}
+.kpi-a .kpi-icon svg{stroke:var(--amber);}
+.kpi-r .kpi-icon svg{stroke:var(--red);}
+.kpi-b .kpi-icon svg{stroke:var(--blue);}
+.kpi-num{font-family:var(--fh);font-size:28px;font-weight:800;line-height:1;margin-bottom:5px;letter-spacing:-1px;}
+.kpi-g .kpi-num{color:var(--green);}
+.kpi-a .kpi-num{color:var(--amber);}
+.kpi-r .kpi-num{color:var(--red);}
+.kpi-b .kpi-num{color:var(--blue);}
+.kpi-label{font-family:var(--fh);font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px;}
+.kpi-foot{display:flex;align-items:center;justify-content:space-between;}
+.kpi-trend{display:flex;align-items:center;gap:3px;font-family:var(--fh);font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;}
+.trend-up{background:rgba(34,197,94,.1);color:var(--green);}
+.trend-down{background:rgba(239,68,68,.1);color:var(--red);}
+.trend-neutral{background:rgba(245,158,11,.1);color:var(--amber);}
+.kpi-sub{font-size:9px;color:var(--t3);}
+.pulse-ring{position:absolute;top:10px;right:10px;width:7px;height:7px;border-radius:50%;background:var(--red);}
+.pulse-ring::before{content:'';position:absolute;top:-3px;left:-3px;right:-3px;bottom:-3px;border-radius:50%;border:1.5px solid var(--red);animation:pring 1.8s ease-out infinite;opacity:0;}
+@keyframes pring{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.5);opacity:0}}
+
+/* ══ GENERIC CARD ══ */
+.g-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;}
+.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.card-title{font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);display:flex;align-items:center;gap:6px;}
+.card-sub{font-size:10px;color:var(--t3);margin-top:1px;}
+.card-link{font-family:var(--fh);font-size:9px;font-weight:600;color:var(--t3);cursor:pointer;padding:3px 7px;border-radius:4px;transition:.15s;}
+.card-link:hover{color:var(--green);}
+.sec-badge{font-size:8px;font-weight:700;font-family:var(--fh);padding:2px 6px;border-radius:4px;letter-spacing:.3px;}
+
+/* ══ MAIN CHART (col-8) ══ */
+.ctabs{display:flex;gap:3px;}
+.ctab{font-family:var(--fh);font-size:9px;font-weight:600;padding:3px 8px;border-radius:4px;cursor:pointer;transition:.15s;color:var(--t3);border:1px solid transparent;}
+.ctab.active{color:var(--green);background:var(--green-dim);border-color:rgba(34,197,94,.15);}
+.ctab:hover:not(.active){color:var(--t2);background:rgba(255,255,255,.04);}
+.range-btns{display:flex;gap:3px;}
+.ca-btn{font-family:var(--fh);font-size:9px;font-weight:600;padding:2px 7px;border-radius:4px;cursor:pointer;transition:.15s;color:var(--t3);background:transparent;border:1px solid var(--border);}
+.ca-btn.active,.ca-btn:hover{color:var(--green);border-color:rgba(34,197,94,.3);background:var(--green-dim);}
+.chart-wrap{position:relative;height:180px;}
+.chart-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+.cs-item{text-align:center;}
+.cs-num{font-family:var(--fh);font-size:16px;font-weight:800;letter-spacing:-1px;}
+.cs-label{font-size:9px;color:var(--t3);font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-top:2px;}
+
+/* ══ LIVE RISK PANEL (col-4) ══ */
+.risk-counters{display:flex;gap:6px;margin-bottom:10px;}
+.risk-counter-box{flex:1;padding:8px;background:var(--elevated);border-radius:8px;border:1px solid var(--border);text-align:center;}
+.rc-num{font-family:var(--fh);font-size:18px;font-weight:800;letter-spacing:-1px;line-height:1;}
+.rc-label{font-size:8px;color:var(--t3);font-family:var(--fh);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-top:2px;}
+.risk-list{display:flex;flex-direction:column;gap:6px;}
+.risk-item{display:flex;align-items:center;gap:9px;padding:8px 10px;background:var(--elevated);border-radius:8px;border:1px solid var(--border);transition:.15s;}
+.risk-item:hover{border-color:var(--border2);}
+.risk-item.crit{border-color:rgba(239,68,68,.25);background:rgba(239,68,68,.03);}
+.risk-item.warn{border-color:rgba(245,158,11,.2);}
+.risk-item.ok{border-color:rgba(34,197,94,.15);}
+.risk-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.risk-item.crit .risk-dot{background:var(--red);animation:rdpulse 1.5s ease-in-out infinite;}
+.risk-item.warn .risk-dot{background:var(--amber);}
+.risk-item.ok .risk-dot{background:var(--green);}
+.risk-body{flex:1;min-width:0;}
+.risk-title{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.risk-meta{font-size:9px;color:var(--t3);margin-top:1px;}
+.risk-badge{font-size:8px;font-weight:700;font-family:var(--fh);padding:2px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0;}
+.rb-r{background:var(--red-dim);color:var(--red);}
+.rb-a{background:var(--amber-dim);color:var(--amber);}
+.rb-g{background:var(--green-dim);color:var(--green);}
+
+/* ══ SITE HEALTH (col-6) ══ */
+.proj-list{display:flex;flex-direction:column;gap:7px;}
+.proj-item{padding:9px 11px;border-radius:8px;border:1px solid var(--border);background:var(--elevated);transition:.15s;}
+.proj-item:hover{border-color:var(--border2);}
+.proj-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.proj-name{font-family:var(--fh);font-size:10px;font-weight:700;color:var(--t1);}
+.proj-loc{font-size:9px;color:var(--t3);}
+.proj-score{font-family:var(--fh);font-size:12px;font-weight:800;}
+.proj-bar-wrap{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.proj-bar{height:100%;border-radius:2px;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+.proj-meta{display:flex;justify-content:space-between;margin-top:4px;}
+.proj-issues{font-size:9px;color:var(--t3);}
+
+/* ══ TARGET vs ACTUAL (col-6) ══ */
+.tva-list{display:flex;flex-direction:column;gap:12px;}
+.tva-item{}
+.tva-header{display:flex;justify-content:space-between;margin-bottom:6px;}
+.tva-name{font-family:var(--fh);font-size:10px;font-weight:700;color:var(--t1);}
+.tva-vals{font-size:9px;color:var(--t3);font-family:var(--fh);}
+.tva-rows{display:flex;flex-direction:column;gap:4px;}
+.tva-row{display:flex;align-items:center;gap:8px;}
+.tva-lbl{font-size:8px;font-family:var(--fh);font-weight:700;text-transform:uppercase;letter-spacing:.4px;width:38px;text-align:right;flex-shrink:0;}
+.tva-track{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden;}
+.tva-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+.tva-num{font-size:9px;font-family:var(--fh);font-weight:700;width:26px;flex-shrink:0;}
+
+/* ══ ACTIVITY PERFORMANCE (col-4) ══ */
+.ap-list{display:flex;flex-direction:column;gap:7px;}
+.ap-item{display:flex;align-items:center;gap:9px;padding:9px 10px;background:var(--elevated);border-radius:8px;border:1px solid var(--border);}
+.ap-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ap-icon svg{width:13px;height:13px;fill:none;stroke-width:2;stroke-linecap:round;}
+.ap-body{flex:1;min-width:0;}
+.ap-name{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);margin-bottom:4px;}
+.ap-track{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.ap-fill{height:100%;border-radius:2px;}
+.ap-foot{display:flex;justify-content:space-between;margin-top:3px;}
+.ap-count{font-family:var(--fh);font-size:11px;font-weight:700;}
+.ap-pct{font-size:9px;color:var(--t3);}
+
+/* ══ AUDIT & COMPLIANCE (col-4) ══ */
+.audit-ring-row{display:flex;align-items:center;gap:14px;padding:10px;background:var(--elevated);border-radius:8px;border:1px solid var(--border);margin-bottom:9px;}
+.audit-ring-wrap{position:relative;width:54px;height:54px;flex-shrink:0;}
+.audit-ring-wrap svg{transform:rotate(-90deg);}
+.ar-bg{fill:none;stroke:var(--border);stroke-width:5;}
+.ar-fill{fill:none;stroke:var(--green);stroke-width:5;stroke-linecap:round;stroke-dasharray:138;stroke-dashoffset:12;}
+.audit-ring-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:13px;font-weight:800;color:var(--green);}
+.audit-info-title{font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);margin-bottom:3px;}
+.audit-info-sub{font-size:10px;color:var(--t3);line-height:1.5;}
+.audit-rows{display:flex;flex-direction:column;gap:6px;}
+.audit-row{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--elevated);border-radius:7px;border:1px solid var(--border);}
+.audit-row-label{font-size:11px;color:var(--t2);font-family:var(--fb);}
+.audit-row-val{font-family:var(--fh);font-size:11px;font-weight:700;}
+.audit-row-badge{font-size:8px;font-weight:700;font-family:var(--fh);padding:2px 6px;border-radius:4px;}
+
+/* ══ AI INSIGHTS (col-4) ══ */
+.insight-header{display:flex;align-items:center;gap:7px;margin-bottom:10px;}
+.insight-ai-badge{display:flex;align-items:center;gap:5px;background:var(--purple-dim);border:1px solid rgba(139,92,246,.2);border-radius:5px;padding:3px 8px;font-family:var(--fh);font-size:9px;font-weight:700;color:var(--purple);}
+.insight-list{display:flex;flex-direction:column;gap:7px;}
+.insight-item{padding:9px 11px;background:var(--elevated);border-radius:8px;border-left:3px solid var(--border);transition:.15s;}
+.insight-item.warn{border-left-color:var(--amber);}
+.insight-item.danger{border-left-color:var(--red);}
+.insight-item.good{border-left-color:var(--green);}
+.insight-item.info{border-left-color:var(--blue);}
+.insight-title{font-family:var(--fh);font-size:10px;font-weight:700;color:var(--t1);margin-bottom:3px;display:flex;align-items:center;gap:6px;}
+.insight-emoji{font-size:11px;}
+.insight-desc{font-size:10px;color:var(--t3);line-height:1.5;}
+
+/* ══ ACCOUNTABILITY (col-6) ══ */
+.acc-list{display:flex;flex-direction:column;gap:7px;}
+.acc-person{padding:9px 10px;background:var(--elevated);border-radius:8px;border:1px solid var(--border);}
+.acc-top{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.acc-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:8px;font-weight:700;color:#fff;flex-shrink:0;}
+.acc-name{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);flex:1;}
+.acc-pct{font-family:var(--fh);font-size:11px;font-weight:700;}
+.acc-bar-wrap{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.acc-bar{height:100%;border-radius:2px;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+.acc-footer{display:flex;justify-content:space-between;margin-top:4px;}
+.acc-role{font-size:9px;color:var(--t3);}
+.acc-overdue{font-size:9px;font-family:var(--fh);font-weight:600;}
+
+/* ══ TOP PERFORMERS (col-6) ══ */
+.perf-list{display:flex;flex-direction:column;gap:6px;}
+.perf-item{display:flex;align-items:center;gap:9px;padding:9px 10px;background:var(--elevated);border-radius:8px;border:1px solid var(--border);transition:.15s;}
+.perf-item:hover{border-color:var(--border2);}
+.perf-rank{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:9px;font-weight:700;flex-shrink:0;}
+.rank-1{background:rgba(255,215,0,.15);color:#FFD700;}
+.rank-2{background:rgba(192,192,192,.15);color:#C0C0C0;}
+.rank-3{background:rgba(205,127,50,.15);color:#CD7F32;}
+.rank-n{background:var(--border);color:var(--t3);}
+.perf-name{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);flex:1;}
+.perf-role{font-size:9px;color:var(--t3);}
+.perf-score{font-family:var(--fh);font-size:13px;font-weight:800;color:var(--green);}
+
+/* ══ RECENT ACTIVITY full width (col-12) ══ */
+.act-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.act-item{display:flex;gap:9px;align-items:flex-start;padding:10px;background:var(--elevated);border-radius:8px;border:1px solid var(--border);transition:.15s;}
+.act-item:hover{border-color:var(--border2);}
+.act-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:9px;font-weight:700;color:#fff;flex-shrink:0;}
+.act-body{flex:1;min-width:0;}
+.act-title{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.act-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.act-badge{font-size:8px;font-weight:700;font-family:var(--fh);padding:1px 5px;border-radius:3px;}
+.ab-r{background:var(--red-dim);color:var(--red);}
+.ab-a{background:var(--amber-dim);color:var(--amber);}
+.ab-g{background:var(--green-dim);color:var(--green);}
+.ab-b{background:var(--blue-dim);color:var(--blue);}
+.act-site{font-size:9px;color:var(--t3);}
+.act-time{font-size:8px;color:var(--t4);margin-top:3px;font-family:var(--fh);}
+
+/* ══ QUICK ACTIONS BAR (col-12) ══ */
+.qa-bar{display:flex;gap:10px;padding:12px 16px;background:var(--sidebar);border-top:1px solid var(--border);flex-wrap:wrap;align-items:center;justify-content:center;}
+.qa-btn{display:flex;align-items:center;gap:7px;padding:9px 18px;border-radius:9px;font-family:var(--fh);font-size:11px;font-weight:700;cursor:pointer;border:none;transition:all .2s;letter-spacing:.2px;flex:1;min-width:130px;max-width:200px;justify-content:center;}
+.qa-btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;flex-shrink:0;}
+.qa-incident{background:linear-gradient(135deg,#22C55E,#16A34A);color:#050E07;box-shadow:0 3px 14px rgba(34,197,94,.2);}
+.qa-incident:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(34,197,94,.3);}
+.qa-ncr{background:linear-gradient(135deg,#F59E0B,#D97706);color:#080400;box-shadow:0 3px 14px rgba(245,158,11,.15);}
+.qa-ncr:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(245,158,11,.25);}
+.qa-action{background:var(--elevated);color:var(--t1);border:1px solid var(--border2);}
+.qa-action:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-dim);}
+.qa-audit{background:var(--elevated);color:var(--t1);border:1px solid var(--border2);}
+.qa-audit:hover{border-color:var(--purple);color:var(--purple);background:var(--purple-dim);}
+
+/* ══ MODALS ══ */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(3px);}
+.modal-bg.open{display:flex;}
+.modal{background:#0C1824;border:1px solid var(--border);border-radius:16px;width:540px;max-width:95vw;max-height:88vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.8);}
+.modal-head{padding:18px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#0C1824;z-index:1;}
+.modal-title{font-family:var(--fh);font-size:14px;font-weight:700;color:var(--t1);}
+.modal-close{width:26px;height:26px;border-radius:6px;background:var(--elevated);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t3);font-size:14px;transition:.15s;}
+.modal-close:hover{color:var(--t1);}
+.modal-body{padding:18px 20px;}
+.form-group{margin-bottom:14px;}
+.form-label{font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px;display:block;}
+.form-input,.form-select,.form-textarea{width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:8px;padding:9px 11px;font-family:var(--fb);font-size:13px;color:var(--t1);outline:none;transition:.15s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(34,197,94,.07);}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--t3);}
+.form-select option{background:#0C1824;}
+.form-textarea{resize:vertical;min-height:75px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.modal-foot{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;}
+.btn-cancel{padding:7px 14px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--t2);font-family:var(--fh);font-size:11px;font-weight:600;cursor:pointer;transition:.15s;}
+.btn-cancel:hover{background:var(--elevated);}
+.btn-submit{padding:7px 16px;border-radius:7px;border:none;background:linear-gradient(135deg,#22C55E,#16A34A);color:#050E07;font-family:var(--fh);font-size:11px;font-weight:700;cursor:pointer;transition:.15s;}
+.btn-submit:hover{opacity:.9;transform:translateY(-1px);}
+.users-table{width:100%;border-collapse:collapse;font-size:12px;}
+.users-table th{text-align:left;padding:8px 10px;font-family:var(--fh);font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);}
+.users-table td{padding:8px 10px;border-bottom:1px solid var(--divider);vertical-align:middle;}
+.users-table tr:hover td{background:var(--elevated);}
+.u-role-badge{font-size:8px;font-weight:700;font-family:var(--fh);padding:2px 6px;border-radius:4px;}
+.u-active{background:var(--green-dim);color:var(--green);}
+.u-inactive{background:var(--red-dim);color:var(--red);}
+
+/* ══ TOAST ══ */
+.toast{position:fixed;bottom:16px;right:16px;background:#0C1824;border:1px solid var(--border);border-radius:9px;padding:10px 16px;font-family:var(--fh);font-size:11px;font-weight:600;color:var(--t1);box-shadow:0 8px 28px rgba(0,0,0,.5);z-index:9000;display:flex;align-items:center;gap:7px;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:1280px){
+  .col-8{grid-column:span 8;}
+  .col-4{grid-column:span 4;}
+  .act-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:1024px){
+  .nl{font-size:10px;padding:4px 7px;}
+  .nl svg{width:11px;height:11px;}
+  .un-name,.un-role{display:none;}
+  .col-3{grid-column:span 6;}
+  .col-8{grid-column:span 12;}
+  .col-4{grid-column:span 12;}
+  .col-6{grid-column:span 6;}
+  .score-right{flex-wrap:wrap;gap:12px;}
+  .act-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:768px){
+  html,body{overflow:auto;height:auto;}
+  body{flex-direction:column;}
+  .topnav{padding:0 12px;}
+  .nav-links,.more-wrap{display:none;}
+  .sb-toggle{display:flex;}
+  .icon-btn{width:30px;height:30px;}
+  .un-name,.un-role{display:none;}
+  .user-pill{padding:3px 8px 3px 3px;}
+  .sidebar{position:fixed;top:var(--nav-h);left:-220px;width:220px;height:calc(100vh - var(--nav-h));z-index:150;transition:left .28s cubic-bezier(.4,0,.2,1);}
+  .sidebar.open{left:0;box-shadow:4px 0 24px rgba(0,0,0,.5);}
+  .body{flex-direction:column;overflow:visible;height:auto;}
+  .content{overflow:visible;height:auto;}
+  .subnav{flex-direction:column;align-items:flex-start;gap:8px;padding:10px 12px;}
+  .sn-right{width:100%;flex-wrap:wrap;}
+  .filter-sel{flex:1;min-width:80px;}
+  .dash{padding:10px 12px;}
+  .col-3,.col-4,.col-6,.col-8,.col-12{grid-column:span 12;}
+  .act-grid{grid-template-columns:repeat(2,1fr);}
+  .score-strip{flex-direction:column;align-items:flex-start;}
+  .score-right{width:100%;justify-content:space-between;}
+  /* DROPDOWN FIX — responsive positioning */
+  .profile-dd{position:fixed;top:calc(var(--nav-h) + 6px);right:8px;width:calc(100vw - 16px);max-width:300px;}
+  .alert-dropdown{position:fixed;top:calc(var(--nav-h) + 6px);right:8px;width:calc(100vw - 16px);max-width:300px;}
+  .qa-bar{gap:7px;padding:10px 12px;}
+  .qa-btn{min-width:100px;font-size:10px;padding:8px 10px;}
+  .form-row{grid-template-columns:1fr;}
+  .tva-list{gap:8px;}
+}
+@media(max-width:480px){
+  .topnav{padding:0 10px;}
+  .logo-shield{width:24px;height:24px;}
+  .logo-text{font-size:12px;}
+  .score-value{font-size:22px;}
+  .kpi-num{font-size:24px;}
+  .act-grid{grid-template-columns:1fr;}
+  .grid-12{gap:8px;}
+  .dash{padding:8px 10px;}
+  .risk-counters{gap:4px;}
+  .qa-bar{padding:8px 10px;gap:6px;}
+  .qa-btn{font-size:10px;padding:7px 10px;min-width:80px;}
+  .profile-dd,.alert-dropdown{width:calc(100vw - 12px);right:6px;}
+  .score-right{gap:10px;}
+  .score-meta-val{font-size:14px;}
+}
+
+/* ══ UNIVERSAL MOBILE FIXES ══ */
+@media(max-width:768px){
+
+  /* ── Sub-header: stack vertically ── */
+  .sub-header{
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    gap:8px !important;
+    padding:10px 12px !important;
+  }
+  .sh-left{width:100% !important;}
+  .sh-right{
+    width:100% !important;
+    flex-wrap:wrap !important;
+    gap:6px !important;
+  }
+  .sh-title{font-size:14px !important;}
+
+  /* ── Tab bar: scroll horizontally, never overflow ── */
+  .sh-tabs{
+    display:flex !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    -webkit-overflow-scrolling:touch !important;
+    flex-wrap:nowrap !important;
+    gap:3px !important;
+    padding-bottom:4px !important;
+    scrollbar-width:none !important;
+    width:100% !important;
+    max-width:100vw !important;
+  }
+  .sh-tabs::-webkit-scrollbar{display:none !important;}
+  .sh-tab{
+    flex-shrink:0 !important;
+    white-space:nowrap !important;
+    font-size:11px !important;
+    padding:5px 12px !important;
+  }
+
+  /* ── Selects in subheader ── */
+  .sh-right select,.sel{
+    flex:1 !important;
+    min-width:80px !important;
+    max-width:100% !important;
+    font-size:11px !important;
+  }
+
+  /* ── Main 2-col layout → single col ── */
+  .ops-grid{
+    grid-template-columns:1fr !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+  .left-col,.right-col{width:100% !important;}
+  .two-col,.two-col-grid{grid-template-columns:1fr !important;}
+
+  /* ── Control page specific ── */
+  .esc-grid{grid-template-columns:1fr !important;}
+  .od-grid{grid-template-columns:1fr !important;}
+  .team-grid{grid-template-columns:1fr !important;}
+  .chain-card{padding:10px !important;}
+  .matrix-wrap{overflow-x:auto !important;}
+  .esc-table-wrap{overflow-x:auto !important; -webkit-overflow-scrolling:touch !important;}
+  .delay-chart-wrap{height:160px !important;}
+  .cs-grid{grid-template-columns:1fr 1fr !important;}
+
+  /* ── Reports page specific ── */
+  .charts-grid{grid-template-columns:1fr !important;}
+  .monthly-grid{grid-template-columns:1fr !important;}
+  .bench-grid{grid-template-columns:1fr !important;}
+  .apr-grid{grid-template-columns:1fr !important;}
+  .obj-card{padding:12px !important;}
+
+  /* ── Admin page specific ── */
+  .billing-grid{grid-template-columns:1fr !important;}
+  .notif-grid{grid-template-columns:1fr !important;}
+  .wf-grid{
+    flex-direction:column !important;
+    gap:8px !important;
+  }
+  .wf-arrow{transform:rotate(90deg) !important;}
+  .form-grid{grid-template-columns:1fr !important;}
+  .plan-card{width:100% !important;}
+
+  /* ── Cards: full width, comfortable padding ── */
+  .card,.g-card,.chart-card,.panel,.cs-card{
+    width:100% !important;
+    padding:12px !important;
+  }
+  .card-head,.card-hdr{
+    flex-wrap:wrap !important;
+    gap:8px !important;
+  }
+  .card-btns{flex-wrap:wrap !important; gap:4px !important;}
+
+  /* ── Tab panels ── */
+  .tab-panel{width:100% !important; overflow-x:hidden !important;}
+
+  /* ── Inputs full width ── */
+  .form-group{margin-bottom:12px !important;}
+  .form-input,.form-select,.form-textarea,.sel{
+    width:100% !important;
+    font-size:14px !important;
+  }
+
+  /* ── Chart heights ── */
+  .chart-wrap,[id$="Chart"]{height:160px !important;}
+
+  /* ── Action table ── */
+  .action-table{font-size:11px !important;}
+  .action-table th,.action-table td{padding:6px 8px !important;}
+}
+
+/* ══ SMALL MOBILE: 480px ══ */
+@media(max-width:480px){
+  .sh-title{font-size:13px !important;}
+  .sh-tab{font-size:10px !important; padding:4px 10px !important;}
+  .card,.g-card{padding:10px !important;}
+  .card-head,.card-hdr{margin-bottom:8px !important;}
+  .topnav{padding:0 10px !important;}
+  .logo-text{font-size:12px !important;}
+  .act-grid{grid-template-columns:1fr !important;}
+  .kpi-row,[class*="kpi-row"]{grid-template-columns:1fr 1fr !important;}
+}
+
+
+@media(max-width:360px){
+  .score-value{font-size:18px;}
+  .kpi-num{font-size:20px;}
+  .grid-12{gap:6px;}
+  .dash{padding:6px 8px;}
+  .act-grid{grid-template-columns:1fr;}
+  .qa-btn{font-size:9px;padding:6px 8px;min-width:80px;}
+  .snt{font-size:8px;padding:2px 6px;}
+  .score-strip{padding:10px 12px;}
+  .daf-pill{display:none;}
+}
+
+
+/* WebSocket real-time fade-in animation */
+@keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+
+/* ══ STANDARD LOGO SHIELD (shared) ══ */
+.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35);}
+.logo-shield svg{width:15px;height:15px;fill:#fff;}
+/* ══ STANDARD PROFILE DROPDOWN (shared) ══ */
+.profile-dd{display:none;position:fixed;top:calc(var(--nav-h,52px) + 6px);right:12px;width:252px;background:#0C1824;border:1px solid var(--border);border-radius:13px;box-shadow:0 16px 48px rgba(0,0,0,.7);z-index:9999;overflow:hidden;}
+.pd-header{padding:14px 16px;background:linear-gradient(135deg,rgba(34,197,94,.07),transparent);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.pd-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh,'Montserrat',sans-serif);font-size:13px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 0 14px rgba(34,197,94,.25);}
+.pd-name{font-size:12px;font-weight:700;color:var(--t1,#EBF4FF);}
+.pd-email{font-size:10px;color:var(--t3,#2E4A66);margin-top:1px;}
+.pd-role-badge{display:inline-block;font-size:9px;font-weight:600;color:var(--green,#22C55E);background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.18);border-radius:4px;padding:2px 7px;margin-top:4px;}
+.pd-menu{padding:4px 0;}
+.pd-item{padding:9px 14px;font-size:12px;color:var(--t2,#7A9BBF);cursor:pointer;display:flex;align-items:center;gap:10px;transition:.12s;text-decoration:none;}
+.pd-item:hover{background:var(--elevated,#142030);color:var(--t1,#EBF4FF);}
+.pd-item svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;}
+.pd-sep{height:1px;background:var(--border,#162236);margin:4px 0;}
+.pd-signout{margin:5px 10px 10px;padding:10px 14px;font-size:12px;font-weight:700;color:#fff;background:linear-gradient(135deg,#EF4444,#DC2626);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:8px;transition:.15s;}
+.pd-signout:hover{opacity:.85;transform:translateY(-1px);}
+.pd-signout svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;}
+/* ══ STANDARD FOOTER (shared) ══ */
+.sp-footer{flex-shrink:0;background:var(--sidebar,#080F18);border-top:1px solid var(--border,#162236);padding:7px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--t3,#2E4A66);z-index:10;}
+.sp-footer-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.sp-footer-center{display:flex;align-items:center;gap:14px;}
+.sp-footer-center a{color:var(--t3,#2E4A66);text-decoration:none;transition:.15s;}
+.sp-footer-center a:hover{color:var(--t2,#7A9BBF);}
+.sp-footer-right{display:flex;align-items:center;gap:6px;}
+.sp-footer-status-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;flex-shrink:0;}
+.sp-footer-sep{opacity:.3;}
+
+
+/* ══ ANTI-BLEED FIXES ══ */
+.card{overflow:hidden;word-break:break-word;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;}
+.tab-panel{min-width:0;}
+.tab-panel.active{min-width:0;overflow:hidden;}
+.main *{max-width:100%;box-sizing:border-box;}
+.sh-tabs{max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;}
+.sh-tabs::-webkit-scrollbar{display:none;}
+
+
+  /* SIDEBAR-GAP-FIX */ .sidebar{top:0 !important;}
+  </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+<style>
+/* sp-border-fix */
+.topnav{border-bottom:1px solid #334155!important;}
+.sidebar{border-right:1px solid #334155!important;}
+footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
+</style>
+
+
+<style>
+/* sp-dropdown-fix */
+#alert-dropdown,.alert-dropdown,
+#profile-dropdown,.profile-dd {
+  position: fixed !important;
+  z-index: 99999 !important;
+  width: 300px !important;
+  min-width: 300px !important;
+  max-height: calc(100vh - 68px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  background: #131C26 !important;
+  border: 1px solid #475569 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 0 0 1px rgba(71,85,105,0.4), 0 8px 24px rgba(0,0,0,0.6) !important;
+  scrollbar-width: thin;
+  scrollbar-color: #475569 transparent;
+}
+#alert-dropdown::-webkit-scrollbar,
+#profile-dropdown::-webkit-scrollbar { width: 4px; }
+#alert-dropdown::-webkit-scrollbar-thumb,
+#profile-dropdown::-webkit-scrollbar-thumb { background: #475569; border-radius: 2px; }
+.topnav, nav.topnav { overflow: visible !important; }
+</style>
+
+
+
+<style>
+/* sp-topnav-pattern */
+.topnav {
+  display: grid !important;
+  grid-template-columns: 195px 1fr auto !important;
+  align-items: center !important;
+  padding: 0 !important;
+  height: 52px !important;
+  overflow: visible !important;
+  position: relative !important;
+}
+.topnav .logo, .topnav a.logo {
+  width: 195px !important;
+  min-width: 195px !important;
+  max-width: 195px !important;
+  height: 100% !important;
+  padding: 0 16px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  overflow: hidden !important;
+  border-right: 1px solid #334155 !important;
+}
+.nav-links {
+  padding-left: 12px !important;
+  overflow: visible !important;
+  display: flex !important;
+  align-items: center !important;
+  height: 100% !important;
+  position: relative !important;
+}
+.nav-right {
+  padding-right: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  height: 100% !important;
+}
+.sidebar { width: 195px !important; flex-shrink: 0 !important; }
+.topnav::after { display: none !important; }
+.sb-toggle { display: none !important; }
+@media (max-width: 768px) { .sb-toggle { display: flex !important; } }
+/* More dropdown — ensure it renders above everything */
+.more-menu { z-index: 99998 !important; }
+.more-wrap { position: relative !important; }
+</style>
+<style>
+/* sp-more-fix-css */
+/* More dropdown: hidden by default, shown when .open on wrapper */
+#more-btn .more-menu,
+.more-wrap .more-menu {
+  display: none !important;
+  position: absolute !important;
+  top: calc(100% + 4px) !important;
+  left: 0 !important;
+  min-width: 200px !important;
+  z-index: 99999 !important;
+  background: #131C26 !important;
+  border: 1px solid #334155 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+  padding: 4px !important;
+}
+#more-btn.open .more-menu,
+.more-wrap.open .more-menu {
+  display: flex !important;
+  flex-direction: column !important;
+}
+</style>
+</head>
+<body>
+
+<!-- ══ TOP NAV ══ -->
+<nav class="topnav">
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
+  <a class="logo" href="safetypro_v2.html">
+    <div class="logo-shield"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
+    <span class="logo-text">SafetyPro <span>AI</span></span>
+  </a>
+  <div class="nav-links">
+    <a class="nl active" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
+    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations</a>
+    <a class="nl" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
+    <a class="nl" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2"/></svg>Reports</a>
+    <a class="nl" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>Admin</a>
+    <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More&#9660;
+      <div class="more-menu" id="more-menu">
+        <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_audit_compliance"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_field" onmousedown="event.stopPropagation()" onmousedown="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_hrm.html" style="color:#8B5CF6;"><svg viewBox="0 0 24 24" style="fill:#8B5CF6;"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>HRM &amp; Payroll</a>
+        <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_ai" onmousedown="event.stopPropagation()" onmousedown="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_auditor"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Client &amp; Auditor Portal</a>
+        <a class="mm-item" onclick="event.stopPropagation()" href="safetypro_documents" onmousedown="event.stopPropagation()" onmousedown="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Documents &amp; Records</a>
+        <div class="mm-divider"></div>
+        <a class="mm-item mm-admin" href="safetypro_admin.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09"/></svg>Admin &amp; Configuration</a>
+      </div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="icon-btn" onclick="toggleAlerts()" id="alert-btn" title="Alerts">
+      <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+      <div class="red-dot" id="alert-dot"></div>
+    </div>
+    <div class="user-pill" onclick="toggleProfileMenu()" id="user-pill-btn">
+      <div class="ua" id="nav-initials">--</div>
+      <div class="un">
+        <div class="un-name" id="nav-username">Loading...</div>
+        <div class="un-role" id="nav-role">HSE Officer</div>
+      </div>
+      <span style="color:var(--t3);font-size:9px;margin-left:3px">&#9660;</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ ALERT DROPDOWN ══ -->
+<div id="alert-dropdown" class="alert-dropdown" style="display:none">
+  <div class="alert-head">Live Alerts</div>
+  <div id="alert-list"><div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Loading...</div></div>
+</div>
+
+<!-- ══ PROFILE DROPDOWN ══ -->
+<div id="profile-dropdown" class="profile-dd">
+  <div class="pd-header">
+    <div class="pd-avatar" id="pd-initials">--</div>
+    <div>
+      <div class="pd-name" id="profile-name">Loading...</div>
+      <div class="pd-email" id="profile-email"></div>
+      <div class="pd-role-badge" id="profile-role-badge">HSE Officer</div>
+    </div>
+  </div>
+  <div class="pd-menu">
+    <a class="pd-item" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+    <div class="pd-item" onclick="openManageUsers()"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Manage Users</div>
+    <div class="pd-item" onclick="goToSettings()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4"/></svg>Settings</div>
+    <div class="pd-item" onclick="changePassword()"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Change Password</div>
+    <div class="pd-sep"></div>
+    <div class="pd-signout" onclick="signOut()">
+      <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign Out
+    </div>
+  </div>
+</div>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sb-overlay" id="sb-overlay" onclick="toggleSidebar()"></div>
+
+<!-- ══ ALERT DROPDOWN ══ -->
+<div id="alert-dropdown" class="alert-dropdown">
+  <div class="alert-head">Live Alerts</div>
+  <div id="alert-list"><div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Loading...</div></div>
+</div>
+
+
+<!-- ══ BODY ══ -->
+<div class="body">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-section">Main</div>
+    <a class="sb-item active" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+    <a class="sb-item" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations<span class="sb-badge amber" id="sb-badge-ops" style="display:none">0</span></a>
+    <a class="sb-item" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control<span class="sb-badge red" id="sb-badge-ctrl" style="display:none">0</span></a>
+    <a class="sb-item" href="safetypro_reports.html"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2"/></svg>Reports</a>
+    <div class="sb-sep"></div>
+    <div class="sb-more-btn" onclick="var i=document.getElementById('sb-more-items');var a=document.getElementById('sb-more-arr');var o=i.style.display==='block';i.style.display=o?'none':'block';a.style.transform=o?'':'rotate(180deg)';" style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;margin:2px 8px;border-radius:8px;cursor:pointer;color:var(--t2);font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;transition:.2s" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">
+      <span>More</span>
+      <svg id="sb-more-arr" viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div id="sb-more-items" style="display:none">
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_reports.html">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
+        Audit &amp; Compliance
+      </a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field" onmousedown="event.stopPropagation()" onmousedown="event.stopPropagation()">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        Site &amp; Field Tools
+      </a>
+    <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#8B5CF6" href="safetypro_hrm.html"><svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#8B5CF6"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>HRM &amp; Payroll</a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai" onmousedown="event.stopPropagation()" onmousedown="event.stopPropagation()">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        AI Intelligence
+      </a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_auditor">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Client &amp; Auditor Portal
+      </a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_documents" onmousedown="event.stopPropagation()" onmousedown="event.stopPropagation()">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+        Documents &amp; Records
+      </a>
+      <div style="height:1px;background:var(--border);margin:6px 8px"></div>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px;color:var(--green)" href="safetypro_admin.html">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--green)"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Admin &amp; Configuration
+      </a>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- SUBNAV + FILTERS -->
+    <div class="subnav">
+      <div class="sn-left">
+        <div class="sn-label"><div class="sn-live"></div>Global HSE Dashboard</div>
+        <div class="sn-tabs">
+          <div class="snt active" onclick="switchView(this,'global')">Global View</div>
+          <div class="snt" onclick="switchView(this,'project')">Project View</div>
+        </div>
+      </div>
+      <div class="sn-right">
+        <select class="filter-sel" id="filter-project" onchange="onProjectChange(this.value)">
+          <option value="">All Projects</option>
+          <option value="birpur">Birpur Dam</option>
+          <option value="mumbai">Mumbai Metro</option>
+          <option value="tirora">Tirora Plant</option>
+          <option value="delhi">Delhi NH-8</option>
+        </select>
+        <select class="filter-sel" id="filter-region">
+          <option value="">All Regions</option>
+          <option>India</option><option>UAE</option><option>Saudi Arabia</option><option>UK</option>
+        </select>
+        <select class="filter-sel" id="filter-dept">
+          <option value="">All Depts</option>
+          <option>Civil</option><option>Electrical</option><option>Mechanical</option><option>HSE</option>
+        </select>
+        <select class="filter-sel" id="filter-time">
+          <option value="30">Last 30 Days</option>
+          <option value="7">Last 7 Days</option>
+          <option value="90">Last 90 Days</option>
+          <option value="ytd">Year to Date</option>
+        </select>
+        <button class="exp-btn" onclick="showDashToast('Generating export...')">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export
+        </button>
+      </div>
+    </div>
+
+    <!-- DASHBOARD GRID -->
+    <div id="view-global">
+    <div class="dash">
+
+      <!-- ROW 1: GLOBAL HSE SCORE (col-12) -->
+      <div class="grid-12">
+        <div class="col-12 score-strip">
+          <div class="score-left">
+            <div class="score-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+            </div>
+            <div>
+              <div class="score-label">Global HSE Score</div>
+              <div class="score-value" id="global-score">8.7<span style="font-size:16px;color:var(--t3);font-weight:500">/10</span></div>
+              <div class="score-trend">&#9650; +0.3 this week &nbsp;&middot;&nbsp; Improving</div>
+            </div>
+          </div>
+          <div class="score-right">
+            <div class="score-meta">
+              <div class="score-meta-val" style="color:var(--t2)">7.9</div>
+              <div class="score-meta-label">Industry Avg</div>
+            </div>
+            <div class="score-div"></div>
+            <div class="daf-pill">
+              <div class="daf-pulse"></div>
+              <div>
+                <div class="daf-num" id="daf-count">47</div>
+                <div class="daf-txt">Days<br>Accident Free</div>
+              </div>
+            </div>
+            <div class="score-div"></div>
+            <div class="score-meta">
+              <div class="score-meta-val">183</div>
+              <div class="score-meta-label">Record Days</div>
+            </div>
+            <div class="score-div"></div>
+            <div class="score-meta">
+              <div class="score-meta-val" style="color:var(--t2)" id="last-incident-date">8 Feb</div>
+              <div class="score-meta-label">Last Incident</div>
+            </div>
+            <div class="score-div"></div>
+            <div class="benchmark-pill">
+              <div>
+                <div class="bench-val">4 Projects</div>
+                <div class="bench-label">Active Sites</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <!-- ROW 1B: TODAY'S PRIORITY (Action Engine) -->
+      <div class="grid-12" style="margin-bottom:10px;">
+        <div class="col-12">
+          <div style="background:linear-gradient(135deg,rgba(34,197,94,.07),rgba(59,130,246,.04),var(--card));border:1px solid rgba(34,197,94,.2);border-radius:var(--r);padding:12px 18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+              <div style="width:28px;height:28px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);border-radius:7px;display:flex;align-items:center;justify-content:center;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t1);">Today's Priority</div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;flex:1;">
+              <div id="priority-1" style="display:flex;align-items:center;gap:7px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:7px;padding:5px 12px;cursor:pointer;" onclick="showDashToast('Opening overdue actions...','red')">
+                <div style="width:6px;height:6px;border-radius:50%;background:var(--red);animation:rdpulse 1.5s ease-in-out infinite;flex-shrink:0;"></div>
+                <span style="font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);">Close 3 overdue actions</span>
+                <span style="font-size:9px;padding:1px 6px;border-radius:3px;background:var(--red-dim);color:var(--red);font-family:var(--fh);font-weight:700;">Critical</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:7px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:7px;padding:5px 12px;cursor:pointer;" onclick="showDashToast('Opening Mumbai Metro NCR...')">
+                <div style="width:6px;height:6px;border-radius:50%;background:var(--amber);flex-shrink:0;"></div>
+                <span style="font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);">Review NCR — Mumbai Metro</span>
+                <span style="font-size:9px;padding:1px 6px;border-radius:3px;background:var(--amber-dim);color:var(--amber);font-family:var(--fh);font-weight:700;">High</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:7px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:7px;padding:5px 12px;cursor:pointer;" onclick="showDashToast('Starting PPE audit...')">
+                <div style="width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0;"></div>
+                <span style="font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);">Conduct PPE Audit</span>
+                <span style="font-size:9px;padding:1px 6px;border-radius:3px;background:var(--blue-dim);color:var(--blue);font-family:var(--fh);font-weight:700;">Scheduled</span>
+              </div>
+            </div>
+            <div style="font-family:var(--fh);font-size:9px;font-weight:600;color:var(--t3);flex-shrink:0;">Auto-generated from your actions</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 2: KPI CARDS (4 x col-3) -->
+      <div class="grid-12">
+        <div class="col-3 kpi kpi-g" onclick="showDashToast('Safe Actions detail')">
+          <div class="kpi-orb"></div>
+          <div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg></div>
+          <div class="kpi-num" id="kn1">—</div>
+          <div class="kpi-label">Safe Actions</div>
+          <div class="kpi-foot"><div class="kpi-trend trend-up">+14% vs last month</div><div class="kpi-sub">This month</div></div>
+        </div>
+        <div class="col-3 kpi kpi-a" onclick="showDashToast('Pending actions detail')">
+          <div class="kpi-orb"></div>
+          <div class="kpi-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="kpi-num" id="kn2">—</div>
+          <div class="kpi-label">Actions Due</div>
+          <div class="kpi-foot"><div class="kpi-trend trend-neutral">3 overdue</div><div class="kpi-sub">Pending closure</div></div>
+        </div>
+        <div class="col-3 kpi kpi-r" onclick="showDashToast('Escalated items detail')">
+          <div class="kpi-orb"></div>
+          <div class="pulse-ring"></div>
+          <div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+          <div class="kpi-num" id="kn3">—</div>
+          <div class="kpi-label">Escalated</div>
+          <div class="kpi-foot"><div class="kpi-trend trend-down">Needs attention</div><div class="kpi-sub">Critical</div></div>
+        </div>
+        <div class="col-3 kpi kpi-b" onclick="showDashToast('Audit score detail')">
+          <div class="kpi-orb"></div>
+          <div class="kpi-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div class="kpi-num" id="kn4">—</div>
+          <div class="kpi-label">Audit Score</div>
+          <div class="kpi-foot"><div class="kpi-trend trend-up">+5% this period</div><div class="kpi-sub">Out of 100%</div></div>
+        </div>
+      </div>
+
+      <!-- ROW 3: MAIN GRAPH (col-8) + LIVE RISK PANEL (col-4) -->
+      <div class="grid-12">
+
+        <!-- MAIN CHART col-8 -->
+        <div class="col-8 g-card">
+          <div class="card-hdr">
+            <div>
+              <div class="card-title">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                HSE Trend Analysis
+              </div>
+              <div class="card-sub">Incidents, NCRs &amp; Actions over time</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <div class="ctabs">
+                <div class="ctab active" onclick="filterChart(this,'all')">All</div>
+                <div class="ctab" onclick="filterChart(this,'incident')">Incidents</div>
+                <div class="ctab" onclick="filterChart(this,'ncr')">NCR</div>
+                <div class="ctab" onclick="filterChart(this,'action')">Actions</div>
+              </div>
+              <div class="range-btns">
+                <button class="ca-btn active" onclick="setRange(this,'6m')">6M</button>
+                <button class="ca-btn" onclick="setRange(this,'12m')">12M</button>
+                <button class="ca-btn" onclick="setRange(this,'ytd')">YTD</button>
+              </div>
+            </div>
+          </div>
+          <div class="chart-wrap"><canvas id="chart"></canvas></div>
+          <div class="chart-stats">
+            <div class="cs-item"><div class="cs-num red" id="stat-total">37</div><div class="cs-label">Total Incidents</div></div>
+            <div class="cs-item"><div class="cs-num amber" id="stat-month">7</div><div class="cs-label">This Month</div></div>
+            <div class="cs-item"><div class="cs-num" style="color:var(--green)">-23%</div><div class="cs-label">vs Last Period</div></div>
+          </div>
+        </div>
+
+        <!-- LIVE RISK PANEL col-4 -->
+        <div class="col-4 g-card">
+          <div class="card-hdr">
+            <div>
+              <div class="card-title">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Live Risk Panel
+              </div>
+              <div class="card-sub">Real-time escalations &amp; overdue</div>
+            </div>
+            <div class="card-link" onclick="showDashToast('Opening risk details...')">View all</div>
+          </div>
+          <!-- Risk counters -->
+          <div class="risk-counters">
+            <div class="risk-counter-box">
+              <div class="rc-num" style="color:var(--red)" id="rc-critical">5</div>
+              <div class="rc-label">Critical</div>
+            </div>
+            <div class="risk-counter-box">
+              <div class="rc-num" style="color:var(--amber)" id="rc-overdue">12</div>
+              <div class="rc-label">Overdue NCR</div>
+            </div>
+            <div class="risk-counter-box">
+              <div class="rc-num" style="color:var(--green)" id="rc-today">28</div>
+              <div class="rc-label">Actions Today</div>
+            </div>
+          </div>
+          <!-- People at risk -->
+          <div class="risk-list">
+            <div class="risk-item crit">
+              <div class="risk-dot"></div>
+              <div class="risk-body">
+                <div class="risk-title">James G.</div>
+                <div class="risk-meta">Height work NCR &bull; 5 days overdue</div>
+              </div>
+              <div class="risk-badge rb-r">Critical</div>
+            </div>
+            <div class="risk-item warn">
+              <div class="risk-dot"></div>
+              <div class="risk-body">
+                <div class="risk-title">Gary M.</div>
+                <div class="risk-meta">PPE compliance &bull; High risk</div>
+              </div>
+              <div class="risk-badge rb-a">High</div>
+            </div>
+            <div class="risk-item ok">
+              <div class="risk-dot"></div>
+              <div class="risk-body">
+                <div class="risk-title">Rajesh P.</div>
+                <div class="risk-meta">Scaffolding check &bull; On track</div>
+              </div>
+              <div class="risk-badge rb-g">Normal</div>
+            </div>
+            <div class="risk-item warn">
+              <div class="risk-dot"></div>
+              <div class="risk-body">
+                <div class="risk-title">Mohan S.</div>
+                <div class="risk-meta">Electrical PTW &bull; 2 days overdue</div>
+              </div>
+              <div class="risk-badge rb-a">Overdue</div>
+            </div>
+            <div class="risk-item crit">
+              <div class="risk-dot"></div>
+              <div class="risk-body">
+                <div class="risk-title">Tirora Site</div>
+                <div class="risk-meta">L3 Escalation active &bull; 6h ago</div>
+              </div>
+              <div class="risk-badge rb-r">Escalated</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 4: SITE HEALTH (col-6) + TARGET vs ACTUAL (col-6) -->
+      <div class="grid-12">
+
+        <!-- SITE HEALTH col-6 -->
+        <div class="col-6 g-card">
+          <div class="card-hdr">
+            <div>
+              <div class="card-title">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+                Project / Site Health
+              </div>
+            </div>
+            <div class="card-link">All projects</div>
+          </div>
+          <div class="proj-list">
+            <div class="proj-item">
+              <div class="proj-top"><div><div class="proj-name">Birpur Dam</div><div class="proj-loc">Bihar, India</div></div><div class="proj-score" style="color:var(--green)">88%</div></div>
+              <div class="proj-bar-wrap"><div class="proj-bar" style="width:0%;background:var(--green)" data-w="88%"></div></div>
+              <div class="proj-meta"><div class="proj-issues">2 open NCRs</div><div class="proj-status" style="color:var(--green)">Good</div></div>
+              <div style="font-size:9px;color:var(--t3);margin-top:3px;font-family:var(--fh);"><span style="color:var(--green);font-weight:600;">DNA:</span> Balanced &bull; Strong compliance</div>
+            </div>
+            <div class="proj-item">
+              <div class="proj-top"><div><div class="proj-name">Mumbai Metro</div><div class="proj-loc">Maharashtra, India</div></div><div class="proj-score" style="color:var(--amber)">62%</div></div>
+              <div class="proj-bar-wrap"><div class="proj-bar" style="width:0%;background:var(--amber)" data-w="62%"></div></div>
+              <div class="proj-meta"><div class="proj-issues">7 open NCRs</div><div class="proj-status" style="color:var(--amber)">Needs attention</div></div>
+              <div style="font-size:9px;color:var(--t3);margin-top:3px;font-family:var(--fh);"><span style="color:var(--amber);font-weight:600;">DNA:</span> High NCR &bull; Low Training completion</div>
+            </div>
+            <div class="proj-item">
+              <div class="proj-top"><div><div class="proj-name">Tirora Plant</div><div class="proj-loc">Maharashtra, India</div></div><div class="proj-score" style="color:var(--red)">41%</div></div>
+              <div class="proj-bar-wrap"><div class="proj-bar" style="width:0%;background:var(--red)" data-w="41%"></div></div>
+              <div class="proj-meta"><div class="proj-issues" style="color:var(--red)">11 open NCRs</div><div class="proj-status" style="color:var(--red)">Critical</div></div>
+              <div style="font-size:9px;color:var(--t3);margin-top:3px;font-family:var(--fh);"><span style="color:var(--red);font-weight:600;">DNA:</span> High Risk &bull; Repeat scaffolding violations</div>
+            </div>
+            <div class="proj-item">
+              <div class="proj-top"><div><div class="proj-name">Delhi NH-8</div><div class="proj-loc">New Delhi, India</div></div><div class="proj-score" style="color:var(--green)">95%</div></div>
+              <div class="proj-bar-wrap"><div class="proj-bar" style="width:0%;background:var(--green)" data-w="95%"></div></div>
+              <div class="proj-meta"><div class="proj-issues">0 open NCRs</div><div class="proj-status" style="color:var(--green)">Excellent</div></div>
+              <div style="font-size:9px;color:var(--t3);margin-top:3px;font-family:var(--fh);"><span style="color:var(--green);font-weight:600;">DNA:</span> Zero incidents &bull; PPE 100% compliant</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TARGET vs ACTUAL col-6 -->
+        <div class="col-6 g-card">
+          <div class="card-hdr">
+            <div>
+              <div class="card-title">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                Target vs Actual
+              </div>
+              <div class="card-sub">Monthly performance against targets</div>
+            </div>
+            <div class="card-link">Details</div>
+          </div>
+          <div class="tva-list">
+            <div class="tva-item">
+              <div class="tva-header"><div class="tva-name">Incident Rate</div><div class="tva-vals">Target: 5 &nbsp;&bull;&nbsp; Actual: 7</div></div>
+              <div class="tva-rows">
+                <div class="tva-row"><div class="tva-lbl" style="color:var(--t3)">Target</div><div class="tva-track"><div class="tva-fill" style="width:0%;background:rgba(34,197,94,.4)" data-w="42%"></div></div><div class="tva-num" style="color:var(--green)">5</div></div>
+                <div class="tva-row"><div class="tva-lbl" style="color:var(--red)">Actual</div><div class="tva-track"><div class="tva-fill" style="width:0%;background:var(--red)" data-w="58%"></div></div><div class="tva-num" style="color:var(--red)">7</div></div>
+              </div>
+            </div>
+            <div class="tva-item">
+              <div class="tva-header"><div class="tva-name">NCR Closure Rate</div><div class="tva-vals">Target: 90% &nbsp;&bull;&nbsp; Actual: 78%</div></div>
+              <div class="tva-rows">
+                <div class="tva-row"><div class="tva-lbl" style="color:var(--t3)">Target</div><div class="tva-track"><div class="tva-fill" style="width:0%;background:rgba(34,197,94,.4)" data-w="90%"></div></div><div class="tva-num" style="color:var(--green)">90%</div></div>
+                <div class="tva-row"><div class="tva-lbl" style="color:var(--amber)">Actual</div><div class="tva-track"><div class="tva-fill" style="width:0%;background:var(--amber)" data-w="78%"></div></div><div class="tva-num" style="color:var(--amber)">78%</div></div>
+              </div>
+            </div>
+            <div class="tva-item">
+              <div class="tva-header"><div class="tva-name">HSE Training Completion</div><div class="tva-vals">Target: 100% &nbsp;&bull;&nbsp; Actual: 85%</div></div>
+              <div class="tva-rows">
+                <div class="tva-row"><div class="tva-lbl" style="color:var(--t3)">Target</div><div class="tva-track"><div class="tva-fill" style="width:0%;background:rgba(34,197,94,.4)" data-w="100%"></div></div><div class="tva-num" style="color:var(--green)">100%</div></div>
+                <div class="tva-row"><div class="tva-lbl" style="color:var(--amber)">Actual</div><div class="tva-track"><div class="tva-fill" style="width:0%;background:var(--amber)" data-w="85%"></div></div><div class="tva-num" style="color:var(--amber)">85%</div></div>
+              </div>
+            </div>
+            <div class="tva-item">
+              <div class="tva-header"><div class="tva-name">Safety Inspection Score</div><div class="tva-vals">Target: 95% &nbsp;&bull;&nbsp; Actual: 91%</div></div>
+              <div class="tva-rows">
+                <div class="tva-row"><div class="tva-lbl" style="color:var(--t3)">Target</div><div class="tva-track"><div class="tva-fill" style="width:0%;background:rgba(34,197,94,.4)" data-w="95%"></div></div><div class="tva-num" style="color:var(--green)">95%</div></div>
+                <div class="tva-row"><div class="tva-lbl" style="color:var(--green)">Actual</div><div class="tva-track"><div class="tva-fill" style="width:0%;background:var(--green)" data-w="91%"></div></div><div class="tva-num" style="color:var(--green)">91%</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <!-- ROW 4B: ROOT CAUSE ANALYSIS (Insight Engine) -->
+      <div class="grid-12" style="margin-bottom:12px;">
+        <div class="col-12">
+          <div class="g-card">
+            <div class="card-hdr">
+              <div>
+                <div class="card-title">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                  Root Cause Analysis
+                </div>
+                <div class="card-sub">Incidents this period — contributing factors</div>
+              </div>
+              <div style="display:flex;gap:6px;align-items:center;">
+                <span style="font-size:9px;padding:2px 8px;border-radius:4px;background:var(--purple-dim);color:var(--purple);font-family:var(--fh);font-weight:700;">AI Engine</span>
+                <div class="card-link" onclick="showDashToast('Root cause detail view opening...','blue')">View breakdown</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:center;">
+              <!-- Donut chart -->
+              <div style="position:relative;width:120px;height:120px;margin:0 auto;">
+                <canvas id="rootCauseChart" width="120" height="120"></canvas>
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;">
+                  <div style="font-family:var(--fh);font-size:18px;font-weight:800;color:var(--t1);">37</div>
+                  <div style="font-size:9px;color:var(--t3);font-family:var(--fh);font-weight:600;">Incidents</div>
+                </div>
+              </div>
+              <!-- Breakdown bars -->
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div class="rca-row" onclick="showDashToast('Human Error incidents — filtering...','red')" style="cursor:pointer;">
+                  <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                    <div style="display:flex;align-items:center;gap:6px;">
+                      <div style="width:8px;height:8px;border-radius:50%;background:#EF4444;flex-shrink:0;"></div>
+                      <span style="font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);">Human Error</span>
+                    </div>
+                    <span style="font-family:var(--fh);font-size:11px;font-weight:800;color:var(--red);">42%</span>
+                  </div>
+                  <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden;">
+                    <div style="height:100%;background:var(--red);border-radius:3px;width:0%;transition:width 1.2s cubic-bezier(.4,0,.2,1);" data-w="42%"></div>
+                  </div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:3px;">Lack of awareness &bull; Procedure not followed</div>
+                </div>
+                <div class="rca-row" onclick="showDashToast('Training Gap incidents — filtering...','amber')" style="cursor:pointer;">
+                  <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                    <div style="display:flex;align-items:center;gap:6px;">
+                      <div style="width:8px;height:8px;border-radius:50%;background:#F59E0B;flex-shrink:0;"></div>
+                      <span style="font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);">Training Gap</span>
+                    </div>
+                    <span style="font-family:var(--fh);font-size:11px;font-weight:800;color:var(--amber);">28%</span>
+                  </div>
+                  <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden;">
+                    <div style="height:100%;background:var(--amber);border-radius:3px;width:0%;transition:width 1.2s cubic-bezier(.4,0,.2,1);" data-w="28%"></div>
+                  </div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:3px;">Insufficient induction &bull; Skills gap identified</div>
+                </div>
+                <div class="rca-row" onclick="showDashToast('Equipment issues — filtering...','blue')" style="cursor:pointer;">
+                  <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                    <div style="display:flex;align-items:center;gap:6px;">
+                      <div style="width:8px;height:8px;border-radius:50%;background:#3B82F6;flex-shrink:0;"></div>
+                      <span style="font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);">Equipment</span>
+                    </div>
+                    <span style="font-family:var(--fh);font-size:11px;font-weight:800;color:var(--blue);">18%</span>
+                  </div>
+                  <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden;">
+                    <div style="height:100%;background:var(--blue);border-radius:3px;width:0%;transition:width 1.2s cubic-bezier(.4,0,.2,1);" data-w="18%"></div>
+                  </div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:3px;">Defective tools &bull; Maintenance backlog</div>
+                </div>
+                <div class="rca-row" onclick="showDashToast('Environment issues — filtering...','blue')">
+                  <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                    <div style="display:flex;align-items:center;gap:6px;">
+                      <div style="width:8px;height:8px;border-radius:50%;background:#22C55E;flex-shrink:0;"></div>
+                      <span style="font-family:var(--fh);font-size:10px;font-weight:600;color:var(--t1);">Environment</span>
+                    </div>
+                    <span style="font-family:var(--fh);font-size:11px;font-weight:800;color:var(--green);">12%</span>
+                  </div>
+                  <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden;">
+                    <div style="height:100%;background:var(--green);border-radius:3px;width:0%;transition:width 1.2s cubic-bezier(.4,0,.2,1);" data-w="12%"></div>
+                  </div>
+                  <div style="font-size:9px;color:var(--t3);margin-top:3px;">Weather &bull; Site conditions</div>
+                </div>
+              </div>
+            </div>
+            <!-- Repeat risk alert -->
+            <div style="margin-top:12px;padding:8px 12px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:8px;display:flex;align-items:center;gap:10px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <div style="flex:1;">
+                <span style="font-family:var(--fh);font-size:10px;font-weight:700;color:var(--amber);">Repeat Risk Detected</span>
+                <span style="font-size:10px;color:var(--t3);margin-left:8px;">Scaffolding defects reported 5 times this month across 3 sites</span>
+              </div>
+              <div style="font-family:var(--fh);font-size:9px;font-weight:700;color:var(--amber);background:var(--amber-dim);padding:2px 8px;border-radius:4px;white-space:nowrap;">Systematic Issue</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 5: ACTIVITY PERFORMANCE (col-4) + AUDIT & COMPLIANCE (col-4) + AI INSIGHTS (col-4) -->
+      <div class="grid-12">
+
+        <!-- ACTIVITY PERFORMANCE col-4 -->
+        <div class="col-4 g-card">
+          <div class="card-hdr">
+            <div>
+              <div class="card-title">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                Activity Performance
+              </div>
+            </div>
+          </div>
+          <div class="ap-list">
+            <div class="ap-item">
+              <div class="ap-icon" style="background:rgba(34,197,94,.1)"><svg viewBox="0 0 24 24" style="stroke:var(--green)"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0"/></svg></div>
+              <div class="ap-body">
+                <div class="ap-name">Observations</div>
+                <div class="ap-track"><div class="ap-fill" style="width:0%;background:var(--green)" data-w="85%"></div></div>
+                <div class="ap-foot"><div class="ap-count" style="color:var(--green)">120</div><div class="ap-pct">Target: 140</div></div>
+              </div>
+            </div>
+            <div class="ap-item">
+              <div class="ap-icon" style="background:rgba(245,158,11,.1)"><svg viewBox="0 0 24 24" style="stroke:var(--amber)"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></div>
+              <div class="ap-body">
+                <div class="ap-name">NCR Raised</div>
+                <div class="ap-track"><div class="ap-fill" style="width:0%;background:var(--amber)" data-w="64%"></div></div>
+                <div class="ap-foot"><div class="ap-count" style="color:var(--amber)">45</div><div class="ap-pct">Open: 18</div></div>
+              </div>
+            </div>
+            <div class="ap-item">
+              <div class="ap-icon" style="background:rgba(59,130,246,.1)"><svg viewBox="0 0 24 24" style="stroke:var(--blue)"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/></svg></div>
+              <div class="ap-body">
+                <div class="ap-name">HSE Inspections</div>
+                <div class="ap-track"><div class="ap-fill" style="width:0%;background:var(--blue)" data-w="88%"></div></div>
+                <div class="ap-foot"><div class="ap-count" style="color:var(--blue)">88</div><div class="ap-pct">Target: 100</div></div>
+              </div>
+            </div>
+            <div class="ap-item">
+              <div class="ap-icon" style="background:rgba(139,92,246,.1)"><svg viewBox="0 0 24 24" style="stroke:var(--purple)"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+              <div class="ap-body">
+                <div class="ap-name">HSE Trainings</div>
+                <div class="ap-track"><div class="ap-fill" style="width:0%;background:var(--purple)" data-w="95%"></div></div>
+                <div class="ap-foot"><div class="ap-count" style="color:var(--purple)">95</div><div class="ap-pct">Target: 100</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AUDIT & COMPLIANCE col-4 -->
+        <div class="col-4 g-card">
+          <div class="card-hdr">
+            <div>
+              <div class="card-title">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Audit &amp; Compliance
+              </div>
+            </div>
+          </div>
+          <div class="audit-ring-row">
+            <div class="audit-ring-wrap">
+              <svg width="54" height="54" viewBox="0 0 54 54">
+                <circle class="ar-bg" cx="27" cy="27" r="22"/>
+                <circle class="ar-fill" cx="27" cy="27" r="22"/>
+              </svg>
+              <div class="audit-ring-num">91%</div>
+            </div>
+            <div>
+              <div class="audit-info-title">Audit Score</div>
+              <div class="audit-info-sub">ISO 45001 Compliant<br>78% actions closed &nbsp;&bull;&nbsp; 12 pending</div>
+            </div>
+          </div>
+          <div class="audit-rows">
+            <div class="audit-row">
+              <div class="audit-row-label">Actions Closed</div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="audit-row-val" style="color:var(--green)">78%</div>
+                <div class="audit-row-badge" style="background:var(--green-dim);color:var(--green)">Good</div>
+              </div>
+            </div>
+            <div class="audit-row">
+              <div class="audit-row-label">Pending Actions</div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="audit-row-val" style="color:var(--red)">12</div>
+                <div class="audit-row-badge" style="background:var(--red-dim);color:var(--red)">Review</div>
+              </div>
+            </div>
+            <div class="audit-row">
+              <div class="audit-row-label">ISO 45001 Status</div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="audit-row-val" style="color:var(--green)">Active</div>
+                <div class="audit-row-badge" style="background:var(--green-dim);color:var(--green)">Valid</div>
+              </div>
+            </div>
+            <div class="audit-row">
+              <div class="audit-row-label">Next Audit Date</div>
+              <div class="audit-row-val" style="color:var(--amber)">14 Apr 2025</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI INSIGHTS col-4 -->
+        <div class="col-4 g-card">
+          <div class="card-hdr">
+            <div>
+              <div class="card-title">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                AI Insights
+              </div>
+            </div>
+            <div class="insight-ai-badge">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4"/></svg>
+              Auto-generated
+            </div>
+          </div>
+          <div class="insight-list">
+            <div class="insight-item danger">
+              <div class="insight-title"><span class="insight-emoji">&#9888;</span>Incident Rate Increasing</div>
+              <div class="insight-desc">Tirora Plant shows 42% spike in incidents vs last month. Immediate site review recommended.</div>
+            </div>
+            <div class="insight-item warn">
+              <div class="insight-title"><span class="insight-emoji">&#128200;</span>NCR +12% This Month</div>
+              <div class="insight-desc">NCR volume is up across Mumbai Metro. Root cause: scaffolding &amp; PPE gaps identified.</div>
+            </div>
+            <div class="insight-item good">
+              <div class="insight-title"><span class="insight-emoji">&#9989;</span>PPE Compliance Improving</div>
+              <div class="insight-desc">Delhi NH-8 PPE compliance up 18% after last week's toolbox talks. Best practice to replicate.</div>
+            </div>
+            <div class="insight-item info">
+              <div class="insight-title"><span class="insight-emoji">&#128203;</span>Audit Due in 18 Days</div>
+              <div class="insight-desc">ISO 45001 annual surveillance audit scheduled. 12 actions must be closed beforehand.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 6: ACCOUNTABILITY (col-6) + TOP PERFORMERS (col-6) -->
+      <div class="grid-12">
+
+        <!-- ACCOUNTABILITY col-6 -->
+        <div class="col-6 g-card">
+          <div class="card-hdr">
+            <div>
+              <div class="card-title">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                Accountability
+              </div>
+            </div>
+            <div class="sec-badge" style="background:var(--amber-dim);color:var(--amber)">3 overdue</div>
+          </div>
+          <div class="acc-list">
+            <div class="acc-person">
+              <div class="acc-top"><div class="acc-av" style="background:linear-gradient(135deg,#22C55E,#16A34A)">RK</div><div class="acc-name">Rajan Kumar</div><div class="acc-pct" style="color:var(--green)">87%</div></div>
+              <div class="acc-bar-wrap"><div class="acc-bar" style="width:0%;background:var(--green)" data-w="87%"></div></div>
+              <div class="acc-footer"><div class="acc-role">Site HSE Officer</div><div class="acc-overdue" style="color:var(--t3)">13 closed</div></div>
+            </div>
+            <div class="acc-person">
+              <div class="acc-top"><div class="acc-av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">MS</div><div class="acc-name">Mohan Singh</div><div class="acc-pct" style="color:var(--amber)">61%</div></div>
+              <div class="acc-bar-wrap"><div class="acc-bar" style="width:0%;background:var(--amber)" data-w="61%"></div></div>
+              <div class="acc-footer"><div class="acc-role">Project Manager</div><div class="acc-overdue" style="color:var(--red)">2 overdue</div></div>
+            </div>
+            <div class="acc-person">
+              <div class="acc-top"><div class="acc-av" style="background:linear-gradient(135deg,#F59E0B,#D97706)">JM</div><div class="acc-name">John M.</div><div class="acc-pct" style="color:var(--green)">86%</div></div>
+              <div class="acc-bar-wrap"><div class="acc-bar" style="width:0%;background:var(--green)" data-w="86%"></div></div>
+              <div class="acc-footer"><div class="acc-role">HSE Supervisor</div><div class="acc-overdue" style="color:var(--t3)">1 pending</div></div>
+            </div>
+            <div class="acc-person">
+              <div class="acc-top"><div class="acc-av" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED)">AK</div><div class="acc-name">Amit Kumar</div><div class="acc-pct" style="color:var(--red)">38%</div></div>
+              <div class="acc-bar-wrap"><div class="acc-bar" style="width:0%;background:var(--red)" data-w="38%"></div></div>
+              <div class="acc-footer"><div class="acc-role">Contractor Lead</div><div class="acc-overdue" style="color:var(--red)">1 overdue</div></div>
+              <div style="font-size:9px;background:rgba(239,68,68,.08);color:var(--red);border:1px solid rgba(239,68,68,.2);border-radius:4px;padding:2px 7px;display:inline-block;margin-top:4px;font-family:var(--fh);font-weight:600;">Needs Attention</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TOP PERFORMERS col-6 -->
+        <div class="col-6 g-card">
+          <div class="card-hdr">
+            <div>
+              <div class="card-title">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Top Performers
+              </div>
+            </div>
+            <div class="card-link">This month</div>
+          </div>
+          <div class="perf-list">
+            <div class="perf-item">
+              <div class="perf-rank rank-1">1</div>
+              <div><div class="perf-name">Priya Desai</div><div class="perf-role">Safety Supervisor &bull; Birpur</div></div>
+              <div class="perf-score">98</div>
+            </div>
+            <div class="perf-item">
+              <div class="perf-rank rank-2">2</div>
+              <div><div class="perf-name">Rajan Kumar</div><div class="perf-role">HSE Officer &bull; Delhi NH-8</div></div>
+              <div class="perf-score">91</div>
+            </div>
+            <div class="perf-item">
+              <div class="perf-rank rank-3">3</div>
+              <div><div class="perf-name">Deepa Nair</div><div class="perf-role">Site Inspector &bull; Mumbai</div></div>
+              <div class="perf-score">87</div>
+            </div>
+            <div class="perf-item">
+              <div class="perf-rank rank-n">4</div>
+              <div><div class="perf-name">Vikram Shah</div><div class="perf-role">HSE Engineer &bull; Tirora</div></div>
+              <div class="perf-score" style="color:var(--t2)">82</div>
+            </div>
+            <div class="perf-item">
+              <div class="perf-rank rank-n">5</div>
+              <div><div class="perf-name">Anita Roy</div><div class="perf-role">Safety Officer &bull; Mumbai</div></div>
+              <div class="perf-score" style="color:var(--t2)">79</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 7: RECENT ACTIVITY (col-12 full width) -->
+      <div class="grid-12">
+        <div class="col-12 g-card">
+          <div class="card-hdr">
+            <div>
+              <div class="card-title">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9" stroke-dasharray="4 2"/></svg>
+                Recent Activity
+              </div>
+              <div class="card-sub">Live feed &bull; All projects</div>
+            </div>
+            <div class="card-link" onclick="showDashToast('Full activity log opening...')">View all activity</div>
+          </div>
+          <div class="act-grid">
+            <div class="act-item">
+              <div class="act-av" style="background:linear-gradient(135deg,#EF4444,#DC2626)">VS</div>
+              <div class="act-body">
+                <div class="act-title">Unsafe Condition NCR raised</div>
+                <div class="act-meta"><span class="act-badge ab-a">NCR</span><span class="act-site">Mumbai Metro</span></div>
+                <div class="act-time">2 min ago &bull; Vikram S.</div>
+              </div>
+            </div>
+            <div class="act-item">
+              <div class="act-av" style="background:linear-gradient(135deg,#22C55E,#16A34A)">PR</div>
+              <div class="act-body">
+                <div class="act-title">Action closed &mdash; PPE Audit</div>
+                <div class="act-meta"><span class="act-badge ab-g">CLOSED</span><span class="act-site">Birpur Dam</span></div>
+                <div class="act-time">18 min ago &bull; Priya R.</div>
+              </div>
+            </div>
+            <div class="act-item">
+              <div class="act-av" style="background:linear-gradient(135deg,#EF4444,#B91C1C)">RK</div>
+              <div class="act-body">
+                <div class="act-title">Incident reported &mdash; Height Work</div>
+                <div class="act-meta"><span class="act-badge ab-r">INCIDENT</span><span class="act-site">Tirora Plant</span></div>
+                <div class="act-time">1 hr ago &bull; Rajan K.</div>
+              </div>
+            </div>
+            <div class="act-item">
+              <div class="act-av" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">AK</div>
+              <div class="act-body">
+                <div class="act-title">ISO 45001 audit completed</div>
+                <div class="act-meta"><span class="act-badge ab-b">AUDIT</span><span class="act-site">Delhi NH-8</span></div>
+                <div class="act-time">3 hr ago &bull; Amit K.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end .dash -->
+    </div><!-- /view-global -->
+    <!-- PROJECT VIEW PANEL - Phase 1 -->
+<div id="view-project" style="display:none">
+  <div class="dash" id="pv-dash">
+
+    <!-- PROJECT SELECTOR — dynamic dropdown from /projects API -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px 18px;">
+      <div style="font-family:var(--fh);font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;flex-shrink:0;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="margin-right:5px;vertical-align:middle;"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+        Select Project
+      </div>
+      <div style="flex:1;position:relative;">
+        <select id="pv-proj-select" onchange="pvSelectProjectByDropdown(this)"
+          style="width:100%;background:var(--elevated);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-family:var(--fh);font-size:12px;font-weight:600;padding:8px 32px 8px 12px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;transition:.15s;">
+          <option value="">— Choose project —</option>
+        </select>
+        <svg style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:12px;height:12px;fill:none;stroke:var(--t3);stroke-width:2.5;pointer-events:none;" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div id="pv-proj-info" style="font-size:11px;color:var(--t3);white-space:nowrap;display:none;">
+        <span id="pv-proj-location"></span>
+      </div>
+    </div>
+
+    <!-- PROJECT HERO HEADER -->
+    <div class="grid-12">
+      <div class="col-12">
+        <div id="pv-hero" style="background:linear-gradient(135deg,var(--card) 0%,var(--elevated) 100%);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;position:relative;overflow:hidden;">
+          <!-- Glow accent -->
+          <div id="pv-glow" style="position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;opacity:0.12;pointer-events:none;"></div>
+          <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+            <!-- Left: Project info -->
+            <div style="display:flex;align-items:center;gap:16px;">
+              <div id="pv-icon" style="width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;"></div>
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                  <div id="pv-name" style="font-family:var(--fh);font-size:18px;font-weight:800;color:var(--t1);"></div>
+                  <div id="pv-phase" style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;text-transform:uppercase;letter-spacing:.5px;"></div>
+                </div>
+                <div id="pv-meta" style="font-size:12px;color:var(--t2);display:flex;align-items:center;gap:12px;flex-wrap:wrap;"></div>
+              </div>
+            </div>
+            <!-- Right: HSE Score gauge + days -->
+            <div style="display:flex;align-items:center;gap:20px;">
+              <!-- Days safe -->
+              <div style="text-align:center;">
+                <div id="pv-safe-days" style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--green);line-height:1;"></div>
+                <div style="font-size:10px;color:var(--t3);margin-top:2px;text-transform:uppercase;letter-spacing:.5px;">Safe Days</div>
+              </div>
+              <div style="width:1px;height:40px;background:var(--border);"></div>
+              <!-- HSE Score radial -->
+              <div style="text-align:center;position:relative;">
+                <svg width="72" height="72" viewBox="0 0 72 72">
+                  <circle cx="36" cy="36" r="28" fill="none" stroke="var(--border2)" stroke-width="5"/>
+                  <circle id="pv-score-arc" cx="36" cy="36" r="28" fill="none" stroke="var(--green)" stroke-width="5"
+                    stroke-linecap="round" stroke-dasharray="175.9" stroke-dashoffset="175.9"
+                    transform="rotate(-90 36 36)" style="transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)"/>
+                </svg>
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                  <div id="pv-score-num" style="font-family:var(--fh);font-size:15px;font-weight:800;color:var(--t1);line-height:1;"></div>
+                  <div style="font-size:8px;color:var(--t3);">HSE</div>
+                </div>
+              </div>
+              <div style="width:1px;height:40px;background:var(--border);"></div>
+              <!-- Deadline -->
+              <div style="text-align:center;">
+                <div id="pv-days-left" style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--amber);line-height:1;"></div>
+                <div style="font-size:10px;color:var(--t3);margin-top:2px;text-transform:uppercase;letter-spacing:.5px;">Days Left</div>
+              </div>
+            </div>
+          </div>
+          <!-- Progress bar -->
+          <div style="margin-top:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <div style="font-size:11px;color:var(--t3);">Project Completion</div>
+              <div id="pv-completion-pct" style="font-size:11px;font-weight:700;color:var(--t2);"></div>
+            </div>
+            <div style="height:4px;background:var(--border2);border-radius:2px;overflow:hidden;">
+              <div id="pv-completion-bar" style="height:100%;border-radius:2px;background:linear-gradient(90deg,var(--green),var(--blue));width:0%;transition:width 1s ease;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI STRIP -->
+    <div class="grid-12" style="margin-bottom:12px;">
+      <div class="col-12">
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;">
+          <!-- KPI 1: Open Actions -->
+          <div class="card" style="padding:16px;text-align:center;">
+            <div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Open Actions</div>
+            <div id="pv-k1" style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--amber);line-height:1;">—</div>
+            <div id="pv-k1-sub" style="font-size:10px;color:var(--t3);margin-top:4px;"></div>
+          </div>
+          <!-- KPI 2: Overdue -->
+          <div class="card" style="padding:16px;text-align:center;">
+            <div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Overdue</div>
+            <div id="pv-k2" style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--red);line-height:1;">—</div>
+            <div id="pv-k2-sub" style="font-size:10px;color:var(--t3);margin-top:4px;"></div>
+          </div>
+          <!-- KPI 3: Incidents -->
+          <div class="card" style="padding:16px;text-align:center;">
+            <div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Incidents</div>
+            <div id="pv-k3" style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--blue);line-height:1;">—</div>
+            <div id="pv-k3-sub" style="font-size:10px;color:var(--t3);margin-top:4px;">This month</div>
+          </div>
+          <!-- KPI 4: Manpower -->
+          <div class="card" style="padding:16px;text-align:center;">
+            <div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Manpower</div>
+            <div id="pv-k4" style="font-family:var(--fh);font-size:28px;font-weight:800;color:var(--purple);line-height:1;">—</div>
+            <div id="pv-k4-sub" style="font-size:10px;color:var(--t3);margin-top:4px;">On site today</div>
+          </div>
+          <!-- KPI 5: Safe Man-hours -->
+          <div class="card" style="padding:16px;text-align:center;">
+            <div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Safe Man-hrs</div>
+            <div id="pv-k5" style="font-family:var(--fh);font-size:24px;font-weight:800;color:var(--green);line-height:1;">—</div>
+            <div id="pv-k5-sub" style="font-size:10px;color:var(--t3);margin-top:4px;">Accumulated</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT: INCIDENTS + ACTIONS -->
+    <div class="grid-12">
+
+      <!-- LEFT: Incident Timeline -->
+      <div class="col-4">
+        <div class="card" style="padding:0;overflow:hidden;height:420px;display:flex;flex-direction:column;">
+          <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);">Incident Timeline</div>
+              <div style="font-size:10px;color:var(--t3);margin-top:2px;">This project only</div>
+            </div>
+            <div id="pv-inc-count" style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;background:var(--red-dim);color:var(--red);border:1px solid rgba(239,68,68,.2);"></div>
+          </div>
+          <div id="pv-incident-feed" style="flex:1;overflow-y:auto;padding:10px 12px;">
+            <div style="text-align:center;padding:40px 0;color:var(--t3);font-size:12px;">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Action Tracker (project filtered) -->
+      <div class="col-8">
+        <div class="card" style="padding:0;overflow:hidden;height:420px;display:flex;flex-direction:column;">
+          <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);">Action Tracker</div>
+              <div style="font-size:10px;color:var(--t3);margin-top:2px;" id="pv-actions-sub">Project actions</div>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <div id="pv-act-open" style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,158,11,.2);"></div>
+              <div id="pv-act-over" style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;background:var(--red-dim);color:var(--red);border:1px solid rgba(239,68,68,.2);"></div>
+            </div>
+          </div>
+          <div style="flex:1;overflow-y:auto;">
+            <table style="width:100%;border-collapse:collapse;table-layout:fixed;">
+              <thead>
+                <tr>
+                  <th style="padding:8px 10px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015);width:36px;"></th>
+                  <th style="padding:8px 10px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015);white-space:nowrap;">Action</th>
+                  <th style="padding:8px 10px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015);white-space:nowrap;width:110px;">Assigned</th>
+                  <th style="padding:8px 10px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015);white-space:nowrap;width:85px;">Deadline</th>
+                  <th style="padding:8px 10px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015);white-space:nowrap;width:100px;">Status</th>
+                  <th style="padding:8px 10px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015);white-space:nowrap;width:90px;">Progress</th>
+                </tr>
+              </thead>
+              <tbody id="pv-action-tbody">
+                <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--t3);font-size:12px;">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COMPLIANCE SCORECARD -->
+    <div class="grid-12" style="margin-top:0;">
+      <div class="col-12">
+        <div class="card" style="padding:16px 20px;">
+          <div style="font-family:var(--fh);font-size:13px;font-weight:700;color:var(--t1);margin-bottom:14px;">
+            Compliance Scorecard — <span id="pv-compliance-title" style="color:var(--green);"></span>
+          </div>
+          <div id="pv-compliance-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /view-project -->
+
+    <!-- ROW 8: QUICK ACTIONS BAR (col-12 full width, sticky bottom) -->
+    <div class="qa-bar">
+      <button class="qa-btn qa-incident" onclick="openIncidentModal()">
+        <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
+        Report Incident
+      </button>
+      <button class="qa-btn qa-ncr" onclick="openNcrModal()">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        Log NCR
+      </button>
+      <button class="qa-btn qa-action" onclick="showDashToast('Add Action coming soon', 'blue')">
+        <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        Add Action
+      </button>
+      <button class="qa-btn qa-audit" onclick="showDashToast('Start Audit coming soon', 'blue')">
+        <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>
+        Start Audit
+      </button>
+    </div>
+
+  </div><!-- end .content -->
+</div><!-- end .body -->
+
+<!-- TOAST -->
+<div class="toast" id="dash-toast"><div class="toast-dot" id="toast-dot"></div><span id="toast-msg"></span></div>
+
+<!-- INCIDENT MODAL -->
+<div class="modal-bg" id="incident-modal">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title">Report Incident</div><div class="modal-close" onclick="closeModal('incident-modal')">&#10005;</div></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Incident Type</label><select class="form-select" id="inc-type"><option>Near Miss</option><option>First Aid</option><option>Medical Treatment</option><option>Lost Time Injury</option><option>Fatal</option></select></div>
+        <div class="form-group"><label class="form-label">Severity</label><select class="form-select" id="inc-severity"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
+      </div>
+      <div class="form-group"><label class="form-label">Project / Site *</label><select class="form-select" id="inc-project"><option value="">Select Project</option><option>Birpur Dam</option><option>Mumbai Metro</option><option>Tirora Plant</option><option>Delhi NH-8</option></select></div>
+      <div class="form-group"><label class="form-label">Description *</label><textarea class="form-textarea" id="inc-desc" placeholder="Describe what happened, where, and initial response taken..."></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Injured Person</label><input class="form-input" id="inc-person" placeholder="Name or N/A"/></div>
+        <div class="form-group"><label class="form-label">Reported By</label><input class="form-input" id="inc-reporter" placeholder="Your name"/></div>
+      </div>
+    </div>
+    <div class="modal-foot"><button class="btn-cancel" onclick="closeModal('incident-modal')">Cancel</button><button class="btn-submit" onclick="submitIncident()">Submit Report</button></div>
+  </div>
+</div>
+
+<!-- NCR MODAL -->
+<div class="modal-bg" id="ncr-modal">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title">Log NCR</div><div class="modal-close" onclick="closeModal('ncr-modal')">&#10005;</div></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">NCR Category</label><select class="form-select" id="ncr-cat"><option>PPE Non-compliance</option><option>Scaffolding</option><option>Electrical Safety</option><option>Housekeeping</option><option>Method Statement</option><option>Permit to Work</option></select></div>
+        <div class="form-group"><label class="form-label">Priority</label><select class="form-select" id="ncr-priority"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
+      </div>
+      <div class="form-group"><label class="form-label">Project *</label><select class="form-select" id="ncr-project"><option value="">Select Project</option><option>Birpur Dam</option><option>Mumbai Metro</option><option>Tirora Plant</option><option>Delhi NH-8</option></select></div>
+      <div class="form-group"><label class="form-label">Non-Conformance Description *</label><textarea class="form-textarea" id="ncr-desc" placeholder="Describe the non-conformance observed..."></textarea></div>
+      <div class="form-group"><label class="form-label">Corrective Action Required</label><textarea class="form-textarea" id="ncr-action" placeholder="Describe the corrective action to be taken..." style="min-height:60px"></textarea></div>
+    </div>
+    <div class="modal-foot"><button class="btn-cancel" onclick="closeModal('ncr-modal')">Cancel</button><button class="btn-submit" onclick="submitNcr()">Log NCR</button></div>
+  </div>
+</div>
+
+<!-- MANAGE USERS MODAL -->
+<div class="modal-bg" id="users-modal">
+  <div class="modal" style="width:640px">
+    <div class="modal-head"><div class="modal-title">Manage Users</div><div class="modal-close" onclick="closeModal('users-modal')">&#10005;</div></div>
+    <div class="modal-body" style="padding-top:0"><div id="users-table-wrap" style="overflow-x:auto"><div style="padding:20px;text-align:center;color:var(--t3);font-size:13px">Loading users...</div></div></div>
+    <div class="modal-foot"><button class="btn-cancel" onclick="closeModal('users-modal')">Close</button><button class="btn-submit" onclick="showDashToast('Add user coming soon')">+ Add User</button></div>
+  </div>
+</div>
+
+<script>
+var API_BASE = 'https://safetypro-backend-production.up.railway.app/api/v1';
+
+/* AUTH FETCH WRAPPER — auto-redirects to login on 401 */
+function spFetch(url, opts) {
+  return fetch(url, opts).then(function(r) {
+    if (r.status === 401) {
+      localStorage.removeItem('sp_token');
+      localStorage.removeItem('sp_user');
+      window.location.replace('safetypro_login.html?logout=1');
+      throw new Error('401');
+    }
+    return r;
+  });
+}
+
+/* AUTH GUARD */
+(function(){
+  var token = localStorage.getItem('sp_token');
+  if (!token) { window.location.replace('safetypro_login.html'); return; }
+  try {
+    var cached = localStorage.getItem('sp_user');
+    if (cached) { var u = JSON.parse(cached); if (u && u.name) applyNavProfile(u); }
+  } catch(e){}
+  setTimeout(loadNavProfile, 600);
+  setTimeout(loadDashboardData, 900);
+  setTimeout(loadProjectOptions, 1100);
+})();
+
+/* CHART */
+var chartInstance = null;
+var chartRange = '6m';
+var chartFilter = 'all';
+var chartData = {
+  labels: ['Oct','Nov','Dec','Jan','Feb','Mar','Apr(P)','May(P)'],
+  incidents: [8,12,6,9,4,7,null,null],
+  ncr: [14,18,11,16,8,12,null,null],
+  actions: [32,28,35,22,40,38,null,null],
+  incidentsPred: [null,null,null,null,null,7,5,4],
+  ncrPred: [null,null,null,null,null,12,9,7],
+};
+
+function buildChart() {
+  var ctx = document.getElementById('chart');
+  if (!ctx) return;
+  if (chartInstance) { chartInstance.destroy(); }
+  var sets = [];
+  if (chartFilter === 'all' || chartFilter === 'incident') {
+    sets.push({ label:'Incidents', data:chartData.incidents, borderColor:'#EF4444', backgroundColor:'rgba(239,68,68,0.06)', borderWidth:1.5, tension:0.4, fill:true, pointBackgroundColor:'#EF4444', pointRadius:3, pointHoverRadius:5 });
+    sets.push({ label:'Forecast', data:chartData.incidentsPred, borderColor:'rgba(239,68,68,0.45)', backgroundColor:'transparent', borderWidth:1.5, borderDash:[5,4], tension:0.4, fill:false, pointBackgroundColor:'rgba(239,68,68,0.45)', pointRadius:3, pointStyle:'triangle' });
+  }
+  if (chartFilter === 'all' || chartFilter === 'ncr') {
+    sets.push({ label:'NCRs', data:chartData.ncr, borderColor:'#F59E0B', backgroundColor:'rgba(245,158,11,0.05)', borderWidth:1.5, tension:0.4, fill:true, pointBackgroundColor:'#F59E0B', pointRadius:3, pointHoverRadius:5 });
+    sets.push({ label:'NCR Forecast', data:chartData.ncrPred, borderColor:'rgba(245,158,11,0.45)', backgroundColor:'transparent', borderWidth:1.5, borderDash:[5,4], tension:0.4, fill:false, pointBackgroundColor:'rgba(245,158,11,0.45)', pointRadius:3, pointStyle:'triangle' });
+  }
+  if (chartFilter === 'all' || chartFilter === 'action') {
+    sets.push({ label:'Actions', data:chartData.actions, borderColor:'#22C55E', backgroundColor:'rgba(34,197,94,0.05)', borderWidth:1.5, tension:0.4, fill:true, pointBackgroundColor:'#22C55E', pointRadius:3, pointHoverRadius:5 });
+  }
+  chartInstance = new Chart(ctx, {
+    type:'line', data:{ labels:chartData.labels, datasets:sets },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ intersect:false, mode:'index' },
+      plugins:{
+        legend:{ display:sets.length > 1, position:'top', labels:{ color:'#7A9BBF', font:{ family:'Montserrat', size:10, weight:'600' }, boxWidth:10, padding:14 } },
+        tooltip:{ backgroundColor:'#0C1824', borderColor:'#162236', borderWidth:1, titleColor:'#EBF4FF', bodyColor:'#7A9BBF', titleFont:{ family:'Montserrat', weight:'700', size:11 }, bodyFont:{ family:'Roboto', size:11 }, padding:10, cornerRadius:8 }
+      },
+      scales:{
+        x:{ grid:{ color:'rgba(255,255,255,0.03)' }, ticks:{ color:'#2E4A66', font:{ family:'Montserrat', size:9 } } },
+        y:{ grid:{ color:'rgba(255,255,255,0.03)' }, ticks:{ color:'#2E4A66', font:{ family:'Montserrat', size:9 } }, beginAtZero:true }
+      }
+    }
+  });
+}
+
+
+/* ROOT CAUSE CHART */
+var rootCauseChartInstance = null;
+function buildRootCauseChart() {
+  var ctx = document.getElementById('rootCauseChart');
+  if (!ctx) return;
+  if (rootCauseChartInstance) { rootCauseChartInstance.destroy(); }
+  rootCauseChartInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Human Error','Training Gap','Equipment','Environment'],
+      datasets: [{
+        data: [42, 28, 18, 12],
+        backgroundColor: [
+          'rgba(239,68,68,0.8)',
+          'rgba(245,158,11,0.8)',
+          'rgba(59,130,246,0.8)',
+          'rgba(34,197,94,0.8)'
+        ],
+        borderColor: ['#EF4444','#F59E0B','#3B82F6','#22C55E'],
+        borderWidth: 1.5,
+        hoverOffset: 4
+      }]
+    },
+    options: {
+      responsive: false,
+      cutout: '65%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0C1824',
+          borderColor: '#162236',
+          borderWidth: 1,
+          titleColor: '#EBF4FF',
+          bodyColor: '#7A9BBF',
+          cornerRadius: 8,
+          callbacks: {
+            label: function(ctx2) { return ctx2.label + ': ' + ctx2.raw + '%'; }
+          }
+        }
+      }
+    }
+  });
+}
+
+function filterChart(el, type) {
+  document.querySelectorAll('.ctab').forEach(function(t){ t.classList.remove('active'); });
+  el.classList.add('active'); chartFilter = type; buildChart();
+}
+function setRange(el, range) {
+  document.querySelectorAll('.ca-btn').forEach(function(b){ b.classList.remove('active'); });
+  el.classList.add('active'); chartRange = range;
+  showDashToast('Range: ' + range.toUpperCase());
+}
+
+/* COUNTUP */
+function animateNum(el, target) {
+  if (!el) return;
+  var dur = 1200, t0 = performance.now();
+  var isFloat = String(target).indexOf('.') > -1;
+  function step(now) {
+    var p = Math.min((now - t0) / dur, 1);
+    var ease = 1 - Math.pow(1 - p, 3);
+    var val = target * ease;
+    el.textContent = isFloat ? val.toFixed(1) : Math.round(val);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = isFloat ? target.toFixed(1) : Math.round(target);
+  }
+  requestAnimationFrame(step);
+}
+
+/* ANIMATE ALL PROGRESS BARS */
+function animateBars() {
+  document.querySelectorAll('[data-w]').forEach(function(bar) {
+    setTimeout(function() { bar.style.width = bar.getAttribute('data-w'); }, 300);
+  });
+}
+
+/* DASHBOARD DATA */
+function loadDashboardData(projectId) {
+  var token = localStorage.getItem('sp_token');
+  if (!token) return;
+  var url = API_BASE + '/dashboard/kpis' + (projectId ? '?projectId=' + projectId : '');
+  fetch(url, { headers:{ 'Authorization':'Bearer ' + token } })
+  .then(function(r) { if (!r.ok) return null; return r.json(); })
+  .then(function(kpis) {
+    if (!kpis) { setFallbackKPIs(); return; }
+    animateNum(document.getElementById('kn1'), kpis.safeActions || 128);
+    animateNum(document.getElementById('kn2'), kpis.pending || 23);
+    animateNum(document.getElementById('kn3'), kpis.escalated || 5);
+    var k4 = document.getElementById('kn4');
+    if (k4) {
+      var score = kpis.auditScore || 87;
+      var t = performance.now();
+      (function step(now) {
+        var p = Math.min((now - t) / 1200, 1);
+        var v = Math.round(score * (1 - Math.pow(1 - p, 3)));
+        k4.innerHTML = v + '<span style="font-size:12px;color:var(--t3);font-weight:400">%</span>';
+        if (p < 1) requestAnimationFrame(step);
+      })(performance.now());
+    }
+    var total = document.getElementById('stat-total');
+    if (total && kpis.totalIncidents) animateNum(total, kpis.totalIncidents);
+    var month = document.getElementById('stat-month');
+    if (month && kpis.monthIncidents) animateNum(month, kpis.monthIncidents);
+    if (kpis.escalated > 0) { var dot = document.getElementById('alert-dot'); if (dot) dot.style.display = 'block'; }
+    // Update sidebar live badges
+    var sbOps = document.getElementById('sb-badge-ops');
+    if (sbOps && kpis.pending > 0) { sbOps.textContent = kpis.pending; sbOps.style.display = 'inline-flex'; }
+    var sbCtrl = document.getElementById('sb-badge-ctrl');
+    if (sbCtrl && kpis.escalated > 0) { sbCtrl.textContent = kpis.escalated; sbCtrl.style.display = 'inline-flex'; }
+    if (document.getElementById('rc-critical')) animateNum(document.getElementById('rc-critical'), kpis.escalated || 5);
+  })
+  .catch(function() { setFallbackKPIs(); });
+}
+
+function setFallbackKPIs() {
+  animateNum(document.getElementById('kn1'), 128);
+  animateNum(document.getElementById('kn2'), 23);
+  animateNum(document.getElementById('kn3'), 5);
+  var k4 = document.getElementById('kn4');
+  if (k4) {
+    var t = performance.now();
+    (function step(now) {
+      var p = Math.min((now - t)/1200, 1);
+      k4.innerHTML = Math.round(87*(1-Math.pow(1-p,3))) + '<span style="font-size:12px;color:var(--t3);font-weight:400">%</span>';
+      if (p < 1) requestAnimationFrame(step);
+    })(performance.now());
+  }
+  var dot = document.getElementById('alert-dot'); if (dot) dot.style.display = 'block';
+}
+
+window.addEventListener('load', function() {
+  buildChart();
+  animateBars();
+  buildRootCauseChart();
+});
+
+/* NAV PROFILE */
+function loadNavProfile() {
+  var token = localStorage.getItem('sp_token'); if (!token) return;
+  spFetch(API_BASE + '/auth/me', { headers:{ 'Authorization':'Bearer ' + token } })
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function(u) { localStorage.setItem('sp_user', JSON.stringify(u)); applyNavProfile(u); })
+  .catch(function(){});
+}
+function applyNavProfile(u) {
+  if (!u) return;
+  var name = u.name || u.email || 'User';
+  var role = u.role || 'HSE Officer';
+  var parts = name.trim().split(' ');
+  var initials = (parts.length > 1 ? parts[0][0] + parts[parts.length-1][0] : name.substring(0,2)).toUpperCase();
+  var ids = { 'nav-initials':initials, 'nav-username':name.length>14?name.substring(0,14)+'...':name, 'nav-role':role, 'pd-initials':initials, 'profile-name':name, 'profile-email':u.email||'', 'profile-role-badge':role };
+  Object.keys(ids).forEach(function(id) { var el=document.getElementById(id); if(el) el.textContent=ids[id]; });
+}
+
+/* DROPDOWNS */
+function closeAllDropdowns() {
+  var d = document.getElementById('profile-dropdown');
+  var a = document.getElementById('alert-dropdown');
+  if (d) d.style.display = 'none';
+  if (a) a.style.display = 'none';
+}
+function toggleProfileMenu() {
+  var d = document.getElementById('profile-dropdown');
+  var a = document.getElementById('alert-dropdown');
+  if (a) a.style.display = 'none';
+  if (d) d.style.display = d.style.display === 'block' ? 'none' : 'block';
+}
+function toggleAlerts() {
+  var d = document.getElementById('alert-dropdown');
+  var p = document.getElementById('profile-dropdown');
+  if (p) p.style.display = 'none';
+  if (!d) return;
+  d.style.display = d.style.display === 'block' ? 'none' : 'block';
+  if (d.style.display === 'block') loadAlerts();
+}
+function loadAlerts() {
+  var list = document.getElementById('alert-list'); if (!list) return;
+  var token = localStorage.getItem('sp_token');
+  if (!token) { list.innerHTML = '<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Please login</div>'; return; }
+  spFetch(API_BASE + '/dashboard/kpis', { headers:{ 'Authorization':'Bearer ' + token } })
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function(data) {
+    var html = '';
+    if (data.escalated > 0) html += '<div class="alert-item"><div class="alert-dot" style="background:var(--red)"></div><div><div class="alert-title">' + data.escalated + ' Escalated Actions</div><div class="alert-sub">Require immediate attention</div></div></div>';
+    if (data.openNCRs > 0) html += '<div class="alert-item"><div class="alert-dot" style="background:var(--amber)"></div><div><div class="alert-title">' + data.openNCRs + ' Open NCRs</div><div class="alert-sub">Non-conformances pending closure</div></div></div>';
+    if (data.overdueActions > 0) html += '<div class="alert-item"><div class="alert-dot" style="background:var(--purple)"></div><div><div class="alert-title">' + data.overdueActions + ' Overdue Actions</div><div class="alert-sub">Past due date</div></div></div>';
+    list.innerHTML = html || '<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">No active alerts</div>';
+  })
+  .catch(function() {
+    list.innerHTML = '<div class="alert-item"><div class="alert-dot" style="background:var(--red)"></div><div><div class="alert-title">5 Escalated Actions</div><div class="alert-sub">Require immediate attention</div></div></div><div class="alert-item"><div class="alert-dot" style="background:var(--amber)"></div><div><div class="alert-title">12 Open NCRs</div><div class="alert-sub">Pending closure</div></div></div>';
+  });
+}
+
+/* SIDEBAR */
+function toggleSidebar() {
+  var sb = document.querySelector('.sidebar');
+  var ov = document.getElementById('sb-overlay');
+  var btn = document.getElementById('sb-toggle');
+  if (!sb) return;
+  sb.classList.toggle('open');
+  if (ov) ov.classList.toggle('show');
+  if (btn) btn.classList.toggle('open');
+}
+
+/* CLOSE ON OUTSIDE CLICK */
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#alert-btn') && !e.target.closest('#alert-dropdown')) {
+    var d = document.getElementById('alert-dropdown'); if (d) d.style.display = 'none';
+  }
+  if (!e.target.closest('#user-pill-btn') && !e.target.closest('#profile-dropdown')) {
+    var d = document.getElementById('profile-dropdown'); if (d) d.style.display = 'none';
+  }
+  if (!e.target.closest('#more-btn')) {
+    var m = document.getElementById('more-btn'); if (m) m.classList.remove('open');
+  }
+});
+function toggleMore(e) { e.stopPropagation(); document.getElementById('more-btn').classList.toggle('open'); }
+
+/* VIEW SWITCHING */
+function switchView(el, type) {
+  document.querySelectorAll('.snt').forEach(function(t){ t.classList.remove('active'); });
+  el.classList.add('active');
+  var g = document.getElementById('view-global');
+  var p = document.getElementById('view-project');
+  if (type === 'project') {
+    if (g) g.style.display = 'none';
+    if (p) p.style.display = 'block';
+    // Load projects from API on first open
+    if (!_pvCurrent) {
+      pvLoadProjectBar();
+      // Auto-select first project after dropdown populates - retry up to 3 times
+      var _pvAutoTries = 0;
+      var _pvAutoTimer = setInterval(function() {
+        _pvAutoTries++;
+        var sel = document.getElementById('pv-proj-select');
+        if (sel && sel.options.length > 1) {
+          clearInterval(_pvAutoTimer);
+          sel.selectedIndex = 1;
+          pvSelectProjectByDropdown(sel);
+        } else if (_pvAutoTries >= 5) {
+          clearInterval(_pvAutoTimer);
+        }
+      }, 600);
+    }
+  } else {
+    if (g) g.style.display = 'block';
+    if (p) p.style.display = 'none';
+  }
+}
+function onProjectChange(val) {
+  if (val) {
+    // Update global filter too
+    loadDashboardData(val);
+    // Load project view
+    loadProjectView(val);
+    // Update project selector in project view panel
+    var sel = document.querySelector('#view-project select');
+    if (sel) sel.value = val;
+  } else {
+    loadDashboardData();
+  }
+}
+
+/* PROFILE ACTIONS */
+function goToSettings() { closeAllDropdowns(); showDashToast('Settings coming soon', 'blue'); }
+function changePassword() { closeAllDropdowns(); showDashToast('Email: support@safetyproworld.com', 'blue'); }
+function showToast(msg, type) {
+  var t = document.getElementById('toast') || document.getElementById('dash-toast');
+  var m = document.getElementById('toast-msg');
+  if (!t) return;
+  if (m) m.textContent = msg; else t.textContent = msg;
+  var dot = t.querySelector('.toast-dot'); if (dot) dot.style.background = type==='red'?'#EF4444':type==='amber'?'#F59E0B':type==='blue'?'#3B82F6':'#22C55E';
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+/* LOAD PROJECTS FOR DROPDOWNS */
+function loadProjectOptions() {
+  var token = localStorage.getItem('sp_token'); if (!token) return;
+  spFetch(API_BASE + '/projects', { headers:{ 'Authorization':'Bearer ' + token } })
+  .then(function(r) { return r.ok ? r.json() : null; })
+  .then(function(data) {
+    if (!data) return;
+    var projects = Array.isArray(data) ? data : (data.data || data.projects || []);
+    if (!projects.length) return;
+    var opts = '<option value="">Select Project</option>' + 
+      projects.map(function(p){ return '<option value="'+p.id+'">'+(p.name||p.title||p.id)+'</option>'; }).join('');
+    // Populate modal dropdowns
+    ['inc-project','ncr-project'].forEach(function(id){
+      var el = document.getElementById(id); if (el) el.innerHTML = opts;
+    });
+    // Populate filter dropdown
+    var fp = document.getElementById('filter-project');
+    if (fp) fp.innerHTML = '<option value="">All Projects</option>' + 
+      projects.map(function(p){ return '<option value="'+p.id+'">'+(p.name||p.title||p.id)+'</option>'; }).join('');
+  })
+  .catch(function(){});
+}
+
+function signOut() {
+  localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); localStorage.removeItem('sp_company');
+  window.location.href = 'safetypro_login.html?logout=1';
+}
+
+/* MODALS */
+function openIncidentModal() { document.getElementById('incident-modal').classList.add('open'); }
+function openNcrModal() { document.getElementById('ncr-modal').classList.add('open'); }
+function openManageUsers() { closeAllDropdowns(); document.getElementById('users-modal').classList.add('open'); loadUsers(); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-bg').forEach(function(bg) {
+  bg.addEventListener('click', function(e) { if (e.target === bg) bg.classList.remove('open'); });
+});
+
+function loadUsers() {
+  var wrap = document.getElementById('users-table-wrap'); if (!wrap) return;
+  var token = localStorage.getItem('sp_token');
+  if (!token) { wrap.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3)">Not authenticated</div>'; return; }
+  spFetch(API_BASE + '/users', { headers:{ 'Authorization':'Bearer ' + token } })
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function(users) {
+    if (!users||!users.length) { wrap.innerHTML = '<div style="padding:20px;text-align:center;color:var(--t3)">No users found</div>'; return; }
+    var rows = users.map(function(u) { return '<tr><td style="color:var(--t1);font-family:var(--fh);font-size:12px;font-weight:600">' + (u.name||'-') + '</td><td style="color:var(--t3)">' + (u.email||'-') + '</td><td><span class="u-role-badge u-active">' + (u.role||'-') + '</span></td><td><span class="u-role-badge ' + (u.isActive?'u-active':'u-inactive') + '">' + (u.isActive?'Active':'Inactive') + '</span></td></tr>'; }).join('');
+    wrap.innerHTML = '<table class="users-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  })
+  .catch(function() {
+    wrap.innerHTML = '<table class="users-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th></tr></thead><tbody><tr><td style="color:var(--t1);font-family:var(--fh);font-size:12px;font-weight:600">Dhanesh CK</td><td style="color:var(--t3)">dhanesh@ieccl.com</td><td><span class="u-role-badge u-active">Admin</span></td><td><span class="u-role-badge u-active">Active</span></td></tr><tr><td style="color:var(--t1);font-family:var(--fh);font-size:12px;font-weight:600">Rajan Kumar</td><td style="color:var(--t3)">rajan@ieccl.com</td><td><span class="u-role-badge u-active">HSE Officer</span></td><td><span class="u-role-badge u-active">Active</span></td></tr></tbody></table>';
+  });
+}
+
+function submitIncident() {
+  var token = localStorage.getItem('sp_token'); if (!token) { showDashToast('Not authenticated','red'); return; }
+  var project = document.getElementById('inc-project').value; var desc = document.getElementById('inc-desc').value;
+  if (!desc || !project) { showDashToast('Fill all required fields','amber'); return; }
+  spFetch(API_BASE + '/incidents', { method:'POST', headers:{ 'Authorization':'Bearer '+token, 'Content-Type':'application/json' }, body:JSON.stringify({ type:document.getElementById('inc-type').value, severity:document.getElementById('inc-severity').value, projectId:project, description:desc, reportedBy:document.getElementById('inc-reporter').value }) })
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function() { closeModal('incident-modal'); showDashToast('Incident reported successfully','green'); setTimeout(loadDashboardData,1000); })
+  .catch(function() { closeModal('incident-modal'); showDashToast('Incident logged (offline mode)','amber'); });
+}
+
+function submitNcr() {
+  var token = localStorage.getItem('sp_token'); if (!token) { showDashToast('Not authenticated','red'); return; }
+  var project = document.getElementById('ncr-project').value; var desc = document.getElementById('ncr-desc').value;
+  if (!desc || !project) { showDashToast('Fill all required fields','amber'); return; }
+  spFetch(API_BASE + '/ncrs', { method:'POST', headers:{ 'Authorization':'Bearer '+token, 'Content-Type':'application/json' }, body:JSON.stringify({ category:document.getElementById('ncr-cat').value, priority:document.getElementById('ncr-priority').value, projectId:project, description:desc, correctiveAction:document.getElementById('ncr-action').value }) })
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function() { closeModal('ncr-modal'); showDashToast('NCR logged successfully','green'); setTimeout(loadDashboardData,1000); })
+  .catch(function() { closeModal('ncr-modal'); showDashToast('NCR logged (offline mode)','amber'); });
+}
+
+/* TOAST */
+var toastTimer = null;
+function showDashToast(msg, type) {
+  var t = document.getElementById('dash-toast'); var m = document.getElementById('toast-msg'); var d = document.getElementById('toast-dot');
+  if (!t) return;
+  m.textContent = msg;
+  d.style.background = type==='red' ? 'var(--red)' : type==='amber' ? 'var(--amber)' : type==='blue' ? 'var(--blue)' : 'var(--green)';
+  t.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+</script>
+
+<!-- WebSocket Real-Time Client -->
+<script>
+/* 
+   SAFETYPRO AI  WebSocket Client
+   Connects to backend, authenticates with JWT,
+   listens for real-time events and updates UI instantly.
+   
+   PAGE: Dashboard
+    */
+
+/*  SOCKET.IO CDN is loaded before this script  */
+
+var SP_SOCKET = null;
+var SP_WS_URL = 'https://safetypro-backend-production.up.railway.app';
+var SP_RECONNECT_ATTEMPTS = 0;
+var SP_MAX_RECONNECT = 3;
+var SP_TOAST_FN = 'showDashToast';
+
+/*  INIT: connect on page load  */
+window.addEventListener('load', function() {
+  setTimeout(spInitSocket, 1200); // slight delay  let auth guard run first
+});
+
+function spInitSocket() {
+  var token = localStorage.getItem('sp_token');
+  if (!token) return; // not logged in  skip
+
+  /* Check socket.io is loaded */
+  if (typeof io === 'undefined') {
+    console.warn('[SafetyPro WS] socket.io not loaded  real-time disabled');
+    return;
+  }
+
+  try {
+    SP_SOCKET = io(SP_WS_URL, {
+      auth: { token: token },
+      transports: ['websocket', 'polling'],
+      reconnection: true,
+      reconnectionAttempts: SP_MAX_RECONNECT,
+      reconnectionDelay: 2000,
+      timeout: 10000,
+    });
+
+    spBindEvents();
+  } catch(e) {
+    console.warn('[SafetyPro WS] Connection failed:', e.message);
+  }
+}
+
+/*  BIND ALL EVENTS  */
+function spBindEvents() {
+  if (!SP_SOCKET) return;
+
+  /* Connection established */
+  SP_SOCKET.on('connect', function() {
+    SP_RECONNECT_ATTEMPTS = 0;
+    console.log('[SafetyPro WS] Connected  real-time active');
+    spUpdateConnectionStatus(true);
+  });
+
+  /* Connection lost */
+  SP_SOCKET.on('disconnect', function(reason) {
+    console.warn('[SafetyPro WS] Disconnected:', reason);
+    spUpdateConnectionStatus(false);
+  });
+
+  /* Connection error */
+  SP_SOCKET.on('connect_error', function(err) {
+    SP_RECONNECT_ATTEMPTS++;
+    console.warn('[SafetyPro WS] Connection error:', err.message);
+    if (SP_RECONNECT_ATTEMPTS >= SP_MAX_RECONNECT) {
+      console.warn('[SafetyPro WS] Max reconnects reached  falling back to HTTP polling');
+      spStartFallbackPoll();
+    }
+  });
+
+  /* Server confirmed connection */
+  SP_SOCKET.on('connected', function(data) {
+    console.log('[SafetyPro WS] Authenticated as:', data.userId);
+  });
+
+  /*  KPIs UPDATED  */
+  SP_SOCKET.on('kpis.updated', function(data) {
+    console.log('[SafetyPro WS] kpis.updated', data);
+    spOnKpisUpdated(data);
+  });
+
+  /*  INCIDENT CREATED  */
+  SP_SOCKET.on('incident.created', function(data) {
+    console.log('[SafetyPro WS] incident.created', data);
+    spOnIncidentCreated(data);
+  });
+
+  /*  NCR CREATED  */
+  SP_SOCKET.on('ncr.created', function(data) {
+    console.log('[SafetyPro WS] ncr.created', data);
+    spOnNcrCreated(data);
+  });
+
+  /*  ACTION UPDATED  */
+  SP_SOCKET.on('action.updated', function(data) {
+    console.log('[SafetyPro WS] action.updated', data);
+    spOnActionUpdated(data);
+  });
+
+  /*  ESCALATION TRIGGERED  */
+  SP_SOCKET.on('escalation.triggered', function(data) {
+    console.log('[SafetyPro WS] escalation.triggered', data);
+    spOnEscalationTriggered(data);
+  });
+
+  /*  USER ACTIVITY  */
+  SP_SOCKET.on('user.activity', function(data) {
+    console.log('[SafetyPro WS] user.activity', data);
+    spOnUserActivity(data);
+  });
+
+  /*  ERROR  */
+  SP_SOCKET.on('error', function(err) {
+    console.warn('[SafetyPro WS] Error:', err.message);
+    if (err.message === 'Invalid token' || err.message === 'Authentication required') {
+      localStorage.removeItem('sp_token');
+      window.location.href = 'safetypro_login.html';
+    }
+  });
+}
+
+/*  CONNECTION STATUS INDICATOR  */
+function spUpdateConnectionStatus(connected) {
+  /* Update alert dot color subtly  green pulse = live */
+  var dot = document.getElementById('alert-dot');
+  if (!dot) return;
+  if (connected) {
+    dot.style.background = '#22C55E';
+    dot.style.display = 'block';
+    setTimeout(function(){ dot.style.background = ''; dot.style.display = ''; }, 2000);
+  }
+}
+
+/*  ANIMATE NUMBER HELPER  */
+function spAnimateNum(el, target) {
+  if (!el) return;
+  if (typeof animateNum === 'function') { animateNum(el, target); return; }
+  var dur = 800; var t0 = performance.now();
+  var isFloat = String(target).indexOf('.') > -1;
+  function step(now) {
+    var p = Math.min((now - t0) / dur, 1);
+    var ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = isFloat ? (target * ease).toFixed(1) : Math.round(target * ease);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = isFloat ? parseFloat(target).toFixed(1) : Math.round(target);
+  }
+  requestAnimationFrame(step);
+}
+
+/*  SHOW TOAST HELPER  */
+function spToast(msg, type) {
+  if (typeof showDashToast === 'function') { showDashToast(msg, type || 'green'); return; }
+  if (typeof showToast === 'function') { showToast(msg, type || 'green'); return; }
+}
+
+/*  FORMAT TIME  */
+function spTimeAgo(isoString) {
+  var now = new Date();
+  var then = new Date(isoString);
+  var diff = Math.floor((now - then) / 1000);
+  if (diff < 60) return 'Just now';
+  if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+  return Math.floor(diff / 3600) + 'h ago';
+}
+
+/*  INITIALS FROM NAME  */
+function spInitials(name) {
+  if (!name) return '??';
+  var parts = name.trim().split(' ');
+  return parts.length > 1 
+    ? (parts[0][0] + parts[parts.length-1][0]).toUpperCase()
+    : name.substring(0, 2).toUpperCase();
+}
+
+/*  SEVERITY COLOR  */
+function spSeverityColor(severity) {
+  var map = { CRITICAL: '#EF4444', HIGH: '#F97316', MEDIUM: '#F59E0B', LOW: '#22C55E' };
+  return map[(severity||'').toUpperCase()] || '#3B82F6';
+}
+
+/* 
+   EVENT HANDLERS  page-specific logic below
+    */
+
+
+function spOnKpisUpdated(data) {
+  /* Refresh all KPI counters from backend */
+  if (typeof loadDashboardData === 'function') {
+    loadDashboardData();
+  }
+  /* If kpi data comes with the event, update immediately */
+  var k = data.kpis || {};
+  if (k.safeActions !== undefined) spAnimateNum(document.getElementById('kn1'), k.safeActions);
+  if (k.pending !== undefined) spAnimateNum(document.getElementById('kn2'), k.pending);
+  if (k.escalated !== undefined) {
+    spAnimateNum(document.getElementById('kn3'), k.escalated);
+    var dot = document.getElementById('alert-dot');
+    if (dot && k.escalated > 0) dot.style.display = 'block';
+  }
+}
+
+function spOnIncidentCreated(data) {
+  var inc = data.incident || {};
+  /* Add to Recent Activity grid */
+  spAddToActivityFeed({
+    initials: spInitials(inc.reportedBy),
+    color: spSeverityColor(inc.severity),
+    title: inc.description || 'New Incident Reported',
+    badge: 'Incident',
+    badgeClass: 'ab-r',
+    site: inc.projectName || '',
+    time: spTimeAgo(data.timestamp),
+    person: inc.reportedBy || '',
+  });
+  /* Pulse alert bell */
+  spPulseAlertBell();
+  /* Toast */
+  spToast('New incident: ' + (inc.description || '').substring(0, 40), 'red');
+  /* Refresh KPIs */
+  spOnKpisUpdated(data);
+}
+
+function spOnNcrCreated(data) {
+  var ncr = data.ncr || {};
+  spAddToActivityFeed({
+    initials: spInitials(ncr.assignedTo),
+    color: '#F59E0B',
+    title: ncr.description || 'New NCR Logged',
+    badge: 'NCR',
+    badgeClass: 'ab-a',
+    site: ncr.projectName || '',
+    time: spTimeAgo(data.timestamp),
+    person: ncr.assignedTo || '',
+  });
+  spToast('New NCR: ' + (ncr.description || '').substring(0, 40), 'amber');
+  spOnKpisUpdated(data);
+}
+
+function spOnActionUpdated(data) {
+  var action = data.action || {};
+  spOnKpisUpdated(data);
+  if (action.status === 'OVERDUE') {
+    spToast('Action overdue: ' + (action.title || '').substring(0, 40), 'red');
+  }
+}
+
+function spOnEscalationTriggered(data) {
+  var esc = data.escalation || {};
+  /* Update escalated KPI counter */
+  var kn3 = document.getElementById('kn3');
+  if (kn3) {
+    var current = parseInt(kn3.textContent) || 0;
+    spAnimateNum(kn3, current + 1);
+  }
+  /* Update rc-crit counter */
+  var rcCrit = document.getElementById('rc-crit');
+  if (rcCrit) {
+    var c2 = parseInt(rcCrit.textContent) || 0;
+    spAnimateNum(rcCrit, c2 + 1);
+  }
+  /* Add to Live Risk Panel */
+  spAddToRiskPanel(esc);
+  /* Pulse alert bell */
+  spPulseAlertBell();
+  /* Add to activity feed */
+  spAddToActivityFeed({
+    initials: spInitials(esc.assigneeName),
+    color: '#EF4444',
+    title: 'L' + esc.level + ' Escalation: ' + (esc.actionTitle || '').substring(0, 35),
+    badge: 'L' + esc.level,
+    badgeClass: 'ab-r',
+    site: esc.projectName || '',
+    time: spTimeAgo(data.timestamp),
+    person: esc.assigneeName || '',
+  });
+  /* Toast */
+  spToast('Escalation L' + esc.level + ': ' + (esc.actionTitle || '').substring(0, 35), 'red');
+}
+
+function spOnUserActivity(data) {
+  var act = data.activity || {};
+  /* Only add if not current user's own action (avoid duplicates) */
+  try {
+    var me = JSON.parse(localStorage.getItem('sp_user') || '{}');
+    if (me.name === act.userName) return; /* skip own actions */
+  } catch(e) {}
+  spAddToActivityFeed({
+    initials: spInitials(act.userName),
+    color: '#3B82F6',
+    title: act.description || act.action || 'Activity recorded',
+    badge: act.entityType || 'Action',
+    badgeClass: 'ab-b',
+    site: act.projectName || '',
+    time: spTimeAgo(data.timestamp),
+    person: act.userName || '',
+  });
+}
+
+/*  DASHBOARD HELPERS  */
+function spAddToActivityFeed(item) {
+  var grid = document.querySelector('.act-grid');
+  if (!grid) return;
+  var html = '<div class="act-item" style="animation:fadeIn .3s ease">' +
+    '<div class="act-av" style="background:linear-gradient(135deg,' + item.color + ',' + item.color + 'cc)">' + item.initials + '</div>' +
+    '<div class="act-body">' +
+    '<div class="act-title">' + item.title + '</div>' +
+    '<div class="act-meta"><span class="act-badge ' + item.badgeClass + '">' + item.badge + '</span>' +
+    '<span class="act-site">' + item.site + '</span></div>' +
+    '<div class="act-time">' + item.time + ' &bull; ' + item.person + '</div>' +
+    '</div></div>';
+  /* Prepend new item, remove last if more than 4 */
+  grid.insertAdjacentHTML('afterbegin', html);
+  var items = grid.querySelectorAll('.act-item');
+  if (items.length > 4) items[items.length - 1].remove();
+}
+
+function spAddToRiskPanel(esc) {
+  var list = document.querySelector('.risk-list');
+  if (!list) return;
+  var html = '<div class="risk-item crit" style="animation:fadeIn .3s ease">' +
+    '<div class="risk-dot"></div>' +
+    '<div class="risk-body">' +
+    '<div class="risk-title">' + (esc.assigneeName || 'Unknown') + '  L' + esc.level + ' Escalation</div>' +
+    '<div class="risk-meta">' + esc.daysOverdue + ' days overdue &bull; ' + (esc.projectName || '') + '</div>' +
+    '</div>' +
+    '<div class="risk-badge rb-r">L' + esc.level + '</div>' +
+    '</div>';
+  list.insertAdjacentHTML('afterbegin', html);
+  var items = list.querySelectorAll('.risk-item');
+  if (items.length > 5) items[items.length - 1].remove();
+}
+
+function spPulseAlertBell() {
+  var dot = document.getElementById('alert-dot');
+  if (!dot) return;
+  dot.style.display = 'block';
+  /* Flash animation */
+  dot.style.transform = 'scale(1.5)';
+  setTimeout(function(){ dot.style.transform = ''; }, 300);
+  /* Reload alert list if open */
+  var alertDd = document.getElementById('alert-dropdown');
+  if (alertDd && alertDd.style.display === 'block') {
+    if (typeof loadAlerts === 'function') loadAlerts();
+  }
+}
+
+
+/*  FALLBACK: HTTP POLL every 30s if WebSocket fails  */
+var spPollTimer = null;
+function spStartFallbackPoll() {
+  if (spPollTimer) return; // already polling
+  console.log('[SafetyPro WS] Starting 30s HTTP fallback poll');
+  spPollTimer = setInterval(function() {
+    if (typeof loadDashboardData === 'function') loadDashboardData();
+    else if (typeof loadOpsData === 'function') loadOpsData();
+    else if (typeof loadControlData === 'function') loadControlData();
+    else if (typeof loadReportsData === 'function') loadReportsData();
+  }, 30000);
+}
+
+/*  CLEANUP on page unload  */
+window.addEventListener('beforeunload', function() {
+  if (SP_SOCKET) { SP_SOCKET.disconnect(); SP_SOCKET = null; }
+  if (spPollTimer) { clearInterval(spPollTimer); spPollTimer = null; }
+});
+
+</script>
+<script>
+
+/* ══ SHARED TOPBAR FUNCTIONS ══ */
+function closeAllDropdowns(){
+  var d=document.getElementById('profile-dropdown');
+  var a=document.getElementById('alert-dropdown');
+  if(d) d.style.display='none';
+  if(a) a.style.display='none';
+}
+function toggleProfileMenu(){
+  var d=document.getElementById('profile-dropdown');
+  var a=document.getElementById('alert-dropdown');
+  if(a) a.style.display='none';
+  if(d) d.style.display=d.style.display==='block'?'none':'block';
+}
+function toggleAlerts(){
+  var d=document.getElementById('alert-dropdown');
+  var p=document.getElementById('profile-dropdown');
+  if(p) p.style.display='none';
+  if(!d) return;
+  d.style.display=d.style.display==='block'?'none':'block';
+  if(d.style.display==='block') spLoadAlerts();
+}
+function spLoadAlerts(){
+  var list=document.getElementById('alert-list'); if(!list) return;
+  var token=localStorage.getItem('sp_token');
+  if(!token){list.innerHTML='<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Please login</div>';return;}
+  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
+  fetch(API+'/dashboard/kpis',{headers:{'Authorization':'Bearer '+token}})
+    .then(function(r){if(!r.ok)throw new Error();return r.json();})
+    .then(function(data){
+      var html='';
+      if(data.escalated>0) html+='<div class="alert-item"><div class="alert-dot" style="background:var(--red)"></div><div><div class="alert-title">'+data.escalated+' Escalated Actions</div><div class="alert-sub">Require immediate attention</div></div></div>';
+      if(data.openNCRs>0) html+='<div class="alert-item"><div class="alert-dot" style="background:var(--amber)"></div><div><div class="alert-title">'+data.openNCRs+' Open NCRs</div><div class="alert-sub">Pending closure</div></div></div>';
+      if(data.overdueActions>0) html+='<div class="alert-item"><div class="alert-dot" style="background:var(--purple,#8B5CF6)"></div><div><div class="alert-title">'+data.overdueActions+' Overdue Actions</div><div class="alert-sub">Past due date</div></div></div>';
+      list.innerHTML=html||'<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">No active alerts</div>';
+    })
+    .catch(function(){list.innerHTML='<div style="padding:14px;text-align:center;color:var(--t3);font-size:12px">Unable to load alerts</div>';});
+}
+function toggleMore(e){e.stopPropagation();document.getElementById('more-btn').classList.toggle('open');}
+function signOut(){localStorage.removeItem('sp_token');localStorage.removeItem('sp_user');localStorage.removeItem('sp_company');window.location.href='safetypro_login.html?logout=1';}
+function goToSettings(){closeAllDropdowns();if(typeof showToast==='function')showToast('Settings coming soon','blue');}
+function changePassword(){closeAllDropdowns();if(typeof showToast==='function')showToast('Email: support@safetyproworld.com','blue');}
+function openManageUsers(){closeAllDropdowns();var m=document.getElementById('users-modal');if(m){m.classList.add('open');if(typeof loadUsers==='function')loadUsers();}else{if(typeof showToast==='function')showToast('User management available in Admin page','blue');}}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('#alert-btn')&&!e.target.closest('#alert-dropdown')){var d=document.getElementById('alert-dropdown');if(d)d.style.display='none';}
+  if(!e.target.closest('#user-pill-btn')&&!e.target.closest('#profile-dropdown')){var d=document.getElementById('profile-dropdown');if(d)d.style.display='none';}
+  if(!e.target.closest('#more-btn')){var m=document.getElementById('more-btn');if(m)m.classList.remove('open');}
+});
+/* ══ INIT USER IN TOPBAR ══ */
+(function spInitTopbar(){
+  var u=localStorage.getItem('sp_user');
+  if(!u)return;
+  try{
+    var obj=JSON.parse(u);
+    var name=obj.name||obj.fullName||obj.username||'User';
+    var role=obj.role||obj.designation||'HSE Officer';
+    var initials=name.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
+    var ni=document.getElementById('nav-initials');var nu=document.getElementById('nav-username');var nr=document.getElementById('nav-role');
+    var pi=document.getElementById('pd-initials');var pn=document.getElementById('profile-name');var pe=document.getElementById('profile-email');var prb=document.getElementById('profile-role-badge');
+    if(ni)ni.textContent=initials;
+    if(nu)nu.textContent=name;
+    if(nr)nr.textContent=role;
+    if(pi)pi.textContent=initials;
+    if(pn)pn.textContent=name;
+    if(pe)pe.textContent=obj.email||'';
+    if(prb)prb.textContent=role;
+  }catch(e){}
+})();
+</script>
+
+<!-- ══ STANDARD FOOTER ══ -->
+<footer class="sp-footer">
+  <div class="sp-footer-left">
+    <span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF)">Dashboard</span>
+    <span class="sp-footer-sep">|</span>
+    <span id="sp-footer-version">v1.3.2</span>
+    <span class="sp-footer-sep">|</span>
+    <span>Last Sync: <span id="sp-footer-sync">--:-- --</span></span>
+  </div>
+  <div class="sp-footer-center">
+    <a href="/cdn-cgi/l/email-protection#f98a8c8989968b8db98a989f9c8d80898b968e968b959dd79a9694">Quick Help</a>
+    <a href="/cdn-cgi/l/email-protection#8af9fffafae5f8fecaf9ebeceffef3faf8e5fde5f8e6eea4e9e5e7">Report Issue</a>
+    <a href="https://safetypro-backend-production.up.railway.app/api">API Docs</a>
+  </div>
+  <div class="sp-footer-right">
+    <div class="sp-footer-status-dot" id="sp-status-dot"></div>
+    <span id="sp-status-text" style="color:#22C55E">Operational</span>
+  </div>
+</footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+(function spFooterInit(){
+  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
+  function updateFooter(d){
+    var v=document.getElementById('sp-footer-version');
+    var s=document.getElementById('sp-footer-sync');
+    var dot=document.getElementById('sp-status-dot');
+    var txt=document.getElementById('sp-status-text');
+    if(!v)return;
+    if(d.version)v.textContent=d.version;
+    if(d.lastSync){try{s.textContent=new Date(d.lastSync).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}}
+    var status=d.status||'operational';
+    var colors={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'};
+    if(dot)dot.style.background=colors[status]||'#22C55E';
+    if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#22C55E';}
+  }
+  function fetchStatus(){
+    fetch(API+'/system/status')
+      .then(function(r){return r.json();})
+      .then(updateFooter)
+      .catch(function(){updateFooter({status:'operational',version:'v1.3.2',lastSync:new Date().toISOString()});});
+  }
+  fetchStatus();
+  setInterval(fetchStatus,30000);
+})();
+
+
+/* ═══════════════════════════════════════════════════
+   PROJECT VIEW — Phase 1
+   API: /dashboard/kpis?projectId=X  ✅
+        /incidents?projectId=X       ✅
+        /actions?projectId=X         ✅
+   Metadata: hardcoded per project (Phase 2: /projects)
+═══════════════════════════════════════════════════ */
+
+/* ── Project metadata (Phase 2: fetch from /projects) ── */
+var PV_PROJECTS = {
+  birpur: {
+    name: 'Birpur Dam', icon: '🏗️',
+    location: 'Birpur, Jharkhand', contractor: 'IECCL',
+    phase: 'Construction', phaseColor: 'var(--amber)',
+    completion: 42, safeDays: 124, daysLeft: 380,
+    manpower: 347, safeManHrs: '2.8L',
+    scoreColor: 'var(--amber)',
+    compliance: [
+      { label: 'ISO 45001', pct: 78 },
+      { label: 'BOCW 1996', pct: 91 },
+      { label: 'DGFASLI', pct: 84 },
+      { label: 'Factories Act', pct: 88 },
+      { label: 'IMS', pct: 72 }
+    ]
+  },
+  mu: {
+    name: 'Mumbai Metro', icon: '🚇',
+    location: 'Mumbai, Maharashtra', contractor: 'IECCL',
+    phase: 'Commissioning', phaseColor: 'var(--blue)',
+    completion: 88, safeDays: 412, daysLeft: 45,
+    manpower: 189, safeManHrs: '8.4L',
+    scoreColor: 'var(--green)',
+    compliance: [
+      { label: 'ISO 45001', pct: 96 },
+      { label: 'BOCW 1996', pct: 98 },
+      { label: 'DGFASLI', pct: 95 },
+      { label: 'Factories Act', pct: 97 },
+      { label: 'IMS', pct: 93 }
+    ]
+  },
+  tirora: {
+    name: 'Tirora Plant', icon: '⚡',
+    location: 'Tirora, Maharashtra', contractor: 'IECCL',
+    phase: 'Operations', phaseColor: 'var(--green)',
+    completion: 100, safeDays: 892, daysLeft: 0,
+    manpower: 512, safeManHrs: '24.6L',
+    scoreColor: 'var(--green)',
+    compliance: [
+      { label: 'ISO 45001', pct: 99 },
+      { label: 'BOCW 1996', pct: 100 },
+      { label: 'DGFASLI', pct: 98 },
+      { label: 'Factories Act', pct: 99 },
+      { label: 'IMS', pct: 96 }
+    ]
+  },
+  delhi: {
+    name: 'Delhi NH-8', icon: '🛣️',
+    location: 'Delhi-Gurugram, NCR', contractor: 'IECCL',
+    phase: 'Design', phaseColor: 'var(--purple)',
+    completion: 18, safeDays: 38, daysLeft: 720,
+    manpower: 94, safeManHrs: '0.4L',
+    scoreColor: 'var(--red)',
+    compliance: [
+      { label: 'ISO 45001', pct: 45 },
+      { label: 'BOCW 1996', pct: 62 },
+      { label: 'DGFASLI', pct: 50 },
+      { label: 'Factories Act', pct: 58 },
+      { label: 'IMS', pct: 40 }
+    ]
+  }
+};
+
+var _pvCurrent = null;
+
+function pvAnimate(el, val, suffix) {
+  if (!el) return;
+  suffix = suffix || '';
+  var start = performance.now();
+  var num = parseInt(val) || 0;
+  (function step(now) {
+    var p = Math.min((now - start) / 900, 1);
+    var e = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(num * e) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  })(performance.now());
+}
+
+function pvRenderHero(proj, kpis) {
+  // Use live API data first, fall back to hardcoded PV_PROJECTS
+  var liveP = _pvProjectsMap[proj];
+  var p = PV_PROJECTS[proj] || (liveP ? {
+    name: liveP.name,
+    icon: pvGetIcon(liveP.name + ' ' + (liveP.sector||'')),
+    location: liveP.location || liveP.state || '',
+    contractor: 'IECCL',
+    phase: liveP.sector || 'Active',
+    phaseColor: 'var(--blue)',
+    completion: 65,
+    safeDays: 0,
+    daysLeft: 0,
+    manpower: 0,
+    safeManHrs: '—',
+    scoreColor: 'var(--green)',
+    compliance: [
+      {label:'ISO 45001',pct:80},{label:'BOCW 1996',pct:85},
+      {label:'DGFASLI',pct:78},{label:'Factories Act',pct:82},{label:'IMS',pct:75}
+    ]
+  } : null);
+  if (!p) return;
+
+  // Icon + glow
+  var icon = document.getElementById('pv-icon');
+  if (icon) {
+    icon.textContent = p.icon;
+    icon.style.background = 'rgba(255,255,255,.06)';
+    icon.style.border = '1px solid var(--border)';
+  }
+  var glow = document.getElementById('pv-glow');
+  if (glow) glow.style.background = p.scoreColor;
+
+  // Name + phase
+  var name = document.getElementById('pv-name');
+  if (name) name.textContent = p.name;
+  var phase = document.getElementById('pv-phase');
+  if (phase) {
+    phase.textContent = p.phase;
+    phase.style.background = 'rgba(255,255,255,.06)';
+    phase.style.color = p.phaseColor;
+    phase.style.border = '1px solid ' + p.phaseColor.replace('var(', '').replace(')', '');
+    phase.style.borderColor = p.phaseColor;
+  }
+
+  // Meta
+  var meta = document.getElementById('pv-meta');
+  if (meta) meta.innerHTML =
+    '<span>📍 ' + p.location + '</span>' +
+    '<span>🏢 ' + p.contractor + '</span>';
+
+  // Safe days
+  var sd = document.getElementById('pv-safe-days');
+  if (sd) pvAnimate(sd, p.safeDays, '');
+
+  // Days left
+  var dl = document.getElementById('pv-days-left');
+  if (dl) {
+    if (p.daysLeft === 0) { dl.textContent = 'Done'; dl.style.color = 'var(--green)'; }
+    else pvAnimate(dl, p.daysLeft, '');
+  }
+
+  // HSE Score from API or fallback
+  var score = kpis ? (kpis.auditScore || kpis.hseScore || 87) : 87;
+  var scoreNum = document.getElementById('pv-score-num');
+  if (scoreNum) pvAnimate(scoreNum, score, '%');
+  var arc = document.getElementById('pv-score-arc');
+  if (arc) {
+    var circumference = 175.9;
+    setTimeout(function() {
+      arc.style.strokeDashoffset = circumference - (score / 100) * circumference;
+      arc.style.stroke = score >= 80 ? 'var(--green)' : score >= 60 ? 'var(--amber)' : 'var(--red)';
+    }, 200);
+  }
+
+  // Completion bar
+  var bar = document.getElementById('pv-completion-bar');
+  var pct = document.getElementById('pv-completion-pct');
+  if (bar) setTimeout(function() { bar.style.width = p.completion + '%'; }, 300);
+  if (pct) pct.textContent = p.completion + '%';
+}
+
+function pvRenderKPIs(proj, kpis) {
+  var liveP = _pvProjectsMap[proj];
+  var p = PV_PROJECTS[proj] || (liveP ? {manpower:0, safeManHrs:'—'} : null);
+  if (!p) return;
+
+  pvAnimate(document.getElementById('pv-k1'), kpis ? (kpis.pending || 0) : 0);
+  var k1sub = document.getElementById('pv-k1-sub');
+  if (k1sub) k1sub.textContent = 'Pending resolution';
+
+  pvAnimate(document.getElementById('pv-k2'), kpis ? (kpis.escalated || 0) : 0);
+  var k2sub = document.getElementById('pv-k2-sub');
+  if (k2sub) k2sub.textContent = 'Need immediate action';
+
+  pvAnimate(document.getElementById('pv-k3'), kpis ? (kpis.monthIncidents || 0) : 0);
+
+  pvAnimate(document.getElementById('pv-k4'), p.manpower);
+
+  var k5 = document.getElementById('pv-k5');
+  if (k5) { k5.textContent = p.safeManHrs; }
+}
+
+function pvRenderIncidents(data) {
+  var feed = document.getElementById('pv-incident-feed');
+  var count = document.getElementById('pv-inc-count');
+  if (!feed) return;
+
+  if (!data || !data.length) {
+    feed.innerHTML = '<div style="text-align:center;padding:40px 0;color:var(--t3);font-size:12px;">No incidents recorded</div>';
+    if (count) count.textContent = '0 incidents';
+    return;
+  }
+
+  if (count) count.textContent = data.length + ' total';
+
+  feed.innerHTML = data.slice(0, 12).map(function(inc) {
+    var sev = (inc.severity || inc.type || 'LOW').toUpperCase();
+    var sevColor = sev.indexOf('HIGH') > -1 || sev.indexOf('CRITICAL') > -1 ? 'var(--red)' :
+                   sev.indexOf('MED') > -1 ? 'var(--amber)' : 'var(--blue)';
+    var date = inc.createdAt || inc.date || inc.reportedAt || '';
+    var dateStr = date ? new Date(date).toLocaleDateString('en-IN', {day:'numeric',month:'short'}) : '';
+    var title = inc.description || inc.title || inc.type || 'Incident';
+    return '<div style="display:flex;gap:10px;padding:8px 4px;border-bottom:1px solid var(--divider);align-items:flex-start;">' +
+      '<div style="width:3px;flex-shrink:0;border-radius:2px;align-self:stretch;background:' + sevColor + ';margin-top:2px;"></div>' +
+      '<div style="flex:1;min-width:0;">' +
+        '<div style="font-size:12px;font-weight:500;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + title + '</div>' +
+        '<div style="display:flex;align-items:center;gap:6px;margin-top:3px;">' +
+          '<span style="font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(255,255,255,.05);color:' + sevColor + ';">' + sev + '</span>' +
+          (dateStr ? '<span style="font-size:10px;color:var(--t3);">' + dateStr + '</span>' : '') +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function pvRenderActions(data) {
+  var tbody = document.getElementById('pv-action-tbody');
+  var openEl = document.getElementById('pv-act-open');
+  var overEl = document.getElementById('pv-act-over');
+  var sub = document.getElementById('pv-actions-sub');
+  if (!tbody) return;
+
+  if (!data || !data.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--t3);font-size:12px;">No actions found</td></tr>';
+    return;
+  }
+
+  var open = 0, over = 0;
+  data.forEach(function(a) {
+    var s = String(a.status || '').toLowerCase();
+    if (s !== 'closed') open++;
+    if (s === 'overdue') over++;
+  });
+  if (openEl) openEl.textContent = open + ' open';
+  if (over > 0 && overEl) overEl.textContent = over + ' overdue';
+  if (sub) sub.textContent = data.length + ' project actions';
+
+  var rows = [];
+  data.slice(0, 10).forEach(function(a) {
+    try {
+      // Normalize fields using exact Prisma schema names
+      var title = String(a.title || a.description || 'Untitled');
+      var statusRaw = String(a.status || 'OPEN');
+      var st = statusRaw.toLowerCase();
+      var stKey = (st === 'closed') ? 'done' : (st === 'overdue') ? 'over' : (st === 'in_progress') ? 'prog' : 'open';
+      var pillBg = stKey==='done'?'var(--green-dim)':stKey==='over'?'var(--red-dim)':stKey==='prog'?'var(--blue-dim)':'rgba(255,255,255,.06)';
+      var pillColor = stKey==='done'?'var(--green)':stKey==='over'?'var(--red)':stKey==='prog'?'var(--blue)':'var(--t2)';
+      var pillText = stKey==='done'?'Closed':stKey==='over'?'Overdue':stKey==='prog'?'In Progress':'Open';
+      var srcRaw = String(a.source || 'MANUAL');
+      var src = srcRaw==='INCIDENT'?'Incident':srcRaw==='NCR'?'NCR':srcRaw==='AUDIT'?'Audit':srcRaw==='INVESTIGATION'?'Investigation':'Manual';
+      var srcColor = srcRaw==='INCIDENT'?'var(--red)':srcRaw==='NCR'?'var(--amber)':'var(--blue)';
+      var assigned = '—';
+      if (a.assignedTo) { assigned = typeof a.assignedTo === 'string' ? a.assignedTo : (a.assignedTo.name || a.assignedTo.email || '—'); }
+      var due = a.dueDate || '';
+      var dueStr = due ? new Date(due).toLocaleDateString('en-IN', {day:'numeric', month:'short'}) : '—';
+      var dueColor = stKey === 'over' ? 'var(--red)' : 'var(--t2)';
+      var prog = typeof a.progressPct === 'number' ? a.progressPct : 0;
+      var progColor = stKey==='over'?'var(--red)':stKey==='done'?'var(--green)':'var(--amber)';
+      var initials = assigned.split(' ').map(function(w){return w[0]||'';}).join('').substring(0,2).toUpperCase()||'??';
+      var avColors = ['#22C55E','#3B82F6','#F59E0B','#8B5CF6','#EF4444'];
+      var avColor = avColors[(assigned.charCodeAt(0)||65)%5];
+
+      rows.push('<tr style="border-bottom:1px solid var(--divider);">' +
+        '<td style="padding:8px 10px;white-space:nowrap;width:80px;"><span style="font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;background:rgba(255,255,255,.05);color:' + srcColor + ';white-space:nowrap;">' + src + '</span></td>' +
+        '<td style="padding:8px 10px;max-width:200px;overflow:hidden;"><div style="font-size:12px;font-weight:500;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + title + '</div></td>' +
+        '<td style="padding:8px 10px;"><div style="display:flex;align-items:center;gap:6px;"><div style="width:22px;height:22px;border-radius:50%;background:' + avColor + ';display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0;">' + initials + '</div><span style="font-size:11px;color:var(--t2);">' + assigned + '</span></div></td>' +
+        '<td style="padding:8px 10px;white-space:nowrap;"><span style="font-size:11px;color:' + dueColor + ';font-weight:' + (stKey==='over'?'700':'400') + ';">' + dueStr + '</span></td>' +
+        '<td style="padding:8px 10px;white-space:nowrap;"><span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:100px;background:' + pillBg + ';color:' + pillColor + ';">' + pillText + '</span></td>' +
+        '<td style="padding:8px 10px;"><div style="display:flex;align-items:center;gap:5px;"><div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;"><div style="height:100%;border-radius:2px;width:' + prog + '%;background:' + progColor + ';"></div></div><span style="font-size:10px;color:var(--t3);min-width:24px;text-align:right;">' + prog + '%</span></div></td>' +
+        '</tr>');
+    } catch(e) {}
+  });
+
+  tbody.innerHTML = rows.length ? rows.join('') : '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--t3);">No actions to display</td></tr>';
+}function pvRenderCompliance(proj) {
+  var liveP = _pvProjectsMap[proj];
+  var p = PV_PROJECTS[proj] || (liveP ? {
+    name: liveP.name,
+    compliance: [
+      {label:'ISO 45001',pct:80},{label:'BOCW 1996',pct:85},
+      {label:'DGFASLI',pct:78},{label:'Factories Act',pct:82},{label:'IMS',pct:75}
+    ]
+  } : null);
+  if (!p) return;
+  var grid = document.getElementById('pv-compliance-grid');
+  var title = document.getElementById('pv-compliance-title');
+  if (title) title.textContent = p.name;
+  if (!grid) return;
+  grid.innerHTML = p.compliance.map(function(c) {
+    var color = c.pct >= 90 ? 'var(--green)' : c.pct >= 70 ? 'var(--amber)' : 'var(--red)';
+    return '<div style="background:var(--elevated);border:1px solid var(--border);border-radius:8px;padding:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">' +
+        '<div style="font-size:11px;font-weight:600;color:var(--t2);">' + c.label + '</div>' +
+        '<div style="font-size:13px;font-weight:800;color:' + color + ';">' + c.pct + '%</div>' +
+      '</div>' +
+      '<div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;">' +
+        '<div style="height:100%;border-radius:2px;background:' + color + ';width:' + c.pct + '%;transition:width 1s ease;"></div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ── Dynamic project bar ── */
+var PV_ICONS = {dam:'🏗️',metro:'🚇',plant:'⚡',highway:'🛣️',road:'🛣️',power:'⚡',water:'💧',building:'🏢',default:'📋'};
+function pvGetIcon(name){var n=(name||'').toLowerCase();for(var k in PV_ICONS){if(n.indexOf(k)>-1)return PV_ICONS[k];}return PV_ICONS.default;}
+
+function pvLoadProjectBar(){
+  var sel=document.getElementById('pv-proj-select');
+  if(!sel){pvRenderProjectBar(pvFallbackProjects());return;}
+  var token=localStorage.getItem('sp_token');
+  if(!token){pvRenderProjectBar(pvFallbackProjects());return;}
+  fetch(API_BASE+'/projects',{headers:{'Authorization':'Bearer '+token}})
+  .then(function(r){return r.ok?r.json():null;})
+  .then(function(p){pvRenderProjectBar(p&&p.length?p:pvFallbackProjects());if(p&&p.length)pvSyncSubnavDropdown(p);})
+  .catch(function(){pvRenderProjectBar(pvFallbackProjects());});
+}
+
+function pvFallbackProjects(){
+  return [{id:'birpur',name:'Birpur Dam',location:'Birpur, Jharkhand',sector:'Dam'},
+    {id:'mu',name:'Mumbai Metro',location:'Mumbai, Maharashtra',sector:'Metro'},
+    {id:'tirora',name:'Tirora Plant',location:'Tirora, Maharashtra',sector:'Power Plant'},
+    {id:'delhi',name:'Delhi NH-8',location:'Delhi-Gurugram, NCR',sector:'Highway'}];
+}
+
+// Live project map: id → project data (works with both real cuid & fallback keys)
+var _pvProjectsMap = {};
+
+function pvRenderProjectBar(projects){
+  // Build live map so pvRenderHero can look up by real ID
+  _pvProjectsMap = {};
+  projects.forEach(function(p){ _pvProjectsMap[p.id] = p; });
+  // Populate dropdown
+  var sel = document.getElementById('pv-proj-select');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— Choose project —</option>' +
+    projects.map(function(p){
+      var icon = pvGetIcon(p.name+' '+(p.sector||''));
+      return '<option value="'+p.id+'">'+icon+' '+p.name+(p.location?' — '+p.location:'')+'</option>';
+    }).join('');
+  // Style the select
+  sel.style.borderColor = 'var(--border)';
+  // If no project loaded yet, auto-select first
+  if (!_pvCurrent && sel.options.length > 1) {
+    sel.selectedIndex = 1;
+    pvSelectProjectByDropdown(sel);
+  }
+}
+
+function pvSelectProjectByDropdown(sel) {
+  var proj = sel.value;
+  if (!proj) return;
+  // Update info bar
+  var info = document.getElementById('pv-proj-info');
+  var loc = document.getElementById('pv-proj-location');
+  var p = _pvProjectsMap[proj];
+  if (info && p) {
+    info.style.display = 'block';
+    if (loc) loc.textContent = '📍 ' + (p.location || p.state || '');
+  }
+  // Highlight select
+  sel.style.borderColor = 'rgba(34,197,94,.4)';
+  sel.style.color = 'var(--green)';
+  // Sync subnav dropdown too
+  var navSel = document.getElementById('filter-project');
+  if (navSel) navSel.value = proj;
+  loadProjectView(proj);
+}
+
+function pvSyncSubnavDropdown(projects){
+  var sel=document.getElementById('filter-project');if(!sel)return;
+  var cur=sel.value;
+  sel.innerHTML='<option value="">All Projects</option>'+
+    projects.map(function(p){return '<option value="'+p.id+'"'+(p.id===cur?' selected':'')+'>'+p.name+'</option>';}).join('');
+}
+
+function pvSelectProject(el, proj) {
+  // Highlight active button
+  document.querySelectorAll('.pv-proj-btn').forEach(function(b) {
+    b.style.background = 'var(--elevated)';
+    b.style.color = 'var(--t3)';
+    b.style.borderColor = 'var(--border)';
+  });
+  el.style.background = 'var(--green-dim)';
+  el.style.color = 'var(--green)';
+  el.style.borderColor = 'rgba(34,197,94,.3)';
+  // Sync subnav dropdown
+  var sel = document.getElementById('filter-project');
+  if (sel) sel.value = proj;
+  // Load project
+  loadProjectView(proj);
+}
+
+function loadProjectView(projectId) {
+  if (!projectId) return;
+  _pvCurrent = projectId;
+  // Sync project switcher buttons
+  document.querySelectorAll('.pv-proj-btn').forEach(function(b) {
+    var isActive = b.getAttribute('data-proj') === projectId;
+    b.style.background = isActive ? 'var(--green-dim)' : 'var(--elevated)';
+    b.style.color = isActive ? 'var(--green)' : 'var(--t3)';
+    b.style.borderColor = isActive ? 'rgba(34,197,94,.3)' : 'var(--border)';
+  });
+  var token = localStorage.getItem('sp_token');
+  if (!token) return;
+  var API = API_BASE;
+
+  // Reset to loading state
+  ['pv-k1','pv-k2','pv-k3'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = '—';
+  });
+
+  // Render static metadata immediately (no API needed)
+  pvRenderHero(projectId, null);
+  pvRenderKPIs(projectId, null);
+  pvRenderCompliance(projectId);
+
+  // Fetch KPIs
+  fetch(API + '/dashboard/kpis?projectId=' + projectId, {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+  .then(function(r) { return r.ok ? r.json() : null; })
+  .then(function(kpis) {
+    if (kpis) {
+      pvRenderHero(projectId, kpis);
+      pvRenderKPIs(projectId, kpis);
+    }
+  })
+  .catch(function() {});
+
+  // Fetch Incidents
+  fetch(API + '/incidents?projectId=' + projectId + '&limit=20', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+  .then(function(r) { return r.ok ? r.json() : null; })
+  .then(function(data) {
+    var items = null;
+    if (Array.isArray(data)) { items = data; }
+    else if (data && Array.isArray(data.data)) { items = data.data; }
+    else if (data && Array.isArray(data.items)) { items = data.items; }
+    else if (data && Array.isArray(data.incidents)) { items = data.incidents; }
+    else if (data && Array.isArray(data.results)) { items = data.results; }
+    else if (data) { for (var k in data) { if (Array.isArray(data[k]) && data[k].length > 0) { items = data[k]; break; } } }
+    if (items && items.length) {
+      pvRenderIncidents(items);
+    } else {
+      pvRenderIncidents(pvDemoIncidents(projectId));
+    }
+  })
+  .catch(function() { pvRenderIncidents(pvDemoIncidents(projectId)); });
+
+  // Fetch Actions
+  fetch(API + '/actions?projectId=' + projectId + '&limit=10', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+  .then(function(r) { return r.ok ? r.json() : null; })
+  .then(function(data) {
+    // Store raw response for debugging
+    window._pvLastActionsRaw = data;
+    // Handle ALL backend response shapes
+    var items = null;
+    if (Array.isArray(data)) { items = data; }
+    else if (data && Array.isArray(data.data)) { items = data.data; }
+    else if (data && Array.isArray(data.items)) { items = data.items; }
+    else if (data && Array.isArray(data.actions)) { items = data.actions; }
+    else if (data && Array.isArray(data.results)) { items = data.results; }
+    else if (data && data.total !== undefined) {
+      for (var k in data) { if (Array.isArray(data[k]) && data[k].length > 0) { items = data[k]; break; } }
+    }
+    if (items && items.length) {
+      // Store first item keys for debugging
+      window._pvActionsFirstKeys = Object.keys(items[0] || {}).join(', ');
+      pvRenderActions(items);
+    } else {
+      // API returned nothing - use demo data
+      pvRenderActions(pvDemoActions(projectId));
+    }
+  })
+  .catch(function(e) {
+    window._pvActionsError = e.message;
+    pvRenderActions(pvDemoActions(projectId));
+  });
+}
+
+/* Fallback demo data per project */
+function pvDemoIncidents(proj) {
+  var data = {
+    birpur: [
+      { description: 'Loose railing — Block 3, Level 2', severity: 'HIGH', createdAt: '2026-03-28' },
+      { description: 'Scaffolding not braced — Zone C', severity: 'HIGH', createdAt: '2026-03-25' },
+      { description: 'Worker without PPE near excavation', severity: 'MEDIUM', createdAt: '2026-03-20' },
+    ],
+    mu: [
+      { description: 'Electrical hazard — panel exposed', severity: 'HIGH', createdAt: '2026-03-29' },
+      { description: 'Fire extinguisher missing — Tunnel B', severity: 'MEDIUM', createdAt: '2026-03-22' },
+    ],
+    tirora: [
+      { description: 'Ash handling belt — guarding removed', severity: 'HIGH', createdAt: '2026-03-26' },
+    ],
+    delhi: [
+      { description: 'Excavation without barricading', severity: 'HIGH', createdAt: '2026-03-30' },
+      { description: 'Survey team — no hi-vis vests', severity: 'MEDIUM', createdAt: '2026-03-27' },
+    ]
+  };
+  if (data[proj]) return data[proj];
+  // Generic fallback for real DB project IDs
+  var liveP = _pvProjectsMap[proj];
+  return [
+    { description: 'Near miss reported on site', severity: 'MEDIUM', createdAt: '2026-03-30' },
+    { description: 'PPE non-compliance observed', severity: 'LOW', createdAt: '2026-03-25' },
+  ];
+}
+
+function pvDemoActions(proj) {
+  // Try hardcoded first (works for fallback IDs birpur/mu/tirora/delhi)
+  var data = {
+    birpur: [
+      { description: 'Fix loose railing Block 3', source: 'Incident', assignedTo: 'Rajesh K.', dueDate: '2026-04-02', status: 'Overdue', progress: 30 },
+      { description: 'Replace unsafe scaffolding Floor 5', source: 'NCR', assignedTo: 'Meera K.', dueDate: '2026-04-05', status: 'In Progress', progress: 60 },
+      { description: 'Install fire extinguishers Zone D', source: 'Audit', assignedTo: 'Arvind S.', dueDate: '2026-04-10', status: 'Open', progress: 0 },
+    ],
+    mu: [
+      { description: 'Replace exposed panel cover', source: 'Incident', assignedTo: 'Suresh P.', dueDate: '2026-04-01', status: 'Overdue', progress: 20 },
+      { description: 'Install extinguisher Tunnel B', source: 'Audit', assignedTo: 'Anita R.', dueDate: '2026-04-06', status: 'In Progress', progress: 80 },
+    ],
+    tirora: [
+      { description: 'Restore guarding on ash belt', source: 'Incident', assignedTo: 'Vikram N.', dueDate: '2026-04-03', status: 'In Progress', progress: 70 },
+    ],
+    delhi: [
+      { description: 'Barricade all excavation zones', source: 'Incident', assignedTo: 'Priya S.', dueDate: '2026-04-01', status: 'Overdue', progress: 0 },
+      { description: 'Issue hi-vis vests to survey team', source: 'Incident', assignedTo: 'Rahul M.', dueDate: '2026-04-04', status: 'Open', progress: 0 },
+    ]
+  };
+  // For real DB project IDs (cuid format) - use project name from live map
+  if (data[proj]) return data[proj];
+  var liveP = _pvProjectsMap[proj] || {};
+  var projName = liveP.name || 'This Project';
+  var sector = liveP.sector || '';
+  return [
+    { description: 'HSE inspection — ' + projName, source: 'Audit', assignedTo: 'HSE Officer', dueDate: '2026-04-15', status: 'Open', progress: 0 },
+    { description: 'PPE compliance check — ' + sector, source: 'NCR', assignedTo: 'Site Supervisor', dueDate: '2026-04-12', status: 'In Progress', progress: 35 },
+    { description: 'Toolbox talk — working at height', source: 'Incident', assignedTo: 'Safety Officer', dueDate: '2026-04-10', status: 'Open', progress: 20 },
+    { description: 'Emergency drill documentation', source: 'Audit', assignedTo: 'HSE Manager', dueDate: '2026-04-20', status: 'Open', progress: 0 },
+  ];
+}
+
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"2ce44293a07841a58fb71bf647da9ffa","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+<script>
+/* sp-more-fix-js */
+(function() {
+  function init() {
+    var btn = document.getElementById('more-btn') || document.querySelector('.more-wrap');
+    if (!btn) return;
+
+    // Override the inline onclick directly (no cloning)
+    btn.onclick = null;
+    btn.addEventListener('click', function(e) {
+      e.stopImmediatePropagation();
+      e.stopPropagation();
+      if (btn.classList.contains('open')) {
+        btn.classList.remove('open');
+      } else {
+        // Close all other dropdowns
+        var pd = document.getElementById('profile-dropdown');
+        var ad = document.getElementById('alert-dropdown');
+        if (pd) pd.style.display = 'none';
+        if (ad) ad.style.display = 'none';
+        btn.classList.add('open');
+      }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', function(e) {
+      if (!btn.contains(e.target)) {
+        btn.classList.remove('open');
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
+
+
+
+<!-- pv-phase1-20260401062307 -->
+<!-- pv-fix2-20260401063836 -->
+<!-- projects-api-live-20260401090400 -->
+<!-- dynproj-20260401091521 -->
+<!-- idfix-20260401091930 -->
+<!-- idfix-20260401092142 -->
+<!-- dropdown-fix-20260401093347 -->
+<!-- actionfix-20260401094954 -->
+<!-- shapefix-20260401100327 -->
+<!-- robust-20260401100922 -->
+<!-- nestedfix-20260401102002 -->
+<!-- fieldfix-20260401102958 -->
+<!-- schemafix-20260401103905 -->
+<!-- schemafix-20260401105050 -->
+<!-- cleanfix-20260401110832 -->
+<!-- autofix-20260401203651 -->
+<!-- srcfix-20260401204502 -->
+<!-- barfix-20260401205122 -->

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Super Admin — SafetyPro AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0B0F14;--card:#131C26;--raised:#16212B;--border:#1E293B;
+  --green:#22C55E;--g-s:rgba(34,197,94,0.12);--g-b:rgba(34,197,94,0.3);
+  --amber:#F59E0B;--a-s:rgba(245,158,11,0.12);--a-b:rgba(245,158,11,0.3);
+  --red:#EF4444;--r-s:rgba(239,68,68,0.12);--r-b:rgba(239,68,68,0.35);
+  --blue:#3B82F6;--b-s:rgba(59,130,246,0.12);--b-b:rgba(59,130,246,0.3);
+  --purple:#8B5CF6;--p-s:rgba(139,92,246,0.12);
+  --t1:#E6EDF3;--t2:#94A3B8;--t3:#64748B;
+  --fh:'Montserrat',sans-serif;--fb:'Roboto',sans-serif;
+}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);min-height:100vh;}
+.topbar{background:#0F1720;border-bottom:1px solid var(--border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#16A34A);border-radius:7px;display:flex;align-items:center;justify-content:center;}
+.logo-shield svg{width:16px;height:16px;fill:#fff;}
+.logo-text{font-family:var(--fh);font-size:14px;font-weight:800;color:var(--t1);}
+.logo-text span{color:var(--green);}
+.sa-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;background:rgba(139,92,246,.15);color:var(--purple);border:1px solid rgba(139,92,246,.3);font-family:var(--fh);}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.sa-user{font-size:11px;color:var(--t3);font-family:var(--fh);}
+.sa-user strong{color:var(--t1);}
+.btn-signout{font-size:10px;padding:5px 14px;border-radius:6px;background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.3);cursor:pointer;font-family:var(--fh);font-weight:600;}
+.content{padding:20px 24px;max-width:1400px;margin:0 auto;}
+.page-header{margin-bottom:20px;}
+.page-title{font-family:var(--fh);font-size:18px;font-weight:800;color:var(--t1);}
+.page-sub{font-size:11px;color:var(--t3);margin-top:4px;}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:20px;}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;}
+.kpi-num{font-size:28px;font-weight:800;font-family:var(--fh);}
+.kpi-label{font-size:10px;color:var(--t3);margin-top:4px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px;}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);}
+.card-title{font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);}
+.card-body{padding:14px 16px;}
+.company-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;}
+.company-card{background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:14px;}
+.company-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.company-name{font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);}
+.status-dot{width:8px;height:8px;border-radius:50%;}
+.company-meta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;}
+.meta-item{font-size:10px;color:var(--t3);}
+.meta-item strong{color:var(--t2);}
+.company-actions{display:flex;gap:6px;}
+.btn-sm{font-size:9px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:var(--fh);font-weight:600;border:1px solid;}
+.btn-request{background:rgba(59,130,246,.1);color:var(--blue);border-color:rgba(59,130,246,.3);}
+.btn-view{background:rgba(34,197,94,.1);color:var(--green);border-color:rgba(34,197,94,.3);}
+.btn-warn{background:rgba(245,158,11,.1);color:var(--amber);border-color:rgba(245,158,11,.3);}
+.access-banner{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:11px;color:var(--t2);}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:16px;}
+.tab{padding:10px 16px;font-size:11px;font-weight:600;font-family:var(--fh);color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;}
+.tab.active{color:var(--green);border-bottom-color:var(--green);}
+.panel{display:none;}
+.panel.active{display:block;}
+table{width:100%;border-collapse:collapse;font-size:11px;}
+th{padding:8px 10px;text-align:left;color:var(--t3);font-family:var(--fh);font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--border);}
+td{padding:9px 10px;border-bottom:1px solid rgba(30,41,59,.5);color:var(--t2);}
+td:first-child{color:var(--t1);font-weight:600;}
+.badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;font-family:var(--fh);}
+.b-active{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);}
+.b-trial{background:rgba(59,130,246,.1);color:var(--blue);border:1px solid rgba(59,130,246,.3);}
+.b-inactive{background:var(--raised);color:var(--t3);border:1px solid var(--border);}
+.b-pro{background:rgba(139,92,246,.1);color:var(--purple);border:1px solid rgba(139,92,246,.3);}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 18px;font-size:12px;color:var(--t1);font-family:var(--fh);display:none;z-index:9999;align-items:center;gap:8px;}
+.toast.show{display:flex;}
+
+/* SafetyPro scrollbar v2 */
+.body { overflow: hidden !important; }
+.content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+<style>/* sp-height-fix */
+html,body{height:100%!important;overflow:hidden!important;}
+.body{height:calc(100vh - 52px)!important;overflow:hidden!important;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:14px;">
+    <a class="logo" href="#">
+      <div class="logo-shield"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
+      <span class="logo-text">SafetyPro <span>AI</span></span>
+    </a>
+    <span class="sa-badge">SUPER ADMIN</span>
+  </div>
+  <div class="topbar-right">
+    <div class="sa-user">Signed in as <strong id="sa-name">SafetyPro Admin</strong></div>
+    <button class="btn-signout" onclick="saSignOut()">Sign Out</button>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="page-header">
+    <div class="page-title">Platform Administration</div>
+    <div class="page-sub">Zero default access to client data &nbsp;&bull;&nbsp; All access requests are logged and time-limited &nbsp;&bull;&nbsp; You are viewing platform metadata only</div>
+  </div>
+
+  <!-- PLATFORM KPIs -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-num" style="color:var(--blue);" id="sa-k1">—</div>
+      <div class="kpi-label">Active Companies</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num" style="color:var(--green);" id="sa-k2">—</div>
+      <div class="kpi-label">Total Users</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num" style="color:var(--amber);" id="sa-k3">—</div>
+      <div class="kpi-label">Incidents This Month</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num" style="color:var(--purple);" id="sa-k4">—</div>
+      <div class="kpi-label">Active Sessions</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num" style="color:var(--red);" id="sa-k5">—</div>
+      <div class="kpi-label">Pending Access Requests</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num" style="color:var(--green);" id="sa-k6">—</div>
+      <div class="kpi-label">Platform Uptime</div>
+    </div>
+  </div>
+
+  <!-- ACCESS REQUEST ALERT -->
+  <div class="access-banner" id="access-alert" style="display:none;">
+    <div style="width:10px;height:10px;border-radius:50%;background:var(--amber);flex-shrink:0;"></div>
+    <div>You have <strong style="color:var(--amber);" id="pending-count">1</strong> pending access request from a company. You cannot view their data until they approve. <span style="color:var(--blue);cursor:pointer;" onclick="switchSATab('access')">View requests &rarr;</span></div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchSATab('companies')">Companies</div>
+    <div class="tab" onclick="switchSATab('access')">Access Requests</div>
+    <div class="tab" onclick="switchSATab('platform')">Platform Health</div>
+    <div class="tab" onclick="switchSATab('logs')">Activity Logs</div>
+  </div>
+
+  <!-- COMPANIES PANEL -->
+  <div class="panel active" id="sa-panel-companies">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">All Companies</div>
+        <div style="display:flex;gap:8px;">
+          <button onclick="saToast('Onboarding new company — contact enterprise@safetyproworld.com','blue')" style="font-size:10px;padding:5px 14px;border-radius:6px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);cursor:pointer;font-family:var(--fh);font-weight:600;">+ Onboard New Client</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="company-grid">
+
+          <div class="company-card">
+            <div class="company-top">
+              <div class="company-name">IECCL — Demo Account</div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="status-dot" style="background:var(--green);"></div>
+                <span class="badge b-active">ACTIVE</span>
+              </div>
+            </div>
+            <div class="company-meta">
+              <div class="meta-item">Plan: <strong>Professional</strong></div>
+              <div class="meta-item">Users: <strong>8</strong></div>
+              <div class="meta-item">Projects: <strong>4</strong></div>
+              <div class="meta-item">Last active: <strong>Today</strong></div>
+            </div>
+            <div style="font-size:10px;color:var(--t3);margin-bottom:10px;">Your test/demo company &nbsp;&bull;&nbsp; companyId: demo-001</div>
+            <div class="company-actions">
+              <button class="btn-sm btn-view" onclick="saToast('IECCL — this is your own account. Direct access available.','green')">View Details</button>
+              <button class="btn-sm btn-warn" onclick="saToast('Demo account — no access request needed','amber')">Request Access</button>
+            </div>
+          </div>
+
+          <div class="company-card" style="border:1px dashed var(--border);opacity:.6;">
+            <div class="company-top">
+              <div class="company-name">Client 2 — Pending Onboarding</div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="status-dot" style="background:var(--amber);"></div>
+                <span class="badge b-trial">TRIAL</span>
+              </div>
+            </div>
+            <div class="company-meta">
+              <div class="meta-item">Plan: <strong>Trial</strong></div>
+              <div class="meta-item">Users: <strong>2</strong></div>
+            </div>
+            <div style="font-size:10px;color:var(--t3);margin-bottom:10px;">Onboarding in progress &nbsp;&bull;&nbsp; Signed up 25 Mar 2026</div>
+            <div class="company-actions">
+              <button class="btn-sm btn-request" onclick="saToast('Onboarding checklist opening...','blue')">Continue Onboarding</button>
+            </div>
+          </div>
+
+          <div class="company-card" style="border:2px dashed rgba(34,197,94,.2);background:rgba(34,197,94,.02);">
+            <div style="text-align:center;padding:20px 0;">
+              <div style="font-size:24px;margin-bottom:8px;">+</div>
+              <div style="font-size:12px;font-weight:600;color:var(--t2);margin-bottom:4px;">Onboard New Client</div>
+              <div style="font-size:10px;color:var(--t3);">Set up company account, admin user, projects</div>
+              <button onclick="saToast('Contact enterprise@safetyproworld.com to onboard new client','blue')" style="margin-top:12px;font-size:10px;padding:6px 16px;border-radius:6px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);cursor:pointer;font-family:var(--fh);font-weight:600;">Get Started</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCESS REQUESTS PANEL -->
+  <div class="panel" id="sa-panel-access">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Access Requests — Sent to Clients</div>
+        <button onclick="saRequestAccess()" style="font-size:10px;padding:5px 14px;border-radius:6px;background:rgba(59,130,246,.1);color:var(--blue);border:1px solid rgba(59,130,246,.3);cursor:pointer;font-family:var(--fh);font-weight:600;">+ New Request</button>
+      </div>
+      <div class="card-body">
+        <div style="background:rgba(59,130,246,.04);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size:11px;color:var(--t2);">
+          <strong style="color:var(--blue);">Zero-default-access policy:</strong> You cannot view any client data without their explicit approval. Requests are sent to the Company Admin who can approve or deny. Every access session is time-limited and fully logged.
+        </div>
+        <table>
+          <thead><tr><th>Company</th><th>Reason</th><th>Duration</th><th>Requested</th><th>Status</th><th></th></tr></thead>
+          <tbody>
+            <tr>
+              <td>IECCL — Demo</td>
+              <td style="color:var(--t2);">Dashboard KPI display bug</td>
+              <td style="color:var(--t2);">2 hours</td>
+              <td style="color:var(--t2);">27 Mar, 09:15</td>
+              <td><span class="badge" style="background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.3);">PENDING</span></td>
+              <td><button class="btn-sm b-inactive" onclick="saToast('Waiting for IECCL admin approval','amber')" style="background:var(--raised);color:var(--t3);border:1px solid var(--border);">Waiting</button></td>
+            </tr>
+            <tr>
+              <td>IECCL — Demo</td>
+              <td style="color:var(--t2);">Email notification setup</td>
+              <td style="color:var(--t2);">1 hour</td>
+              <td style="color:var(--t2);">12 Mar, 10:00</td>
+              <td><span class="badge b-active">APPROVED</span></td>
+              <td><button class="btn-sm b-inactive" onclick="saToast('Session expired — 23 minutes used','green')" style="background:var(--raised);color:var(--t3);border:1px solid var(--border);">Expired</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLATFORM HEALTH PANEL -->
+  <div class="panel" id="sa-panel-platform">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div class="card">
+        <div class="card-head"><div class="card-title">Infrastructure Status</div></div>
+        <div class="card-body">
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--raised);border-radius:8px;">
+              <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Railway Backend</div><div style="font-size:10px;color:var(--t3);">NestJS + PostgreSQL</div></div>
+              <span class="badge b-active">LIVE</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--raised);border-radius:8px;">
+              <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Cloudflare Pages</div><div style="font-size:10px;color:var(--t3);">safetyproworld.com</div></div>
+              <span class="badge b-active">LIVE</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--raised);border-radius:8px;">
+              <div><div style="font-size:11px;font-weight:600;color:var(--t1);">SendGrid Email</div><div style="font-size:10px;color:var(--t3);">Transactional emails</div></div>
+              <span class="badge b-active">LIVE</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--raised);border-radius:8px;">
+              <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Socket.io WebSocket</div><div style="font-size:10px;color:var(--t3);">Real-time events</div></div>
+              <span class="badge b-active">LIVE</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--raised);border-radius:8px;">
+              <div><div style="font-size:11px;font-weight:600;color:var(--t1);">WhatsApp (Twilio)</div><div style="font-size:10px;color:var(--t3);">Escalation alerts</div></div>
+              <span class="badge" style="background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.3);">SETUP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">API Endpoint</div></div>
+        <div class="card-body">
+          <div style="font-size:11px;color:var(--t2);margin-bottom:12px;">Backend URL (Railway):</div>
+          <code style="display:block;font-size:10px;background:var(--raised);color:var(--t2);padding:10px 12px;border-radius:7px;border:1px solid var(--border);margin-bottom:14px;word-break:break-all;">https://safetypro-backend-production.up.railway.app/api/v1</code>
+          <div style="font-size:11px;color:var(--t2);margin-bottom:6px;">Swagger API Docs:</div>
+          <button onclick="saToast('Opening API docs...','blue')" style="font-size:10px;padding:6px 14px;border-radius:6px;background:rgba(59,130,246,.1);color:var(--blue);border:1px solid rgba(59,130,246,.3);cursor:pointer;font-family:var(--fh);font-weight:600;">Open /api/docs</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGS PANEL -->
+  <div class="panel" id="sa-panel-logs">
+    <div class="card">
+      <div class="card-head"><div class="card-title">Platform Activity Log</div></div>
+      <div class="card-body">
+        <table>
+          <thead><tr><th>Timestamp</th><th>Event</th><th>Company</th><th>Details</th></tr></thead>
+          <tbody>
+            <tr><td>27 Mar 2026, 09:15</td><td style="color:var(--amber);">Access Requested</td><td>IECCL</td><td style="color:var(--t2);">Support requested 2h access for bug investigation</td></tr>
+            <tr><td>27 Mar 2026, 08:42</td><td style="color:var(--green);">User Login</td><td>IECCL</td><td style="color:var(--t2);">Rajan Kumar logged in from 103.x.x.x</td></tr>
+            <tr><td>27 Mar 2026, 08:30</td><td style="color:var(--blue);">Incident Created</td><td>IECCL</td><td style="color:var(--t2);">INC-2851 created — metadata only</td></tr>
+            <tr><td>26 Mar 2026, 17:05</td><td style="color:var(--green);">Action Closed</td><td>IECCL</td><td style="color:var(--t2);">Action ACT-0847 closed — metadata only</td></tr>
+            <tr><td>25 Mar 2026, 14:20</td><td style="color:var(--purple);">New User Added</td><td>IECCL</td><td style="color:var(--t2);">Priya Desai added as HSE Supervisor</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:12px;font-size:10px;color:var(--t3);">Platform logs show metadata only — no client HSE data is visible without approved access session.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="sa-toast">
+  <div id="sa-toast-dot" style="width:8px;height:8px;border-radius:50%;background:var(--green);"></div>
+  <span id="sa-toast-msg">Done</span>
+</div>
+
+<script>
+var API_BASE = 'https://safetypro-backend-production.up.railway.app/api/v1';
+var saToastTimer = null;
+
+(function(){
+  var token = localStorage.getItem('sp_token');
+  if (!token) { window.location.replace('safetypro_login.html'); return; }
+  try {
+    var u = JSON.parse(localStorage.getItem('sp_user') || '{}');
+    if (u && u.role && u.role !== 'SUPER_ADMIN' && u.role !== 'ADMIN') {
+      window.location.replace('safetypro_v2.html'); return;
+    }
+    if (u && u.name) {
+      var el = document.getElementById('sa-name');
+      if (el) el.textContent = u.name;
+    }
+  } catch(e) {}
+  loadPlatformData();
+})();
+
+function loadPlatformData() {
+  var token = localStorage.getItem('sp_token');
+  if (!token) return;
+  fetch(API_BASE + '/dashboard/kpis', { headers: { 'Authorization': 'Bearer ' + token } })
+  .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+  .then(function(d) {
+    saAnimate('sa-k1', 1);
+    saAnimate('sa-k2', d.totalUsers || 8);
+    saAnimate('sa-k3', d.totalIncidents || 3);
+    saAnimate('sa-k4', 1);
+    document.getElementById('sa-k5').textContent = '1';
+    document.getElementById('sa-k6').textContent = '99.9%';
+    document.getElementById('access-alert').style.display = 'flex';
+  })
+  .catch(function() {
+    document.getElementById('sa-k1').textContent = '1';
+    document.getElementById('sa-k2').textContent = '8';
+    document.getElementById('sa-k3').textContent = '3';
+    document.getElementById('sa-k4').textContent = '1';
+    document.getElementById('sa-k5').textContent = '1';
+    document.getElementById('sa-k6').textContent = '99.9%';
+    document.getElementById('access-alert').style.display = 'flex';
+  });
+}
+
+function saAnimate(id, target) {
+  var el = document.getElementById(id); if (!el) return;
+  var t0 = performance.now();
+  (function step(now) {
+    var p = Math.min((now - t0) / 800, 1);
+    el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = target;
+  })(performance.now());
+}
+
+function switchSATab(id) {
+  document.querySelectorAll('.tab').forEach(function(t, i) {
+    var ids = ['companies','access','platform','logs'];
+    t.classList.toggle('active', ids[i] === id);
+  });
+  document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+  var panel = document.getElementById('sa-panel-' + id);
+  if (panel) panel.classList.add('active');
+}
+
+function saRequestAccess() {
+  var company = prompt('Company name to request access:');
+  if (!company) return;
+  var reason = prompt('Reason for access:');
+  if (!reason) return;
+  saToast('Access request sent to ' + company + ' admin. Waiting for approval.', 'blue');
+}
+
+function saSignOut() {
+  localStorage.removeItem('sp_token');
+  localStorage.removeItem('sp_user');
+  window.location.href = 'safetypro_login.html';
+}
+
+function saToast(msg, type) {
+  var t = document.getElementById('sa-toast');
+  var m = document.getElementById('sa-toast-msg');
+  var d = document.getElementById('sa-toast-dot');
+  if (!t) return;
+  m.textContent = msg;
+  d.style.background = type === 'red' ? 'var(--red)' : type === 'amber' ? 'var(--amber)' : type === 'blue' ? 'var(--blue)' : 'var(--green)';
+  t.classList.add('show');
+  if (saToastTimer) clearTimeout(saToastTimer);
+  saToastTimer = setTimeout(function() { t.classList.remove('show'); }, 3500);
+}
+</script>
+</body>
+</html>

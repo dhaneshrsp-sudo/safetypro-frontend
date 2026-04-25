@@ -1,0 +1,46 @@
+  <div class="sp-scope-filters" data-page="audit-compliance" data-multi-org="true" data-multi-bu="true" data-multi-region="true" data-multi-standard="true">
+    <label class="sp-scope-select sp-scope-select--org"><span class="sp-scope-select-label">Org</span>
+      <select class="mt-ctx-sel" onchange="if(window.mtSetCompany)mtSetCompany(window.__acCurrentTab||'ims')">
+        <option value="IECCL">IECCL - IL&amp;FS Engineering</option>
+        <option value="ALL">All Companies</option>
+      </select>
+    </label>
+    <label class="sp-scope-select sp-scope-select--bu"><span class="sp-scope-select-label">BU</span>
+      <select class="mt-ctx-sel" onchange="if(window.mtApplyFilter)mtApplyFilter(window.__acCurrentTab||'ims')">
+        <option value="ALL">All Units</option>
+        <option value="CIV">Civil</option>
+        <option value="MEP">MEP</option>
+      </select>
+    </label>
+    <label class="sp-scope-select sp-scope-select--project"><span class="sp-scope-select-label">Project</span>
+      <select class="mt-ctx-sel" onchange="if(window.mtApplyFilter)mtApplyFilter(window.__acCurrentTab||'ims')">
+        <option value="ALL">All Projects</option>
+        <option value="BBRP">Birpur-Bihpur Road</option>
+        <option value="NH131">NH 131</option>
+      </select>
+    </label>
+    <label class="sp-scope-select sp-scope-select--region"><span class="sp-scope-select-label">Zone</span>
+      <select class="mt-ctx-sel" onchange="if(window.mtApplyFilter)mtApplyFilter(window.__acCurrentTab||'ims')">
+        <option value="ALL">All Zones</option>
+        <option value="Z-A">Zone A</option>
+        <option value="Z-B">Zone B</option>
+      </select>
+    </label>
+    <label class="sp-scope-select sp-scope-select--standard"><span class="sp-scope-select-label">Standard</span>
+      <select class="mt-ctx-sel" onchange="if(window.mtApplyFilter)mtApplyFilter(window.__acCurrentTab||'ims')">
+        <option value="ALL">All Standards</option>
+        <option value="ISO45001">ISO 45001:2018</option>
+        <option value="ISO14001">ISO 14001:2015</option>
+        <option value="ISO9001">ISO 9001:2015</option>
+      </select>
+    </label>
+    <label class="sp-scope-select sp-scope-select--period"><span class="sp-scope-select-label">Period</span>
+      <select class="mt-ctx-sel" onchange="if(window.mtApplyFilter)mtApplyFilter(window.__acCurrentTab||'ims')">
+        <option value="30">Last 30 Days</option>
+        <option value="90">Last 90 Days</option>
+        <option value="YTD">Year to Date</option>
+        <option value="ALL">All Time</option>
+      </select>
+    </label>
+    <input type="search" class="sp-scope-search" placeholder="Search..." oninput="if(window.acSearch)acSearch(this.value,window.__acCurrentTab||'ims')">
+  </div>

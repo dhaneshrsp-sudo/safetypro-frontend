@@ -1,0 +1,1269 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#070D12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>SafetyPro · Biometric Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+button,a{touch-action:manipulation;}
+:root{
+  --bg:#070D12;--card:#0E1820;--raised:#13202C;--border:#1A2E40;
+  --green:#22C55E;--gdim:rgba(34,197,94,.10);--glow:rgba(34,197,94,.28);
+  --amber:#F59E0B;--red:#EF4444;--blue:#3B82F6;
+  --t1:#E6EDF3;--t2:#7A9BBF;--t3:#2A3F55;
+  --fh:'Montserrat',sans-serif;--fb:'Roboto',sans-serif;
+}
+html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fb);overflow:hidden;}
+body{position:fixed;inset:0;display:flex;flex-direction:column;}
+
+/* ── Desktop: show as centered phone UI ── */
+@media(min-width:520px){
+  body{align-items:center;justify-content:center;background:#030709;}
+  .app-wrap{
+    position:relative;
+    width:430px;
+    height:min(88vh,860px);
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 0 0 1px var(--border),0 32px 80px rgba(0,0,0,.7);
+    flex-shrink:0;
+  }
+  .scr{border-radius:20px;}
+}
+
+/* ── Laptop / Desktop split layout (≥900px) ── */
+@media(min-width:900px){
+  body{
+    flex-direction:row;
+    align-items:stretch;
+    justify-content:center;
+    gap:0;
+    padding:0;
+  }
+  .desktop-info{
+    display:flex !important;
+    flex-direction:column;
+    justify-content:center;
+    padding:48px 52px;
+    max-width:480px;
+    width:100%;
+    flex-shrink:0;
+  }
+  .app-wrap{
+    align-self:center;
+    margin:24px 0;
+  }
+}
+/* ── Mobile: full screen ── */
+@media(max-width:519px){
+  .app-wrap{position:fixed;inset:0;}
+}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:linear-gradient(rgba(34,197,94,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.022) 1px,transparent 1px);
+  background-size:40px 40px;}
+
+/* ── SCREENS ── */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;z-index:1;
+  transition:opacity .3s,transform .3s;overflow-y:auto;}
+.scr.off{opacity:0;pointer-events:none;transform:translateY(10px);}
+
+/* ── LOGO ── */
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
+.logo-mark{width:28px;height:28px;background:#22C55E;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-mark svg{width:16px;height:16px;}
+.logo-text{font-family:var(--fh);font-size:15px;font-weight:800;color:var(--t1);}
+.logo-text span{color:#22C55E;}
+
+/* ── TOPBAR ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:max(env(safe-area-inset-top),16px) 20px 10px;flex-shrink:0;}
+.pill{font-family:var(--fh);font-size:10px;font-weight:700;letter-spacing:.5px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);color:var(--t2);}
+.pill.live{color:var(--green);border-color:var(--glow);background:var(--gdim);}
+.pill.live::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:6px;animation:blink 1.4s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+
+/* ── DATA STRIP ── */
+.data-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 20px;margin-bottom:8px;flex-shrink:0;min-width:0;}
+.dc{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 10px;}
+.dc-lbl{font-size:9px;font-weight:700;letter-spacing:1px;color:var(--t3);text-transform:uppercase;font-family:var(--fh);margin-bottom:3px;}
+.dc-val{font-size:12px;font-weight:700;color:var(--t1);font-family:var(--fh);}
+.dc-val.g{color:var(--green);}
+
+/* ── SCANNER GRAPHIC ── */
+.scanner-area{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;position:relative;overflow:visible;padding:8px 0;}
+.bw{
+  position:relative;
+  /* Dimensions set by sizeScanner() JS — reliable cross-browser portrait sizing */
+  width:220px;
+  height:323px;
+  aspect-ratio:.68;
+}
+.bc{position:absolute;width:24px;height:24px;border-color:var(--green);border-style:solid;}
+.bc.tl{top:-1px;left:-1px;border-width:3px 0 0 3px;}
+.bc.tr{top:-1px;right:-1px;border-width:3px 3px 0 0;}
+.bc.bl{bottom:-1px;left:-1px;border-width:0 0 3px 3px;}
+.bc.br{bottom:-1px;right:-1px;border-width:0 3px 3px 0;}
+.sd{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--green);opacity:.6;animation:sdp 2s ease-in-out infinite;}
+.sd.tl{top:6px;left:6px;}
+.sd.tr{top:6px;right:6px;animation-delay:.5s;}
+.sd.bl{bottom:6px;left:6px;animation-delay:1s;}
+.sd.br{bottom:6px;right:6px;animation-delay:1.5s;}
+@keyframes sdp{0%,100%{opacity:.6;}50%{opacity:.12;}}
+.bi{position:absolute;inset:10px;}
+.bxh{position:absolute;width:100%;height:1px;background:rgba(34,197,94,.14);top:50%;}
+.bxv{position:absolute;height:100%;width:1px;background:rgba(34,197,94,.14);left:50%;}
+.oval{position:absolute;inset:0;border-radius:50%;border:2px dashed rgba(34,197,94,.45);display:flex;align-items:center;justify-content:center;}
+.oval svg{width:36%;height:36%;opacity:.18;fill:none;stroke:var(--green);stroke-width:1.2;}
+.sl{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,var(--green) 40%,rgba(34,197,94,.6) 60%,transparent 100%);border-radius:1px;animation:sla 2s ease-in-out infinite;}
+@keyframes sla{0%{top:5%;opacity:0;}8%{opacity:1;}92%{opacity:1;}100%{top:95%;opacity:0;}}
+
+/* ── BOTTOM / FORMS ── */
+.bottom{padding:0 20px;padding-bottom:max(env(safe-area-inset-bottom),16px);flex-shrink:0;}
+/* Mobile: entry screen scrolls so keyboard never hides the Activate button */
+#scr-entry{overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.field-block{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;}
+.field-lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--t3);font-family:var(--fh);text-transform:uppercase;margin-bottom:8px;}
+.field-row{display:flex;align-items:center;gap:8px;}
+.field-inp{flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:11px 12px;font-family:var(--fh);font-size:16px;font-weight:700;color:var(--t1);letter-spacing:2px;text-transform:uppercase;outline:none;-webkit-appearance:none;transition:border-color .2s;width:100%;}
+.field-inp.normal{letter-spacing:0;font-size:13px;font-weight:500;font-family:var(--fb);text-transform:none;}
+.field-inp::placeholder{color:var(--t3);letter-spacing:.5px;font-size:12px;font-weight:400;}
+.field-inp:focus{border-color:var(--green);}
+.clr{background:none;border:none;color:var(--t3);font-size:16px;cursor:pointer;padding:8px;flex-shrink:0;display:none;}
+.btn-main{width:100%;padding:14px;border:none;border-radius:10px;background:var(--green);color:#070D12;font-family:var(--fh);font-size:14px;font-weight:800;letter-spacing:.3px;cursor:pointer;-webkit-appearance:none;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-main:active{transform:scale(.97);}
+.btn-main:disabled{opacity:.35;cursor:not-allowed;}
+.btn-main svg{width:16px;height:16px;fill:none;stroke:#070D12;stroke-width:2.5;stroke-linecap:round;}
+.btn-sec{width:100%;padding:11px;border:1.5px solid var(--border);border-radius:10px;background:transparent;color:var(--t2);font-family:var(--fh);font-size:13px;font-weight:700;cursor:pointer;-webkit-appearance:none;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-sec:active{background:var(--raised);}
+.divider{display:flex;align-items:center;gap:10px;margin:8px 0;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
+.divider span{font-size:11px;color:var(--t3);white-space:nowrap;}
+
+/* ── CAMERA ── */
+#scr-cam{padding:0;justify-content:flex-end;}
+.cam-bg{position:absolute;inset:0;background:#000;}
+/* Fix iOS Safari 100vh issue */
+@supports (-webkit-touch-callout: none){
+  .scr{position:fixed;}
+}
+#bam-vid{width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:none;}
+.cam-vig{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(7,13,18,.72) 0%,transparent 22%,transparent 66%,rgba(7,13,18,.97) 100%);}
+.cam-top{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:max(env(safe-area-inset-top),20px) 20px 14px;z-index:10;}
+.cam-back{background:rgba(7,13,18,.75);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:7px 14px;font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;font-family:var(--fb);}
+.cbw{position:absolute;top:50%;left:50%;transform:translate(-50%,-56%);width:min(55vw,220px);z-index:10;}
+.cbi{position:relative;aspect-ratio:.68;width:100%;}
+.cc{position:absolute;width:26px;height:26px;border-color:var(--green);border-style:solid;}
+.cc.tl{top:-1px;left:-1px;border-width:3px 0 0 3px;}
+.cc.tr{top:-1px;right:-1px;border-width:3px 3px 0 0;}
+.cc.bl{bottom:-1px;left:-1px;border-width:0 0 3px 3px;}
+.cc.br{bottom:-1px;right:-1px;border-width:0 3px 3px 0;}
+.cxh{position:absolute;width:100%;height:1px;background:rgba(34,197,94,.12);top:50%;}
+.cxv{position:absolute;height:100%;width:1px;background:rgba(34,197,94,.12);left:50%;}
+.co{position:absolute;inset:12px;border-radius:50%;border:2px dashed rgba(239,68,68,.6);transition:border .35s,box-shadow .35s;}
+.co.on{border:2.5px solid var(--green);box-shadow:0 0 0 5px rgba(34,197,94,.1),0 0 28px rgba(34,197,94,.22);}
+.co.counting{border:2.5px solid var(--amber);box-shadow:0 0 0 5px rgba(245,158,11,.1),0 0 22px rgba(245,158,11,.2);}
+.co.red{border:2px solid rgba(239,68,68,.7);box-shadow:0 0 0 4px rgba(239,68,68,.08),0 0 18px rgba(239,68,68,.15);}
+.co.amber{border:2.5px solid var(--amber);box-shadow:0 0 0 4px rgba(245,158,11,.1),0 0 18px rgba(245,158,11,.18);}
+.csl{position:absolute;left:8%;right:8%;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent);border-radius:1px;animation:csla 1.8s ease-in-out infinite;}
+@keyframes csla{0%{top:5%;opacity:0;}8%{opacity:1;}92%{opacity:1;}100%{top:95%;opacity:0;}}
+.csp{position:absolute;left:50%;transform:translateX(-50%);top:calc(-50% - 26px);white-space:nowrap;font-family:var(--fh);font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--green);background:rgba(7,13,18,.82);border:1px solid var(--glow);padding:4px 14px;border-radius:20px;transition:color .3s,border-color .3s;}
+.cam-cd{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:15;pointer-events:none;}
+.cam-cd.show{display:flex;}
+.cdrs{width:min(55vw,210px);aspect-ratio:1;position:relative;}
+.cdrs svg{width:100%;height:100%;overflow:visible;}
+.cdc{fill:none;stroke:var(--green);stroke-width:3.5;stroke-linecap:round;stroke-dasharray:720;stroke-dashoffset:720;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset 1s linear;}
+.cdn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:54px;font-weight:800;color:var(--green);}
+.cam-bottom{position:relative;z-index:10;padding:0 20px;padding-bottom:max(env(safe-area-inset-bottom),22px);}
+.cam-instr{text-align:center;font-size:15px;font-weight:600;color:var(--t1);margin-bottom:7px;font-family:var(--fh);}
+.cam-gps{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:var(--t2);margin-bottom:12px;}
+.gdot{width:6px;height:6px;border-radius:50%;background:var(--amber);flex-shrink:0;}
+.gdot.ok{background:var(--green);}
+.cds{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.cdc2{background:rgba(7,13,18,.78);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:8px 10px;}
+.cdc2-lbl{font-size:8px;font-weight:700;letter-spacing:1px;color:rgba(122,155,191,.55);text-transform:uppercase;font-family:var(--fh);margin-bottom:2px;}
+.cdc2-val{font-size:12px;font-weight:700;color:var(--t1);font-family:var(--fh);}
+.cdc2-val.g{color:var(--green);}
+.cam-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--t3);z-index:5;}
+.ld span{animation:ld 1.2s ease-in-out infinite;}
+.ld span:nth-child(2){animation-delay:.2s;}
+.ld span:nth-child(3){animation-delay:.4s;}
+@keyframes ld{0%,80%,100%{opacity:.15;}40%{opacity:1;}}
+
+/* ── CHOICE OVERLAY ── */
+#choice-ov{position:absolute;inset:0;z-index:30;background:rgba(7,13,18,.96);display:none;flex-direction:column;align-items:center;justify-content:center;padding:28px;}
+.chk{width:68px;height:68px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin-bottom:14px;animation:pop .4s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes pop{from{scale:.5;opacity:0;}to{scale:1;opacity:1;}}
+.chk svg{width:32px;height:32px;fill:none;stroke:#070D12;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;}
+.ch-title{font-family:var(--fh);font-size:20px;font-weight:800;margin-bottom:4px;letter-spacing:-.5px;}
+.ch-sub{font-size:13px;color:var(--t2);margin-bottom:26px;}
+.ch-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin-bottom:10px;}
+.cb2{border:none;border-radius:14px;padding:20px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;-webkit-appearance:none;transition:all .15s;}
+.cb2:active{transform:scale(.96);}
+.cb2-in{background:var(--green);}
+.cb2-out{background:rgba(239,68,68,.1);border:1.5px solid rgba(239,68,68,.35);}
+.cb2-lbl{font-family:var(--fh);font-size:14px;font-weight:800;color:#070D12;}
+.cb2-out .cb2-lbl{color:var(--red);}
+.cb2-sub{font-size:10px;color:rgba(7,13,18,.6);font-family:var(--fb);}
+.cb2-out .cb2-sub{color:rgba(239,68,68,.65);}
+.ch-retry{background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--t3);font-size:12px;font-family:var(--fb);font-weight:500;padding:10px 24px;cursor:pointer;}
+
+/* ── SUCCESS SCREEN ── */
+#scr-ok{justify-content:flex-start;align-items:center;padding:max(env(safe-area-inset-top),16px) 20px max(env(safe-area-inset-bottom),16px);text-align:center;overflow-y:auto;}
+.ok-inner{width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;padding:8px 0;}
+.ok-ring{width:min(80px,18vw);height:min(80px,18vw);border-radius:50%;border:2.5px solid var(--green);display:flex;align-items:center;justify-content:center;margin-bottom:10px;position:relative;animation:okp .5s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes okp{from{scale:.5;opacity:0;}to{scale:1;opacity:1;}}
+.ok-ring::before{content:'';position:absolute;inset:-12px;border-radius:50%;border:1px solid var(--glow);animation:okpu 2.2s ease-out infinite;}
+@keyframes okpu{0%{opacity:.8;inset:-12px;}100%{opacity:0;inset:-28px;}}
+.ok-ring svg{width:min(36px,9vw);height:min(36px,9vw);fill:none;stroke:var(--green);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.ok-badge{display:inline-block;font-family:var(--fh);font-size:10px;font-weight:800;letter-spacing:1.5px;padding:3px 12px;border-radius:20px;margin-bottom:8px;}
+.ok-badge.in{color:var(--green);background:var(--gdim);border:1px solid rgba(34,197,94,.25);}
+.ok-badge.out{color:var(--red);background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);}
+.ok-title{font-family:var(--fh);font-size:clamp(18px,5vw,24px);font-weight:800;letter-spacing:-.5px;margin-bottom:4px;}
+.ok-sub{font-size:12px;color:var(--t2);margin-bottom:12px;}
+.ok-det{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2px 0;margin-bottom:12px;}
+.ok-row{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border);}
+.ok-row:last-child{border-bottom:none;}
+.ok-rl{font-size:9px;font-weight:700;letter-spacing:.8px;color:var(--t3);font-family:var(--fh);}
+.ok-rv{font-size:clamp(11px,3.5vw,13px);font-weight:700;color:var(--t1);font-family:var(--fh);}
+.ok-rv.g{color:var(--green);}
+.ok-bar-w{width:100%;height:3px;background:var(--raised);border-radius:2px;overflow:hidden;margin-bottom:12px;}
+.ok-bar{height:100%;background:var(--green);border-radius:2px;width:100%;animation:bd 8s linear forwards;}
+@keyframes bd{to{width:0%;}}
+.btn-next{width:100%;padding:13px;border:none;border-radius:10px;background:var(--green);color:#070D12;font-family:var(--fh);font-size:13px;font-weight:800;cursor:pointer;-webkit-appearance:none;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;}
+.btn-next:active{transform:scale(.97);}
+.ok-note{font-size:10px;color:var(--t3);margin-top:8px;line-height:1.5;}
+
+/* ── REGISTRATION SCREEN ── */
+#scr-reg{padding:0 0 20px;}
+.reg-header{padding:max(env(safe-area-inset-top),20px) 20px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.reg-back{background:none;border:none;color:var(--t2);font-size:14px;cursor:pointer;font-family:var(--fb);padding:4px;}
+.reg-title{font-family:var(--fh);font-size:16px;font-weight:800;color:var(--t1);}
+.reg-body{padding:0 20px;flex:1;}
+.reg-section{margin-bottom:12px;}
+.reg-sec-title{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--t3);text-transform:uppercase;font-family:var(--fh);margin-bottom:8px;}
+.reg-field{margin-bottom:8px;}
+.reg-lbl{font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;letter-spacing:.5px;}
+.reg-inp{width:100%;background:var(--card);border:1.5px solid var(--border);border-radius:8px;padding:11px 12px;font-family:var(--fb);font-size:16px;color:var(--t1);outline:none;-webkit-appearance:none;transition:border-color .2s;}
+.reg-inp:focus{border-color:var(--green);}
+.reg-inp::placeholder{color:var(--t3);}
+.reg-inp.mono{font-family:var(--fh);font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+.reg-row-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+
+/* Face capture box */
+.face-capture{background:var(--card);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:8px;}
+.face-cap-video-wrap{width:100%;aspect-ratio:1;background:#000;position:relative;}
+#reg-video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:none;}
+#reg-canvas{display:none;}
+.face-cap-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--t3);}
+.face-cap-ph svg{width:36px;height:36px;fill:none;stroke:currentColor;stroke-width:1.2;}
+.face-cap-preview{width:100%;height:100%;object-fit:cover;display:none;}
+.face-cap-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.face-cap-oval{width:65%;height:82%;border-radius:50%;border:2px dashed rgba(34,197,94,.5);}
+.face-cap-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;}
+.face-btn{padding:10px 8px;border:none;border-radius:8px;font-family:var(--fh);font-size:12px;font-weight:700;cursor:pointer;-webkit-appearance:none;transition:all .15s;}
+.face-btn:active{transform:scale(.97);}
+.face-btn-start{background:var(--blue);color:#fff;}
+.face-btn-cap{background:var(--green);color:#070D12;display:none;}
+.face-btn-retake{background:var(--raised);border:1px solid var(--border);color:var(--t2);display:none;}
+.face-status{padding:6px 10px;text-align:center;font-size:11px;color:var(--t2);background:rgba(34,197,94,.05);}
+.face-status.ok{color:var(--green);}
+
+/* Notice box */
+.notice{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:10px 12px;display:flex;gap:8px;margin-bottom:12px;}
+.notice svg{width:16px;height:16px;fill:none;stroke:var(--amber);stroke-width:2;stroke-linecap:round;flex-shrink:0;margin-top:1px;}
+.notice-text{font-size:11px;color:var(--amber);line-height:1.5;font-family:var(--fb);}
+
+/* ── PENDING SCREEN ── */
+#scr-pending{justify-content:center;align-items:center;padding:28px;text-align:center;}
+.pending-ring{width:90px;height:90px;border-radius:50%;border:2px solid var(--amber);display:flex;align-items:center;justify-content:center;margin-bottom:16px;animation:okp .5s cubic-bezier(.34,1.56,.64,1) both;}
+.pending-ring svg{width:38px;height:38px;fill:none;stroke:var(--amber);stroke-width:2;stroke-linecap:round;}
+.pending-title{font-family:var(--fh);font-size:22px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px;}
+.pending-sub{font-size:13px;color:var(--t2);margin-bottom:24px;line-height:1.6;}
+.pending-steps{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:4px 0;margin-bottom:20px;}
+.ps-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);}
+.ps-row:last-child{border-bottom:none;}
+.ps-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:11px;font-weight:800;flex-shrink:0;}
+.ps-num.done{background:var(--gdim);color:var(--green);border:1px solid rgba(34,197,94,.3);}
+.ps-num.wait{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.3);}
+.ps-num.next{background:var(--raised);color:var(--t3);border:1px solid var(--border);}
+.ps-text{font-size:12px;font-family:var(--fb);}
+.ps-text strong{display:block;font-weight:700;color:var(--t1);font-family:var(--fh);font-size:12px;margin-bottom:1px;}
+.ps-text span{color:var(--t2);font-size:11px;}
+
+/* ── TOAST ── */
+#toast{position:absolute;bottom:max(env(safe-area-inset-bottom),24px);left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 18px;font-size:13px;font-weight:500;color:var(--t1);white-space:nowrap;z-index:200;transition:transform .3s cubic-bezier(.34,1.56,.64,1);pointer-events:none;font-family:var(--fb);}
+#toast.show{transform:translateX(-50%) translateY(0);}
+
+/* SafetyPro scrollbar v2 */
+.body { overflow: hidden !important; }
+.content { overflow-y: auto !important; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+<style>/* sp-height-fix */
+html,body{height:100%!important;overflow:hidden!important;}
+.body{height:calc(100vh - 52px)!important;overflow:hidden!important;}
+</style>
+</head>
+<body>
+<!-- Desktop info panel — hidden on mobile, shown on laptop -->
+<div class="desktop-info" style="display:none;">
+  <div style="margin-bottom:32px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+      <div style="width:36px;height:36px;background:#22C55E;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2z" fill="white"/><path d="M9 12l2 2 4-4" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <div style="font-family:var(--fh);font-size:18px;font-weight:900;color:#E6EDF3;letter-spacing:-.3px;">SafetyPro<span style="color:#C6583E;font-weight:700;margin:0 4px;font-style:normal">.</span>AI</span></div>
+        <div style="font-size:10px;color:#2E4A66;font-weight:600;letter-spacing:.5px;">BIOMETRIC ATTENDANCE</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:36px;">
+    
+
+  
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div style="width:22px;height:22px;border-radius:50%;background:#0E2235;border:1px solid #162236;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#22C55E;flex-shrink:0;margin-top:1px;">1</div>
+        <div style="font-size:12px;color:#4A7090;line-height:1.5;">Enter your <strong style="color:#7A9BBF;">Project Code</strong> and <strong style="color:#7A9BBF;">Employee ID</strong></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div style="width:22px;height:22px;border-radius:50%;background:#0E2235;border:1px solid #162236;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#22C55E;flex-shrink:0;margin-top:1px;">2</div>
+        <div style="font-size:12px;color:#4A7090;line-height:1.5;">Tap <strong style="color:#7A9BBF;">Activate Face Scanner</strong> and look at the camera</div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <div style="width:22px;height:22px;border-radius:50%;background:#0E2235;border:1px solid #162236;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#22C55E;flex-shrink:0;margin-top:1px;">3</div>
+        <div style="font-size:12px;color:#4A7090;line-height:1.5;">Hold still when the oval turns <strong style="color:#22C55E;">green</strong> — attendance is marked automatically</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project + date -->
+  <div style="padding:12px 14px;background:#0B1929;border:1px solid #162236;border-radius:10px;display:flex;align-items:center;justify-content:space-between;">
+    
+  
+  <div style="margin-top:24px;font-size:10px;color:#1A3050;">
+    SafetyPro AI · IMS Certified · ISO 45001
+  </div>
+</div>
+
+<div class="app-wrap">
+<!-- ═══ ENTRY SCREEN ═══ -->
+<div class="scr" id="scr-entry">
+  <div class="topbar">
+    <a class="logo" href="#">
+      <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2z" fill="white"/><path d="M9 12l2 2 4-4" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span class="logo-text">SafetyPro <span>AI</span></span>
+    </a>
+    <div class="pill live">LIVE</div>
+  </div>
+  <div class="data-strip">
+    <div class="dc"><div class="dc-lbl">Date</div><div class="dc-val" id="e-date">—</div></div>
+    <div class="dc"><div class="dc-lbl">Time</div><div class="dc-val g" id="e-time">—</div></div>
+    <div class="dc"><div class="dc-lbl">Zone</div><div class="dc-val g" id="e-zone">—</div></div>
+  </div>
+  <div class="scanner-area">
+    <div class="bw">
+      <div class="bc tl"></div><div class="bc tr"></div><div class="bc bl"></div><div class="bc br"></div>
+      <div class="sd tl"></div><div class="sd tr"></div><div class="sd bl"></div><div class="sd br"></div>
+      <div class="bi"><div class="bxh"></div><div class="bxv"></div>
+        <div class="oval"><svg viewBox="0 0 80 90"><ellipse cx="40" cy="32" rx="18" ry="20"/><path d="M8 88c0-18 14-32 32-32s32 14 32 32" stroke-linecap="round"/></svg><div class="sl"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom">
+    <div class="field-block">
+      <div class="field-lbl">Project Code</div>
+      <div class="field-row">
+        <input class="field-inp" id="proj-code" type="text" maxlength="12" placeholder="e.g. PROJECT-CODE" autocomplete="off" autocorrect="off" spellcheck="false" oninput="onCode(this)"/>
+        <button class="clr" id="code-clr" onclick="clearCode()">✕</button>
+      </div>
+    </div>
+    <div class="field-block" style="margin-bottom:10px;">
+      <div class="field-lbl">Employee ID</div>
+      <div class="field-row">
+        <input class="field-inp" id="emp-id" type="text" maxlength="20" placeholder="e.g. EMP-0042" autocomplete="off" oninput="onEmpId(this)"/>
+        <button class="clr" id="emp-clr" onclick="clearEmpId()">✕</button>
+      </div>
+    </div>
+    <button class="btn-main" id="btn-go" disabled onclick="goToCamera()">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+      Activate Face Scanner
+    </button>
+    <div class="divider"><span>new to this project?</span></div>
+    <button class="btn-sec" onclick="showReg()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+      Register with Face Photo
+    </button>
+  </div>
+</div>
+
+<!-- ═══ CAMERA SCREEN ═══ -->
+<div class="scr off" id="scr-cam" style="padding:0;">
+  <div class="cam-bg">
+    <video id="bam-vid" autoplay playsinline muted></video>
+    <div class="cam-ph" id="cam-ph">
+      <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <div style="font-size:12px;color:var(--t3)">Starting<span class="ld"><span>.</span><span>.</span><span>.</span></span></div>
+    </div>
+  </div>
+  <div class="cam-vig"></div>
+  <div class="cam-top">
+    <a class="logo" href="#">
+      <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2z" fill="white"/><path d="M9 12l2 2 4-4" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span class="logo-text">SafetyPro <span>AI</span></span>
+    </a>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div class="pill live" id="cam-proj-pill">—</div>
+      <button class="cam-back" onclick="goBack()">← Back</button>
+    </div>
+  </div>
+  <div class="cbw"><div class="cbi">
+    <div class="cc tl"></div><div class="cc tr"></div><div class="cc bl"></div><div class="cc br"></div>
+    <div class="cxh"></div><div class="cxv"></div>
+    <div class="co" id="cam-oval"></div>
+    <div class="csl"></div>
+    <div class="csp" id="cam-status">ALIGN FACE</div>
+  </div></div>
+  <div class="cam-cd" id="cam-cd"><div class="cdrs"><svg viewBox="0 0 100 100"><circle class="cdc" id="cam-cdc" cx="50" cy="50" r="45"/></svg><div class="cdn" id="cam-cdn">3</div></div></div>
+  <div class="cam-bottom">
+    <div class="cam-instr" id="cam-instr">Centre your face in the bracket</div>
+    <div class="cam-gps"><div class="gdot" id="gdot"></div><span id="gps-txt">Getting location...</span></div>
+    <div class="cds">
+      <div class="cdc2"><div class="cdc2-lbl">Date</div><div class="cdc2-val" id="c-date">—</div></div>
+      <div class="cdc2"><div class="cdc2-lbl">Time</div><div class="cdc2-val g" id="c-time">—</div></div>
+      <div class="cdc2"><div class="cdc2-lbl">Zone</div><div class="cdc2-val g" id="c-zone">—</div></div>
+    </div>
+  </div>
+  <div id="choice-ov">
+    <div class="chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <div class="ch-title">Face Verified</div>
+    <div class="ch-sub" id="ch-emp-name">Mark your attendance</div>
+    <div class="ch-grid">
+      <button class="cb2 cb2-in" onclick="markAtt('in')">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#070D12" stroke-width="2.5" stroke-linecap="round"><line x1="14" y1="4" x2="14" y2="24"/><polyline points="22,8 14,4 6,8"/></svg>
+        <div class="cb2-lbl">Check IN</div><div class="cb2-sub">Arriving at site</div>
+      </button>
+      <button class="cb2 cb2-out" onclick="markAtt('out')">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round"><line x1="14" y1="4" x2="14" y2="24"/><polyline points="6,20 14,24 22,20"/></svg>
+        <div class="cb2-lbl">Check OUT</div><div class="cb2-sub">Leaving site</div>
+      </button>
+    </div>
+    <button class="ch-retry" onclick="retryCapture()">↩ Retry Face Scan</button>
+  </div>
+</div>
+
+<!-- ═══ SUCCESS SCREEN ═══ -->
+<div class="scr off" id="scr-ok">
+  <div class="ok-inner">
+    <div class="ok-ring"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <div class="ok-badge in" id="ok-badge">CHECKED IN</div>
+    <div class="ok-title" id="ok-title">Checked In Successfully</div>
+    <div id="ok-greeting" style="font-size:clamp(14px,4vw,16px);color:#22C55E;font-weight:700;margin:2px 0 6px;font-family:var(--fh);">Have a great day! 🦺</div>
+    <div class="ok-sub" id="ok-sub">Attendance recorded · Syncing to dashboard...</div>
+    <div class="ok-det">
+      <div class="ok-row"><div class="ok-rl">EMPLOYEE</div><div class="ok-rv g" id="s-emp">—</div></div>
+      <div class="ok-row"><div class="ok-rl">TIME</div><div class="ok-rv g" id="s-time">—</div></div>
+      <div class="ok-row"><div class="ok-rl">DATE</div><div class="ok-rv" id="s-date">—</div></div>
+      <div class="ok-row"><div class="ok-rl">PROJECT</div><div class="ok-rv" id="s-proj">—</div></div>
+      <div class="ok-row"><div class="ok-rl">ZONE</div><div class="ok-rv g" id="s-zone">—</div></div>
+      <div class="ok-row"><div class="ok-rl">GPS</div><div class="ok-rv" id="s-gps" style="font-size:clamp(9px,2.5vw,11px);">—</div></div>
+    </div>
+    <div class="ok-bar-w"><div class="ok-bar" id="ok-bar"></div></div>
+    <button class="btn-next" onclick="scanNext()">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+      Done ✓
+    </button>
+    <div class="ok-note" style="font-size:13px;color:var(--green);font-weight:700;letter-spacing:.3px;">Have a safe and great day! &#129498;</div>
+  </div>
+</div>
+
+<!-- ═══ REGISTRATION SCREEN ═══ -->
+<div class="scr off" id="scr-reg">
+  <div class="reg-header">
+    <button class="reg-back" onclick="show('scr-entry')">←</button>
+    <div>
+      <div class="reg-title">Register — Biometric Portal</div>
+      <div style="font-size:10px;color:var(--t3);font-family:var(--fb);">First time? Create your attendance profile</div>
+    </div>
+  </div>
+  <div class="reg-body">
+    <!-- IDENTITY -->
+    <div class="reg-section">
+      <div class="reg-sec-title">Your Identity</div>
+      <div class="reg-field">
+        <div class="reg-lbl">Full Name *</div>
+        <input class="reg-inp" id="r-name" type="text" placeholder="As per company records"/>
+      </div>
+      <div class="reg-row-2">
+        <div class="reg-field">
+          <div class="reg-lbl">Employee ID *</div>
+          <input class="reg-inp mono" id="r-empid" type="text" placeholder="EMP-0042" maxlength="20"/>
+        </div>
+        <div class="reg-field">
+          <div class="reg-lbl">Project Code *</div>
+          <input class="reg-inp mono" id="r-projcode" type="text" placeholder="PROJECT-CODE" maxlength="12"/>
+        </div>
+      </div>
+      <div class="reg-row-2">
+        <div class="reg-field">
+          <div class="reg-lbl">Designation</div>
+          <input class="reg-inp" id="r-desig" type="text" placeholder="e.g. HSE Officer"/>
+        </div>
+        <div class="reg-field">
+          <div class="reg-lbl">Department</div>
+          <input class="reg-inp" id="r-dept" type="text" placeholder="e.g. Civil"/>
+        </div>
+      </div>
+      <div class="reg-field">
+        <div class="reg-lbl">Mobile Number</div>
+        <input class="reg-inp" id="r-mobile" type="tel" placeholder="+91 98765 43210"/>
+      </div>
+    </div>
+
+    <!-- FACE CAPTURE -->
+    <div class="reg-section">
+      <div class="reg-sec-title">Face Photo — for biometric verification</div>
+      <div class="face-capture">
+        <div class="face-cap-video-wrap">
+          <video id="reg-video" autoplay playsinline muted></video>
+          <canvas id="reg-canvas"></canvas>
+          <img id="reg-preview" class="face-cap-preview" alt=""/>
+          <div class="face-cap-ph" id="reg-cam-ph">
+            <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <div style="font-size:11px;">Tap Start Camera below</div>
+          </div>
+          <div class="face-cap-overlay" id="reg-oval-ov" style="display:none;">
+            <div class="face-cap-oval"></div>
+          </div>
+        </div>
+        <div class="face-status" id="reg-face-status">Camera not started</div>
+        <div class="face-cap-actions">
+          <button class="face-btn face-btn-start" id="reg-btn-start" onclick="regStartCam()">📷 Start Camera</button>
+          <button class="face-btn face-btn-cap" id="reg-btn-cap" onclick="regCapture()">✓ Capture Face</button>
+          <button class="face-btn face-btn-retake" id="reg-btn-retake" onclick="regRetake()">↩ Retake</button>
+          <div id="reg-face-ok" style="display:none;padding:10px 8px;text-align:center;font-size:11px;font-weight:700;color:var(--green);font-family:var(--fh);">✓ Face Captured</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTICE -->
+    <div class="notice">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div class="notice-text">Your registration will be reviewed by your HR officer before activation. You will be able to mark attendance once approved. This process typically takes a few hours.</div>
+    </div>
+
+    <button class="btn-main" id="reg-submit-btn" onclick="submitReg()" style="margin-bottom:8px;">
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Submit Registration
+    </button>
+  </div>
+</div>
+
+<!-- ═══ PENDING SCREEN ═══ -->
+<div class="scr off" id="scr-pending" style="justify-content:center;align-items:center;padding:28px;text-align:center;">
+  <div class="pending-ring">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+  </div>
+  <div class="pending-title">Registration Submitted</div>
+  <div class="pending-sub">Your profile is pending HR approval.<br>You cannot mark attendance yet.</div>
+  <div class="pending-steps">
+    <div class="ps-row">
+      <div class="ps-num done">✓</div>
+      <div class="ps-text"><strong>Registration submitted</strong><span>Face photo + details sent to HR</span></div>
+    </div>
+    <div class="ps-row">
+      <div class="ps-num wait">⏳</div>
+      <div class="ps-text"><strong>Awaiting HR approval</strong><span>HR verifies against company roster</span></div>
+    </div>
+    <div class="ps-row">
+      <div class="ps-num next">3</div>
+      <div class="ps-text"><strong>Account activated</strong><span>You can then mark attendance</span></div>
+    </div>
+    <div class="ps-row">
+      <div class="ps-num next">4</div>
+      <div class="ps-text"><strong>Face biometric live</strong><span>Auto-identified on every scan</span></div>
+    </div>
+  </div>
+  <button class="btn-main" onclick="show('scr-entry')" style="width:100%;">
+    ← Back to Portal
+  </button>
+  <div style="font-size:11px;color:var(--t3);margin-top:12px;line-height:1.6;">
+    Contact your HR officer if not approved within 24 hours
+  </div>
+</div>
+
+<canvas id="bam-canvas" style="display:none;"></canvas>
+<div id="toast"></div>
+</div>
+
+<script>
+var API='https://safetypro-backend.onrender.com/api/v1';
+var S={code:'',empId:'',empName:'',gps:null,stream:null,regStream:null,captured:false,counting:false,cTimer:null,aLoop:null,regCaptured:false,facePhoto:null,faceApiReady:false,detecting:false};
+
+// ── DESKTOP INFO PANEL — load live stats ──────────────────────────────────
+function loadDesktopInfo(){
+  if(window.innerWidth < 900) return;
+  var token = localStorage.getItem('sp_token') || '';
+  var API = 'https://safetypro-backend.onrender.com/api/v1';
+  fetch(API + '/attendance/today', {
+    headers: token ? {'Authorization':'Bearer '+token} : {}
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    var s = d.summary || {};
+    var ons = document.getElementById('di-onsite');
+    var tod = document.getElementById('di-today');
+    if(ons) ons.textContent = s.currentlyIn != null ? s.currentlyIn : '—';
+    if(tod) tod.textContent = s.totalCheckedIn != null ? s.totalCheckedIn : '—';
+  })
+  .catch(function(){});
+}
+
+// ── SCANNER SIZING — reliable portrait bracket on all screen sizes ──
+function sizeScanner(){
+  var sa=document.querySelector('.scanner-area');
+  var bw=document.querySelector('.bw');
+  if(!sa||!bw)return;
+  // Available height in scanner area
+  var avail=sa.getBoundingClientRect().height-20;
+  if(avail<50)avail=50; // absolute minimum
+  // Max width from device
+  var maxW=Math.min(window.innerWidth*0.55,220);
+  // Portrait bracket: height is limiting factor OR width
+  var h=Math.min(avail, maxW/0.68);
+  var w=Math.round(h*0.68);
+  h=Math.round(h);
+  bw.style.width=w+'px';
+  bw.style.height=h+'px';
+}
+window.addEventListener('resize',sizeScanner);
+
+// ── CLOCK ──
+function tick(){
+  var n=new Date();
+  var t=n.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+  var d=n.toLocaleDateString('en-IN',{day:'2-digit',month:'short'});
+  ['e-time','c-time'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=t;});
+  ['e-date','c-date'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=d;});
+}
+tick();setInterval(tick,1000);
+
+// ── INPUTS ──
+function onCode(el){
+  var v=el.value.toUpperCase().replace(/[^A-Z0-9-]/g,'');el.value=v;S.code=v;
+  document.getElementById('code-clr').style.display=v?'block':'none';
+  checkReady();
+}
+function clearCode(){document.getElementById('proj-code').value='';S.code='';document.getElementById('code-clr').style.display='none';checkReady();}
+function onEmpId(el){
+  var v=el.value.toUpperCase().replace(/[^A-Z0-9-]/g,'');el.value=v;S.empId=v;
+  document.getElementById('emp-clr').style.display=v?'block':'none';
+  checkReady();
+}
+function clearEmpId(){document.getElementById('emp-id').value='';S.empId='';document.getElementById('emp-clr').style.display='none';checkReady();}
+function checkReady(){document.getElementById('btn-go').disabled=S.code.length<3||S.empId.length<2;}
+
+// ── SCREENS ──
+function show(id){
+  document.querySelectorAll('.scr').forEach(function(s){s.classList.add('off');});
+  setTimeout(function(){var el=document.getElementById(id);if(el)el.classList.remove('off');},60);
+}
+function showReg(){
+  var code=document.getElementById('proj-code').value;
+  var empId=document.getElementById('emp-id').value;
+  if(code) document.getElementById('r-projcode').value=code;
+  if(empId) document.getElementById('r-empid').value=empId;
+  show('scr-reg');
+}
+
+// ── GPS ──
+function startGPS(){
+  if(!navigator.geolocation){
+    var txt=document.getElementById('gps-txt');
+    if(txt)txt.textContent='GPS not supported';
+    return;
+  }
+  var txt=document.getElementById('gps-txt');
+  if(txt)txt.textContent='Getting location...';
+  
+  navigator.geolocation.getCurrentPosition(
+    function(p){
+      S.gps={lat:p.coords.latitude.toFixed(4),lng:p.coords.longitude.toFixed(4),acc:Math.round(p.coords.accuracy)};
+      var z='Zone '+az(S.gps.lat,S.gps.lng);
+      ['e-zone','c-zone'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=z;});
+      var dot=document.getElementById('gdot');if(dot)dot.classList.add('ok');
+      if(txt)txt.textContent=z+' · ±'+S.gps.acc+'m';
+    },
+    function(err){
+      // Error codes: 1=Permission denied, 2=Position unavailable, 3=Timeout
+      var msg = err.code===1 ? 'Location blocked — allow in browser settings' :
+                err.code===2 ? 'GPS signal unavailable' :
+                'Location timed out — retrying...';
+      if(txt)txt.textContent=msg;
+      var dot=document.getElementById('gdot');if(dot)dot.style.background='var(--amber)';
+      // If timeout (code 3), retry once with network fallback
+      if(err.code===3){
+        setTimeout(function(){
+          navigator.geolocation.getCurrentPosition(
+            function(p){
+              S.gps={lat:p.coords.latitude.toFixed(4),lng:p.coords.longitude.toFixed(4),acc:Math.round(p.coords.accuracy)};
+              var z='Zone '+az(S.gps.lat,S.gps.lng);
+              ['e-zone','c-zone'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=z;});
+              if(dot)dot.classList.add('ok');
+              if(txt)txt.textContent=z+' · ±'+S.gps.acc+'m (network)';
+            },
+            function(){ if(txt)txt.textContent='GPS unavailable'; },
+            {maximumAge:120000, timeout:10000, enableHighAccuracy:false}
+          );
+        }, 1000);
+      }
+    },
+    {maximumAge:30000, timeout:10000, enableHighAccuracy:true}
+  );
+}
+function az(lat,lng){return['A','B','C','D'][Math.abs(Math.floor((parseFloat(lat)*100+parseFloat(lng)*100)%4))%4];}
+
+// ── EMPLOYEE ID VALIDATION ──
+function validateEmpId(code, empId, callback){
+  // Call backend to validate employee ID against company roster
+  fetch(API+'/employees/validate',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({projectCode:code,employeeId:empId})
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){callback(d.valid, d.name||empId);})
+  .catch(function(){
+    // Backend not ready — allow for now (demo mode)
+    callback(true, empId);
+  });
+}
+
+// ── CAMERA ──
+function goToCamera(){
+  if(!S.gps) startGPS();  // retry GPS if not yet acquired
+  if(S.code.length<3||S.empId.length<2)return;
+  var pill=document.getElementById('cam-proj-pill');if(pill)pill.textContent=S.code;
+  // Validate employee ID first
+  toast('Verifying Employee ID...');
+  validateEmpId(S.code, S.empId, function(valid, name){
+    if(!valid){
+      if(name){
+        // Has a name but not valid — PENDING or REJECTED
+        toast('Registration pending HR approval. Contact your HR officer.');
+      } else {
+        toast('Employee ID '+S.empId+' not found in '+S.code);
+      }
+      return;
+    }
+    S.empName=name;
+    var sub=document.getElementById('ch-emp-name');
+    if(sub)sub.textContent=name+' · '+S.empId;
+    show('scr-cam');
+    startCamera();
+    startGPS();
+  });
+}
+function goBack(){stopCam();show('scr-entry');document.getElementById('choice-ov').style.display='none';}
+function startCamera(){
+  S.captured=false;S.counting=false;resetCD();
+  document.getElementById('choice-ov').style.display='none';
+  var o=document.getElementById('cam-oval');if(o){o.classList.remove('on','counting','red','amber');o.classList.add('red');}
+  var s=document.getElementById('cam-status');if(s){s.textContent='ALIGN FACE';s.style.color='var(--green)';}
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast('Camera not supported');return;}
+  navigator.mediaDevices.getUserMedia({
+    video:{
+      facingMode:'user',
+      width:{ideal:640,max:1280},
+      height:{ideal:480,max:720}
+    },
+    audio:false
+  })
+    .then(function(stream){
+      S.stream=stream;var vid=document.getElementById('bam-vid');
+      vid.srcObject=stream;vid.play();
+      document.getElementById('cam-ph').style.display='none';
+      vid.style.display='block';
+      // Show loading indicator while face model loads
+      var ins=document.getElementById('cam-instr');
+      if(ins)ins.textContent='Loading face detector...';
+      var s=document.getElementById('cam-status');
+      if(s){s.textContent='LOADING...';s.style.color='var(--amber)';}
+      initFaceApi().then(function(){setTimeout(startLoop,300);});
+    })
+    .catch(function(err){toast('Camera: '+err.name);});
+}
+function stopCam(){
+  if(S.aLoop){clearInterval(S.aLoop);S.aLoop=null;}
+  if(S.cTimer){clearTimeout(S.cTimer);S.cTimer=null;}
+  if(S.stream){S.stream.getTracks().forEach(function(t){t.stop();});S.stream=null;}
+  var vid=document.getElementById('bam-vid');if(vid){vid.srcObject=null;vid.style.display='none';}
+  var ph=document.getElementById('cam-ph');if(ph)ph.style.display='flex';
+  S.captured=false;S.counting=false;
+}
+function startLoop(){
+  if(S.aLoop)clearInterval(S.aLoop);
+  var isMobile=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  S.aLoop=setInterval(detect, isMobile ? 600 : 400);
+}
+// ── FACE-API.JS INITIALISATION ──
+async function initFaceApi(){
+  try{
+    var modelUrl='https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@master/weights';
+    await faceapi.nets.tinyFaceDetector.loadFromUri(modelUrl);
+    S.faceApiReady=true;
+    var ins=document.getElementById('cam-instr');
+    if(ins)ins.textContent='Centre your face in the oval';
+    var s=document.getElementById('cam-status');
+    if(s){s.textContent='READY';s.style.color='var(--green)';}
+  }catch(e){
+    // Model failed — use skin-tone fallback (still better than brightness)
+    S.faceApiReady='fallback';
+    var ins=document.getElementById('cam-instr');
+    if(ins)ins.textContent='Basic mode — centre your face in the oval';
+  }
+}
+
+function detect(){
+  if(S.captured||S.detecting)return;
+  var vid=document.getElementById('bam-vid');
+  if(!vid||vid.readyState<2||!S.stream)return;
+
+  // If model still loading — show loading state, don't capture
+  if(!S.faceApiReady){
+    var ins=document.getElementById('cam-instr');
+    if(ins)ins.textContent='Loading face detector...';
+    return;
+  }
+
+  // Fallback brightness detection if model failed
+  if(S.faceApiReady==='fallback'){
+    detectFallback(vid);
+    return;
+  }
+
+  // ── REAL FACE DETECTION via face-api.js ──
+  S.detecting=true;
+  // Use lighter settings on mobile — faster detection, less battery drain
+  var isMobile=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  var opts=new faceapi.TinyFaceDetectorOptions({
+    inputSize: isMobile ? 160 : 224,
+    scoreThreshold: 0.5
+  });
+  faceapi.detectSingleFace(vid,opts).then(function(result){
+    S.detecting=false;
+    if(S.captured)return;
+
+    var faceDetected=false;
+    var insideOval=false;
+
+    if(result){
+      faceDetected=true;
+
+      // ── CHECK IF FACE IS INSIDE THE OVAL BOUNDARY ──
+      // Get face center as fraction of video frame (0-1)
+      var vw=vid.videoWidth||640;
+      var vh=vid.videoHeight||480;
+      var box=result.box||result.detection.box;
+      var faceCX=(box.x+box.width/2)/vw;
+      var faceCY=(box.y+box.height/2)/vh;
+
+      // Mirror X — video CSS is scaleX(-1), so displayed X = 1 - detected X
+      faceCX=1-faceCX;
+
+      // Map oval screen position → video coordinates using live DOM
+      var ovalEl=document.getElementById('cam-oval');
+      var vidEl=vid;
+      var oc=null;
+      try{
+        var oR=ovalEl.getBoundingClientRect();
+        var vR=vidEl.getBoundingClientRect();
+        // Oval center as fraction of the video's DISPLAY area
+        var dispCX=(oR.left+oR.width/2-vR.left)/vR.width;
+        var dispCY=(oR.top+oR.height/2-vR.top)/vR.height;
+        var dispRX=(oR.width/2)/vR.width;
+        var dispRY=(oR.height/2)/vR.height;
+
+        // object-fit:cover adjustment — video may be cropped
+        // Determine which dimension is cropped
+        var vidAspect=vw/vh;
+        var dispAspect=vR.width/vR.height;
+        var scX=1,scY=1,offX=0,offY=0;
+        if(vidAspect>dispAspect){
+          // Video wider than display — cropped left/right
+          var scale=vR.height/vh;
+          var visibleFrac=vR.width/(vw*scale);
+          offX=(1-visibleFrac)/2;
+          scX=visibleFrac;
+        } else {
+          // Video taller than display — cropped top/bottom
+          var scale=vR.width/vw;
+          var visibleFrac=vR.height/(vh*scale);
+          offY=(1-visibleFrac)/2;
+          scY=visibleFrac;
+        }
+        // Convert display coords to video coords
+        oc={
+          cx:(dispCX-offX)/scX,
+          cy:(dispCY-offY)/scY,
+          rx:dispRX/scX,
+          ry:dispRY/scY
+        };
+      }catch(e){
+        // Fallback: use approximate center values
+        oc={cx:0.5,cy:0.46,rx:0.27,ry:0.40};
+      }
+
+      // Ellipse equation: (dx/rx)² + (dy/ry)² ≤ threshold
+      // Use 0.9 (10% inside margin) — face must be well within oval
+      var dx=(faceCX-oc.cx)/oc.rx;
+      var dy=(faceCY-oc.cy)/oc.ry;
+      var ellipseDist=dx*dx+dy*dy;
+      insideOval=ellipseDist<=0.92;
+
+      // Also: reject if face too small (too far from camera)
+      var faceWidthFrac=box.width/vw;
+      if(faceWidthFrac<0.08) insideOval=false; // face too small/distant
+    }
+
+    applyFaceState(faceDetected, insideOval);
+  }).catch(function(){
+    S.detecting=false;
+  });
+}
+
+function detectFallback(vid){
+  // Minimal fallback — only used if face-api.js fails to load
+  var ff=false;
+  try{
+    var c=document.getElementById('bam-canvas');c.width=128;c.height=128;
+    var ctx=c.getContext('2d');ctx.drawImage(vid,0,0,128,128);
+    var px=ctx.getImageData(32,24,64,80).data; // center oval area only
+    var skinCount=0,total=px.length/4;
+    for(var i=0;i<px.length;i+=4){
+      var r=px[i],g=px[i+1],b=px[i+2];
+      // Skin tone heuristic: warm, reddish, not too dark, not too bright
+      if(r>80&&g>40&&b>20&&r>g&&r>b&&(r-b)>15&&r<250){skinCount++;}
+    }
+    ff=(skinCount/total)>0.15; // at least 15% skin-like pixels in oval
+  }catch(e){}
+  applyFaceState(ff);
+}
+
+function applyFaceState(faceDetected, insideOval){
+  // Support legacy single-arg call from fallback
+  if(arguments.length===1){insideOval=faceDetected;}
+  var o=document.getElementById('cam-oval');
+  var s=document.getElementById('cam-status');
+  var ins=document.getElementById('cam-instr');
+
+  if(faceDetected && insideOval){
+    // ✅ GREEN: face inside oval — start/continue countdown
+    if(o){o.classList.remove('red','amber','counting');o.classList.add('on');}
+    if(s){s.textContent='HOLD STILL';s.style.color='var(--green)';}
+    if(ins)ins.textContent='Face aligned — hold still...';
+    if(!S.counting)startCD();
+
+  } else if(faceDetected && !insideOval){
+    // ⚠️ AMBER: face detected but outside oval boundary — stop countdown
+    if(S.counting)resetCD();
+    if(o){o.classList.remove('on','red','counting');o.classList.add('amber');}
+    if(s){s.textContent='MOVE CLOSER';s.style.color='var(--amber)';}
+    if(ins)ins.textContent='Centre your face inside the oval';
+
+  } else {
+    // ❌ RED: no face detected — stop countdown
+    if(S.counting)resetCD();
+    if(o){o.classList.remove('on','amber','counting');o.classList.add('red');}
+    if(s){s.textContent='ALIGN FACE';s.style.color='var(--red)';}
+    if(ins)ins.textContent='Look at the camera and align your face';
+  }
+}
+function startCD(){
+  if(S.counting)return;S.counting=true;
+  var cd=document.getElementById('cam-cd');if(cd)cd.classList.add('show');
+  var num=document.getElementById('cam-cdn');if(num)num.textContent='3';
+  var circle=document.getElementById('cam-cdc');if(circle){circle.style.transition='stroke-dashoffset 3s linear';circle.style.strokeDashoffset='0';}
+  var s=document.getElementById('cam-status');if(s){s.textContent='HOLD STILL...';s.style.color='var(--amber)';}
+  var o=document.getElementById('cam-oval');if(o){o.classList.remove('red');o.classList.remove('on');o.classList.add('counting');}
+  setTimeout(function(){if(num&&S.counting)num.textContent='2';},1000);
+  setTimeout(function(){if(num&&S.counting)num.textContent='1';},2000);
+  S.cTimer=setTimeout(function(){if(S.counting)capture();},3000);
+}
+function resetCD(){
+  S.counting=false;if(S.cTimer){clearTimeout(S.cTimer);S.cTimer=null;}
+  var cd=document.getElementById('cam-cd');if(cd)cd.classList.remove('show');
+  var num=document.getElementById('cam-cdn');if(num)num.textContent='3';
+  var circle=document.getElementById('cam-cdc');if(circle){circle.style.transition='none';circle.style.strokeDashoffset='720';}
+  var o=document.getElementById('cam-oval');if(o)o.classList.remove('counting');
+}
+function playShutterSound(){
+  try{
+    var ctx=new(window.AudioContext||window.webkitAudioContext)();
+    // Click 1: mechanical shutter thud
+    var buf1=ctx.createBuffer(1,ctx.sampleRate*0.04,ctx.sampleRate);
+    var d1=buf1.getChannelData(0);
+    for(var i=0;i<d1.length;i++){d1[i]=(Math.random()*2-1)*Math.exp(-i/(d1.length*0.18));}
+    var s1=ctx.createBufferSource();s1.buffer=buf1;
+    var g1=ctx.createGain();g1.gain.setValueAtTime(0.55,ctx.currentTime);
+    s1.connect(g1);g1.connect(ctx.destination);s1.start();
+    // Click 2: echo snap (20ms later)
+    setTimeout(function(){
+      try{
+        var buf2=ctx.createBuffer(1,ctx.sampleRate*0.025,ctx.sampleRate);
+        var d2=buf2.getChannelData(0);
+        for(var j=0;j<d2.length;j++){d2[j]=(Math.random()*2-1)*Math.exp(-j/(d2.length*0.12));}
+        var s2=ctx.createBufferSource();s2.buffer=buf2;
+        var g2=ctx.createGain();g2.gain.setValueAtTime(0.3,ctx.currentTime);
+        s2.connect(g2);g2.connect(ctx.destination);s2.start();
+      }catch(e){}
+    },40);
+  }catch(e){}
+}
+
+function capture(){
+  S.captured=true;if(S.aLoop){clearInterval(S.aLoop);S.aLoop=null;}resetCD();
+  playShutterSound();
+  // Capture face photo from video frame
+  try{
+    var vid=document.getElementById('bam-vid');
+    var c=document.getElementById('bam-canvas');
+    if(vid&&c&&vid.readyState>=2){
+      // Compress to 160x120 JPEG for minimal payload
+      c.width=160;c.height=120;
+      var ctx=c.getContext('2d');
+      ctx.drawImage(vid,0,0,160,120);
+      S.facePhoto=c.toDataURL('image/jpeg',.65);
+    }
+  }catch(e){S.facePhoto=null;}
+  var s=document.getElementById('cam-status');if(s){s.textContent='CAPTURED';s.style.color='var(--green)';}
+  document.getElementById('choice-ov').style.display='flex';
+}
+function retryCapture(){
+  document.getElementById('choice-ov').style.display='none';S.captured=false;resetCD();
+  var o=document.getElementById('cam-oval');if(o){o.classList.remove('on','counting','red','amber');o.classList.add('red');}
+  var s=document.getElementById('cam-status');if(s){s.textContent='ALIGN FACE';s.style.color='var(--green)';}
+  var ins=document.getElementById('cam-instr');if(ins)ins.textContent='Centre your face in the bracket';
+  startLoop();
+}
+
+// ── MARK ATTENDANCE ──
+function markAtt(type){
+  var now=new Date();
+  var timeStr=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+  var dateStr=now.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric',weekday:'short'});
+  var gpsStr=S.gps?(S.gps.lat+'N, '+S.gps.lng+'E'):'GPS unavailable';
+  var zone=S.gps?'Zone '+az(S.gps.lat,S.gps.lng):'Zone A';
+
+  // Show success screen immediately — don't wait for backend
+  stopCam();
+  var badge=document.getElementById('ok-badge');
+  if(badge){badge.textContent=type==='in'?'CHECKED IN':'CHECKED OUT';badge.className='ok-badge '+(type==='in'?'in':'out');}
+  document.getElementById('ok-title').textContent=type==='in'?'Checked In Successfully':'Checked Out Successfully';
+  var grEl=document.getElementById('ok-greeting');
+  if(grEl){
+    if(type==='in'){ grEl.textContent='Have a great day! 🦺'; grEl.style.color='#22C55E'; }
+    else { grEl.textContent='Stay safe, see you tomorrow! 👋'; grEl.style.color='var(--red)'; }
+  }
+  document.getElementById('ok-sub').textContent='Attendance recorded · Syncing to dashboard...';
+  document.getElementById('s-emp').textContent=S.empName||S.empId;
+  document.getElementById('s-time').textContent=timeStr;
+  document.getElementById('s-date').textContent=dateStr;
+  document.getElementById('s-proj').textContent=S.code;
+  document.getElementById('s-zone').textContent=zone;
+  document.getElementById('s-gps').textContent=gpsStr;
+  show('scr-ok');
+  var bar=document.getElementById('ok-bar');
+  if(bar){bar.style.animation='none';void bar.offsetWidth;bar.style.animation='bd 8s linear forwards';}
+  var cdEl=document.getElementById('ok-cd');var n=8;if(cdEl)cdEl.textContent=n;
+  var t=setInterval(function(){n--;if(cdEl)cdEl.textContent=n;if(n<=0){clearInterval(t);scanNext();}},1000);
+
+  // Background sync to backend
+  fetch(API+'/attendance',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      projectCode:S.code,
+      employeeId:S.empId,
+      employeeName:S.empName,
+      empName:S.empName,
+      type:type,
+      gps:S.gps,
+      latitude:S.gps?S.gps.lat:null,
+      longitude:S.gps?S.gps.lng:null,
+      zone:zone,
+      timestamp:now.toISOString(),
+      method:'biometric',
+      photo:S.facePhoto||null
+    })
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d.success){
+      var sub=document.getElementById('ok-sub');
+      if(sub)sub.textContent='Attendance recorded · Synced ✓';
+    }
+  })
+  .catch(function(){
+    // Offline mode — record locally
+    var sub=document.getElementById('ok-sub');
+    if(sub)sub.textContent='Saved offline · Will sync when connected';
+    saveOffline({projectCode:S.code,employeeId:S.empId,empName:S.empName,type:type,zone:zone,timestamp:now.toISOString(),gps:S.gps});
+  });
+
+  // Reset face photo
+  S.facePhoto=null;
+}
+
+// ── OFFLINE QUEUE ──
+function saveOffline(record){
+  try{
+    var q=JSON.parse(localStorage.getItem('sp_att_queue')||'[]');
+    q.push(record);
+    localStorage.setItem('sp_att_queue',JSON.stringify(q));
+  }catch(e){}
+}
+function syncOfflineQueue(){
+  try{
+    var q=JSON.parse(localStorage.getItem('sp_att_queue')||'[]');
+    if(!q.length)return;
+    var toSync=q.slice();
+    localStorage.removeItem('sp_att_queue');
+    toSync.forEach(function(r){
+      fetch(API+'/attendance',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(r)}).catch(function(){});
+    });
+  }catch(e){}
+}
+
+function scanNext(){
+  show('scr-entry');
+  S.captured=false;
+  S.facePhoto=null;
+  // Try syncing any offline queue
+  setTimeout(syncOfflineQueue,500);
+}
+
+// ── REGISTRATION ──
+function regStartCam(){
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast('Camera not supported');return;}
+  navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'user'},width:{ideal:320},height:{ideal:320}},audio:false})
+    .then(function(stream){
+      S.regStream=stream;
+      var vid=document.getElementById('reg-video');
+      vid.srcObject=stream;vid.play();vid.style.display='block';
+      document.getElementById('reg-cam-ph').style.display='none';
+      document.getElementById('reg-oval-ov').style.display='flex';
+      document.getElementById('reg-btn-start').style.display='none';
+      document.getElementById('reg-btn-cap').style.display='block';
+      document.getElementById('reg-face-status').textContent='Look straight · Good lighting · No glasses';
+      document.getElementById('reg-face-status').className='face-status';
+    })
+    .catch(function(err){toast('Camera: '+err.name);});
+}
+function regCapture(){
+  var vid=document.getElementById('reg-video');
+  var canvas=document.getElementById('reg-canvas');
+  canvas.width=vid.videoWidth||320;canvas.height=vid.videoHeight||320;
+  canvas.getContext('2d').drawImage(vid,0,0);
+  var preview=document.getElementById('reg-preview');
+  preview.src=canvas.toDataURL('image/jpeg',.85);
+  preview.style.display='block';
+  vid.style.display='none';
+  document.getElementById('reg-oval-ov').style.display='none';
+  if(S.regStream){S.regStream.getTracks().forEach(function(t){t.stop();});S.regStream=null;}
+  document.getElementById('reg-btn-cap').style.display='none';
+  document.getElementById('reg-btn-retake').style.display='block';
+  document.getElementById('reg-face-ok').style.display='block';
+  document.getElementById('reg-face-status').textContent='Face photo captured successfully';
+  document.getElementById('reg-face-status').className='face-status ok';
+  document.getElementById('reg-cam-ph').style.display='none';
+  S.regCaptured=true;
+}
+function regRetake(){
+  document.getElementById('reg-preview').style.display='none';
+  document.getElementById('reg-btn-retake').style.display='none';
+  document.getElementById('reg-face-ok').style.display='none';
+  document.getElementById('reg-btn-start').style.display='block';
+  document.getElementById('reg-cam-ph').style.display='flex';
+  document.getElementById('reg-face-status').textContent='Camera not started';
+  document.getElementById('reg-face-status').className='face-status';
+  S.regCaptured=false;
+}
+function submitReg(){
+  var name=document.getElementById('r-name').value.trim();
+  var empId=document.getElementById('r-empid').value.trim();
+  var projCode=document.getElementById('r-projcode').value.trim();
+  if(!name){toast('Please enter your full name');return;}
+  if(!empId){toast('Please enter your Employee ID');return;}
+  if(!projCode){toast('Please enter the Project Code');return;}
+  if(!S.regCaptured){toast('Please capture your face photo');return;}
+  var canvas=document.getElementById('reg-canvas');
+  var facePhoto=canvas.toDataURL('image/jpeg',.85);
+  // Show loading on button
+  var btn=document.getElementById('reg-submit-btn');
+  if(btn){btn.disabled=true;btn.textContent='Submitting...';}
+  fetch(API+'/employees/register',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      name:name,employeeId:empId.toUpperCase(),projectCode:projCode.toUpperCase(),
+      designation:document.getElementById('r-desig').value.trim(),
+      department:document.getElementById('r-dept').value.trim(),
+      mobile:document.getElementById('r-mobile').value.trim(),
+      facePhoto:facePhoto,status:'pending',timestamp:new Date().toISOString()
+    })
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(btn){btn.disabled=false;btn.textContent='Submit Registration';}
+    show('scr-pending');
+  })
+  .catch(function(){
+    // Backend offline — show pending screen anyway, save locally
+    if(btn){btn.disabled=false;btn.textContent='Submit Registration';}
+    try{
+      var pending=JSON.parse(localStorage.getItem('sp_reg_queue')||'[]');
+      pending.push({name:name,employeeId:empId.toUpperCase(),projectCode:projCode.toUpperCase(),timestamp:new Date().toISOString()});
+      localStorage.setItem('sp_reg_queue',JSON.stringify(pending));
+    }catch(e){}
+    show('scr-pending');
+  });
+}
+
+// ── TOAST ──
+var _tt=null;
+function toast(msg){var el=document.getElementById('toast');if(!el)return;el.textContent=msg;el.classList.add('show');if(_tt)clearTimeout(_tt);_tt=setTimeout(function(){el.classList.remove('show');},3000);}
+
+// ── URL PARAMS + INIT ──
+(function(){
+  var p=new URLSearchParams(window.location.search);
+  var code=(p.get('code')||p.get('token')||'').toUpperCase();
+  if(code.length>=3){
+    var inp=document.getElementById('proj-code');if(inp)inp.value=code;
+    S.code=code;
+    document.getElementById('code-clr').style.display='block';
+    checkReady();
+    // Auto-go to camera only if emp ID also provided in URL
+    var emp=(p.get('emp')||'').toUpperCase();
+    if(emp.length>=2){
+      var eInp=document.getElementById('emp-id');if(eInp)eInp.value=emp;
+      S.empId=emp;document.getElementById('emp-clr').style.display='block';
+      checkReady();
+      setTimeout(function(){goToCamera();},300);
+    }
+  }
+  startGPS();
+  setTimeout(syncOfflineQueue, 1000);
+  sizeScanner();
+  loadDesktopInfo();
+})();
+</script>
+</body>
+</html>

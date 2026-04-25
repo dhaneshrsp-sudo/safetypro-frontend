@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Site &amp; Field Tools — SafetyPro AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<title>Site &amp; Field Tools — SafetyPro . AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&family=Fraunces:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 /* ══════════════════════════════════════════════
    TOKENS — BLUEPRINT SPEC EXACT
@@ -16,10 +19,10 @@
   --sidebar: #0F1720;
   --border:  #1E293B;
   --div:     rgba(255,255,255,0.05);
-  --green:   #22C55E;
+  --green:   #10B981;
   --g-h:     #16A34A;
-  --g-s:     rgba(34,197,94,0.12);
-  --g-b:     rgba(34,197,94,0.3);
+  --g-s:     rgba(16, 185, 129, 0.12);
+  --g-b:     rgba(16, 185, 129, 0.3);
   --amber:   #F59E0B;
   --a-s:     rgba(245,158,11,0.12);
   --a-b:     rgba(245,158,11,0.3);
@@ -32,7 +35,7 @@
   --t1:      #E6EDF3;
   --t2:      #94A3B8;
   --t3:      #64748B;
-  --fh:'Montserrat',sans-serif;
+  --fh:'Inter',sans-serif;
   --fb:'Roboto',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -55,7 +58,7 @@ svg{flex-shrink:0}
   position:sticky;top:0;z-index:100;
 }
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none;width:195px;flex-shrink:0;padding:0 16px 0 18px;border-right:1px solid var(--border)}
-.logo-shield-REPLACED{width:28px;height:28px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(34,197,94,.4)}
+.logo-shield-REPLACED{width:28px;height:28px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(16, 185, 129, .4)}
 .logo-mark svg{width:16px;height:16px;fill:#fff}
 .logo-text{font-family:var(--fh);font-size:15px;font-weight:700}
 .logo-text span{color:var(--green)}
@@ -70,7 +73,7 @@ svg{flex-shrink:0}
 .icon-btn svg{width:14px;height:14px;fill:var(--t2)}
 .notif-dot{position:absolute;top:4px;right:4px;width:6px;height:6px;background:var(--red);border-radius:50%;border:1px solid var(--bg)}
 .user-pill{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:5px 10px 5px 5px;cursor:pointer}
-.ua{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.ua{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#10B981,#16A34A);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
 .un-name{font-size:11px;font-weight:600;color:var(--t1);line-height:1.2}
 .un-role{font-size:9px;color:var(--t3)}
 
@@ -81,7 +84,7 @@ svg{flex-shrink:0}
 .sidebar{width:195px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:10px 8px;min-height:calc(100vh - 52px);position:sticky;top:52px;align-self:flex-start}
 .sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:var(--t3);cursor:pointer;transition:all .15s;font-size:13px;margin-bottom:2px;text-decoration:none}
 .sb-item:hover{background:rgba(255,255,255,.04);color:var(--t2)}
-.sb-item.active{background:rgba(34,197,94,.1);border-left:2px solid var(--green);color:var(--green);padding-left:8px}
+.sb-item.active{background:rgba(16, 185, 129, .1);border-left:2px solid var(--green);color:var(--green);padding-left:8px}
 .sb-item svg{width:15px;height:15px;fill:currentColor;opacity:.7}
 .sb-item.active svg{opacity:1}
 .sb-badge{margin-left:auto;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px}
@@ -260,7 +263,7 @@ flex-wrap:wrap;}
   font-family:var(--fb);font-size:12px;color:var(--t1);
   outline:none;transition:border-color .15s;width:100%;
 }
-.form-input:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(34,197,94,.12)}
+.form-input:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(16, 185, 129, .12)}
 .form-input::placeholder{color:var(--t3)}
 .form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748B' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
 .form-textarea{resize:none;height:64px;line-height:1.5}
@@ -273,7 +276,7 @@ flex-wrap:wrap;}
   color:var(--t3);background:var(--raised);
 }
 .sev-opt:hover{border-color:var(--t3);color:var(--t2)}
-.sev-opt.active-low{background:rgba(34,197,94,.12);border-color:var(--g-b);color:var(--green)}
+.sev-opt.active-low{background:rgba(16, 185, 129, .12);border-color:var(--g-b);color:var(--green)}
 .sev-opt.active-med{background:rgba(245,158,11,.12);border-color:var(--a-b);color:var(--amber)}
 .sev-opt.active-high{background:rgba(249,115,22,.12);border-color:rgba(249,115,22,.3);color:#F97316}
 .sev-opt.active-crit{background:var(--r-s);border-color:var(--r-b);color:var(--red)}
@@ -293,9 +296,9 @@ flex-wrap:wrap;}
   background:var(--green);color:#0B0E12;border:none;
   font-family:var(--fh);font-size:13px;font-weight:700;
   cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px;
-  box-shadow:0 4px 16px rgba(34,197,94,.25);
+  box-shadow:0 4px 16px rgba(16, 185, 129, .25);
 }
-.submit-btn:hover{background:var(--g-h);transform:translateY(-1px);box-shadow:0 6px 20px rgba(34,197,94,.35)}
+.submit-btn:hover{background:var(--g-h);transform:translateY(-1px);box-shadow:0 6px 20px rgba(16, 185, 129, .35)}
 .submit-btn svg{width:14px;height:14px;fill:#0B0E12}
 
 /* NCR TYPE SELECTOR */
@@ -316,11 +319,11 @@ flex-wrap:wrap;}
   width:52px;height:52px;border-radius:50%;
   background:var(--green);border:none;
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 20px rgba(34,197,94,.45);
+  box-shadow:0 4px 20px rgba(16, 185, 129, .45);
   cursor:pointer;z-index:999;
   transition:all .2s;
 }
-.fab:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(34,197,94,.55)}
+.fab:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(16, 185, 129, .55)}
 .fab svg{width:22px;height:22px;fill:#0B0E12;transition:transform .2s}
 .fab.open svg{transform:rotate(45deg)}
 
@@ -436,8 +439,8 @@ flex-wrap:wrap;}
 .mm-item:hover{background:rgba(255,255,255,.05);color:#E6EDF3}
 .mm-item svg{width:14px;height:14px;fill:currentColor;opacity:.7;flex-shrink:0}
 .mm-divider{height:1px;background:#1E293B;margin:4px 0}
-.mm-admin{color:#22C55E}
-.mm-admin:hover{background:rgba(34,197,94,.08);color:#22C55E}
+.mm-admin{color:#10B981}
+.mm-admin:hover{background:rgba(16, 185, 129, .08);color:#10B981}
 .mm-admin svg{opacity:1}
 .sb-more-item{padding:7px 10px;font-size:12px}
 .sb-more-item svg{width:13px;height:13px}
@@ -447,7 +450,7 @@ flex-wrap:wrap;}
 .attach-label{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
 .attach-buttons{display:flex;gap:8px;margin-bottom:8px}
 .attach-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1px dashed var(--border);background:var(--raised);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
-.attach-btn:hover{border-color:var(--green);color:var(--green);background:rgba(34,197,94,.05)}
+.attach-btn:hover{border-color:var(--green);color:var(--green);background:rgba(16, 185, 129, .05)}
 .attach-btn svg{width:15px;height:15px;stroke:currentColor;fill:none}
 .attach-previews{display:flex;flex-wrap:wrap;gap:8px;min-height:0}
 .attach-thumb{position:relative;width:68px;height:68px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--raised);flex-shrink:0}
@@ -466,7 +469,7 @@ flex-wrap:wrap;}
 .aw-label{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
 .aw-btns{display:flex;gap:8px;margin-bottom:8px}
 .aw-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1px dashed var(--border);background:var(--raised);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
-.aw-btn:hover{border-color:var(--green);color:var(--green);background:rgba(34,197,94,.05)}
+.aw-btn:hover{border-color:var(--green);color:var(--green);background:rgba(16, 185, 129, .05)}
 .aw-previews{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px;min-height:0}
 .aw-thumb{position:relative;width:64px;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--raised);flex-shrink:0}
 .aw-thumb img{width:100%;height:100%;object-fit:cover;display:block}
@@ -483,7 +486,7 @@ flex-wrap:wrap;}
 .aw-label{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
 .aw-btns{display:flex;gap:8px;margin-bottom:8px}
 .aw-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1px dashed var(--border);background:var(--raised);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
-.aw-btn:hover{border-color:var(--green);color:var(--green);background:rgba(34,197,94,.05)}
+.aw-btn:hover{border-color:var(--green);color:var(--green);background:rgba(16, 185, 129, .05)}
 .aw-previews{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px;min-height:0}
 .aw-thumb{position:relative;width:64px;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--card);flex-shrink:0}
 .aw-thumb img{width:100%;height:100%;object-fit:cover;display:block}
@@ -881,7 +884,7 @@ flex-wrap:wrap;}
 
 .logo{color:var(--t1,#E6EDF3)!important;text-decoration:none!important;}
 .logo-text{color:var(--t1,#E6EDF3)!important;font-size:15px;font-weight:800;letter-spacing:-.3px;}
-.logo-text span{color:var(--green,#22C55E)!important;}
+.logo-text span{color:var(--green,#10B981)!important;}
 
 
 .sp-footer-left,
@@ -894,12 +897,12 @@ flex-wrap:wrap;}
 .sp-footer-center a{color:var(--t3,#2E4A66);text-decoration:none;transition:.15s;}
 .sp-footer-center a:hover{color:var(--t2,#7A9BBF);}
 .sp-footer-right{display:flex;align-items:center;gap:6px;}
-.sp-footer-status-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;flex-shrink:0;}
+.sp-footer-status-dot{width:7px;height:7px;border-radius:50%;background:#10B981;flex-shrink:0;}
 .sp-footer-sep{opacity:.3;}
 #field-tab-checkin,#field-tab-heatmap,#field-tab-checklist,#field-tab-attendance,#field-tab-ptw,#field-tab-emergency,#field-tab-induction{padding:16px 20px 20px 20px !important;}#field-tab-checkin,#field-tab-heatmap,#field-tab-checklist,#field-tab-attendance,#field-tab-ptw,#field-tab-emergency,#field-tab-induction{padding:16px 20px 20px 20px !important;}
-#sa-oval-ring{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:5;}.sa-oval{width:160px;height:200px;border-radius:50%;position:relative;transition:border-color .3s,box-shadow .3s;border:2px dashed rgba(34,197,94,0.5);}.sa-oval.countdown{border-color:#22C55E;border-style:solid;box-shadow:0 0 20px rgba(34,197,94,0.4);}.sa-oval.captured{border-color:#22C55E;border-style:solid;box-shadow:0 0 30px rgba(34,197,94,0.6);}#sa-countdown-ring.active{display:flex;}
-.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35);}
-.logo-text span{color:var(--green,#22C55E);}
+#sa-oval-ring{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:5;}.sa-oval{width:160px;height:200px;border-radius:50%;position:relative;transition:border-color .3s,box-shadow .3s;border:2px dashed rgba(16, 185, 129, 0.5);}.sa-oval.countdown{border-color:#10B981;border-style:solid;box-shadow:0 0 20px rgba(16, 185, 129, 0.4);}.sa-oval.captured{border-color:#10B981;border-style:solid;box-shadow:0 0 30px rgba(16, 185, 129, 0.6);}#sa-countdown-ring.active{display:flex;}
+.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#10B981,#15803D);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(16, 185, 129, .35);}
+.logo-text span{color:var(--green,#10B981);}
 
   /* content gap fix */
   .body{display:flex;flex-direction:row;flex:1;overflow:hidden;min-height:0;}
@@ -909,14 +912,14 @@ flex-wrap:wrap;}
   /* ══ LOGO FIX ══ */
   .logo { text-decoration: none; color: inherit !important; }
   .logo-text { color: var(--t1, #E6EDF3) !important; font-weight: 700 !important; }
-  .logo-text span { color: var(--green, #22C55E) !important; }
-  .logo-shield { width: 28px; height: 28px; background: linear-gradient(135deg, #22C55E, #15803D) !important; border-radius: 7px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(34,197,94,.35); }
+  .logo-text span { color: var(--green, #10B981) !important; }
+  .logo-shield { width: 28px; height: 28px; background: linear-gradient(135deg, #10B981, #15803D) !important; border-radius: 7px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(16, 185, 129, .35); }
   .logo-shield svg { width: 16px; height: 16px; fill: #fff; }
   
   /* ══ NAV-RIGHT FIX ══ */
   .nav-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
   .user-pill { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 10px; border-radius: 20px; background: var(--raised, #0D1E30); border: 1px solid var(--border, #1E3347); }
-  .user-pill .ua { width: 28px; height: 28px; border-radius: 50%; background: var(--green, #22C55E); color: #0B1A2E; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .user-pill .ua { width: 28px; height: 28px; border-radius: 50%; background: var(--green, #10B981); color: #0B1A2E; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
   
   /* SIDEBAR-GAP-FIX */
   .sidebar { top: 0 !important; }
@@ -924,8 +927,8 @@ flex-wrap:wrap;}
   /* LOGO-COLOR-FIX */
   .logo, a.logo { color: inherit !important; }
   .logo-text { color: var(--t1,#E6EDF3) !important; font-weight: 700 !important; }
-  .logo-text span { color: var(--green,#22C55E) !important; }
-  .logo-shield { width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D) !important;border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35); }
+  .logo-text span { color: var(--green,#10B981) !important; }
+  .logo-shield { width:28px;height:28px;background:linear-gradient(135deg,#10B981,#15803D) !important;border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(16, 185, 129, .35); }
   .logo-shield svg { width:16px;height:16px;fill:#fff; }
   
 /* SafetyPro scrollbar v2 */
@@ -1123,41 +1126,106 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
   border-radius: 3px !important;
 }
 </style>
+<style id="__SP_PAGE_FIXES__">
+/* SP-active-terracotta-v5 */
+body .nl.active, body .topnav a.active {
+  color: inherit !important;
+  background: transparent !important;
+  border-bottom: 2px solid #C6583E !important;
+  border-radius: 0 !important;
+}
+body .nl.active svg, body .topnav a.active svg {
+  fill: currentColor !important; color: inherit !important;
+}
+body .sb-item.active {
+  color: inherit !important;
+  background: transparent !important;
+  border-left: 2px solid #C6583E !important;
+  padding-left: 8px !important;
+}
+body .sb-item.active svg {
+  fill: currentColor !important; color: inherit !important; opacity: 1 !important;
+}
+
+/* ua-terracotta */
+body .ua{background:linear-gradient(135deg,#C6583E,#A84A35)!important;color:#F5F2EB!important;border-color:#C6583E!important}
+/* User avatar (.ua) — terracotta per landing v3 */
+body .ua { background: linear-gradient(135deg, #C6583E, #A84A35) !important; color: #F5F2EB !important; border-color: #C6583E !important; }
+
+/* Scrollbar: match Operations page palette (slate-800 thumb on transparent track) */
+.content { scrollbar-width: thin !important; scrollbar-color: rgb(30, 41, 59) transparent !important; }
+.sidebar { scrollbar-width: none !important; -ms-overflow-style: none !important; }
+.sidebar::-webkit-scrollbar { display: none !important; }
+.content::-webkit-scrollbar { width: 8px !important; height: 8px !important; }
+.content::-webkit-scrollbar-track { background: transparent !important; }
+.content::-webkit-scrollbar-thumb { background: rgb(30, 41, 59) !important; border-radius: 4px !important; }
+.content::-webkit-scrollbar-thumb:hover { background: rgb(51, 65, 85) !important; }
+/* Closing edge on topnav + header/filter strip (slate-700) */
+.topnav { border-bottom: 1px solid rgb(51, 65, 85) !important; }
+.subnav, .sub-header, .hrm-header, .page-header, .content-header, .filter-bar, .rpt-filter-bar { border-bottom: 1px solid rgb(51, 65, 85) !important; }
+/* Horizontal drag-scroll filter bar (no visible scrollbar) */
+.mt-filter-bar { flex-wrap: nowrap !important; overflow-x: auto !important; align-items: center !important; cursor: grab; scrollbar-width: none; -ms-overflow-style: none; }
+.mt-filter-bar::-webkit-scrollbar { display: none; }
+.mt-filter-bar.dragging { cursor: grabbing; user-select: none; }
+.mt-filter-bar > * { flex-shrink: 0; }
+.mt-filter-bar .mt-clear-btn { margin-left: auto !important; }
+.body{margin-top:0!important;}
+
+/* Operations-pattern scroll: header stays fixed, only area below scrolls */
+.content { display: flex !important; flex-direction: column !important; overflow: hidden !important; min-height: 0 !important; }
+.content > .subnav, .content > .sub-header, .content > .hrm-header { flex: 0 0 auto !important; }
+#__SP_SCROLL_AREA__ { flex: 1 1 auto !important; overflow-y: auto !important; overflow-x: hidden !important; min-height: 0 !important; scrollbar-width: thin !important; scrollbar-color: rgb(30, 41, 59) transparent !important; }
+#__SP_SCROLL_AREA__::-webkit-scrollbar { width: 8px !important; height: 8px !important; }
+#__SP_SCROLL_AREA__::-webkit-scrollbar-track { background: transparent !important; }
+#__SP_SCROLL_AREA__::-webkit-scrollbar-thumb { background: rgb(30, 41, 59) !important; border-radius: 4px !important; }
+#__SP_SCROLL_AREA__::-webkit-scrollbar-thumb:hover { background: rgb(51, 65, 85) !important; }
+#sb-more-items{scrollbar-width:none!important;-ms-overflow-style:none!important;overflow-y:auto!important;}
+#sb-more-items::-webkit-scrollbar{display:none!important;}
+.content{border-right:1px solid rgb(51, 65, 85)!important;}
+.topnav{border-right:1px solid rgb(51, 65, 85)!important;}
+.topnav{border-left:1px solid rgb(51, 65, 85)!important;}
+.sidebar{border-left:1px solid rgb(51, 65, 85)!important;}
+.sp-footer{border-left:1px solid rgb(51, 65, 85)!important;border-right:1px solid rgb(51, 65, 85)!important;}
+.topnav{border-top:1px solid rgb(51, 65, 85)!important;}
+.sp-footer{border-bottom:1px solid rgb(51, 65, 85)!important;}
+.logo-text{font-family:'Fraunces',Georgia,serif!important;font-weight:500!important;letter-spacing:-.01em!important}
+</style>
+<link rel="stylesheet" href="sp-shell.css?v=63">
 </head>
-<body>
+<body data-page="field">
 
 <!-- ══ TOP NAV ══ -->
 <nav class="topnav">
-  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
-  <a class="logo" href="safetypro_v2.html">
-    <div class="logo-shield"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
-    <span class="logo-text">SafetyPro <span>AI</span></span>
+  <a class="logo" href="safetypro_v2">
+    <div class="logo-shield"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2z"/><path d="M8 10h1.5v4.5H8zM11 8h1.5v6.5H11zM14 11h1.5v3.5H14z" fill="#04060E"/></svg></div>
+    <span class="logo-text">SafetyPro<span style="color:#C6583E;font-weight:700;margin:0 4px;font-style:normal">.</span>AI</span>
   </a>
   <div class="nav-links">
-    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
-    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations</a>
-    <a class="nl" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
-    <a class="nl" href="safetypro_reports"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2"/></svg>Reports</a>
-    
-    <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
+    <a class="nl" href="safetypro_v2" data-page="dashboard"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
+    <a class="nl" href="safetypro_operations" data-page="operations"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations</a>
+    <a class="nl" href="safetypro_control" data-page="control"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
+    <a class="nl" href="safetypro_reports" data-page="reports"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2"/></svg>Reports</a>
+    <div class="nl more-wrap" id="more-btn" data-page="more" onclick="spToggleMore(event)">
       <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More&#9660;
       <div class="more-menu" id="more-menu">
-        <a class="mm-item" href="safetypro_audit_compliance" style="color:var(--green);font-weight:700;"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
-        <a class="mm-item" href="safetypro_documents"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/></svg>Documents &amp; Records</a>
-        <a class="mm-item" href="safetypro_field" style="color:var(--green);font-weight:700;"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
-        <a class="mm-item" href="safetypro_hrm"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>HRM &amp; Payroll</a>
-        <a class="mm-item" href="safetypro_ai"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 110 20A10 10 0 0112 2z"/></svg>AI Intelligence</a>
-        <a class="mm-item" href="safetypro_auditor"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Client &amp; Auditor Portal</a>
-        <a class="mm-item" href="safetypro_admin"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/></svg>Admin &amp; Configuration</a>
+        <a class="mm-item" href="safetypro_admin" data-more="admin"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09"/></svg>Admin &amp; Configuration</a>
+        <a class="mm-item" href="safetypro_audit_compliance" data-more="audit"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="safetypro_risk_management" data-more="risk"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Risk Management</a>
+        <a class="mm-item" href="safetypro_hrm" data-more="hrm"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>HRM &amp; Payroll</a>
+        <a class="mm-item" href="safetypro_ai" data-more="ai"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 110 20A10 10 0 0112 2z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_esg" data-more="esg"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z"/></svg>Sustainability &amp; ESG</a>
+        <a class="mm-item" href="safetypro_field" data-more="field"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="safetypro_auditor" data-more="auditor"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Client &amp; Auditor Portal</a>
+        <a class="mm-item" href="safetypro_documents" data-more="documents"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/></svg>Documents &amp; Records</a>
       </div>
     </div>
   </div>
   <div class="nav-right">
-    <div class="icon-btn" onclick="toggleAlerts()" id="alert-btn" title="Alerts">
+    <div class="icon-btn" onclick="typeof toggleAlerts==='function'&&toggleAlerts()" id="alert-btn" title="Alerts">
       <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
       <div class="red-dot" id="alert-dot"></div>
     </div>
-    <div class="user-pill" onclick="toggleProfileMenu()" id="user-pill-btn">
+    <div class="user-pill" onclick="typeof toggleProfileMenu==='function'&&toggleProfileMenu()" id="user-pill-btn">
       <div class="ua" id="nav-initials">--</div>
       <div class="un">
         <div class="un-name" id="nav-username">Loading...</div>
@@ -1169,8 +1237,8 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 </nav>
   <!-- Profile Dropdown -->
   <div id="profile-dropdown" style="display:none;position:fixed;top:58px;right:16px;width:240px;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:9999;overflow:hidden;">
-    <div style="padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--raised);"><div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:16px;font-weight:800;color:#fff;flex-shrink:0;">DK</div><div><div style="font-size:13px;font-weight:700;color:var(--t1);font-family:var(--fh);">Dhanesh CK</div><div style="font-size:10px;color:var(--t3);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e7838f868982948fc9848ca78e8284848bc98488c98e89">[email&#160;protected]</a></div><div style="margin-top:4px;display:inline-block;padding:2px 8px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);border-radius:10px;font-size:9px;font-weight:700;color:var(--green);font-family:var(--fh);">HSE HEAD</div></div></div>
-    <div style="padding:6px;"><a href="safetypro_v2.html" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a><a href="safetypro_admin" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Manage Users</a><a href="safetypro_admin" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M2 12h2m16 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>Settings</a><div onclick="changePassword()" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;cursor:pointer;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Change Password</div></div>
+    <div style="padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--raised);"><div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#10B981,#16A34A);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:16px;font-weight:800;color:#fff;flex-shrink:0;">DK</div><div><div style="font-size:13px;font-weight:700;color:var(--t1);font-family:var(--fh);">Dhanesh CK</div><div style="font-size:10px;color:var(--t3);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e7838f868982948fc9848ca78e8284848bc98488c98e89">[email&#160;protected]</a></div><div style="margin-top:4px;display:inline-block;padding:2px 8px;background:rgba(16, 185, 129, 0.12);border:1px solid rgba(16, 185, 129, 0.3);border-radius:10px;font-size:9px;font-weight:700;color:var(--green);font-family:var(--fh);">HSE HEAD</div></div></div>
+    <div style="padding:6px;"><a href="safetypro_v2" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a><a href="safetypro_admin" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Manage Users</a><a href="safetypro_admin" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;text-decoration:none;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M2 12h2m16 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>Settings</a><div onclick="changePassword()" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--t2);font-size:12px;cursor:pointer;" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Change Password</div></div>
     <div style="padding:8px;border-top:1px solid var(--border);"><div onclick="signOut()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border-radius:8px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:var(--red);font-size:13px;font-weight:700;font-family:var(--fh);cursor:pointer;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out</div></div>
   </div>    </div>
   </div>
@@ -1181,17 +1249,17 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <a class="sb-item" href="safetypro_v2.html"><svg   viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    <a class="sb-item" href="safetypro_v2"><svg   viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       Dashboard
     </a>
-    <a class="sb-item" href="safetypro_operations.html">
+    <a class="sb-item" href="safetypro_operations">
       <svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>
       Operations<span class="sb-badge amber">12</span>
     </a>
-    <a class="sb-item" href="safetypro_control.html"><svg   viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
+    <a class="sb-item" href="safetypro_control"><svg   viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
       Control<span class="sb-badge red">5</span>
     </a>
-    <a class="sb-item" href="safetypro_reports.html"><svg   viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
+    <a class="sb-item" href="safetypro_reports"><svg   viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
       Reports
     </a>
     
@@ -1200,34 +1268,41 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
       <svg id="sb-more-arr" viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
 <div id="sb-more-items" style="display:block">
-      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_audit_compliance.html">
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_audit_compliance">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
         Audit &amp; Compliance
       </a>
-      <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#8B5CF6" href="safetypro_hrm.html">
-        <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#8B5CF6"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_risk_management">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+        Risk Management
+      </a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_hrm">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
         HRM &amp; Payroll
       </a>
-      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai.html">
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
         AI Intelligence
       </a>
-      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_auditor.html">
-        <svg viewBox="0 0 24 24" style="width:13px;height:13px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_auditor">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         Client &amp; Auditor Portal
       </a>
-      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_documents.html">
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_documents">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
         Documents &amp; Records
       </a>
-      <a class="sb-item" style="font-size:12px;padding:7px 10px;color:var(--green)" href="safetypro_admin.html">
-        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--green)"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_admin">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         Admin &amp; Configuration
       </a>
-      <div style="height:1px;background:var(--border);margin:6px 8px"></div>
-    </div></div>
-
-  <!-- CONTENT -->
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_esg">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z"/></svg>
+        Sustainability &amp; ESG <span style="background:var(--green);color:#000;font-size:7px;font-weight:700;padding:0 3px;border-radius:2px;margin-left:3px;">NEW</span>
+      </a>
+    </div>
+    </div>
+    <!-- CONTENT -->
   <div class="content">
 
     <!-- SUB HEADER -->
@@ -1277,7 +1352,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <!-- Zone labels -->
             <div style="position:absolute;top:16px;left:20px;font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);text-transform:uppercase;letter-spacing:.6px;">Site Layout — Project Alpha</div>
             <!-- Zone A -->
-            <div style="position:absolute;top:50px;left:30px;width:220px;height:140px;border:2px dashed rgba(34,197,94,.3);border-radius:10px;background:rgba(34,197,94,.03);">
+            <div style="position:absolute;top:50px;left:30px;width:220px;height:140px;border:2px dashed rgba(16, 185, 129, .3);border-radius:10px;background:rgba(16, 185, 129, .03);">
               <div style="position:absolute;top:8px;left:12px;font-size:10px;font-weight:600;color:var(--green);font-family:var(--fh);">Zone A — Construction</div>
               <!-- Incident pins -->
               <div style="position:absolute;top:50px;left:60px;width:14px;height:14px;border-radius:50%;background:var(--red);border:2px solid rgba(239,68,68,.5);cursor:pointer;" title="INC-2847: Height Work Fall" onclick="fieldToast('INC-2847 — Height Work Fall · Zone A · 15 Mar')"></div>
@@ -1320,7 +1395,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
           </div>
 
           <!-- TBT Form -->
-          <div id="tbt-form" style="display:none;padding:14px;border-bottom:1px solid var(--border);background:rgba(34,197,94,0.03);">
+          <div id="tbt-form" style="display:none;padding:14px;border-bottom:1px solid var(--border);background:rgba(16, 185, 129, 0.03);">
             <div style="margin-bottom:10px;">
               <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Topic *</div>
               <select id="tbt-topic" style="width:100%;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--t1);font-size:12px;font-family:var(--fb);">
@@ -1367,12 +1442,12 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
           <!-- TBT History -->
           <div style="padding:8px 0;max-height:240px;overflow-y:auto;">
             <div class="ttalk-item" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);">
-              <div style="width:36px;height:36px;border-radius:8px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🦺</div>
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(16, 185, 129, 0.1);border:1px solid rgba(16, 185, 129, 0.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🦺</div>
               <div style="flex:1;">
                 <div style="font-size:11px;font-weight:700;color:var(--t1);">PPE — Correct usage and inspection</div>
                 <div style="font-size:10px;color:var(--t3);">Today 07:30 AM · 28 attended · 15 min · Rajan Kumar</div>
               </div>
-              <span style="font-size:9px;padding:2px 7px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">✓ DONE</span>
+              <span style="font-size:9px;padding:2px 7px;background:rgba(16, 185, 129, 0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">✓ DONE</span>
             </div>
             <div class="ttalk-item" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);">
               <div style="width:36px;height:36px;border-radius:8px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🌡️</div>
@@ -1380,7 +1455,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
                 <div style="font-size:11px;font-weight:700;color:var(--t1);">Heat Stress — Prevention and symptoms</div>
                 <div style="font-size:10px;color:var(--t3);">Yesterday 07:15 AM · 34 attended · 20 min · Priya Desai</div>
               </div>
-              <span style="font-size:9px;padding:2px 7px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">✓ DONE</span>
+              <span style="font-size:9px;padding:2px 7px;background:rgba(16, 185, 129, 0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">✓ DONE</span>
             </div>
             <div class="ttalk-item" style="display:flex;align-items:center;gap:10px;padding:10px 14px;">
               <div style="width:36px;height:36px;border-radius:8px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">⚡</div>
@@ -1397,7 +1472,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
         <div class="card">
           <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
             <div style="font-family:var(--fh);font-size:12px;font-weight:700;color:var(--t1);">Daily Site Inspection</div>
-            <span style="font-size:9px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">14/15 Done</span>
+            <span style="font-size:9px;background:rgba(16, 185, 129, .1);color:var(--green);border:1px solid rgba(16, 185, 129, .3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">14/15 Done</span>
           </div>
           <div style="padding:14px 16px;display:flex;flex-direction:column;gap:8px;">
             <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--t2);"><input type="checkbox" checked style="accent-color:var(--green);"> PPE compliance check</label>
@@ -1406,7 +1481,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--t2);"><input type="checkbox" checked style="accent-color:var(--green);"> Emergency exit clearance</label>
             <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:11px;color:var(--red);"><input type="checkbox" style="accent-color:var(--red);"> Electrical panel access — PENDING</label>
           </div>
-          <div style="padding:0 16px 14px;"><button onclick="fieldToast('Checklist submitted','green')" style="width:100%;padding:8px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);border-radius:7px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">Submit Checklist</button></div>
+          <div style="padding:0 16px 14px;"><button onclick="fieldToast('Checklist submitted','green')" style="width:100%;padding:8px;background:rgba(16, 185, 129, .1);color:var(--green);border:1px solid rgba(16, 185, 129, .3);border-radius:7px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">Submit Checklist</button></div>
         </div>
         <div class="card">
           <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
@@ -1561,7 +1636,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
                   <div style="font-size:12px;font-weight:700;color:var(--t1);">First Aid & CPR</div>
                   <div style="font-size:10px;color:var(--t3);">01 Apr 2026 · 4 hours · Classroom · Rajan Kumar</div>
                 </div>
-                <span style="font-size:9px;padding:2px 8px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:10px;font-weight:700;font-family:var(--fh);white-space:nowrap;">✓ CERT</span>
+                <span style="font-size:9px;padding:2px 8px;background:rgba(16, 185, 129, 0.12);color:var(--green);border-radius:10px;font-weight:700;font-family:var(--fh);white-space:nowrap;">✓ CERT</span>
               </div>
               <div style="display:flex;align-items:center;gap:10px;">
                 <div style="font-size:11px;color:var(--blue);font-weight:700;">28 attended</div>
@@ -1577,7 +1652,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
                   <div style="font-size:12px;font-weight:700;color:var(--t1);">Working at Height — Scaffold & Harness</div>
                   <div style="font-size:10px;color:var(--t3);">28 Mar 2026 · 6 hours · OJT · Vikram Sharma</div>
                 </div>
-                <span style="font-size:9px;padding:2px 8px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:10px;font-weight:700;font-family:var(--fh);white-space:nowrap;">✓ CERT</span>
+                <span style="font-size:9px;padding:2px 8px;background:rgba(16, 185, 129, 0.12);color:var(--green);border-radius:10px;font-weight:700;font-family:var(--fh);white-space:nowrap;">✓ CERT</span>
               </div>
               <div style="display:flex;align-items:center;gap:10px;">
                 <div style="font-size:11px;color:var(--blue);font-weight:700;">34 attended</div>
@@ -1628,7 +1703,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
             </div>
             <div style="padding:10px 0;">
               <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:start;">
-                <div style="text-align:center;min-width:36px;padding:4px 6px;background:rgba(34,197,94,0.1);border-radius:6px;border:1px solid rgba(34,197,94,0.2);">
+                <div style="text-align:center;min-width:36px;padding:4px 6px;background:rgba(16, 185, 129, 0.1);border-radius:6px;border:1px solid rgba(16, 185, 129, 0.2);">
                   <div style="font-size:10px;font-weight:700;color:var(--green);font-family:var(--fh);">APR</div>
                   <div style="font-size:16px;font-weight:800;color:var(--green);font-family:var(--fh);">05</div>
                 </div>
@@ -1637,7 +1712,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
                   <div style="font-size:10px;color:var(--t3);">All supervisors · 3 hours · Classroom</div>
                   <div style="font-size:10px;color:var(--t3);">Trainer: External Consultant</div>
                 </div>
-                <span style="font-size:9px;padding:2px 7px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);white-space:nowrap;">3 days</span>
+                <span style="font-size:9px;padding:2px 7px;background:rgba(16, 185, 129, 0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);white-space:nowrap;">3 days</span>
               </div>
               <div style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:start;">
                 <div style="text-align:center;min-width:36px;padding:4px 6px;background:rgba(59,130,246,0.1);border-radius:6px;border:1px solid rgba(59,130,246,0.2);">
@@ -1855,7 +1930,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
                   <div style="font-size:9px;padding:3px 8px;background:var(--raised);color:var(--t3);border-radius:6px;border:1px solid var(--border);font-weight:600;font-family:var(--fh);">L2: Site Manager</div>
                 </div>
                 <div style="display:flex;gap:6px;">
-                  <button onclick="ptwApprove('PTW-0047','L1')" style="flex:1;padding:7px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);border-radius:6px;color:var(--green);font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">✓ Approve (L1)</button>
+                  <button onclick="ptwApprove('PTW-0047','L1')" style="flex:1;padding:7px;background:rgba(16, 185, 129, 0.12);border:1px solid rgba(16, 185, 129, 0.3);border-radius:6px;color:var(--green);font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">✓ Approve (L1)</button>
                   <button onclick="ptwReject('PTW-0047')" style="flex:1;padding:7px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:6px;color:var(--red);font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">✗ Reject</button>
                 </div>
               </div>
@@ -1868,12 +1943,12 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
                 </div>
                 <div style="font-size:10px;color:var(--t3);margin-bottom:8px;">Zone C Sump Pit · ✓ L1: Rajan Kumar approved · 08:40 AM</div>
                 <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
-                  <div style="font-size:9px;padding:3px 8px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:6px;font-weight:700;font-family:var(--fh);">L1: ✓ Done</div>
+                  <div style="font-size:9px;padding:3px 8px;background:rgba(16, 185, 129, 0.12);color:var(--green);border-radius:6px;font-weight:700;font-family:var(--fh);">L1: ✓ Done</div>
                   <div style="font-size:9px;color:var(--t3);">→</div>
                   <div style="font-size:9px;padding:3px 8px;background:rgba(245,158,11,0.12);color:var(--amber);border-radius:6px;font-weight:700;font-family:var(--fh);">L2: Site Manager</div>
                 </div>
                 <div style="display:flex;gap:6px;">
-                  <button onclick="ptwApprove('PTW-0046','L2')" style="flex:1;padding:7px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);border-radius:6px;color:var(--green);font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">✓ Final Approve (L2)</button>
+                  <button onclick="ptwApprove('PTW-0046','L2')" style="flex:1;padding:7px;background:rgba(16, 185, 129, 0.12);border:1px solid rgba(16, 185, 129, 0.3);border-radius:6px;color:var(--green);font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">✓ Final Approve (L2)</button>
                   <button onclick="ptwReject('PTW-0046')" style="flex:1;padding:7px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:6px;color:var(--red);font-size:10px;font-weight:700;font-family:var(--fh);cursor:pointer;">✗ Reject</button>
                 </div>
               </div>
@@ -1984,7 +2059,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
                 <div style="font-size:11px;font-weight:700;color:var(--t1);">Nearest Hospital</div>
                 <div style="font-size:10px;color:var(--t3);">Sadar Hospital Supaul · 4.2 km · ~12 min</div>
               </div>
-              <a href="https://maps.google.com/?q=Sadar+Hospital+Supaul" target="_blank" style="padding:6px 12px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);border-radius:6px;color:var(--green);font-size:11px;font-weight:700;font-family:var(--fh);text-decoration:none;">🗺️ Map</a>
+              <a href="https://maps.google.com/?q=Sadar+Hospital+Supaul" target="_blank" style="padding:6px 12px;background:rgba(16, 185, 129, 0.12);border:1px solid rgba(16, 185, 129, 0.3);border-radius:6px;color:var(--green);font-size:11px;font-weight:700;font-family:var(--fh);text-decoration:none;">🗺️ Map</a>
             </div>
             <div style="padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
               <div>
@@ -2105,7 +2180,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
           </div>
 
           <!-- New Induction Form (hidden by default) -->
-          <div id="induction-form" style="display:none;padding:14px;border-bottom:1px solid var(--border);background:rgba(34,197,94,0.03);">
+          <div id="induction-form" style="display:none;padding:14px;border-bottom:1px solid var(--border);background:rgba(16, 185, 129, 0.03);">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
               <div>
                 <div style="font-size:10px;font-weight:700;color:var(--t3);font-family:var(--fh);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;">Worker Name *</div>
@@ -2151,7 +2226,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
                 <div style="font-size:11px;font-weight:700;color:var(--t1);">Ravi Kumar · Mason</div>
                 <div style="font-size:10px;color:var(--t3);">Today 09:30 · M/s ABC Contractors · ✓ All topics</div>
               </div>
-              <span style="font-size:9px;padding:2px 7px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">INDUCTED</span>
+              <span style="font-size:9px;padding:2px 7px;background:rgba(16, 185, 129, 0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">INDUCTED</span>
             </div>
             <div style="padding:9px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
               <div style="width:28px;height:28px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;font-family:var(--fh);color:#0B0F14;flex-shrink:0;">SP</div>
@@ -2159,7 +2234,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
                 <div style="font-size:11px;font-weight:700;color:var(--t1);">Suresh Patel · Helper</div>
                 <div style="font-size:10px;color:var(--t3);">Today 08:45 · M/s XYZ Works · ✓ All topics</div>
               </div>
-              <span style="font-size:9px;padding:2px 7px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">INDUCTED</span>
+              <span style="font-size:9px;padding:2px 7px;background:rgba(16, 185, 129, 0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">INDUCTED</span>
             </div>
           </div>
         </div>
@@ -2200,7 +2275,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
                 <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:10px;color:var(--t2);"><input type="checkbox" style="accent-color:var(--green);"> No visible damage/leaks</label>
               </div>
               <div style="display:flex;gap:8px;">
-                <button onclick="saveVehicle('pass')" style="flex:1;padding:7px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);border-radius:6px;color:var(--green);font-size:10px;font-weight:800;font-family:var(--fh);cursor:pointer;">✓ Allow Entry</button>
+                <button onclick="saveVehicle('pass')" style="flex:1;padding:7px;background:rgba(16, 185, 129, 0.12);border:1px solid rgba(16, 185, 129, 0.3);border-radius:6px;color:var(--green);font-size:10px;font-weight:800;font-family:var(--fh);cursor:pointer;">✓ Allow Entry</button>
                 <button onclick="saveVehicle('fail')" style="flex:1;padding:7px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);border-radius:6px;color:var(--red);font-size:10px;font-weight:800;font-family:var(--fh);cursor:pointer;">✗ Deny Entry</button>
               </div>
             </div>
@@ -2208,12 +2283,12 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
               <div style="padding:8px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
                 <span style="font-size:18px;">🚛</span>
                 <div style="flex:1;"><div style="font-size:11px;font-weight:700;color:var(--t1);">BR-01-AB-4521 · Tipper</div><div style="font-size:10px;color:var(--t3);">Entered 08:12 AM · M/s Tirora Transport</div></div>
-                <span style="font-size:9px;padding:2px 7px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">PASS</span>
+                <span style="font-size:9px;padding:2px 7px;background:rgba(16, 185, 129, 0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">PASS</span>
               </div>
               <div style="padding:8px 14px;display:flex;align-items:center;gap:8px;">
                 <span style="font-size:18px;">🏗️</span>
                 <div style="flex:1;"><div style="font-size:11px;font-weight:700;color:var(--t1);">MH-04-CD-7832 · Crane</div><div style="font-size:10px;color:var(--t3);">Entered 07:45 AM · M/s Heavy Lifts</div></div>
-                <span style="font-size:9px;padding:2px 7px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">PASS</span>
+                <span style="font-size:9px;padding:2px 7px;background:rgba(16, 185, 129, 0.12);color:var(--green);border-radius:8px;font-weight:700;font-family:var(--fh);">PASS</span>
               </div>
             </div>
           </div>
@@ -2231,10 +2306,10 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
               </div>
               <!-- Result cards -->
               <div style="display:flex;flex-direction:column;gap:6px;">
-                <div style="padding:10px 12px;background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.2);border-radius:8px;">
+                <div style="padding:10px 12px;background:rgba(16, 185, 129, 0.05);border:1px solid rgba(16, 185, 129, 0.2);border-radius:8px;">
                   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
                     <span style="font-size:11px;font-weight:700;color:var(--t1);">Rajan Kumar · Welder</span>
-                    <span style="font-size:9px;padding:2px 8px;background:rgba(34,197,94,0.12);color:var(--green);border-radius:10px;font-weight:700;font-family:var(--fh);">✓ COMPETENT</span>
+                    <span style="font-size:9px;padding:2px 8px;background:rgba(16, 185, 129, 0.12);color:var(--green);border-radius:10px;font-weight:700;font-family:var(--fh);">✓ COMPETENT</span>
                   </div>
                   <div style="font-size:10px;color:var(--t3);">CSWIP 3.1 · Hot Work cert valid till Dec 2026 · Trained for Zone A</div>
                 </div>
@@ -2261,12 +2336,12 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-var API_BASE = 'https://safetypro-backend-production.up.railway.app/api/v1';
+var API_BASE = 'https://safetypro-backend.onrender.com/api/v1';
 var fieldToastTimer = null;
 
 (function(){
   var token = localStorage.getItem('sp_token');
-  if (!token) { window.location.replace('safetypro_login.html'); return; }
+  if (!token) { window.location.replace('safetypro_login'); return; }
   try { var u = JSON.parse(localStorage.getItem('sp_user')||'{}'); if (u&&u.name) applyFieldProfile(u); } catch(e){}
   setTimeout(loadNavProfile, 600);
   // BAM init moved to HRM page
@@ -2436,8 +2511,8 @@ function saProcessAttendance(actionType, confidence) {
       document.getElementById('sa-success-name').textContent = (workerName || 'Worker') + ' — Checked ' + actionType.toUpperCase();
       document.getElementById('sa-success-meta').textContent = zone + ' · ' + timeStr + ' · Match: ' + confidence.toFixed(1) + '%';
       successCard.style.display = 'block';
-      successCard.style.borderColor = actionType === 'in' ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)';
-      successCard.style.background = actionType === 'in' ? 'rgba(34,197,94,0.06)' : 'rgba(239,68,68,0.06)';
+      successCard.style.borderColor = actionType === 'in' ? 'rgba(16, 185, 129, 0.3)' : 'rgba(239,68,68,0.3)';
+      successCard.style.background = actionType === 'in' ? 'rgba(16, 185, 129, 0.06)' : 'rgba(239,68,68,0.06)';
       document.getElementById('sa-success-name').style.color = actionType === 'in' ? 'var(--green)' : 'var(--red)';
       
       // Add to feed
@@ -2450,7 +2525,7 @@ function saProcessAttendance(actionType, confidence) {
         window.saCountingDown = false;
         if(window.saCountdownTimer) clearTimeout(window.saCountdownTimer);
         var ov = document.getElementById('sa-oval'); if(ov) ov.className = 'sa-oval';
-        var st = document.getElementById('sa-auto-status'); if(st){ st.textContent = 'ALIGN FACE'; st.style.color = 'rgba(34,197,94,0.8)'; }
+        var st = document.getElementById('sa-auto-status'); if(st){ st.textContent = 'ALIGN FACE'; st.style.color = 'rgba(16, 185, 129, 0.8)'; }
         var rng = document.getElementById('sa-countdown-ring'); if(rng) rng.classList.remove('active');
         var num = document.getElementById('sa-countdown-num'); if(num) num.textContent = '';
         var cir = document.getElementById('sa-cd-circle'); if(cir){ cir.style.transition='none'; cir.style.strokeDashoffset='220'; }
@@ -2473,9 +2548,9 @@ function saProcessAttendance(actionType, confidence) {
 function saAddToFeed(name, type, time, zone, confidence, gps, mode) {
   var feed = document.getElementById('sa-feed-list');
   var initials = name.split(' ').map(function(w){ return w[0]; }).join('').toUpperCase().substring(0,2);
-  var colors = ['#3B82F6','#8B5CF6','#EC4899','#F59E0B','#22C55E','#06B6D4'];
+  var colors = ['#3B82F6','#8B5CF6','#EC4899','#F59E0B','#10B981','#06B6D4'];
   var color = colors[Math.floor(Math.random() * colors.length)];
-  var badgeColor = type === 'in' ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)';
+  var badgeColor = type === 'in' ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239,68,68,0.12)';
   var badgeText = type === 'in' ? 'var(--green)' : 'var(--red)';
   var modeBadge = mode === 'selfie' ? '📸 ' + confidence.toFixed(1) + '%' : mode === 'qr' ? '📷 QR' : '✏️ Manual';
 
@@ -2574,7 +2649,7 @@ function applyFieldProfile(u) {
   var pe=document.getElementById('profile-role-badge'); if(pe) pe.textContent=role;
   var em=document.getElementById('profile-email'); if(em) em.textContent=u.email||'';
 }
-function signOut(){ localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); window.location.href='safetypro_login.html'; }
+function signOut(){ localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); window.location.href='safetypro_login'; }
 function toggleProfileMenu(){
   var d=document.getElementById('profile-dropdown'); if(!d) return;
   if(d.style.display==='block'){ d.style.display='none'; }
@@ -2607,8 +2682,8 @@ function ptwSelectType(el, type) {
     btn.style.background = 'var(--raised)';
     btn.style.borderColor = 'var(--border)';
   });
-  el.style.background = 'rgba(34,197,94,0.08)';
-  el.style.borderColor = 'rgba(34,197,94,0.4)';
+  el.style.background = 'rgba(16, 185, 129, 0.08)';
+  el.style.borderColor = 'rgba(16, 185, 129, 0.4)';
 }
 
 function ptwSubmit() {
@@ -2913,12 +2988,12 @@ function toggleSidebarMore(){var el=document.getElementById("sb-more-items"),ch=
   </div>
   <div class="sp-footer-right">
     <div class="sp-footer-status-dot" id="sp-status-dot"></div>
-    <span id="sp-status-text" style="color:#22C55E">Operational</span>
+    <span id="sp-status-text" style="color:#10B981">Operational</span>
   </div>
 </footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function spFooterInit(){
-  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend-production.up.railway.app';
+  var API=(typeof API_BASE!=='undefined')?API_BASE:'https://safetypro-backend.onrender.com';
   function updateFooter(d){
     var v=document.getElementById('sp-footer-version');
     var s=document.getElementById('sp-footer-sync');
@@ -2928,9 +3003,9 @@ function toggleSidebarMore(){var el=document.getElementById("sb-more-items"),ch=
     if(d.version)v.textContent=d.version;
     if(d.lastSync){try{s.textContent=new Date(d.lastSync).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}catch(e){}}
     var status=d.status||'operational';
-    var colors={operational:'#22C55E',degraded:'#F59E0B',down:'#EF4444'};
-    if(dot)dot.style.background=colors[status]||'#22C55E';
-    if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#22C55E';}
+    var colors={operational:'#10B981',degraded:'#F59E0B',down:'#EF4444'};
+    if(dot)dot.style.background=colors[status]||'#10B981';
+    if(txt){txt.textContent=status.charAt(0).toUpperCase()+status.slice(1);txt.style.color=colors[status]||'#10B981';}
   }
   function fetchStatus(){
     fetch(API+'/api/system/status')
@@ -2949,10 +3024,10 @@ saDetectionReady=false;}
 function saStartAutoCapture(){saInitDetector();saAutoLoop=setInterval(saDetectFace,400);}
 function saStopAutoCapture(){if(saAutoLoop){clearInterval(saAutoLoop);saAutoLoop=null;}saResetCountdown();}
 async function saDetectFace(){var video=document.getElementById("sa-video");if(!video||video.readyState<2||!saStream)return;var faceFound=false;if(saDetectionReady&&saFaceDetector){try{var faces=await saFaceDetector.detect(video);if(faces.length>0){var b=faces[0].boundingBox,vw=video.videoWidth||320,vh=video.videoHeight||240;var inC=Math.abs((b.x+b.width/2)/vw-0.5)<0.28&&Math.abs((b.y+b.height/2)/vh-0.5)<0.28;faceFound=inC&&b.width>vw*0.18;}}catch(e){}}else{var c=document.createElement("canvas");c.width=64;c.height=64;var ctx=c.getContext("2d");ctx.drawImage(video,0,0,64,64);var d=ctx.getImageData(0,0,64,64).data,sum=0;for(var i=0;i<d.length;i+=4)sum+=(d[i]+d[i+1]+d[i+2])/3;var avg=sum/(d.length/4);faceFound=avg>20&&avg<240;}saUpdateOvalState(faceFound);if(faceFound&&!saCountingDown)saStartCountdownAuto();else if(!faceFound&&saCountingDown)saResetCountdown();}
-function saUpdateOvalState(f){var o=document.getElementById("sa-oval"),s=document.getElementById("sa-auto-status");if(!o)return;o.className="sa-oval"+(f?(saCountingDown?" countdown":" detecting"):"");if(s){if(f&&saCountingDown){s.style.color="#22C55E";}else if(f){s.textContent="Face detected — hold still";s.style.color="#F59E0B";}else{s.textContent="ALIGN FACE";s.style.color="rgba(34,197,94,0.8)";}}}
-function saStartCountdownAuto(){if(saCountingDown)return;saCountingDown=true;var ring=document.getElementById("sa-countdown-ring"),num=document.getElementById("sa-countdown-num"),circle=document.getElementById("sa-cd-circle"),s=document.getElementById("sa-auto-status");if(ring)ring.classList.add("active");if(num)num.textContent="3";if(s){s.textContent="Hold still... 3";s.style.color="#22C55E";}if(circle){circle.style.transition="stroke-dashoffset 3s linear";circle.style.strokeDashoffset="0";}saCountdownTimer=setTimeout(function(){if(saCountingDown){if(num)num.textContent="2";if(s)s.textContent="Hold still... 2";setTimeout(function(){if(saCountingDown){if(num)num.textContent="1";if(s)s.textContent="Hold still... 1";setTimeout(function(){if(saCountingDown)saAutoFire();},1000);}},1000);}},1000);}
-function saResetCountdown(){if(!saCountingDown)return;saCountingDown=false;clearTimeout(saCountdownTimer);var ring=document.getElementById("sa-countdown-ring"),circle=document.getElementById("sa-cd-circle"),s=document.getElementById("sa-auto-status");if(ring)ring.classList.remove("active");if(circle){circle.style.transition="none";circle.style.strokeDashoffset="220";}if(s){s.textContent="ALIGN FACE";s.style.color="rgba(34,197,94,0.8)";}var o=document.getElementById("sa-oval");if(o)o.className="sa-oval";}
-function saAutoFire(){if(window.saHasCaptured)return;window.saHasCaptured=true;if(typeof saStopAutoCapture==="function")saStopAutoCapture();if(saStream){saStream.getTracks().forEach(function(t){t.stop();});saStream=null;}var _v=document.getElementById("sa-video");if(_v)_v.style.display="none";var o=document.getElementById("sa-oval"),s=document.getElementById("sa-auto-status");if(o)o.classList.add("captured");if(s){s.textContent="Face captured!";s.style.color="#22C55E";}var con=document.getElementById("sa-camera-container");if(!con)return;var old=document.getElementById("sa-choice-overlay");if(old)old.remove();var d=document.createElement("div");d.id="sa-choice-overlay";d.style.cssText="position:absolute;inset:0;background:rgba(11,15,20,0.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:12px;z-index:20;padding:20px;";var ic=document.createElement("div");ic.style.cssText="width:44px;height:44px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:22px;color:#0B0F14;";ic.textContent="✓";var ti=document.createElement("div");ti.style.cssText="font-size:12px;font-weight:700;color:var(--t1);font-family:var(--fh);text-align:center;";ti.textContent="Face Verified — Mark Attendance";var gr=document.createElement("div");gr.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;";var bI=document.createElement("button");bI.style.cssText="padding:12px 8px;background:var(--green);border:none;border-radius:10px;color:#0B0F14;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;";var s1=document.createElement("span");s1.style.fontSize="18px";s1.textContent="→";var s2=document.createElement("span");s2.style.cssText="font-family:var(--fh);font-size:13px;font-weight:800;";s2.textContent="Check IN";var s3=document.createElement("span");s3.style.cssText="font-size:9px;opacity:0.7;";s3.textContent="Arriving";bI.appendChild(s1);bI.appendChild(s2);bI.appendChild(s3);bI.onclick=function(){saMarkAttendance("in");};var bO=document.createElement("button");bO.style.cssText="padding:12px 8px;background:rgba(239,68,68,0.1);border:2px solid rgba(239,68,68,0.4);border-radius:10px;color:var(--red);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;";var s4=document.createElement("span");s4.style.fontSize="18px";s4.textContent="←";var s5=document.createElement("span");s5.style.cssText="font-family:var(--fh);font-size:13px;font-weight:800;";s5.textContent="Check OUT";var s6=document.createElement("span");s6.style.cssText="font-size:9px;";s6.style.color="var(--t3)";s6.textContent="Leaving";bO.appendChild(s4);bO.appendChild(s5);bO.appendChild(s6);bO.onclick=function(){saMarkAttendance("out");};gr.appendChild(bI);gr.appendChild(bO);var bk=document.createElement("button");bk.style.cssText="padding:5px 16px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--t3);font-size:10px;font-weight:600;font-family:var(--fh);cursor:pointer;";bk.textContent="↩ Back";bk.onclick=function(){saStartCamera();};d.appendChild(ic);d.appendChild(ti);d.appendChild(gr);d.appendChild(bk);con.appendChild(d);}
+function saUpdateOvalState(f){var o=document.getElementById("sa-oval"),s=document.getElementById("sa-auto-status");if(!o)return;o.className="sa-oval"+(f?(saCountingDown?" countdown":" detecting"):"");if(s){if(f&&saCountingDown){s.style.color="#10B981";}else if(f){s.textContent="Face detected — hold still";s.style.color="#F59E0B";}else{s.textContent="ALIGN FACE";s.style.color="rgba(16, 185, 129, 0.8)";}}}
+function saStartCountdownAuto(){if(saCountingDown)return;saCountingDown=true;var ring=document.getElementById("sa-countdown-ring"),num=document.getElementById("sa-countdown-num"),circle=document.getElementById("sa-cd-circle"),s=document.getElementById("sa-auto-status");if(ring)ring.classList.add("active");if(num)num.textContent="3";if(s){s.textContent="Hold still... 3";s.style.color="#10B981";}if(circle){circle.style.transition="stroke-dashoffset 3s linear";circle.style.strokeDashoffset="0";}saCountdownTimer=setTimeout(function(){if(saCountingDown){if(num)num.textContent="2";if(s)s.textContent="Hold still... 2";setTimeout(function(){if(saCountingDown){if(num)num.textContent="1";if(s)s.textContent="Hold still... 1";setTimeout(function(){if(saCountingDown)saAutoFire();},1000);}},1000);}},1000);}
+function saResetCountdown(){if(!saCountingDown)return;saCountingDown=false;clearTimeout(saCountdownTimer);var ring=document.getElementById("sa-countdown-ring"),circle=document.getElementById("sa-cd-circle"),s=document.getElementById("sa-auto-status");if(ring)ring.classList.remove("active");if(circle){circle.style.transition="none";circle.style.strokeDashoffset="220";}if(s){s.textContent="ALIGN FACE";s.style.color="rgba(16, 185, 129, 0.8)";}var o=document.getElementById("sa-oval");if(o)o.className="sa-oval";}
+function saAutoFire(){if(window.saHasCaptured)return;window.saHasCaptured=true;if(typeof saStopAutoCapture==="function")saStopAutoCapture();if(saStream){saStream.getTracks().forEach(function(t){t.stop();});saStream=null;}var _v=document.getElementById("sa-video");if(_v)_v.style.display="none";var o=document.getElementById("sa-oval"),s=document.getElementById("sa-auto-status");if(o)o.classList.add("captured");if(s){s.textContent="Face captured!";s.style.color="#10B981";}var con=document.getElementById("sa-camera-container");if(!con)return;var old=document.getElementById("sa-choice-overlay");if(old)old.remove();var d=document.createElement("div");d.id="sa-choice-overlay";d.style.cssText="position:absolute;inset:0;background:rgba(11,15,20,0.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:12px;z-index:20;padding:20px;";var ic=document.createElement("div");ic.style.cssText="width:44px;height:44px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:22px;color:#0B0F14;";ic.textContent="✓";var ti=document.createElement("div");ti.style.cssText="font-size:12px;font-weight:700;color:var(--t1);font-family:var(--fh);text-align:center;";ti.textContent="Face Verified — Mark Attendance";var gr=document.createElement("div");gr.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;";var bI=document.createElement("button");bI.style.cssText="padding:12px 8px;background:var(--green);border:none;border-radius:10px;color:#0B0F14;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;";var s1=document.createElement("span");s1.style.fontSize="18px";s1.textContent="→";var s2=document.createElement("span");s2.style.cssText="font-family:var(--fh);font-size:13px;font-weight:800;";s2.textContent="Check IN";var s3=document.createElement("span");s3.style.cssText="font-size:9px;opacity:0.7;";s3.textContent="Arriving";bI.appendChild(s1);bI.appendChild(s2);bI.appendChild(s3);bI.onclick=function(){saMarkAttendance("in");};var bO=document.createElement("button");bO.style.cssText="padding:12px 8px;background:rgba(239,68,68,0.1);border:2px solid rgba(239,68,68,0.4);border-radius:10px;color:var(--red);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;";var s4=document.createElement("span");s4.style.fontSize="18px";s4.textContent="←";var s5=document.createElement("span");s5.style.cssText="font-family:var(--fh);font-size:13px;font-weight:800;";s5.textContent="Check OUT";var s6=document.createElement("span");s6.style.cssText="font-size:9px;";s6.style.color="var(--t3)";s6.textContent="Leaving";bO.appendChild(s4);bO.appendChild(s5);bO.appendChild(s6);bO.onclick=function(){saMarkAttendance("out");};gr.appendChild(bI);gr.appendChild(bO);var bk=document.createElement("button");bk.style.cssText="padding:5px 16px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--t3);font-size:10px;font-weight:600;font-family:var(--fh);cursor:pointer;";bk.textContent="↩ Back";bk.onclick=function(){saStartCamera();};d.appendChild(ic);d.appendChild(ti);d.appendChild(gr);d.appendChild(bk);con.appendChild(d);}
 function saMarkAttendance(t){
   window.saHasCaptured=false;
   // Remove choice overlay
@@ -2975,7 +3050,7 @@ function saMarkAttendance(t){
   var isIn=(t==='in');
   var label=isIn?'Checked IN ✓':'Checked OUT ✓';
   var bgColor=isIn?'rgba(11,15,20,0.95)':'rgba(11,15,20,0.95)';
-  var accentColor=isIn?'#22C55E':'#EF4444';
+  var accentColor=isIn?'#10B981':'#EF4444';
 
   var d=document.createElement('div');
   d.id='sa-success-overlay';
@@ -3031,7 +3106,7 @@ function saRestartCamera(){
   if(window.saCountdownTimer)clearTimeout(window.saCountdownTimer);
   if(typeof saStopAutoCapture==='function')saStopAutoCapture();
   var oval=document.getElementById('sa-oval');if(oval)oval.className='sa-oval';
-  var st=document.getElementById('sa-auto-status');if(st){st.textContent='ALIGN FACE';st.style.color='rgba(34,197,94,0.8)';}
+  var st=document.getElementById('sa-auto-status');if(st){st.textContent='ALIGN FACE';st.style.color='rgba(16, 185, 129, 0.8)';}
   var rng=document.getElementById('sa-countdown-ring');if(rng)rng.classList.remove('active');
   var num=document.getElementById('sa-countdown-num');if(num)num.textContent='';
   var cir=document.getElementById('sa-cd-circle');if(cir){cir.style.transition='none';cir.style.strokeDashoffset='220';}
@@ -3068,7 +3143,7 @@ function saRestartCamera(){
 
 
 // ── BAM PORTAL MODULE ─────────────────────────────────────────────────────
-var BAM_BASE = (typeof API_BASE !== 'undefined') ? API_BASE.replace('/api/v1','') : 'https://safetypro-backend-production.up.railway.app';
+var BAM_BASE = (typeof API_BASE !== 'undefined') ? API_BASE.replace('/api/v1','') : 'https://safetypro-backend.onrender.com';
 var BAM_API  = BAM_BASE + '/api/v1';
 var bamPollTimer = null;
 var bamCurrentTab = 'qr';
@@ -3333,5 +3408,116 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+<script id="__SP_NAV_HYDRATE__">
+(function(){
+  try {
+    var raw = localStorage.getItem("sp_user"); if(!raw) return;
+    var u = JSON.parse(raw);
+    var name = u.name || "User";
+    var role = u.role === "ADMIN" ? "Admin" : (u.role || "User");
+    var initials = name.split(/\s+/).map(function(s){return s[0];}).slice(0,2).join("").toUpperCase();
+    var set = function(id,val){ var el=document.getElementById(id); if(el) el.textContent=val; };
+    set("nav-username", name); set("nav-role", role); set("nav-initials", initials);
+    set("profile-name", name); set("profile-role-badge", role); set("pd-initials", initials);
+  } catch(e) { console.warn("nav hydrate failed", e); }
+})();
+</script>
+<script id="__SP_NAV_TOGGLES__">
+function toggleMore(e){if(e){e.stopPropagation();}document.getElementById("more-btn").classList.toggle("open");}
+function toggleAlerts(){var d=document.getElementById("alerts-dropdown");if(d)d.style.display=d.style.display==="block"?"none":"block";}
+function toggleProfileMenu(){var d=document.getElementById("profile-dropdown");if(d)d.style.display=d.style.display==="block"?"none":"block";}
+function toggleSidebar(){var sb=document.querySelector(".sidebar");var ov=document.getElementById("sb-overlay");var btn=document.getElementById("sb-toggle");if(!sb)return;sb.classList.toggle("open");if(ov)ov.classList.toggle("show");if(btn)btn.classList.toggle("open");}
+</script>
+<script id="__SP_SCROLL_WRAP__">
+(function(){
+  function wrap(){
+    var content = document.querySelector(".content");
+    if (!content) return;
+    var wrapper = document.getElementById("__SP_SCROLL_AREA__");
+    var fixed = ["subnav","sub-header","hrm-header"];
+    if (!wrapper){
+      wrapper = document.createElement("div");
+      wrapper.id = "__SP_SCROLL_AREA__";
+      content.appendChild(wrapper);
+    }
+    // Move any direct .content children (after fixed header) into the wrapper
+    var moved = 0;
+    for (var i = content.children.length - 1; i >= 0; i--){
+      var c = content.children[i];
+      if (c === wrapper) continue;
+      var cls = (c.className||"").toString().split(/\s+/);
+      var isFixed = false;
+      for (var j=0; j<cls.length; j++){ if (fixed.indexOf(cls[j])!==-1){ isFixed = true; break; } }
+      if (isFixed) continue;
+      if (wrapper.firstChild) wrapper.insertBefore(c, wrapper.firstChild);
+      else wrapper.appendChild(c);
+      moved++;
+    }
+    return moved;
+  }
+  function run(){ wrap(); /* run again after a tick to catch late-added content */ setTimeout(wrap, 100); setTimeout(wrap, 500); }
+  if (document.readyState === "complete") run();
+  else window.addEventListener("load", run);
+})();
+</script>
+<style id="SP-V8-COMPREHENSIVE">
+/* REPORTS: fix .content children with h=0 (the black empty area) */
+body.reports-page .content > div,
+body .content > div:not(.sub-header):not(.subnav):not(.hrm-header),
+body .content > div:empty-cells-parent {
+  flex: 1 1 auto !important;
+  min-height: 200px !important;
+  width: 100% !important;
+}
+body .charts-grid, body .reports-grid, body .content .grid {
+  display: grid !important;
+  gap: 12px !important;
+  min-height: 100px !important;
+  width: 100% !important;
+}
+body .card { min-height: 80px !important; }
+/* Nav active states — reinforce terracotta */
+body .nl.active, body .topnav a.active,
+body .nl.active::after, body .topnav a.active::after,
+body .nl.active::before, body .topnav a.active::before {
+  background: transparent !important;
+}
+body .nl.active, body .topnav a.active {
+  border-bottom: 2px solid #C6583E !important;
+  border-left: 0 !important;
+  border-radius: 0 !important;
+  color: inherit !important;
+}
+body .nl.active::after, body .topnav a.active::after,
+body .nl.active::before, body .topnav a.active::before,
+body .sb-item.active::after, body .sb-item.active::before {
+  display: none !important;
+  content: none !important;
+  background: transparent !important;
+  height: 0 !important;
+}
+body .sb-item.active {
+  background: transparent !important;
+  border-left: 2px solid #C6583E !important;
+  color: inherit !important;
+  padding-left: 8px !important;
+}
+body .nl.active svg, body .topnav a.active svg,
+body .sb-item.active svg {
+  fill: currentColor !important;
+  color: inherit !important;
+  opacity: 1 !important;
+}
+/* Avatar — force terracotta */
+body .ua, body .user-pill .ua {
+  background: linear-gradient(135deg, #C6583E, #A84A35) !important;
+  color: #F5F2EB !important;
+  border-color: #C6583E !important;
+}
+/* Hamburger menu spans (if any have green) */
+body .sb-toggle span, body .menu-toggle span { background: currentColor !important; }
+</style><script src="sp-shell.js?v=7"></script>
+<script src="sp-charts.js?v=7"></script>
+<script src="sp-dynamic-states.js?v=5"></script>
 </body>
 </html>

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Client &amp; Auditor Portal — SafetyPro AI — Operations</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<title>Client &amp; Auditor Portal — SafetyPro . AI — Operations</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&family=Fraunces:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 /* ══════════════════════════════════════════════
    TOKENS — BLUEPRINT SPEC EXACT
@@ -16,10 +19,10 @@
   --sidebar: #0F1720;
   --border:  #1E293B;
   --div:     rgba(255,255,255,0.05);
-  --green:   #22C55E;
+  --green:   #10B981;
   --g-h:     #16A34A;
-  --g-s:     rgba(34,197,94,0.12);
-  --g-b:     rgba(34,197,94,0.3);
+  --g-s:     rgba(16, 185, 129, 0.12);
+  --g-b:     rgba(16, 185, 129, 0.3);
   --amber:   #F59E0B;
   --a-s:     rgba(245,158,11,0.12);
   --a-b:     rgba(245,158,11,0.3);
@@ -32,7 +35,7 @@
   --t1:      #E6EDF3;
   --t2:      #94A3B8;
   --t3:      #64748B;
-  --fh:'Montserrat',sans-serif;
+  --fh:'Inter',sans-serif;
   --fb:'Roboto',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -55,7 +58,7 @@ svg{flex-shrink:0}
   position:sticky;top:0;z-index:100;
 }
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none;width:195px;flex-shrink:0;padding:0 16px 0 18px;border-right:1px solid var(--border)}
-.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35);}
+.logo-shield{width:28px;height:28px;background:linear-gradient(135deg,#10B981,#15803D);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(16, 185, 129, .35);}
 .logo-mark svg{width:16px;height:16px;fill:#fff}
 .logo-text{font-family:var(--fh);font-size:15px;font-weight:700}
 .logo-text span{color:var(--green)}
@@ -70,7 +73,7 @@ svg{flex-shrink:0}
 .icon-btn svg{width:14px;height:14px;fill:var(--t2)}
 .notif-dot{position:absolute;top:4px;right:4px;width:6px;height:6px;background:var(--red);border-radius:50%;border:1px solid var(--bg)}
 .user-pill{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:5px 10px 5px 5px;cursor:pointer}
-.ua{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.ua{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#10B981,#16A34A);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
 .un-name{font-size:11px;font-weight:600;color:var(--t1);line-height:1.2}
 .un-role{font-size:9px;color:var(--t3)}
 
@@ -81,7 +84,7 @@ svg{flex-shrink:0}
 .sidebar{width:195px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:10px 8px;min-height:calc(100vh - 52px);position:sticky;top:52px;align-self:flex-start}
 .sb-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;color:var(--t3);cursor:pointer;transition:all .15s;font-size:13px;margin-bottom:2px;text-decoration:none}
 .sb-item:hover{background:rgba(255,255,255,.04);color:var(--t2)}
-.sb-item.active{background:rgba(34,197,94,.1);border-left:2px solid var(--green);color:var(--green);padding-left:8px}
+.sb-item.active{background:rgba(16, 185, 129, .1);border-left:2px solid var(--green);color:var(--green);padding-left:8px}
 .sb-item svg{width:15px;height:15px;fill:currentColor;opacity:.7}
 .sb-item.active svg{opacity:1}
 .sb-badge{margin-left:auto;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px}
@@ -260,7 +263,7 @@ flex-wrap:wrap;}
   font-family:var(--fb);font-size:12px;color:var(--t1);
   outline:none;transition:border-color .15s;width:100%;
 }
-.form-input:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(34,197,94,.12)}
+.form-input:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(16, 185, 129, .12)}
 .form-input::placeholder{color:var(--t3)}
 .form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748B' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
 .form-textarea{resize:none;height:64px;line-height:1.5}
@@ -273,7 +276,7 @@ flex-wrap:wrap;}
   color:var(--t3);background:var(--raised);
 }
 .sev-opt:hover{border-color:var(--t3);color:var(--t2)}
-.sev-opt.active-low{background:rgba(34,197,94,.12);border-color:var(--g-b);color:var(--green)}
+.sev-opt.active-low{background:rgba(16, 185, 129, .12);border-color:var(--g-b);color:var(--green)}
 .sev-opt.active-med{background:rgba(245,158,11,.12);border-color:var(--a-b);color:var(--amber)}
 .sev-opt.active-high{background:rgba(249,115,22,.12);border-color:rgba(249,115,22,.3);color:#F97316}
 .sev-opt.active-crit{background:var(--r-s);border-color:var(--r-b);color:var(--red)}
@@ -293,9 +296,9 @@ flex-wrap:wrap;}
   background:var(--green);color:#0B0E12;border:none;
   font-family:var(--fh);font-size:13px;font-weight:700;
   cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px;
-  box-shadow:0 4px 16px rgba(34,197,94,.25);
+  box-shadow:0 4px 16px rgba(16, 185, 129, .25);
 }
-.submit-btn:hover{background:var(--g-h);transform:translateY(-1px);box-shadow:0 6px 20px rgba(34,197,94,.35)}
+.submit-btn:hover{background:var(--g-h);transform:translateY(-1px);box-shadow:0 6px 20px rgba(16, 185, 129, .35)}
 .submit-btn svg{width:14px;height:14px;fill:#0B0E12}
 
 /* NCR TYPE SELECTOR */
@@ -316,11 +319,11 @@ flex-wrap:wrap;}
   width:52px;height:52px;border-radius:50%;
   background:var(--green);border:none;
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 20px rgba(34,197,94,.45);
+  box-shadow:0 4px 20px rgba(16, 185, 129, .45);
   cursor:pointer;z-index:999;
   transition:all .2s;
 }
-.fab:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(34,197,94,.55)}
+.fab:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(16, 185, 129, .55)}
 .fab svg{width:22px;height:22px;fill:#0B0E12;transition:transform .2s}
 .fab.open svg{transform:rotate(45deg)}
 
@@ -436,8 +439,8 @@ flex-wrap:wrap;}
 .mm-item:hover{background:rgba(255,255,255,.05);color:#E6EDF3}
 .mm-item svg{width:14px;height:14px;fill:currentColor;opacity:.7;flex-shrink:0}
 .mm-divider{height:1px;background:#1E293B;margin:4px 0}
-.mm-admin{color:#22C55E}
-.mm-admin:hover{background:rgba(34,197,94,.08);color:#22C55E}
+.mm-admin{color:#10B981}
+.mm-admin:hover{background:rgba(16, 185, 129, .08);color:#10B981}
 .mm-admin svg{opacity:1}
 .sb-more-item{padding:7px 10px;font-size:12px}
 .sb-more-item svg{width:13px;height:13px}
@@ -447,7 +450,7 @@ flex-wrap:wrap;}
 .attach-label{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
 .attach-buttons{display:flex;gap:8px;margin-bottom:8px}
 .attach-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1px dashed var(--border);background:var(--raised);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
-.attach-btn:hover{border-color:var(--green);color:var(--green);background:rgba(34,197,94,.05)}
+.attach-btn:hover{border-color:var(--green);color:var(--green);background:rgba(16, 185, 129, .05)}
 .attach-btn svg{width:15px;height:15px;stroke:currentColor;fill:none}
 .attach-previews{display:flex;flex-wrap:wrap;gap:8px;min-height:0}
 .attach-thumb{position:relative;width:68px;height:68px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--raised);flex-shrink:0}
@@ -466,7 +469,7 @@ flex-wrap:wrap;}
 .aw-label{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
 .aw-btns{display:flex;gap:8px;margin-bottom:8px}
 .aw-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1px dashed var(--border);background:var(--raised);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
-.aw-btn:hover{border-color:var(--green);color:var(--green);background:rgba(34,197,94,.05)}
+.aw-btn:hover{border-color:var(--green);color:var(--green);background:rgba(16, 185, 129, .05)}
 .aw-previews{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px;min-height:0}
 .aw-thumb{position:relative;width:64px;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--raised);flex-shrink:0}
 .aw-thumb img{width:100%;height:100%;object-fit:cover;display:block}
@@ -483,7 +486,7 @@ flex-wrap:wrap;}
 .aw-label{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
 .aw-btns{display:flex;gap:8px;margin-bottom:8px}
 .aw-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:8px;border:1px dashed var(--border);background:var(--raised);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
-.aw-btn:hover{border-color:var(--green);color:var(--green);background:rgba(34,197,94,.05)}
+.aw-btn:hover{border-color:var(--green);color:var(--green);background:rgba(16, 185, 129, .05)}
 .aw-previews{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px;min-height:0}
 .aw-thumb{position:relative;width:64px;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--card);flex-shrink:0}
 .aw-thumb img{width:100%;height:100%;object-fit:cover;display:block}
@@ -796,10 +799,10 @@ flex-wrap:wrap;}
   .profile-dd{display:none;position:fixed;top:52px;right:16px;width:240px;background:var(--card,#111D2B);border:1px solid var(--border,#1E3347);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:9999;overflow:hidden;}
   .profile-dd.open{display:block;}
   .pd-header{padding:14px 16px;border-bottom:1px solid var(--border,#1E3347);display:flex;align-items:center;gap:10px;}
-  .pd-avatar{width:36px;height:36px;border-radius:50%;background:var(--green,#22C55E);color:#0B1A2E;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--fh,'Inter',sans-serif);flex-shrink:0;}
+  .pd-avatar{width:36px;height:36px;border-radius:50%;background:var(--green,#10B981);color:#0B1A2E;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--fh,'Inter',sans-serif);flex-shrink:0;}
   .pd-name{font-size:13px;font-weight:700;color:var(--t1,#E2EAF4);}
   .pd-email{font-size:11px;color:var(--t3,#2E4A66);margin-top:1px;}
-  .pd-role-badge{font-size:10px;color:var(--green,#22C55E);margin-top:3px;font-weight:600;}
+  .pd-role-badge{font-size:10px;color:var(--green,#10B981);margin-top:3px;font-weight:600;}
   .pd-menu{padding:6px 0;}
   .pd-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:12px;color:var(--t2,#7A9BBF);cursor:pointer;transition:.15s;text-decoration:none;}
   .pd-item:hover{background:var(--raised,#0D1E30);color:var(--t1,#E2EAF4);}
@@ -815,7 +818,7 @@ flex-wrap:wrap;}
   .sp-footer-sep{color:var(--border,#1E3347);margin:0 4px;}
   .sp-footer-center{display:flex;gap:16px;}
   .sp-footer-right{display:flex;align-items:center;gap:6px;}
-  .sp-footer-status-dot{width:6px;height:6px;border-radius:50%;background:#22C55E;}
+  .sp-footer-status-dot{width:6px;height:6px;border-radius:50%;background:#10B981;}
   /* ══ CONTENT GAP FIX ══ */
   .content{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;}
   .app,.body{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
@@ -829,14 +832,14 @@ flex-wrap:wrap;}
   /* ══ LOGO FIX ══ */
   .logo { text-decoration: none; color: inherit !important; }
   .logo-text { color: var(--t1, #E6EDF3) !important; font-weight: 700 !important; }
-  .logo-text span { color: var(--green, #22C55E) !important; }
-  .logo-shield { width: 28px; height: 28px; background: linear-gradient(135deg, #22C55E, #15803D) !important; border-radius: 7px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(34,197,94,.35); }
+  .logo-text span { color: var(--green, #10B981) !important; }
+  .logo-shield { width: 28px; height: 28px; background: linear-gradient(135deg, #10B981, #15803D) !important; border-radius: 7px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(16, 185, 129, .35); }
   .logo-shield svg { width: 16px; height: 16px; fill: #fff; }
   
   /* ══ NAV-RIGHT FIX ══ */
   .nav-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
   .user-pill { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 10px; border-radius: 20px; background: var(--raised, #0D1E30); border: 1px solid var(--border, #1E3347); }
-  .user-pill .ua { width: 28px; height: 28px; border-radius: 50%; background: var(--green, #22C55E); color: #0B1A2E; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .user-pill .ua { width: 28px; height: 28px; border-radius: 50%; background: var(--green, #10B981); color: #0B1A2E; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
   
   /* SIDEBAR-GAP-FIX */
   .sidebar { top: 0 !important; }
@@ -844,8 +847,8 @@ flex-wrap:wrap;}
   /* LOGO-COLOR-FIX */
   .logo, a.logo { color: inherit !important; }
   .logo-text { color: var(--t1,#E6EDF3) !important; font-weight: 700 !important; }
-  .logo-text span { color: var(--green,#22C55E) !important; }
-  .logo-shield { width:28px;height:28px;background:linear-gradient(135deg,#22C55E,#15803D) !important;border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(34,197,94,.35); }
+  .logo-text span { color: var(--green,#10B981) !important; }
+  .logo-shield { width:28px;height:28px;background:linear-gradient(135deg,#10B981,#15803D) !important;border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(16, 185, 129, .35); }
   .logo-shield svg { width:16px;height:16px;fill:#fff; }
   
 /* SafetyPro scrollbar v2 */
@@ -1038,42 +1041,106 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
   border-radius: 3px !important;
 }
 </style>
+<style id="__SP_PAGE_FIXES__">
+/* SP-active-terracotta-v5 */
+body .nl.active, body .topnav a.active {
+  color: inherit !important;
+  background: transparent !important;
+  border-bottom: 2px solid #C6583E !important;
+  border-radius: 0 !important;
+}
+body .nl.active svg, body .topnav a.active svg {
+  fill: currentColor !important; color: inherit !important;
+}
+body .sb-item.active {
+  color: inherit !important;
+  background: transparent !important;
+  border-left: 2px solid #C6583E !important;
+  padding-left: 8px !important;
+}
+body .sb-item.active svg {
+  fill: currentColor !important; color: inherit !important; opacity: 1 !important;
+}
+
+/* ua-terracotta */
+body .ua{background:linear-gradient(135deg,#C6583E,#A84A35)!important;color:#F5F2EB!important;border-color:#C6583E!important}
+/* User avatar (.ua) — terracotta per landing v3 */
+body .ua { background: linear-gradient(135deg, #C6583E, #A84A35) !important; color: #F5F2EB !important; border-color: #C6583E !important; }
+
+/* Scrollbar: match Operations page palette (slate-800 thumb on transparent track) */
+.content { scrollbar-width: thin !important; scrollbar-color: rgb(30, 41, 59) transparent !important; }
+.sidebar { scrollbar-width: none !important; -ms-overflow-style: none !important; }
+.sidebar::-webkit-scrollbar { display: none !important; }
+.content::-webkit-scrollbar { width: 8px !important; height: 8px !important; }
+.content::-webkit-scrollbar-track { background: transparent !important; }
+.content::-webkit-scrollbar-thumb { background: rgb(30, 41, 59) !important; border-radius: 4px !important; }
+.content::-webkit-scrollbar-thumb:hover { background: rgb(51, 65, 85) !important; }
+/* Closing edge on topnav + header/filter strip (slate-700) */
+.topnav { border-bottom: 1px solid rgb(51, 65, 85) !important; }
+.subnav, .sub-header, .hrm-header, .page-header, .content-header, .filter-bar, .rpt-filter-bar { border-bottom: 1px solid rgb(51, 65, 85) !important; }
+/* Horizontal drag-scroll filter bar (no visible scrollbar) */
+.mt-filter-bar { flex-wrap: nowrap !important; overflow-x: auto !important; align-items: center !important; cursor: grab; scrollbar-width: none; -ms-overflow-style: none; }
+.mt-filter-bar::-webkit-scrollbar { display: none; }
+.mt-filter-bar.dragging { cursor: grabbing; user-select: none; }
+.mt-filter-bar > * { flex-shrink: 0; }
+.mt-filter-bar .mt-clear-btn { margin-left: auto !important; }
+.body{margin-top:0!important;}
+
+/* Operations-pattern scroll: header stays fixed, only area below scrolls */
+.content { display: flex !important; flex-direction: column !important; overflow: hidden !important; min-height: 0 !important; }
+.content > .subnav, .content > .sub-header, .content > .hrm-header { flex: 0 0 auto !important; }
+#__SP_SCROLL_AREA__ { flex: 1 1 auto !important; overflow-y: auto !important; overflow-x: hidden !important; min-height: 0 !important; scrollbar-width: thin !important; scrollbar-color: rgb(30, 41, 59) transparent !important; }
+#__SP_SCROLL_AREA__::-webkit-scrollbar { width: 8px !important; height: 8px !important; }
+#__SP_SCROLL_AREA__::-webkit-scrollbar-track { background: transparent !important; }
+#__SP_SCROLL_AREA__::-webkit-scrollbar-thumb { background: rgb(30, 41, 59) !important; border-radius: 4px !important; }
+#__SP_SCROLL_AREA__::-webkit-scrollbar-thumb:hover { background: rgb(51, 65, 85) !important; }
+#sb-more-items{scrollbar-width:none!important;-ms-overflow-style:none!important;overflow-y:auto!important;}
+#sb-more-items::-webkit-scrollbar{display:none!important;}
+.content{border-right:1px solid rgb(51, 65, 85)!important;}
+.topnav{border-right:1px solid rgb(51, 65, 85)!important;}
+.topnav{border-left:1px solid rgb(51, 65, 85)!important;}
+.sidebar{border-left:1px solid rgb(51, 65, 85)!important;}
+.sp-footer{border-left:1px solid rgb(51, 65, 85)!important;border-right:1px solid rgb(51, 65, 85)!important;}
+.topnav{border-top:1px solid rgb(51, 65, 85)!important;}
+.sp-footer{border-bottom:1px solid rgb(51, 65, 85)!important;}
+.logo-text{font-family:'Fraunces',Georgia,serif!important;font-weight:500!important;letter-spacing:-.01em!important}
+</style>
+<link rel="stylesheet" href="sp-shell.css?v=63">
 </head>
-<body>
+<body data-page="auditor">
 
 <!-- ══ TOP NAV ══ -->
 <nav class="topnav">
-  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
-  <a class="logo" href="safetypro_v2.html">
-    <div class="logo-shield"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2zm-1 13.4l-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4-6 6z"/></svg></div>
-    <span class="logo-text">SafetyPro <span>AI</span></span>
+  <a class="logo" href="safetypro_v2">
+    <div class="logo-shield"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2z"/><path d="M8 10h1.5v4.5H8zM11 8h1.5v6.5H11zM14 11h1.5v3.5H14z" fill="#04060E"/></svg></div>
+    <span class="logo-text">SafetyPro<span style="color:#C6583E;font-weight:700;margin:0 4px;font-style:normal">.</span>AI</span>
   </a>
   <div class="nav-links">
-    <a class="nl" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
-    <a class="nl" href="safetypro_operations.html"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations</a>
-    <a class="nl" href="safetypro_control.html"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
-    <a class="nl" href="safetypro_reports"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2"/></svg>Reports</a>
-    
-    <div class="nl more-wrap" id="more-btn" onclick="toggleMore(event)">
+    <a class="nl" href="safetypro_v2" data-page="dashboard"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Dashboard</a>
+    <a class="nl" href="safetypro_operations" data-page="operations"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/></svg>Operations</a>
+    <a class="nl" href="safetypro_control" data-page="control"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>Control</a>
+    <a class="nl" href="safetypro_reports" data-page="reports"><svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6M5 3H3v18h18V3h-2"/></svg>Reports</a>
+    <div class="nl more-wrap" id="more-btn" data-page="more" onclick="spToggleMore(event)">
       <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More&#9660;
       <div class="more-menu" id="more-menu">
-        <a class="mm-item" href="safetypro_audit_compliance" style="color:var(--green);font-weight:700;"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
-        <a class="mm-item" href="safetypro_documents"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/></svg>Documents &amp; Records</a>
-        <a class="mm-item" href="safetypro_field"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
-        <a class="mm-item" href="safetypro_hrm"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>HRM &amp; Payroll</a>
-        <a class="mm-item" href="safetypro_ai"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 110 20A10 10 0 0112 2z"/></svg>AI Intelligence</a>
-        <a class="mm-item" href="safetypro_auditor" style="color:var(--green);font-weight:700;"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Client &amp; Auditor Portal</a>
-                <a class="mm-item" href="safetypro_esg" style="color:#22C55E;"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z" fill="#22C55E"/></svg>Sustainability &amp; ESG</a>
-<a class="mm-item" href="safetypro_admin"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/></svg>Admin &amp; Configuration</a>
+        <a class="mm-item" href="safetypro_admin" data-more="admin"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09"/></svg>Admin &amp; Configuration</a>
+        <a class="mm-item" href="safetypro_audit_compliance" data-more="audit"><svg viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>Audit &amp; Compliance</a>
+        <a class="mm-item" href="safetypro_risk_management" data-more="risk"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Risk Management</a>
+        <a class="mm-item" href="safetypro_hrm" data-more="hrm"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>HRM &amp; Payroll</a>
+        <a class="mm-item" href="safetypro_ai" data-more="ai"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 110 20A10 10 0 0112 2z"/></svg>AI Intelligence</a>
+        <a class="mm-item" href="safetypro_esg" data-more="esg"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z"/></svg>Sustainability &amp; ESG</a>
+        <a class="mm-item" href="safetypro_field" data-more="field"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Site &amp; Field Tools</a>
+        <a class="mm-item" href="safetypro_auditor" data-more="auditor"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Client &amp; Auditor Portal</a>
+        <a class="mm-item" href="safetypro_documents" data-more="documents"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/></svg>Documents &amp; Records</a>
       </div>
     </div>
   </div>
   <div class="nav-right">
-    <div class="icon-btn" onclick="toggleAlerts()" id="alert-btn" title="Alerts">
+    <div class="icon-btn" onclick="typeof toggleAlerts==='function'&&toggleAlerts()" id="alert-btn" title="Alerts">
       <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
       <div class="red-dot" id="alert-dot"></div>
     </div>
-    <div class="user-pill" onclick="toggleProfileMenu()" id="user-pill-btn">
+    <div class="user-pill" onclick="typeof toggleProfileMenu==='function'&&toggleProfileMenu()" id="user-pill-btn">
       <div class="ua" id="nav-initials">--</div>
       <div class="un">
         <div class="un-name" id="nav-username">Loading...</div>
@@ -1095,7 +1162,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
     </div>
   </div>
   <div class="pd-menu">
-    <a class="pd-item" href="safetypro_v2.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+    <a class="pd-item" href="safetypro_v2"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
     <a class="pd-item" onclick="openManageUsers()"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Manage Users</a>
     <a class="pd-item" onclick="openSettings()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings</a>
     <a class="pd-item" onclick="changePassword()"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Change Password</a>
@@ -1110,17 +1177,17 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <a class="sb-item" href="safetypro_v2.html"><svg   viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    <a class="sb-item" href="safetypro_v2"><svg   viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       Dashboard
     </a>
-    <a class="sb-item" href="safetypro_operations.html">
+    <a class="sb-item" href="safetypro_operations">
       <svg viewBox="0 0 24 24"><path d="M13 2.003A10 10 0 1022 13h-2a8 8 0 11-7.931-9"/></svg>
       Operations<span class="sb-badge amber">12</span>
     </a>
-    <a class="sb-item" href="safetypro_control.html"><svg   viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
+    <a class="sb-item" href="safetypro_control"><svg   viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z"/></svg>
       Control<span class="sb-badge red">5</span>
     </a>
-    <a class="sb-item" href="safetypro_reports.html"><svg   viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
+    <a class="sb-item" href="safetypro_reports"><svg   viewBox="0 0 24 24"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3z"/></svg>
       Reports
     </a>
     <div style="height:1px;background:#1E293B;margin:10px 2px 6px"></div>
@@ -1129,39 +1196,41 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
       <svg id="sb-more-arr" viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
     <div id="sb-more-items" style="display:block">
-      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_audit_compliance.html">
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_audit_compliance">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/></svg>
         Audit &amp; Compliance
       </a>
-      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field.html">
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_risk_management">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+        Risk Management
+      </a>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_field">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         Site &amp; Field Tools
       </a>
-      <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#8B5CF6" href="safetypro_hrm.html">
-        <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#8B5CF6"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_hrm">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
         HRM &amp; Payroll
       </a>
-      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai.html">
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_ai">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
         AI Intelligence
       </a>
-      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_documents.html">
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_documents">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
         Documents &amp; Records
       </a>
-      <a class="sb-item" style="font-size:12px;padding:7px 10px;color:var(--green)" href="safetypro_admin.html">
-        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--green)"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_admin">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         Admin &amp; Configuration
       </a>
-            <a class="sb-item" style="font-size:12px;padding:7px 10px;color:#22C55E;font-weight:600" href="safetypro_esg.html">
-        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#22C55E"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z"/></svg>
-        Sustainability &amp; ESG <span style="background:rgba(34,197,94,.15);color:#22C55E;padding:1px 5px;border-radius:3px;font-size:8px;margin-left:3px;">New</span>
+      <a class="sb-item" style="font-size:12px;padding:7px 10px" href="safetypro_esg">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z"/></svg>
+        Sustainability &amp; ESG <span style="background:var(--green);color:#000;font-size:7px;font-weight:700;padding:0 3px;border-radius:2px;margin-left:3px;">NEW</span>
       </a>
-<div style="height:1px;background:var(--border);margin:6px 8px"></div>
     </div>
-  </div>
-
-  <!-- CONTENT -->
+    </div>
+    <!-- CONTENT -->
   <div class="content">
 
     <!-- AUDITOR HEADER -->
@@ -1183,7 +1252,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
           <option>Last 6 Months</option>
           <option>Year to Date</option>
         </select>
-        <button onclick="audDownloadPDF()" style="padding:6px 16px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);border-radius:6px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">&#8595; Download Report</button>
+        <button onclick="audDownloadPDF()" style="padding:6px 16px;background:rgba(16, 185, 129, .1);color:var(--green);border:1px solid rgba(16, 185, 129, .3);border-radius:6px;font-size:11px;font-weight:700;font-family:var(--fh);cursor:pointer;">&#8595; Download Report</button>
       </div>
     </div>
     <div class="auditor-scroll" style="flex:1;overflow-y:scroll;min-height:0;padding:16px;scrollbar-width:thin;scrollbar-color:#475569 #1E293B;">
@@ -1247,13 +1316,13 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
               <div><div style="font-size:11px;font-weight:600;color:var(--t1);">NCR-2841 — PPE Non-compliance</div><div style="font-size:10px;color:var(--t3);">Raised 14 Mar · Project Beta</div></div>
               <span style="font-size:9px;background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">IN PROGRESS</span>
             </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:rgba(34,197,94,.04);border-radius:6px;border:1px solid rgba(34,197,94,.1);">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:rgba(16, 185, 129, .04);border-radius:6px;border:1px solid rgba(16, 185, 129, .1);">
               <div><div style="font-size:11px;font-weight:600;color:var(--t1);">NCR-2835 — Electrical Safety</div><div style="font-size:10px;color:var(--t3);">Raised 08 Mar · Project Alpha</div></div>
-              <span style="font-size:9px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">CLOSED</span>
+              <span style="font-size:9px;background:rgba(16, 185, 129, .1);color:var(--green);border:1px solid rgba(16, 185, 129, .3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">CLOSED</span>
             </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:rgba(34,197,94,.04);border-radius:6px;border:1px solid rgba(34,197,94,.1);">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:rgba(16, 185, 129, .04);border-radius:6px;border:1px solid rgba(16, 185, 129, .1);">
               <div><div style="font-size:11px;font-weight:600;color:var(--t1);">NCR-2828 — Housekeeping</div><div style="font-size:10px;color:var(--t3);">Raised 02 Mar · Project Gamma</div></div>
-              <span style="font-size:9px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">CLOSED</span>
+              <span style="font-size:9px;background:rgba(16, 185, 129, .1);color:var(--green);border:1px solid rgba(16, 185, 129, .3);border-radius:4px;padding:2px 7px;font-family:var(--fh);font-weight:700;">CLOSED</span>
             </div>
           </div>
         </div>
@@ -1284,7 +1353,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
               <div style="font-size:10px;color:var(--t3);margin-top:2px;">Fatal</div>
             </div>
           </div>
-          <div style="background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.15);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--t2);text-align:center;">
+          <div style="background:rgba(16, 185, 129, .05);border:1px solid rgba(16, 185, 129, .15);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--t2);text-align:center;">
             &#9679; <strong style="color:var(--green);">47 days</strong> incident free · No LTI or fatality this period
           </div>
         </div>
@@ -1305,7 +1374,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
           </div>
           <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--raised);border-radius:8px;border:1px solid var(--border);">
             <div><div style="font-size:11px;font-weight:600;color:var(--t1);">NCR Status Report</div><div style="font-size:10px;color:var(--t3);">All open &amp; closed · Excel</div></div>
-            <button onclick="audDownloadReport('ncr-status')" style="font-size:9px;padding:4px 12px;border-radius:5px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);cursor:pointer;font-family:var(--fh);font-weight:600;">&#8595; XLS</button>
+            <button onclick="audDownloadReport('ncr-status')" style="font-size:9px;padding:4px 12px;border-radius:5px;background:rgba(16, 185, 129, .1);color:var(--green);border:1px solid rgba(16, 185, 129, .3);cursor:pointer;font-family:var(--fh);font-weight:600;">&#8595; XLS</button>
           </div>
           <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--raised);border-radius:8px;border:1px solid var(--border);">
             <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Audit Score Report</div><div style="font-size:10px;color:var(--t3);">ISO 45001 compliance · PDF</div></div>
@@ -1313,7 +1382,7 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
           </div>
           <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--raised);border-radius:8px;border:1px solid var(--border);">
             <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Incident Register</div><div style="font-size:10px;color:var(--t3);">Full log this period · Excel</div></div>
-            <button onclick="audDownloadReport('incident-register')" style="font-size:9px;padding:4px 12px;border-radius:5px;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);cursor:pointer;font-family:var(--fh);font-weight:600;">&#8595; XLS</button>
+            <button onclick="audDownloadReport('incident-register')" style="font-size:9px;padding:4px 12px;border-radius:5px;background:rgba(16, 185, 129, .1);color:var(--green);border:1px solid rgba(16, 185, 129, .3);cursor:pointer;font-family:var(--fh);font-weight:600;">&#8595; XLS</button>
           </div>
           <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--raised);border-radius:8px;border:1px solid var(--border);">
             <div><div style="font-size:11px;font-weight:600;color:var(--t1);">Action Closure Report</div><div style="font-size:10px;color:var(--t3);">All corrective actions · PDF</div></div>
@@ -1333,12 +1402,12 @@ footer.sp-footer,.sp-footer{border-top:1px solid #334155!important;}
 </div>
 
 <script>
-var API_BASE = 'https://safetypro-backend-production.up.railway.app/api/v1';
+var API_BASE = 'https://safetypro-backend.onrender.com/api/v1';
 var audToastTimer = null;
 
 (function(){
   var token = localStorage.getItem('sp_token');
-  if (!token) { window.location.replace('safetypro_login.html'); return; }
+  if (!token) { window.location.replace('safetypro_login'); return; }
   try { var u = JSON.parse(localStorage.getItem('sp_user')||'{}'); if (u && u.name) applyNavProfile(u); } catch(e){}
   setTimeout(loadAuditorData, 600);
   setTimeout(loadNavProfile, 800);
@@ -1418,7 +1487,7 @@ function applyNavProfile(u) {
   var pe=document.getElementById('profile-role-badge'); if(pe) pe.textContent=role;
   var em=document.getElementById('profile-email'); if(em) em.textContent=u.email||'';
 }
-function signOut(){ localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); window.location.href='safetypro_login.html'; }
+function signOut(){ localStorage.removeItem('sp_token'); localStorage.removeItem('sp_user'); window.location.href='safetypro_login'; }
 function toggleProfileMenu(){
   var d=document.getElementById('profile-dropdown'); if(!d) return;
   var isOpen=d.style.display==='block';
@@ -1484,12 +1553,12 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ var d=doc
   </div>
   <div class="sp-footer-right">
     <div class="sp-footer-status-dot" id="sp-status-dot"></div>
-    <span id="sp-status-text" style="color:#22C55E">Operational</span>
+    <span id="sp-status-text" style="color:#10B981">Operational</span>
   </div>
 </footer>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function spFooterInit(){
-  var API_BASE='https://safetypro-backend-production.up.railway.app';
+  var API_BASE='https://safetypro-backend.onrender.com';
   fetch(API_BASE+'/api/v1/system/status',{headers:{'Authorization':'Bearer '+(localStorage.getItem('sp_token')||'')}})
   .then(function(r){return r.json();})
   .then(function(d){
@@ -1501,9 +1570,9 @@ function spFooterInit(){
     var ts=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
     if(v)v.textContent='v'+(d.version||'1.3.2');
     if(s)s.textContent=ts;
-    if(dot)dot.style.background=d.status==='ok'?'#22C55E':'#EF4444';
+    if(dot)dot.style.background=d.status==='ok'?'#10B981':'#EF4444';
     if(txt)txt.textContent=d.status==='ok'?'Operational':'Degraded';
-    if(txt)txt.style.color=d.status==='ok'?'#22C55E':'#EF4444';
+    if(txt)txt.style.color=d.status==='ok'?'#10B981':'#EF4444';
   }).catch(function(){
     var s=document.getElementById('sp-footer-sync');
     var now=new Date();
@@ -1557,6 +1626,117 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+<script id="__SP_NAV_HYDRATE__">
+(function(){
+  try {
+    var raw = localStorage.getItem("sp_user"); if(!raw) return;
+    var u = JSON.parse(raw);
+    var name = u.name || "User";
+    var role = u.role === "ADMIN" ? "Admin" : (u.role || "User");
+    var initials = name.split(/\s+/).map(function(s){return s[0];}).slice(0,2).join("").toUpperCase();
+    var set = function(id,val){ var el=document.getElementById(id); if(el) el.textContent=val; };
+    set("nav-username", name); set("nav-role", role); set("nav-initials", initials);
+    set("profile-name", name); set("profile-role-badge", role); set("pd-initials", initials);
+  } catch(e) { console.warn("nav hydrate failed", e); }
+})();
+</script>
+<script id="__SP_NAV_TOGGLES__">
+function toggleMore(e){if(e){e.stopPropagation();}document.getElementById("more-btn").classList.toggle("open");}
+function toggleAlerts(){var d=document.getElementById("alerts-dropdown");if(d)d.style.display=d.style.display==="block"?"none":"block";}
+function toggleProfileMenu(){var d=document.getElementById("profile-dropdown");if(d)d.style.display=d.style.display==="block"?"none":"block";}
+function toggleSidebar(){var sb=document.querySelector(".sidebar");var ov=document.getElementById("sb-overlay");var btn=document.getElementById("sb-toggle");if(!sb)return;sb.classList.toggle("open");if(ov)ov.classList.toggle("show");if(btn)btn.classList.toggle("open");}
+</script>
+<script id="__SP_SCROLL_WRAP__">
+(function(){
+  function wrap(){
+    var content = document.querySelector(".content");
+    if (!content) return;
+    var wrapper = document.getElementById("__SP_SCROLL_AREA__");
+    var fixed = ["subnav","sub-header","hrm-header"];
+    if (!wrapper){
+      wrapper = document.createElement("div");
+      wrapper.id = "__SP_SCROLL_AREA__";
+      content.appendChild(wrapper);
+    }
+    // Move any direct .content children (after fixed header) into the wrapper
+    var moved = 0;
+    for (var i = content.children.length - 1; i >= 0; i--){
+      var c = content.children[i];
+      if (c === wrapper) continue;
+      var cls = (c.className||"").toString().split(/\s+/);
+      var isFixed = false;
+      for (var j=0; j<cls.length; j++){ if (fixed.indexOf(cls[j])!==-1){ isFixed = true; break; } }
+      if (isFixed) continue;
+      if (wrapper.firstChild) wrapper.insertBefore(c, wrapper.firstChild);
+      else wrapper.appendChild(c);
+      moved++;
+    }
+    return moved;
+  }
+  function run(){ wrap(); /* run again after a tick to catch late-added content */ setTimeout(wrap, 100); setTimeout(wrap, 500); }
+  if (document.readyState === "complete") run();
+  else window.addEventListener("load", run);
+})();
+</script>
+<style id="SP-V8-COMPREHENSIVE">
+/* REPORTS: fix .content children with h=0 (the black empty area) */
+body.reports-page .content > div,
+body .content > div:not(.sub-header):not(.subnav):not(.hrm-header),
+body .content > div:empty-cells-parent {
+  flex: 1 1 auto !important;
+  min-height: 200px !important;
+  width: 100% !important;
+}
+body .charts-grid, body .reports-grid, body .content .grid {
+  display: grid !important;
+  gap: 12px !important;
+  min-height: 100px !important;
+  width: 100% !important;
+}
+body .card { min-height: 80px !important; }
+/* Nav active states — reinforce terracotta */
+body .nl.active, body .topnav a.active,
+body .nl.active::after, body .topnav a.active::after,
+body .nl.active::before, body .topnav a.active::before {
+  background: transparent !important;
+}
+body .nl.active, body .topnav a.active {
+  border-bottom: 2px solid #C6583E !important;
+  border-left: 0 !important;
+  border-radius: 0 !important;
+  color: inherit !important;
+}
+body .nl.active::after, body .topnav a.active::after,
+body .nl.active::before, body .topnav a.active::before,
+body .sb-item.active::after, body .sb-item.active::before {
+  display: none !important;
+  content: none !important;
+  background: transparent !important;
+  height: 0 !important;
+}
+body .sb-item.active {
+  background: transparent !important;
+  border-left: 2px solid #C6583E !important;
+  color: inherit !important;
+  padding-left: 8px !important;
+}
+body .nl.active svg, body .topnav a.active svg,
+body .sb-item.active svg {
+  fill: currentColor !important;
+  color: inherit !important;
+  opacity: 1 !important;
+}
+/* Avatar — force terracotta */
+body .ua, body .user-pill .ua {
+  background: linear-gradient(135deg, #C6583E, #A84A35) !important;
+  color: #F5F2EB !important;
+  border-color: #C6583E !important;
+}
+/* Hamburger menu spans (if any have green) */
+body .sb-toggle span, body .menu-toggle span { background: currentColor !important; }
+</style><script src="sp-shell.js?v=7"></script>
+<script src="sp-charts.js?v=7"></script>
+<script src="sp-dynamic-states.js?v=5"></script>
 </body>
 </html>
 

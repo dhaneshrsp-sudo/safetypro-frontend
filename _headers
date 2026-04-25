@@ -1,0 +1,19 @@
+/*.html
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+/safetypro_v2.html
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/safetypro_audit_compliance.html
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/safetypro_operations.html
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/safetypro_control.html
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/safetypro_reports.html
+  Cache-Control: no-cache, no-store, must-revalidate

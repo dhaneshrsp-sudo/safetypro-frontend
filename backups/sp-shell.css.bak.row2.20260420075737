@@ -1,0 +1,2586 @@
+﻿/* ============================================================
+   SP-SHELL.CSS — SafetyPro AI Platform Design System
+   Loaded by all 13 platform pages to enforce visual uniformity
+   Last updated: April 18, 2026
+   ============================================================ */
+
+/* === TYPOGRAPHY: Force Fraunces serif for brand headings, Inter for body === */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
+
+body, .topnav, .sb, .content, .panel, .card, .kpi, .modal, .dropdown {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+/* Big numbers, brand text use Fraunces serif */
+.logo-text, .brand-name, .kpi-v, .htn-num, .hhse-num, .tm-k-v,
+.score-num, .num-big, h1.brand, .stat-num, .metric-v {
+    font-family: 'Fraunces', Georgia, serif !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
+}
+
+/* === WORDMARK: Force identical SafetyPro . AI across all logos === */
+.logo, .brand, .htn-logo, a.logo {
+    font-family: 'Fraunces', Georgia, serif !important;
+    font-weight: 600 !important;
+    font-size: 17px !important;
+    letter-spacing: -0.01em !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: inherit !important;
+}
+
+.logo-text, .brand-name {
+    font-family: 'Fraunces', Georgia, serif !important;
+    font-weight: 600 !important;
+    font-size: 17px !important;
+    letter-spacing: -0.01em !important;
+}
+
+/* The terracotta dot inside wordmarks — force everywhere */
+.logo span[style*="C6583E"],
+.brand span[style*="C6583E"],
+.logo-text span[style*="C6583E"],
+.brand-name span[style*="C6583E"] {
+    color: #C6583E !important;
+    font-weight: 700 !important;
+    margin: 0 4px !important;
+    font-style: normal !important;
+    display: inline !important;
+}
+
+/* === TOPNAV: Force same height, background, border across all pages === */
+.topnav {
+    height: 56px !important;
+    background: rgba(10, 16, 30, 0.95) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    backdrop-filter: blur(12px) !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 20px !important;
+    gap: 16px !important;
+}
+
+/* Topnav nav links — same font, color, transition */
+.topnav a, .topnav .nl, .nl {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #9aa5b1 !important;
+    padding: 8px 14px !important;
+    text-decoration: none !important;
+    border-radius: 6px !important;
+    transition: color 0.15s !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.topnav a:hover, .nl:hover {
+    color: #fff !important;
+}
+
+/* Active topnav button — terracotta underline only */
+.topnav a.active, .nl.active {
+    color: #fff !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    border-bottom: 2px solid #C6583E !important;
+    padding-bottom: 6px !important;
+}
+
+/* Kill any pseudo-elements that might draw green underlines */
+.topnav a.active::before, .topnav a.active::after,
+.nl.active::before, .nl.active::after {
+    display: none !important;
+    content: none !important;
+    background: transparent !important;
+}
+
+/* === SIDEBAR: Force same width, background === */
+.sb, .sidebar {
+    width: 220px !important;
+    background: rgba(10, 16, 30, 0.5) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+    padding: 14px 0 !important;
+}
+
+.sb-sec {
+    padding: 0 18px 6px !important;
+    font-size: 10px !important;
+    color: #5a6a78 !important;
+    letter-spacing: 0.15em !important;
+    font-weight: 600 !important;
+    margin-top: 12px !important;
+}
+
+.sb-item {
+    padding: 9px 18px !important;
+    font-size: 13.5px !important;
+    color: #9aa5b1 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    cursor: pointer !important;
+    transition: color 0.15s !important;
+    text-decoration: none !important;
+}
+
+.sb-item:hover {
+    color: #fff !important;
+}
+
+/* Active sidebar item — terracotta left border only */
+.sb-item.active {
+    color: #fff !important;
+    background: transparent !important;
+    border-left: 2px solid #C6583E !important;
+    padding-left: 16px !important;
+}
+
+.sb-item.active::before, .sb-item.active::after {
+    display: none !important;
+    content: none !important;
+    background: transparent !important;
+}
+
+.sb-item.active svg, .nl.active svg, .topnav a.active svg {
+    fill: currentColor !important;
+    color: inherit !important;
+    opacity: 1 !important;
+}
+
+/* === USER AVATAR: Force terracotta gradient === */
+.ua, .user-pill .ua, .htn-avatar {
+    background: linear-gradient(135deg, #C6583E, #A84A35) !important;
+    color: #F5F2EB !important;
+    border-color: #C6583E !important;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+}
+
+.ua, .htn-avatar {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* User pill area — consistent across pages */
+.user-pill, .htn-user {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 24px !important;
+    padding: 3px 14px 3px 3px !important;
+    cursor: pointer !important;
+    transition: background 0.15s !important;
+}
+
+.user-pill:hover, .htn-user:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* === KPI CARDS: Standardize across all pages === */
+.kpi, .kpi-card, .stat-card, .metric-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 10px !important;
+    padding: 14px 16px !important;
+}
+
+.kpi-l, .stat-l, .metric-l, .kpi-card-label {
+    font-size: 10px !important;
+    color: #5a6a78 !important;
+    letter-spacing: 0.08em !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    margin-bottom: 6px !important;
+}
+
+.kpi-v, .stat-v, .metric-v, .kpi-card-value {
+    font-family: 'Fraunces', Georgia, serif !important;
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+}
+
+/* === PANELS: Standardize === */
+.panel, .card-panel {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 10px !important;
+    padding: 14px 16px !important;
+}
+
+.panel h5, .panel-title {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: #cdd6e0 !important;
+    margin-bottom: 10px !important;
+    letter-spacing: 0.02em !important;
+}
+
+/* === BUTTONS: Standardize primary CTA === */
+.btn-primary, .btn-cta, button.primary {
+    background: #C6583E !important;
+    color: #fff !important;
+    border: none !important;
+    padding: 9px 16px !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    cursor: pointer !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+.btn-primary:hover, .btn-cta:hover {
+    background: #A84A35 !important;
+}
+
+/* === FOOTER: Same color/size === */
+footer, .footer, .page-footer {
+    color: #5a6a78 !important;
+    font-size: 11.5px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.04) !important;
+    padding: 10px 20px !important;
+}
+
+/* === REMOVE OLD GREEN ACTIVE STATES that compete === */
+[class*="green-active"], .nl[style*="22c55e"], .sb-item[style*="22c55e"] {
+    background: transparent !important;
+    border-color: #C6583E !important;
+    color: inherit !important;
+}
+/* ============================================================
+   CANONICAL TOPNAV STYLES — added by Phase C
+   These are the ONLY nav styles that should exist.
+   Local page styles for .topnav/.nl/.nav-links/.mm-item removed.
+   ============================================================ */
+
+nav.topnav, .topnav {
+  height: 56px !important;
+  background: #0a101e !important;
+  border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 16px !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 200 !important;
+  gap: 12px !important;
+}
+
+.topnav .sb-toggle {
+  background: transparent !important;
+  border: none !important;
+  width: 32px !important;
+  height: 32px !important;
+  display: inline-flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  cursor: pointer !important;
+  padding: 6px !important;
+}
+.topnav .sb-toggle span {
+  display: block !important;
+  width: 18px !important;
+  height: 2px !important;
+  background: #9aa5b1 !important;
+  border-radius: 1px !important;
+}
+
+.topnav .logo {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+  text-decoration: none !important;
+  margin-right: 12px !important;
+  flex-shrink: 0 !important;
+}
+.topnav .logo-shield {
+  width: 28px !important;
+  height: 28px !important;
+  background: linear-gradient(135deg, #C6583E, #A84A35) !important;
+  border-radius: 7px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+.topnav .logo-shield svg {
+  width: 15px !important;
+  height: 15px !important;
+  fill: #fff !important;
+}
+.topnav .logo-text {
+  font-family: Fraunces, Georgia, serif !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #fff !important;
+  letter-spacing: -0.3px !important;
+}
+
+.topnav .nav-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: 2px !important;
+  flex: 1 !important;
+}
+
+.topnav .nl {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 8px 14px !important;
+  font-family: Inter, -apple-system, sans-serif !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  color: #9aa5b1 !important;
+  text-decoration: none !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  position: relative !important;
+  border: none !important;
+  background: transparent !important;
+  transition: color 0.15s !important;
+  white-space: nowrap !important;
+}
+.topnav .nl svg {
+  width: 16px !important;
+  height: 16px !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+  stroke-width: 0 !important;
+  flex-shrink: 0 !important;
+}
+.topnav .nl:hover {
+  color: #fff !important;
+  background: rgba(255,255,255,0.04) !important;
+}
+.topnav .nl.active {
+  color: #fff !important;
+  background: transparent !important;
+  border-bottom: 2px solid #C6583E !important;
+  border-radius: 0 !important;
+  padding-bottom: 6px !important;
+}
+
+.topnav .more-wrap {
+  position: relative !important;
+}
+.topnav .more-menu {
+  display: none !important;
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  right: 0 !important;
+  min-width: 240px !important;
+  background: #0a101e !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 8px !important;
+  padding: 6px !important;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35) !important;
+  z-index: 300 !important;
+  flex-direction: column !important;
+}
+.topnav .more-menu.open {
+  display: flex !important;
+}
+.topnav .mm-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 9px 12px !important;
+  font-family: Inter, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #cdd6e0 !important;
+  text-decoration: none !important;
+  border-radius: 5px !important;
+  white-space: nowrap !important;
+}
+.topnav .mm-item svg {
+  width: 16px !important;
+  height: 16px !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+  flex-shrink: 0 !important;
+}
+.topnav .mm-item:hover {
+  background: rgba(198,88,62,0.12) !important;
+  color: #fff !important;
+}
+
+.topnav .nav-right {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin-left: auto !important;
+}
+.topnav .icon-btn {
+  width: 32px !important;
+  height: 32px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  position: relative !important;
+  background: transparent !important;
+  border: none !important;
+}
+.topnav .icon-btn:hover {
+  background: rgba(255,255,255,0.06) !important;
+}
+.topnav .icon-btn svg {
+  width: 16px !important;
+  height: 16px !important;
+  fill: #9aa5b1 !important;
+  stroke: #9aa5b1 !important;
+}
+.topnav .red-dot {
+  display: none !important;
+  width: 8px !important;
+  height: 8px !important;
+  background: #ef4444 !important;
+  border-radius: 50% !important;
+  position: absolute !important;
+  top: 6px !important;
+  right: 6px !important;
+}
+.topnav .red-dot.active { display: block !important; }
+
+.topnav .user-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 3px 10px 3px 3px !important;
+  background: linear-gradient(135deg, #C6583E, #A84A35) !important;
+  border: none !important;
+  border-radius: 24px !important;
+  cursor: pointer !important;
+}
+.topnav .user-pill .ua {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  background: rgba(255,255,255,0.18) !important;
+  color: #fff !important;
+  font-family: Inter, sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.topnav .user-pill .un {
+  display: flex !important;
+  flex-direction: column !important;
+  line-height: 1 !important;
+  gap: 2px !important;
+}
+.topnav .user-pill .un-name {
+  color: #fff !important;
+  font-family: Inter, sans-serif !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+}
+.topnav .user-pill .un-role {
+  color: rgba(255,255,255,0.75) !important;
+  font-family: Inter, sans-serif !important;
+  font-size: 9px !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+}
+
+/* Mobile: hide sidebar toggle + compress nav labels */
+@media (max-width: 900px) {
+  .topnav .nl {
+    padding: 8px 10px !important;
+    font-size: 12.5px !important;
+  }
+}
+/* === HAMBURGER: hide on desktop, show on mobile === */
+.sb-toggle { display: none !important; }
+@media (max-width: 900px) {
+  .sb-toggle { display: inline-flex !important; }
+}
+/* === SIDEBAR SCROLL FIX === */
+.sidebar {
+  position: sticky !important;
+  top: 56px !important;
+  height: calc(100vh - 56px) !important;
+  max-height: calc(100vh - 56px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(255,255,255,0.15) transparent !important;
+}
+.sidebar::-webkit-scrollbar { width: 6px !important; }
+.sidebar::-webkit-scrollbar-track { background: transparent !important; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15) !important; border-radius: 3px !important; }
+.sidebar::-webkit-scrollbar-thumb:hover { background: rgba(198,88,62,0.5) !important; }
+/* === SIDEBAR SCROLL FIX V2 (item overflow detection) === */
+.sidebar {
+  display: block !important;
+  /* Re-assert scroll to override any local flex rules */
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+#sb-more-items {
+  /* When expanded, let it flow naturally inside the scrollable parent */
+  display: none;
+  flex-shrink: 0 !important;
+}
+#sb-more-items[style*="display: block"],
+#sb-more-items[style*="display:block"] {
+  display: block !important;
+}
+.sidebar > * {
+  flex-shrink: 0 !important;
+}
+/* === TOPNAV MORE DROPDOWN: open on click + scrollable if tall === */
+.topnav .more-menu {
+  display: none !important;
+  position: absolute !important;
+  top: calc(100% + 6px) !important;
+  right: 0 !important;
+  min-width: 240px !important;
+  max-height: calc(100vh - 80px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  background: #0a101e !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 8px !important;
+  padding: 6px !important;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35) !important;
+  z-index: 300 !important;
+  scrollbar-width: none !important;
+}
+.topnav .more-menu.open {
+  display: block !important;
+}
+.topnav .more-menu::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+}
+.topnav .mm-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 9px 12px !important;
+  font-family: Inter, sans-serif !important;
+  font-size: 13px !important;
+  color: #cdd6e0 !important;
+  text-decoration: none !important;
+  border-radius: 5px !important;
+  white-space: nowrap !important;
+}
+.topnav .mm-item svg {
+  width: 16px !important;
+  height: 16px !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+  flex-shrink: 0 !important;
+}
+.topnav .mm-item:hover {
+  background: rgba(198,88,62,0.12) !important;
+  color: #fff !important;
+}
+/* === FINAL: auto-scroll everywhere, no visible scrollbars === */
+
+/* SIDEBAR - scrolls on mouse wheel, scrollbar hidden everywhere */
+.sidebar {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+.sidebar::-webkit-scrollbar,
+.sidebar *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* SIDEBAR More section (when expanded) - no inner scroll, flows into sidebar */
+#sb-more-items,
+#sb-more-items * {
+  overflow: visible !important;
+  scrollbar-width: none !important;
+}
+
+/* TOPNAV More dropdown - max height + mouse wheel scroll + no scrollbar */
+#more-btn.open .more-menu,
+.more-wrap.open .more-menu,
+.topnav .more-menu.open {
+  display: flex !important;
+  flex-direction: column !important;
+  max-height: calc(100vh - 80px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+#more-btn.open .more-menu::-webkit-scrollbar,
+.more-wrap.open .more-menu::-webkit-scrollbar,
+.topnav .more-menu.open::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+/* === SIDEBAR: More button works, scroll kicks in when expanded === */
+.sidebar {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+.sidebar::-webkit-scrollbar,
+.sidebar *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+/* When More expands, let items flow naturally inside scrollable sidebar */
+#sb-more-items {
+  flex-shrink: 0 !important;
+  overflow: visible !important;
+}
+#sb-more-items .sb-item {
+  flex-shrink: 0 !important;
+}
+/* === Remove duplicate "Admin & Configuration" at bottom of sidebar === */
+/* It already appears inside #sb-more-items (visible when More is expanded), 
+   so the standalone one outside is redundant */
+.sidebar > #sb-more-items ~ .sb-item[href*="admin"],
+.sidebar > #sb-more-items ~ a.sb-item[href*="admin"] {
+  display: none !important;
+}
+/* === STICKY SIDEBAR: top items fixed, only More content scrolls === */
+
+/* Remove whole-sidebar scroll - switch to flex layout with internal scroll zone */
+.sidebar {
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  height: calc(100vh - 96px) !important;
+  max-height: calc(100vh - 96px) !important;
+}
+
+/* Top items (Dashboard, Operations, Control, Reports) stay fixed - no shrink */
+.sidebar > .sb-item,
+.sidebar > .sb-section,
+.sidebar > .sb-sep,
+.sidebar > .sb-more-btn {
+  flex-shrink: 0 !important;
+}
+
+/* ONLY the expanded More section scrolls internally */
+#sb-more-items {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+#sb-more-items::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+#sb-more-items .sb-item {
+  flex-shrink: 0 !important;
+}
+/* === ADMIN PAGE LAYOUT FIX ===
+   Admin uses .app wrapper with flex-column stacking .body (sidebar) and .content vertically.
+   Force grid layout so they sit side-by-side like other pages. */
+body[data-page="admin"] .app {
+  display: grid !important;
+  grid-template-columns: 220px 1fr !important;
+  grid-template-rows: 56px 1fr auto !important;
+  min-height: 100vh !important;
+  height: 100vh !important;
+}
+body[data-page="admin"] .app > nav.topnav {
+  grid-column: 1 / -1 !important;
+  grid-row: 1 !important;
+  width: 100% !important;
+}
+body[data-page="admin"] .app > .body {
+  grid-column: 1 !important;
+  grid-row: 2 !important;
+  height: auto !important;
+  max-height: calc(100vh - 56px - 40px) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+body[data-page="admin"] .app > .content {
+  grid-column: 2 !important;
+  grid-row: 2 !important;
+  overflow-y: auto !important;
+  padding: 16px 24px !important;
+}
+body[data-page="admin"] .app > .sp-footer,
+body[data-page="admin"] .app > footer {
+  grid-column: 1 / -1 !important;
+  grid-row: 3 !important;
+}
+/* Hide any absolute-positioned dropdowns from taking up grid cells */
+body[data-page="admin"] .app > .alert-dropdown,
+body[data-page="admin"] .app > .profile-dd,
+body[data-page="admin"] .app > .sb-overlay,
+body[data-page="admin"] .app > .modal-bg {
+  position: fixed !important;
+}
+/* === ADMIN PAGE: Hide hamburger + duplicate "Admin" topnav link === */
+/* Higher specificity to beat admin's local CSS */
+body[data-page="admin"] .sb-toggle,
+body[data-page="admin"] .menu-toggle,
+body[data-page="admin"] #sb-toggle,
+body[data-page="admin"] button.sb-toggle {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+/* Hide the extra "Admin" topnav link (only Dashboard/Operations/Control/Reports/More should show) */
+body[data-page="admin"] .topnav .nl[data-page="admin"]:not(.more-wrap),
+body[data-page="admin"] .topnav a.nl[href*="admin"]:not(.more-wrap):not([data-more]) {
+  display: none !important;
+}
+/* Push topnav left content so logo aligns with sidebar edge (no hamburger gap) */
+body[data-page="admin"] .topnav {
+  padding-left: 16px !important;
+}
+body[data-page="admin"] .topnav .logo {
+  margin-left: 0 !important;
+}
+/* === ADMIN PAGE: Hide duplicate Risk Mgmt + mark More as active === */
+/* Admin's original sidebar has Risk Management as a direct child AND inside #sb-more-items.
+   Hide the direct child (the duplicate). */
+body[data-page="admin"] .sidebar > .sb-item[href*="risk"] {
+  display: none !important;
+}
+/* Since we hid the admin topnav link, mark More ▾ as active so user sees current location */
+body[data-page="admin"] .topnav .more-wrap,
+body[data-page="admin"] .topnav #more-btn {
+  position: relative !important;
+}
+body[data-page="admin"] .topnav .more-wrap::after,
+body[data-page="admin"] .topnav #more-btn::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 20% !important;
+  right: 20% !important;
+  bottom: -2px !important;
+  height: 2px !important;
+  background: #C6583E !important;
+  border-radius: 2px !important;
+}
+/* === ADMIN: Remove extra content padding (was causing empty dark strip next to sidebar) === */
+body[data-page="admin"] .app > .content {
+  padding: 0 !important;
+}
+/* === ADMIN: Fix sidebar positioning - disable sticky in grid context === */
+/* Admin uses CSS Grid so sidebar doesn't need sticky - it's already confined to row 2 */
+body[data-page="admin"] .app > .body > .sidebar {
+  position: static !important;
+  top: auto !important;
+  margin: 0 !important;
+  align-self: stretch !important;
+}
+body[data-page="admin"] .app > .body {
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+}
+/* === ADMIN: Sidebar fits inside grid .body, More section scrolls within === */
+body[data-page="admin"] .app > .body {
+  overflow: hidden !important;
+  min-height: 0 !important;
+}
+body[data-page="admin"] .app > .body > .sidebar {
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  flex: 1 1 auto !important;
+  overflow: hidden !important;
+}
+/* Top sticky items stay fixed */
+body[data-page="admin"] .app > .body > .sidebar > .sb-item,
+body[data-page="admin"] .app > .body > .sidebar > .sb-more-btn,
+body[data-page="admin"] .app > .body > .sidebar > .sb-sep {
+  flex-shrink: 0 !important;
+}
+/* Only More section scrolls internally - gives all items access */
+body[data-page="admin"] #sb-more-items {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+body[data-page="admin"] #sb-more-items::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+}
+body[data-page="admin"] #sb-more-items .sb-item {
+  flex-shrink: 0 !important;
+}
+/* === ADMIN: Constrain sidebar height to leave room for Super Admin Panel === */
+/* Super Admin Panel is position:absolute bottom:0 inside .body, overlays 51px */
+/* Force sidebar to stop before panel, and allow More to scroll within available space */
+body[data-page="admin"] .app > .body {
+  position: relative !important;
+}
+body[data-page="admin"] .app > .body > .sidebar {
+  height: calc(100% - 56px) !important;
+  max-height: calc(100% - 56px) !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+body[data-page="admin"] .app > .body > .sidebar > .sb-item,
+body[data-page="admin"] .app > .body > .sidebar > .sb-sep,
+body[data-page="admin"] .app > .body > .sidebar > .sb-more-btn {
+  flex-shrink: 0 !important;
+}
+body[data-page="admin"] #sb-more-items {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  scrollbar-width: none !important;
+}
+body[data-page="admin"] #sb-more-items::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+}
+/* === ADMIN: Remove phantom footer gap below Super Admin Panel === */
+/* Footer is sibling of .app (body > footer), not child. So don't subtract 40px. */
+body[data-page="admin"] .app {
+  height: auto !important;
+  min-height: 0 !important;
+}
+body[data-page="admin"] .app > .body {
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+}
+/* The Super Admin Panel (absolute bottom:0 of .body) will now sit at the real bottom,
+   with body filling grid row 2 which fills all space minus topnav */
+/* === ADMIN: Force footer into viewport via body flex === */
+/* .app keeps getting forced to 100vh by existing rules. Instead, use body-level flex
+   so footer always sits below .app within viewport. */
+body[data-page="admin"] {
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  margin: 0 !important;
+}
+body[data-page="admin"] .app {
+  flex: 1 0 auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: calc(100vh - 40px) !important;
+}
+body[data-page="admin"] > footer.sp-footer {
+  flex-shrink: 0 !important;
+  width: 100% !important;
+}
+/* === SIDEBAR: Account for footer at body level (40px) === */
+/* Previously sidebar was calc(100vh - 56px) which overlaps with footer.
+   Reduce to calc(100vh - 96px) = topnav 56px + footer 40px */
+.sidebar {
+  height: calc(100vh - 96px) !important;
+  max-height: calc(100vh - 96px) !important;
+}
+/* Add bottom padding to More items so last item scrolls fully into view */
+#sb-more-items {
+  padding-bottom: 8px !important;
+}
+/* === SIDEBAR: Add scroll headroom so last item clears the footer === */
+/* Page-inline CSS like '.sidebar {height: 100% !important}' beats my rule.
+   Instead, add generous padding-bottom to #sb-more-items so scroll-max leaves room above footer. */
+html body .sidebar #sb-more-items,
+html body .sb #sb-more-items {
+  padding-bottom: 60px !important;
+  box-sizing: border-box !important;
+}
+/* ===============================================================
+   SAFETYPRO UNIFIED TYPOGRAPHY SYSTEM (Linear-style 13px)
+   Single source of truth for fonts across all 13 pages.
+   High specificity (html body) beats page-inline styles.
+   =============================================================== */
+
+:root {
+  /* Font families */
+  --sp-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --sp-font-display: 'Fraunces', Georgia, serif;
+  --sp-font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  
+  /* Size scale - 5 sizes only, disciplined */
+  --sp-text-xs:  11px;  /* labels, badges, table headers, filter labels */
+  --sp-text-sm:  12px;  /* footer, timestamps, meta */
+  --sp-text-md:  13px;  /* BODY DEFAULT: tables, forms, sidebar, tabs */
+  --sp-text-lg:  15px;  /* card titles, section headers */
+  --sp-text-xl:  18px;  /* page titles */
+  --sp-text-kpi: 28px;  /* KPI hero numbers */
+  
+  /* Weights - only 3 */
+  --sp-fw-regular:  400;
+  --sp-fw-medium:   500;
+  --sp-fw-semibold: 600;
+  
+  /* Line heights */
+  --sp-lh-tight:  1.3;
+  --sp-lh-normal: 1.5;
+  --sp-ls-caps:   0.05em;
+}
+
+/* -------- GLOBAL BODY DEFAULT -------- */
+html body, html body p, html body div, html body span, html body li, html body a {
+  font-family: var(--sp-font-sans) !important;
+}
+html body {
+  font-size: var(--sp-text-md) !important;
+  font-weight: var(--sp-fw-regular) !important;
+  line-height: var(--sp-lh-normal) !important;
+  color: inherit;
+}
+
+/* -------- LOGO (keep Fraunces serif) -------- */
+html body .logo, html body .brand, html body a.logo {
+  font-family: var(--sp-font-display) !important;
+}
+
+/* -------- PAGE TITLE -------- */
+html body h1,
+html body .page-title,
+html body .main-title,
+html body .sub-header h1,
+html body .sub-header h2:first-child {
+  font-size: var(--sp-text-xl) !important;
+  font-weight: var(--sp-fw-semibold) !important;
+  line-height: var(--sp-lh-tight) !important;
+  font-family: var(--sp-font-sans) !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* -------- SECTION HEADERS -------- */
+html body h2,
+html body .section-title,
+html body h3 {
+  font-size: var(--sp-text-lg) !important;
+  font-weight: var(--sp-fw-semibold) !important;
+  line-height: var(--sp-lh-tight) !important;
+  font-family: var(--sp-font-sans) !important;
+}
+
+/* -------- CARD TITLES (override Montserrat) -------- */
+html body .card h3,
+html body .card-title,
+html body .card-header h3,
+html body .kpi-title,
+html body .card .title,
+html body .widget-title {
+  font-size: var(--sp-text-md) !important;
+  font-weight: var(--sp-fw-semibold) !important;
+  font-family: var(--sp-font-sans) !important;
+  line-height: var(--sp-lh-tight) !important;
+}
+
+/* -------- KPI HERO NUMBERS -------- */
+html body .kpi-value,
+html body .kpi-number,
+html body .big-number,
+html body .metric-value,
+html body .stat-value {
+  font-size: var(--sp-text-kpi) !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  font-family: var(--sp-font-sans) !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* -------- KPI / FILTER / TABLE HEADER LABELS (UPPERCASE SMALL CAPS) -------- */
+html body .kpi-label,
+html body .filter-label,
+html body .field-label,
+html body .form-label,
+html body label,
+html body th,
+html body .table-header,
+html body .filter-group label,
+html body .filters label {
+  font-size: var(--sp-text-xs) !important;
+  font-weight: var(--sp-fw-semibold) !important;
+  font-family: var(--sp-font-sans) !important;
+  letter-spacing: var(--sp-ls-caps) !important;
+  text-transform: uppercase !important;
+  line-height: var(--sp-lh-normal) !important;
+}
+
+/* -------- NAVIGATION (topnav, sidebar) -------- */
+html body .topnav .nl,
+html body .topnav a.nl,
+html body .topnav .nav-links a,
+html body .sidebar .sb-item,
+html body .sb .sb-item {
+  font-size: var(--sp-text-md) !important;
+  font-weight: var(--sp-fw-medium) !important;
+  font-family: var(--sp-font-sans) !important;
+  line-height: var(--sp-lh-tight) !important;
+}
+
+/* -------- TABS (sub-headers) -------- */
+html body .tab,
+html body .sub-tab,
+html body .tab-item,
+html body .sub-header a,
+html body .sub-header .tab,
+html body [class*="tab-"] a,
+html body .tabs a {
+  font-size: var(--sp-text-md) !important;
+  font-weight: var(--sp-fw-medium) !important;
+  font-family: var(--sp-font-sans) !important;
+}
+
+/* -------- TABLE CELLS -------- */
+html body td,
+html body .table-cell,
+html body .list-item {
+  font-size: var(--sp-text-md) !important;
+  font-weight: var(--sp-fw-regular) !important;
+  font-family: var(--sp-font-sans) !important;
+  line-height: var(--sp-lh-normal) !important;
+  text-transform: none !important;
+}
+
+/* -------- INPUTS, SELECTS, TEXTAREAS (override Arial leak) -------- */
+html body input,
+html body select,
+html body textarea,
+html body .input,
+html body .select,
+html body .form-control {
+  font-size: var(--sp-text-md) !important;
+  font-weight: var(--sp-fw-regular) !important;
+  font-family: var(--sp-font-sans) !important;
+  line-height: var(--sp-lh-normal) !important;
+}
+
+/* -------- BUTTONS -------- */
+html body button,
+html body .btn,
+html body .button,
+html body [role="button"] {
+  font-size: var(--sp-text-md) !important;
+  font-weight: var(--sp-fw-medium) !important;
+  font-family: var(--sp-font-sans) !important;
+  line-height: var(--sp-lh-tight) !important;
+}
+
+/* -------- BADGES (NEW, counts, etc) -------- */
+html body .badge,
+html body .sb-badge,
+html body .chip,
+html body .tag,
+html body .pill,
+html body .count-badge {
+  font-size: var(--sp-text-xs) !important;
+  font-weight: var(--sp-fw-semibold) !important;
+  font-family: var(--sp-font-sans) !important;
+  letter-spacing: var(--sp-ls-caps) !important;
+  text-transform: uppercase !important;
+}
+
+/* -------- FOOTER -------- */
+html body footer,
+html body .sp-footer,
+html body .page-footer {
+  font-size: var(--sp-text-sm) !important;
+  font-weight: var(--sp-fw-regular) !important;
+  font-family: var(--sp-font-sans) !important;
+  line-height: var(--sp-lh-normal) !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+/* -------- META TEXT (timestamps, subtitles, captions) -------- */
+html body .meta,
+html body .caption,
+html body .subtitle,
+html body .text-muted,
+html body small {
+  font-size: var(--sp-text-sm) !important;
+  font-weight: var(--sp-fw-regular) !important;
+  font-family: var(--sp-font-sans) !important;
+}
+/* === RISK & AUDIT: Filter bar + panels stretch edge-to-edge (no left/right gap) === */
+/* Issue: .tab-panel is 11px narrower than .content, and .ac-sub-panel has 14-16px padding. */
+/* Fix: make both full-width with no horizontal padding/margin. */
+body[data-page="risk"] .tab-panel,
+body[data-page="audit"] .tab-panel,
+body[data-page="risk_management"] .tab-panel,
+body[data-page="audit_compliance"] .tab-panel {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+body[data-page="risk"] .ac-sub-panel,
+body[data-page="audit"] .ac-sub-panel,
+body[data-page="risk_management"] .ac-sub-panel,
+body[data-page="audit_compliance"] .ac-sub-panel {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+/* Also ensure __SP_SCROLL_AREA__ doesn't create its own gap */
+body[data-page="risk"] #__SP_SCROLL_AREA__,
+body[data-page="audit"] #__SP_SCROLL_AREA__ {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+/* === GLOBAL: Hide hamburger icon on all desktop pages === */
+/* Sidebar is always visible on desktop - hamburger not needed */
+html body .sb-toggle,
+html body .menu-toggle,
+html body #sb-toggle,
+html body button.sb-toggle,
+html body button.menu-toggle {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+/* Shift topnav content left where hamburger used to be */
+html body .topnav {
+  padding-left: 16px !important;
+}
+html body .topnav .logo {
+  margin-left: 0 !important;
+}
+/* ===============================================================
+   SAFETYPRO UNIFIED COLOR PALETTE — 6-Token System
+   Design tokens only. Nothing overridden yet.
+   Use these variables going forward for new components.
+   =============================================================== */
+
+:root {
+  /* ===== 6 CORE BRAND/SEMANTIC TOKENS ===== */
+  --sp-brand:     #C6583E;  /* Terracotta - primary action, active states, tab underlines */
+  --sp-success:   #10B981;  /* Muted emerald - KPIs on-target, completed, passing */
+  --sp-danger:    #EF4444;  /* Clean red - critical risks, overdue, incidents, Fix Now */
+  --sp-warning:   #F59E0B;  /* Modern amber - pending, warnings, near-miss */
+  --sp-info:      #3B82F6;  /* Modern blue - informational, counts, links */
+  --sp-accent:    #8B5CF6;  /* Violet - AI features, HRM, reports differentiator */
+
+  /* ===== TEXT HIERARCHY (3 neutral grays) ===== */
+  --sp-text-strong: #F3F4F6;  /* Headlines, KPI numbers, primary text */
+  --sp-text-body:   #9CA3AF;  /* Body text, labels, descriptions */
+  --sp-text-muted:  #6B7280;  /* Captions, metadata, timestamps */
+
+  /* ===== SEMANTIC TINTS (12% opacity) for card borders, chips, subtle backgrounds ===== */
+  --sp-brand-tint:   rgba(198, 88, 62, 0.12);
+  --sp-success-tint: rgba(16, 185, 129, 0.12);
+  --sp-danger-tint:  rgba(239, 68, 68, 0.12);
+  --sp-warning-tint: rgba(245, 158, 11, 0.12);
+  --sp-info-tint:    rgba(59, 130, 246, 0.12);
+  --sp-accent-tint:  rgba(139, 92, 246, 0.12);
+
+  /* ===== STANDARD CHART PALETTE (fixed order for every chart) ===== */
+  --sp-chart-1: var(--sp-success);  /* emerald (positive / primary data) */
+  --sp-chart-2: var(--sp-warning);  /* amber (secondary / comparison) */
+  --sp-chart-3: var(--sp-info);     /* blue (tertiary) */
+  --sp-chart-4: var(--sp-accent);   /* violet (quaternary) */
+  --sp-chart-5: var(--sp-danger);   /* red (alerts / negative) */
+
+  /* ===== SURFACE LAYERS ===== */
+  --sp-surface-0: #0b0f14;   /* App background (deepest) */
+  --sp-surface-1: #141922;   /* Card background */
+  --sp-surface-2: #1C2230;   /* Card hover / active rows */
+  --sp-surface-3: #252B3B;   /* Elevated elements (dropdowns, modals) */
+
+  /* ===== BORDERS ===== */
+  --sp-border-subtle: rgba(255, 255, 255, 0.06);  /* Most card borders */
+  --sp-border-medium: rgba(255, 255, 255, 0.10);  /* Active states */
+  --sp-border-strong: rgba(255, 255, 255, 0.16);  /* Focused inputs */
+}
+/* ===============================================================
+   SAFETYPRO — APPLY COLOR TOKENS (Option A: Gentle Refinement)
+   Updates the most visible elements to use the new 6-token palette.
+   =============================================================== */
+
+/* ---- BUTTONS: unified by semantic role ---- */
+html body button.btn-primary,
+html body button.primary,
+html body .btn-primary,
+html body [data-variant="primary"] {
+  background: var(--sp-brand) !important;
+  color: #fff !important;
+  border-color: var(--sp-brand) !important;
+}
+html body button.btn-danger,
+html body button.danger,
+html body .btn-danger,
+html body [data-variant="danger"] {
+  background: var(--sp-danger) !important;
+  color: #fff !important;
+  border-color: var(--sp-danger) !important;
+}
+html body button.btn-success,
+html body .btn-success {
+  background: var(--sp-success) !important;
+  color: #fff !important;
+}
+
+/* ---- CARD BORDERS: muted tints instead of full saturation ---- */
+html body .card.success-border,
+html body .card[data-tone="success"] {
+  border-top: 2px solid var(--sp-success) !important;
+  background: linear-gradient(to bottom, var(--sp-success-tint), transparent 50%) !important;
+}
+html body .card.danger-border,
+html body .card[data-tone="danger"] {
+  border-top: 2px solid var(--sp-danger) !important;
+  background: linear-gradient(to bottom, var(--sp-danger-tint), transparent 50%) !important;
+}
+html body .card.warning-border,
+html body .card[data-tone="warning"] {
+  border-top: 2px solid var(--sp-warning) !important;
+  background: linear-gradient(to bottom, var(--sp-warning-tint), transparent 50%) !important;
+}
+html body .card.info-border,
+html body .card[data-tone="info"] {
+  border-top: 2px solid var(--sp-info) !important;
+  background: linear-gradient(to bottom, var(--sp-info-tint), transparent 50%) !important;
+}
+
+/* ---- KPI VALUE COLORS: use tokens, muted instead of neon ---- */
+html body .kpi-value.success, html body .kpi-value[data-tone="success"] { color: var(--sp-success) !important; }
+html body .kpi-value.danger,  html body .kpi-value[data-tone="danger"]  { color: var(--sp-danger)  !important; }
+html body .kpi-value.warning, html body .kpi-value[data-tone="warning"] { color: var(--sp-warning) !important; }
+html body .kpi-value.info,    html body .kpi-value[data-tone="info"]    { color: var(--sp-info)    !important; }
+html body .kpi-value.accent,  html body .kpi-value[data-tone="accent"]  { color: var(--sp-accent)  !important; }
+
+/* ---- BADGES: unified semantic colors ---- */
+html body .sb-badge.amber,
+html body .badge.warning {
+  background: var(--sp-warning-tint) !important;
+  color: var(--sp-warning) !important;
+  border: 1px solid var(--sp-warning-tint) !important;
+}
+html body .sb-badge.red,
+html body .sb-badge.danger,
+html body .badge.danger {
+  background: var(--sp-danger-tint) !important;
+  color: var(--sp-danger) !important;
+  border: 1px solid var(--sp-danger-tint) !important;
+}
+html body .sb-badge.green,
+html body .badge.success,
+html body .badge.new {
+  background: var(--sp-success-tint) !important;
+  color: var(--sp-success) !important;
+  border: 1px solid var(--sp-success-tint) !important;
+}
+html body .badge.info,
+html body .badge.blue {
+  background: var(--sp-info-tint) !important;
+  color: var(--sp-info) !important;
+  border: 1px solid var(--sp-info-tint) !important;
+}
+
+/* ---- BORDERS: standardize card/panel borders to subtle ---- */
+html body .card,
+html body .panel,
+html body .ac-sub-panel {
+  border-color: var(--sp-border-subtle) !important;
+}
+
+/* ---- TEXT HIERARCHY: apply to muted/subtle text ---- */
+html body .meta,
+html body .subtitle,
+html body .text-muted,
+html body small.muted {
+  color: var(--sp-text-muted) !important;
+}
+/* ===============================================================
+   SAFETYPRO — PHASE 2: GLOBAL COLOR REMAP (flower garden → professional)
+   Target bright saturated colors used in inline styles and convert to muted tokens.
+   =============================================================== */
+
+/* ==== 1. KILL BRIGHT GREEN #22C55E (Tailwind green-500) — replace with muted #10B981 ==== */
+/* Use attribute selectors to catch inline styles */
+html body [style*="#22C55E"],
+html body [style*="#22c55e"],
+html body [style*="rgb(34, 197, 94)"],
+html body [style*="rgb(34,197,94)"] {
+  color: var(--sp-success) !important;
+}
+/* Also catch when #22C55E is used as background */
+html body [style*="background: #22C55E"],
+html body [style*="background:#22C55E"],
+html body [style*="background-color: #22C55E"],
+html body [style*="background-color:#22C55E"] {
+  background-color: var(--sp-success) !important;
+}
+
+/* ==== 2. TONE DOWN ALL KPI BIG NUMBERS ==== */
+/* KPI numbers should be white with ONLY a small colored accent/trend, not full neon */
+html body .kpi-card [style*="color"],
+html body .card [style*="font-size: 2"] [style*="color"],
+html body [style*="font-size: 28"] {
+  filter: saturate(0.75) !important;
+}
+
+/* ==== 3. CARD TOP BORDERS: reduce saturation to 40% for less shouting ==== */
+html body .card[style*="border-top"],
+html body .kpi-card[style*="border-top"] {
+  border-top-width: 2px !important;
+  opacity: 1;
+}
+html body .card[style*="border-top"]::before,
+html body .kpi-card[style*="border-top"]::before {
+  opacity: 0.6 !important;
+}
+
+/* ==== 4. BUTTONS: unified by intent regardless of class name ==== */
+/* Catch the "Execute All" style buttons - usually rgb(239, 68, 68) red */
+html body button[style*="background"][style*="239, 68, 68"],
+html body button[style*="background: #EF4444"],
+html body button[style*="background:#EF4444"] {
+  background-color: var(--sp-brand) !important;  /* Primary actions = terracotta, not red */
+  border-color: var(--sp-brand) !important;
+}
+
+/* ==== 5. "EXCELLENT" BADGE (green pill) → muted ==== */
+html body [style*="background"][style*="rgba(34"],
+html body [class*="excellent"],
+html body [data-status="excellent"] {
+  background-color: var(--sp-success-tint) !important;
+  color: var(--sp-success) !important;
+  border-color: var(--sp-success-tint) !important;
+}
+
+/* ==== 6. REDUCE GLOBAL NEON/GLOW EFFECTS ==== */
+html body [style*="box-shadow"][style*="rgba(34, 197, 94"],
+html body [style*="box-shadow"][style*="rgba(239, 68, 68"] {
+  box-shadow: none !important;
+}
+
+/* ==== 7. STATUS-PILL NORMALIZATION ==== */
+/* Pills like "Critical", "High", "Scheduled" should all use tints, not bold colors */
+html body span[style*="background"][style*="rgba"] {
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  font-size: 10px !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+}
+/* ===============================================================
+   SAFETYPRO — PROGRESS BAR UNIFICATION
+   Target all progress bar patterns (track + fill divs) across 13 pages.
+   Uses [style] attribute selectors to catch inline styles.
+   =============================================================== */
+
+/* 1. STANDARD PROGRESS TRACK (6px height, subtle background) */
+html body [style*="height:3px"][style*="background:var(--border)"],
+html body [style*="height:4px"][style*="background:var(--border)"],
+html body [style*="height:5px"][style*="background:var(--border)"],
+html body [style*="height:7px"],
+html body [style*="height: 7px"],
+html body [style*="height:14px"][style*="background"],
+html body [style*="height: 14px"] {
+  height: 6px !important;
+  background: rgba(255,255,255,0.06) !important;
+  border-radius: 3px !important;
+  overflow: hidden !important;
+}
+
+/* 2. PROGRESS FILL — normalize height + radius */
+html body [style*="height:100%"][style*="width:"][style*="background:#10B981"],
+html body [style*="height:100%"][style*="width:"][style*="background:#EF4444"],
+html body [style*="height:100%"][style*="width:"][style*="background:#F59E0B"],
+html body [style*="height:100%"][style*="width:"][style*="background:#3B82F6"],
+html body [style*="height:100%"][style*="width:"][style*="background:var(--green)"],
+html body [style*="height:100%"][style*="width:"][style*="background:var(--red)"],
+html body [style*="height:100%"][style*="width:"][style*="background:var(--amber)"],
+html body [style*="height: 100%"][style*="background: var(--green)"],
+html body [style*="height: 100%"][style*="background: var(--red)"],
+html body [style*="height: 100%"][style*="background: var(--amber)"] {
+  height: 100% !important;
+  border-radius: 3px !important;
+}
+
+/* 3. KILL leftover bright green rgba(34, 197, 94, ...) in progress tracks */
+html body [style*="rgba(34, 197, 94"] {
+  background: rgba(16, 185, 129, 0.12) !important;
+}
+
+/* 4. LEGACY VAR MAPPING — old var(--green/--red/--amber) → new tokens */
+html body [style*="background: var(--green)"],
+html body [style*="background:var(--green)"] {
+  background: var(--sp-success) !important;
+}
+html body [style*="background: var(--red)"],
+html body [style*="background:var(--red)"] {
+  background: var(--sp-danger) !important;
+}
+html body [style*="background: var(--amber)"],
+html body [style*="background:var(--amber)"] {
+  background: var(--sp-warning) !important;
+}
+/* ===============================================================
+   SAFETYPRO — UNIVERSAL PROGRESS BAR NORMALIZER (v2)
+   Uses broader attribute matching + JS fallback for inline styles.
+   Targets ANY div with small height acting as progress bar.
+   =============================================================== */
+
+/* Progress track: any narrow div with 'height' in inline style */
+html body div[style*="height:2px"],
+html body div[style*="height: 2px"],
+html body div[style*="height:3px"],
+html body div[style*="height: 3px"],
+html body div[style*="height:4px"],
+html body div[style*="height: 4px"],
+html body div[style*="height:5px"],
+html body div[style*="height: 5px"],
+html body div[style*="height:7px"],
+html body div[style*="height: 7px"],
+html body div[style*="height:8px"],
+html body div[style*="height: 8px"],
+html body div[style*="height:10px"],
+html body div[style*="height: 10px"] {
+  height: 6px !important;
+  border-radius: 3px !important;
+  overflow: hidden !important;
+}
+
+/* Progress fill: children with height:100% inside the unified tracks above */
+html body div[style*="height:100%"][style*="width:"],
+html body div[style*="height: 100%"][style*="width:"] {
+  height: 100% !important;
+  border-radius: 3px !important;
+}
+/* ===============================================================
+   AP-TRACK progress bars (AI Priority cards) — unify to 6px
+   =============================================================== */
+html body .ap-track {
+  height: 6px !important;
+  border-radius: 3px !important;
+  overflow: hidden !important;
+}
+html body .ap-track > * {
+  height: 100% !important;
+  border-radius: 3px !important;
+}
+/* Also catch any legacy var(--blue) and var(--purple) */
+html body [style*="background: var(--blue)"],
+html body [style*="background:var(--blue)"] {
+  background: var(--sp-info) !important;
+}
+html body [style*="background: var(--purple)"],
+html body [style*="background:var(--purple)"] {
+  background: var(--sp-accent) !important;
+}
+/* ===============================================================
+   PROGRESS BARS — STANDARDIZE TO 4px / 2px RADIUS
+   (Reference: .proj-bar from Project/Site Health card)
+   =============================================================== */
+
+/* Target vs Actual bars (.tva-fill + parent) */
+html body .tva-fill,
+html body .tva-track,
+html body [class*="tva-"] {
+  height: 4px !important;
+  border-radius: 2px !important;
+}
+
+/* AP Priority bars (.ap-track / .ap-fill) */
+html body .ap-track {
+  height: 4px !important;
+  border-radius: 2px !important;
+  overflow: hidden !important;
+}
+html body .ap-fill {
+  height: 100% !important;
+  border-radius: 2px !important;
+}
+
+/* Any remaining progress bar patterns — force 4px */
+html body div[style*="height:4px"],
+html body div[style*="height: 4px"],
+html body div[style*="height:5px"],
+html body div[style*="height: 5px"],
+html body div[style*="height:6px"],
+html body div[style*="height: 6px"],
+html body div[style*="height:7px"],
+html body div[style*="height: 7px"],
+html body div[style*="height:8px"],
+html body div[style*="height: 8px"] {
+  height: 4px !important;
+  border-radius: 2px !important;
+}
+
+/* Kill cyan #22D3EE leak — replace with info blue */
+html body [style*="#22D3EE"],
+html body [style*="#22d3ee"] {
+  background: var(--sp-info) !important;
+}
+
+/* Our own earlier 6px JS normalizer: override back to 4px */
+html body div[style*="height: 6px"] {
+  height: 4px !important;
+  border-radius: 2px !important;
+}
+/* === FINAL: Override height:2px (too thin) parent tracks to 4px === */
+html body div[style*="height:2px"],
+html body div[style*="height: 2px"] {
+  height: 4px !important;
+  border-radius: 2px !important;
+}
+/* And any remaining 6px forced by my earlier JS run */
+html body div[style*="height: 6px"],
+html body div[style*="height:6px"] {
+  height: 4px !important;
+  border-radius: 2px !important;
+}
+/* Also: our JS normalizer ran once with 6px = some DOM still has inline 6px from that run */
+/* These need CSS override priority */
+/* === FINAL: Force ALL height:3px parents (and also catch the 6px from v=36 rule) to 4px === */
+html body div[style*="height:3px"],
+html body div[style*="height: 3px"] {
+  height: 4px !important;
+  border-radius: 2px !important;
+}
+/* === ULTIMATE: Catch-all for any progress bar height (3-12px) === */
+html body div[style*="height:3px"],
+html body div[style*="height: 3px"],
+html body div[style*="height:4px"],
+html body div[style*="height: 4px"],
+html body div[style*="height:5px"],
+html body div[style*="height: 5px"],
+html body div[style*="height:6px"],
+html body div[style*="height: 6px"],
+html body div[style*="height:7px"],
+html body div[style*="height: 7px"],
+html body div[style*="height:8px"],
+html body div[style*="height: 8px"],
+html body div[style*="height:9px"],
+html body div[style*="height: 9px"],
+html body div[style*="height:10px"],
+html body div[style*="height: 10px"],
+html body div[style*="height:11px"],
+html body div[style*="height: 11px"],
+html body div[style*="height:12px"],
+html body div[style*="height: 12px"] {
+  height: 4px !important;
+  border-radius: 2px !important;
+}
+/* === SPECIFICITY WINNER: Beat the v=36 two-attribute rule === */
+/* v=36 rule: [style*="height:3px"][style*="background:var(--border)"] { height: 6px !important }
+   Our rule needs EQUAL or HIGHER specificity AND appear later in CSS */
+html body div[style*="height:3px"][style*="background"],
+html body div[style*="height:4px"][style*="background"],
+html body div[style*="height:5px"][style*="background"],
+html body div[style*="height:6px"][style*="background"],
+html body div[style*="height:7px"][style*="background"],
+html body div[style*="height:8px"][style*="background"],
+html body div[style*="height:9px"][style*="background"],
+html body div[style*="height:10px"][style*="background"],
+html body div[style*="height: 3px"][style*="background"],
+html body div[style*="height: 4px"][style*="background"],
+html body div[style*="height: 5px"][style*="background"],
+html body div[style*="height: 6px"][style*="background"],
+html body div[style*="height: 7px"][style*="background"],
+html body div[style*="height: 8px"][style*="background"],
+html body div[style*="height: 9px"][style*="background"],
+html body div[style*="height: 10px"][style*="background"] {
+  height: 4px !important;
+  border-radius: 2px !important;
+}
+/* === TARGET VS ACTUAL: Add row spacing so labels don't overlap bars === */
+html body .tva-row {
+  margin-bottom: 14px !important;
+  position: relative !important;
+}
+html body .tva-row:last-child {
+  margin-bottom: 0 !important;
+}
+/* Bars should sit cleanly below their row label */
+html body .tva-track {
+  margin-top: 4px !important;
+}
+/* === REVERT overly broad height rules — only target actual progress bar tracks === */
+/* Only apply 4px to divs that ALSO have background/background-color (i.e. actual bars) */
+/* This undoes damage to .tva-name, .tva-header, .tva-item, .tva-list containers */
+html body .tva-name,
+html body .tva-item,
+html body .tva-list,
+html body .tva-header,
+html body .tva-vals,
+html body .tva-rows,
+html body .tva-row,
+html body .tva-lbl,
+html body .tva-num {
+  height: auto !important;
+}
+/* Keep TVA track at 4px, fill at 100% */
+html body .tva-track {
+  height: 4px !important;
+  border-radius: 2px !important;
+  overflow: hidden !important;
+}
+html body .tva-fill {
+  height: 100% !important;
+  border-radius: 2px !important;
+}
+/* Proper spacing between rows */
+html body .tva-rows {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+html body .tva-item {
+  margin-bottom: 12px !important;
+}
+html body .tva-item:last-child {
+  margin-bottom: 0 !important;
+}
+html body .tva-header {
+  margin-bottom: 6px !important;
+}
+/* ===============================================================
+   KPI CARDS: Force uniform height across all small tiles (v2 FIXED)
+   Target .kpi class directly — was using wrong selectors
+   =============================================================== */
+html body .kpi,
+html body .col-3.kpi,
+html body [class*="kpi-"][class*="col-3"],
+html body div[data-sp-state]:not(.card):not([class*="hero"]):not(#portfolio-grid):not(.g-card):not([class*="g-card"]) {
+  min-height: 152px !important;
+  max-height: 152px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+/* Specifically target the row-by-row KPI strips */
+html body #kpi-row > .col-3,
+html body [id*="kpi"] > .col-3 {
+  min-height: 152px !important;
+  max-height: 152px !important;
+}
+
+/* Inner content layout — use flex for vertical distribution */
+html body .kpi {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+/* ===============================================================
+   LESSONS LEARNED SECTION: Match other cards' left alignment
+   Issue: Lessons Learned grid-12 is outside .dash (no 16px padding)
+   All other dashboard sections are inside .dash which has padding:16px
+   =============================================================== */
+html body #__SP_SCROLL_AREA__ > .grid-12 {
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  box-sizing: border-box !important;
+}
+
+/* Also ensure the sections container (if any wraps Lessons Learned) gets padding */
+html body .content > .grid-12:not(.dash *) {
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
+/* ===============================================================
+   METHODOLOGY MODAL STYLES — sp-methodology.js
+   Professional dark modal matching Linear/Stripe/Vercel aesthetic
+   =============================================================== */
+
+/* Overlay */
+.sp-meth-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 14, 22, 0.85);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: sp-meth-fade-in 0.2s ease-out;
+}
+
+@keyframes sp-meth-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Modal container */
+.sp-meth-modal {
+  background: var(--card, #0D1520);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  width: min(900px, 100%);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(16,185,129,0.1);
+  animation: sp-meth-slide-up 0.25s ease-out;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+@keyframes sp-meth-slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Header */
+.sp-meth-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: radial-gradient(ellipse 400px 200px at top left, rgba(16,185,129,0.12), transparent 70%);
+}
+
+.sp-meth-title {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.sp-meth-icon {
+  font-size: 24px;
+  line-height: 1;
+  padding-top: 2px;
+}
+
+.sp-meth-title h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #F9FAFB;
+  letter-spacing: -0.01em;
+}
+
+.sp-meth-subtitle {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #9CA3AF;
+  font-weight: 400;
+}
+
+.sp-meth-close {
+  background: transparent;
+  border: none;
+  color: #9CA3AF;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 6px;
+  line-height: 1;
+  transition: all 0.15s;
+}
+
+.sp-meth-close:hover {
+  background: rgba(255,255,255,0.05);
+  color: #F9FAFB;
+}
+
+/* Body (scrollable) */
+.sp-meth-body {
+  overflow-y: auto;
+  padding: 20px 24px;
+  flex: 1;
+}
+
+.sp-meth-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sp-meth-body::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+}
+
+/* Sections */
+.sp-meth-section {
+  margin-bottom: 24px;
+}
+
+.sp-meth-section:last-child {
+  margin-bottom: 0;
+}
+
+.sp-meth-section h3 {
+  font-size: 12px;
+  font-weight: 600;
+  color: #10B981;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 10px;
+}
+
+.sp-meth-section p {
+  margin: 0;
+  font-size: 13px;
+  color: #D1D5DB;
+  line-height: 1.6;
+}
+
+/* Formula blocks */
+.sp-meth-formula-main {
+  background: rgba(16,185,129,0.06);
+  border: 1px solid rgba(16,185,129,0.18);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  font-size: 13px;
+  color: #F9FAFB;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.sp-meth-formula-part {
+  margin-bottom: 12px;
+}
+
+.sp-meth-formula-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #9CA3AF;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.sp-meth-formula-code {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  font-size: 12px;
+  color: #D1D5DB;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+/* Tier boxes */
+.sp-meth-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sp-meth-tier {
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+}
+
+.sp-meth-tier-badge {
+  background: rgba(16,185,129,0.12);
+  color: #10B981;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 4px 8px;
+  border-radius: 4px;
+  align-self: flex-start;
+  flex-shrink: 0;
+  border: 1px solid rgba(16,185,129,0.25);
+}
+
+.sp-meth-tier-body {
+  flex: 1;
+}
+
+.sp-meth-tier-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #F9FAFB;
+  margin-bottom: 2px;
+}
+
+.sp-meth-tier-source {
+  font-size: 11px;
+  color: #9CA3AF;
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 4px;
+}
+
+.sp-meth-tier-coverage {
+  font-size: 12px;
+  color: #D1D5DB;
+}
+
+/* Tables */
+.sp-meth-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.sp-meth-table thead th {
+  text-align: left;
+  padding: 8px 10px;
+  color: #9CA3AF;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.sp-meth-table tbody td {
+  padding: 10px;
+  color: #D1D5DB;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.sp-meth-table tbody tr:hover td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* Advantage highlight box */
+.sp-meth-advantage {
+  background: rgba(16,185,129,0.04);
+  border: 1px solid rgba(16,185,129,0.15);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-top: 4px;
+}
+
+.sp-meth-advantage h3 {
+  color: #10B981;
+}
+
+/* Footer */
+.sp-meth-footer {
+  padding: 14px 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background: rgba(255,255,255,0.01);
+}
+
+.sp-meth-btn-secondary {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #D1D5DB;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.sp-meth-btn-secondary:hover {
+  background: rgba(255,255,255,0.05);
+  color: #F9FAFB;
+}
+
+/* Info icon (ⓘ) trigger on cards */
+.sp-info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #9CA3AF;
+  font-size: 11px;
+  font-weight: 600;
+  font-style: normal;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: Georgia, serif;
+  line-height: 1;
+  user-select: none;
+}
+
+.sp-info-icon:hover {
+  background: rgba(16,185,129,0.15);
+  border-color: rgba(16,185,129,0.4);
+  color: #10B981;
+  transform: scale(1.1);
+}
+/* ===============================================================
+   RESTORE PLAIN STYLE: Large .g-card must NOT inherit Corner Glow
+   Even when sp-dynamic-states.js adds data-sp-state attribute,
+   larger content cards (Audit & Compliance, Safe Man-Hours, etc)
+   should keep the plain dark aesthetic matching the rest of UI.
+   Corner Glow is reserved for small KPI tiles only.
+   =============================================================== */
+html body .g-card[data-sp-state],
+html body div.g-card[data-sp-state="safe"],
+html body div.g-card[data-sp-state="warning"],
+html body div.g-card[data-sp-state="danger"] {
+  background-image: none !important;
+  background: var(--card, rgb(13, 21, 32)) !important;
+  border: 1px solid rgb(22, 34, 54) !important;
+  border-color: rgb(22, 34, 54) !important;
+  box-shadow: none !important;
+}
+/* ==================================================================
+   UNIFIED PAGE HEADER FRAMEWORK v1.0
+   Multi-tenant SaaS 3-row pattern
+   Row 1: Page Identity     (48px) - title + breadcrumb + page actions
+   Row 2: Tenant Scope      (44px) - Org / BU / Project / Region / Date
+   Row 3: Page-Specific     (40px) - tabs OR page-level filters
+   Total: 132px max
+   ================================================================== */
+
+/* --- Container that wraps all 3 rows --- */
+.sp-page-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg, #0a0f1a);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* --- ROW 1: Page Identity (48px) --- */
+.sp-page-identity {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  gap: 16px;
+}
+
+.sp-page-identity-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.sp-page-breadcrumb {
+  font-family: var(--fh, 'Inter', sans-serif);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted, #8b95a8);
+  letter-spacing: 0.2px;
+}
+
+.sp-page-breadcrumb a {
+  color: var(--text-muted, #8b95a8);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.sp-page-breadcrumb a:hover {
+  color: var(--emerald, #10b981);
+}
+
+.sp-page-breadcrumb-separator {
+  margin: 0 6px;
+  opacity: 0.4;
+}
+
+.sp-page-title {
+  font-family: var(--fh, 'Inter', sans-serif);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text, #e8eef8);
+  letter-spacing: -0.1px;
+  margin-left: 8px;
+  position: relative;
+}
+
+.sp-page-title::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--emerald, #10b981);
+  margin-right: 8px;
+  vertical-align: middle;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+}
+
+.sp-page-identity-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sp-page-action {
+  height: 32px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: var(--text, #e8eef8);
+  font-family: var(--fh, 'Inter', sans-serif);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.sp-page-action:hover {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: var(--emerald, #10b981);
+}
+
+.sp-page-action--primary {
+  background: var(--emerald, #10b981);
+  border-color: var(--emerald, #10b981);
+  color: #0a0f1a;
+  font-weight: 600;
+}
+
+.sp-page-action--primary:hover {
+  background: #0ea770;
+  color: #0a0f1a;
+}
+
+/* --- ROW 2: Tenant Scope Filters (44px) --- */
+.sp-scope-filters {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  background: rgba(255, 255, 255, 0.015);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.sp-scope-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.sp-scope-filter {
+  height: 30px;
+  padding: 0 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  color: var(--text, #e8eef8);
+  font-family: var(--fh, 'Inter', sans-serif);
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  min-width: 120px;
+}
+
+.sp-scope-filter:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+.sp-scope-filter--active {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: var(--emerald, #10b981);
+}
+
+/* Multi-tenant visibility modifiers
+   These classes are toggled by JS based on user role / tenant config */
+.sp-scope-filter--org {
+  display: none;  /* hidden by default; shown when user.hasMultiOrgAccess */
+}
+
+.sp-scope-filter--businessunit {
+  display: none;  /* hidden by default; shown when tenant has >1 BU */
+}
+
+.sp-scope-filter--region {
+  display: none;  /* hidden by default; shown when tenant is multi-region */
+}
+
+/* JS adds these state classes to enable per-tenant visibility */
+.sp-page-header[data-multi-org="true"] .sp-scope-filter--org { display: inline-flex; }
+.sp-page-header[data-multi-bu="true"] .sp-scope-filter--businessunit { display: inline-flex; }
+.sp-page-header[data-multi-region="true"] .sp-scope-filter--region { display: inline-flex; }
+
+/* Period + Search are always visible */
+.sp-scope-filter--period,
+.sp-scope-filter--search {
+  display: inline-flex;
+}
+
+.sp-scope-filter--period {
+  margin-left: auto;  /* pushes period + search to the right */
+}
+
+.sp-scope-filter--search {
+  min-width: 200px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.sp-scope-filter-label {
+  color: var(--text-muted, #8b95a8);
+  font-weight: 400;
+  margin-right: 2px;
+}
+
+.sp-scope-filter-value {
+  color: var(--text, #e8eef8);
+  font-weight: 500;
+}
+
+.sp-scope-filter-chevron {
+  margin-left: 4px;
+  opacity: 0.5;
+  font-size: 10px;
+}
+
+/* --- ROW 3: Page-Specific Controls (40px) --- */
+.sp-page-controls {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 20px;
+  background: transparent;
+}
+
+/* Variant A: Tab navigation */
+.sp-page-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  flex: 1;
+}
+
+.sp-page-tab {
+  height: 32px;
+  padding: 0 14px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: var(--text-muted, #8b95a8);
+  font-family: var(--fh, 'Inter', sans-serif);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.sp-page-tab:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text, #e8eef8);
+}
+
+.sp-page-tab--active {
+  color: var(--emerald, #10b981);
+}
+
+.sp-page-tab--active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 14px;
+  right: 14px;
+  height: 2px;
+  background: var(--emerald, #10b981);
+  border-radius: 2px;
+}
+
+.sp-page-tab-badge {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--emerald, #10b981);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+  line-height: 14px;
+}
+
+/* Variant B: Page-level filters (when no tabs) */
+.sp-page-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  flex: 1;
+}
+
+.sp-page-filter {
+  height: 28px;
+  padding: 0 10px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 5px;
+  color: var(--text, #e8eef8);
+  font-family: var(--fh, 'Inter', sans-serif);
+  font-size: 11px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sp-page-filter:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* --- Responsive adjustments --- */
+@media (max-width: 960px) {
+  .sp-page-identity { padding: 0 12px; }
+  .sp-scope-filters { padding: 0 12px; gap: 6px; }
+  .sp-page-controls { padding: 0 12px; }
+  .sp-page-title { font-size: 13px; }
+  .sp-scope-filter { min-width: 100px; font-size: 11px; }
+}
+/* ==================================================================
+   END UNIFIED PAGE HEADER FRAMEWORK
+   ================================================================== */
+/* ==================================================================
+   PLAN C: SUB-HEADER VISUAL WRAPPER v1.0
+   Restyles existing .sub-header content to match Unified Framework
+   Used on: Reports, Operations (any page still using .sub-header)
+   Zero HTML changes - purely cosmetic overlay
+   ================================================================== */
+
+/* Tighten the sub-header layout when it follows our Row 1 */
+.sp-page-identity + .sub-header {
+  /* Reset any legacy vertical spacing that conflicts with our Row 1 */
+  margin-top: 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+
+/* --- Restyle the tabs row (first child of .sub-header) --- */
+/* Reports tab row: "Reports | Statistics | Monthly Reports | ..." */
+.sub-header > div:first-of-type {
+  height: 40px !important;
+  padding: 0 20px !important;
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+/* Tab-like anchors/buttons inside that row */
+.sub-header > div:first-of-type > a,
+.sub-header > div:first-of-type > button,
+.sub-header > div:first-of-type > [role="tab"] {
+  height: 32px !important;
+  padding: 0 14px !important;
+  border-radius: 6px !important;
+  font-family: var(--fh, 'Inter', sans-serif) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  transition: all 0.15s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.sub-header > div:first-of-type > a:hover,
+.sub-header > div:first-of-type > button:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: var(--text, #e8eef8) !important;
+}
+
+/* Active tab indicator */
+.sub-header > div:first-of-type > .active,
+.sub-header > div:first-of-type > [aria-selected="true"],
+.sub-header > div:first-of-type > .tab-active {
+  color: var(--emerald, #10b981) !important;
+  position: relative !important;
+}
+
+.sub-header > div:first-of-type > .active::after,
+.sub-header > div:first-of-type > [aria-selected="true"]::after,
+.sub-header > div:first-of-type > .tab-active::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: -4px !important;
+  left: 14px !important;
+  right: 14px !important;
+  height: 2px !important;
+  background: var(--emerald, #10b981) !important;
+  border-radius: 2px !important;
+}
+
+/* --- Restyle the filter row (second child of .sub-header) --- */
+.sub-header > div:nth-of-type(2) {
+  height: 44px !important;
+  padding: 0 20px !important;
+  background: rgba(255, 255, 255, 0.015) !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+
+/* Style the filter labels */
+.sub-header > div:nth-of-type(2) > div,
+.sub-header > div:nth-of-type(2) label {
+  font-family: var(--fh, 'Inter', sans-serif) !important;
+  font-size: 11px !important;
+  color: var(--text-muted, #8b95a8) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.4px !important;
+}
+
+/* Style the native selects to look like .sp-scope-filter buttons */
+.sub-header > div:nth-of-type(2) select {
+  height: 30px !important;
+  padding: 0 28px 0 12px !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 6px !important;
+  color: var(--text, #e8eef8) !important;
+  font-family: var(--fh, 'Inter', sans-serif) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  min-width: 120px !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%238b95a8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  transition: all 0.15s ease !important;
+}
+
+.sub-header > div:nth-of-type(2) select:hover {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(16, 185, 129, 0.25) !important;
+}
+
+.sub-header > div:nth-of-type(2) select:focus {
+  outline: none !important;
+  border-color: rgba(16, 185, 129, 0.4) !important;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1) !important;
+}
+
+/* Style the Export and Clear buttons */
+.sub-header > div:nth-of-type(2) button {
+  height: 30px !important;
+  padding: 0 12px !important;
+  border-radius: 6px !important;
+  font-family: var(--fh, 'Inter', sans-serif) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+
+/* Responsive: narrower filters on mobile */
+@media (max-width: 960px) {
+  .sub-header > div:first-of-type { padding: 0 12px !important; }
+  .sub-header > div:nth-of-type(2) {
+    padding: 0 12px !important;
+    gap: 6px !important;
+  }
+  .sub-header > div:nth-of-type(2) select {
+    min-width: 100px !important;
+    font-size: 11px !important;
+  }
+}
+/* ==================================================================
+   END PLAN C: SUB-HEADER VISUAL WRAPPER
+   ================================================================== */
+/* ==================================================================
+   PLAN C FINAL: Row 1 lives inside .sub-header now
+   Adjust child selectors: Row1=first, tabs=nth(2), filters=nth(3)
+   ================================================================== */
+
+/* Override previous Plan C CSS (tab row is now 2nd child, not 1st) */
+.sub-header > .sp-page-identity {
+  /* Row 1 inherits base .sp-page-identity styling from framework CSS */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Tab row is now 2nd child (was 1st) */
+.sub-header > div:nth-of-type(2):not(.sp-page-identity) {
+  height: 40px !important;
+  padding: 0 20px !important;
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+/* Filter row is now 3rd child (was 2nd) */
+.sub-header > div:nth-of-type(3):not(.sp-page-identity) {
+  height: 44px !important;
+  padding: 0 20px !important;
+  background: rgba(255, 255, 255, 0.015) !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+/* ================================================================== */
+/* PLAN C STACK FIX - sub-header stacks as column when Row 1 is present */
+.sub-header:has(.sp-page-identity) {
+  flex-direction: column !important;
+  height: auto !important;
+  align-items: stretch !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+.sub-header > .sp-page-identity {
+  width: 100% !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+}

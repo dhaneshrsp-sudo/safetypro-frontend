@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Audit — SafetyPro . AI</title>
+<link rel="stylesheet" href="css/_sp_shell.css">
+<style>
+.audit-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-hd{text-align:center;font-size:9px;font-weight:600;color:var(--muted);padding:4px 0;text-transform:uppercase;letter-spacing:.05em}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:var(--r8);font-size:11px;cursor:pointer;transition:all .15s;position:relative;border:1px solid transparent}
+.cal-day:hover{background:var(--card-h);border-color:var(--border)}
+.cal-day.today{background:var(--gold-dim);border-color:var(--gold-b);color:var(--gold);font-weight:700}
+.cal-day.has-audit{border-color:var(--blue-dim)}
+.cal-day.has-audit::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--blue)}
+.cal-day.past{color:var(--faint)}
+.cal-day.other-month{opacity:.25}
+.finding-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r8);padding:10px;margin-bottom:8px;border-left:3px solid}
+.audit-checklist-item{display:grid;grid-template-columns:1fr auto auto auto auto;gap:8px;align-items:center;padding:9px 14px;border-bottom:.5px solid rgba(30,41,59,.4);font-size:12px}
+.audit-checklist-item:last-child{border-bottom:none}
+.radio-grp{display:flex;gap:6px}
+.radio-grp label{display:flex;align-items:center;gap:4px;cursor:pointer;font-size:11px;font-weight:500;padding:3px 8px;border-radius:20px;border:1px solid var(--border);transition:all .15s}
+.radio-grp input[type=radio]{display:none}
+.radio-grp input[type=radio]:checked+span{font-weight:700}
+.radio-grp label:has(input:checked){border-color:var(--gold);background:var(--gold-dim);color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="sp-app">
+<aside class="sp-sidebar" id="sp-sidebar"></aside>
+<header class="sp-header" id="sp-header"></header>
+<main class="sp-main" id="sp-main">
+
+<div class="sp-kpi-strip">
+  <div class="sp-kpi" style="--kc:var(--blue)"><div class="sp-kpi-label">Planned (Year)</div><div class="sp-kpi-val">48</div><div class="sp-kpi-sub"><span class="nt">→</span> scheduled</div></div>
+  <div class="sp-kpi" style="--kc:var(--green)"><div class="sp-kpi-label">Completed (YTD)</div><div class="sp-kpi-val">41</div><div class="sp-kpi-sub"><span class="up">85%</span> complete</div></div>
+  <div class="sp-kpi" style="--kc:var(--amber)"><div class="sp-kpi-label">Open Findings</div><div class="sp-kpi-val">22</div><div class="sp-kpi-sub"><span class="dn">↑4</span> this month</div></div>
+  <div class="sp-kpi" style="--kc:var(--red)"><div class="sp-kpi-label">Overdue Findings</div><div class="sp-kpi-val">6</div><div class="sp-kpi-sub"><span class="dn">↑2</span> escalated</div></div>
+  <div class="sp-kpi" style="--kc:var(--green)"><div class="sp-kpi-label">Closure Rate</div><div class="sp-kpi-val">78%</div><div class="sp-kpi-sub"><span class="up">↑5%</span> this month</div></div>
+</div>
+
+<div class="sp-card">
+  <div class="sp-tabs" id="audit-tabs">
+    <div class="sp-tab">Audit Schedule</div>
+    <div class="sp-tab">Conduct Audit</div>
+    <div class="sp-tab">Findings</div>
+    <div class="sp-tab">Corrective Actions</div>
+    <div class="sp-tab">Audit Reports</div>
+  </div>
+
+  <!-- Tab 1: Schedule -->
+  <div class="sp-tab-panel">
+    <div class="g31">
+      <div>
+        <div class="sp-sec-hd"><div class="sp-sec-title">December 2024</div><button class="sp-btn sp-btn-primary sp-btn-sm" onclick="SP.openModal('sched-audit-modal')">+ Schedule Audit</button></div>
+        <div class="audit-cal">
+          ${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>`<div class="cal-hd">${d}</div>`).join('')}
+          ${Array.from({length:31},(_,i)=>{
+            const d=i+1;
+            const isToday=d===19;
+            const hasAudit=[4,9,11,16,18,23,26].includes(d);
+            return`<div class="cal-day${isToday?' today':''}${hasAudit?' has-audit':''}" onclick="showAuditDay(${d})" title="${hasAudit?'Audit scheduled':''}">${d}</div>`;
+          }).join('')}
+        </div>
+        <div class="sp-alert blue" style="margin-top:12px">Next audit: <strong>Tomorrow (20 Dec)</strong> — Weekly Safety Walk · Zone A &amp; B</div>
+      </div>
+      <div>
+        <div class="sp-sec-title" style="margin-bottom:10px">Upcoming Audits</div>
+        <div class="sp-tbl-wrap">
+          <table class="sp-tbl">
+            <thead><tr><th>Date</th><th>Type</th><th>Scope</th><th>Lead</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>20 Dec</td><td>Weekly Walk</td><td>Zone A &amp; B</td><td>HSE Manager</td><td><span class="sp-b nd b-amber">Scheduled</span></td></tr>
+              <tr><td>23 Dec</td><td>PTW Audit</td><td>All active PTWs</td><td>Safety Officer</td><td><span class="sp-b nd b-amber">Scheduled</span></td></tr>
+              <tr><td>26 Dec</td><td>Contractor Audit</td><td>ABC Builders</td><td>Project Head</td><td><span class="sp-b nd b-amber">Scheduled</span></td></tr>
+              <tr><td>31 Dec</td><td>Monthly Closeout</td><td>Full site</td><td>HSE Manager</td><td><span class="sp-b nd b-amber">Scheduled</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Conduct Audit -->
+  <div class="sp-tab-panel" style="padding:0">
+    <div style="padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--text)">Weekly Safety Walk — 19 Dec 2024</div>
+        <div style="font-size:11px;color:var(--muted)">Lead: HSE Manager · Scope: Zone A, ROB Area · Progress: 0/32 items</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <select style="padding:5px 10px;background:var(--card);border:1px solid var(--border);border-radius:var(--r8);color:var(--text);font-size:12px;outline:none" onchange="filterChecklist(this.value)"><option>All Sections</option><option>PTW & Permits</option><option>PPE</option><option>Housekeeping</option><option>Equipment</option><option>Emergency</option></select>
+        <button class="sp-btn sp-btn-primary sp-btn-sm" onclick="submitAudit()">Submit Audit</button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr auto auto auto auto;gap:8px;padding:8px 14px;border-bottom:1px solid var(--border);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;background:var(--surface)">
+      <span>Checklist Item</span><span style="text-align:center">Conform</span><span style="text-align:center">Observ.</span><span style="text-align:center">NCR</span><span style="text-align:center">Major</span>
+    </div>
+    <div id="checklist-wrap">
+      ${[['PTW & Permits','All active PTWs have valid approval signatures','All workers on restricted work have current PTW','PTW boards are updated and visible at work locations'],['PPE Compliance','All workers wearing mandatory hard hat and safety boots','Harness in use for all height work above 2m','Eye protection worn for all grinding, welding, concrete work','Gloves appropriate to task being worn'],['Housekeeping','Walkways clear of debris and obstructions','Materials stored in designated areas with proper stacking','Waste segregated and removed from work areas','No tripping hazards near active work areas'],['Equipment & Plant','Plant operators hold valid operating certificates','Pre-shift checks completed and records available','Safety devices functional on all equipment','Banksman present for all crane operations'],['Emergency Preparedness','Fire extinguishers in designated locations and tagged','First aid box fully stocked and accessible','Muster point clearly marked and known to workers','Emergency contacts posted at site office and notice boards']].map(([section,...items])=>`
+      <div style="background:var(--surface);padding:6px 14px 4px;border-bottom:.5px solid rgba(30,41,59,.4)"><span style="font-size:10px;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:.06em">${section}</span></div>
+      ${items.map((item,i)=>`<div class="audit-checklist-item">
+        <span>${item}</span>
+        <div class="radio-grp">
+          <label title="Conform"><input type="radio" name="cl_${section.replace(/\s/g,'')}_${i}"><span style="color:var(--green)">✓</span></label>
+          <label title="Observation"><input type="radio" name="cl_${section.replace(/\s/g,'')}_${i}"><span style="color:var(--amber)">⚠</span></label>
+          <label title="NCR"><input type="radio" name="cl_${section.replace(/\s/g,'')}_${i}"><span style="color:var(--red)">✗</span></label>
+          <label title="Major"><input type="radio" name="cl_${section.replace(/\s/g,'')}_${i}"><span style="color:var(--red)">⛔</span></label>
+        </div>
+      </div>`).join('')}`).join('')}
+    </div>
+  </div>
+
+  <!-- Tab 3: Findings -->
+  <div class="sp-tab-panel">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div style="display:flex;gap:6px">
+        <button class="sp-btn sp-btn-secondary sp-btn-sm" onclick="filterFindings('')" style="border-color:var(--gold)">All (22)</button>
+        <button class="sp-btn sp-btn-danger sp-btn-sm" onclick="filterFindings('Major')">Major (3)</button>
+        <button class="sp-btn sp-btn-secondary sp-btn-sm" style="border-color:var(--amber);color:var(--amber)" onclick="filterFindings('NCR')">NCR (7)</button>
+        <button class="sp-btn sp-btn-secondary sp-btn-sm" onclick="filterFindings('Observation')">Observ. (12)</button>
+      </div>
+      <button class="sp-btn sp-btn-primary sp-btn-sm" onclick="SP.openModal('finding-modal')">+ Log Finding</button>
+    </div>
+    <div id="findings-list">
+      ${[['AUD-F-042','20 Dec 2024','Major','Workers doing height work without harness connection at Pier 7','HSE Manager','Area Head A','22 Dec 2024','Open','red'],['AUD-F-041','18 Dec 2024','NCR','PTW not updated on board — Km 34 excavation','Safety Officer','Supervisor K','20 Dec 2024','Open','amber'],['AUD-F-040','18 Dec 2024','Observation','Housekeeping issue — materials blocking walkway Zone B','Safety Officer','Zone B Foreman','21 Dec 2024','In Progress','blue'],['AUD-F-039','16 Dec 2024','NCR','Crane operator certificate expired — Plant Yard','Inspector','Plant Supervisor','17 Dec 2024','Closed','green'],['AUD-F-038','16 Dec 2024','Major','No exclusion zone for crane operations — ROB area','HSE Manager','Area Head ROB','18 Dec 2024','Closed','green']].map(([id,date,type,desc,by,owner,due,status,c])=>`
+      <div class="finding-card" style="border-color:var(--${c})">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <span class="mono">${id}</span>
+          <div style="display:flex;gap:6px">${SP.badge(type,`b-${c}`)}${SP.badge(status,`b-${status==='Closed'?'green':status==='In Progress'?'blue':'amber'}`)}</div>
+        </div>
+        <div style="font-size:12.5px;color:var(--text);margin-bottom:6px">${desc}</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:10px;color:var(--muted)">
+          <div><div class="sp-label">Audit Date</div>${date}</div>
+          <div><div class="sp-label">Raised By</div>${by}</div>
+          <div><div class="sp-label">Assigned To</div>${owner}</div>
+          <div><div class="sp-label">Due</div><span style="color:${new Date(due)<new Date()&&status!=='Closed'?'var(--red)':'inherit'}">${due}</span></div>
+        </div>
+        ${status!=='Closed'?`<div style="display:flex;gap:6px;margin-top:10px"><button class="sp-btn sp-btn-primary sp-btn-xs">Update</button><button class="sp-btn sp-btn-secondary sp-btn-xs">Close Finding</button></div>`:''}
+      </div>`).join('')}
+    </div>
+  </div>
+
+  <!-- Tab 4: Corrective Actions -->
+  <div class="sp-tab-panel">
+    <div class="sp-tbl-wrap">
+      <table class="sp-tbl">
+        <thead><tr><th>Finding Ref</th><th>Corrective Action</th><th>Assigned To</th><th>Priority</th><th>Due Date</th><th>Progress</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">AUD-F-042</td><td>Issue harness anchor points and briefing for all Pier 7 workers</td><td>Area Head A</td><td><span class="sp-b nd b-red">HIGH</span></td><td style="color:var(--amber)">22 Dec 2024</td><td><div class="sp-prog"><div class="sp-prog-fill" style="width:20%"></div></div></td><td><span class="sp-b nd b-amber">OPEN</span></td></tr>
+          <tr><td class="mono">AUD-F-041</td><td>Update PTW board at Km 34, brief Supervisor on procedure</td><td>Supervisor K</td><td><span class="sp-b nd b-amber">MED</span></td><td>20 Dec 2024</td><td><div class="sp-prog"><div class="sp-prog-fill amber" style="width:60%"></div></div></td><td><span class="sp-b nd b-blue">IN PROGRESS</span></td></tr>
+          <tr><td class="mono">AUD-F-040</td><td>Clear materials from walkway, establish storage protocol</td><td>Zone B Foreman</td><td><span class="sp-b nd b-blue">LOW</span></td><td>21 Dec 2024</td><td><div class="sp-prog"><div class="sp-prog-fill green" style="width:80%"></div></div></td><td><span class="sp-b nd b-blue">IN PROGRESS</span></td></tr>
+          <tr><td class="mono">AUD-F-039</td><td>Renew crane operator certificate — arrange refresher</td><td>Plant Supervisor</td><td><span class="sp-b nd b-amber">MED</span></td><td>17 Dec 2024</td><td><div class="sp-prog"><div class="sp-prog-fill green" style="width:100%"></div></div></td><td><span class="sp-b nd b-green">CLOSED</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab 5: Audit Reports -->
+  <div class="sp-tab-panel">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div style="font-size:13px;color:var(--muted)">Generated audit reports — download or share</div>
+      <button class="sp-btn sp-btn-primary sp-btn-sm" onclick="generateAuditReport()">+ Generate Report</button>
+    </div>
+    <div class="sp-tbl-wrap">
+      <table class="sp-tbl">
+        <thead><tr><th>Report No.</th><th>Audit Type</th><th>Date</th><th>Score</th><th>Findings</th><th>Status</th><th>Download</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">AUD-2024-41</td><td>Monthly Closeout — Nov 2024</td><td>30 Nov 2024</td><td style="font-weight:700;color:var(--green)">91%</td><td>14 findings — 12 closed</td><td><span class="sp-b nd b-green">Final</span></td><td><button class="sp-btn sp-btn-secondary sp-btn-xs">↓ PDF</button></td></tr>
+          <tr><td class="mono">AUD-2024-40</td><td>Contractor Audit — ABC Builders</td><td>25 Nov 2024</td><td style="font-weight:700;color:var(--amber)">78%</td><td>8 findings — 6 closed</td><td><span class="sp-b nd b-green">Final</span></td><td><button class="sp-btn sp-btn-secondary sp-btn-xs">↓ PDF</button></td></tr>
+          <tr><td class="mono">AUD-2024-39</td><td>Weekly Safety Walk — W47</td><td>22 Nov 2024</td><td style="font-weight:700;color:var(--green)">88%</td><td>6 findings — all closed</td><td><span class="sp-b nd b-green">Final</span></td><td><button class="sp-btn sp-btn-secondary sp-btn-xs">↓ PDF</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="sp-act-bar">
+  <span class="sp-act-bar-lbl">Quick:</span>
+  <button class="sp-btn sp-btn-primary" onclick="SP.openModal('sched-audit-modal')">+ Schedule Audit</button>
+  <button class="sp-btn sp-btn-secondary" onclick="SP.openModal('finding-modal')">+ Log Finding</button>
+  <button class="sp-btn sp-btn-secondary" onclick="generateAuditReport()">Generate Report</button>
+</div>
+
+<!-- Modals -->
+<div class="sp-modal-bg" id="sched-audit-modal" style="display:none">
+  <div class="sp-modal"><div class="sp-modal-hd"><div class="sp-modal-title">Schedule Audit</div><button class="sp-modal-x" onclick="SP.closeModal('sched-audit-modal')">✕</button></div><div class="sp-modal-body"><div class="sp-form-row"><label class="sp-label">Audit Type</label><select class="sp-select"><option>Weekly Safety Walk</option><option>Monthly Closeout</option><option>Contractor Audit</option><option>PTW Audit</option><option>ISO 45001 Audit</option><option>DGFASLI Inspection Prep</option></select></div><div class="sp-form-grid"><div class="sp-form-row"><label class="sp-label">Date</label><input class="sp-input" type="date"></div><div class="sp-form-row"><label class="sp-label">Lead Auditor</label><input class="sp-input"></div></div><div class="sp-form-row"><label class="sp-label">Scope</label><textarea class="sp-textarea"></textarea></div></div><div class="sp-modal-ft"><button class="sp-btn sp-btn-secondary" onclick="SP.closeModal('sched-audit-modal')">Cancel</button><button class="sp-btn sp-btn-primary">Schedule</button></div></div>
+</div>
+<div class="sp-modal-bg" id="finding-modal" style="display:none">
+  <div class="sp-modal"><div class="sp-modal-hd"><div class="sp-modal-title">Log Audit Finding</div><button class="sp-modal-x" onclick="SP.closeModal('finding-modal')">✕</button></div><div class="sp-modal-body"><div class="sp-form-grid"><div class="sp-form-row"><label class="sp-label">Finding Type</label><select class="sp-select"><option>Observation</option><option>NCR</option><option>Major</option></select></div><div class="sp-form-row"><label class="sp-label">Location</label><input class="sp-input"></div><div class="sp-form-row" style="grid-column:1/-1"><label class="sp-label">Description</label><textarea class="sp-textarea"></textarea></div><div class="sp-form-row"><label class="sp-label">Assigned To</label><input class="sp-input"></div><div class="sp-form-row"><label class="sp-label">Due Date</label><input class="sp-input" type="date"></div></div></div><div class="sp-modal-ft"><button class="sp-btn sp-btn-secondary" onclick="SP.closeModal('finding-modal')">Cancel</button><button class="sp-btn sp-btn-primary">Save Finding</button></div></div>
+</div>
+
+<script src="js/_sp_common.js"></script>
+<script>
+function showAuditDay(d){if([4,9,11,16,18,23,26].includes(d))alert(`Audit on Dec ${d}:\n\nWeekly Safety Walk\nLead: HSE Manager\nScope: Zone A, Zone B`);}
+function filterFindings(type){}
+function submitAudit(){if(confirm('Submit audit with current findings? This cannot be undone.'))alert('Audit submitted. Findings have been created as actions.');}
+function generateAuditReport(){alert('Generating audit report PDF…\nWill be available in Audit Reports tab.');}
+function filterChecklist(section){}
+SP.init('audit','Audit','Internal audits & findings management');
+SP.initTabs('audit-tabs');
+</script>
+</body>
+</html>

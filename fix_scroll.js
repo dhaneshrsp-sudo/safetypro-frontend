@@ -1,24 +1,20 @@
 ﻿const fs = require('fs');
-let h = fs.readFileSync('safetypro_audit_compliance.html','utf8');
+const path = 'C:/safetypro_complete_frontend/safetypro_audit_compliance.html';
+let lines = fs.readFileSync(path, 'utf8').split('\n');
 
-// Fix 1: Panel - change overflow-y:auto to overflow:auto to allow both directions
-h = h.replace(
-  'id="ac-legal" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;padding:16px 20px 24px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;"',
-  'id="ac-legal" style="flex:1;overflow:auto;display:flex;flex-direction:column;padding:16px 20px 24px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;min-width:0;"'
-);
+// Fix line 33 (index 32): change overflow: hidden to overflow-y: auto in .content block
+if (lines[32].trim() === 'overflow: hidden;') {
+  lines[32] = lines[32].replace('overflow: hidden;', 'overflow-y: auto;');
+  console.log('Fixed line 33:', lines[32].trim());
+} else {
+  console.log('Line 33 content:', lines[32]);
+  console.log('No match - checking nearby lines...');
+  for (var i = 26; i <= 35; i++) console.log(i+1 + ': ' + lines[i]);
+}
 
-// Fix 2: Table wrapper - ensure horizontal scroll works independently
-h = h.replace(
-  '<div style="overflow-x:auto;">',
-  '<div style="overflow-x:auto;overflow-y:visible;width:100%;">'
-);
+const buf = Buffer.from(lines.join('\n'), 'utf8');
+fs.writeFileSync(path, buf);
 
-// Fix 3: Table itself - set min-width so it doesn't compress
-h = h.replace(
-  '<table style="width:100%;border-collapse:collapse;font-size:11px;" id="ror-table">',
-  '<table style="width:100%;min-width:900px;border-collapse:collapse;font-size:11px;" id="ror-table">'
-);
-
-console.log('Panel overflow fixed:', h.includes('overflow:auto'));
-console.log('Table min-width set:', h.includes('min-width:900px'));
-fs.writeFileSync('safetypro_audit_compliance.html', h);
+const check = fs.readFileSync(path);
+console.log('First 3 bytes:', check[0], check[1], check[2]);
+console.log('Size:', check.length);

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Compliance — SafetyPro AI</title>
+<link rel="stylesheet" href="css/_sp_shell.css">
+<style>
+.comp-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cc-cell{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:var(--r8);font-size:11px;cursor:pointer;transition:all .15s;position:relative;border:1px solid transparent;padding:2px}
+.cc-cell:hover{background:var(--card-h);border-color:var(--border)}
+.cc-cell.today{background:var(--gold-dim);border-color:var(--gold-b);color:var(--gold);font-weight:700}
+.cc-cell.due{border-color:var(--red-dim)}
+.cc-cell.due::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--red)}
+.law-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:.5px solid rgba(30,41,59,.4);font-size:12px}
+.law-row:last-child{border-bottom:none}
+.chart-h180{position:relative;height:180px}
+</style>
+</head>
+<body>
+<div class="sp-app">
+<aside class="sp-sidebar" id="sp-sidebar"></aside>
+<header class="sp-header" id="sp-header"></header>
+<main class="sp-main" id="sp-main">
+
+<div class="sp-kpi-strip">
+  <div class="sp-kpi" style="--kc:var(--green)"><div class="sp-kpi-label">Compliance Score</div><div class="sp-kpi-val">91%</div><div class="sp-kpi-sub"><span class="up">↑2%</span> this month</div></div>
+  <div class="sp-kpi" style="--kc:var(--red)"><div class="sp-kpi-label">Overdue Requirements</div><div class="sp-kpi-val">4</div><div class="sp-kpi-sub"><span class="dn">urgent</span></div></div>
+  <div class="sp-kpi" style="--kc:var(--amber)"><div class="sp-kpi-label">Expiring Permits (30d)</div><div class="sp-kpi-val">3</div><div class="sp-kpi-sub"><span class="nt">→</span> action needed</div></div>
+  <div class="sp-kpi" style="--kc:var(--red)"><div class="sp-kpi-label">Legal Actions</div><div class="sp-kpi-val">0</div><div class="sp-kpi-sub"><span class="up">→</span> none active</div></div>
+  <div class="sp-kpi" style="--kc:var(--amber)"><div class="sp-kpi-label">Upcoming Deadlines</div><div class="sp-kpi-val">8</div><div class="sp-kpi-sub"><span class="nt">→</span> next 30 days</div></div>
+</div>
+
+<div class="sp-card">
+  <div class="sp-tabs" id="comp-tabs">
+    <div class="sp-tab">Compliance Calendar</div>
+    <div class="sp-tab">Legal Register</div>
+    <div class="sp-tab">Permit Register</div>
+    <div class="sp-tab">Compliance Score</div>
+    <div class="sp-tab">Gap Actions</div>
+  </div>
+
+  <!-- Tab 1: Calendar -->
+  <div class="sp-tab-panel">
+    <div class="g31">
+      <div>
+        <div class="sp-sec-hd"><div class="sp-sec-title">December 2024</div><button class="sp-btn sp-btn-primary sp-btn-sm" onclick="SP.openModal('comp-event-modal')">+ Add Deadline</button></div>
+        <div class="comp-cal">
+          ${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>`<div style="text-align:center;font-size:9px;font-weight:600;color:var(--muted);padding:4px 0;text-transform:uppercase;letter-spacing:.05em">${d}</div>`).join('')}
+          ${Array.from({length:31},(_,i)=>{const d=i+1;return`<div class="cc-cell${d===19?' today':''}${[15,22,31].includes(d)?' due':''}" onclick="showCompDay(${d})">${d}</div>`;}).join('')}
+        </div>
+        <div style="display:flex;gap:12px;margin-top:10px;font-size:11px;color:var(--muted)">
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block"></span>Compliance deadline</span>
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:var(--gold);display:inline-block"></span>Today</span>
+        </div>
+      </div>
+      <div>
+        <div class="sp-sec-title" style="margin-bottom:10px">Upcoming Deadlines</div>
+        <div class="sp-tbl-wrap">
+          <table class="sp-tbl">
+            <thead><tr><th>Date</th><th>Requirement</th><th>Authority</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td style="color:var(--red);font-weight:600">15 Dec</td><td>BOCW Monthly Return</td><td>Labour Dept</td><td><span class="sp-b nd b-red">Overdue</span></td></tr>
+              <tr><td style="color:var(--amber)">22 Dec</td><td>Environmental Clearance Renewal</td><td>SPCB</td><td><span class="sp-b nd b-amber">Due</span></td></tr>
+              <tr><td>31 Dec</td><td>Annual Safety Report</td><td>DGFASLI</td><td><span class="sp-b nd b-amber">Pending</span></td></tr>
+              <tr><td>05 Jan</td><td>Fire NOC Renewal</td><td>Fire Dept</td><td><span class="sp-b nd b-gray">Upcoming</span></td></tr>
+              <tr><td>15 Jan</td><td>CGPDTM Factory License</td><td>Factory Dept</td><td><span class="sp-b nd b-gray">Upcoming</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Legal Register -->
+  <div class="sp-tab-panel">
+    <div style="font-size:13px;color:var(--muted);margin-bottom:14px">Applicable laws and regulations with compliance status</div>
+    <div class="sp-tbl-wrap">
+      <table class="sp-tbl">
+        <thead><tr><th>Act / Rule</th><th>Applicable Sections</th><th>Authority</th><th>Compliance</th><th>Review Date</th><th>Owner</th></tr></thead>
+        <tbody>
+          ${[['BOCW Act 1996','Sec 28 (registration), 38 (safety)','Labour Dept','Compliant','31 Mar 2025','HSE Manager'],['Factories Act 1948','Chapter IV-A, Schedule I-IV','Factory Inspector','Partial — Chapter IV gap','31 Dec 2024','Project Head'],['MSIHC Rules 1989','Rule 4 (hazardous chemicals)','State Govt','Compliant','31 Mar 2025','Safety Officer'],['Noise Pollution Rules 2000','Rule 5 (work zones)','SPCB','Compliant','30 Jun 2025','EHS Engineer'],['Environment Protection Act 1986','Section 7, 8 (standards)','CPCB / SPCB','Compliant','31 Mar 2025','EHS Engineer'],['Indian Electricity Rules 2005','Rule 44-46 (construction)','CEA','Compliant','31 Dec 2024','Electrical Eng.'],['IS:18001 / ISO 45001','Full standard','Self','91% compliance','31 Dec 2024','HSE Manager'],['DGFASLI Guidelines','Construction Safety Manual','DGFASLI','Compliant','30 Jun 2025','HSE Manager']].map(([act,sec,auth,comp,rev,owner])=>`
+          <tr>
+            <td style="font-weight:500">${act}</td><td style="font-size:11px;color:var(--muted);max-width:160px">${sec}</td><td>${auth}</td>
+            <td>${SP.badge(comp.includes('Partial')?'Partial':comp.includes('Compliant')?'Compliant':'Non-Compliant',comp.includes('Partial')?'b-amber':comp.includes('Compliant')?'b-green':'b-red')}</td>
+            <td style="font-size:11px">${rev}</td><td style="font-size:11px">${owner}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab 3: Permit Register -->
+  <div class="sp-tab-panel">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div style="font-size:13px;color:var(--muted)">Government licences and statutory permits</div>
+      <button class="sp-btn sp-btn-primary sp-btn-sm" onclick="SP.openModal('permit-reg-modal')">+ Add Permit</button>
+    </div>
+    <div class="sp-tbl-wrap">
+      <table class="sp-tbl">
+        <thead><tr><th>Permit / Licence</th><th>Issuing Authority</th><th>Issued Date</th><th>Expiry</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody>
+          ${[['BOCW Registration Certificate','Labour Commissioner','01 Apr 2023','31 Mar 2026','Valid','green'],['Environmental Clearance','SPCB Bihar','15 May 2022','15 May 2025','Valid','green'],['Consent to Operate (Air)','SPCB Bihar','01 Jun 2023','31 May 2025','Valid','green'],['Factory Licence','Factory Inspector','01 Jan 2024','31 Dec 2024','Expiring Soon','amber'],['Fire NOC','Fire Department','01 Feb 2024','31 Jan 2025','Valid','green'],['Explosives Licence','PESO','01 Mar 2024','28 Feb 2025','Valid','green'],['Pesticide/Herbicide NOC','Agri Dept','01 Apr 2024','31 Mar 2025','Valid','green'],['Ground Water NOC','CGWB','15 Nov 2023','14 Nov 2025','Valid','green']].map(([permit,auth,issued,expiry,status,c])=>`
+          <tr>
+            <td style="font-weight:500">${permit}</td><td>${auth}</td><td>${issued}</td>
+            <td style="color:${c==='amber'?'var(--amber)':c==='red'?'var(--red)':'inherit'};font-weight:${c==='amber'||c==='red'?'600':'400'}">${expiry}</td>
+            <td>${SP.badge(status,`b-${c}`)}</td>
+            <td><button class="sp-btn sp-btn-secondary sp-btn-xs">${c==='amber'?'Renew':'View'}</button></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab 4: Compliance Score -->
+  <div class="sp-tab-panel">
+    <div class="g2">
+      <div class="sp-card">
+        <div class="sp-card-hd"><div class="sp-card-title">Compliance Score by Category</div></div>
+        <div class="sp-card-body"><div class="chart-h180"><canvas id="compScoreChart" role="img" aria-label="Compliance score"></canvas></div></div>
+      </div>
+      <div>
+        ${[['BOCW Act compliance',96,'green'],['ISO 45001 alignment',91,'green'],['Environmental permits',88,'green'],['Training requirements',72,'amber'],['Incident reporting',94,'green'],['PTW system adherence',88,'green'],['DGFASLI compliance',85,'amber'],['Contractor compliance',79,'amber']].map(([cat,score,c])=>`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:.5px solid rgba(30,41,59,.4);font-size:12px"><div style="flex:1">${cat}</div><div style="flex:1;max-width:120px"><div class="sp-prog"><div class="sp-prog-fill ${c}" style="width:${score}%"></div></div></div><div style="font-weight:700;color:${c==='green'?'var(--green)':c==='amber'?'var(--amber)':'var(--red)'};width:36px;text-align:right">${score}%</div></div>`).join('')}
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 5: Gap Actions -->
+  <div class="sp-tab-panel">
+    <div class="sp-alert amber" style="margin-bottom:14px">4 compliance gaps identified. These require urgent action to maintain legal compliance.</div>
+    <div class="sp-tbl-wrap">
+      <table class="sp-tbl">
+        <thead><tr><th>Gap Ref</th><th>Compliance Requirement</th><th>Gap Description</th><th>Priority</th><th>Responsible</th><th>Due</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">GAP-001</td><td>BOCW Monthly Return</td><td>Dec return not submitted — 4 days overdue</td><td><span class="sp-b nd b-red">HIGH</span></td><td>HR Manager</td><td style="color:var(--red)">15 Dec</td><td><span class="sp-b nd b-red">OVERDUE</span></td></tr>
+          <tr><td class="mono">GAP-002</td><td>Training requirement (Factories Act)</td><td>16 operators without mandatory certificate</td><td><span class="sp-b nd b-red">HIGH</span></td><td>Training Coord.</td><td style="color:var(--amber)">31 Dec</td><td><span class="sp-b nd b-amber">OPEN</span></td></tr>
+          <tr><td class="mono">GAP-003</td><td>Factory Licence renewal</td><td>Licence expiring 31 Dec — renewal pending</td><td><span class="sp-b nd b-amber">MED</span></td><td>Project Head</td><td>31 Dec</td><td><span class="sp-b nd b-amber">IN PROGRESS</span></td></tr>
+          <tr><td class="mono">GAP-004</td><td>Contractor HSE Plan</td><td>2 contractors without approved HSE plan</td><td><span class="sp-b nd b-amber">MED</span></td><td>HSE Manager</td><td>22 Dec</td><td><span class="sp-b nd b-amber">OPEN</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="sp-act-bar">
+  <span class="sp-act-bar-lbl">Quick:</span>
+  <button class="sp-btn sp-btn-primary" onclick="SP.openModal('comp-event-modal')">+ Add Deadline</button>
+  <button class="sp-btn sp-btn-secondary" onclick="SP.openModal('permit-reg-modal')">+ Add Permit</button>
+</div>
+
+<div class="sp-modal-bg" id="comp-event-modal" style="display:none">
+  <div class="sp-modal"><div class="sp-modal-hd"><div class="sp-modal-title">Add Compliance Deadline</div><button class="sp-modal-x" onclick="SP.closeModal('comp-event-modal')">✕</button></div><div class="sp-modal-body"><div class="sp-form-row"><label class="sp-label">Requirement</label><input class="sp-input"></div><div class="sp-form-grid"><div class="sp-form-row"><label class="sp-label">Due Date</label><input class="sp-input" type="date"></div><div class="sp-form-row"><label class="sp-label">Authority</label><input class="sp-input"></div></div><div class="sp-form-row"><label class="sp-label">Responsible Person</label><input class="sp-input"></div></div><div class="sp-modal-ft"><button class="sp-btn sp-btn-secondary" onclick="SP.closeModal('comp-event-modal')">Cancel</button><button class="sp-btn sp-btn-primary">Save</button></div></div>
+</div>
+<div class="sp-modal-bg" id="permit-reg-modal" style="display:none">
+  <div class="sp-modal"><div class="sp-modal-hd"><div class="sp-modal-title">Add Permit/Licence</div><button class="sp-modal-x" onclick="SP.closeModal('permit-reg-modal')">✕</button></div><div class="sp-modal-body"><div class="sp-form-row"><label class="sp-label">Permit/Licence Name</label><input class="sp-input"></div><div class="sp-form-row"><label class="sp-label">Issuing Authority</label><input class="sp-input"></div><div class="sp-form-grid"><div class="sp-form-row"><label class="sp-label">Issue Date</label><input class="sp-input" type="date"></div><div class="sp-form-row"><label class="sp-label">Expiry Date</label><input class="sp-input" type="date"></div></div><div class="sp-form-row"><label class="sp-label">Upload Document</label><input class="sp-input" type="file"></div></div><div class="sp-modal-ft"><button class="sp-btn sp-btn-secondary" onclick="SP.closeModal('permit-reg-modal')">Cancel</button><button class="sp-btn sp-btn-primary">Save</button></div></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="js/_sp_common.js"></script>
+<script>
+function showCompDay(d){if([15,22,31].includes(d))alert(`Compliance deadline on Dec ${d}`);}
+document.addEventListener('sp:ready',()=>{
+  const c=document.getElementById('compScoreChart')?.getContext('2d');
+  if(c){new Chart(c,{type:'bar',data:{labels:['BOCW','ISO 45001','Env.','Training','Incident Rep.','PTW','DGFASLI','Contractor'],datasets:[{data:[96,91,88,72,94,88,85,79],backgroundColor:['#22C55E','#22C55E','#22C55E','#F59E0B','#22C55E','#22C55E','#F59E0B','#F59E0B'],borderRadius:4,borderWidth:0},{label:'Target',data:Array(8).fill(90),type:'line',borderColor:'#C9A84C',borderDash:[4,3],borderWidth:1.5,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#131C26',borderColor:'#1E293B',borderWidth:1}},scales:{x:{grid:{color:'rgba(30,41,59,.4)'},ticks:{color:'#475569',font:{size:9}}},y:{min:50,max:100,grid:{color:'rgba(30,41,59,.4)'},ticks:{color:'#475569',font:{size:9}}}}}});}
+});
+SP.init('compliance','Compliance','Regulatory compliance tracking');
+SP.initTabs('comp-tabs');
+</script>
+</body>
+</html>

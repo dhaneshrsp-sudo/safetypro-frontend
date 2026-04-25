@@ -1,0 +1,75 @@
+  <div class="sp-row4 sp-row4--ims" data-ctx="ims">
+    <div class="sp-row4-filters">
+      <label class="sp-row4-filter">
+        <span class="sp-row4-filter-label">Type</span>
+        <select class="mt-ctx-sel" data-role="type" onchange="spr4Filter(this)">
+          <option value="ALL">All Types</option>
+          <option value="Internal HSE Audit">Internal HSE Audit</option>
+          <option value="ISO 45001:2018 Internal Audit">ISO 45001:2018 Internal Audit</option>
+          <option value="ISO 14001:2015 Internal Audit">ISO 14001:2015 Internal Audit</option>
+          <option value="ISO 9001:2015 Internal Audit">ISO 9001:2015 Internal Audit</option>
+          <option value="Combined IMS Audit">Combined IMS Audit</option>
+          <option value="Contractor HSE Audit">Contractor HSE Audit</option>
+          <option value="Surveillance Audit">Surveillance Audit</option>
+          <option value="Pre-Certification Readiness">Pre-Certification Readiness</option>
+        </select>
+      </label>
+      <label class="sp-row4-filter">
+        <span class="sp-row4-filter-label">Dept</span>
+        <select class="mt-ctx-sel" data-role="dept" onchange="spr4Filter(this)">
+          <option value="ALL">All Depts</option>
+          <option value="HSE">HSE</option>
+          <option value="Civil">Civil / Execution</option>
+          <option value="MEP">MEP / Electrical</option>
+          <option value="Environment">Environment</option>
+          <option value="QA/QC">QA/QC</option>
+          <option value="Planning">Planning</option>
+          <option value="Project Management">Project Management</option>
+          <option value="HR &amp; Admin">HR &amp; Admin</option>
+        </select>
+      </label>
+      <label class="sp-row4-filter">
+        <span class="sp-row4-filter-label">Status</span>
+        <select class="mt-ctx-sel" data-role="status" onchange="spr4Filter(this)">
+          <option value="ALL">All Statuses</option>
+          <option value="planned">Planned</option>
+          <option value="in-progress">In Progress</option>
+          <option value="completed">Completed</option>
+          <option value="overdue">Overdue</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </label>
+      <label class="sp-row4-filter">
+        <span class="sp-row4-filter-label">Priority</span>
+        <select class="mt-ctx-sel" data-role="priority" onchange="spr4Filter(this)">
+          <option value="ALL">All Priorities</option>
+          <option value="Critical">Critical</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </label>
+      <label class="sp-row4-filter">
+        <span class="sp-row4-filter-label">Lead Auditor</span>
+        <select class="mt-ctx-sel" data-role="auditor" onchange="spr4Filter(this)">
+          <option value="ALL">All Auditors</option>
+          <option value="Dhanesh CK">Dhanesh CK</option>
+        </select>
+      </label>
+    </div>
+    <div class="sp-row4-actions">
+      <button class="sp-row4-btn sp-row4-btn--clear" onclick="spr4Clear(this)" title="Clear all filters">
+        <span>&#10005;</span> Clear
+      </button>
+      <div class="sp-row4-export" data-ctx="ims">
+        <button class="sp-row4-btn sp-row4-btn--export" onclick="spr4ExportToggle(this)" title="Export audit data">
+          <span>&#8595;</span> Export
+        </button>
+        <div class="sp-row4-export-menu">
+          <button onclick="spr4Export('pdf', this)">&#128196; PDF</button>
+          <button onclick="spr4Export('excel', this)">&#128202; Excel</button>
+          <button onclick="spr4Export('csv', this)">&#128220; CSV</button>
+        </div>
+      </div>
+    </div>
+  </div>

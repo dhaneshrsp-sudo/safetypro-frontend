@@ -1,0 +1,1 @@
+const fs=require("fs");let c=fs.readFileSync("C:/safetypro_complete_frontend/safetypro_audit_compliance.html","utf8");const lines=c.split("\n");for(let i=9760;i<9770;i++)console.log("L"+(i+1)+"("+lines[i].length+"):"+lines[i].substring(0,150));

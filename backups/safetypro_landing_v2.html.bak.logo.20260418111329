@@ -1,0 +1,672 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SafetyPro AI — AI-native HSE intelligence, built by HSE professionals</title>
+<meta name="description" content="The AI-native HSE platform for construction and high-risk industries. Paperless, predictive, biometric-ready. Setup in 1 day, not 1 year."/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta property="og:title" content="SafetyPro AI — AI-native HSE intelligence"/>
+<meta property="og:description" content="Real-time HSE intelligence, redefined by HSE professionals."/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2L4 7v9c0 7 5.3 12.7 12 14 6.7-1.3 12-7 12-14V7L16 2z' fill='%2322c55e'/%3E%3C/svg%3E">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{--bg:#04060E;--bg-2:#06090F;--surface:#0A101E;--surface-2:#0D1422;--surface-3:#101827;--border:rgba(255,255,255,.08);--border-2:rgba(255,255,255,.14);--text:#fff;--text-2:rgba(255,255,255,.65);--text-3:rgba(255,255,255,.42);--green:#22c55e;--green-2:#86efac;--gold:#E4C87A;--gold-2:#C9A84C;--purple:#8b5cf6;--blue:#60a5fa;--danger:#ef4444;--warn:#f59e0b;--max:1280px}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden;font-weight:400;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:'Montserrat',sans-serif;font-weight:500;letter-spacing:-.025em;line-height:1.1}
+h1{font-size:clamp(36px,6vw,64px);letter-spacing:-.035em}
+h2{font-size:clamp(26px,3.6vw,40px)}
+h3{font-size:clamp(17px,2vw,20px)}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.mono{font-family:'JetBrains Mono',monospace}
+.container{max-width:var(--max);margin:0 auto;padding:0 32px}
+.italic{font-style:italic;font-family:'Montserrat',sans-serif}
+.grad-green{background:linear-gradient(135deg,#22c55e,#86efac);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.grad-gold{background:linear-gradient(135deg,#E4C87A,#F5D98F);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.grid-bg{background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:48px 48px}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.fade-in.vis{opacity:1;transform:translateY(0)}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(4,6,14,.78);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:500;font-size:15px}
+.logo svg{width:30px;height:30px}
+.logo .ai{background:linear-gradient(135deg,#22c55e,#86efac);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:600}
+.nav-links{display:flex;gap:26px;font-size:13.5px;color:var(--text-2)}
+.nav-links a{transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-links .biometric{display:inline-flex;align-items:center;gap:6px;color:var(--text)}
+.nav-links .biometric .dot{width:5px;height:5px;background:var(--gold-2);border-radius:50%;box-shadow:0 0 10px var(--gold-2);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.85)}}
+.nav-cta{display:flex;gap:10px;align-items:center}
+.nav-cta .signin{font-size:13.5px;color:var(--text-2);transition:color .2s}
+.nav-cta .signin:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:8px;font-weight:500;font-size:13px;cursor:pointer;transition:all .25s;border:none;font-family:inherit;white-space:nowrap}
+.btn-primary{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;box-shadow:0 10px 28px -8px rgba(34,197,94,.55),inset 0 1px 0 rgba(255,255,255,.2)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 14px 32px -6px rgba(34,197,94,.7),inset 0 1px 0 rgba(255,255,255,.2)}
+.btn-ghost{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.btn-outline{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.15);color:#fff}
+.btn-outline:hover{background:rgba(255,255,255,.08)}
+.btn-lg{padding:12px 20px;font-size:13.5px;border-radius:10px}
+.menu-toggle{display:none;background:none;border:none;color:#fff;cursor:pointer;width:32px;height:32px;font-size:20px}
+
+/* HERO */
+.hero{position:relative;padding:64px 0 40px;overflow:hidden}
+.hero::before{content:"";position:absolute;top:40px;right:-140px;width:720px;height:620px;background:radial-gradient(circle,rgba(34,197,94,.3) 0%,rgba(34,197,94,.08) 30%,transparent 70%);filter:blur(60px);z-index:0;pointer-events:none}
+.hero::after{content:"";position:absolute;top:200px;right:120px;width:460px;height:360px;background:radial-gradient(circle,rgba(201,168,76,.22) 0%,rgba(201,168,76,.06) 40%,transparent 70%);filter:blur(70px);z-index:0;pointer-events:none}
+.hero-bg-purple{position:absolute;top:-80px;left:-60px;width:380px;height:380px;background:radial-gradient(circle,rgba(139,92,246,.18) 0%,transparent 70%);filter:blur(50px);z-index:0;pointer-events:none}
+.hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:5fr 6.5fr;gap:48px;align-items:center}
+.hero-copy .badge{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;background:linear-gradient(135deg,rgba(201,168,76,.14),rgba(201,168,76,.04));color:var(--gold);font-size:11px;letter-spacing:.7px;text-transform:uppercase;font-weight:500;border-radius:100px;margin-bottom:22px;border:1px solid rgba(201,168,76,.22)}
+.badge .dot{width:5px;height:5px;background:var(--gold);border-radius:50%;box-shadow:0 0 10px var(--gold-2);animation:pulse 2s ease-in-out infinite}
+.hero-copy h1{margin-bottom:18px;color:#fff}
+.hero-copy .sub{font-size:16.5px;color:var(--text-2);line-height:1.55;margin-bottom:26px;max-width:480px}
+.hero-ctas{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap}
+.trust-line{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--text-3)}
+.trust-line span{display:flex;align-items:center;gap:6px}
+.trust-line span::before{content:"";width:4px;height:4px;background:var(--green);border-radius:50%}
+
+/* Hero dashboard — BIGGER, DENSER, REALISTIC */
+.hero-visual{position:relative;perspective:2000px}
+.dash-glow{position:absolute;bottom:-40px;left:20px;right:20px;height:60px;background:radial-gradient(ellipse at center,rgba(34,197,94,.55),transparent 70%);filter:blur(30px);pointer-events:none}
+.dash{transform:rotateY(-8deg) rotateX(4deg);background:var(--surface);border:1px solid rgba(255,255,255,.08);border-radius:12px;overflow:hidden;box-shadow:0 40px 90px -24px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.04);transform-style:preserve-3d}
+.dash-chrome{padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.05);background:linear-gradient(180deg,#0E1628,#0A101E);display:flex;align-items:center;gap:10px}
+.dash-chrome .dots{display:flex;gap:5px}
+.dash-chrome .dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.14)}
+.dash-chrome .url{flex:1;max-width:240px;padding:3px 10px;background:rgba(255,255,255,.04);border-radius:4px;font-size:10px;color:var(--text-3);margin-left:8px;font-family:'JetBrains Mono',monospace}
+.dash-chrome .live{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:10px;color:var(--green);font-weight:500}
+.dash-chrome .live::before{content:"";width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 8px var(--green);animation:pulse 1.5s infinite}
+.dash-topnav{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.015);display:flex;align-items:center;gap:16px;font-size:11px;color:var(--text-2)}
+.dash-topnav .nav-it{padding:3px 8px;border-radius:4px;display:flex;align-items:center;gap:5px}
+.dash-topnav .nav-it.ac{background:rgba(34,197,94,.12);color:var(--green);font-weight:500}
+.dash-body{display:grid;grid-template-columns:60px 1fr;min-height:320px}
+.dash-sb{padding:10px 6px;border-right:1px solid rgba(255,255,255,.04);background:linear-gradient(180deg,#080E1C,#060B18)}
+.dash-sb .item{padding:5px 4px;margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.dash-sb .item .ic{width:13px;height:13px;border-radius:3px;background:rgba(255,255,255,.1);flex-shrink:0}
+.dash-sb .active{background:linear-gradient(90deg,rgba(34,197,94,.15),transparent);border-left:2px solid var(--green);margin-left:-6px;padding-left:8px}
+.dash-sb .active .ic{background:var(--green)}
+.dash-sb .more-label{padding:4px;margin:8px 0 4px;border-top:1px dashed rgba(255,255,255,.08);color:rgba(255,255,255,.3);font-size:8px;letter-spacing:.6px;font-weight:500;text-align:center}
+.dash-content{padding:14px}
+.dash-row{display:grid;gap:8px;margin-bottom:8px}
+.dash-row.r5{grid-template-columns:1.2fr 1fr 1fr 1fr 1fr}
+.dash-row.r2-6{grid-template-columns:2fr 3fr}
+.kpi{padding:10px 11px;background:linear-gradient(135deg,var(--surface-2),#091020);border:1px solid rgba(255,255,255,.05);border-radius:7px;position:relative;overflow:hidden}
+.kpi.hl-green{border-color:rgba(34,197,94,.22)}
+.kpi.hl-green::before{content:"";position:absolute;top:0;right:0;width:50px;height:50px;background:radial-gradient(circle at top right,rgba(34,197,94,.2),transparent 70%)}
+.kpi.hl-gold{border-color:rgba(201,168,76,.22)}
+.kpi.hl-gold::before{content:"";position:absolute;top:0;right:0;width:50px;height:50px;background:radial-gradient(circle at top right,rgba(201,168,76,.18),transparent 70%)}
+.kpi-l{font-size:8.5px;color:var(--text-3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;font-weight:500}
+.kpi-v{font-size:20px;font-weight:300;line-height:1;letter-spacing:-.03em}
+.kpi-d{font-size:9px;color:var(--text-3);margin-top:3px;display:flex;align-items:center;gap:3px}
+.kpi-d .up{color:var(--green-2)}
+.panel{background:var(--surface-2);border:1px solid rgba(255,255,255,.05);border-radius:7px;padding:10px 12px}
+.panel h5{font-size:9.5px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;font-weight:500;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.panel h5 .up{color:var(--green-2);font-weight:500;text-transform:none;letter-spacing:normal}
+.activity-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:10px}
+.activity-row:last-child{border:0}
+.av{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:600;flex-shrink:0}
+.av.g{background:rgba(34,197,94,.2);color:#86efac}
+.av.b{background:rgba(96,165,250,.2);color:#60a5fa}
+.av.a{background:rgba(245,158,11,.2);color:#fcd34d}
+.av.p{background:rgba(139,92,246,.2);color:#c4b5fd}
+.activity-row .name{color:var(--text);font-weight:500}
+.activity-row .meta{color:var(--text-3);font-size:9px;margin-left:auto}
+.activity-row .st{padding:1px 6px;font-size:8.5px;border-radius:3px;font-weight:500}
+.st.ok{background:rgba(34,197,94,.15);color:var(--green-2)}
+.st.pend{background:rgba(245,158,11,.15);color:#fcd34d}
+
+/* STATS BAND */
+.stats{position:relative;z-index:3;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(255,255,255,.012);margin-top:32px}
+.stats-inner{max-width:var(--max);margin:0 auto;padding:26px 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.stat .val{font-size:28px;font-weight:300;color:#fff;margin-bottom:4px;letter-spacing:-.03em}
+.stat .val small{font-size:16px;color:var(--text-3)}
+.stat .label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;font-weight:500}
+
+/* Section base */
+section{padding:64px 0;position:relative}
+.sec-head{text-align:center;margin-bottom:40px;max-width:700px;margin-left:auto;margin-right:auto}
+.sec-eyebrow{display:inline-block;padding:4px 11px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text-2);font-size:10.5px;text-transform:uppercase;letter-spacing:.8px;font-weight:500;border-radius:100px;margin-bottom:14px}
+.sec-head h2{margin-bottom:12px;color:#fff}
+.sec-head p{color:var(--text-2);font-size:15.5px;line-height:1.6}
+
+/* PROBLEM */
+.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.prob-card{padding:24px 22px;background:var(--surface);border:1px solid var(--border);border-radius:12px;transition:all .3s}
+.prob-card:hover{border-color:var(--border-2);transform:translateY(-2px);background:var(--surface-2)}
+.prob-icon{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.prob-icon.red{background:rgba(239,68,68,.12);color:#fca5a5}
+.prob-icon.amber{background:rgba(245,158,11,.12);color:#fcd34d}
+.prob-icon.blue{background:rgba(59,130,246,.12);color:#93c5fd}
+.prob-card h3{color:#fff;margin-bottom:8px;font-size:17px}
+.prob-card p{color:var(--text-2);font-size:13.5px;line-height:1.6}
+
+/* PRODUCT TOUR */
+.tour{background:linear-gradient(180deg,transparent,rgba(34,197,94,.012),transparent)}
+.tour-tabs{display:flex;gap:6px;justify-content:center;margin-bottom:28px;flex-wrap:wrap}
+.tour-tab{padding:7px 14px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text-2);font-size:12.5px;border-radius:100px;cursor:pointer;transition:all .2s;font-family:inherit;font-weight:500}
+.tour-tab:hover{border-color:var(--border-2);color:var(--text)}
+.tour-tab.active{background:#fff;color:#04060E;border-color:#fff}
+.tour-view{position:relative;padding:28px;background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--border);border-radius:18px;overflow:hidden}
+.tour-view::before{content:"";position:absolute;top:-60px;right:-60px;width:400px;height:400px;background:radial-gradient(circle,rgba(34,197,94,.1),transparent 70%);filter:blur(50px)}
+.tour-content{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1.4fr;gap:32px;align-items:center}
+.tour-left h3{color:#fff;margin-bottom:12px;font-size:22px}
+.tour-left p{color:var(--text-2);font-size:14.5px;line-height:1.6;margin-bottom:18px}
+.tour-left ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.tour-left li{color:var(--text-2);font-size:13.5px;display:flex;gap:10px;align-items:flex-start}
+.tour-left li::before{content:"";min-width:6px;height:6px;margin-top:7px;background:var(--green);border-radius:50%;box-shadow:0 0 6px rgba(34,197,94,.5)}
+.tour-mock{background:var(--bg-2);border:1px solid var(--border);border-radius:10px;padding:14px;overflow:hidden;position:relative;min-height:300px}
+
+/* AI section */
+.ai-sec{background:linear-gradient(180deg,transparent,rgba(139,92,246,.015),transparent)}
+.ai-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch}
+.ai-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.ai-card{padding:22px;background:var(--surface);border:1px solid var(--border);border-radius:12px;position:relative;overflow:hidden;transition:all .3s}
+.ai-card::before{content:"";position:absolute;top:-40px;right:-40px;width:140px;height:140px;background:radial-gradient(circle,rgba(34,197,94,.1),transparent 70%);filter:blur(30px);opacity:0;transition:opacity .3s}
+.ai-card:hover{border-color:rgba(34,197,94,.25);transform:translateY(-2px)}
+.ai-card:hover::before{opacity:1}
+.ai-eyebrow{font-size:10.5px;color:var(--green);text-transform:uppercase;letter-spacing:.8px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.ai-eyebrow::before{content:"";width:14px;height:1px;background:var(--green)}
+.ai-card h3{color:#fff;margin-bottom:8px;font-size:17px}
+.ai-card p{color:var(--text-2);font-size:13px;line-height:1.55}
+.ai-live{padding:24px;background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--border);border-radius:14px;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.ai-live::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(139,92,246,.12),transparent 60%);pointer-events:none}
+.ai-live-head{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.ai-live-head .t{font-size:12px;color:var(--text-3);text-transform:uppercase;letter-spacing:.6px;font-weight:500;display:flex;align-items:center;gap:7px}
+.ai-live-head .t::before{content:"";width:6px;height:6px;background:var(--purple);border-radius:50%;box-shadow:0 0 8px var(--purple);animation:pulse 1.8s infinite}
+.ai-live-head .time{font-size:10px;color:var(--text-3);font-family:'JetBrains Mono',monospace}
+.ai-pred{position:relative;z-index:2;padding:12px;background:rgba(139,92,246,.05);border:1px solid rgba(139,92,246,.15);border-radius:8px;margin-bottom:10px}
+.ai-pred-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.ai-pred-head .ttl{font-size:13px;font-weight:500;color:#fff}
+.ai-pred-conf{display:flex;align-items:center;gap:5px;font-size:10px;color:#c4b5fd;font-family:'JetBrains Mono',monospace}
+.ai-pred p{font-size:12px;color:var(--text-2);line-height:1.55;margin-bottom:8px}
+.ai-pred-meta{display:flex;gap:12px;font-size:10px;color:var(--text-3)}
+.ai-pred-meta span{display:flex;align-items:center;gap:4px}
+.ai-pred-meta .dot-d{width:4px;height:4px;background:var(--danger);border-radius:50%}
+.ai-pred-meta .dot-a{width:4px;height:4px;background:var(--warn);border-radius:50%}
+
+/* STANDARDS ROW - new trust section */
+.standards{padding:36px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(255,255,255,.012)}
+.standards-inner{max-width:var(--max);margin:0 auto;padding:0 32px;display:flex;align-items:center;gap:32px;flex-wrap:wrap;justify-content:center}
+.standards-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;font-weight:500}
+.standards-badges{display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+.std-badge{padding:6px 14px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:100px;font-size:12px;color:var(--text-2);font-weight:500;transition:all .3s}
+.std-badge:hover{border-color:var(--border-2);color:var(--text);background:rgba(255,255,255,.06)}
+
+/* REGIONS */
+.regions{background:linear-gradient(180deg,transparent,rgba(34,197,94,.012),transparent)}
+.regions-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.region-card{padding:18px;background:var(--surface);border:1px solid var(--border);border-radius:10px;transition:all .3s}
+.region-card:hover{border-color:var(--border-2);transform:translateY(-2px);background:var(--surface-2)}
+.region-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.region-head img{width:24px;height:17px;border-radius:3px;border:1px solid rgba(255,255,255,.1);object-fit:cover}
+.region-head .name{font-size:13.5px;font-weight:500;color:#fff}
+.region-regs{font-size:11.5px;color:var(--text-2);line-height:1.6}
+
+/* COMPLIANCE */
+.comp-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;max-width:1000px;margin:0 auto}
+.comp-badge{padding:13px 10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;text-align:center;font-size:12.5px;font-weight:500;color:#fff;transition:all .3s}
+.comp-badge:hover{border-color:var(--border-2);background:var(--surface-2);transform:translateY(-2px)}
+.comp-badge small{display:block;font-size:9.5px;color:var(--text-3);font-weight:400;margin-top:2px}
+
+/* PRICING */
+.pricing{background:linear-gradient(180deg,transparent,rgba(201,168,76,.02),transparent)}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1100px;margin:0 auto}
+.price-card{padding:30px 24px;background:var(--surface);border:1px solid var(--border);border-radius:14px;position:relative;transition:all .3s;display:flex;flex-direction:column}
+.price-card:hover{border-color:var(--border-2)}
+.price-card.featured{border:2px solid rgba(201,168,76,.5);background:linear-gradient(180deg,rgba(201,168,76,.05),var(--surface));transform:scale(1.03)}
+.price-card.featured::before{content:"Limited slots";position:absolute;top:-11px;left:50%;transform:translateX(-50%);padding:4px 12px;background:var(--gold-2);color:#04060E;font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;font-weight:600;border-radius:100px}
+.price-name{font-size:12px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;font-weight:500;margin-bottom:8px}
+.price-title{font-size:24px;font-weight:500;color:#fff;margin-bottom:6px;letter-spacing:-.02em;font-family:'Montserrat',sans-serif}
+.price-desc{color:var(--text-2);font-size:13px;line-height:1.55;margin-bottom:20px}
+.price-feats{list-style:none;margin-bottom:22px;flex:1}
+.price-feats li{padding:8px 0;font-size:13px;color:var(--text-2);display:flex;gap:10px;border-bottom:1px solid rgba(255,255,255,.04)}
+.price-feats li::before{content:"✓";color:var(--green);font-weight:600}
+.price-feats li:last-child{border-bottom:none}
+.price-cta{display:block;text-align:center;padding:11px;border-radius:8px;font-size:13px;font-weight:500;transition:all .2s}
+.cta-ghost{background:rgba(255,255,255,.04);border:1px solid var(--border);color:#fff}
+.cta-ghost:hover{background:rgba(255,255,255,.08)}
+.cta-gold{background:linear-gradient(135deg,#E4C87A,#C9A84C);color:#04060E;box-shadow:0 10px 28px -8px rgba(201,168,76,.5)}
+.cta-gold:hover{transform:translateY(-1px)}
+
+/* FAQ */
+.faq-wrap{max-width:760px;margin:0 auto}
+.faq-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+.faq-item:hover{border-color:var(--border-2)}
+.faq-q{padding:16px 22px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:14.5px;font-weight:500;color:#fff;user-select:none;width:100%;background:none;border:none;text-align:left;font-family:inherit}
+.faq-icon{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--text-2);transition:transform .3s;flex-shrink:0}
+.faq-item.open .faq-icon{transform:rotate(45deg);color:var(--green);background:rgba(34,197,94,.15)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s,padding .3s}
+.faq-item.open .faq-a{max-height:400px;padding:0 22px 18px}
+.faq-a p{color:var(--text-2);font-size:14px;line-height:1.7}
+
+/* FINAL CTA */
+.final-cta{text-align:center;padding:84px 0;position:relative;overflow:hidden}
+.final-cta::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(34,197,94,.14),transparent 60%);pointer-events:none}
+.final-inner{position:relative;z-index:2;max-width:680px;margin:0 auto;padding:0 32px}
+.final-cta h2{color:#fff;margin-bottom:14px}
+.final-cta p{color:var(--text-2);font-size:16px;line-height:1.6;margin-bottom:26px}
+.final-ctas{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--border);padding:44px 0 24px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.01))}
+.footer-grid{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr 1fr;gap:32px;margin-bottom:30px}
+.footer-brand{padding-right:20px}
+.footer-logo{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-weight:500;font-size:15px}
+.footer-logo svg{width:30px;height:30px}
+.footer-brand p{color:var(--text-2);font-size:12.5px;line-height:1.6;margin-bottom:14px}
+.founder-box{padding:12px 14px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:10px}
+.founder-label{font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;font-weight:500;margin-bottom:4px}
+.founder-name{font-size:13.5px;color:#fff;font-weight:500;margin-bottom:2px}
+.founder-creds{font-size:11.5px;color:var(--text-2);line-height:1.5}
+.footer-col h4{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;font-weight:600;margin-bottom:12px;font-family:'Inter',sans-serif}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.footer-col li a{color:var(--text-2);font-size:12.5px;transition:color .2s}
+.footer-col li a:hover{color:#fff}
+.footer-bottom{border-top:1px solid var(--border);padding-top:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:11.5px;color:var(--text-3)}
+.footer-social{display:flex;gap:10px}
+.footer-social a{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .2s}
+.footer-social a:hover{background:rgba(255,255,255,.08);color:#fff}
+
+/* STICKY MOBILE CTA */
+.mobile-cta{display:none}
+
+/* RESPONSIVE */
+@media (max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;gap:40px}
+  .tour-content{grid-template-columns:1fr;gap:20px}
+  .ai-layout{grid-template-columns:1fr;gap:20px}
+  .stats-inner{grid-template-columns:repeat(2,1fr);gap:20px}
+  .regions-grid{grid-template-columns:repeat(3,1fr)}
+  .comp-grid{grid-template-columns:repeat(3,1fr)}
+  .footer-grid{grid-template-columns:2fr 1fr 1fr;gap:24px}
+}
+@media (max-width:768px){
+  .container,.nav-inner,.stats-inner{padding-left:20px;padding-right:20px}
+  .nav-links,.nav-cta .signin{display:none}
+  .menu-toggle{display:block}
+  .nav-cta .btn{padding:7px 12px;font-size:12px}
+  .hero{padding:40px 0 30px}
+  h1{font-size:36px}
+  h2{font-size:26px}
+  .hero-copy .sub{font-size:15px}
+  section{padding:48px 0}
+  .sec-head{margin-bottom:32px}
+  .prob-grid,.ai-grid,.price-grid{grid-template-columns:1fr;gap:10px}
+  .regions-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .comp-grid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .price-card.featured{transform:scale(1)}
+  .tour-tabs{gap:5px}
+  .tour-tab{padding:5px 10px;font-size:11.5px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:24px}
+  .footer-brand{grid-column:span 2;padding-right:0}
+  .dash{transform:rotateY(-4deg) rotateX(2deg)}
+  .mobile-cta{display:flex;position:fixed;bottom:0;left:0;right:0;padding:10px 14px;background:rgba(4,6,14,.95);backdrop-filter:blur(20px);border-top:1px solid var(--border);z-index:99;gap:8px}
+  .mobile-cta .btn{flex:1;font-size:12.5px;padding:10px}
+  body{padding-bottom:60px}
+}
+@media (max-width:480px){
+  .hero-ctas{flex-direction:column;align-items:stretch}
+  .hero-ctas .btn{justify-content:center}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-brand{grid-column:span 1}
+  .final-ctas{flex-direction:column;align-items:stretch}
+  .stats-inner{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <svg viewBox="0 0 32 32"><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22c55e"/><stop offset="100%" stop-color="#16a34a"/></linearGradient></defs><path d="M16 2L4 7v9c0 7 5.3 12.7 12 14 6.7-1.3 12-7 12-14V7L16 2z" fill="url(#lg1)"/><path d="M11 13h2v6h-2zm4-2h2v8h-2zm4 3h2v5h-2z" fill="#04060E"/></svg>
+      SafetyPro <span class="ai">AI</span>
+    </a>
+    <div class="nav-links">
+      <a href="#product">Product</a>
+      <a href="#ai">AI</a>
+      <a href="#product" class="biometric">Biometric <span class="dot"></span></a>
+      <a href="#regions">Regions</a>
+      <a href="#compliance">Compliance</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <div class="nav-cta">
+      <a href="/login" class="signin">Sign in</a>
+      <a href="#pricing" class="btn btn-ghost">Start free</a>
+    </div>
+    <button class="menu-toggle" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-purple"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <div class="badge"><span class="dot"></span>Early access · limited slots</div>
+        <h1>Safety intelligence,<br>redefined by <span class="italic grad-green">HSE pros</span>.</h1>
+        <p class="sub">The AI-native HSE platform for construction and high-risk industries. Paperless, predictive, biometric-ready — deployed in a day, not a year.</p>
+        <div class="hero-ctas">
+          <a href="#pricing" class="btn btn-primary btn-lg">Start 30-day free pilot <span>→</span></a>
+          <a href="#product" class="btn btn-outline btn-lg">Watch demo</a>
+        </div>
+        <div class="trust-line">
+          <span>No credit card</span>
+          <span>Full platform access</span>
+          <span>Setup in 1 day</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="dash-glow"></div>
+        <div class="dash">
+          <div class="dash-chrome">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="url">safetyproworld.com/dashboard</div>
+            <span class="live">Live</span>
+          </div>
+          <div class="dash-topnav">
+            <div class="nav-it ac">Dashboard</div>
+            <div class="nav-it">Operations</div>
+            <div class="nav-it">Control</div>
+            <div class="nav-it">Reports</div>
+            <div class="nav-it" style="margin-left:auto;color:var(--gold);font-size:10px">Dhanesh CK</div>
+          </div>
+          <div class="dash-body">
+            <div class="dash-sb">
+              <div class="item active"><div class="ic"></div></div>
+              <div class="item"><div class="ic"></div></div>
+              <div class="item"><div class="ic"></div></div>
+              <div class="item"><div class="ic"></div></div>
+              <div class="more-label">MORE</div>
+              <div class="item"><div class="ic" style="background:rgba(201,168,76,.4)"></div></div>
+              <div class="item"><div class="ic"></div></div>
+              <div class="item"><div class="ic"></div></div>
+            </div>
+            <div class="dash-content">
+              <div class="dash-row r5">
+                <div class="kpi hl-green">
+                  <div class="kpi-l">HSE Score · ISO 45001</div>
+                  <div class="kpi-v grad-green" style="font-size:24px">90</div>
+                  <div class="kpi-d"><span class="up">↑ +2</span><span>Excellent</span></div>
+                </div>
+                <div class="kpi hl-gold">
+                  <div class="kpi-l">Days acc-free</div>
+                  <div class="kpi-v grad-gold">47</div>
+                  <div class="kpi-d"><span>Record 183</span></div>
+                </div>
+                <div class="kpi">
+                  <div class="kpi-l">Overdue</div>
+                  <div class="kpi-v" style="color:#fff">0</div>
+                  <div class="kpi-d"><span class="up">✓ Clear</span></div>
+                </div>
+                <div class="kpi">
+                  <div class="kpi-l">Open NCR</div>
+                  <div class="kpi-v" style="color:var(--gold)">0</div>
+                  <div class="kpi-d"><span>All closed</span></div>
+                </div>
+                <div class="kpi">
+                  <div class="kpi-l">Checked In</div>
+                  <div class="kpi-v" style="color:#86efac">247</div>
+                  <div class="kpi-d"><span>Live biometric</span></div>
+                </div>
+              </div>
+              <div class="dash-row r2-6">
+                <div class="panel">
+                  <h5>Safety Trend · 30d <span class="up">↑ 2.1%</span></h5>
+                  <svg viewBox="0 0 200 60" style="width:100%;height:60px;display:block" preserveAspectRatio="none">
+                    <defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22c55e" stop-opacity=".35"/><stop offset="100%" stop-color="#22c55e" stop-opacity="0"/></linearGradient></defs>
+                    <path d="M0,46 L20,42 L40,44 L60,35 L80,38 L100,26 L120,28 L140,20 L160,22 L180,14 L200,16 L200,60 L0,60 Z" fill="url(#ag)"/>
+                    <polyline points="0,46 20,42 40,44 60,35 80,38 100,26 120,28 140,20 160,22 180,14 200,16" fill="none" stroke="#22c55e" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <div class="panel">
+                  <h5>Live Attendance Feed</h5>
+                  <div class="activity-row"><div class="av g">RK</div><div><div class="name">Rajan Kumar</div><div style="color:var(--text-3);font-size:9px">Zone A · 08:42</div></div><span class="st ok">IN</span></div>
+                  <div class="activity-row"><div class="av b">VS</div><div><div class="name">Vikram Sharma</div><div style="color:var(--text-3);font-size:9px">Zone B · 08:55</div></div><span class="st ok">IN</span></div>
+                  <div class="activity-row"><div class="av a">SD</div><div><div class="name">Suresh Das</div><div style="color:var(--text-3);font-size:9px">Gate 1 · 09:03</div></div><span class="st ok">IN</span></div>
+                  <div class="activity-row"><div class="av p">MP</div><div><div class="name">Manoj P.</div><div style="color:var(--text-3);font-size:9px">Zone C · 09:12</div></div><span class="st pend">PEND</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat"><div class="val">12</div><div class="label">Integrated modules</div></div>
+    <div class="stat"><div class="val">8</div><div class="label">Country frameworks</div></div>
+    <div class="stat"><div class="val">ISO 45001</div><div class="label">2018 · native mapping</div></div>
+    <div class="stat"><div class="val">30<small>s</small></div><div class="label">Report an incident</div></div>
+  </div>
+</div>
+
+<section class="problem fade-in">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-eyebrow">The reality on site</span>
+      <h2>Every HSE team hits the same three walls</h2>
+      <p>Existing software has not solved these for 20 years. SafetyPro AI solves all three on day one.</p>
+    </div>
+    <div class="prob-grid">
+      <div class="prob-card"><div class="prob-icon red"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M10 13l-2 2 2 2M14 13l2 2-2 2"/></svg></div><h3>Paper registers, lost reports</h3><p>Form XIII by hand. BBS observations on clipboards. Audit findings in email threads. Nothing searchable.</p></div>
+      <div class="prob-card"><div class="prob-icon amber"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><h3>Incidents surface days late</h3><p>By the time leadership sees the risk, the near-miss is an LTI. No leading indicators. Reactive firefighting.</p></div>
+      <div class="prob-card"><div class="prob-icon blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><h3>Compliance guesswork</h3><p>Audit-week scramble. Manual ISO 45001 mapping. No one is sure which clause the evidence belongs to.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="tour fade-in" id="product">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-eyebrow">The product</span>
+      <h2>One platform. Twelve modules. Zero spreadsheets.</h2>
+      <p>Click any module to preview.</p>
+    </div>
+    <div class="tour-tabs">
+      <button class="tour-tab active" data-tab="dashboard">Dashboard</button>
+      <button class="tour-tab" data-tab="operations">Operations</button>
+      <button class="tour-tab" data-tab="control">Control</button>
+      <button class="tour-tab" data-tab="risk">Risk</button>
+      <button class="tour-tab" data-tab="audit">Audit</button>
+      <button class="tour-tab" data-tab="hrm">HRM + Biometric</button>
+      <button class="tour-tab" data-tab="ai">AI Intelligence</button>
+    </div>
+    <div class="tour-view"><div class="tour-content" id="tour-content"></div></div>
+  </div>
+</section>
+
+<div class="standards">
+  <div class="standards-inner">
+    <span class="standards-label">Built on the standards your auditors already trust</span>
+    <div class="standards-badges">
+      <span class="std-badge">ISO 45001:2018</span>
+      <span class="std-badge">ISO 14001</span>
+      <span class="std-badge">ISO 9001</span>
+      <span class="std-badge">BOCW 1996</span>
+      <span class="std-badge">OSHA 1926</span>
+      <span class="std-badge">GDPR</span>
+    </div>
+  </div>
+</div>
+
+<section class="ai-sec fade-in" id="ai">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-eyebrow">The AI moat</span>
+      <h2>Why the <span class="italic grad-green">AI</span> in our name is not marketing.</h2>
+      <p>Intelex, Cority and Enablon added AI as a bolt-on. We built HSE on top of AI. The difference shows up everywhere.</p>
+    </div>
+    <div class="ai-layout">
+      <div class="ai-grid">
+        <div class="ai-card"><div class="ai-eyebrow">Predict</div><h3>Incident risk, before it happens</h3><p>Model learns your site's patterns — activity, weather, contractor, location, time — and flags risk before work begins.</p></div>
+        <div class="ai-card"><div class="ai-eyebrow">Auto-insights</div><h3>Daily digest, zero manual reports</h3><p>Every morning, a one-page intelligence brief: what changed, what's at risk, what needs attention. Generated automatically.</p></div>
+        <div class="ai-card"><div class="ai-eyebrow">Auto-suggest</div><h3>Hazards, from past activities</h3><p>Start a new HIRA or JSA. AI suggests hazards and controls based on similar activities across your projects.</p></div>
+        <div class="ai-card"><div class="ai-eyebrow">Auto-score</div><h3>Composite HSE score, live</h3><p>ISO 45001 clause-mapped scoring, re-computed on every data change. Know your maturity at any moment.</p></div>
+      </div>
+      <div class="ai-live">
+        <div class="ai-live-head"><span class="t">Live AI Output</span><span class="time">11:47:22 IST</span></div>
+        <div class="ai-pred">
+          <div class="ai-pred-head"><span class="ttl">Elevated incident risk · Bay 3</span><span class="ai-pred-conf">87% confidence</span></div>
+          <p>Scheduled scaffold work, Bay 3, Tuesday 14:00. Similar activity in March near-missed at same weather + crew combination.</p>
+          <div class="ai-pred-meta"><span><span class="dot-d"></span>Risk: High</span><span><span class="dot-a"></span>Action: Review MS</span><span>ISO 45001 Cl. 8.1.2</span></div>
+        </div>
+        <div class="ai-pred">
+          <div class="ai-pred-head"><span class="ttl">Compliance drift · Legal register</span><span class="ai-pred-conf">94% confidence</span></div>
+          <p>BOCW rule amendment from 14-Apr not yet reflected in site legal register. 2 other projects still aligned.</p>
+          <div class="ai-pred-meta"><span><span class="dot-a"></span>Action: Update register</span><span>ISO 45001 Cl. 6.1.3</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="regions fade-in" id="regions">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-eyebrow">Active regions</span>
+      <h2>Built for every industry, compliant everywhere.</h2>
+      <p>One platform, eight regulatory frameworks. Field teams see one interface; compliance maps to the right standard automatically.</p>
+    </div>
+    <div class="regions-grid">
+      <div class="region-card"><div class="region-head"><img src="https://flagcdn.com/in.svg" alt="India"/><span class="name">India</span></div><div class="region-regs">BOCW 1996 · DGFASLI · Factories Act</div></div>
+      <div class="region-card"><div class="region-head"><img src="https://flagcdn.com/ae.svg" alt="UAE"/><span class="name">UAE</span></div><div class="region-regs">AD EHS · Dubai OHS · OSHAD SF</div></div>
+      <div class="region-card"><div class="region-head"><img src="https://flagcdn.com/sa.svg" alt="Saudi Arabia"/><span class="name">Saudi Arabia</span></div><div class="region-regs">MHRSD · SASO · NEOM HSE</div></div>
+      <div class="region-card"><div class="region-head"><img src="https://flagcdn.com/qa.svg" alt="Qatar"/><span class="name">Qatar</span></div><div class="region-regs">QCS · Ashghal · ISO 45001</div></div>
+      <div class="region-card"><div class="region-head"><img src="https://flagcdn.com/us.svg" alt="USA"/><span class="name">USA &amp; Canada</span></div><div class="region-regs">OSHA 1926/1910 · CSA Z45001</div></div>
+      <div class="region-card"><div class="region-head"><img src="https://flagcdn.com/gb.svg" alt="United Kingdom"/><span class="name">United Kingdom</span></div><div class="region-regs">HSE CDM 2015 · RIDDOR</div></div>
+      <div class="region-card"><div class="region-head"><img src="https://flagcdn.com/sg.svg" alt="Singapore"/><span class="name">Singapore</span></div><div class="region-regs">WSHA · MOM · bizSAFE</div></div>
+      <div class="region-card"><div class="region-head"><img src="https://flagcdn.com/au.svg" alt="Australia"/><span class="name">Australia</span></div><div class="region-regs">WHS Act · Safe Work Australia</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="compliance fade-in" id="compliance">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-eyebrow">Compliance &amp; security</span>
+      <h2>Every regulation, every region.</h2>
+    </div>
+    <div class="comp-grid">
+      <div class="comp-badge">ISO 45001<small>OHS Management</small></div>
+      <div class="comp-badge">ISO 14001<small>Environmental</small></div>
+      <div class="comp-badge">ISO 9001<small>Quality</small></div>
+      <div class="comp-badge">GDPR<small>EU privacy</small></div>
+      <div class="comp-badge">SOC 2<small>In progress</small></div>
+      <div class="comp-badge">DPDP 2023<small>India privacy</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing fade-in" id="pricing">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-eyebrow">Early access pricing</span>
+      <h2>Founding member offer.</h2>
+      <p>We launch Q3 2026. Lock in lifetime founding-member pricing before then.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="price-name">Starter</div>
+        <div class="price-title">Free 30-day pilot</div>
+        <p class="price-desc">Full platform. No credit card. One project, up to 50 users.</p>
+        <ul class="price-feats"><li>All 12 modules</li><li>50 users · 1 project</li><li>ISO 45001 native</li><li>Email support</li></ul>
+        <a href="#contact" class="price-cta cta-ghost">Start free pilot</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-name" style="color:var(--gold)">Founding member</div>
+        <div class="price-title">Lifetime 50% off</div>
+        <p class="price-desc">Annual commitment before launch. Same price forever, as we grow.</p>
+        <ul class="price-feats"><li>Unlimited users &amp; projects</li><li>Biometric attendance</li><li>AI Intelligence module</li><li>Priority support · roadmap voice</li><li>White-label option</li></ul>
+        <a href="#contact" class="price-cta cta-gold">Claim founding price</a>
+      </div>
+      <div class="price-card">
+        <div class="price-name">Enterprise</div>
+        <div class="price-title">Talk to us</div>
+        <p class="price-desc">For 1000+ users, multi-country operations, specialised compliance.</p>
+        <ul class="price-feats"><li>SSO · SAML · SCIM</li><li>Dedicated infrastructure</li><li>Custom regulatory mapping</li><li>SLA · dedicated CSM</li></ul>
+        <a href="#contact" class="price-cta cta-ghost">Book enterprise demo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq fade-in">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-eyebrow">FAQ</span>
+      <h2>The questions we hear most.</h2>
+    </div>
+    <div class="faq-wrap">
+      <div class="faq-item"><button class="faq-q">Is my data secure and where is it hosted? <span class="faq-icon">+</span></button><div class="faq-a"><p>Data is encrypted in transit (TLS 1.3) and at rest (AES-256). Hosting on AWS Mumbai with data residency options for UAE, Saudi Arabia, UK and Singapore. We do not train any model on your data.</p></div></div>
+      <div class="faq-item"><button class="faq-q">What happens after the 30-day pilot? <span class="faq-icon">+</span></button><div class="faq-a"><p>Your choice — move to a founding-member plan at lifetime 50% off, upgrade to standard pricing, or walk away. Your data is always exportable.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Does it work offline on remote sites? <span class="faq-icon">+</span></button><div class="faq-a"><p>Yes. Field Tools (mobile) works offline — inspections, observations, incident reports are captured locally and sync on reconnect.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Can we import existing HIRA / audit templates? <span class="faq-icon">+</span></button><div class="faq-a"><p>Yes. Excel and PDF templates import in bulk on day one. Migration from Intelex, Cority or SafetyCulture takes under a day.</p></div></div>
+      <div class="faq-item"><button class="faq-q">How long does setup really take? <span class="faq-icon">+</span></button><div class="faq-a"><p>24 hours for standard deployment. Enterprise setups with SSO take 3–5 days. Compare to 3–6 months on legacy platforms.</p></div></div>
+      <div class="faq-item"><button class="faq-q">Who built this and why should I trust it? <span class="faq-icon">+</span></button><div class="faq-a"><p>SafetyPro AI is built by a working HSE professional running live EPC projects. Our roadmap is written by people who file Form XIII themselves.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta" id="contact">
+  <div class="final-inner">
+    <h2>Claim your founding-member pricing.</h2>
+    <p>Lock in lifetime 50% off before we launch. Or start the free 30-day pilot — no credit card, full platform, setup in a day.</p>
+    <div class="final-ctas">
+      <a href="#" class="btn btn-primary btn-lg">Start 30-day free pilot</a>
+      <a href="#" class="btn btn-outline btn-lg">Talk to founder</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo"><svg viewBox="0 0 32 32"><defs><linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22c55e"/><stop offset="100%" stop-color="#16a34a"/></linearGradient></defs><path d="M16 2L4 7v9c0 7 5.3 12.7 12 14 6.7-1.3 12-7 12-14V7L16 2z" fill="url(#lg2)"/><path d="M11 13h2v6h-2zm4-2h2v8h-2zm4 3h2v5h-2z" fill="#04060E"/></svg>SafetyPro <span class="ai">AI</span></div>
+        <p>The AI-native HSE platform for construction and high-risk industries. Paperless, predictive, deployed in a day.</p>
+        <div class="founder-box"><div class="founder-label">Built by</div><div class="founder-name">Dhanesh CK</div><div class="founder-creds">HSE Professional. IDIPOSH · RSP · AISEP.</div></div>
+      </div>
+      <div class="footer-col"><h4>Product</h4><ul><li><a href="#product">Platform</a></li><li><a href="#ai">AI Intelligence</a></li><li><a href="#product">Biometric</a></li><li><a href="#pricing">Pricing</a></li></ul></div>
+      <div class="footer-col"><h4>Regions</h4><ul><li><a href="#regions">India</a></li><li><a href="#regions">GCC</a></li><li><a href="#regions">UK &amp; EU</a></li><li><a href="#regions">Americas</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Contact</a></li><li><a href="#">Careers</a></li><li><a href="#">Blog</a></li></ul></div>
+      <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">Security</a></li><li><a href="#">DPA</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 SafetyPro AI. All rights reserved.</span>
+      <div class="footer-social">
+        <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg></a>
+        <a href="#" aria-label="X"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2h3.308l-7.227 8.26L22 22h-6.915l-5.418-7.02L3.477 22H.17L7.89 13.12 0 2h6.91l4.87 6.438L18.245 2z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="mobile-cta">
+  <a href="#pricing" class="btn btn-primary">Start free pilot</a>
+  <a href="#contact" class="btn btn-outline">Demo</a>
+</div>
+
+<script>
+const tabs={dashboard:{h:"Global HSE Dashboard",p:"One screen. Every KPI. ISO 45001:2018 composite score computed live from 200+ indicators.",l:["Real-time HSE Score with trend attribution","Days-accident-free, LTIFR, TRIFR, observation close rate","AI priority actions surfaced automatically","Project / region / contractor drill-down"],mock:'<div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:6px;margin-bottom:6px"><div class="kpi hl-green"><div class="kpi-l">HSE SCORE</div><div class="kpi-v grad-green" style="font-size:22px">90</div></div><div class="kpi"><div class="kpi-l">LTIFR</div><div class="kpi-v" style="color:#86efac">0.00</div></div><div class="kpi"><div class="kpi-l">TRIFR</div><div class="kpi-v" style="color:var(--gold)">0.24</div></div></div><div class="panel"><h5>30-day Trend <span class="up">↑ 2.1%</span></h5><svg viewBox="0 0 200 40" style="width:100%;height:40px" preserveAspectRatio="none"><polyline points="0,30 20,26 40,28 60,20 80,22 100,14 120,16 140,10 160,12 180,6 200,8" fill="none" stroke="#22c55e" stroke-width="1.5"/></svg></div>'},operations:{h:"Operations",p:"Action tracker, NCR register, permit-to-work, BBS observations — the daily HSE workflow, unified.",l:["Action Tracker with SLA escalation","Incident & NCR registers","Permit-to-Work + LOTO","Toolbox talks & BBS observations"],mock:'<div class="panel"><h5>Action Tracker · 14 open</h5><div class="activity-row"><div class="av g">A</div><div><div class="name" style="font-size:11px">Fix loose railing, Block 3</div><div style="color:var(--text-3);font-size:9px">Rajesh · Due today</div></div><span class="st pend">Overdue</span></div><div class="activity-row"><div class="av b">B</div><div><div class="name" style="font-size:11px">Update HIRA for welding</div><div style="color:var(--text-3);font-size:9px">Priya · Due tomorrow</div></div><span class="st ok">On track</span></div><div class="activity-row"><div class="av a">C</div><div><div class="name" style="font-size:11px">Close NCR-2024-0412</div><div style="color:var(--text-3);font-size:9px">Vikram · Due Friday</div></div><span class="st ok">On track</span></div></div>'},control:{h:"Control Center",p:"Escalations, accountability, overdue tracking. The HSE command layer.",l:["Multi-level escalation matrix","Accountability scoring per role","Overdue tracker with auto-reminders","Live feed & scenario planner"],mock:'<div class="panel"><h5>Escalation Matrix</h5><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"><div style="padding:10px;background:rgba(34,197,94,.08);border-radius:6px;text-align:center"><div style="font-size:18px;font-weight:300;color:#86efac">L1</div><div style="font-size:10px;color:var(--text-3)">Site Supervisor</div><div style="font-size:11px;color:var(--text);margin-top:4px">12 open</div></div><div style="padding:10px;background:rgba(245,158,11,.08);border-radius:6px;text-align:center"><div style="font-size:18px;font-weight:300;color:#fcd34d">L2</div><div style="font-size:10px;color:var(--text-3)">Project Mgr</div><div style="font-size:11px;color:var(--text);margin-top:4px">3 open</div></div><div style="padding:10px;background:rgba(239,68,68,.08);border-radius:6px;text-align:center"><div style="font-size:18px;font-weight:300;color:#fca5a5">L3</div><div style="font-size:10px;color:var(--text-3)">VP HSE</div><div style="font-size:11px;color:var(--text);margin-top:4px">0 open</div></div></div></div>'},risk:{h:"Risk Management",p:"HIRA, aspect assessment (EIA), method statements. ISO 45001 Cl. 6.1.2 + ISO 31000 native.",l:["HIRA register with AI hazard suggestion","Aspect Assessment (EIA)","Method statements + JSA","Bow-tie, risk matrix, controls library"],mock:'<div class="panel"><h5>HIRA Register · Active</h5><div style="display:flex;flex-direction:column;gap:6px;font-size:11px"><div style="display:grid;grid-template-columns:1fr auto auto;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)"><div><div class="name" style="font-size:11px">Working at height — scaffold</div><div style="color:var(--text-3);font-size:9px">Block 3, Bay 2</div></div><span style="padding:2px 6px;background:rgba(239,68,68,.15);color:#fca5a5;border-radius:3px;font-size:9px">HIGH 15</span><span style="color:var(--text-3);font-size:9px">Cl. 6.1.2</span></div><div style="display:grid;grid-template-columns:1fr auto auto;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)"><div><div class="name" style="font-size:11px">Hot work · welding</div><div style="color:var(--text-3);font-size:9px">Fab shop</div></div><span style="padding:2px 6px;background:rgba(245,158,11,.15);color:#fcd34d;border-radius:3px;font-size:9px">MED 9</span><span style="color:var(--text-3);font-size:9px">Cl. 6.1.2</span></div><div style="display:grid;grid-template-columns:1fr auto auto;gap:8px;padding:6px 0"><div><div class="name" style="font-size:11px">Confined space entry</div><div style="color:var(--text-3);font-size:9px">Tunnel B</div></div><span style="padding:2px 6px;background:rgba(239,68,68,.15);color:#fca5a5;border-radius:3px;font-size:9px">HIGH 20</span><span style="color:var(--text-3);font-size:9px">Cl. 6.1.2</span></div></div></div>'},audit:{h:"Audit &amp; Compliance",p:"Internal audits, incident investigation, legal register. ISO 9001/14001/45001 mapped.",l:["IMS audit calendar","Findings · NCR · actions · approval","Legal &amp; regulatory register","Safety meeting minutes"],mock:'<div class="panel"><h5>IMS Audit Calendar · 2026</h5><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;font-size:10px;margin-top:6px"><div style="padding:8px 6px;background:rgba(34,197,94,.08);border-radius:4px;text-align:center"><div style="color:var(--text-3);font-size:9px">Q1</div><div style="color:#86efac;margin-top:2px">✓ Passed</div></div><div style="padding:8px 6px;background:rgba(34,197,94,.08);border-radius:4px;text-align:center"><div style="color:var(--text-3);font-size:9px">Q2</div><div style="color:#86efac;margin-top:2px">✓ Passed</div></div><div style="padding:8px 6px;background:rgba(245,158,11,.08);border-radius:4px;text-align:center"><div style="color:var(--text-3);font-size:9px">Q3</div><div style="color:#fcd34d;margin-top:2px">In progress</div></div><div style="padding:8px 6px;background:rgba(255,255,255,.04);border-radius:4px;text-align:center"><div style="color:var(--text-3);font-size:9px">Q4</div><div style="color:var(--text-2);margin-top:2px">Scheduled</div></div></div><div style="margin-top:8px;font-size:10px;color:var(--text-2)">Findings: <span style="color:#86efac">18 closed</span> · <span style="color:#fcd34d">2 open</span> · <span style="color:var(--text-3)">0 overdue</span></div></div>'},hrm:{h:"HRM + Biometric Attendance",p:"BAM biometric integration, BOCW muster roll, live attendance feed, payroll exports.",l:["Biometric live attendance feed","BOCW Form XIII auto-generated","Zone &amp; gate check-in/out","Overtime, leave, payroll sheets"],mock:'<div class="panel"><h5>Live Biometric Feed <span class="up">247 in</span></h5><div class="activity-row"><div class="av g">RK</div><div><div class="name" style="font-size:11px">Rajan Kumar</div><div style="color:var(--text-3);font-size:9px">EMP-0042 · Zone A · 08:42</div></div><span class="st ok">IN 94%</span></div><div class="activity-row"><div class="av b">VS</div><div><div class="name" style="font-size:11px">Vikram Sharma</div><div style="color:var(--text-3);font-size:9px">EMP-0018 · Zone B · 08:55</div></div><span class="st ok">IN 91%</span></div><div class="activity-row"><div class="av a">SD</div><div><div class="name" style="font-size:11px">Suresh Das</div><div style="color:var(--text-3);font-size:9px">EMP-0071 · Zone A · 09:03</div></div><span class="st ok">IN 88%</span></div><div class="activity-row"><div class="av p">AK</div><div><div class="name" style="font-size:11px">Amit Kr.</div><div style="color:var(--text-3);font-size:9px">EMP-0094 · Gate 1 · 09:15</div></div><span class="st ok">IN 96%</span></div></div>'},ai:{h:"AI Intelligence",p:"Predictive risk scoring, auto-insights, hazard suggestion, NLP search across all your HSE data.",l:["Predictive incident risk scoring","Daily AI digest per project","Hazard suggestion from history","NLP search across all records"],mock:'<div class="panel" style="border-color:rgba(139,92,246,.2)"><h5 style="color:#c4b5fd">AI Insights · Today</h5><div style="padding:8px;background:rgba(139,92,246,.06);border-radius:5px;margin-bottom:6px"><div style="font-size:11px;color:#fff;font-weight:500;margin-bottom:3px">Elevated risk · Bay 3 scaffolding</div><div style="font-size:10px;color:var(--text-2)">87% conf · similar activity near-missed in March</div></div><div style="padding:8px;background:rgba(139,92,246,.06);border-radius:5px;margin-bottom:6px"><div style="font-size:11px;color:#fff;font-weight:500;margin-bottom:3px">BOCW amendment not reflected</div><div style="font-size:10px;color:var(--text-2)">94% conf · update legal register within 48h</div></div><div style="padding:8px;background:rgba(139,92,246,.06);border-radius:5px"><div style="font-size:11px;color:#fff;font-weight:500;margin-bottom:3px">3 actions trending overdue</div><div style="font-size:10px;color:var(--text-2)">82% conf · escalate to L2 by EOD</div></div></div>'}};
+function renderTab(k){var d=tabs[k];document.getElementById("tour-content").innerHTML='<div class="tour-left"><h3>'+d.h+'</h3><p>'+d.p+'</p><ul>'+d.l.map(function(i){return"<li>"+i+"</li>"}).join("")+"</ul></div><div class=\"tour-mock\">"+d.mock+"</div>"}
+renderTab("dashboard");
+document.querySelectorAll(".tour-tab").forEach(function(t){t.addEventListener("click",function(){document.querySelectorAll(".tour-tab").forEach(function(x){x.classList.remove("active")});t.classList.add("active");renderTab(t.dataset.tab)})});
+document.querySelectorAll(".faq-q").forEach(function(q){q.addEventListener("click",function(){q.parentElement.classList.toggle("open")})});
+document.querySelector(".menu-toggle").addEventListener("click",function(){var l=document.querySelector(".nav-links");var o=l.style.display==="flex";l.style.cssText=o?"":"display:flex;position:absolute;top:58px;left:0;right:0;flex-direction:column;background:rgba(4,6,14,.97);padding:20px;gap:16px;border-bottom:1px solid var(--border)"});
+var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add("vis");io.unobserve(x.target)}})},{threshold:0.1});
+document.querySelectorAll(".fade-in").forEach(function(el){io.observe(el)});
+</script>
+</body>
+</html>

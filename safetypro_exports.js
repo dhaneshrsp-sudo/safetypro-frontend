@@ -1,4 +1,4 @@
-/**
+﻿/**
  * safetypro_exports.js  —  Shared Export Engine v1.0
  * ═══════════════════════════════════════════════════════════════
  * Used by: HRM, Reports, Field, Operations, Admin pages
@@ -14,7 +14,7 @@
   'use strict';
 
   // ── CONSTANTS ─────────────────────────────────────────────────
-  var API = 'https://safetypro-backend-production.up.railway.app';
+  var API = 'https://safetypro-backend.onrender.com';
   var MONTHS = ['January','February','March','April','May','June',
                 'July','August','September','October','November','December'];
 
