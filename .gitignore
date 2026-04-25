@@ -6,3 +6,7 @@ _archive/
 *.roleswitch*
 *.wfend*
 *.sbuniversal*
+# Local backup files from deploys
+*.bak
+*.prev*.bak
+*.pre*.bak
