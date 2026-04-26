@@ -485,6 +485,236 @@ section.hero .container{max-width:1280px!important;padding:0 32px!important}
   .hero-img-clean{border-radius:10px}
 }
 </style>
+<style id="opslix-responsive-v19-1">
+/* ═══ HIDE the pre-existing .menu-toggle (duplicate hamburger from original HTML) ═══ */
+.menu-toggle:not(.mobile-menu-toggle) {
+  display: none !important;
+}
+/* Belt and suspenders — exact class match */
+.nav .menu-toggle:not(.mobile-menu-toggle),
+header .menu-toggle:not(.mobile-menu-toggle),
+nav .menu-toggle:not(.mobile-menu-toggle) {
+  display: none !important;
+}
+
+/* ═══════════════════════════════════════════════════ */
+/* TABLET (481px - 900px) */
+/* ═══════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .nav-cta .signin {
+    display: inline-flex !important;
+    padding: 8px 14px !important;
+    font-size: 14px !important;
+  }
+  .nav-cta .cta-primary {
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+  }
+  .mobile-menu-toggle {
+    display: flex !important;
+  }
+  .nav-links {
+    display: none !important;
+  }
+  .right-actions-wrapper {
+    gap: 4px !important;
+  }
+  .actions-row {
+    gap: 8px !important;
+  }
+  .contact-right-row {
+    display: none !important;
+  }
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .hero-text-col h1 {
+    font-size: 38px !important;
+    line-height: 1.1 !important;
+  }
+  .hero-img-col {
+    margin-top: 8px;
+  }
+  .hero-img-clean img {
+    max-width: 600px;
+    margin: 0 auto;
+    display: block;
+  }
+}
+
+/* ═══════════════════════════════════════════════════ */
+/* MOBILE (<= 480px) */
+/* ═══════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .nav-cta .signin {
+    padding: 6px 10px !important;
+    font-size: 13px !important;
+  }
+  .nav-cta .cta-primary {
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+  }
+  .nav-inner {
+    padding: 0 16px !important;
+  }
+  .hero-text-col h1 {
+    font-size: 28px !important;
+    line-height: 1.1 !important;
+  }
+  .hero-text-col p,
+  .hero-text-col .hero-sub {
+    font-size: 15px !important;
+  }
+  .hero-img-clean {
+    border-radius: 8px;
+  }
+  .hero .cta-row,
+  .hero [class*=cta-row] {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+  .hero .cta-row a,
+  .hero .cta-row button {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+  .three-walls,
+  .walls,
+  [class*="walls"] {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  section .container {
+    padding: 0 20px !important;
+  }
+}
+
+/* HAMBURGER MENU TOGGLE (mine) */
+.mobile-menu-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid rgba(31, 27, 23, 0.10);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  margin-right: 8px;
+  transition: background 0.15s ease;
+}
+.mobile-menu-toggle:hover {
+  background: rgba(31, 27, 23, 0.04);
+}
+.mobile-menu-toggle .bar {
+  display: block;
+  width: 16px;
+  height: 1.5px;
+  background: #1F1B17;
+  border-radius: 2px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.mobile-menu-toggle.is-open .bar:nth-child(1) {
+  transform: translateY(2.75px) rotate(45deg);
+}
+.mobile-menu-toggle.is-open .bar:nth-child(2) {
+  opacity: 0;
+}
+.mobile-menu-toggle.is-open .bar:nth-child(3) {
+  transform: translateY(-2.75px) rotate(-45deg);
+}
+
+/* MOBILE MENU OVERLAY */
+.mobile-menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(245, 242, 235, 0.98);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 998;
+  padding: 80px 32px 32px;
+  flex-direction: column;
+  gap: 16px;
+  font-family: 'Inter', -apple-system, sans-serif;
+  overflow-y: auto;
+}
+.mobile-menu-overlay.is-open {
+  display: flex;
+}
+.mobile-menu-overlay .menu-link {
+  display: block;
+  padding: 12px 0;
+  font-size: 17px;
+  font-weight: 500;
+  color: #1F1B17;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(31, 27, 23, 0.08);
+  letter-spacing: -0.01em;
+}
+.mobile-menu-overlay .menu-link:hover {
+  color: #C6583E;
+}
+.mobile-menu-overlay .menu-divider {
+  height: 1px;
+  background: rgba(31, 27, 23, 0.12);
+  margin: 4px 0;
+}
+.mobile-menu-overlay .menu-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+.mobile-menu-overlay .menu-cta a {
+  padding: 12px 20px;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 15px;
+}
+.mobile-menu-overlay .menu-cta .menu-signin {
+  background: transparent;
+  color: #1F1B17;
+  border: 1px solid rgba(31, 27, 23, 0.12);
+}
+.mobile-menu-overlay .menu-cta .menu-startfree {
+  background: #1F1B17;
+  color: #FFFFFF;
+}
+.mobile-menu-overlay .menu-contact {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(31, 27, 23, 0.10);
+  font-size: 13px;
+  color: rgba(31, 27, 23, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mobile-menu-overlay .menu-contact a {
+  color: #C6583E;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+body.mobile-menu-open {
+  overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  .mobile-menu-toggle {
+    display: inline-flex !important;
+  }
+}
+</style>
 </head>
 <body>
 
@@ -864,6 +1094,60 @@ section.product, section.ai-sec, section.regions, section.pricing, section.faq, 
     document.addEventListener('DOMContentLoaded',applyHero);
   }else{
     applyHero();
+  }
+})();
+</script>
+<script id="opslix-mobile-menu">
+(function(){
+  function setupMobileMenu(){
+    if(document.getElementById('opslix-mobile-toggle'))return;
+    var navInner=document.querySelector('.nav-inner');
+    var navCta=document.querySelector('.nav-cta');
+    if(!navInner||!navCta)return;
+    var toggle=document.createElement('button');
+    toggle.className='mobile-menu-toggle';
+    toggle.id='opslix-mobile-toggle';
+    toggle.setAttribute('aria-label','Open menu');
+    toggle.innerHTML='<span class="bar"></span><span class="bar"></span><span class="bar"></span>';
+    navCta.parentNode.insertBefore(toggle,navCta);
+    
+    // Also hide any pre-existing .menu-toggle (defense in depth)
+    document.querySelectorAll('.menu-toggle:not(.mobile-menu-toggle)').forEach(function(el){
+      el.style.display='none';
+      el.setAttribute('aria-hidden','true');
+    });
+    
+    var overlay=document.createElement('div');
+    overlay.className='mobile-menu-overlay';
+    overlay.id='opslix-mobile-overlay';
+    overlay.innerHTML='<a href="#product" class="menu-link">Product</a><a href="#ai" class="menu-link">AI</a><a href="#biometric" class="menu-link">Biometric</a><a href="#regions" class="menu-link">Regions</a><a href="#pricing" class="menu-link">Pricing</a><div class="menu-divider"></div><div class="menu-cta"><a href="safetypro_login" class="menu-signin">Sign in</a><a href="safetypro_login" class="menu-startfree">Start free</a></div><div class="menu-contact"><div>Get in touch</div><a href="tel:+919313566909">+91 9313566909</a><a href="mailto:info@opslix.com">info@opslix.com</a></div>';
+    document.body.appendChild(overlay);
+    
+    toggle.addEventListener('click',function(e){
+      e.stopPropagation();
+      var isOpen=overlay.classList.contains('is-open');
+      if(isOpen){
+        overlay.classList.remove('is-open');
+        toggle.classList.remove('is-open');
+        document.body.classList.remove('mobile-menu-open');
+      }else{
+        overlay.classList.add('is-open');
+        toggle.classList.add('is-open');
+        document.body.classList.add('mobile-menu-open');
+      }
+    });
+    overlay.querySelectorAll('a').forEach(function(link){
+      link.addEventListener('click',function(){
+        overlay.classList.remove('is-open');
+        toggle.classList.remove('is-open');
+        document.body.classList.remove('mobile-menu-open');
+      });
+    });
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',setupMobileMenu);
+  }else{
+    setupMobileMenu();
   }
 })();
 </script>

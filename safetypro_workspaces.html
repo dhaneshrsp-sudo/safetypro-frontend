@@ -179,6 +179,23 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .opslix-brand-sep{color:rgba(31,27,23,.2);font-weight:400}
 @media (max-width:519px){.opslix-brand-line{padding:10px 16px}.opslix-brand-inner{gap:8px;font-size:10px;letter-spacing:.04em}}
 </style>
+<style id="opslix-user-dropdown-css">
+.profile-pill{position:relative;cursor:pointer!important;user-select:none;text-decoration:none!important}
+.profile-pill .chevron{display:inline-block;margin-left:6px;font-size:10px;color:rgba(31,27,23,.4);transition:transform .2s ease;align-self:center}
+.profile-pill.open .chevron{transform:rotate(180deg)}
+.user-dropdown-menu{position:absolute;top:calc(100% + 8px);right:0;background:#FFFFFF;border:1px solid rgba(31,27,23,.10);border-radius:12px;box-shadow:0 16px 40px -8px rgba(31,27,23,.16),0 4px 12px rgba(31,27,23,.06);padding:8px 0;min-width:240px;z-index:1000;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .15s ease,transform .15s ease,visibility .15s ease;font-family:'Inter',-apple-system,sans-serif}
+.profile-pill.open .user-dropdown-menu{opacity:1;visibility:visible;transform:translateY(0)}
+.user-dropdown-menu .menu-header{padding:12px 16px;border-bottom:1px solid rgba(31,27,23,.06)}
+.user-dropdown-menu .menu-header .h-name{font-size:14px;font-weight:600;color:#1F1B17;margin-bottom:2px}
+.user-dropdown-menu .menu-header .h-email{font-size:12px;color:rgba(92,84,74,.85);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.user-dropdown-menu .menu-item{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;color:#1F1B17;text-decoration:none;cursor:pointer;transition:background .12s ease;border:none;background:transparent;width:100%;text-align:left;font-family:inherit;box-sizing:border-box}
+.user-dropdown-menu .menu-item:hover{background:rgba(31,27,23,.04);color:#1F1B17}
+.user-dropdown-menu .menu-item.danger{color:#C84F3E}
+.user-dropdown-menu .menu-item.danger:hover{background:rgba(200,79,62,.06);color:#C84F3E}
+.user-dropdown-menu .menu-item svg{width:14px;height:14px;flex-shrink:0;color:rgba(92,84,74,.7)}
+.user-dropdown-menu .menu-item.danger svg{color:#C84F3E}
+.user-dropdown-menu .menu-divider{height:1px;background:rgba(31,27,23,.06);margin:6px 0}
+</style>
 </head>
 <body>
 <div class="page">
@@ -288,5 +305,90 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 window.opslixNotify=function(ws){
   alert('You\'re on the early access list for '+ws+'. We\'ll notify you when it launches.');
 };
+</script>
+<script id="opslix-user-dropdown-js">
+(function(){
+  function applyDropdown(){
+    if(document.getElementById('user-dropdown-injected'))return;
+    
+    // Find profile pill
+    var pill=document.querySelector('.profile.profile-pill, .profile-pill, .profile');
+    if(!pill){
+      var avatar=document.querySelector('.avatar');
+      if(avatar)pill=avatar.closest('a, .pill, .profile, .user-pill, header > *');
+    }
+    if(!pill)return;
+    
+    // CRITICAL: If still an <a>, replace with <div> to fully kill navigation
+    if(pill.tagName==='A'){
+      var div=document.createElement('div');
+      // Copy all attributes except href
+      Array.from(pill.attributes).forEach(function(attr){
+        if(attr.name!=='href'){
+          div.setAttribute(attr.name,attr.value);
+        }
+      });
+      div.innerHTML=pill.innerHTML;
+      pill.parentNode.replaceChild(div,pill);
+      pill=div;
+    }
+    
+    pill.classList.add('profile-pill');
+    pill.id='user-dropdown-injected';
+    pill.style.cursor='pointer';
+    pill.style.textDecoration='none';
+    
+    // Add chevron
+    if(!pill.querySelector('.chevron')){
+      var chev=document.createElement('span');
+      chev.className='chevron';
+      chev.textContent='▾';
+      pill.appendChild(chev);
+    }
+    
+    // Get user data
+    var userData={};
+    try{userData=JSON.parse(localStorage.getItem('sp_user')||'{}')}catch(e){}
+    var userName=userData.name||'User';
+    var userEmail=userData.email||'';
+    
+    // Build menu
+    var menu=document.createElement('div');
+    menu.className='user-dropdown-menu';
+    menu.innerHTML='<div class="menu-header"><div class="h-name">'+userName+'</div><div class="h-email">'+userEmail+'</div></div><a href="safetypro_profile" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</a><a href="safetypro_admin" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</a><div class="menu-divider"></div><button type="button" class="menu-item danger" id="opslix-logout-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</button>';
+    pill.appendChild(menu);
+    
+    // Toggle dropdown on click
+    pill.addEventListener('click',function(e){
+      if(e.target.closest('.user-dropdown-menu'))return;
+      e.preventDefault();
+      e.stopPropagation();
+      pill.classList.toggle('open');
+    },true);
+    
+    // Close on outside click
+    document.addEventListener('click',function(e){
+      if(!pill.contains(e.target)){
+        pill.classList.remove('open');
+      }
+    });
+    
+    // Logout handler
+    var logoutBtn=menu.querySelector('#opslix-logout-btn');
+    logoutBtn.addEventListener('click',function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      localStorage.removeItem('sp_token');
+      localStorage.removeItem('sp_user');
+      sessionStorage.clear();
+      window.location.href='safetypro_login';
+    });
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',applyDropdown);
+  }else{
+    applyDropdown();
+  }
+})();
 </script>
 </body></html>
