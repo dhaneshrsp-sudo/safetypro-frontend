@@ -92,7 +92,94 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .footer-cert .sep{opacity:.4}
 @media (max-width:900px){.workspaces{grid-template-columns:1fr}.tools-grid{grid-template-columns:1fr}.hero h1{font-size:36px}.hero{padding:42px 0 32px}}
 @media (max-width:519px){.page{padding:0 16px}.hero{padding:28px 0 22px}.hero h1{font-size:28px}.hero .sub{font-size:14px}.ws-card{padding:24px}.tool-card{padding:14px 16px;gap:12px}.tool-info h3{font-size:15px}.tool-badge{display:none}.topbar{padding:14px 0}.profile-info{display:none}.profile{padding:6px}.greeting{font-size:10px;letter-spacing:.12em}.workspaces{gap:14px}}
-</style></head>
+</style><style id="opslix-compact-fix">
+.hero{padding:44px 0 32px!important}
+.hero h1{font-size:42px!important;margin-bottom:14px!important}
+.hero .sub{font-size:16px!important}
+.greeting{margin-bottom:16px!important}
+.section-label{margin-bottom:16px!important}
+.workspaces{gap:20px!important;padding:0 0 24px!important}
+.ws-card{padding:24px!important;border-radius:18px!important}
+.ws-icon{width:44px!important;height:44px!important;margin-bottom:16px!important;border-radius:12px!important}
+.ws-icon svg{width:22px!important;height:22px!important}
+.ws-pill{margin-bottom:12px!important;padding:4px 10px!important;font-size:9px!important}
+.ws-title{font-size:22px!important;margin-bottom:4px!important;line-height:1.15!important}
+.ws-tag{font-size:12px!important;margin-bottom:12px!important}
+.ws-desc{font-size:12.5px!important;line-height:1.55!important;margin-bottom:14px!important}
+.ws-features{margin-bottom:18px!important}
+.ws-features li{font-size:12px!important;padding:5px 0!important}
+.ws-cta{padding:11px 18px!important;font-size:13px!important;border-radius:10px!important}
+.tools-section{padding:16px 0 36px!important}
+.tool-card{padding:14px 18px!important}
+.tool-icon-sm{width:40px!important;height:40px!important;border-radius:10px!important}
+.tool-icon-sm svg{width:18px!important;height:18px!important}
+.tool-info h3{font-size:15px!important}
+.tool-info p{font-size:11.5px!important}
+@media (max-width:900px){.hero h1{font-size:32px!important}.hero{padding:32px 0 24px!important}}
+@media (max-width:519px){.hero h1{font-size:26px!important}.ws-card{padding:20px!important}}
+</style>
+<style id="opslix-v4-final">
+/* === Compact card sizing === */
+.hero{padding:44px 0 32px!important}
+.hero h1{font-size:42px!important;margin-bottom:14px!important}
+.hero .sub{font-size:16px!important}
+.greeting{margin-bottom:16px!important}
+.section-label{margin-bottom:16px!important}
+.workspaces{gap:20px!important;padding:0 0 24px!important}
+.ws-card{padding:24px!important;border-radius:18px!important}
+.ws-icon{width:44px!important;height:44px!important;margin-bottom:16px!important;border-radius:12px!important}
+.ws-icon svg{width:22px!important;height:22px!important}
+.ws-pill{margin-bottom:12px!important;padding:4px 10px!important;font-size:9px!important}
+.ws-title{font-size:22px!important;margin-bottom:4px!important;line-height:1.15!important}
+.ws-tag{font-size:12px!important;margin-bottom:12px!important}
+.ws-desc{font-size:12.5px!important;line-height:1.55!important;margin-bottom:14px!important}
+.ws-features{margin-bottom:18px!important}
+.ws-features li{font-size:12px!important;padding:5px 0!important}
+.ws-cta{padding:11px 18px!important;font-size:13px!important;border-radius:10px!important}
+.tools-section{padding:16px 0 36px!important}
+.tool-card{padding:14px 18px!important}
+.tool-icon-sm{width:40px!important;height:40px!important;border-radius:10px!important}
+.tool-icon-sm svg{width:18px!important;height:18px!important}
+.tool-info h3{font-size:15px!important}
+.tool-info p{font-size:11.5px!important}
+
+/* === Sage border on active HSE card (replaces rust top line) === */
+.ws-card.active{
+  border:1.5px solid var(--sage)!important;
+  box-shadow:0 0 0 4px rgba(122,139,109,.07)!important;
+  background:linear-gradient(180deg,rgba(122,139,109,.015),white)!important
+}
+.ws-card.active::before{display:none!important}
+.ws-card.active:hover{
+  border-color:var(--sage)!important;
+  box-shadow:0 12px 32px rgba(31,27,23,.08),0 0 0 4px rgba(122,139,109,.12)!important;
+  transform:translateY(-4px)
+}
+
+/* === Cleaner section labels (no count badges) === */
+.section-label .count{display:none!important}
+.section-label::before,.section-label::after{
+  background:linear-gradient(90deg,transparent,rgba(31,27,23,.12),transparent)!important
+}
+
+@media (max-width:900px){
+  .hero h1{font-size:32px!important}
+  .hero{padding:32px 0 24px!important}
+}
+@media (max-width:519px){
+  .hero h1{font-size:26px!important}
+  .ws-card{padding:20px!important}
+}
+</style>
+<style id="opslix-brand-line-css">
+.opslix-brand-line{position:relative;z-index:1;border-top:1px solid rgba(31,27,23,.08);padding:14px 24px;background:rgba(245,242,235,.5);backdrop-filter:blur(8px);margin-top:8px}
+.opslix-brand-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;font-family:'Inter',-apple-system,sans-serif;font-size:11px;font-weight:500;letter-spacing:.06em;color:rgba(92,84,74,.85)}
+.opslix-brand-mark{color:rgba(31,27,23,.9);font-weight:600}
+.opslix-brand-mark .dot{color:#C6583E}
+.opslix-brand-sep{color:rgba(31,27,23,.2);font-weight:400}
+@media (max-width:519px){.opslix-brand-line{padding:10px 16px}.opslix-brand-inner{gap:8px;font-size:10px;letter-spacing:.04em}}
+</style>
+</head>
 <body>
 <div class="page">
   <header class="topbar">
@@ -101,21 +188,21 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <span class="logo-text">OpsLix<span class="dot">.</span></span>
     </a>
     <a class="profile" href="/profile">
-      <div class="avatar">DC</div>
+      <div class="avatar">U</div>
       <div class="profile-info">
-        <div class="name">Dhanesh CK</div>
-        <div class="role">Admin · IECCL</div>
+        <div class="name">User</div>
+        <div class="role" id="user-org-line">Admin</div>
       </div>
     </a>
   </header>
   <section class="hero">
-    <span class="greeting" id="greeting">Live · Good morning, Dhanesh</span>
+    <span class="greeting" id="greeting">Live · Welcome</span>
     <h1>Choose your <span class="acc">workspace</span></h1>
     <p class="sub">One platform. Three operations domains. Pick where you want to work today.</p>
   </section>
-  <div class="section-label"><span>Operations Workspaces</span><span class="count">3</span></div>
+  <div class="section-label"><span>Operations Workspaces</span></div>
   <main class="workspaces">
-    <article class="ws-card active" onclick="window.location.href='/dashboard'">
+    <article class="ws-card active" onclick="window.location.href='safetypro_v2'">
       <div class="ws-icon hse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L3 6v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V6l-9-4z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <div class="ws-pill">Pilot Live</div>
       <h2 class="ws-title">HSE Operations</h2>
@@ -144,7 +231,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     </article>
   </main>
   <section class="tools-section">
-    <div class="section-label"><span>Admin & Compliance Tools</span><span class="count">2</span></div>
+    <div class="section-label"><span>Admin & Compliance Tools</span></div>
     <div class="tools-grid">
       <a class="tool-card" href="/admin">
         <div class="tool-icon-sm admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33h0a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51h0a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v0a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></div>
@@ -166,21 +253,37 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       </a>
     </div>
   </section>
-  <footer class="footer">
-    <div class="footer-brand"><strong>OpsLix.</strong> One platform, three operations domains.</div>
-    <div class="footer-cert"><span>ISO 45001</span><span class="sep">·</span><span>IMS Certified</span><span class="sep">·</span><span>DPDP / GDPR Ready</span></div>
+  <footer class="opslix-brand-line">
+    <div class="opslix-brand-inner">
+      <span class="opslix-brand-mark">© 2026 OpsLix<span class="dot">.</span></span>
+      <span class="opslix-brand-sep">·</span>
+      <span>ISO 45001 aligned</span>
+      <span class="opslix-brand-sep">·</span>
+      <span>Privacy-first</span>
+      <span class="opslix-brand-sep">·</span>
+      <span>Global SaaS</span>
+    </div>
   </footer>
 </div>
 <script>
 (function(){
   var h=new Date().getHours();var g='Good morning';
   if(h>=12&&h<17)g='Good afternoon';else if(h>=17)g='Good evening';
-  var name='Dhanesh';var role='Admin';
-  try{var u=JSON.parse(localStorage.getItem('sp_user')||'{}');if(u.name)name=u.name.split(' ')[0];if(u.role)role=u.role;}catch(e){}
+  var name='there';var role='Admin';var company='';
+  try{
+    var u=JSON.parse(localStorage.getItem('sp_user')||'{}');
+    if(u.name)name=u.name.split(' ')[0];
+    if(u.role)role=u.role;
+    if(u.company)company=u.company;
+    // Update avatar initials from real name
+    if(u.name){var parts=u.name.split(' ');var initials=(parts[0][0]||'')+(parts[1]?parts[1][0]:'');document.querySelector('.avatar').textContent=initials.toUpperCase();}
+    // Update profile name
+    if(u.name)document.querySelector('.profile-info .name').textContent=u.name;
+    // Update role + company line (only show company if it exists)
+    var roleEl=document.getElementById('user-org-line');
+    if(roleEl){roleEl.textContent=company?role+' · '+company:role;}
+  }catch(e){}
   document.getElementById('greeting').textContent='Live · '+g+', '+name;
-  // Hide admin/auditor cards based on role (uncomment when role logic is in localStorage)
-  // if(role!=='Admin'&&role!=='SuperAdmin'){document.querySelector('.tool-card[href=\'/admin\']').style.display='none';}
-  // if(role!=='Auditor'&&role!=='Admin'){document.querySelector('.tool-card[href=\'/auditor\']').style.display='none';}
 })();
 window.opslixNotify=function(ws){
   alert('You\'re on the early access list for '+ws+'. We\'ll notify you when it launches.');

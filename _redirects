@@ -1,0 +1,38 @@
+# ════════════════════════════════════════════════════
+# OpsLix Routing Configuration
+# ════════════════════════════════════════════════════
+
+# Old domain → new domain (preserves any path/query)
+https://safetyproworld.com/* https://opslix.com/:splat 301!
+https://www.safetyproworld.com/* https://opslix.com/:splat 301!
+
+# Root URL → landing page
+/  /safetypro_landing  200
+
+# Clean public URLs
+/landing      /safetypro_landing      200
+/login        /safetypro_login        200
+/signup       /safetypro_signup       200
+/privacy      /safetypro_privacy      200
+/terms        /safetypro_terms        200
+
+# Authenticated app routes
+/workspaces   /safetypro_workspaces   200
+/dashboard    /safetypro_dashboard    200
+/checkin      /safetypro_checkin      200
+/admin        /safetypro_admin        200
+/auditor      /safetypro_auditor      200
+/profile      /safetypro_profile      200
+
+# HSE workspace routes
+/risk         /safetypro_risk         200
+/audit        /safetypro_audit        200
+/reports      /safetypro_reports      200
+/control      /safetypro_control      200
+/operations   /safetypro_operations   200
+/docs         /safetypro_docs         200
+
+# Future workspace stubs
+/field        /safetypro_field        200
+/hrm          /safetypro_hrm          200
+/ai           /safetypro_ai           200
