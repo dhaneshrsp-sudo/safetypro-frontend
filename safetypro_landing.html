@@ -445,6 +445,46 @@ section{padding:64px 0;position:relative}
   .tour-mock{align-self:start}
 }
 </style>
+<style id="opslix-nav-contact">
+.right-actions-wrapper{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.right-actions-wrapper .actions-row{display:flex;align-items:center;gap:14px}
+.contact-right-row{display:flex;gap:14px;font-family:'Inter',-apple-system,sans-serif;font-size:11px;font-weight:500;letter-spacing:.02em;align-items:center}
+.contact-right-row a{color:rgba(92,84,74,.85);text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:color .2s ease}
+.contact-right-row a:hover{color:#C6583E}
+.contact-right-row svg{width:11px;height:11px;color:#C6583E;flex-shrink:0}
+.contact-right-row .sep{color:rgba(31,27,23,.18);font-weight:400}
+@media (max-width:519px){
+  .contact-right-row{font-size:10px;gap:8px}
+  .right-actions-wrapper{gap:4px}
+}
+</style>
+<style id="opslix-hero-clean">
+section.hero{padding:32px 0 64px!important}
+section.hero .container{max-width:1280px!important;padding:0 32px!important}
+
+.hero-grid{display:grid!important;grid-template-columns:1fr 1.05fr!important;gap:60px!important;align-items:center!important;padding-top:24px!important}
+.hero-text-col{min-width:0}
+.hero-text-col .eyebrow,.hero-text-col [class*=eyebrow]{margin-bottom:18px!important}
+.hero-text-col h1{font-size:54px!important;line-height:1.05!important;margin-bottom:18px!important;margin-top:0!important}
+.hero-text-col .hero-sub,.hero-text-col p{font-size:16px!important;max-width:520px}
+
+/* Clean image wrapper — NO browser frame, just shadow */
+.hero-img-col{position:relative}
+.hero-img-clean{position:relative;border-radius:14px;overflow:hidden;box-shadow:0 30px 60px -15px rgba(31,27,23,.18),0 12px 24px -8px rgba(31,27,23,.10),0 0 0 1px rgba(31,27,23,.06)}
+.hero-img-clean img{width:100%;height:auto;display:block}
+.hero-img-col::before{content:'';position:absolute;top:30px;left:30px;right:-30px;bottom:-30px;background:radial-gradient(ellipse at center,rgba(198,88,62,.06),transparent 70%);z-index:-1;border-radius:30px}
+
+@media (max-width:900px){
+  section.hero{padding:24px 0 48px!important}
+  .hero-grid{grid-template-columns:1fr!important;gap:32px!important;padding-top:16px!important}
+  .hero-img-col{margin-top:8px}
+  .hero-text-col h1{font-size:38px!important}
+}
+@media (max-width:519px){
+  .hero-text-col h1{font-size:30px!important}
+  .hero-img-clean{border-radius:10px}
+}
+</style>
 </head>
 <body>
 
@@ -488,19 +528,7 @@ section{padding:64px 0;position:relative}
   </div>
 </section>
 
-<div class="dash-stage">
-  <div class="dash-stage-inner">
-    <div class="dash-label">— A preview of the dashboard —</div>
-    <div class="dash-frame">
-  <div class="dash-chrome2">
-    <div class="dots"><span></span><span></span><span></span></div>
-    <div class="url">safetyproworld.com</div>
-    <span class="live">Live</span>
-  </div>
-  <img class="real-hero" src="images/landing/hero-dashboard.png" alt="OpsLix Global HSE and HR Dashboard" loading="eager"/>
-</div>
-  </div>
-</div>
+
 
 <section class="problem fade-in">
   <div class="container">
@@ -511,18 +539,18 @@ section{padding:64px 0;position:relative}
     <div class="prob-grid">
       <div class="prob-card">
         <div class="prob-num">01</div>
-        <h3>Paper registers, lost reports</h3>
-        <p>Form XIII by hand. BBS observations on clipboards. Audit findings in email threads. Nothing searchable. Nothing real-time.</p>
+        <h3>Disconnected operations</h3>
+        <p>HSE in spreadsheets. HRM in WhatsApp. Field updates in email. Nothing connects. Nothing is searchable. Every silo costs a day.</p>
       </div>
       <div class="prob-card">
         <div class="prob-num">02</div>
-        <h3>Incidents surface days late</h3>
-        <p>By the time leadership sees the risk, the near-miss is already an LTI. No leading indicators. No predictive signals.</p>
+        <h3>Visibility comes too late</h3>
+        <p>Incidents, attendance gaps, and project delays all surface days after they happen. By then, the near-miss is an injury, the absentee is a no-show, and the milestone is missed.</p>
       </div>
       <div class="prob-card">
         <div class="prob-num">03</div>
-        <h3>Compliance guesswork</h3>
-        <p>Audit-week scramble. Manual ISO 45001 mapping. No one is sure which clause the evidence belongs to. Risk lives in spreadsheets.</p>
+        <h3>Audit-week scramble, every quarter</h3>
+        <p>ISO 45001, ISO 14001, ISO 9001, labour-law audits, payroll reconciliation, project-quality reviews — every audit is a 2-week scramble across spreadsheets. Evidence is everywhere and nowhere.</p>
       </div>
     </div>
   </div>
@@ -695,7 +723,8 @@ section{padding:64px 0;position:relative}
         <a href="#" aria-label="X"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2h3.308l-7.227 8.26L22 22h-6.915l-5.418-7.02L3.477 22H.17L7.89 13.12 0 2h6.91l4.87 6.438L18.245 2z"/></svg></a>
       </div>
     </div>
-  </div>
+  
+        
 </footer>
 
 <div class="mobile-cta">
@@ -703,7 +732,7 @@ section{padding:64px 0;position:relative}
   <a href="safetypro_contact" class="btn btn-ghost">Demo</a>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const tabs={
 dashboard:{h:"Global HSE Dashboard",p:"One screen. Every KPI. ISO 45001:2018 composite HSE Score computed live from 200+ indicators.",l:["Composite HSE Score with personal & accountability sub-scores","Days accident-free, LTIFR, TRIFR, Safe Man-Hours","AI Priority Actions surfaced automatically","Project / region / contractor drill-down"],m:'<img class="real" src="images/landing/tour-dashboard.png" alt="Dashboard" loading="lazy"/>'},
 operations:{h:"Operations",p:"Action tracker, incidents, NCRs, permit-to-work, BBS observations &mdash; the daily HSE workflow, unified.",l:["Action Tracker with SLA escalation","Incident &amp; NCR registers","Permit-to-Work + LOTO","Toolbox talks &amp; BBS observations","Safe Man-Hours, LTIFR, TRIFR live"],m:'<img class="real" src="images/landing/tour-operations.png" alt="Operations" loading="lazy"/>'},
@@ -770,6 +799,71 @@ section.product, section.ai-sec, section.regions, section.pricing, section.faq, 
     document.addEventListener('DOMContentLoaded',function(){setCurrency(saved);});
   }else{
     setCurrency(saved);
+  }
+})();
+</script>
+<script id="opslix-nav-contact-js">
+(function(){
+  function applyNavContact(){
+    if(document.getElementById('opslix-contact-injected'))return;
+    var startBtn=Array.from(document.querySelectorAll('a, button')).find(function(el){
+      var t=el.textContent.trim();
+      return t==='Start free'||t==='Get started'||t==='Get demo';
+    });
+    if(!startBtn)return;
+    var signIn=Array.from(document.querySelectorAll('a, button')).find(function(el){
+      return el.textContent.trim()==='Sign in';
+    });
+    var parent=startBtn.parentNode;
+    var wrapper=document.createElement('div');
+    wrapper.className='right-actions-wrapper';
+    wrapper.id='opslix-contact-injected';
+    var actionsRow=document.createElement('div');
+    actionsRow.className='actions-row';
+    parent.insertBefore(wrapper,signIn||startBtn);
+    if(signIn)actionsRow.appendChild(signIn);
+    actionsRow.appendChild(startBtn);
+    wrapper.appendChild(actionsRow);
+    var sub=document.createElement('div');
+    sub.className='contact-right-row';
+    sub.innerHTML='<a href="tel:+919313566909" aria-label="Call us"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+91 9313566909</a><span class="sep">\u00b7</span><a href="mailto:info@opslix.com" aria-label="Email us"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>info@opslix.com</a>';
+    wrapper.appendChild(sub);
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',applyNavContact);
+  }else{
+    applyNavContact();
+  }
+})();
+</script>
+<script id="opslix-hero-clean-js">
+(function(){
+  function applyHero(){
+    if(document.getElementById('opslix-hero-clean-injected'))return;
+    var hero=document.querySelector('section.hero');
+    if(!hero)return;
+    var inner=hero.querySelector('.container')||hero.firstElementChild;
+    if(!inner)return;
+    if(inner.querySelector('.hero-grid'))return;
+    var grid=document.createElement('div');
+    grid.className='hero-grid';
+    grid.id='opslix-hero-clean-injected';
+    var textCol=document.createElement('div');
+    textCol.className='hero-text-col';
+    while(inner.firstChild){
+      textCol.appendChild(inner.firstChild);
+    }
+    var imgCol=document.createElement('div');
+    imgCol.className='hero-img-col';
+    imgCol.innerHTML='<div class="hero-img-clean"><img src="/images/landing/hero-workspaces.png" alt="OpsLix Workspaces" loading="eager"></div>';
+    grid.appendChild(textCol);
+    grid.appendChild(imgCol);
+    inner.appendChild(grid);
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',applyHero);
+  }else{
+    applyHero();
   }
 })();
 </script>
