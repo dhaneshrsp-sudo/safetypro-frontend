@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Verify Document — OpsLix</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231F1B17'/><text x='50' y='62' font-family='sans-serif' font-size='38' font-weight='800' fill='%23B8935C' text-anchor='middle'>O.</text></svg>">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Inter",-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;background:#F5F2EB;color:#1F1B17;min-height:100vh;display:flex;flex-direction:column;line-height:1.5}
+header{background:#1F1B17;color:#fff;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #C6583E}
+header .brand{font-size:22px;font-weight:800;letter-spacing:0.5px;color:#fff;text-decoration:none}
+header .brand .accent{color:#B8935C}
+header nav a{color:#B8935C;text-decoration:none;font-size:13px;font-weight:500;margin-left:18px}
+header nav a:hover{color:#fff}
+main{flex:1;padding:32px 20px;display:flex;align-items:flex-start;justify-content:center}
+.verify-card{background:#fff;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,0.08);max-width:680px;width:100%;overflow:hidden}
+.verify-status{padding:36px 32px 28px;text-align:center;color:#fff;position:relative}
+.verify-status.valid{background:linear-gradient(135deg,#0F6E56 0%,#0d8264 100%)}
+.verify-status.expired{background:linear-gradient(135deg,#B8935C 0%,#a07b46 100%)}
+.verify-status.invalid{background:linear-gradient(135deg,#A32D2D 0%,#7e1f1f 100%)}
+.verify-status.checking{background:linear-gradient(135deg,#5C544A 0%,#3f3933 100%)}
+.verify-status .icon{font-size:64px;line-height:1;margin-bottom:14px}
+.verify-status .label{font-size:11px;text-transform:uppercase;letter-spacing:3px;font-weight:700;opacity:0.85;margin-bottom:6px}
+.verify-status .title{font-size:30px;font-weight:800;letter-spacing:0.5px;margin-bottom:8px}
+.verify-status .sub{font-size:13px;opacity:0.9;font-weight:500}
+.verify-body{padding:32px;background:#fff}
+.id-block{background:#F5F2EB;border-radius:8px;padding:18px 22px;margin-bottom:24px;border-left:4px solid #C6583E}
+.id-block .id-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#8B8275;font-weight:600;margin-bottom:4px}
+.id-block .id-value{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:18px;font-weight:700;color:#1F1B17;word-break:break-all}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px;margin-bottom:24px}
+.field-grid .field{display:flex;flex-direction:column;gap:4px}
+.field-grid .field.full{grid-column:1/-1}
+.field-grid .lbl{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#8B8275;font-weight:600}
+.field-grid .val{font-size:14px;font-weight:600;color:#1F1B17}
+.field-grid .val.muted{color:#5C544A;font-weight:500}
+hr.div{border:0;border-top:1px solid #D8D2C4;margin:24px 0}
+.assurance{background:#F5F2EB;border-radius:8px;padding:16px 20px;margin-bottom:20px}
+.assurance .a-title{font-size:11px;font-weight:700;color:#5C544A;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.assurance .a-list{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;font-size:12px;color:#1F1B17}
+.assurance .a-list span:before{content:"\2713 ";color:#0F6E56;font-weight:700;margin-right:4px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.actions button,.actions a{font-family:inherit;font-size:13px;font-weight:600;padding:10px 18px;border-radius:6px;border:1px solid #D8D2C4;background:#fff;color:#5C544A;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.15s}
+.actions button:hover,.actions a:hover{border-color:#C6583E;color:#C6583E}
+.actions .primary{background:#C6583E;border-color:#C6583E;color:#fff}
+.actions .primary:hover{background:#a64530;border-color:#a64530;color:#fff}
+.lookup-form{padding:32px;text-align:center}
+.lookup-form h2{font-size:20px;font-weight:700;margin-bottom:8px;color:#1F1B17}
+.lookup-form p{color:#5C544A;font-size:13px;margin-bottom:20px}
+.lookup-form .row{display:flex;gap:8px;max-width:480px;margin:0 auto}
+.lookup-form input{flex:1;padding:12px 14px;border:1px solid #D8D2C4;border-radius:6px;font-size:14px;font-family:inherit;color:#1F1B17}
+.lookup-form input:focus{outline:none;border-color:#C6583E}
+.lookup-form button{background:#C6583E;color:#fff;border:0;padding:12px 22px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.lookup-form button:hover{background:#a64530}
+footer{background:#1F1B17;color:#888780;padding:18px 24px;font-size:11px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+footer a{color:#B8935C;text-decoration:none;margin-left:14px}
+footer a:hover{color:#fff}
+.spinner{display:inline-block;width:48px;height:48px;border:4px solid rgba(255,255,255,0.25);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (max-width:560px){
+  .verify-status{padding:28px 20px 22px}
+  .verify-status .title{font-size:24px}
+  .verify-body{padding:22px}
+  .field-grid{grid-template-columns:1fr;gap:14px}
+  .assurance .a-list{grid-template-columns:1fr}
+  .actions{justify-content:stretch}
+  .actions button,.actions a{flex:1;text-align:center}
+}
+</style>
+</head>
+<body>
+<header>
+  <a href="https://opslix.com" class="brand">OpsLix<span class="accent">.</span></a>
+  <nav><a href="https://opslix.com">Sign in</a><a href="https://opslix.com/verify">Verify another</a></nav>
+</header>
+
+<main>
+  <div class="verify-card" id="card">
+    <div class="verify-status checking" id="statusBlock">
+      <div class="icon"><span class="spinner"></span></div>
+      <div class="label">Checking</div>
+      <div class="title" id="statusTitle">Verifying document...</div>
+      <div class="sub" id="statusSub">Please wait while we look this up</div>
+    </div>
+    <div class="verify-body" id="bodyBlock" style="display:none"></div>
+  </div>
+</main>
+
+<footer>
+  <span>OpsLix &middot; Tamper-proof document verification &middot; &copy; 2026</span>
+  <span><a href="https://opslix.com">Go to platform</a><a href="mailto:support@opslix.com">Report issue</a></span>
+</footer>
+
+<script>
+(function(){
+  function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+
+  // Parse ID from URL path: /verify/OPS-CERT-2026-A1B2C3 or query ?id=...
+  function getDocId(){
+    var path = location.pathname;
+    var m = path.match(/\/verify\/(.+?)\/?$/);
+    if(m && m[1] && m[1] !== "") return decodeURIComponent(m[1]);
+    var q = new URLSearchParams(location.search).get("id");
+    return q ? q.trim() : "";
+  }
+
+  // Detect document type from ID prefix
+  function detectType(id){
+    if(/^OPS-CERT-/i.test(id)) return {type:"cert", label:"Training Certificate"};
+    if(/^IND-/i.test(id)) return {type:"induction", label:"Site Induction"};
+    if(/^ID-/i.test(id)) return {type:"idcard", label:"Employee ID Card"};
+    if(/^VIS-/i.test(id)) return {type:"visitor", label:"Visitor Pass"};
+    return {type:"unknown", label:"Document"};
+  }
+
+  // Mock backend — returns plausible verification results based on the ID
+  // When real backend is wired (Item 2), this becomes a fetch to /api/v1/verify/:id
+  function lookupDoc(id){
+    return new Promise(function(resolve){
+      setTimeout(function(){
+        if(!id || id.length < 6){
+          resolve({ok:false, status:"invalid", reason:"No document ID provided"});
+          return;
+        }
+        var t = detectType(id);
+        if(t.type === "unknown"){
+          resolve({ok:false, status:"invalid", id:id, reason:"Unrecognised document format. Expected OPS-CERT-, IND-, ID-, or VIS- prefix."});
+          return;
+        }
+        // Simulate: 5% of IDs are "expired", deterministic based on hash
+        var hash = 0;
+        for(var i=0;i<id.length;i++) hash = (hash*31 + id.charCodeAt(i)) | 0;
+        var bucket = Math.abs(hash) % 100;
+        var status = "valid";
+        if(bucket < 5) status = "expired";
+        // Build mock data appropriate for the type
+        var data = mockDataFor(t.type, id);
+        resolve({ok:true, status:status, type:t.type, typeLabel:t.label, id:id, data:data});
+      }, 600 + Math.random()*400);
+    });
+  }
+
+  function mockDataFor(type, id){
+    var year = new Date().getFullYear();
+    var issued = year + "-04-29";
+    var validity = (year+1) + "-04-28";
+    if(type === "cert"){
+      return {
+        worker: "Rajesh Kumar", workerId: "EMP-1024",
+        topic: "Work at Height & Fall Protection",
+        standard: "ISO 45001:2018", duration: "4 hours",
+        trainer: "Dhanesh CK \u00b7 HSE Manager",
+        employer: "IL&FS Engineering and Construction Co. Ltd. (IECCL)",
+        project: "BBRP NH-131 \u00b7 Bihar",
+        issued: issued, validUntil: validity
+      };
+    }
+    if(type === "induction"){
+      return {
+        worker: "Suresh Patel", workerId: "EMP-2056",
+        trade: "Site Foreman",
+        employer: "IECCL", project: "BBRP NH-131 \u00b7 Bihar",
+        inductor: "Dhanesh CK \u00b7 HSE Manager",
+        bloodGroup: "B+",
+        emergencyContact: "Mrs. Patel \u00b7 +91 98765 12345",
+        inducted: issued, validUntil: (year)+"-10-29"
+      };
+    }
+    if(type === "idcard"){
+      return {
+        worker: "Anil Verma", workerId: "EMP-3094",
+        role: "Crane Operator T1",
+        employer: "IECCL", project: "BBRP NH-131",
+        dateOfJoining: "2024-08-15", employmentType: "Permanent",
+        bloodGroup: "B+",
+        emergencyContact: "Mrs. Verma \u00b7 +91 98765 43210",
+        issuedBy: "P. Sharma \u00b7 HR / Admin Manager",
+        issued: issued, validUntil: validity
+      };
+    }
+    if(type === "visitor"){
+      return {
+        visitor: "Mr. R. Iyer",
+        from: "NHAI Bihar Region",
+        purpose: "Project review meeting",
+        escort: "S. Patel \u00b7 +91 98765 12345",
+        zones: "A \u00b7 B \u00b7 OFFICE",
+        issued: issued, expires: issued + " \u00b7 18:00"
+      };
+    }
+    return {};
+  }
+
+  function renderStatus(result){
+    var sb = document.getElementById("statusBlock");
+    var tt = document.getElementById("statusTitle");
+    var ss = document.getElementById("statusSub");
+    sb.classList.remove("checking","valid","expired","invalid");
+    if(!result.ok){
+      sb.classList.add("invalid");
+      sb.querySelector(".icon").innerHTML = "\u2717";
+      sb.querySelector(".label").textContent = "Not Verified";
+      tt.textContent = "Document not recognised";
+      ss.textContent = result.reason || "Unable to verify this document";
+      return;
+    }
+    if(result.status === "valid"){
+      sb.classList.add("valid");
+      sb.querySelector(".icon").innerHTML = "\u2713";
+      sb.querySelector(".label").textContent = "Verified";
+      tt.textContent = "Document is valid";
+      ss.textContent = "Issued by OpsLix \u00b7 Authentic and currently in force";
+    } else if(result.status === "expired"){
+      sb.classList.add("expired");
+      sb.querySelector(".icon").innerHTML = "\u26a0";
+      sb.querySelector(".label").textContent = "Expired";
+      tt.textContent = "Document has expired";
+      ss.textContent = "Authentic but past its validity period \u2014 renew with the issuer";
+    } else {
+      sb.classList.add("invalid");
+      sb.querySelector(".icon").innerHTML = "\u2717";
+      sb.querySelector(".label").textContent = "Invalid";
+      tt.textContent = "Document not found";
+      ss.textContent = result.reason || "This ID does not match any record";
+    }
+  }
+
+  function renderBody(result){
+    var bb = document.getElementById("bodyBlock");
+    if(!result.ok){
+      bb.innerHTML =
+        "<div class=\"id-block\"><div class=\"id-label\">Document ID searched</div><div class=\"id-value\">"+esc(result.id || "(none provided)")+"</div></div>"+
+        "<p style=\"color:#5C544A;font-size:13px;margin-bottom:20px;line-height:1.6\">If you scanned a QR code, the printed document may be tampered with or counterfeit. Please contact the issuing organisation directly to confirm authenticity.</p>"+
+        "<div class=\"actions\"><a href=\"https://opslix.com/verify\" class=\"primary\">Try another ID</a></div>";
+      bb.style.display = "block";
+      return;
+    }
+    var d = result.data;
+    var fields = [];
+    var pillTypeLabel = "<div class=\"id-block\"><div class=\"id-label\">"+esc(result.typeLabel)+" \u00b7 Document ID</div><div class=\"id-value\">"+esc(result.id)+"</div></div>";
+
+    if(result.type === "cert"){
+      fields.push(["Holder Name", d.worker, "full"]);
+      fields.push(["Employee ID", d.workerId]);
+      fields.push(["Employer", d.employer]);
+      fields.push(["Training Topic", d.topic, "full"]);
+      fields.push(["Standard / Reference", d.standard]);
+      fields.push(["Duration", d.duration]);
+      fields.push(["Trainer", d.trainer, "full"]);
+      fields.push(["Project / Site", d.project, "full"]);
+      fields.push(["Issued On", d.issued]);
+      fields.push(["Valid Until", d.validUntil]);
+    } else if(result.type === "induction"){
+      fields.push(["Holder Name", d.worker, "full"]);
+      fields.push(["Employee ID", d.workerId]);
+      fields.push(["Trade / Role", d.trade]);
+      fields.push(["Employer", d.employer]);
+      fields.push(["Blood Group", d.bloodGroup]);
+      fields.push(["Project / Site", d.project, "full"]);
+      fields.push(["Inductor", d.inductor]);
+      fields.push(["Emergency Contact", d.emergencyContact]);
+      fields.push(["Inducted On", d.inducted]);
+      fields.push(["Valid Until", d.validUntil]);
+    } else if(result.type === "idcard"){
+      fields.push(["Holder Name", d.worker, "full"]);
+      fields.push(["Employee ID", d.workerId]);
+      fields.push(["Role / Designation", d.role]);
+      fields.push(["Employer", d.employer]);
+      fields.push(["Date of Joining", d.dateOfJoining]);
+      fields.push(["Employment Type", d.employmentType]);
+      fields.push(["Project / Site", d.project, "full"]);
+      fields.push(["Blood Group", d.bloodGroup]);
+      fields.push(["Emergency Contact", d.emergencyContact]);
+      fields.push(["Issued By", d.issuedBy, "full"]);
+      fields.push(["Issued On", d.issued]);
+      fields.push(["Valid Until", d.validUntil]);
+    } else if(result.type === "visitor"){
+      fields.push(["Visitor", d.visitor, "full"]);
+      fields.push(["Visiting From", d.from]);
+      fields.push(["Purpose", d.purpose]);
+      fields.push(["Escort / Host", d.escort, "full"]);
+      fields.push(["Zones Permitted", d.zones]);
+      fields.push(["Issued On", d.issued]);
+      fields.push(["Expires", d.expires]);
+    }
+
+    var fieldHtml = fields.map(function(f){
+      var cls = f[2] === "full" ? "field full" : "field";
+      return "<div class=\""+cls+"\"><div class=\"lbl\">"+esc(f[0])+"</div><div class=\"val\">"+esc(f[1]||"\u2014")+"</div></div>";
+    }).join("");
+
+    bb.innerHTML = pillTypeLabel +
+      "<div class=\"field-grid\">"+fieldHtml+"</div>"+
+      "<hr class=\"div\">"+
+      "<div class=\"assurance\">"+
+        "<div class=\"a-title\">Verification assurance</div>"+
+        "<div class=\"a-list\">"+
+          "<span>Issued via OpsLix platform</span>"+
+          "<span>Cryptographically signed QR</span>"+
+          "<span>Tamper-proof document hash</span>"+
+          "<span>Issuer auditable on request</span>"+
+        "</div>"+
+      "</div>"+
+      "<div class=\"actions\">"+
+        "<a href=\"https://opslix.com/verify\">Verify another</a>"+
+        "<button onclick=\"window.print()\">Print this proof</button>"+
+        "<a href=\"https://opslix.com\" class=\"primary\">Open OpsLix</a>"+
+      "</div>";
+    bb.style.display = "block";
+  }
+
+  function renderLookupForm(){
+    var card = document.getElementById("card");
+    card.innerHTML =
+      "<div class=\"lookup-form\">"+
+        "<h2>Verify a document</h2>"+
+        "<p>Enter the document ID from your certificate, induction card, or ID card</p>"+
+        "<form class=\"row\" id=\"lookupForm\" onsubmit=\"event.preventDefault();var v=document.getElementById('lookupInput').value.trim();if(v)location.href='/verify/'+encodeURIComponent(v);return false;\">"+
+          "<input id=\"lookupInput\" type=\"text\" placeholder=\"e.g. OPS-CERT-2026-A1B2C3\" autofocus>"+
+          "<button type=\"submit\">Verify</button>"+
+        "</form>"+
+      "</div>";
+  }
+
+  // Boot
+  var docId = getDocId();
+  if(!docId){
+    renderLookupForm();
+  } else {
+    lookupDoc(docId).then(function(result){
+      renderStatus(result);
+      renderBody(result);
+    });
+  }
+})();
+</script>
+</body>
+</html>
