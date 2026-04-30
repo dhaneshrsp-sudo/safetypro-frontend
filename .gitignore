@@ -25,3 +25,128 @@ opslix-shell-export.txt
 
 # Old plans (Doc/ folder is older copy; keep docs/ folder)
 Doc/
+
+# === OpsLix cleanup ignore patterns (Apr 30 2026) ===
+# Stop committing one-off scripts and accumulated junk.
+
+# Cleanup working folder (local-only analysis files)
+cleanup/
+
+# Backup files
+*.bak
+*.backup
+*.backup.*
+*.preview
+backups/
+archive/
+
+# One-off debugging / diagnostic
+debug*.js
+debug_*.js
+debug-*.js
+check*.js
+check_*.js
+find_*.js
+inspect*.js
+inspect_*.js
+tmp*.js
+tmp_*.js
+test_*.js
+diag*.js
+diag*.txt
+diag_*.js
+pinpoint_*.js
+
+# One-off patch / fix attempts
+fix_*.js
+fix-*.ps1
+fix-*.js
+fix*.ps1
+patch_*.js
+write_*.js
+write_v*.js
+emergency_fix.js
+final_fix.js
+final-fix.ps1
+finalfix*.ps1
+rollback_*.js
+restore_*.js
+rewrite_*.js
+verify_*.js
+master_*.js
+master-*.js
+
+# Inspection / scan
+show_*.js
+show*.js
+bsearch_*.js
+count_*.js
+scan_*.js
+sweep_*.js
+strip_*.js
+remove_*.js
+delete_*.js
+
+# Add scripts (one-off injectors)
+add_*.js
+add-*.ps1
+
+# UI fix scripts
+btn-*.ps1
+bleed-*.ps1
+borders-*.ps1
+calm*.ps1
+col-fix*.ps1
+color-*.ps1
+consolidate-*.ps1
+dots-v*.ps1
+flash*.ps1
+footer-*.ps1
+force-*.ps1
+ghdr*.ps1
+grid-*.ps1
+hzd-*.ps1
+icon-*.ps1
+icons-*.ps1
+ires-*.ps1
+killfade.ps1
+kpi-*.ps1
+modal-*.ps1
+no*.ps1
+nopencil-*.ps1
+ocp-*.ps1
+p0*-*.ps1
+remove-*.ps1
+row*-block.txt
+row*-fix.ps1
+scale-*.ps1
+scroll-*.ps1
+tab-*.ps1
+wrap-*.ps1
+wf-*.ps1
+fix-v*.ps1
+ghdr-*.ps1
+ghdr*.ps1
+
+# Inject helpers
+inject*.js
+reposition_*.js
+rename_*.js
+
+# Build artifacts and one-off output
+inspect-output.txt
+opslix-shell-export.txt
+TOMORROW_RESUME.md
+phase_a.js
+prebuild.js
+diag.txt
+
+# Empty default Windows folder
+"New folder"
+
+# Old canonical templates
+_canonical_topnav.html
+_topnav_canonical.txt
+
+# Misc
+sw-old.js
