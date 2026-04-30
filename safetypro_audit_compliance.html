@@ -1646,7 +1646,218 @@ body{font-size:13px!important;font-family:var(--fb)!important;}
 .logo-text{font-family:'Fraunces',Georgia,serif!important;font-weight:500!important;letter-spacing:-.01em!important}
 </style>
 <link rel="stylesheet" href="opslix-shell.css?v=19">
-</head>
+<style data-marker="OPSLIX_FILTER_DRAG_SCROLL_V1">
+.sp-scope-filters,.sp-row4-filters,.ac-sub-tabs{user-select:none;-webkit-user-select:none}
+.sp-scope-filters.opslix-no-drag,.sp-row4-filters.opslix-no-drag,.ac-sub-tabs.opslix-no-drag{cursor:default !important}
+.sp-scope-filters.opslix-grabbing,.sp-row4-filters.opslix-grabbing,.ac-sub-tabs.opslix-grabbing{cursor:grabbing !important}
+</style>
+<script data-marker="OPSLIX_FILTER_DRAG_SCROLL_V1">
+(function(){
+if(window.__OPSLIX_FILTER_DRAG_INIT__)return;
+window.__OPSLIX_FILTER_DRAG_INIT__=true;
+var SELECTORS=['.sp-scope-filters','.sp-row4-filters','.ac-sub-tabs'];
+var DRAG_THRESHOLD=5;
+function isInteractive(t){
+if(!t)return false;
+var el=t.nodeType===1?t:t.parentElement;
+while(el&&el.tagName){
+var tag=el.tagName;
+if(tag==='SELECT'||tag==='BUTTON'||tag==='INPUT'||tag==='TEXTAREA'||tag==='A'||tag==='LABEL')return true;
+if(el.getAttribute('role')==='button'||el.getAttribute('contenteditable')==='true')return true;
+if(el.classList&&(el.classList.contains('sp-scope-filters')||el.classList.contains('sp-row4-filters')||el.classList.contains('ac-sub-tabs')))break;
+el=el.parentElement;
+}
+return false;
+}
+function attach(el){
+if(el.dataset.opslixDrag==='v1')return;
+el.dataset.opslixDrag='v1';
+var canScroll=el.scrollWidth>el.clientWidth;
+if(!canScroll){el.classList.add('opslix-no-drag');return;}
+el.classList.remove('opslix-no-drag');
+el.style.cursor='grab';
+var down=false,startX=0,startScroll=0,moved=false,suppressClick=false;
+el.addEventListener('mousedown',function(e){
+if(e.button!==0)return;
+if(isInteractive(e.target))return;
+down=true;moved=false;suppressClick=false;
+startX=e.pageX;startScroll=el.scrollLeft;
+});
+window.addEventListener('mousemove',function(e){
+if(!down)return;
+var dx=e.pageX-startX;
+if(!moved&&Math.abs(dx)<DRAG_THRESHOLD)return;
+if(!moved){moved=true;el.classList.add('opslix-grabbing');}
+e.preventDefault();
+el.scrollLeft=startScroll-dx;
+});
+window.addEventListener('mouseup',function(e){
+if(!down)return;
+down=false;
+if(moved){el.classList.remove('opslix-grabbing');suppressClick=true;setTimeout(function(){suppressClick=false;},50);}
+});
+el.addEventListener('click',function(e){if(suppressClick){e.stopPropagation();e.preventDefault();}},true);
+if(typeof ResizeObserver!=='undefined'){
+var ro=new ResizeObserver(function(){
+var canNow=el.scrollWidth>el.clientWidth;
+if(canNow){el.classList.remove('opslix-no-drag');el.style.cursor='grab';}
+else{el.classList.add('opslix-no-drag');el.style.cursor='';}
+});
+ro.observe(el);
+}
+}
+function applyAll(){SELECTORS.forEach(function(sel){document.querySelectorAll(sel).forEach(attach);});}
+function init(){applyAll();var obs=new MutationObserver(function(){applyAll();});obs.observe(document.body,{childList:true,subtree:true});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script><script data-marker="OPSLIX_AUDIT_S_HELPER_V1">
+/* OPSLIX: _s shorthand restored. 15 call sites in this file rely on _s(id) returning the DOM element with that id. Original definition was missing/dropped causing ReferenceError in injectGapButtons() and other handlers. */
+window._s=window._s||function(id){return document.getElementById(id);};
+</script><script data-marker="OPSLIX_AUDIT_LEGAL_AUTOLOAD_V1">
+/* OPSLIX: When the user activates the Legal & Regulatory tab, the existing acMainTab() handler shows the pane but never calls rorRender() so the table stays empty. Wrap acMainTab so that after switching to legal, we trigger the loader. Same pattern works for any other init-on-activate need. */
+(function(){
+if(window.__OPSLIX_AUDIT_LEGAL_AUTOLOAD_INIT__)return;
+window.__OPSLIX_AUDIT_LEGAL_AUTOLOAD_INIT__=true;
+function tryHook(n){
+if(typeof window.acMainTab!=="function"){if(n>40)return;return setTimeout(function(){tryHook(n+1);},250);}
+if(window.acMainTab.__opslixLegalHooked)return;
+var orig=window.acMainTab;
+window.acMainTab=function(el,key){
+orig.apply(this,arguments);
+if(key==="legal"){
+setTimeout(function(){
+try{
+if(typeof rorLoadState==="function"){rorLoadState();}
+else if(typeof rorRender==="function"){rorRender();}
+if(typeof updateStats==="function"){updateStats();}
+}catch(e){console.warn("[OPSLIX legal-autoload]",e);}
+},120);
+}
+};
+window.acMainTab.__opslixLegalHooked=true;
+}
+tryHook(0);
+})();
+</script><script data-marker="OPSLIX_AUDIT_LEGAL_EXPAND_V1">
+/* OPSLIX: Expand legal registry. Original ROR_DB has 42 acts for IN, 6 for AE, 4 for QA, 7 for GB, 4 for SG, 4 for INT, and NO SA entry (causing fallthrough to India). This patch adds a Saudi Arabia block and expands the sparse Gulf/UK/Singapore datasets to comprehensive coverage. Runs after ROR_DB is defined and merges new acts via Object.assign on each country.central array. Idempotent: only runs once per page load. */
+(function(){
+if(window.__OPSLIX_LEGAL_EXPAND_INIT__)return;
+window.__OPSLIX_LEGAL_EXPAND_INIT__=true;
+function tryExpand(n){
+if(typeof window.ROR_DB==="undefined"){if(n>40)return;return setTimeout(function(){tryExpand(n+1);},250);}
+var DB=window.ROR_DB;
+var add={};
+add.SA=[
+{cat:"OHS",act:"Royal Decree M/51 of 1426H (2005) - Saudi Labour Law",auth:"Ministry of Human Resources & Social Development (MHRSD)",freq:"Annual",note:"Articles 121-145 cover OHS. Mandatory worker registration, work-injury insurance, prohibited working hours."},
+{cat:"OHS",act:"GAMI Construction Safety Code",auth:"General Authority of Military Industries / SCE",freq:"Project",note:"Construction-site OHS standards: PPE, scaffolding, excavation, hot work permits, height work."},
+{cat:"OHS",act:"Saudi Building Code (SBC) 801 - Fire Code",auth:"Saudi Building Code National Committee",freq:"Project",note:"Fire-protection requirements for buildings, materials, egress, suppression systems."},
+{cat:"OHS",act:"HCIS - High Commission for Industrial Security Directives",auth:"Ministry of Interior - HCIS",freq:"Project",note:"Mandatory for industrial/petrochemical sites: process safety, security, hot-work permits."},
+{cat:"OHS",act:"Aramco Construction Safety Manual (CSM-1)",auth:"Saudi Aramco",freq:"Project",note:"Industry de-facto standard. Required on Aramco contracts; widely adopted on EPC projects."},
+{cat:"OHS",act:"NEBOSH IGC / IDIPOSH - Required for HSE Officers (Sadara/Aramco contractors)",auth:"NEBOSH / NCFE",freq:"3 Years",note:"Industry expectation: HSE officers must hold internationally-recognised certification."},
+{cat:"OHS",act:"Cabinet Resolution No. 287 of 1437H - Workplace Safety Standards",auth:"MHRSD",freq:"Annual",note:"Mandates risk assessment, incident reporting, first-aid provision, emergency response plans."},
+{cat:"Labour",act:"Wage Protection System (WPS)",auth:"MHRSD",freq:"Monthly",note:"All employers must pay wages via approved banks. Non-compliance triggers visa-block penalties."},
+{cat:"Labour",act:"Saudization (Nitaqat) Programme",auth:"MHRSD",freq:"Quarterly",note:"Quotas for Saudi national employment by company size/sector. Non-compliance affects work visas."},
+{cat:"Labour",act:"GOSI - General Organisation for Social Insurance Law",auth:"GOSI",freq:"Monthly",note:"Mandatory social insurance for all workers (Saudi nationals & expats). Covers occupational hazards."},
+{cat:"Environment",act:"Royal Decree M/34 of 1422H (2001) - General Environment Law",auth:"National Center for Environmental Compliance (NCEC)",freq:"Annual",note:"Environment Impact Assessment required for major projects. NCEC permits for emissions/effluent."},
+{cat:"Environment",act:"NCEC - Air Emissions Standards",auth:"NCEC",freq:"Annual",note:"Stack emissions monitoring, ambient air-quality limits, fugitive-dust controls during construction."},
+{cat:"Environment",act:"NCEC - Hazardous Waste Management Regulations",auth:"NCEC",freq:"As generated",note:"Manifest system, licensed disposal contractors, transboundary movement controls."},
+{cat:"Environment",act:"PME Water Pollution Control Standards",auth:"Presidency of Meteorology & Environment / NCEC",freq:"Annual",note:"Effluent quality standards, groundwater protection during excavation/dewatering."},
+{cat:"Fire",act:"Saudi Civil Defence Code - Fire Prevention",auth:"Directorate General of Civil Defence",freq:"Annual",note:"Inspections, fire-system commissioning, emergency drills, evacuation plans."},
+{cat:"ISO",act:"ISO 45001:2018 - Occupational Health & Safety",auth:"SASO Accredited Body",freq:"3 Years",note:"Annual surveillance audits. Increasingly required for major Saudi contracts."},
+{cat:"ISO",act:"ISO 14001:2015 - Environmental Management",auth:"SASO Accredited Body",freq:"3 Years",note:"Annual surveillance. Often bundled with 45001 for IMS certification."},
+{cat:"Transport",act:"Public Transport Authority (PTA) - Heavy Vehicle Permits",auth:"Public Transport Authority",freq:"Annual",note:"Permits for cranes/trailers, route approvals, driver licensing for hazardous loads."}
+];
+add.AE=[
+{cat:"OHS",act:"Federal Decree-Law No. 33 of 2021 - Regulation of Labour Relations",auth:"Ministry of Human Resources & Emiratisation (MOHRE)",freq:"Annual",note:"Replaces Federal Law No. 8 of 1980 from Feb 2022. Updated working hours, leave, end-of-service."},
+{cat:"OHS",act:"Cabinet Resolution No. 21 of 2020 - OSH on Construction Sites",auth:"MOHRE",freq:"Project",note:"Mandates HSE plan, qualified HSE officer, midday-break rule (12:30-15:00 in summer)."},
+{cat:"OHS",act:"OSHAD-SF Element Manuals (1-9)",auth:"Abu Dhabi Public Health Centre / OSHAD",freq:"Annual",note:"Sector-specific frameworks: Construction (CoP 53), Lifting (CoP 28.0), Excavation (CoP 23)."},
+{cat:"OHS",act:"DM Local Order No. 61 of 1991 - Public Health & Safety (Dubai)",auth:"Dubai Municipality",freq:"Annual",note:"Permit-to-work systems, contractor pre-qualification, monthly site inspections."},
+{cat:"OHS",act:"DCA - Dubai Civil Aviation Authority Construction Safety",auth:"DCA",freq:"Project",note:"Crane height restrictions, operator certification (NDT), proximity-to-airport rules."},
+{cat:"Fire",act:"UAE Fire & Life Safety Code of Practice 2018 (Updated 2024)",auth:"Civil Defence",freq:"Annual",note:"Fire-fighting systems, alarm systems, emergency lighting, materials testing, evacuation plans."},
+{cat:"Fire",act:"Civil Defence Decree - Fire Watch & Hot Work Permits",auth:"Civil Defence",freq:"Per task",note:"Mandatory fire watch for hot work, permit issuance, documented inspection."},
+{cat:"Environment",act:"Federal Law No. 24 of 1999 - Environment Protection (as amended)",auth:"Ministry of Climate Change & Environment (MOCCAE)",freq:"Annual",note:"EIA for major projects, hazardous waste manifests, air-emission permits."},
+{cat:"Environment",act:"Local Order No. 61 - Dubai Air Pollution Control",auth:"Dubai Municipality - Environment Dept",freq:"Annual",note:"Stack monitoring, dust suppression on construction sites, vehicle emission compliance."},
+{cat:"Environment",act:"EAD - Abu Dhabi Environment Permit (CTC/CTO)",auth:"Environment Agency Abu Dhabi",freq:"5YR",note:"Construction & operational permits for industrial activities. Annual emissions reporting."},
+{cat:"Labour",act:"Wage Protection System (WPS)",auth:"MOHRE / UAE Central Bank",freq:"Monthly",note:"Mandatory salary payment via approved banks. Non-compliance triggers visa-block penalties."},
+{cat:"Labour",act:"Federal Law No. 8 of 1980 (Historical reference - amendments still active)",auth:"MOHRE",freq:"Reference",note:"Some provisions still apply for legacy contracts pre-Feb 2022."},
+{cat:"Labour",act:"Emiratisation Quota Requirements (Nafis programme)",auth:"MOHRE",freq:"Quarterly",note:"2% UAE-national employment quota for private firms (50+ employees). Penalties for non-compliance."},
+{cat:"Labour",act:"Federal Law No. 19 of 2020 - Domestic Workers (where applicable)",auth:"MOHRE",freq:"Annual",note:"Sponsor obligations, working hours, end-of-service for domestic staff at sites/camps."},
+{cat:"OHS",act:"DAFZ / JAFZA / Free Zone HSE Codes (where applicable)",auth:"Free Zone Authority",freq:"Annual",note:"Free-zone-specific HSE requirements supplementing federal law."},
+{cat:"ISO",act:"ISO 14001:2015 - Environmental Management",auth:"DAkkS / ENAS Accredited Body",freq:"3 Years",note:"Annual surveillance. Often required for government contracts."},
+{cat:"ISO",act:"ISO 9001:2015 - Quality Management",auth:"DAkkS / ENAS Accredited Body",freq:"3 Years",note:"Annual surveillance. IMS bundling common."},
+{cat:"Transport",act:"Federal Traffic Law - Heavy Vehicle Operations",auth:"Ministry of Interior - Traffic Dept",freq:"Annual",note:"Driver licensing, vehicle inspections, route permits for cranes/oversized loads."}
+];
+add.QA=[
+{cat:"OHS",act:"Workers Welfare Standards (WWS) - 2024 Edition",auth:"Supreme Committee for Delivery & Legacy / Ministry of Labour",freq:"Annual",note:"Mandatory for tournament/legacy projects. Worker accommodation, recruitment fees, grievance mechanism, WPS."},
+{cat:"OHS",act:"QCS 2014 / 2017 - Section 11 - HSE Specifications",auth:"Public Works Authority (Ashghal)",freq:"Project",note:"Construction safety specs for Ashghal contracts. Pre-mob HSE plan, daily TBT, monthly audits."},
+{cat:"OHS",act:"QCDD - Qatar Civil Defence Construction Safety Requirements",auth:"Qatar Civil Defence Department",freq:"Project",note:"Fire safety, hot work, emergency evacuation, site security."},
+{cat:"OHS",act:"Law No. 17 of 2020 - Minimum Wage & Worker Protection",auth:"Ministry of Labour",freq:"Annual",note:"QAR 1,000 minimum monthly wage. Mandatory accommodation, food, healthcare."},
+{cat:"Fire",act:"QCDD Fire Safety Code - 2015",auth:"Qatar Civil Defence Department",freq:"Annual",note:"Fire-system installation/commissioning, materials approval, emergency lighting."},
+{cat:"Environment",act:"Law No. 30 of 2002 - Environment Protection (Qatar)",auth:"Ministry of Municipality & Environment (MME)",freq:"Annual",note:"EIA for major projects. Effluent permits, hazardous waste tracking."},
+{cat:"Environment",act:"MME Decree No. 4 of 2005 - Air Quality Standards",auth:"MME",freq:"Annual",note:"Ambient air-quality limits. Construction-dust suppression mandatory in summer."},
+{cat:"Labour",act:"Law No. 14 of 2004 - Labour Law (as amended)",auth:"Ministry of Labour",freq:"Annual",note:"Working hours (8/day), overtime, summer midday-work ban (Jun 15 - Aug 31, 11:30-15:00)."},
+{cat:"Labour",act:"Wage Protection System (WPS) - Qatar",auth:"Ministry of Labour / Qatar Central Bank",freq:"Monthly",note:"Mandatory bank-transfer salary payment with audit trail."},
+{cat:"Labour",act:"Kafala Reform Law No. 21 of 2015",auth:"Ministry of Labour",freq:"Annual",note:"Worker mobility (NOC requirement removed in 2020). Exit-permit eliminated for most workers."},
+{cat:"OHS",act:"NEBOSH / OSHAcademy Certification - HSE Personnel",auth:"International Examination Bodies",freq:"3 Years",note:"De-facto requirement for HSE officers on Ashghal/Qatar Energy contracts."},
+{cat:"Transport",act:"Ministry of Transport - Heavy Vehicle Permits",auth:"Ministry of Transport",freq:"Annual",note:"Mobile-crane operator certification, route permits for oversized loads."},
+{cat:"ISO",act:"ISO 45001:2018",auth:"GAC Accredited Body",freq:"3 Years",note:"Increasingly required for Qatar Energy and government contractor pre-qualification."},
+{cat:"ISO",act:"ISO 14001:2015",auth:"GAC Accredited Body",freq:"3 Years",note:"Annual surveillance audits. Common IMS bundling."}
+];
+add.GB=[
+{cat:"OHS",act:"Management of Health & Safety at Work Regulations 1999",auth:"Health & Safety Executive (HSE)",freq:"Annual",note:"Risk assessment, competent persons, health surveillance, emergency procedures."},
+{cat:"OHS",act:"Working at Height Regulations 2005",auth:"HSE",freq:"Per task",note:"Avoid working at height where reasonably practicable. Hierarchy of fall protection."},
+{cat:"OHS",act:"PUWER 1998 - Provision & Use of Work Equipment Regulations",auth:"HSE",freq:"Annual",note:"Equipment must be suitable, maintained, inspected. Operator training and PPE."},
+{cat:"OHS",act:"Manual Handling Operations Regulations 1992 (as amended)",auth:"HSE",freq:"Per task",note:"Avoid hazardous manual handling, assess and reduce risk, training."},
+{cat:"OHS",act:"PPE at Work Regulations 1992 (Amended 2022)",auth:"HSE",freq:"Annual",note:"Suitable PPE provision, training, maintenance, replacement."},
+{cat:"OHS",act:"Confined Spaces Regulations 1997",auth:"HSE",freq:"Per task",note:"Safe-system-of-work for confined-space entry. Permit, monitoring, rescue plan."},
+{cat:"OHS",act:"Control of Asbestos Regulations 2012",auth:"HSE",freq:"Annual",note:"Surveys, plans, licensed contractors for higher-risk work."},
+{cat:"OHS",act:"Control of Noise at Work Regulations 2005",auth:"HSE",freq:"Annual",note:"Noise assessments, hearing protection, health surveillance above 85 dB(A)."},
+{cat:"OHS",act:"Control of Vibration at Work Regulations 2005",auth:"HSE",freq:"Annual",note:"Hand-arm and whole-body vibration assessments. Daily exposure limits."},
+{cat:"OHS",act:"Construction Plant-Hire Association (CPA) Codes",auth:"CPA",freq:"Project",note:"Industry best-practice for crane operations, lifting plans, plant inspections."},
+{cat:"OHS",act:"NEBOSH Construction Certificate / IOSH Managing Safely",auth:"NEBOSH / IOSH",freq:"3 Years",note:"Standard HSE qualifications for site managers/officers."},
+{cat:"Labour",act:"Working Time Regulations 1998",auth:"HSE / Department for Business",freq:"Annual",note:"48hr week opt-out, daily/weekly rest periods, paid annual leave."},
+{cat:"Labour",act:"Equality Act 2010",auth:"Equality & Human Rights Commission",freq:"Annual",note:"Protected characteristics. Reasonable adjustments. PSED for public bodies."},
+{cat:"Labour",act:"Modern Slavery Act 2015 (Section 54)",auth:"Home Office",freq:"Annual",note:"Annual transparency statement for businesses with turnover > GBP 36m."},
+{cat:"Environment",act:"Environment Act 2021",auth:"Environment Agency / DEFRA",freq:"Annual",note:"Updated waste, air quality, biodiversity, water-resource frameworks."},
+{cat:"Environment",act:"Waste Regulations 2011 (England & Wales)",auth:"Environment Agency",freq:"Annual",note:"Duty of care, hazardous waste consignment notes, registered carriers."},
+{cat:"Environment",act:"Hazardous Waste Regulations 2005",auth:"Environment Agency",freq:"Per consignment",note:"Premises notification, consignee returns, tracking system."},
+{cat:"Fire",act:"Regulatory Reform (Fire Safety) Order 2005 (RRO)",auth:"Local Fire & Rescue Authority",freq:"Annual",note:"Fire risk assessment, means of escape, fire detection, training."},
+{cat:"Fire",act:"Building Safety Act 2022 (Higher Risk Buildings)",auth:"Building Safety Regulator (HSE)",freq:"Annual",note:"Gateway 2/3 approvals for HRBs (>=18m or 7+ storeys with residential)."},
+{cat:"OHS",act:"Construction (Design & Management) Regulations 2015 - reaffirmed",auth:"HSE",freq:"Project",note:"Client/principal designer/principal contractor duties. F10 notification > 30 days/500 person-days."},
+{cat:"OHS",act:"DSEAR 2002 - Dangerous Substances & Explosive Atmospheres",auth:"HSE",freq:"Annual",note:"Hazardous-area classification, ignition control, emergency procedures."},
+{cat:"OHS",act:"Construction Skills Certification Scheme (CSCS)",auth:"CSCS / CITB",freq:"5YR",note:"Worker card scheme - de facto requirement on UK construction sites."},
+{cat:"ISO",act:"ISO 14001:2015 - Environmental Management",auth:"UKAS Accredited Body",freq:"3 Years",note:"Annual surveillance audits."},
+{cat:"ISO",act:"ISO 9001:2015 - Quality Management",auth:"UKAS Accredited Body",freq:"3 Years",note:"Annual surveillance audits. IMS bundling common."}
+];
+add.SG=[
+{cat:"OHS",act:"WSH (General Provisions) Regulations 2006",auth:"Ministry of Manpower (MOM)",freq:"Annual",note:"Risk assessment, safe-work procedures, incident reporting, PPE provision."},
+{cat:"OHS",act:"WSH (Risk Management) Regulations 2006",auth:"MOM",freq:"Annual",note:"Mandatory documented risk assessments, review every 3 years or after incident."},
+{cat:"OHS",act:"WSH (Incident Reporting) Regulations 2006",auth:"MOM",freq:"Per incident",note:"Reportable incidents within 10 days. Major injury/death within 24hr."},
+{cat:"OHS",act:"WSH (Scaffolds) Regulations 2011",auth:"MOM / BCA",freq:"Per scaffold",note:"Approved scaffold supervisor certification. Weekly inspections, tagging."},
+{cat:"OHS",act:"WSH (Confined Spaces) Regulations 2009",auth:"MOM",freq:"Per entry",note:"Entry permit, atmospheric testing, standby person, rescue plan."},
+{cat:"OHS",act:"WSH (Work at Heights) Regulations 2013",auth:"MOM",freq:"Per task",note:"Fall-prevention plan, safety harness, edge protection above 3m."},
+{cat:"OHS",act:"WSH (Operation of Cranes) Regulations 2011",auth:"MOM",freq:"Per lift",note:"Operator certification, lifting plan, banksman, daily inspection."},
+{cat:"OHS",act:"WSH Council Construction Safety Codes of Practice",auth:"WSH Council",freq:"Project",note:"De-facto industry standards for high-risk work."},
+{cat:"OHS",act:"bizSAFE Programme (Levels 1-Star)",auth:"WSH Council",freq:"3 Years",note:"5-step OHS journey. Required for many government contracts."},
+{cat:"Fire",act:"Fire Safety Act 1993 & Fire Code 2018",auth:"Singapore Civil Defence Force (SCDF)",freq:"Annual",note:"Building fire safety, FSC certification, hot-work permits."},
+{cat:"Environment",act:"Environmental Protection & Management Act 1999",auth:"National Environment Agency (NEA)",freq:"Annual",note:"Hazardous substances licensing, air-emission permits, noise control."},
+{cat:"Environment",act:"Environmental Public Health (Toxic Industrial Waste) Regulations",auth:"NEA",freq:"Per consignment",note:"Toxic waste collector licences, manifest tracking, treatment standards."},
+{cat:"Labour",act:"Employment Act (Singapore)",auth:"MOM",freq:"Annual",note:"Working hours, overtime, leave, retrenchment benefits, salary payment."},
+{cat:"Labour",act:"Employment of Foreign Manpower Act",auth:"MOM",freq:"Annual",note:"Work permit/S Pass/EP requirements. Quotas (DRC for construction)."},
+{cat:"ISO",act:"ISO 45001:2018",auth:"SAC Accredited Body",freq:"3 Years",note:"Annual surveillance audits."},
+{cat:"ISO",act:"ISO 14001:2015",auth:"SAC Accredited Body",freq:"3 Years",note:"Annual surveillance audits."}
+];
+/* Merge into ROR_DB */
+if(!DB.SA){DB.SA={central:add.SA,states:{}};} else {DB.SA.central=(DB.SA.central||[]).concat(add.SA);}
+if(DB.AE){DB.AE.central=(DB.AE.central||[]).concat(add.AE);} else {DB.AE={central:add.AE,states:{}};}
+if(DB.QA){DB.QA.central=(DB.QA.central||[]).concat(add.QA);} else {DB.QA={central:add.QA,states:{}};}
+if(DB.GB){DB.GB.central=(DB.GB.central||[]).concat(add.GB);} else {DB.GB={central:add.GB,states:{}};}
+if(DB.SG){DB.SG.central=(DB.SG.central||[]).concat(add.SG);} else {DB.SG={central:add.SG,states:{}};}
+console.log("[OPSLIX] Legal registry expanded. SA:"+DB.SA.central.length+" AE:"+DB.AE.central.length+" QA:"+DB.QA.central.length+" GB:"+DB.GB.central.length+" SG:"+DB.SG.central.length);
+}
+tryExpand(0);
+})();
+</script></head>
 <body data-page="audit">
 <script>
 /* -- Page structure self-heal: ensure all tab-panels are direct children of .content -- */
@@ -11482,7 +11693,7 @@ window.incShowHeatmap = function(){
 \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
 function injectGapButtons(){
   var reportBtn = document.querySelector('#investigation-register .card button[onclick="incExportExcel()"]');
-  if(!reportBtn || _s('inc-gap-btns')) return;
+  if(!reportBtn || document.getElementById('inc-gap-btns')) return; /* OPSLIX_AUDIT_GAPBTN_FIX_V1 */
 
   var wrapper = document.createElement('div');
   wrapper.id = 'inc-gap-btns';
@@ -11840,7 +12051,7 @@ body .ua, body .user-pill .ua {
 }
 /* Hamburger menu spans (if any have green) */
 body .sb-toggle span, body .menu-toggle span { background: currentColor !important; }
-</style><script src="sp-shell.js?v=8"></script>
+</style><script src="sp-shell.js?v=11"></script>
 <script src="sp-charts.js?v=7"></script>
 <script src="sp-dynamic-states.js?v=5"></script>
 

@@ -1107,8 +1107,85 @@ body .ua { background: linear-gradient(135deg, #C6583E, #A84A35) !important; col
 .sp-footer{border-bottom:1px solid rgb(51, 65, 85)!important;}
 .logo-text{font-family:'Fraunces',Georgia,serif!important;font-weight:500!important;letter-spacing:-.01em!important}
 </style>
-<link rel="stylesheet" href="sp-shell.css?v=63">
-</head>
+<link rel="stylesheet" href="opslix-shell.css?v=19">
+
+<style id="topnav-shadow-fix">html body nav.topnav,html body .topnav{box-shadow:none!important}</style>
+<style id="opslix-doc-compact-rows">
+  html body .sub-header .sp-page-identity{padding:4px 16px!important;min-height:32px!important}
+  html body .sub-header .sp-page-identity .sp-page-title{font-size:16px!important;line-height:1.3!important;margin:0!important}
+  html body .sub-header .sp-scope-filters{padding:4px 16px!important;min-height:32px!important;gap:6px!important}
+  html body .sub-header .sh-left{padding:0 16px!important}
+  html body .sub-header .sh-tabs{padding:0!important}
+  html body .sub-header .sh-tab{padding:6px 14px!important}
+  html body .ac-sub-tabs-wrapper{padding:0 16px!important}
+  html body .sp-row4{padding:4px 16px!important;min-height:34px!important}
+  html body .sp-row4-filter-label{font-size:9px!important}
+</style>
+<style data-marker="OPSLIX_FILTER_DRAG_SCROLL_V1">
+.sp-scope-filters,.sp-row4-filters,.ac-sub-tabs{user-select:none;-webkit-user-select:none}
+.sp-scope-filters.opslix-no-drag,.sp-row4-filters.opslix-no-drag,.ac-sub-tabs.opslix-no-drag{cursor:default !important}
+.sp-scope-filters.opslix-grabbing,.sp-row4-filters.opslix-grabbing,.ac-sub-tabs.opslix-grabbing{cursor:grabbing !important}
+</style>
+<script data-marker="OPSLIX_FILTER_DRAG_SCROLL_V1">
+(function(){
+if(window.__OPSLIX_FILTER_DRAG_INIT__)return;
+window.__OPSLIX_FILTER_DRAG_INIT__=true;
+var SELECTORS=['.sp-scope-filters','.sp-row4-filters','.ac-sub-tabs'];
+var DRAG_THRESHOLD=5;
+function isInteractive(t){
+if(!t)return false;
+var el=t.nodeType===1?t:t.parentElement;
+while(el&&el.tagName){
+var tag=el.tagName;
+if(tag==='SELECT'||tag==='BUTTON'||tag==='INPUT'||tag==='TEXTAREA'||tag==='A'||tag==='LABEL')return true;
+if(el.getAttribute('role')==='button'||el.getAttribute('contenteditable')==='true')return true;
+if(el.classList&&(el.classList.contains('sp-scope-filters')||el.classList.contains('sp-row4-filters')||el.classList.contains('ac-sub-tabs')))break;
+el=el.parentElement;
+}
+return false;
+}
+function attach(el){
+if(el.dataset.opslixDrag==='v1')return;
+el.dataset.opslixDrag='v1';
+var canScroll=el.scrollWidth>el.clientWidth;
+if(!canScroll){el.classList.add('opslix-no-drag');return;}
+el.classList.remove('opslix-no-drag');
+el.style.cursor='grab';
+var down=false,startX=0,startScroll=0,moved=false,suppressClick=false;
+el.addEventListener('mousedown',function(e){
+if(e.button!==0)return;
+if(isInteractive(e.target))return;
+down=true;moved=false;suppressClick=false;
+startX=e.pageX;startScroll=el.scrollLeft;
+});
+window.addEventListener('mousemove',function(e){
+if(!down)return;
+var dx=e.pageX-startX;
+if(!moved&&Math.abs(dx)<DRAG_THRESHOLD)return;
+if(!moved){moved=true;el.classList.add('opslix-grabbing');}
+e.preventDefault();
+el.scrollLeft=startScroll-dx;
+});
+window.addEventListener('mouseup',function(e){
+if(!down)return;
+down=false;
+if(moved){el.classList.remove('opslix-grabbing');suppressClick=true;setTimeout(function(){suppressClick=false;},50);}
+});
+el.addEventListener('click',function(e){if(suppressClick){e.stopPropagation();e.preventDefault();}},true);
+if(typeof ResizeObserver!=='undefined'){
+var ro=new ResizeObserver(function(){
+var canNow=el.scrollWidth>el.clientWidth;
+if(canNow){el.classList.remove('opslix-no-drag');el.style.cursor='grab';}
+else{el.classList.add('opslix-no-drag');el.style.cursor='';}
+});
+ro.observe(el);
+}
+}
+function applyAll(){SELECTORS.forEach(function(sel){document.querySelectorAll(sel).forEach(attach);});}
+function init(){applyAll();var obs=new MutationObserver(function(){applyAll();});obs.observe(document.body,{childList:true,subtree:true});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script></head>
 <body data-page="documents">
 
 <!-- ══ TOP NAV ══ -->
@@ -1216,27 +1293,114 @@ body .ua { background: linear-gradient(135deg, #C6583E, #A84A35) !important; col
   <div class="content">
 
     <div class="sub-header">
-      <div class="sh-left">
-        <div class="sh-title">Documents &amp; Records</div>
-        <div class="sh-tabs">
-          <div class="sh-tab active" onclick="switchDocTab(this,'library')">&#128194; Document Library</div>
-          <div class="sh-tab" onclick="switchDocTab(this,'upload')">&#8679; Upload</div>
-          <div class="sh-tab" onclick="switchDocTab(this,'expiring')">&#9888; Expiring Soon</div>
-          <div class="sh-tab" onclick="switchDocTab(this,'versions')">&#128260; Version History</div>
-        </div>
-      </div>
-      <div class="sh-right">
-        <input type="text" placeholder="Search documents..." style="font-size:11px;padding:6px 12px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-family:var(--fh);width:200px;" oninput="docSearch(this.value)">
-        <select style="font-size:11px;padding:6px 12px;background:var(--raised);border:1px solid var(--border);border-radius:6px;color:var(--t1);font-family:var(--fh);">
-          <option>All Categories</option>
-          <option>Method Statements</option>
-          <option>Risk Assessments</option>
-          <option>Certificates</option>
-          <option>Permits</option>
-          <option>Procedures</option>
-        </select>
-      </div>
+  <div class="sp-page-identity" data-page="documents">
+    <div class="sp-page-identity-left">
+      <nav class="sp-page-breadcrumb">
+        <a href="/safetypro_v2">Home</a>
+        <span class="sp-page-breadcrumb-separator">/</span>
+        <a href="/safetypro_v2">Dashboard</a>
+      </nav>
+      <h1 class="sp-page-title">Documents &amp; Records</h1>
     </div>
+    <div class="sp-page-identity-right">
+      <button class="sp-page-action" onclick="window.open('https://docs.safetyproworld.com/documents','_blank')">? Help</button>
+      <button class="sp-page-action sp-page-action--primary" onclick="if(typeof docUpload==='function')docUpload();">+ Upload</button>
+    </div>
+  </div>
+  <div class="sp-scope-filters">
+    <label class="sp-scope-select sp-scope-select--org"><span class="sp-scope-select-label">Org</span><select id="doc-org" onchange="if(typeof docApplyFilters==='function')docApplyFilters()"><option value="">All Companies</option><option value="ieccl">IECCL - IL&amp;FS Engineering</option></select></label>
+    <label class="sp-scope-select sp-scope-select--bu"><span class="sp-scope-select-label">BU</span><select id="doc-bu" onchange="if(typeof docApplyFilters==='function')docApplyFilters()"><option value="">All Units</option></select></label>
+    <label class="sp-scope-select sp-scope-select--project"><span class="sp-scope-select-label">Project</span><select id="doc-project" onchange="if(typeof docApplyFilters==='function')docApplyFilters()"><option value="">All Projects</option><option value="bbrp">BBRP - NH 131</option></select></label>
+    <label class="sp-scope-select sp-scope-select--region"><span class="sp-scope-select-label">Zone</span><select id="doc-zone" onchange="if(typeof docApplyFilters==='function')docApplyFilters()"><option value="">All Zones</option></select></label>
+    <label class="sp-scope-select sp-scope-select--standard"><span class="sp-scope-select-label">Standard</span><select id="doc-standard" onchange="if(typeof docApplyFilters==='function')docApplyFilters()"><option value="">All Standards</option><option value="iso45001">ISO 45001:2018</option><option value="iso14001">ISO 14001:2015</option><option value="iso9001">ISO 9001:2015</option></select></label>
+    <label class="sp-scope-select sp-scope-select--period"><span class="sp-scope-select-label">Period</span><select id="doc-period" onchange="if(typeof docApplyFilters==='function')docApplyFilters()"><option value="all" selected>All Time</option><option value="30">Last 30 Days</option><option value="90">Last 90 Days</option><option value="ytd">YTD</option></select></label>
+    <input class="sp-scope-search" type="search" placeholder="Search documents, records, templates...">
+  </div>
+  <div class="sh-left">
+    <div class="sh-title">Documents &amp; Records</div>
+    <div class="sh-tabs" id="sh-tabs-scroll">
+      <div class="sh-tab active" onclick="switchDocTab(this,'library')">Library</div>
+      <div class="sh-tab" onclick="switchDocTab(this,'upload')">Upload</div>
+      <div class="sh-tab" onclick="switchDocTab(this,'expiring')">Expiring Soon</div>
+      <div class="sh-tab" onclick="switchDocTab(this,'versions')">Versions</div>
+    </div>
+  </div>
+</div>
+
+<style data-marker="OPSLIX_DOC_REBUILD_APPLIED">
+  .ac-sub-tabs-wrapper{padding:0;background:transparent;overflow:hidden}
+  .ac-sub-tabs-wrapper .ac-sub-tabs{display:none;gap:0;padding:0;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+  .ac-sub-tabs-wrapper .ac-sub-tabs::-webkit-scrollbar{display:none}
+  .ac-sub-tabs-wrapper[data-active="library"] .ac-sub-tabs[data-parent="library"],
+  .ac-sub-tabs-wrapper[data-active="upload"] .ac-sub-tabs[data-parent="upload"],
+  .ac-sub-tabs-wrapper[data-active="expiring"] .ac-sub-tabs[data-parent="expiring"],
+  .ac-sub-tabs-wrapper[data-active="versions"] .ac-sub-tabs[data-parent="versions"] { display: flex }
+  .ac-sub-tabs-wrapper .ac-sub-tab{padding:7px 14px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;flex-shrink:0;font-family:var(--sp-font-sans,'Inter',sans-serif)}
+  .ac-sub-tabs-wrapper .ac-sub-tab:hover{color:var(--t1)}
+  .ac-sub-tabs-wrapper .ac-sub-tab.active{color:var(--rust);border-bottom-color:var(--rust);font-weight:600}
+</style>
+<div class="ac-sub-tabs-wrapper" id="doc-sub-tabs-wrapper" data-active="library">
+  <div class="ac-sub-tabs" data-parent="library">
+    <div class="ac-sub-tab active" onclick="docSubTabSwitch(this)">All</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">Active</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">Recent</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">By Category</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">History</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="upload">
+    <div class="ac-sub-tab active" onclick="docSubTabSwitch(this)">All</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">Active</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">Recent</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">By Category</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">History</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="expiring">
+    <div class="ac-sub-tab active" onclick="docSubTabSwitch(this)">All</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">Active</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">Recent</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">By Category</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">History</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="versions">
+    <div class="ac-sub-tab active" onclick="docSubTabSwitch(this)">All</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">Active</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">Recent</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">By Category</div>
+    <div class="ac-sub-tab" onclick="docSubTabSwitch(this)">History</div>
+  </div>
+</div>
+<script>
+  (function(){
+    window.docSubTabSwitch=function(el){var set=el.parentElement;if(set)set.querySelectorAll('.ac-sub-tab').forEach(function(t){t.classList.remove('active')});el.classList.add('active');};
+    function bindMainTabs(){
+      var wrapper=document.getElementById('doc-sub-tabs-wrapper');
+      if(!wrapper)return;
+      var tabs=document.querySelectorAll('#sh-tabs-scroll .sh-tab');
+      tabs.forEach(function(tab){
+        tab.addEventListener('click',function(){
+          var onclick=this.getAttribute('onclick')||'';
+          var m=onclick.match(/switchDocTab\(this,\s*['"]([^'"]+)['"]\)/);
+          if(m&&m[1])wrapper.setAttribute('data-active',m[1]);
+          try{this.scrollIntoView({inline:'center',behavior:'smooth',block:'nearest'})}catch(e){}
+        });
+      });
+    }
+    if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bindMainTabs)}else{bindMainTabs()}
+  })();
+</script>
+
+<div class="sp-row4 sp-row4--documents">
+  <div class="sp-row4-filters">
+    <label class="sp-row4-filter"><span class="sp-row4-filter-label">Type</span><select onchange="if(typeof docApplyFilters==='function')docApplyFilters()"><option value="">All Types</option><option value="pdf">PDF</option><option value="docx">Word</option><option value="xlsx">Excel</option><option value="image">Image</option></select></label>
+    <label class="sp-row4-filter"><span class="sp-row4-filter-label">Status</span><select onchange="if(typeof docApplyFilters==='function')docApplyFilters()"><option value="">All Status</option><option value="active">Active</option><option value="draft">Draft</option><option value="approved">Approved</option><option value="archived">Archived</option></select></label>
+    <label class="sp-row4-filter"><span class="sp-row4-filter-label">Owner</span><select onchange="if(typeof docApplyFilters==='function')docApplyFilters()"><option value="">All Owners</option><option value="me">My Documents</option><option value="hse">HSE Dept</option><option value="qa">Quality Dept</option></select></label>
+    <label class="sp-row4-filter"><span class="sp-row4-filter-label">Revision</span><select onchange="if(typeof docApplyFilters==='function')docApplyFilters()"><option value="">All Revisions</option><option value="latest">Latest Only</option><option value="all">All Versions</option></select></label>
+  </div>
+  <div class="sp-row4-actions">
+    <button class="sp-row4-btn sp-row4-btn--clear" onclick="if(typeof docClearFilters==='function')docClearFilters()">✕ Clear</button>
+    <button class="sp-row4-btn sp-row4-btn--export" onclick="if(typeof docExport==='function')docExport()">↓ Export</button>
+  </div>
+</div>
     <div class="docs-scroll" style="flex:1;overflow-y:scroll;min-height:0;padding:16px 28px 24px 16px;scrollbar-width:thin;scrollbar-color:#475569 #1E293B;">
 
 

@@ -10,3 +10,18 @@ _archive/
 *.bak
 *.prev*.bak
 *.pre*.bak
+
+# One-time helper scripts (do not commit)
+apply_ms_struct_fix.ps1
+apply_ms_v2_phase1.ps1
+apply_msfix_q.ps1
+apply_msfix_quality.ps1
+patch_wrapper_v2.js
+
+# Diagnostic dumps
+wrapper.txt
+test.txt
+opslix-shell-export.txt
+
+# Old plans (Doc/ folder is older copy; keep docs/ folder)
+Doc/

@@ -1447,8 +1447,518 @@ body .ua { background: linear-gradient(135deg, #C6583E, #A84A35) !important; col
 body{font-size:13px!important;font-family:var(--fb)!important;}
 .logo-text{font-family:'Fraunces',Georgia,serif!important;font-weight:500!important;letter-spacing:-.01em!important}
 </style>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&family=Fraunces:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="sp-shell.css?v=104">
-</head>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&family=Fraunces:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="opslix-shell.css?v=19">
+
+<style id="topnav-shadow-fix">html body nav.topnav,html body .topnav{box-shadow:none!important}</style>
+<style id="opslix-risk-compact-rows">
+  html body .sub-header .sp-page-identity{padding:4px 16px!important;min-height:32px!important}
+  html body .sub-header .sp-page-identity .sp-page-title{font-size:16px!important;line-height:1.3!important;margin:0!important}
+  html body .sub-header .sp-scope-filters{padding:4px 16px!important;min-height:32px!important;gap:6px!important}
+  html body .sub-header .sh-left{padding:0 16px!important}
+  html body .sub-header .sh-tabs{padding:0!important}
+  html body .sub-header .sh-tab{padding:6px 14px!important}
+  html body .ac-sub-tabs-wrapper{padding:0 16px!important}
+  html body .sp-row4{padding:4px 16px!important;min-height:34px!important}
+  html body .sp-row4-filter-label{font-size:9px!important}
+</style>
+<script>/*OPSLIX_MS_STRUCT_FIX_APPLIED*/(function(){function fixIt(){var rm=document.getElementById('rm-method');if(!rm)return;var content=document.querySelector('.body > .content');if(content&&rm.parentElement!==content){content.appendChild(rm);}}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',fixIt);}else{fixIt();}document.addEventListener('click',function(e){var t=e.target.closest('.sh-tab');if(t&&t.textContent.indexOf('Method Statement')>=0){setTimeout(fixIt,50);}},true);})();</script><style id="opslix-leak-css">body > h1, body > h2, body > h3, body > p, body > table, body > div.meta, body > div.formula, body > div.card, body > div.hzd, body > div.sig, body > option, body > select#hira-region-selector, body > span#hira-region-badge { display: none !important; } body > div.body { min-height: calc(100vh - 56px) !important; }</style><script>/*OPSLIX_RISK_LEAK_CLEANUP_APPLIED*/(function(){function clean(){var allowedTags=['NAV','SCRIPT','STYLE'];var allowedIds=['profile-dropdown','sb-overlay','sp-export-toast','rm-main-tab','offline-indicator'];Array.from(document.body.children).forEach(function(c){if(allowedTags.indexOf(c.tagName)>=0)return;var cls=c.className||'';if(cls.indexOf('body')>=0||cls.indexOf('topnav')>=0||cls.indexOf('sp-footer')>=0||cls.indexOf('profile-dd')>=0||cls.indexOf('sb-overlay')>=0)return;if(allowedIds.indexOf(c.id)>=0)return;if((c.id||'').indexOf('__SP')===0||(c.id||'').indexOf('SP-')===0)return;c.style.display='none';});var bodyDiv=document.querySelector('body > .body');if(bodyDiv){bodyDiv.style.minHeight='calc(100vh - 56px)';}}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',clean);}else{clean();}})();</script><script>/*OPSLIX_FILTER_AFTER_SUBTABS_APPLIED*/(function(){function reposition(){var row4=document.querySelector('.sp-row4--risk');if(!row4)return;var panels=['rm-risk','rm-aspect','rm-method'];var active=null;for(var i=0;i<panels.length;i++){var p=document.getElementById(panels[i]);if(p&&p.offsetWidth>0&&p.offsetHeight>0){active=p;break;}}if(!active)return;var inner=active.querySelector('.ac-sub-tabs');if(!inner)return;if(inner.nextSibling!==row4){inner.parentNode.insertBefore(row4,inner.nextSibling);}}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){setTimeout(reposition,100);});}else{setTimeout(reposition,100);}document.addEventListener('click',function(e){var t=e.target.closest('.sh-tab');if(t){setTimeout(reposition,100);}},true);})();</script><style id="opslix-hide-outer-subtabs">/*OPSLIX_HIDE_OUTER_SUBTABS*/ body .ac-sub-tabs-wrapper { display: none !important; }</style><style id="opslix-hide-dup-mt-filter">/*OPSLIX_HIDE_DUP_MT_FILTER*/ body .mt-filter-bar { display: none !important; }</style><style id="opslix-review-space-fix">/*OPSLIX_REVIEW_SPACE_FIX*/ #method-review{padding-top:0 !important;} #method-review > div:first-child{margin-top:0 !important;} #method-review .ac-card:first-child{min-height:calc(100vh - 380px) !important;display:flex !important;flex-direction:column !important;} #method-review .empty-state, #method-review [class*=empty]{flex:1 !important;display:flex !important;align-items:center !important;justify-content:center !important;} #method-create{padding-top:0 !important;} #method-analytics{padding-top:0 !important;}</style><style id="opslix-tighten-review">/*OPSLIX_TIGHTEN_REVIEW_APPLIED*/ #method-review,#method-create,#method-analytics{padding-top:0 !important;} #method-review > div:first-child,#method-create > div:first-child,#method-analytics > div:first-child{padding-top:8px !important;padding-bottom:0 !important;} #method-review .ac-card:first-child{flex:1 !important;min-height:240px !important;} #method-review .ac-card:first-child > div:last-child{flex:1 !important;display:flex !important;align-items:center !important;justify-content:center !important;} #rm-method{padding-top:4px !important;}</style><style data-marker="OPSLIX_REAL_REGION_SELECTOR_V2">
+.opslix-region-bar{display:flex;align-items:center;gap:12px;padding:10px 14px;margin:0 0 12px 0;background:var(--raised,#EFEAE0);border:1px solid var(--border,#D8D2C4);border-radius:8px;font-family:'Inter',sans-serif;font-size:13px;flex-wrap:wrap}
+.opslix-region-bar .rgn-label{font-weight:600;color:var(--t1,#1F1B17);white-space:nowrap;display:inline-block}
+.opslix-region-bar select{padding:6px 10px;border:1px solid var(--border,#D8D2C4);border-radius:6px;background:var(--card,#FFFFFF);color:var(--t1,#1F1B17);font-family:inherit;font-size:13px;cursor:pointer;min-width:200px}
+.opslix-region-bar select:hover{border-color:var(--rust,#C6583E)}
+.opslix-region-bar .rgn-badge{flex:1;min-width:200px;color:var(--t2,#5C544A);font-size:12px;font-style:italic;padding-left:10px;border-left:2px solid var(--rust-soft,rgba(198,88,62,0.20));display:inline-block}
+</style>
+<script data-marker="OPSLIX_REAL_REGION_SELECTOR_V2">
+(function(){
+if(window.__OPSLIX_REAL_REGION_INIT__)return;window.__OPSLIX_REAL_REGION_INIT__=true;
+var R=[
+{c:'global',n:'Global (ISO)',s:'ISO 45001:2018 Cl.6.1.2 - ISO 31000:2018 - IEC 31010'},
+{c:'india',n:'India',s:'ISO 45001:2018 - BOCW Act 1996 - Factories Act 1948 - ILO C167'},
+{c:'eu',n:'European Union',s:'EU Directive 89/391/EEC - ISO 45001:2018 - EN 1050'},
+{c:'uk',n:'United Kingdom',s:'HSWA 1974 - CDM 2015 - MHSWR 1999 - ISO 45001:2018'},
+{c:'us',n:'United States',s:'OSHA 29 CFR 1910 - 29 CFR 1926 - ANSI Z10'},
+{c:'au',n:'Australia / NZ',s:'WHS Act 2011 - AS/NZS ISO 31000:2018 - AS/NZS 4801'},
+{c:'ca',n:'Canada',s:'CSA Z1000 - OHSA - ISO 45001:2018'},
+{c:'gcc',n:'GCC / Middle East',s:'GCC OHS Standards - ILO C167 - ISO 45001:2018'},
+{c:'za',n:'South Africa',s:'OHS Act 85 of 1993 - COIDA - ISO 45001:2018'}
+];
+function active(){var k=localStorage.getItem('opslix.region')||'global';return R.find(function(r){return r.c===k;})||R[0];}
+function build(){
+var rm=document.getElementById('rm-risk');if(!rm)return false;
+if(rm.querySelector('#opslix-region-bar'))return true;
+var anchor=document.getElementById('risk-hira');if(!anchor)return false;
+var bar=document.createElement('div');bar.id='opslix-region-bar';bar.className='opslix-region-bar';
+var lbl=document.createElement('span');lbl.className='rgn-label';lbl.textContent='Regulatory Region:';bar.appendChild(lbl);
+var sel=document.createElement('select');sel.id='opslix-real-region-selector';
+var a=active();
+R.forEach(function(r){var o=document.createElement('option');o.value=r.c;o.textContent=r.n;if(r.c===a.c)o.selected=true;sel.appendChild(o);});
+bar.appendChild(sel);
+var bdg=document.createElement('span');bdg.className='rgn-badge';bdg.id='opslix-real-region-badge';bdg.textContent=a.s;bar.appendChild(bdg);
+sel.addEventListener('change',function(){var x=R.find(function(r){return r.c===sel.value;})||R[0];localStorage.setItem('opslix.region',x.c);bdg.textContent=x.s;});
+rm.insertBefore(bar,anchor);
+return true;
+}
+function tryBuild(n){if(build())return;if(n>30)return;setTimeout(function(){tryBuild(n+1);},500);}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){tryBuild(0);});else tryBuild(0);
+})();
+</script><style data-marker="OPSLIX_HIRA_LEGAL_FILTER_V1">
+.legref-token{display:inline}
+.legref-token[data-region="iso"]{color:#5B7B9F;font-weight:500}
+.legref-token[data-region="ilo"]{color:#8B5CF6;font-weight:500}
+.legref-empty{color:#999;font-style:italic;font-size:11px}
+.legref-sep{color:#bbb;margin:0 4px}
+</style>
+<script data-marker="OPSLIX_HIRA_LEGAL_FILTER_V1">
+(function(){
+if(window.__OPSLIX_HIRA_LEGAL_FILTER_INIT__)return;window.__OPSLIX_HIRA_LEGAL_FILTER_INIT__=true;
+function classify(t){t=String(t).trim();if(!t)return 'empty';
+if(/^ISO\s|^IEC\s|ISO\s\d{4}/i.test(t))return 'iso';
+if(/\bILO\s+(C\d+|R\d+)|^ILO\s/i.test(t))return 'ilo';
+if(/29\s*CFR|OSHA|ANSI\s*Z|\(US\)/i.test(t))return 'us';
+if(/HSWA|\bCDM\s*201\d|MHSWR|COSHH|\(UK\)/i.test(t))return 'uk';
+if(/BOCW|Factories\s*Act\s*1948|\(IN\)|\(India\)/i.test(t))return 'india';
+if(/EU\s*Directive|EN\s*1050|89\/391\/EEC|\(EU\)/i.test(t))return 'eu';
+if(/WHS\s*Act|AS\/NZS|\(AU\)|\(NZ\)/i.test(t))return 'au';
+if(/CSA\s*Z|\(CA\)|OHSA\s*Ontario/i.test(t))return 'ca';
+if(/GCC\s*OHS|\(GCC\)|\(KSA\)|\(UAE\)/i.test(t))return 'gcc';
+if(/OHS\s*Act\s*85|COIDA|\(ZA\)/i.test(t))return 'za';
+return 'unknown';}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function findIdx(t){var fr=t.querySelector('tbody tr');if(!fr)return -1;for(var i=0;i<fr.cells.length;i++){var c=(fr.cells[i].textContent||'').trim();if(/ISO\s+45001/i.test(c)&&c.indexOf('|')>=0)return i;}return -1;}
+function applyFilter(region){
+var t=document.getElementById('hira-table');if(!t)return false;
+var idx=findIdx(t);if(idx<0)return false;
+var allowed=region==='global'?['iso','ilo']:['iso','ilo',region];
+t.querySelectorAll('tbody tr').forEach(function(row){
+var cell=row.cells[idx];if(!cell)return;
+if(!cell.dataset.legrefOriginal){cell.dataset.legrefOriginal=(cell.textContent||'').trim();}
+var orig=cell.dataset.legrefOriginal;
+var tokens=orig.split('|').map(function(x){return x.trim();}).filter(Boolean);
+var visible=tokens.filter(function(x){var r=classify(x);return allowed.indexOf(r)>=0||r==='unknown';});
+if(visible.length===0){cell.innerHTML='<span class="legref-empty">(none for region)</span>';}
+else{cell.innerHTML=visible.map(function(x){return '<span class="legref-token" data-region="'+classify(x)+'">'+esc(x)+'</span>';}).join(' <span class="legref-sep">|</span> ');}
+});return true;}
+function getR(){return localStorage.getItem('opslix.region')||'global';}
+function init(){if(!applyFilter(getR()))return false;
+var sel=document.getElementById('opslix-real-region-selector');
+if(sel&&!sel.dataset.legrefHooked){sel.dataset.legrefHooked='1';sel.addEventListener('change',function(){applyFilter(sel.value);});}
+return true;}
+function tryInit(n){if(init())return;if(n>40)return;setTimeout(function(){tryInit(n+1);},500);}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){tryInit(0);});else tryInit(0);
+})();
+</script><script data-marker="OPSLIX_HIRA_LEGAL_FILTER_OBSERVER_V1">
+(function(){
+if(window.__OPSLIX_HIRA_LEGAL_OBSERVER_INIT__)return;
+window.__OPSLIX_HIRA_LEGAL_OBSERVER_INIT__=true;
+function reapply(){var sel=document.getElementById('opslix-real-region-selector');if(sel)sel.dispatchEvent(new Event('change',{bubbles:true}));}
+var dT=null;function sched(){clearTimeout(dT);dT=setTimeout(reapply,150);}
+function setup(){var t=document.getElementById('hira-table');if(!t)return false;var tb=t.querySelector('tbody');if(!tb)return false;sched();var obs=new MutationObserver(function(m){var ch=m.some(function(x){return x.type==='childList'&&(x.addedNodes.length>0||x.removedNodes.length>0);});if(ch)sched();});obs.observe(tb,{childList:true,subtree:false});obs.observe(t,{childList:true,subtree:false});return true;}
+function tryS(n){if(setup())return;if(n>40)return;setTimeout(function(){tryS(n+1);},500);}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){tryS(0);});else tryS(0);
+})();
+</script>
+<style data-marker="OPSLIX_WORKFLOW_V31">
+.opslix-workflow-bar-v2{background:var(--card,#FFFFFF);border:1px solid var(--border,#D8D2C4);border-radius:8px;padding:14px 16px;margin:0 0 12px 0;font-family:'Inter',sans-serif}
+.opslix-workflow-bar-v2 .wkf-row{display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap}
+.opslix-workflow-bar-v2 .wkf-stepper{display:grid;grid-template-columns:repeat(4,1fr);position:relative;flex:1;min-width:280px}
+.opslix-workflow-bar-v2 .wkf-step{display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;padding:0 2px}
+.opslix-workflow-bar-v2 .wkf-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;z-index:2;position:relative;margin-bottom:6px}
+.opslix-workflow-bar-v2 .wkf-circle.done{background:#E8EDE2;color:#5A6D4D;border:1px solid #7A8B6D}
+.opslix-workflow-bar-v2 .wkf-circle.current{background:rgba(198,88,62,0.10);color:#A84A35;border:2px solid #C6583E}
+.opslix-workflow-bar-v2 .wkf-circle.pending{background:#F5F2EB;color:#8B8275;border:1px solid #D8D2C4}
+.opslix-workflow-bar-v2 .wkf-line{position:absolute;top:13px;left:55%;width:90%;height:1px;background:#D8D2C4;z-index:1}
+.opslix-workflow-bar-v2 .wkf-line.done{background:#7A8B6D;height:2px}
+.opslix-workflow-bar-v2 .wkf-step:last-child .wkf-line{display:none}
+.opslix-workflow-bar-v2 .wkf-label{font-size:12px;font-weight:600;color:#1F1B17;margin-bottom:1px;line-height:1.3}
+.opslix-workflow-bar-v2 .wkf-label.pending{color:#8B8275;font-weight:500}
+.opslix-workflow-bar-v2 .wkf-label.done{color:#5C544A;font-weight:500}
+.opslix-workflow-bar-v2 .wkf-role{font-size:10px;color:#5C544A;line-height:1.3}
+.opslix-workflow-bar-v2 .wkf-role.pending{color:#8B8275}
+.opslix-workflow-bar-v2 .wkf-side{display:flex;flex-direction:column;gap:8px;flex-shrink:0;align-items:flex-end;max-width:300px}
+.opslix-workflow-bar-v2 .wkf-meta{font-size:11px;color:#8B8275;font-style:italic;margin:0;text-align:right;line-height:1.4}
+.opslix-workflow-bar-v2 .wkf-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.opslix-workflow-bar-v2 .wkf-btn{padding:6px 12px;border-radius:6px;border:1px solid;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all 0.15s}
+.opslix-workflow-bar-v2 .wkf-btn-primary{background:#C6583E;color:#fff;border-color:#C6583E}
+.opslix-workflow-bar-v2 .wkf-btn-primary:hover{background:#A84A35;border-color:#A84A35}
+.opslix-workflow-bar-v2 .wkf-btn-success{background:#7A8B6D;color:#fff;border-color:#7A8B6D}
+.opslix-workflow-bar-v2 .wkf-btn-success:hover{filter:brightness(0.9)}
+.opslix-workflow-bar-v2 .wkf-btn-danger{background:#fff;color:#C84F3E;border-color:#C84F3E}
+.opslix-workflow-bar-v2 .wkf-btn-danger:hover{background:#FBE9E0}
+.opslix-workflow-bar-v2 .wkf-btn-subtle{background:#fff;color:#5C544A;border-color:#D8D2C4}
+.opslix-workflow-bar-v2 .wkf-btn-subtle:hover{background:#EFEAE0}
+</style>
+<script data-marker="OPSLIX_WORKFLOW_V31">
+(function(){
+if(window.__OPSLIX_WORKFLOW_V3_INIT__)return;
+window.__OPSLIX_WORKFLOW_V3_INIT__=true;
+try{var eia=localStorage.getItem('opslix.eia.workflow');if(eia&&eia.indexOf('EM_APPROVAL')>=0)localStorage.removeItem('opslix.eia.workflow');}catch(e){}
+var WF=[
+{slug:'hira',parent:'rm-risk',anchor:'risk-hira',key:'opslix.hira.workflow',
+stages:[{k:'DRAFT',n:1,l:'Draft',r:'Author'},{k:'HSE_REVIEW',n:2,l:'HSE review',r:'HSE officer'},{k:'PM_APPROVAL',n:3,l:'PM approval',r:'PM'},{k:'ACTIVE',n:4,l:'Active',r:'Site team'}],
+acts:{DRAFT:[{l:'Submit for HSE review',to:'HSE_REVIEW',k:'primary',a:'submitted_for_review'}],HSE_REVIEW:[{l:'HSE approve',to:'PM_APPROVAL',k:'success',a:'hse_approved'},{l:'HSE reject',to:'DRAFT',k:'danger',a:'hse_rejected'}],PM_APPROVAL:[{l:'PM approve',to:'ACTIVE',k:'success',a:'pm_approved'},{l:'PM reject',to:'DRAFT',k:'danger',a:'pm_rejected'}],ACTIVE:[{l:'Reset to draft',to:'DRAFT',k:'subtle',a:'reset_to_draft'}]},
+intro:'Hazard register being prepared. Submit when ready.'},
+{slug:'eia',parent:'rm-aspect',anchor:'aspect-register',key:'opslix.eia.workflow',
+stages:[{k:'DRAFT',n:1,l:'Draft',r:'Author'},{k:'EHS_REVIEW',n:2,l:'EHS review',r:'EHS Head'},{k:'PM_APPROVAL',n:3,l:'PM approval',r:'Project Manager'},{k:'ACTIVE',n:4,l:'Active',r:'Site team'}],
+acts:{DRAFT:[{l:'Submit for EHS review',to:'EHS_REVIEW',k:'primary',a:'submitted_for_review'}],EHS_REVIEW:[{l:'EHS approve',to:'PM_APPROVAL',k:'success',a:'ehs_approved'},{l:'EHS reject',to:'DRAFT',k:'danger',a:'ehs_rejected'}],PM_APPROVAL:[{l:'PM approve',to:'ACTIVE',k:'success',a:'pm_approved'},{l:'PM reject',to:'DRAFT',k:'danger',a:'pm_rejected'}],ACTIVE:[{l:'Reset to draft',to:'DRAFT',k:'subtle',a:'reset_to_draft'}]},
+intro:'Environmental aspect assessment in preparation. Submit when ready.'},
+{slug:'swms',parent:'rm-method',anchor:'method-register',key:'opslix.swms.workflow',
+stages:[{k:'DRAFT',n:1,l:'Draft',r:'Method owner'},{k:'HSE_REVIEW',n:2,l:'HSE review',r:'HSE officer'},{k:'PM_APPROVAL',n:3,l:'PM approval',r:'PM'},{k:'ACTIVE',n:4,l:'Active',r:'Site team'}],
+acts:{DRAFT:[{l:'Submit for HSE review',to:'HSE_REVIEW',k:'primary',a:'submitted_for_review'}],HSE_REVIEW:[{l:'HSE approve',to:'PM_APPROVAL',k:'success',a:'hse_approved'},{l:'HSE reject',to:'DRAFT',k:'danger',a:'hse_rejected'}],PM_APPROVAL:[{l:'PM approve',to:'ACTIVE',k:'success',a:'pm_approved'},{l:'PM reject',to:'DRAFT',k:'danger',a:'pm_rejected'}],ACTIVE:[{l:'Reset to draft',to:'DRAFT',k:'subtle',a:'reset_to_draft'}]},
+intro:'Safe work method statement in preparation. Submit when ready.'}
+];
+function load(key){try{var r=localStorage.getItem(key);if(!r)return{state:'DRAFT',history:[]};var p=JSON.parse(r);if(!p.history)p.history=[];if(!p.state)p.state='DRAFT';return p;}catch(e){return{state:'DRAFT',history:[]};}}
+function save(key,w){localStorage.setItem(key,JSON.stringify(w));}
+function actor(){return 'Dhanesh CK';}
+function fmtT(iso){if(!iso)return '';try{var d=new Date(iso);return d.toLocaleDateString([],{month:'short',day:'numeric'})+' '+d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});}catch(e){return iso;}}
+function trans(w,to,a){w.state=to;w.history.push({state:to,action:a,by:actor(),at:new Date().toISOString()});}
+function chk(){return '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M3 7.5 L6 10 L11 4"/></svg>';}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function metaTxt(cfg,w){if(!w.history.length)return cfg.intro;var l=w.history[w.history.length-1];return l.action.replace(/_/g,' ')+' by '+l.by+' - '+fmtT(l.at);}
+function stepperHTML(cfg,cur){
+var keys=cfg.stages.map(function(s){return s.k;});var ci=keys.indexOf(cur);
+var html='';
+cfg.stages.forEach(function(s,i){
+var status=i<ci?'done':(i===ci?'current':'pending');
+var lc=i<ci?'wkf-line done':'wkf-line';
+var cc=status==='done'?chk():s.n;
+html+='<div class="wkf-step">';
+if(i<cfg.stages.length-1)html+='<div class="'+lc+'"></div>';
+html+='<div class="wkf-circle '+status+'">'+cc+'</div>';
+html+='<div class="wkf-label '+status+'">'+esc(s.l)+'</div>';
+html+='<div class="wkf-role '+status+'">'+esc(s.r)+'</div>';
+html+='</div>';});
+return '<div class="wkf-stepper">'+html+'</div>';}
+function buildOne(cfg){
+var p=document.getElementById(cfg.parent);if(!p)return false;
+var barId='opslix-workflow-bar-'+cfg.slug;
+var ex=p.querySelector('#'+barId);if(ex)ex.remove();
+var legacy=p.querySelector('#opslix-workflow-bar');if(legacy)legacy.remove();
+var anchor=document.getElementById(cfg.anchor);if(!anchor||anchor.parentElement!==p)return false;
+var bar=document.createElement('div');bar.id=barId;bar.className='opslix-workflow-bar-v2';
+function render(){
+var w=load(cfg.key);
+var html='<div class="wkf-row">'+stepperHTML(cfg,w.state)+'<div class="wkf-side">';
+html+='<p class="wkf-meta">'+esc(metaTxt(cfg,w))+'</p>';
+html+='<div class="wkf-actions">';
+var btns=cfg.acts[w.state]||[];
+btns.forEach(function(b,i){html+='<button class="wkf-btn wkf-btn-'+b.k+'" data-aidx="'+i+'">'+esc(b.l)+'</button>';});
+if(w.history.length>0)html+='<button class="wkf-btn wkf-btn-subtle" data-act="audit">Audit ('+w.history.length+')</button>';
+html+='</div></div></div>';
+bar.innerHTML=html;
+bar.querySelectorAll('button[data-aidx]').forEach(function(btn){
+var idx=parseInt(btn.getAttribute('data-aidx'),10);var act=btns[idx];
+btn.addEventListener('click',function(){if(!confirm('Confirm: '+act.l+'?'))return;var c=load(cfg.key);trans(c,act.to,act.a);save(cfg.key,c);render();});});
+var ab=bar.querySelector('button[data-act="audit"]');
+if(ab)ab.addEventListener('click',function(){var c=load(cfg.key);var lines=c.history.slice().reverse().map(function(h){return '['+fmtT(h.at)+'] '+h.action.replace(/_/g,' ')+' by '+h.by+' -> '+h.state;});alert('Audit Trail ('+cfg.slug.toUpperCase()+', newest first):\n\n'+lines.join('\n'));});
+}
+render();p.insertBefore(bar,anchor);return true;}
+function mountAll(){var done=0;WF.forEach(function(cfg){if(buildOne(cfg))done++;});return done;}
+function tryMount(n){var d=mountAll();if(d===WF.length)return;if(n>40)return;setTimeout(function(){tryMount(n+1);},500);}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){tryMount(0);});else tryMount(0);
+})();
+</script><script data-marker="OPSLIX_HIRA_ROW_ACTION_ICONS_V1">
+(function(){
+if(window.__OPSLIX_HIRA_ROW_ACTIONS_INIT__)return;
+window.__OPSLIX_HIRA_ROW_ACTIONS_INIT__=true;
+var BASE='margin:0 3px;cursor:pointer;font-size:13px;padding:2px 4px;border-radius:4px;transition:background 0.15s;background:transparent;border:none;display:inline-block;line-height:1';
+var COLOR={view:'#3B82F6',edit:'#22C55E',attach:'#F59E0B',del:'#EF4444'};
+function viewStub(idx){alert('View hazard details (row '+idx+')\n\nDetail panel coming soon. Hook this to the real hazard viewer when ready.');}
+function attachStub(idx){alert('Attach evidence (row '+idx+')\n\nFile upload modal coming soon. Will accept PDF / image evidence linked to this hazard.');}
+function rebuildCell(cell,idx){
+if(cell.dataset.opslixActions==='v1')return;
+var existingEdit=Array.from(cell.querySelectorAll('button')).find(function(b){return /riskEditEntry/.test(b.getAttribute('onclick')||'');});
+var existingDel=Array.from(cell.querySelectorAll('button')).find(function(b){return /riskDeleteEntry/.test(b.getAttribute('onclick')||'');});
+var editIdx=idx,delIdx=idx;
+if(existingEdit){var m=(existingEdit.getAttribute('onclick')||'').match(/riskEditEntry\((\d+)\)/);if(m)editIdx=parseInt(m[1],10);}
+if(existingDel){var m2=(existingDel.getAttribute('onclick')||'').match(/riskDeleteEntry\((\d+)\)/);if(m2)delIdx=parseInt(m2[1],10);}
+cell.innerHTML='';
+var v=document.createElement('span');v.title='View hazard details';v.setAttribute('style',BASE+';color:'+COLOR.view);v.textContent='\ud83d\udc41';v.addEventListener('click',function(){viewStub(idx);});
+v.addEventListener('mouseenter',function(){v.style.background='#EFF6FF';});v.addEventListener('mouseleave',function(){v.style.background='transparent';});
+cell.appendChild(v);
+var e=document.createElement('span');e.title='Edit hazard';e.setAttribute('style',BASE+';color:'+COLOR.edit);e.textContent='\u270e';e.addEventListener('click',function(){if(typeof window.riskEditEntry==='function')window.riskEditEntry(editIdx);});
+e.addEventListener('mouseenter',function(){e.style.background='#F0FDF4';});e.addEventListener('mouseleave',function(){e.style.background='transparent';});
+cell.appendChild(e);
+var a=document.createElement('span');a.title='Attach evidence';a.setAttribute('style',BASE+';color:'+COLOR.attach);a.textContent='\ud83d\udcce';a.addEventListener('click',function(){attachStub(idx);});
+a.addEventListener('mouseenter',function(){a.style.background='#FFFBEB';});a.addEventListener('mouseleave',function(){a.style.background='transparent';});
+cell.appendChild(a);
+var d=document.createElement('span');d.title='Delete hazard';d.setAttribute('style',BASE+';color:'+COLOR.del);d.textContent='\ud83d\uddd1';d.addEventListener('click',function(){if(typeof window.riskDeleteEntry==='function')window.riskDeleteEntry(delIdx);});
+d.addEventListener('mouseenter',function(){d.style.background='#FEF2F2';});d.addEventListener('mouseleave',function(){d.style.background='transparent';});
+cell.appendChild(d);
+cell.dataset.opslixActions='v1';
+}
+function applyAll(){
+var t=document.getElementById('hira-table');if(!t)return false;
+var rows=t.querySelectorAll('tbody tr');if(!rows.length)return false;
+rows.forEach(function(r,i){var lc=r.cells[r.cells.length-1];if(lc)rebuildCell(lc,i);});
+return true;
+}
+var dT=null;function sched(){clearTimeout(dT);dT=setTimeout(applyAll,150);}
+function setup(){var t=document.getElementById('hira-table');if(!t)return false;var tb=t.querySelector('tbody');if(!tb)return false;sched();var obs=new MutationObserver(function(m){var ch=m.some(function(x){return x.type==='childList'&&(x.addedNodes.length>0||x.removedNodes.length>0);});if(ch)sched();});obs.observe(tb,{childList:true,subtree:false});obs.observe(t,{childList:true,subtree:false});return true;}
+function tryS(n){if(setup())return;if(n>40)return;setTimeout(function(){tryS(n+1);},500);}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){tryS(0);});else tryS(0);
+})();
+</script><style data-marker="OPSLIX_HIRA_ACTIONS_VISIBILITY_V1">
+#hira-table thead th[rowspan="2"]:last-child,
+#hira-table tbody tr td:last-child{min-width:160px !important;width:160px !important;white-space:nowrap !important}
+#hira-table thead th[rowspan="2"]:last-child{font-size:11px !important;color:var(--t1,#1F1B17) !important;font-weight:700 !important;letter-spacing:0.5px !important}
+#hira-table tbody tr td:last-child[data-opslix-actions="v1"]{padding:8px 10px !important;text-align:center !important}
+#hira-table tbody tr td:last-child[data-opslix-actions="v1"] span{font-size:17px !important;margin:0 6px !important;padding:5px 7px !important;display:inline-block !important;line-height:1 !important}
+</style><script data-marker="OPSLIX_EIA_DELETE_ICON_V1">
+(function(){
+if(window.__OPSLIX_EIA_DELETE_INIT__)return;
+window.__OPSLIX_EIA_DELETE_INIT__=true;
+var BASE='margin:0 3px;font-size:13px;padding:2px 4px;border-radius:4px;transition:background 0.15s;display:inline-block;line-height:1';
+function isDraft(s){return /draft/i.test(s)&&!/approved|review/i.test(s);}
+function delHandler(idx){
+var fns=['eaiaDeleteEntry','eiaDeleteEntry','aspectDeleteEntry','deleteAspect'];
+for(var i=0;i<fns.length;i++){
+if(typeof window[fns[i]]==='function'){
+if(confirm('Delete this draft aspect?\n\nThis action cannot be undone.\nFor approved aspects, use change control instead.')){window[fns[i]](idx);}
+return;}}
+if(confirm('Delete this draft aspect (row '+idx+')?\n\n(Stub: real backend delete pending wire-up)')){
+alert('Aspect '+idx+' marked for deletion. Backend hook coming soon.');}
+}
+function rebuild(){
+var tb=document.getElementById('eaia-tbody');if(!tb)return false;
+Array.from(tb.children).forEach(function(row,idx){
+var ac=row.children[23];var sc=row.children[24];if(!ac||!sc)return;
+if(ac.querySelector('[data-opslix-del]'))return;
+var st=(sc.textContent||'').trim();var canDel=isDraft(st);
+var d=document.createElement('span');d.setAttribute('data-opslix-del','1');d.textContent='\ud83d\uddd1';
+if(canDel){
+d.setAttribute('style',BASE+';color:#EF4444;cursor:pointer');
+d.title='Delete aspect (draft only)';
+d.addEventListener('mouseenter',function(){d.style.background='#FEF2F2';});
+d.addEventListener('mouseleave',function(){d.style.background='transparent';});
+d.addEventListener('click',function(){delHandler(idx);});
+}else{
+d.setAttribute('style',BASE+';color:#C8C2B5;cursor:not-allowed;opacity:0.45');
+d.title='Cannot delete - status is '+st.replace(/[^A-Za-z ]/g,'').trim()+'. Request removal via change control.';
+}
+ac.appendChild(d);
+});
+return true;}
+var dT=null;function sched(){clearTimeout(dT);dT=setTimeout(rebuild,150);}
+function setup(){var tb=document.getElementById('eaia-tbody');if(!tb)return false;sched();var obs=new MutationObserver(function(m){var ch=m.some(function(x){return x.type==='childList'&&(x.addedNodes.length>0||x.removedNodes.length>0);});if(ch)sched();});obs.observe(tb,{childList:true,subtree:false});return true;}
+function tryS(n){if(setup())return;if(n>40)return;setTimeout(function(){tryS(n+1);},500);}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){tryS(0);});else tryS(0);
+})();
+</script><style data-marker="OPSLIX_EIA_ACTIONS_VISIBILITY_V2">
+body #eia-group-header,body #eia-sub-header,body #eaia-tbody > div{grid-template-columns:70px 130px 120px 130px 50px 30px 30px 30px 30px 34px 34px 34px 34px 34px 56px 50px 130px 120px 130px 120px 140px 56px 50px 160px 90px 130px 44px !important}
+body #eaia-tbody > div > div:nth-child(24){padding:8px 10px !important;text-align:center !important;white-space:nowrap !important}
+body #eaia-tbody > div > div:nth-child(24) > span,
+body #eaia-tbody > div > div:nth-child(24) > [data-opslix-del]{font-size:17px !important;margin:0 5px !important;padding:5px 7px !important;display:inline-block !important;line-height:1 !important}
+body #eia-group-header > div:nth-child(24),
+body #eia-sub-header > div:nth-child(24){font-size:11px !important;color:var(--t1,#1F1B17) !important;font-weight:700 !important}
+</style><script data-marker="OPSLIX_EIA_DELETE_ICON_V2">
+(function(){
+if(window.__OPSLIX_EIA_DELETE_V2_INIT__)return;
+window.__OPSLIX_EIA_DELETE_V2_INIT__=true;
+var BASE='margin:0 5px;font-size:17px;padding:5px 7px;border-radius:4px;transition:background 0.15s;display:inline-block;line-height:1';
+function isDraft(s){return /draft/i.test(s)&&!/approved|review/i.test(s);}
+function delHandler(idx){
+var fns=['eaiaDeleteEntry','eiaDeleteEntry','aspectDeleteEntry','deleteAspect'];
+for(var i=0;i<fns.length;i++){if(typeof window[fns[i]]==='function'){if(confirm('Delete this draft aspect?\n\nThis action cannot be undone.\nFor approved aspects, use change control instead.')){window[fns[i]](idx);}return;}}
+if(confirm('Delete this draft aspect (row '+idx+')?\n\n(Stub: backend delete pending wire-up)')){alert('Aspect '+idx+' marked for deletion. Backend hook coming soon.');}
+}
+function rebuild(){
+var tb=document.getElementById('eaia-tbody');if(!tb)return 0;
+var added=0;
+Array.from(tb.children).forEach(function(row,idx){
+var ac=row.children[23];var sc=row.children[24];if(!ac||!sc)return;
+if(ac.querySelector('[data-opslix-del]'))return;
+var st=(sc.textContent||'').trim();var canDel=isDraft(st);
+var d=document.createElement('span');d.setAttribute('data-opslix-del','1');d.textContent='\ud83d\uddd1';
+if(canDel){
+d.setAttribute('style',BASE+';color:#EF4444;cursor:pointer');
+d.title='Delete aspect (draft only)';
+d.addEventListener('mouseenter',function(){d.style.background='#FEF2F2';});
+d.addEventListener('mouseleave',function(){d.style.background='transparent';});
+d.addEventListener('click',function(){delHandler(idx);});
+}else{
+d.setAttribute('style',BASE+';color:#C8C2B5;cursor:not-allowed;opacity:0.45');
+d.title='Cannot delete - status is '+st.replace(/[^A-Za-z ]/g,'').trim()+'. Request removal via change control.';
+}
+ac.appendChild(d);added++;
+});return added;}
+var dT=null;function sched(){clearTimeout(dT);dT=setTimeout(rebuild,100);}
+function setupObserver(){
+var tb=document.getElementById('eaia-tbody');if(!tb)return false;
+var card=tb.closest('.card')||tb.parentElement;
+var obs=new MutationObserver(function(){sched();});
+obs.observe(tb,{childList:true,subtree:true,characterData:false});
+if(card)obs.observe(card,{childList:true,subtree:false});
+return true;}
+function hookTabs(){
+document.querySelectorAll('[onclick*="acMainTab"]').forEach(function(b){
+if(/aspect/i.test(b.textContent||'')){b.addEventListener('click',function(){setTimeout(rebuild,200);setTimeout(rebuild,600);setTimeout(rebuild,1500);},true);}});}
+function tryAll(n){
+var ok=setupObserver();
+if(ok){rebuild();hookTabs();}
+if(!ok&&n<40){setTimeout(function(){tryAll(n+1);},500);return;}
+}
+function startPolling(){
+var pollCount=0;
+var pollI=setInterval(function(){
+rebuild();pollCount++;
+if(pollCount>=120){clearInterval(pollI);}
+},1000);}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){tryAll(0);startPolling();});}else{tryAll(0);startPolling();}
+})();
+</script><style data-marker="OPSLIX_EIA_ACTIONS_VISIBILITY_V3">
+html body #eia-group-header,html body #eia-sub-header,html body #eaia-tbody > div{grid-template-columns:70px 130px 120px 130px 50px 30px 30px 30px 30px 34px 34px 34px 34px 34px 56px 50px 130px 120px 130px 120px 140px 56px 50px 200px 90px 130px 44px !important}
+html body #eaia-tbody > div > div:nth-child(24) > span,
+html body #eaia-tbody > div > div:nth-child(24) > [data-opslix-del]{font-size:17px !important;margin:0 4px !important;padding:4px 5px !important}
+</style><style data-marker="OPSLIX_EIA_DEL_DISABLED_VISIBLE_V1">
+[data-opslix-del][style*="not-allowed"]{color:#8B8275 !important;opacity:0.85 !important}
+[data-opslix-del][style*="not-allowed"]:hover{background:#F5F2EB !important}
+</style><script data-marker="OPSLIX_BODY_TEXT_LEAK_CLEAN_V1">
+(function(){
+if(window.__OPSLIX_BODY_TEXT_LEAK_INIT__)return;
+window.__OPSLIX_BODY_TEXT_LEAK_INIT__=true;
+var SIG=[/EAIA_DATA/,/var\s+\w+\s*=.*function\s*\(/,/'\+\s*'/,/\.forEach\(function/,/innerHTML\s*=/,/document\.getElementById/];
+function isLeakText(t){
+if(!t)return false;t=t.trim();if(t.length<60)return false;
+var hits=0;SIG.forEach(function(re){if(re.test(t))hits++;});
+return hits>=2;
+}
+function sweep(){
+var removed=0;
+Array.from(document.body.childNodes).forEach(function(n){
+if(n.nodeType===3&&isLeakText(n.textContent)){n.parentNode.removeChild(n);removed++;}
+});
+return removed;
+}
+function run(){var r=sweep();if(r>0)console.log('[OpsLix] Cleaned '+r+' leaked text nodes from body root');}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){run();setTimeout(run,500);setTimeout(run,1500);});else{run();setTimeout(run,500);setTimeout(run,1500);}
+var pollI=setInterval(run,2000);setTimeout(function(){clearInterval(pollI);},60000);
+})();
+</script><script data-marker="OPSLIX_BODY_TEXT_LEAK_CLEAN_V2">
+(function(){
+if(window.__OPSLIX_BODY_TEXT_LEAK_V2_INIT__)return;
+window.__OPSLIX_BODY_TEXT_LEAK_V2_INIT__=true;
+function isLeak(t){
+if(!t)return false;t=t.trim();if(t.length<40)return false;
+if(/EAIA_DATA|riskHira|hiraRender|aspectRender/.test(t))return true;
+if(/function\s*\w*\s*\(/.test(t))return true;
+if(/\.forEach\(|\.map\(|\.filter\(|\.join\(/.test(t))return true;
+if(/'\s*\+\s*'/.test(t))return true;
+if(/document\.getElementById|innerHTML|querySelector/.test(t))return true;
+if(/var\s+\w+\s*=/.test(t))return true;
+if(/^['"\s\+;}]+$/.test(t.slice(0,20))&&t.length>60)return true;
+return false;
+}
+function sweep(){
+var removed=0;
+Array.from(document.body.childNodes).forEach(function(n){
+if(n.nodeType===3&&isLeak(n.textContent)){n.parentNode.removeChild(n);removed++;}
+});
+return removed;
+}
+function run(){var r=sweep();if(r>0)console.log('[OpsLix v2] Cleaned '+r+' leaked text nodes');}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){run();setTimeout(run,300);setTimeout(run,800);setTimeout(run,1500);});
+else{run();setTimeout(run,300);setTimeout(run,800);setTimeout(run,1500);}
+var pollI=setInterval(run,2000);setTimeout(function(){clearInterval(pollI);},60000);
+})();
+</script><script data-marker="OPSLIX_BODY_TEXT_LEAK_CLEAN_V3">
+(function(){
+if(window.__OPSLIX_BODY_TEXT_LEAK_V3_INIT__)return;
+window.__OPSLIX_BODY_TEXT_LEAK_V3_INIT__=true;
+function isLeak(t){
+if(!t)return false;t=t.trim();if(t.length<3)return false;
+if(/EAIA_DATA|riskHira|hiraRender|aspectRender/.test(t))return true;
+if(/function\s*\w*\s*\(/.test(t))return true;
+if(/\.forEach\(|\.map\(|\.filter\(|\.join\(/.test(t))return true;
+if(/'\s*\+\s*'/.test(t))return true;
+if(/document\.getElementById|innerHTML|querySelector/.test(t))return true;
+if(/var\s+\w+\s*=/.test(t))return true;
+if(/^[\s'"\+;}\)\(\|]+$/.test(t))return true;
+return false;
+}
+function sweep(){
+var removed=0;
+Array.from(document.body.childNodes).forEach(function(n){
+if(n.nodeType===3&&isLeak(n.textContent)){n.parentNode.removeChild(n);removed++;}
+});
+return removed;
+}
+function run(){var r=sweep();if(r>0)console.log('[OpsLix v3] Cleaned '+r+' leaked text nodes');}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){run();setTimeout(run,300);setTimeout(run,800);setTimeout(run,1500);});
+else{run();setTimeout(run,300);setTimeout(run,800);setTimeout(run,1500);}
+var pollI=setInterval(run,2000);setTimeout(function(){clearInterval(pollI);},60000);
+})();
+</script><style data-marker="OPSLIX_FILTER_DRAG_SCROLL_V1">
+.sp-scope-filters,.sp-row4-filters,.ac-sub-tabs{user-select:none;-webkit-user-select:none}
+.sp-scope-filters.opslix-no-drag,.sp-row4-filters.opslix-no-drag,.ac-sub-tabs.opslix-no-drag{cursor:default !important}
+.sp-scope-filters.opslix-grabbing,.sp-row4-filters.opslix-grabbing,.ac-sub-tabs.opslix-grabbing{cursor:grabbing !important}
+</style>
+<script data-marker="OPSLIX_FILTER_DRAG_SCROLL_V1">
+(function(){
+if(window.__OPSLIX_FILTER_DRAG_INIT__)return;
+window.__OPSLIX_FILTER_DRAG_INIT__=true;
+var SELECTORS=['.sp-scope-filters','.sp-row4-filters','.ac-sub-tabs'];
+var DRAG_THRESHOLD=5;
+function isInteractive(t){
+if(!t)return false;
+var el=t.nodeType===1?t:t.parentElement;
+while(el&&el.tagName){
+var tag=el.tagName;
+if(tag==='SELECT'||tag==='BUTTON'||tag==='INPUT'||tag==='TEXTAREA'||tag==='A'||tag==='LABEL')return true;
+if(el.getAttribute('role')==='button'||el.getAttribute('contenteditable')==='true')return true;
+if(el===this||el.classList&&(el.classList.contains('sp-scope-filters')||el.classList.contains('sp-row4-filters')||el.classList.contains('ac-sub-tabs')))break;
+el=el.parentElement;
+}
+return false;
+}
+function attach(el){
+if(el.dataset.opslixDrag==='v1')return;
+el.dataset.opslixDrag='v1';
+var canScroll=el.scrollWidth>el.clientWidth;
+if(!canScroll){el.classList.add('opslix-no-drag');return;}
+el.classList.remove('opslix-no-drag');
+el.style.cursor='grab';
+var down=false,startX=0,startScroll=0,moved=false,suppressClick=false;
+el.addEventListener('mousedown',function(e){
+if(e.button!==0)return;
+if(isInteractive(e.target))return;
+down=true;moved=false;suppressClick=false;
+startX=e.pageX;startScroll=el.scrollLeft;
+});
+window.addEventListener('mousemove',function(e){
+if(!down)return;
+var dx=e.pageX-startX;
+if(!moved&&Math.abs(dx)<DRAG_THRESHOLD)return;
+if(!moved){moved=true;el.classList.add('opslix-grabbing');}
+e.preventDefault();
+el.scrollLeft=startScroll-dx;
+});
+window.addEventListener('mouseup',function(e){
+if(!down)return;
+down=false;
+if(moved){el.classList.remove('opslix-grabbing');suppressClick=true;setTimeout(function(){suppressClick=false;},50);}
+});
+el.addEventListener('click',function(e){if(suppressClick){e.stopPropagation();e.preventDefault();}},true);
+// Watch for size changes - element may become non-overflowing or vice versa
+if(typeof ResizeObserver!=='undefined'){
+var ro=new ResizeObserver(function(){
+var canNow=el.scrollWidth>el.clientWidth;
+if(canNow){el.classList.remove('opslix-no-drag');el.style.cursor='grab';}
+else{el.classList.add('opslix-no-drag');el.style.cursor='';}
+});
+ro.observe(el);
+}
+}
+function applyAll(){
+SELECTORS.forEach(function(sel){
+document.querySelectorAll(sel).forEach(attach);
+});
+}
+function init(){applyAll();
+var obs=new MutationObserver(function(){applyAll();});
+obs.observe(document.body,{childList:true,subtree:true});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script></head>
 <body data-page="risk">
 
 <nav class="topnav">
@@ -1539,7 +2049,7 @@ body{font-size:13px!important;font-family:var(--fb)!important;}
 
     <!-- ══ SUB-HEADER ══ -->
     <div class="sub-header">
-  <div class="sp-page-identity" data-page="risk-management">
+  <div class="sp-page-identity" data-page="risk">
     <div class="sp-page-identity-left">
       <nav class="sp-page-breadcrumb">
         <a href="/safetypro_v2">Home</a>
@@ -1550,65 +2060,95 @@ body{font-size:13px!important;font-family:var(--fb)!important;}
     </div>
     <div class="sp-page-identity-right">
       <button class="sp-page-action" onclick="window.open('https://docs.safetyproworld.com/risk','_blank')">? Help</button>
-      <button id="sp-primary-action" class="sp-page-action sp-page-action--primary" onclick="alert('New HIRA form coming soon')">+ New HIRA</button>
+      <button class="sp-page-action sp-page-action--primary" onclick="if(typeof riskNew==='function')riskNew();">+ New Assessment</button>
     </div>
   </div>
-  <div class="sp-scope-filters" data-page="risk-management" data-multi-org="true" data-multi-bu="true" data-multi-region="true" data-multi-standard="true">
-    <label class="sp-scope-select sp-scope-select--org"><span class="sp-scope-select-label">Org</span>
-      <select class="mt-ctx-sel" data-role="company" onchange="if(typeof spfOnChange==='function')spfOnChange(this)">
-        <option value="IECCL">IECCL - IL&amp;FS Engineering</option>
-        <option value="ALL">All Companies</option>
-      </select>
-    </label>
-    <label class="sp-scope-select sp-scope-select--bu"><span class="sp-scope-select-label">BU</span>
-      <select class="mt-ctx-sel" data-role="bu" onchange="if(typeof spfOnChange==='function')spfOnChange(this)">
-        <option value="ALL">All Units</option>
-        <option value="CIV">Civil</option>
-        <option value="MEP">MEP</option>
-      </select>
-    </label>
-    <label class="sp-scope-select sp-scope-select--project"><span class="sp-scope-select-label">Project</span>
-      <select class="mt-ctx-sel" data-role="project" onchange="if(typeof spfOnChange==='function')spfOnChange(this)">
-        <option value="ALL">All Projects</option>
-        <option value="BBRP">Birpur-Bihpur Road</option>
-        <option value="NH131">NH 131</option>
-      </select>
-    </label>
-    <label class="sp-scope-select sp-scope-select--region"><span class="sp-scope-select-label">Zone</span>
-      <select class="mt-ctx-sel" data-role="zone" onchange="if(typeof spfOnChange==='function')spfOnChange(this)">
-        <option value="ALL">All Zones</option>
-        <option value="Z-A">Zone A</option>
-        <option value="Z-B">Zone B</option>
-      </select>
-    </label>
-    <label class="sp-scope-select sp-scope-select--standard"><span class="sp-scope-select-label">Standard</span>
-      <select class="mt-ctx-sel" data-role="standard" onchange="if(typeof spfOnChange==='function')spfOnChange(this)">
-        <option value="ALL">All Standards</option>
-        <option value="ISO45001">ISO 45001:2018</option>
-        <option value="ISO14001">ISO 14001:2015</option>
-        <option value="ISO9001">ISO 9001:2015</option>
-      </select>
-    </label>
-    <label class="sp-scope-select sp-scope-select--period"><span class="sp-scope-select-label">Period</span>
-      <select class="mt-ctx-sel" data-role="period" onchange="if(typeof spfOnChange==='function')spfOnChange(this)">
-        <option value="30">Last 30 Days</option>
-        <option value="90">Last 90 Days</option>
-        <option value="YTD">Year to Date</option>
-        <option value="ALL">All Time</option>
-      </select>
-    </label>
-    <input type="search" class="sp-scope-search" placeholder="Search..." oninput="if(typeof spfOnSearch==='function')spfOnSearch()">
+  <div class="sp-scope-filters">
+    <label class="sp-scope-select sp-scope-select--org"><span class="sp-scope-select-label">Org</span><select id="risk-org" onchange="if(typeof riskApplyFilters==='function')riskApplyFilters()"><option value="">All Companies</option><option value="ieccl">IECCL - IL&amp;FS Engineering</option></select></label>
+    <label class="sp-scope-select sp-scope-select--bu"><span class="sp-scope-select-label">BU</span><select id="risk-bu" onchange="if(typeof riskApplyFilters==='function')riskApplyFilters()"><option value="">All Units</option><option value="civil">Civil</option><option value="mep">MEP</option></select></label>
+    <label class="sp-scope-select sp-scope-select--project"><span class="sp-scope-select-label">Project</span><select id="risk-project" onchange="if(typeof riskApplyFilters==='function')riskApplyFilters()"><option value="">All Projects</option><option value="bbrp">BBRP - NH 131</option></select></label>
+    <label class="sp-scope-select sp-scope-select--region"><span class="sp-scope-select-label">Zone</span><select id="risk-zone" onchange="if(typeof riskApplyFilters==='function')riskApplyFilters()"><option value="">All Zones</option><option value="A">Zone A</option><option value="B">Zone B</option></select></label>
+    <label class="sp-scope-select sp-scope-select--standard"><span class="sp-scope-select-label">Standard</span><select id="risk-standard" onchange="if(typeof riskApplyFilters==='function')riskApplyFilters()"><option value="">All Standards</option><option value="iso45001">ISO 45001:2018</option><option value="iso14001">ISO 14001:2015</option><option value="iso31000">ISO 31000</option></select></label>
+    <label class="sp-scope-select sp-scope-select--period"><span class="sp-scope-select-label">Period</span><select id="risk-period" onchange="if(typeof riskApplyFilters==='function')riskApplyFilters()"><option value="all" selected>All Time</option><option value="30">Last 30 Days</option><option value="90">Last 90 Days</option><option value="ytd">YTD</option></select></label>
+    <input class="sp-scope-search" type="search" placeholder="Search hazards, aspects, methods...">
   </div>
-      
-      <div class="sh-left">
-        <div class="sh-title">Risk Management</div>
-        <div class="sh-tabs" style="overflow-x:auto;flex-wrap:nowrap;">
-          <div class="sh-tab active" onclick="acMainTab(this,'risk')">&#9888; HIRA / Risk Assessment</div>
-          <div class="sh-tab" onclick="acMainTab(this,'aspect')">&#127807; Aspect Assessment (EIA)</div>
-          <div class="sh-tab" onclick="acMainTab(this,'method')">&#128196; Method Statement</div>
-        </div>
-      </div>
+  <div class="sh-left">
+    <div class="sh-title">Risk Management</div>
+    <div class="sh-tabs" id="sh-tabs-scroll">
+      <div class="sh-tab active" onclick="acMainTab(this,'risk')">Risk Register</div>
+      <div class="sh-tab" onclick="acMainTab(this,'aspect')">Aspect Assessment EIA</div>
+      <div class="sh-tab" onclick="acMainTab(this,'method')">Method Statement</div>
     </div>
+  </div>
+</div>
+
+<style data-marker="OPSLIX_RISK_REBUILD_APPLIED">
+  .ac-sub-tabs-wrapper{padding:0;background:transparent;overflow:hidden}
+  .ac-sub-tabs-wrapper .ac-sub-tabs{display:none;gap:0;padding:0;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+  .ac-sub-tabs-wrapper .ac-sub-tabs::-webkit-scrollbar{display:none}
+  .ac-sub-tabs-wrapper[data-active="risk"] .ac-sub-tabs[data-parent="risk"],
+  .ac-sub-tabs-wrapper[data-active="aspect"] .ac-sub-tabs[data-parent="aspect"],
+  .ac-sub-tabs-wrapper[data-active="method"] .ac-sub-tabs[data-parent="method"] { display: flex }
+  .ac-sub-tabs-wrapper .ac-sub-tab{padding:7px 14px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;flex-shrink:0;font-family:var(--sp-font-sans,'Inter',sans-serif)}
+  .ac-sub-tabs-wrapper .ac-sub-tab:hover{color:var(--t1)}
+  .ac-sub-tabs-wrapper .ac-sub-tab.active{color:var(--rust);border-bottom-color:var(--rust);font-weight:600}
+</style>
+<div class="ac-sub-tabs-wrapper" id="risk-sub-tabs-wrapper" data-active="risk">
+  <div class="ac-sub-tabs" data-parent="risk">
+    <div class="ac-sub-tab active" onclick="riskSubTabSwitch(this)">All Risks</div>
+    <div class="ac-sub-tab" onclick="riskSubTabSwitch(this)">Critical</div>
+    <div class="ac-sub-tab" onclick="riskSubTabSwitch(this)">High</div>
+    <div class="ac-sub-tab" onclick="riskSubTabSwitch(this)">Medium</div>
+    <div class="ac-sub-tab" onclick="riskSubTabSwitch(this)">Low</div>
+    <div class="ac-sub-tab" onclick="riskSubTabSwitch(this)">Closed</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="aspect">
+    <div class="ac-sub-tab active" onclick="riskSubTabSwitch(this)">All Aspects</div>
+    <div class="ac-sub-tab" onclick="riskSubTabSwitch(this)">Significant</div>
+    <div class="ac-sub-tab" onclick="riskSubTabSwitch(this)">Non-Significant</div>
+    <div class="ac-sub-tab" onclick="riskSubTabSwitch(this)">Trend</div>
+    <div class="ac-sub-tab" onclick="riskSubTabSwitch(this)">By Activity</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="method">
+    <div class="ac-sub-tab active" onclick="riskSubTabSwitch(this)">All Methods</div>
+    <div class="ac-sub-tab" onclick="riskSubTabSwitch(this)">Active</div>
+    <div class="ac-sub-tab" onclick="riskSubTabSwitch(this)">Draft</div>
+    <div class="ac-sub-tab" onclick="riskSubTabSwitch(this)">Pending Approval</div>
+    <div class="ac-sub-tab" onclick="riskSubTabSwitch(this)">Archived</div>
+  </div>
+</div>
+<script>
+  (function(){
+    window.riskSubTabSwitch=function(el){var set=el.parentElement;if(set)set.querySelectorAll('.ac-sub-tab').forEach(function(t){t.classList.remove('active')});el.classList.add('active');};
+    function bindMainTabs(){
+      var wrapper=document.getElementById('risk-sub-tabs-wrapper');
+      if(!wrapper)return;
+      var tabs=document.querySelectorAll('#sh-tabs-scroll .sh-tab');
+      tabs.forEach(function(tab){
+        tab.addEventListener('click',function(){
+          var onclick=this.getAttribute('onclick')||'';
+          var m=onclick.match(/acMainTab\(this,\s*['"]([^'"]+)['"]\)/);
+          if(m&&m[1])wrapper.setAttribute('data-active',m[1]);
+          try{this.scrollIntoView({inline:'center',behavior:'smooth',block:'nearest'})}catch(e){}
+        });
+      });
+    }
+    if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bindMainTabs)}else{bindMainTabs()}
+  })();
+</script>
+
+<div class="sp-row4 sp-row4--risk">
+  <div class="sp-row4-filters">
+    <label class="sp-row4-filter"><span class="sp-row4-filter-label">Risk Level</span><select onchange="if(typeof riskApplyFilters==='function')riskApplyFilters()"><option value="">All Levels</option><option value="critical">Critical</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></label>
+    <label class="sp-row4-filter"><span class="sp-row4-filter-label">Status</span><select onchange="if(typeof riskApplyFilters==='function')riskApplyFilters()"><option value="">All Status</option><option value="open">Open</option><option value="mitigated">Mitigated</option><option value="closed">Closed</option><option value="under-review">Under Review</option></select></label>
+    <label class="sp-row4-filter"><span class="sp-row4-filter-label">Activity</span><select onchange="if(typeof riskApplyFilters==='function')riskApplyFilters()"><option value="">All Activities</option><option value="excavation">Excavation</option><option value="working-at-height">Working at Height</option><option value="hot-work">Hot Work</option><option value="confined-space">Confined Space</option><option value="lifting">Lifting Operations</option></select></label>
+    <label class="sp-row4-filter"><span class="sp-row4-filter-label">Owner</span><select onchange="if(typeof riskApplyFilters==='function')riskApplyFilters()"><option value="">All Owners</option><option value="me">My Assessments</option><option value="hse">HSE Dept</option></select></label>
+  </div>
+  <div class="sp-row4-actions">
+    <button class="sp-row4-btn sp-row4-btn--clear" onclick="if(typeof riskClearFilters==='function')riskClearFilters()">✕ Clear</button>
+    <button class="sp-row4-btn sp-row4-btn--export" onclick="if(typeof riskExport==='function')riskExport()">↓ Export</button>
+  </div>
+</div>
 
     <!-- ══ TAB 1: HIRA / RISK ASSESSMENT ══ -->
     <div class="tab-panel" id="rm-risk" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;">
@@ -5912,7 +6452,20 @@ function eaiaExport(){
     +'td{padding:3px 5px;border:0.5px solid #E2E8F0;vertical-align:top;}'
     +'.sig{background:#FEF2F2;} .sc{color:#DC2626;font-weight:700;} .ns{color:#16A34A;font-weight:700;}'
     +'.res-s{color:#D97706;font-weight:700;} .res-ns{color:#16A34A;font-weight:700;}'
-    +'</style></head><body data-page="risk">'
+    +'</style>
+<style id="topnav-shadow-fix">html body nav.topnav,html body .topnav{box-shadow:none!important}</style>
+<style id="opslix-risk-compact-rows">
+  html body .sub-header .sp-page-identity{padding:4px 16px!important;min-height:32px!important}
+  html body .sub-header .sp-page-identity .sp-page-title{font-size:16px!important;line-height:1.3!important;margin:0!important}
+  html body .sub-header .sp-scope-filters{padding:4px 16px!important;min-height:32px!important;gap:6px!important}
+  html body .sub-header .sh-left{padding:0 16px!important}
+  html body .sub-header .sh-tabs{padding:0!important}
+  html body .sub-header .sh-tab{padding:6px 14px!important}
+  html body .ac-sub-tabs-wrapper{padding:0 16px!important}
+  html body .sp-row4{padding:4px 16px!important;min-height:34px!important}
+  html body .sp-row4-filter-label{font-size:9px!important}
+</style>
+<script>/*OPSLIX_MS_STRUCT_FIX_APPLIED*/(function(){function fixIt(){var rm=document.getElementById('rm-method');if(!rm)return;var content=document.querySelector('.body > .content');if(content&&rm.parentElement!==content){content.appendChild(rm);}}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',fixIt);}else{fixIt();}document.addEventListener('click',function(e){var t=e.target.closest('.sh-tab');if(t&&t.textContent.indexOf('Method Statement')>=0){setTimeout(fixIt,50);}},true);})();</script><style id="opslix-leak-css">body > h1, body > h2, body > h3, body > p, body > table, body > div.meta, body > div.formula, body > div.card, body > div.hzd, body > div.sig, body > option, body > select#hira-region-selector, body > span#hira-region-badge { display: none !important; } body > div.body { min-height: calc(100vh - 56px) !important; }</style><script>/*OPSLIX_RISK_LEAK_CLEANUP_APPLIED*/(function(){function clean(){var allowedTags=['NAV','SCRIPT','STYLE'];var allowedIds=['profile-dropdown','sb-overlay','sp-export-toast','rm-main-tab','offline-indicator'];Array.from(document.body.children).forEach(function(c){if(allowedTags.indexOf(c.tagName)>=0)return;var cls=c.className||'';if(cls.indexOf('body')>=0||cls.indexOf('topnav')>=0||cls.indexOf('sp-footer')>=0||cls.indexOf('profile-dd')>=0||cls.indexOf('sb-overlay')>=0)return;if(allowedIds.indexOf(c.id)>=0)return;if((c.id||'').indexOf('__SP')===0||(c.id||'').indexOf('SP-')===0)return;c.style.display='none';});var bodyDiv=document.querySelector('body > .body');if(bodyDiv){bodyDiv.style.minHeight='calc(100vh - 56px)';}}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',clean);}else{clean();}})();</script><script>/*OPSLIX_FILTER_AFTER_SUBTABS_APPLIED*/(function(){function reposition(){var row4=document.querySelector('.sp-row4--risk');if(!row4)return;var panels=['rm-risk','rm-aspect','rm-method'];var active=null;for(var i=0;i<panels.length;i++){var p=document.getElementById(panels[i]);if(p&&p.offsetWidth>0&&p.offsetHeight>0){active=p;break;}}if(!active)return;var inner=active.querySelector('.ac-sub-tabs');if(!inner)return;if(inner.nextSibling!==row4){inner.parentNode.insertBefore(row4,inner.nextSibling);}}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){setTimeout(reposition,100);});}else{setTimeout(reposition,100);}document.addEventListener('click',function(e){var t=e.target.closest('.sh-tab');if(t){setTimeout(reposition,100);}},true);})();</script><style id="opslix-hide-outer-subtabs">/*OPSLIX_HIDE_OUTER_SUBTABS*/ body .ac-sub-tabs-wrapper { display: none !important; }</style><style id="opslix-hide-dup-mt-filter">/*OPSLIX_HIDE_DUP_MT_FILTER*/ body .mt-filter-bar { display: none !important; }</style><style id="opslix-review-space-fix">/*OPSLIX_REVIEW_SPACE_FIX*/ #method-review{padding-top:0 !important;} #method-review > div:first-child{margin-top:0 !important;} #method-review .ac-card:first-child{min-height:calc(100vh - 380px) !important;display:flex !important;flex-direction:column !important;} #method-review .empty-state, #method-review [class*=empty]{flex:1 !important;display:flex !important;align-items:center !important;justify-content:center !important;} #method-create{padding-top:0 !important;} #method-analytics{padding-top:0 !important;}</style><style id="opslix-tighten-review">/*OPSLIX_TIGHTEN_REVIEW_APPLIED*/ #method-review,#method-create,#method-analytics{padding-top:0 !important;} #method-review > div:first-child,#method-create > div:first-child,#method-analytics > div:first-child{padding-top:8px !important;padding-bottom:0 !important;} #method-review .ac-card:first-child{flex:1 !important;min-height:240px !important;} #method-review .ac-card:first-child > div:last-child{flex:1 !important;display:flex !important;align-items:center !important;justify-content:center !important;} #rm-method{padding-top:4px !important;}</style></head><body data-page="risk">'
     +'<h1>Environmental Aspect &amp; Impact Assessment Register</h1>'
     +'<div class="meta">'
     +'<div><div class="ml">Doc No.</div><strong>[Org]-HSE-EIA-01</strong></div>'
@@ -7598,7 +8151,20 @@ window.aspectOfflineMode = function(){
       '.val{font-size:11px;margin-bottom:6px;}' +
       '.risk-high{color:#DC2626;} .risk-med{color:#F59E0B;}' +
       '.sig{border-top:1px solid #ccc;margin-top:16px;padding-top:12px;font-size:10px;}' +
-      '</style></head><body>' +
+      '</style>
+<style id="topnav-shadow-fix">html body nav.topnav,html body .topnav{box-shadow:none!important}</style>
+<style id="opslix-risk-compact-rows">
+  html body .sub-header .sp-page-identity{padding:4px 16px!important;min-height:32px!important}
+  html body .sub-header .sp-page-identity .sp-page-title{font-size:16px!important;line-height:1.3!important;margin:0!important}
+  html body .sub-header .sp-scope-filters{padding:4px 16px!important;min-height:32px!important;gap:6px!important}
+  html body .sub-header .sh-left{padding:0 16px!important}
+  html body .sub-header .sh-tabs{padding:0!important}
+  html body .sub-header .sh-tab{padding:6px 14px!important}
+  html body .ac-sub-tabs-wrapper{padding:0 16px!important}
+  html body .sp-row4{padding:4px 16px!important;min-height:34px!important}
+  html body .sp-row4-filter-label{font-size:9px!important}
+</style>
+<script>/*OPSLIX_MS_STRUCT_FIX_APPLIED*/(function(){function fixIt(){var rm=document.getElementById('rm-method');if(!rm)return;var content=document.querySelector('.body > .content');if(content&&rm.parentElement!==content){content.appendChild(rm);}}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',fixIt);}else{fixIt();}document.addEventListener('click',function(e){var t=e.target.closest('.sh-tab');if(t&&t.textContent.indexOf('Method Statement')>=0){setTimeout(fixIt,50);}},true);})();</script><style id="opslix-leak-css">body > h1, body > h2, body > h3, body > p, body > table, body > div.meta, body > div.formula, body > div.card, body > div.hzd, body > div.sig, body > option, body > select#hira-region-selector, body > span#hira-region-badge { display: none !important; } body > div.body { min-height: calc(100vh - 56px) !important; }</style><script>/*OPSLIX_RISK_LEAK_CLEANUP_APPLIED*/(function(){function clean(){var allowedTags=['NAV','SCRIPT','STYLE'];var allowedIds=['profile-dropdown','sb-overlay','sp-export-toast','rm-main-tab','offline-indicator'];Array.from(document.body.children).forEach(function(c){if(allowedTags.indexOf(c.tagName)>=0)return;var cls=c.className||'';if(cls.indexOf('body')>=0||cls.indexOf('topnav')>=0||cls.indexOf('sp-footer')>=0||cls.indexOf('profile-dd')>=0||cls.indexOf('sb-overlay')>=0)return;if(allowedIds.indexOf(c.id)>=0)return;if((c.id||'').indexOf('__SP')===0||(c.id||'').indexOf('SP-')===0)return;c.style.display='none';});var bodyDiv=document.querySelector('body > .body');if(bodyDiv){bodyDiv.style.minHeight='calc(100vh - 56px)';}}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',clean);}else{clean();}})();</script><script>/*OPSLIX_FILTER_AFTER_SUBTABS_APPLIED*/(function(){function reposition(){var row4=document.querySelector('.sp-row4--risk');if(!row4)return;var panels=['rm-risk','rm-aspect','rm-method'];var active=null;for(var i=0;i<panels.length;i++){var p=document.getElementById(panels[i]);if(p&&p.offsetWidth>0&&p.offsetHeight>0){active=p;break;}}if(!active)return;var inner=active.querySelector('.ac-sub-tabs');if(!inner)return;if(inner.nextSibling!==row4){inner.parentNode.insertBefore(row4,inner.nextSibling);}}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){setTimeout(reposition,100);});}else{setTimeout(reposition,100);}document.addEventListener('click',function(e){var t=e.target.closest('.sh-tab');if(t){setTimeout(reposition,100);}},true);})();</script><style id="opslix-hide-outer-subtabs">/*OPSLIX_HIDE_OUTER_SUBTABS*/ body .ac-sub-tabs-wrapper { display: none !important; }</style><style id="opslix-hide-dup-mt-filter">/*OPSLIX_HIDE_DUP_MT_FILTER*/ body .mt-filter-bar { display: none !important; }</style><style id="opslix-review-space-fix">/*OPSLIX_REVIEW_SPACE_FIX*/ #method-review{padding-top:0 !important;} #method-review > div:first-child{margin-top:0 !important;} #method-review .ac-card:first-child{min-height:calc(100vh - 380px) !important;display:flex !important;flex-direction:column !important;} #method-review .empty-state, #method-review [class*=empty]{flex:1 !important;display:flex !important;align-items:center !important;justify-content:center !important;} #method-create{padding-top:0 !important;} #method-analytics{padding-top:0 !important;}</style><style id="opslix-tighten-review">/*OPSLIX_TIGHTEN_REVIEW_APPLIED*/ #method-review,#method-create,#method-analytics{padding-top:0 !important;} #method-review > div:first-child,#method-create > div:first-child,#method-analytics > div:first-child{padding-top:8px !important;padding-bottom:0 !important;} #method-review .ac-card:first-child{flex:1 !important;min-height:240px !important;} #method-review .ac-card:first-child > div:last-child{flex:1 !important;display:flex !important;align-items:center !important;justify-content:center !important;} #rm-method{padding-top:4px !important;}</style></head><body>' +
       '<h1>Daily Pre-Shift Safety Briefing</h1>' +
       '<div class="meta">Date: ' + today + ' &middot; Regulatory Region: ' + regionName + ' &middot; HSE: Dhanesh CK</div>' +
       '<h2>Top 5 Active Hazards for Today</h2>';

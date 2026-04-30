@@ -135,3 +135,115 @@
   /* New public API (v8) — exposed for runtime re-canonicalization */
   window.opslixEnsureCanonicalLogo = ensureCanonicalLogo;
 })();
+/* OPSLIX_TAB_DRAG_SCROLL_V2_APPLIED — v2 fix: preventDefault + clientX + document mouseup */
+(function(){
+  if(window.__opslixDragScrollV2)return;
+  window.__opslixDragScrollV2=true;
+
+  // Inject cursor styles
+  var style=document.createElement('style');
+  style.id='opslix-drag-scroll-style-v2';
+  style.textContent='.sh-tabs,#sh-tabs-scroll,.ac-sub-tabs{}.sh-tabs.opslix-dragging,#sh-tabs-scroll.opslix-dragging,.ac-sub-tabs.opslix-dragging{cursor:grabbing!important;user-select:none}';
+  if(document.head)document.head.appendChild(style);
+
+  function attachDragScroll(strip){
+    if(!strip||strip.dataset.opslixDragV2==='1')return;
+    strip.dataset.opslixDragV2='1';
+    var isDown=false,startX=0,startScrollLeft=0,movedDistance=0;
+
+    strip.addEventListener('mousedown',function(e){
+      if(e.target.closest('a, button, input, select, textarea'))return;
+      // CRITICAL: prevent text selection so drag works as drag
+      e.preventDefault();
+      isDown=true;
+      strip.classList.add('opslix-dragging');
+      // CRITICAL: use clientX + getBoundingClientRect for accurate viewport math
+      startX=e.clientX-strip.getBoundingClientRect().left;
+      startScrollLeft=strip.scrollLeft;
+      movedDistance=0;
+    });
+
+    strip.addEventListener('mousemove',function(e){
+      if(!isDown)return;
+      e.preventDefault();
+      var x=e.clientX-strip.getBoundingClientRect().left;
+      var walk=(x-startX)*1.5;
+      strip.scrollLeft=startScrollLeft-walk;
+      movedDistance=Math.abs(walk);
+    });
+
+    // CRITICAL: mouseup on document, not strip — keeps drag alive if user moves out
+    document.addEventListener('mouseup',function(){
+      if(isDown){
+        isDown=false;
+        strip.classList.remove('opslix-dragging');
+      }
+    });
+
+    // Suppress click on tabs if user dragged > 5px
+    strip.addEventListener('click',function(e){
+      if(movedDistance>5){
+        e.stopPropagation();
+        e.preventDefault();
+      }
+      movedDistance=0;
+    },true);
+  }
+
+  function init(){
+    document.querySelectorAll('#sh-tabs-scroll, .sh-tabs, .ac-sub-tabs').forEach(attachDragScroll);
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',init);
+  }else{
+    init();
+  }
+
+  if(typeof MutationObserver!=='undefined'){
+    var obs=new MutationObserver(function(){init()});
+    if(document.body)obs.observe(document.body,{childList:true,subtree:true});
+    else document.addEventListener('DOMContentLoaded',function(){
+      obs.observe(document.body,{childList:true,subtree:true});
+    });
+  }
+})();
+/* GRAB_CURSOR_REMOVED_PENDING_DRAG_FIX at 20260427171144 - drag-to-scroll deferred */
+
+/* ============================================================
+   OPSLIX_TOPNAV_VERIFY_LINK_V1
+   Adds a "Verify" pill to the topnav .nav-right area on every
+   workspace page. Opens /verify in a new tab so the user
+   keeps their workspace context. Idempotent.
+   ============================================================ */
+(function(){
+if(window.__OPSLIX_TOPNAV_VERIFY_LINK_V1__)return;
+window.__OPSLIX_TOPNAV_VERIFY_LINK_V1__=true;
+function inject(){
+var nr=document.querySelector(".nav-right");
+if(!nr)return false;
+if(nr.querySelector("[data-opslix-verify-link]"))return true;
+var a=document.createElement("a");
+a.setAttribute("data-opslix-verify-link","1");
+a.href="/verify";
+a.target="_blank";
+a.rel="noopener";
+a.title="Verify a document (opens in new tab)";
+a.style.cssText="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(198,88,62,0.08);border:1px solid rgba(198,88,62,0.25);border-radius:6px;color:#C6583E;text-decoration:none;font-size:12px;font-weight:600;letter-spacing:0.2px;font-family:inherit;cursor:pointer;transition:all 0.15s;margin-right:4px;";
+a.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C6583E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>Verify';
+a.addEventListener("mouseenter",function(){a.style.background="rgba(198,88,62,0.15)";a.style.borderColor="rgba(198,88,62,0.4)";});
+a.addEventListener("mouseleave",function(){a.style.background="rgba(198,88,62,0.08)";a.style.borderColor="rgba(198,88,62,0.25)";});
+nr.insertBefore(a,nr.firstChild);
+return true;
+}
+function tryInject(n){
+if(inject())return;
+if(n>40)return;
+setTimeout(function(){tryInject(n+1);},200);
+}
+if(document.readyState==="loading"){
+document.addEventListener("DOMContentLoaded",function(){tryInject(0);});
+}else{
+tryInject(0);
+}
+})();

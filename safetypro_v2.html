@@ -883,7 +883,71 @@ body{font-size:13px!important;font-family:var(--fb)!important;}
 .logo-text{font-family:'Fraunces',Georgia,serif!important;font-weight:500!important;letter-spacing:-.01em!important}
 </style>
 <link rel="stylesheet" href="opslix-shell.css?v=19">
-</head>
+<style data-marker="OPSLIX_FILTER_DRAG_SCROLL_V1">
+.sp-scope-filters,.sp-row4-filters,.ac-sub-tabs{user-select:none;-webkit-user-select:none}
+.sp-scope-filters.opslix-no-drag,.sp-row4-filters.opslix-no-drag,.ac-sub-tabs.opslix-no-drag{cursor:default !important}
+.sp-scope-filters.opslix-grabbing,.sp-row4-filters.opslix-grabbing,.ac-sub-tabs.opslix-grabbing{cursor:grabbing !important}
+</style>
+<script data-marker="OPSLIX_FILTER_DRAG_SCROLL_V1">
+(function(){
+if(window.__OPSLIX_FILTER_DRAG_INIT__)return;
+window.__OPSLIX_FILTER_DRAG_INIT__=true;
+var SELECTORS=['.sp-scope-filters','.sp-row4-filters','.ac-sub-tabs'];
+var DRAG_THRESHOLD=5;
+function isInteractive(t){
+if(!t)return false;
+var el=t.nodeType===1?t:t.parentElement;
+while(el&&el.tagName){
+var tag=el.tagName;
+if(tag==='SELECT'||tag==='BUTTON'||tag==='INPUT'||tag==='TEXTAREA'||tag==='A'||tag==='LABEL')return true;
+if(el.getAttribute('role')==='button'||el.getAttribute('contenteditable')==='true')return true;
+if(el.classList&&(el.classList.contains('sp-scope-filters')||el.classList.contains('sp-row4-filters')||el.classList.contains('ac-sub-tabs')))break;
+el=el.parentElement;
+}
+return false;
+}
+function attach(el){
+if(el.dataset.opslixDrag==='v1')return;
+el.dataset.opslixDrag='v1';
+var canScroll=el.scrollWidth>el.clientWidth;
+if(!canScroll){el.classList.add('opslix-no-drag');return;}
+el.classList.remove('opslix-no-drag');
+el.style.cursor='grab';
+var down=false,startX=0,startScroll=0,moved=false,suppressClick=false;
+el.addEventListener('mousedown',function(e){
+if(e.button!==0)return;
+if(isInteractive(e.target))return;
+down=true;moved=false;suppressClick=false;
+startX=e.pageX;startScroll=el.scrollLeft;
+});
+window.addEventListener('mousemove',function(e){
+if(!down)return;
+var dx=e.pageX-startX;
+if(!moved&&Math.abs(dx)<DRAG_THRESHOLD)return;
+if(!moved){moved=true;el.classList.add('opslix-grabbing');}
+e.preventDefault();
+el.scrollLeft=startScroll-dx;
+});
+window.addEventListener('mouseup',function(e){
+if(!down)return;
+down=false;
+if(moved){el.classList.remove('opslix-grabbing');suppressClick=true;setTimeout(function(){suppressClick=false;},50);}
+});
+el.addEventListener('click',function(e){if(suppressClick){e.stopPropagation();e.preventDefault();}},true);
+if(typeof ResizeObserver!=='undefined'){
+var ro=new ResizeObserver(function(){
+var canNow=el.scrollWidth>el.clientWidth;
+if(canNow){el.classList.remove('opslix-no-drag');el.style.cursor='grab';}
+else{el.classList.add('opslix-no-drag');el.style.cursor='';}
+});
+ro.observe(el);
+}
+}
+function applyAll(){SELECTORS.forEach(function(sel){document.querySelectorAll(sel).forEach(attach);});}
+function init(){applyAll();var obs=new MutationObserver(function(){applyAll();});obs.observe(document.body,{childList:true,subtree:true});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script></head>
 <body data-page="dashboard">
 
 <!-- SESSION EXPIRY WARNING -->
@@ -6319,7 +6383,7 @@ body .ua, body .user-pill .ua {
 }
 /* Hamburger menu spans (if any have green) */
 body .sb-toggle span, body .menu-toggle span { background: currentColor !important; }
-</style><script src="sp-shell.js?v=8"></script>
+</style><script src="sp-shell.js?v=11"></script>
 <script src="sp-charts.js?v=7"></script>
 <script src="sp-dynamic-states.js?v=6"></script>
 <script src="sp-methodology.js?v=12"></script>

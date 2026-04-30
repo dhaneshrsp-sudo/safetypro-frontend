@@ -1251,8 +1251,85 @@ body .ua { background: linear-gradient(135deg, #C6583E, #A84A35) !important; col
 body{font-size:13px!important;font-family:var(--fb)!important;}
 .logo-text{font-family:'Fraunces',Georgia,serif!important;font-weight:500!important;letter-spacing:-.01em!important}
 </style>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&family=Fraunces:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="sp-shell.css?v=63">
-</head>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&family=Fraunces:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="opslix-shell.css?v=19">
+
+<style id="topnav-shadow-fix">html body nav.topnav,html body .topnav{box-shadow:none!important}</style>
+<style id="opslix-esg-compact-rows">
+  html body .sub-header .sp-page-identity{padding:4px 16px!important;min-height:32px!important}
+  html body .sub-header .sp-page-identity .sp-page-title{font-size:16px!important;line-height:1.3!important;margin:0!important}
+  html body .sub-header .sp-scope-filters{padding:4px 16px!important;min-height:32px!important;gap:6px!important}
+  html body .sub-header .sh-left{padding:0 16px!important}
+  html body .sub-header .sh-tabs{padding:0!important}
+  html body .sub-header .sh-tab{padding:6px 14px!important}
+  html body .ac-sub-tabs-wrapper{padding:0 16px!important}
+  html body .sp-row4{padding:4px 16px!important;min-height:34px!important}
+  html body .sp-row4-filter-label{font-size:9px!important}
+</style>
+<style data-marker="OPSLIX_FILTER_DRAG_SCROLL_V1">
+.sp-scope-filters,.sp-row4-filters,.ac-sub-tabs{user-select:none;-webkit-user-select:none}
+.sp-scope-filters.opslix-no-drag,.sp-row4-filters.opslix-no-drag,.ac-sub-tabs.opslix-no-drag{cursor:default !important}
+.sp-scope-filters.opslix-grabbing,.sp-row4-filters.opslix-grabbing,.ac-sub-tabs.opslix-grabbing{cursor:grabbing !important}
+</style>
+<script data-marker="OPSLIX_FILTER_DRAG_SCROLL_V1">
+(function(){
+if(window.__OPSLIX_FILTER_DRAG_INIT__)return;
+window.__OPSLIX_FILTER_DRAG_INIT__=true;
+var SELECTORS=['.sp-scope-filters','.sp-row4-filters','.ac-sub-tabs'];
+var DRAG_THRESHOLD=5;
+function isInteractive(t){
+if(!t)return false;
+var el=t.nodeType===1?t:t.parentElement;
+while(el&&el.tagName){
+var tag=el.tagName;
+if(tag==='SELECT'||tag==='BUTTON'||tag==='INPUT'||tag==='TEXTAREA'||tag==='A'||tag==='LABEL')return true;
+if(el.getAttribute('role')==='button'||el.getAttribute('contenteditable')==='true')return true;
+if(el.classList&&(el.classList.contains('sp-scope-filters')||el.classList.contains('sp-row4-filters')||el.classList.contains('ac-sub-tabs')))break;
+el=el.parentElement;
+}
+return false;
+}
+function attach(el){
+if(el.dataset.opslixDrag==='v1')return;
+el.dataset.opslixDrag='v1';
+var canScroll=el.scrollWidth>el.clientWidth;
+if(!canScroll){el.classList.add('opslix-no-drag');return;}
+el.classList.remove('opslix-no-drag');
+el.style.cursor='grab';
+var down=false,startX=0,startScroll=0,moved=false,suppressClick=false;
+el.addEventListener('mousedown',function(e){
+if(e.button!==0)return;
+if(isInteractive(e.target))return;
+down=true;moved=false;suppressClick=false;
+startX=e.pageX;startScroll=el.scrollLeft;
+});
+window.addEventListener('mousemove',function(e){
+if(!down)return;
+var dx=e.pageX-startX;
+if(!moved&&Math.abs(dx)<DRAG_THRESHOLD)return;
+if(!moved){moved=true;el.classList.add('opslix-grabbing');}
+e.preventDefault();
+el.scrollLeft=startScroll-dx;
+});
+window.addEventListener('mouseup',function(e){
+if(!down)return;
+down=false;
+if(moved){el.classList.remove('opslix-grabbing');suppressClick=true;setTimeout(function(){suppressClick=false;},50);}
+});
+el.addEventListener('click',function(e){if(suppressClick){e.stopPropagation();e.preventDefault();}},true);
+if(typeof ResizeObserver!=='undefined'){
+var ro=new ResizeObserver(function(){
+var canNow=el.scrollWidth>el.clientWidth;
+if(canNow){el.classList.remove('opslix-no-drag');el.style.cursor='grab';}
+else{el.classList.add('opslix-no-drag');el.style.cursor='';}
+});
+ro.observe(el);
+}
+}
+function applyAll(){SELECTORS.forEach(function(sel){document.querySelectorAll(sel).forEach(attach);});}
+function init(){applyAll();var obs=new MutationObserver(function(){applyAll();});obs.observe(document.body,{childList:true,subtree:true});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script></head>
 <body data-page="esg">
 <nav class="topnav">
   <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -1335,27 +1412,134 @@ body{font-size:13px!important;font-family:var(--fb)!important;}
 
     <!-- SUB HEADER -->
     <div class="sub-header">
-      <div class="sh-left">
-        <div class="sh-title">&#127807; Sustainability &amp; ESG</div>
-        <div class="sh-tabs" style="overflow-x:auto;flex-wrap:nowrap;">
-          <div class="sh-tab active" onclick="esgTab(this,'dashboard')">&#9632; Dashboard</div>
-          <div class="sh-tab" onclick="esgTab(this,'env')">&#127807; Environmental (E)</div>
-          <div class="sh-tab" onclick="esgTab(this,'social')">&#128101; Social (S)</div>
-          <div class="sh-tab" onclick="esgTab(this,'gov')">&#127963; Governance (G)</div>
-          <div class="sh-tab" onclick="esgTab(this,'sdg')">&#127758; UN SDGs</div>
-          <div class="sh-tab" onclick="esgTab(this,'materiality')">&#128202; Materiality</div>
-          <div class="sh-tab" onclick="esgTab(this,'brsr')">&#9989; BRSR Checklist</div>
-        </div>
-      </div>
-      <div class="sh-right">
-        <select id="esg-fy" style="padding:6px 10px;background:var(--card,#111D2B);border:0.5px solid var(--border,#1E3347);color:var(--t2,#7A9BBF);border-radius:7px;font-size:11px;font-family:var(--fh);">
-          <option value="2526">FY 2025&ndash;26</option>
-          <option value="2425">FY 2024&ndash;25</option>
-        </select>
-        <button class="ac-btn" style="background:rgba(201,168,76,.12);border:0.5px solid rgba(201,168,76,.3);color:#C9A84C;" onclick="alert('ESG Report export — coming soon')">&#8595; ESG Report</button>
-        <button class="ac-btn" style="background:rgba(16, 185, 129, .12);border:0.5px solid rgba(16, 185, 129, .3);color:var(--green,#10B981);">Submit Disclosure</button>
-      </div>
+  <div class="sp-page-identity" data-page="esg">
+    <div class="sp-page-identity-left">
+      <nav class="sp-page-breadcrumb">
+        <a href="/safetypro_v2">Home</a>
+        <span class="sp-page-breadcrumb-separator">/</span>
+        <a href="/safetypro_v2">Dashboard</a>
+      </nav>
+      <h1 class="sp-page-title">Sustainability &amp; ESG</h1>
     </div>
+    <div class="sp-page-identity-right">
+      <button class="sp-page-action" onclick="window.open('https://docs.safetyproworld.com/esg','_blank')">? Help</button>
+      <button class="sp-page-action sp-page-action--primary" onclick="if(typeof esgGenerate==='function')esgGenerate();">+ New Disclosure</button>
+    </div>
+  </div>
+  <div class="sp-scope-filters">
+    <label class="sp-scope-select sp-scope-select--org"><span class="sp-scope-select-label">Org</span><select id="esg-org" onchange="if(typeof esgApplyFilters==='function')esgApplyFilters()"><option value="">All Companies</option><option value="ieccl">IECCL - IL&amp;FS Engineering</option></select></label>
+    <label class="sp-scope-select sp-scope-select--bu"><span class="sp-scope-select-label">BU</span><select id="esg-bu" onchange="if(typeof esgApplyFilters==='function')esgApplyFilters()"><option value="">All Units</option></select></label>
+    <label class="sp-scope-select sp-scope-select--project"><span class="sp-scope-select-label">Project</span><select id="esg-project" onchange="if(typeof esgApplyFilters==='function')esgApplyFilters()"><option value="">All Projects</option><option value="bbrp">BBRP - NH 131</option></select></label>
+    <label class="sp-scope-select sp-scope-select--region"><span class="sp-scope-select-label">Zone</span><select id="esg-zone" onchange="if(typeof esgApplyFilters==='function')esgApplyFilters()"><option value="">All Zones</option></select></label>
+    <label class="sp-scope-select sp-scope-select--standard"><span class="sp-scope-select-label">Framework</span><select id="esg-framework" onchange="if(typeof esgApplyFilters==='function')esgApplyFilters()"><option value="">All Frameworks</option><option value="gri">GRI Standards</option><option value="sasb">SASB</option><option value="tcfd">TCFD</option><option value="brsr">BRSR (India)</option></select></label>
+    <label class="sp-scope-select sp-scope-select--period"><span class="sp-scope-select-label">Period</span><select id="esg-period" onchange="if(typeof esgApplyFilters==='function')esgApplyFilters()"><option value="ytd" selected>YTD 2026</option><option value="fy2025">FY 2025-26</option><option value="q1">Q1 2026</option></select></label>
+    <input class="sp-scope-search" type="search" placeholder="Search ESG metrics, disclosures...">
+  </div>
+  <div class="sh-left">
+    <div class="sh-title">Sustainability &amp; ESG</div>
+    <div class="sh-tabs" id="sh-tabs-scroll">
+      <div class="sh-tab active" onclick="esgTab(this,'dashboard')">Dashboard</div>
+      <div class="sh-tab" onclick="esgTab(this,'env')">Environment</div>
+      <div class="sh-tab" onclick="esgTab(this,'social')">Social</div>
+      <div class="sh-tab" onclick="esgTab(this,'gov')">Governance</div>
+      <div class="sh-tab" onclick="esgTab(this,'sdg')">Sdg</div>
+      <div class="sh-tab" onclick="esgTab(this,'materiality')">Materiality</div>
+      <div class="sh-tab" onclick="esgTab(this,'brsr')">BRSR</div>
+    </div>
+  </div>
+</div>
+
+<style data-marker="OPSLIX_ESG_REBUILD_APPLIED">
+  .ac-sub-tabs-wrapper{padding:0;background:transparent;overflow:hidden}
+  .ac-sub-tabs-wrapper .ac-sub-tabs{display:none;gap:0;padding:0;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+  .ac-sub-tabs-wrapper .ac-sub-tabs::-webkit-scrollbar{display:none}
+  .ac-sub-tabs-wrapper[data-active="dashboard"] .ac-sub-tabs[data-parent="dashboard"],
+  .ac-sub-tabs-wrapper[data-active="env"] .ac-sub-tabs[data-parent="env"],
+  .ac-sub-tabs-wrapper[data-active="social"] .ac-sub-tabs[data-parent="social"],
+  .ac-sub-tabs-wrapper[data-active="gov"] .ac-sub-tabs[data-parent="gov"],
+  .ac-sub-tabs-wrapper[data-active="sdg"] .ac-sub-tabs[data-parent="sdg"],
+  .ac-sub-tabs-wrapper[data-active="materiality"] .ac-sub-tabs[data-parent="materiality"],
+  .ac-sub-tabs-wrapper[data-active="brsr"] .ac-sub-tabs[data-parent="brsr"] { display: flex }
+  .ac-sub-tabs-wrapper .ac-sub-tab{padding:7px 14px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;flex-shrink:0;font-family:var(--sp-font-sans,'Inter',sans-serif)}
+  .ac-sub-tabs-wrapper .ac-sub-tab:hover{color:var(--t1)}
+  .ac-sub-tabs-wrapper .ac-sub-tab.active{color:var(--rust);border-bottom-color:var(--rust);font-weight:600}
+</style>
+<div class="ac-sub-tabs-wrapper" id="esg-sub-tabs-wrapper" data-active="dashboard">
+  <div class="ac-sub-tabs" data-parent="dashboard">
+    <div class="ac-sub-tab active" onclick="esgSubTabSwitch(this)">Overview</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Details</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Analytics</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">History</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="env">
+    <div class="ac-sub-tab active" onclick="esgSubTabSwitch(this)">Overview</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Details</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Analytics</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">History</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="social">
+    <div class="ac-sub-tab active" onclick="esgSubTabSwitch(this)">Overview</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Workforce</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Community</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Health</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Training</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="gov">
+    <div class="ac-sub-tab active" onclick="esgSubTabSwitch(this)">Overview</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Details</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Analytics</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">History</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="sdg">
+    <div class="ac-sub-tab active" onclick="esgSubTabSwitch(this)">Overview</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Details</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Analytics</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">History</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="materiality">
+    <div class="ac-sub-tab active" onclick="esgSubTabSwitch(this)">Overview</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Details</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Analytics</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">History</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="brsr">
+    <div class="ac-sub-tab active" onclick="esgSubTabSwitch(this)">Overview</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Details</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">Analytics</div>
+    <div class="ac-sub-tab" onclick="esgSubTabSwitch(this)">History</div>
+  </div>
+</div>
+<script>
+  (function(){
+    window.esgSubTabSwitch=function(el){var set=el.parentElement;if(set)set.querySelectorAll('.ac-sub-tab').forEach(function(t){t.classList.remove('active')});el.classList.add('active');};
+    function bindMainTabs(){
+      var wrapper=document.getElementById('esg-sub-tabs-wrapper');
+      if(!wrapper)return;
+      var tabs=document.querySelectorAll('#sh-tabs-scroll .sh-tab');
+      tabs.forEach(function(tab){
+        tab.addEventListener('click',function(){
+          var onclick=this.getAttribute('onclick')||'';
+          var m=onclick.match(/esgTab\(this,\s*['"]([^'"]+)['"]\)/);
+          if(m&&m[1])wrapper.setAttribute('data-active',m[1]);
+          try{this.scrollIntoView({inline:'center',behavior:'smooth',block:'nearest'})}catch(e){}
+        });
+      });
+    }
+    if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bindMainTabs)}else{bindMainTabs()}
+  })();
+</script>
+
+<div class="sp-row4 sp-row4--esg">
+  <div class="sp-row4-filters">
+    <label class="sp-row4-filter"><span class="sp-row4-filter-label">Material Topic</span><select onchange="if(typeof esgApplyFilters==='function')esgApplyFilters()"><option value="">All Topics</option><option value="climate">Climate Change</option><option value="diversity">Diversity</option><option value="safety">Health &amp; Safety</option></select></label>
+    <label class="sp-row4-filter"><span class="sp-row4-filter-label">Status</span><select onchange="if(typeof esgApplyFilters==='function')esgApplyFilters()"><option value="">All Status</option><option value="reported">Reported</option><option value="pending">Pending</option><option value="verified">Verified</option></select></label>
+    <label class="sp-row4-filter"><span class="sp-row4-filter-label">Assurance</span><select onchange="if(typeof esgApplyFilters==='function')esgApplyFilters()"><option value="">All</option><option value="reasonable">Reasonable</option><option value="limited">Limited</option><option value="none">None</option></select></label>
+  </div>
+  <div class="sp-row4-actions">
+    <button class="sp-row4-btn sp-row4-btn--clear" onclick="if(typeof esgClearFilters==='function')esgClearFilters()">✕ Clear</button>
+    <button class="sp-row4-btn sp-row4-btn--export" onclick="if(typeof esgExport==='function')esgExport()">↓ Export</button>
+  </div>
+</div>
 
     <!-- SUB-HEADER INFO BAR — Framework Quick-Access Pills -->
     <div style="padding:5px 20px;background:rgba(16, 185, 129, .04);border-bottom:0.5px solid var(--border,#1E3347);display:flex;gap:5px;flex-wrap:wrap;align-items:center;">
@@ -2334,7 +2518,20 @@ function generateAuditReport(format) {
     +'.sign-role{font-size:10px;color:#666;}'
     +'.footer-bar{background:#0B1A2E;color:rgba(255,255,255,.4);padding:10px 36px;font-size:9px;display:flex;justify-content:space-between;}'
     +'@media print{body{margin:0;}}'
-    +'</style></head><body data-page="esg">'
+    +'</style>
+<style id="topnav-shadow-fix">html body nav.topnav,html body .topnav{box-shadow:none!important}</style>
+<style id="opslix-esg-compact-rows">
+  html body .sub-header .sp-page-identity{padding:4px 16px!important;min-height:32px!important}
+  html body .sub-header .sp-page-identity .sp-page-title{font-size:16px!important;line-height:1.3!important;margin:0!important}
+  html body .sub-header .sp-scope-filters{padding:4px 16px!important;min-height:32px!important;gap:6px!important}
+  html body .sub-header .sh-left{padding:0 16px!important}
+  html body .sub-header .sh-tabs{padding:0!important}
+  html body .sub-header .sh-tab{padding:6px 14px!important}
+  html body .ac-sub-tabs-wrapper{padding:0 16px!important}
+  html body .sp-row4{padding:4px 16px!important;min-height:34px!important}
+  html body .sp-row4-filter-label{font-size:9px!important}
+</style>
+</head><body data-page="esg">'
     +'<div class="header-bar">'
     +'<div class="logo-block"><div class="co-name">'+company+'</div><div class="co-proj">'+project+'</div></div>'
     +'<div class="rpt-title"><div class="rt-main">'+rptType+'</div><div class="rt-sub"><span class="class-badge">'+rptClass+'</span></div></div>'
@@ -3577,7 +3774,20 @@ function eaiaExport(){
     +'td{padding:3px 5px;border:0.5px solid #E2E8F0;vertical-align:top;}'
     +'.sig{background:#FEF2F2;} .sc{color:#DC2626;font-weight:700;} .ns{color:#16A34A;font-weight:700;}'
     +'.res-s{color:#D97706;font-weight:700;} .res-ns{color:#16A34A;font-weight:700;}'
-    +'</style></head><body data-page="esg">'
+    +'</style>
+<style id="topnav-shadow-fix">html body nav.topnav,html body .topnav{box-shadow:none!important}</style>
+<style id="opslix-esg-compact-rows">
+  html body .sub-header .sp-page-identity{padding:4px 16px!important;min-height:32px!important}
+  html body .sub-header .sp-page-identity .sp-page-title{font-size:16px!important;line-height:1.3!important;margin:0!important}
+  html body .sub-header .sp-scope-filters{padding:4px 16px!important;min-height:32px!important;gap:6px!important}
+  html body .sub-header .sh-left{padding:0 16px!important}
+  html body .sub-header .sh-tabs{padding:0!important}
+  html body .sub-header .sh-tab{padding:6px 14px!important}
+  html body .ac-sub-tabs-wrapper{padding:0 16px!important}
+  html body .sp-row4{padding:4px 16px!important;min-height:34px!important}
+  html body .sp-row4-filter-label{font-size:9px!important}
+</style>
+</head><body data-page="esg">'
     +'<h1>Environmental Aspect &amp; Impact Assessment Register</h1>'
     +'<div class="meta">'
     +'<div><div class="ml">Doc No.</div><strong>[Org]-HSE-EIA-01</strong></div>'

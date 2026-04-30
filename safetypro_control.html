@@ -1016,8 +1016,87 @@ body .ua { background: linear-gradient(135deg, #C6583E, #A84A35) !important; col
 .sp-footer{border-bottom:1px solid rgb(51, 65, 85)!important;}
 .logo-text{font-family:'Fraunces',Georgia,serif!important;font-weight:500!important;letter-spacing:-.01em!important}
 </style>
-<link rel="stylesheet" href="sp-shell.css?v=63">
-</head>
+<link rel="stylesheet" href="opslix-shell.css?v=19">
+
+<style id="opslix-ctrl-compact-rows" data-marker="OPSLIX_CTRL_OPTION_C_APPLIED">
+  /* Control compaction (Option C) — match Audit architecture */
+  html body .sub-header .sp-page-identity { padding: 4px 16px !important; min-height: 32px !important }
+  html body .sub-header .sp-page-identity .sp-page-title { font-size: 16px !important; line-height: 1.3 !important; margin: 0 !important }
+  html body .sub-header .sp-scope-filters { padding: 4px 16px !important; min-height: 32px !important; gap: 6px !important }
+  html body .sub-header .sh-left { padding: 0 16px !important }
+  html body .sub-header .sh-tabs { padding: 0 !important }
+  html body .sub-header .sh-tab { padding: 6px 14px !important }
+  html body .ac-sub-tabs-wrapper { padding: 0 16px !important }
+  html body .sp-row4 { padding: 4px 16px !important; min-height: 34px !important }
+  html body .sp-row4-filter-label { font-size: 9px !important }
+  /* Topnav shadow fix */
+  html body nav.topnav, html body .topnav { box-shadow: none !important }
+</style>
+<style data-marker="OPSLIX_FILTER_DRAG_SCROLL_V1">
+.sp-scope-filters,.sp-row4-filters,.ac-sub-tabs{user-select:none;-webkit-user-select:none}
+.sp-scope-filters.opslix-no-drag,.sp-row4-filters.opslix-no-drag,.ac-sub-tabs.opslix-no-drag{cursor:default !important}
+.sp-scope-filters.opslix-grabbing,.sp-row4-filters.opslix-grabbing,.ac-sub-tabs.opslix-grabbing{cursor:grabbing !important}
+</style>
+<script data-marker="OPSLIX_FILTER_DRAG_SCROLL_V1">
+(function(){
+if(window.__OPSLIX_FILTER_DRAG_INIT__)return;
+window.__OPSLIX_FILTER_DRAG_INIT__=true;
+var SELECTORS=['.sp-scope-filters','.sp-row4-filters','.ac-sub-tabs'];
+var DRAG_THRESHOLD=5;
+function isInteractive(t){
+if(!t)return false;
+var el=t.nodeType===1?t:t.parentElement;
+while(el&&el.tagName){
+var tag=el.tagName;
+if(tag==='SELECT'||tag==='BUTTON'||tag==='INPUT'||tag==='TEXTAREA'||tag==='A'||tag==='LABEL')return true;
+if(el.getAttribute('role')==='button'||el.getAttribute('contenteditable')==='true')return true;
+if(el.classList&&(el.classList.contains('sp-scope-filters')||el.classList.contains('sp-row4-filters')||el.classList.contains('ac-sub-tabs')))break;
+el=el.parentElement;
+}
+return false;
+}
+function attach(el){
+if(el.dataset.opslixDrag==='v1')return;
+el.dataset.opslixDrag='v1';
+var canScroll=el.scrollWidth>el.clientWidth;
+if(!canScroll){el.classList.add('opslix-no-drag');return;}
+el.classList.remove('opslix-no-drag');
+el.style.cursor='grab';
+var down=false,startX=0,startScroll=0,moved=false,suppressClick=false;
+el.addEventListener('mousedown',function(e){
+if(e.button!==0)return;
+if(isInteractive(e.target))return;
+down=true;moved=false;suppressClick=false;
+startX=e.pageX;startScroll=el.scrollLeft;
+});
+window.addEventListener('mousemove',function(e){
+if(!down)return;
+var dx=e.pageX-startX;
+if(!moved&&Math.abs(dx)<DRAG_THRESHOLD)return;
+if(!moved){moved=true;el.classList.add('opslix-grabbing');}
+e.preventDefault();
+el.scrollLeft=startScroll-dx;
+});
+window.addEventListener('mouseup',function(e){
+if(!down)return;
+down=false;
+if(moved){el.classList.remove('opslix-grabbing');suppressClick=true;setTimeout(function(){suppressClick=false;},50);}
+});
+el.addEventListener('click',function(e){if(suppressClick){e.stopPropagation();e.preventDefault();}},true);
+if(typeof ResizeObserver!=='undefined'){
+var ro=new ResizeObserver(function(){
+var canNow=el.scrollWidth>el.clientWidth;
+if(canNow){el.classList.remove('opslix-no-drag');el.style.cursor='grab';}
+else{el.classList.add('opslix-no-drag');el.style.cursor='';}
+});
+ro.observe(el);
+}
+}
+function applyAll(){SELECTORS.forEach(function(sel){document.querySelectorAll(sel).forEach(attach);});}
+function init(){applyAll();var obs=new MutationObserver(function(){applyAll();});obs.observe(document.body,{childList:true,subtree:true});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script></head>
 <body data-page="control">
 <div class="app">
 
@@ -1135,44 +1214,229 @@ body .ua { background: linear-gradient(135deg, #C6583E, #A84A35) !important; col
 
 <!-- CONTENT -->
 <div class="content">
-  <div class="sub-header" style="flex-direction:column;align-items:stretch;padding:0;gap:0;height:auto!important;min-height:auto!important;overflow:visible!important;">
-      <!-- ROW 1: title + scrollable tabs -->
-      <div style="display:flex;align-items:center;gap:0;padding:0 16px;height:40px;flex-shrink:0;">
-        <span style="font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1);white-space:nowrap;flex-shrink:0;padding-right:12px;">Control</span>
-        <span style="width:1px;height:16px;background:var(--border);flex-shrink:0;margin-right:8px;"></span>
-        <div id="ctrl-tabs-scroll" style="flex:1;min-width:0;display:flex;align-items:center;gap:2px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-behavior:smooth;flex-wrap:nowrap;">
-          <div class="sh-tab active" onclick="ctrlSwitchTab(this,'escalations')">Escalations<span style="display:inline-flex;align-items:center;justify-content:center;background:#EF4444;color:#fff;font-size:8px;font-weight:700;min-width:14px;height:14px;padding:0 3px;border-radius:7px;margin-left:4px;">5</span></div>
-          <div class="sh-tab" onclick="ctrlSwitchTab(this,'overdue')">Overdue Tracker<span style="display:inline-flex;align-items:center;justify-content:center;background:#F59E0B;color:#fff;font-size:8px;font-weight:700;min-width:14px;height:14px;padding:0 3px;border-radius:7px;margin-left:4px;">12</span></div>
-          <div class="sh-tab" onclick="ctrlSwitchTab(this,'accountability')">Accountability</div>
-          <div class="sh-tab" onclick="ctrlSwitchTab(this,'team')">Team Manager</div>
-          <div class="sh-tab" onclick="ctrlSwitchTab(this,'scenario')">Scenario Planner</div>
-          <div class="sh-tab" onclick="ctrlSwitchTab(this,'livefeed')">Live Feed<span style="display:inline-flex;align-items:center;justify-content:center;background:#10B981;color:#000;font-size:7px;font-weight:700;padding:0 4px;border-radius:3px;margin-left:4px;">LIVE</span></div>
-          <div class="sh-tab" onclick="ctrlSwitchTab(this,'analytics')">Analytics</div>
-          <div class="sh-tab" onclick="ctrlSwitchTab(this,'objectives')">Objectives &amp; Targets</div>
-        </div>
-      </div>
-      <!-- ROW 2: multi-tenant filters + action buttons -->
-      <div style="display:flex;align-items:center;gap:6px;padding:5px 16px;border-top:1px solid var(--border);background:var(--elevated);flex-shrink:0;">
-        <select id="ctrl-project-filter" onchange="ctrlApplyFilters()" style="background:var(--card);border:1px solid var(--border);color:var(--t2);font-family:var(--fb);font-size:11px;padding:4px 8px;border-radius:6px;cursor:pointer;outline:none;">
-          <option value="">All Projects</option><option value="proj-a">Project A</option><option value="proj-b">Project B</option><option value="proj-c">Project C</option><option value="proj-d">Project D</option>
-        </select>
-        <select id="ctrl-contractor-filter" onchange="ctrlApplyFilters()" style="background:var(--card);border:1px solid var(--border);color:var(--t2);font-family:var(--fb);font-size:11px;padding:4px 8px;border-radius:6px;cursor:pointer;outline:none;">
-          <option value="">All Contractors</option><option value="abc">Contractor ABC</option><option value="xyz">Contractor XYZ</option><option value="def">Contractor DEF</option>
-        </select>
-        <select id="ctrl-level-filter" onchange="ctrlApplyFilters()" style="background:var(--card);border:1px solid var(--border);color:var(--t2);font-family:var(--fb);font-size:11px;padding:4px 8px;border-radius:6px;cursor:pointer;outline:none;">
-          <option value="">All Levels</option><option value="L1">L1 — Activity Head</option><option value="L2">L2 — Project Head</option><option value="L3">L3 — Sector Head</option><option value="L4">L4 — HO HSE</option><option value="L5">L5 — CEO</option>
-        </select>
-        <select id="ctrl-period-filter" onchange="ctrlApplyFilters()" style="background:var(--card);border:1px solid var(--border);color:var(--t2);font-family:var(--fb);font-size:11px;padding:4px 8px;border-radius:6px;cursor:pointer;outline:none;">
-          <option value="7">Last 7 Days</option><option value="30" selected>Last 30 Days</option><option value="90">Last 90 Days</option>
-        </select>
-        <button onclick="ctrlExport()" style="background:var(--card);border:1px solid var(--border);color:var(--t2);font-family:var(--fh);font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap;">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Export PDF
-        </button>
-        <div style="flex:1;"></div>
-        <button onclick="ctrlResolveAll()" style="background:rgba(16, 185, 129, .12);border:1px solid rgba(16, 185, 129, .3);color:#10B981;font-family:var(--fh);font-size:11px;font-weight:700;padding:5px 12px;border-radius:6px;cursor:pointer;white-space:nowrap;">✓ Resolve Selected</button>
-        <button onclick="ctrlEscalateAll()" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#EF4444;font-family:var(--fh);font-size:11px;font-weight:700;padding:5px 12px;border-radius:6px;cursor:pointer;white-space:nowrap;">↑ Escalate All</button>
-      </div>
+  <div class="sub-header">
+
+  <!-- ROW 1: Page Identity -->
+  <div class="sp-page-identity" data-page="control">
+    <div class="sp-page-identity-left">
+      <nav class="sp-page-breadcrumb">
+        <a href="/safetypro_v2">Home</a>
+        <span class="sp-page-breadcrumb-separator">/</span>
+        <a href="/safetypro_v2">Dashboard</a>
+      </nav>
+      <h1 class="sp-page-title">Control</h1>
     </div>
+    <div class="sp-page-identity-right">
+      <button class="sp-page-action" onclick="window.open('https://docs.safetyproworld.com/control','_blank')">? Help</button>
+      <button class="sp-page-action" onclick="ctrlResolveAll()">✓ Resolve Selected</button>
+      <button class="sp-page-action sp-page-action--primary" onclick="ctrlEscalateAll()">↑ Escalate All</button>
+    </div>
+  </div>
+
+  <!-- ROW 2: Scope Filters -->
+  <div class="sp-scope-filters">
+    <label class="sp-scope-select sp-scope-select--org">
+      <span class="sp-scope-select-label">Org</span>
+      <select id="ctrl-org-filter" onchange="if(typeof ctrlApplyFilters==='function')ctrlApplyFilters()">
+        <option value="">All Orgs</option>
+        <option value="ieccl">IECCL - IL&amp;FS Engineering</option>
+      </select>
+    </label>
+    <label class="sp-scope-select sp-scope-select--bu">
+      <span class="sp-scope-select-label">BU</span>
+      <select id="ctrl-bu-filter" onchange="if(typeof ctrlApplyFilters==='function')ctrlApplyFilters()">
+        <option value="">All Units</option>
+        <option value="civil">Civil</option>
+        <option value="mep">MEP</option>
+        <option value="commissioning">Commissioning</option>
+      </select>
+    </label>
+    <label class="sp-scope-select sp-scope-select--project">
+      <span class="sp-scope-select-label">Project</span>
+      <select id="ctrl-project-filter" onchange="ctrlApplyFilters()">
+        <option value="">All Projects</option>
+        <option value="proj-a">Project A</option>
+        <option value="proj-b">Project B</option>
+        <option value="proj-c">Project C</option>
+        <option value="proj-d">Project D</option>
+      </select>
+    </label>
+    <label class="sp-scope-select sp-scope-select--contractor">
+      <span class="sp-scope-select-label">Contractor</span>
+      <select id="ctrl-contractor-filter" onchange="ctrlApplyFilters()">
+        <option value="">All Contractors</option>
+        <option value="abc">Contractor ABC</option>
+        <option value="xyz">Contractor XYZ</option>
+        <option value="def">Contractor DEF</option>
+        <option value="ghi">Contractor GHI</option>
+      </select>
+    </label>
+    <label class="sp-scope-select sp-scope-select--standard">
+      <span class="sp-scope-select-label">Risk Level</span>
+      <select id="ctrl-level-filter" onchange="ctrlApplyFilters()">
+        <option value="">All Levels</option>
+        <option value="L1">L1 — Activity Head</option>
+        <option value="L2">L2 — Project Head</option>
+        <option value="L3">L3 — Sector Head</option>
+      </select>
+    </label>
+    <label class="sp-scope-select sp-scope-select--period">
+      <span class="sp-scope-select-label">Period</span>
+      <select id="ctrl-period-filter" onchange="ctrlApplyFilters()">
+        <option value="7">Last 7 Days</option>
+        <option value="30" selected>Last 30 Days</option>
+        <option value="90">Last 90 Days</option>
+        <option value="ytd">Year to Date</option>
+      </select>
+    </label>
+    <input class="sp-scope-search" type="search" placeholder="Search escalations, actions, accountability..." oninput="if(typeof ctrlApplyFilters==='function')ctrlApplyFilters()">
+  </div>
+
+  <!-- ROW 3: Module Tabs (preserves all existing onclick handlers) -->
+  <div class="sh-left">
+    <div class="sh-title">Control</div>
+    <div class="sh-tabs" id="sh-tabs-scroll">
+      <div class="sh-tab active" onclick="ctrlSwitchTab(this,'escalations')">Escalations<span style="display:inline-flex;align-items:center;justify-content:center;background:var(--coral);color:#fff;font-size:8px;font-weight:700;min-width:14px;height:14px;padding:0 3px;border-radius:7px;margin-left:4px;">5</span></div>
+      <div class="sh-tab" onclick="ctrlSwitchTab(this,'overdue')">Overdue Tracker<span style="display:inline-flex;align-items:center;justify-content:center;background:var(--gold);color:#fff;font-size:8px;font-weight:700;min-width:14px;height:14px;padding:0 3px;border-radius:7px;margin-left:4px;">12</span></div>
+      <div class="sh-tab" onclick="ctrlSwitchTab(this,'accountability')">Accountability</div>
+      <div class="sh-tab" onclick="ctrlSwitchTab(this,'team')">Team Manager</div>
+      <div class="sh-tab" onclick="ctrlSwitchTab(this,'scenario')">Scenario Planner</div>
+      <div class="sh-tab" onclick="ctrlSwitchTab(this,'livefeed')">Live Feed<span style="display:inline-flex;align-items:center;justify-content:center;background:var(--sage);color:#fff;font-size:8px;font-weight:700;padding:0 5px;height:14px;border-radius:7px;margin-left:4px;">LIVE</span></div>
+      <div class="sh-tab" onclick="ctrlSwitchTab(this,'analytics')">Analytics</div>
+      <div class="sh-tab" onclick="ctrlSwitchTab(this,'objectives')">Objectives &amp; Targets</div>
+    </div>
+  </div>
+
+
+</div>
+
+  <!-- ROW 4: Sub-Tabs (workflow stages per main tab) — outside sub-header per Option C -->
+  <style>
+    .ac-sub-tabs-wrapper{padding:0;background:transparent;overflow:hidden}
+    .ac-sub-tabs-wrapper .ac-sub-tabs{display:none;gap:0;padding:0;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+    .ac-sub-tabs-wrapper .ac-sub-tabs::-webkit-scrollbar{display:none}
+    .ac-sub-tabs-wrapper[data-active="escalations"]   .ac-sub-tabs[data-parent="escalations"],
+    .ac-sub-tabs-wrapper[data-active="overdue"]       .ac-sub-tabs[data-parent="overdue"],
+    .ac-sub-tabs-wrapper[data-active="accountability"].ac-sub-tabs[data-parent="accountability"],
+    .ac-sub-tabs-wrapper[data-active="accountability"] .ac-sub-tabs[data-parent="accountability"],
+    .ac-sub-tabs-wrapper[data-active="team"]          .ac-sub-tabs[data-parent="team"],
+    .ac-sub-tabs-wrapper[data-active="scenario"]      .ac-sub-tabs[data-parent="scenario"],
+    .ac-sub-tabs-wrapper[data-active="livefeed"]      .ac-sub-tabs[data-parent="livefeed"],
+    .ac-sub-tabs-wrapper[data-active="analytics"]     .ac-sub-tabs[data-parent="analytics"],
+    .ac-sub-tabs-wrapper[data-active="objectives"]    .ac-sub-tabs[data-parent="objectives"]{display:flex}
+    .ac-sub-tabs-wrapper .ac-sub-tab{padding:7px 14px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;flex-shrink:0;font-family:var(--sp-font-sans,'Inter',sans-serif)}
+    .ac-sub-tabs-wrapper .ac-sub-tab:hover{color:var(--t1)}
+    .ac-sub-tabs-wrapper .ac-sub-tab.active{color:var(--rust);border-bottom-color:var(--rust);font-weight:600}
+  </style>
+  <div class="ac-sub-tabs-wrapper" id="ctrl-sub-tabs-wrapper" data-active="escalations">
+    <div class="ac-sub-tabs" data-parent="escalations">
+      <div class="ac-sub-tab active" onclick="ctrlSubTabSwitch(this)">Live</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">Pending Action</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">SLA Breach</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">History</div>
+    </div>
+    <div class="ac-sub-tabs" data-parent="overdue">
+      <div class="ac-sub-tab active" onclick="ctrlSubTabSwitch(this)">All</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">Today</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">This Week</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">This Month</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">By Owner</div>
+    </div>
+    <div class="ac-sub-tabs" data-parent="accountability">
+      <div class="ac-sub-tab active" onclick="ctrlSubTabSwitch(this)">By Person</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">By Role</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">By Project</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">Trend</div>
+    </div>
+    <div class="ac-sub-tabs" data-parent="team">
+      <div class="ac-sub-tab active" onclick="ctrlSubTabSwitch(this)">All</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">Active</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">Inactive</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">By Role</div>
+    </div>
+    <div class="ac-sub-tabs" data-parent="scenario">
+      <div class="ac-sub-tab active" onclick="ctrlSubTabSwitch(this)">Active</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">Past</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">Templates</div>
+    </div>
+    <div class="ac-sub-tabs" data-parent="livefeed">
+      <div class="ac-sub-tab active" onclick="ctrlSubTabSwitch(this)">Today</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">This Week</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">All Time</div>
+    </div>
+    <div class="ac-sub-tabs" data-parent="analytics">
+      <div class="ac-sub-tab active" onclick="ctrlSubTabSwitch(this)">Trend</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">Comparison</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">Forecast</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">KPIs</div>
+    </div>
+    <div class="ac-sub-tabs" data-parent="objectives">
+      <div class="ac-sub-tab active" onclick="ctrlSubTabSwitch(this)">Active</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">Achieved</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">Pending</div>
+      <div class="ac-sub-tab" onclick="ctrlSubTabSwitch(this)">Templates</div>
+    </div>
+  </div>
+  <script>
+    (function(){
+      window.ctrlSubTabSwitch=function(el){
+        var set=el.parentElement;
+        if(set)set.querySelectorAll('.ac-sub-tab').forEach(function(t){t.classList.remove('active')});
+        el.classList.add('active');
+      };
+      function bindCtrlMainTabs(){
+        var wrapper=document.getElementById('ctrl-sub-tabs-wrapper');
+        if(!wrapper)return;
+        var tabs=document.querySelectorAll('.sh-tabs .sh-tab');
+        tabs.forEach(function(tab){
+          tab.addEventListener('click',function(){
+            var onclick=this.getAttribute('onclick')||'';
+            var m=onclick.match(/ctrlSwitchTab\(this,\s*['"]([^'"]+)['"]\)/);
+            if(m&&m[1])wrapper.setAttribute('data-active',m[1]);
+          });
+        });
+      }
+      if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bindCtrlMainTabs)}else{bindCtrlMainTabs()}
+    })();
+  </script>
+  <!-- ROW 4: Per-Tab Filter Bar -->
+  <div class="sp-row4 sp-row4--control">
+    <div class="sp-row4-filters">
+      <label class="sp-row4-filter">
+        <span class="sp-row4-filter-label">Status</span>
+        <select onchange="if(typeof ctrlApplyFilters==='function')ctrlApplyFilters()">
+          <option value="">All Statuses</option>
+          <option value="open">Open</option>
+          <option value="acknowledged">Acknowledged</option>
+          <option value="in-progress">In Progress</option>
+          <option value="resolved">Resolved</option>
+        </select>
+      </label>
+      <label class="sp-row4-filter">
+        <span class="sp-row4-filter-label">Severity</span>
+        <select onchange="if(typeof ctrlApplyFilters==='function')ctrlApplyFilters()">
+          <option value="">All Severities</option>
+          <option value="critical">Critical</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </label>
+      <label class="sp-row4-filter">
+        <span class="sp-row4-filter-label">Owner</span>
+        <select onchange="if(typeof ctrlApplyFilters==='function')ctrlApplyFilters()">
+          <option value="">All Owners</option>
+          <option value="me">Assigned to Me</option>
+          <option value="team">My Team</option>
+        </select>
+      </label>
+    </div>
+    <div class="sp-row4-actions">
+      <button class="sp-row4-btn sp-row4-btn--clear" onclick="if(typeof ctrlClearFilters==='function')ctrlClearFilters()">✕ Clear</button>
+      <button class="sp-row4-btn sp-row4-btn--export" onclick="ctrlExport()">↓ Export</button>
+    </div>
+  </div>
+
 
   <div class="main">
 
@@ -2705,7 +2969,7 @@ document.addEventListener('click',function(e){
 <!-- ══ STANDARD FOOTER ══ -->
 <footer class="sp-footer">
   <div class="sp-footer-left">
-    <span>&#169; 2026 OpsLix</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF)">Control</span>
+    <span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF)">Control</span>
     <span class="sp-footer-sep">|</span>
     <span id="sp-footer-version">v1.3.2</span>
     <span class="sp-footer-sep">|</span>
@@ -3380,7 +3644,7 @@ body .ua, body .user-pill .ua {
 }
 /* Hamburger menu spans (if any have green) */
 body .sb-toggle span, body .menu-toggle span { background: currentColor !important; }
-</style><script src="sp-shell.js?v=8"></script>
+</style><script src="sp-shell.js?v=11"></script>
 <script src="sp-charts.js?v=7"></script>
 <script src="sp-dynamic-states.js?v=5"></script>
 </body>

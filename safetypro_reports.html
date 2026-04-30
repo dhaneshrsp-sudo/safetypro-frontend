@@ -987,8 +987,255 @@ window.switchTab = function(el, tabId){
 .topnav{border-top:1px solid rgb(51, 65, 85)!important;}
 .sp-footer{border-bottom:1px solid rgb(51, 65, 85)!important;}
 </style>
-<link rel="stylesheet" href="sp-shell.css?v=60">
-</head>
+<link rel="stylesheet" href="opslix-shell.css?v=19">
+
+<!-- Topnav projection shadow fix (match Audit's flat appearance) -->
+<style id="topnav-shadow-fix">
+  html body nav.topnav,
+  html body .topnav { box-shadow: none !important }
+</style>
+<!-- Compaction CSS (Option C) -->
+<style id="opslix-rpt-compact-rows">
+  html body .sub-header .sp-page-identity { padding: 4px 16px !important; min-height: 32px !important }
+  html body .sub-header .sp-page-identity .sp-page-title { font-size: 16px !important; line-height: 1.3 !important; margin: 0 !important }
+  html body .sub-header .sp-scope-filters { padding: 4px 16px !important; min-height: 32px !important; gap: 6px !important }
+  html body .sub-header .sh-left { padding: 0 16px !important }
+  html body .sub-header .sh-tabs { padding: 0 !important }
+  html body .sub-header .sh-tab { padding: 6px 14px !important }
+  html body .ac-sub-tabs-wrapper { padding: 0 16px !important }
+  html body .sp-row4 { padding: 4px 16px !important; min-height: 34px !important }
+  html body .sp-row4-filter-label { font-size: 9px !important }
+</style>
+<!-- OPSLIX_PP_DEDUP_V2_APPLIED at 20260427150022 -->
+
+<!-- OPSLIX_TRIPLE_FIX: Monthly Reports #mhse-app dark theme override -->
+<style id="opslix-monthly-theme-fix">
+  /* Override #mhse-app dark theme — convert to OpsLix cream/ink */
+  html body #mhse-app * { font-family: var(--sp-font-sans, 'Inter', sans-serif) !important }
+  html body #mhse-app [style*="background:#0d1420"],
+  html body #mhse-app [style*="background: #0d1420"],
+  html body #mhse-app [style*="background:#0D1420"],
+  html body #mhse-app [style*="background:#131c26"],
+  html body #mhse-app [style*="background: #131c26"],
+  html body #mhse-app [style*="background:#131C26"],
+  html body #mhse-app [style*="background:#1e293b"],
+  html body #mhse-app [style*="background: #1e293b"],
+  html body #mhse-app [style*="background:#1E293B"],
+  html body #mhse-app [style*="background:#1e3a5f"],
+  html body #mhse-app [style*="background: #1e3a5f"],
+  html body #mhse-app [style*="background:#1E3A5F"],
+  html body #mhse-app [style*="background:rgb(13"],
+  html body #mhse-app [style*="background:rgb(19"],
+  html body #mhse-app [style*="background:rgb(30"] {
+    background: var(--card) !important;
+    color: var(--t1) !important;
+    border: 1px solid var(--border) !important;
+  }
+  html body #mhse-app [style*="color:#e5e7eb"],
+  html body #mhse-app [style*="color: #e5e7eb"],
+  html body #mhse-app [style*="color:#f3f4f6"],
+  html body #mhse-app [style*="color: #f3f4f6"],
+  html body #mhse-app [style*="color:#fff"],
+  html body #mhse-app [style*="color: #fff"],
+  html body #mhse-app [style*="color:#FFFFFF"],
+  html body #mhse-app [style*="color: #FFFFFF"] {
+    color: var(--t1) !important;
+  }
+  /* Convert legacy emerald/blue/amber to OpsLix sage/info/gold */
+  html body #mhse-app [style*="background:#10b981"],
+  html body #mhse-app [style*="background: #10b981"],
+  html body #mhse-app [style*="background:#10B981"] {
+    background: var(--sage) !important; color: #fff !important;
+  }
+  html body #mhse-app [style*="background:#3b82f6"],
+  html body #mhse-app [style*="background: #3b82f6"],
+  html body #mhse-app [style*="background:#3B82F6"] {
+    background: var(--info) !important; color: #fff !important;
+  }
+  html body #mhse-app [style*="background:#f59e0b"],
+  html body #mhse-app [style*="background: #f59e0b"],
+  html body #mhse-app [style*="background:#F59E0B"] {
+    background: var(--gold) !important; color: #fff !important;
+  }
+  /* Catch-all class-based overrides for known mhse classes */
+  html body #mhse-app .mhse-card,
+  html body #mhse-app .mhse-section,
+  html body #mhse-app .mhse-section-header,
+  html body #mhse-app .mhse-sidebar,
+  html body #mhse-app .mhse-content,
+  html body #mhse-app .mhse-block,
+  html body #mhse-app .mhse-panel,
+  html body #mhse-app [class*="mhse-bg"],
+  html body #mhse-app [class*="mhse-dark"] {
+    background: var(--card) !important;
+    color: var(--t1) !important;
+    border: 1px solid var(--border) !important;
+  }
+</style>
+<!-- OPSLIX_TRIPLE_FIX_APPLIED at 20260427154732 (source: safetypro_reports.html.ppDedupV220260427150022.bak) -->
+
+<!-- OPSLIX Schema 1 (Cream Paper) — Monthly Reports comprehensive override -->
+<style id="opslix-schema1-monthly">
+  html body #tab-monthly, html body #mhse-app {
+    background: var(--bg) !important; color: var(--t1) !important;
+  }
+  html body #tab-monthly .card, html body #tab-monthly .panel, html body #tab-monthly .section,
+  html body #mhse-app .card, html body #mhse-app .panel, html body #mhse-app .section,
+  html body #mhse-app > div {
+    background: var(--card) !important; color: var(--t1) !important; border-color: var(--border) !important;
+  }
+  html body #tab-monthly aside, html body #tab-monthly [class*="sidebar"], html body #tab-monthly [class*="-side"],
+  html body #mhse-app aside, html body #mhse-app [class*="sidebar"] {
+    background: var(--raised) !important; color: var(--t1) !important;
+    border-right: 1px solid var(--border) !important;
+  }
+  html body #tab-monthly *[style*="#0d"], html body #tab-monthly *[style*="#0D"],
+  html body #tab-monthly *[style*="#0f"], html body #tab-monthly *[style*="#0F"],
+  html body #tab-monthly *[style*="#13"], html body #tab-monthly *[style*="#1c"],
+  html body #tab-monthly *[style*="#1C"], html body #tab-monthly *[style*="#1e"],
+  html body #tab-monthly *[style*="#1E"], html body #tab-monthly *[style*="rgb(13"],
+  html body #tab-monthly *[style*="rgb(15"], html body #tab-monthly *[style*="rgb(19"],
+  html body #tab-monthly *[style*="rgb(30"] {
+    background: var(--card) !important; color: var(--t1) !important; border-color: var(--border) !important;
+  }
+  html body #tab-monthly *[style*="color:#fff"], html body #tab-monthly *[style*="color: #fff"],
+  html body #tab-monthly *[style*="color:#FFF"], html body #tab-monthly *[style*="color:white"],
+  html body #tab-monthly *[style*="color:#e"], html body #tab-monthly *[style*="color:#E"],
+  html body #tab-monthly *[style*="color:#f3"], html body #tab-monthly *[style*="color:#f4"] {
+    color: var(--t1) !important;
+  }
+  html body #tab-monthly *[style*="background:#10b981"], html body #tab-monthly *[style*="background: #10b981"],
+  html body #tab-monthly *[style*="background:#10B981"] { background: var(--sage) !important; color: #fff !important }
+  html body #tab-monthly *[style*="background:#3b82f6"], html body #tab-monthly *[style*="background: #3b82f6"],
+  html body #tab-monthly *[style*="background:#3B82F6"] { background: var(--info) !important; color: #fff !important }
+  html body #tab-monthly *[style*="background:#f59e0b"], html body #tab-monthly *[style*="background: #f59e0b"],
+  html body #tab-monthly *[style*="background:#F59E0B"] { background: var(--gold) !important; color: #fff !important }
+  html body #tab-monthly *[style*="background:#ef4444"], html body #tab-monthly *[style*="background: #ef4444"] { background: var(--coral) !important; color: #fff !important }
+  html body #tab-monthly h1, html body #tab-monthly h2, html body #tab-monthly h3, html body #tab-monthly h4 {
+    color: var(--t1) !important;
+  }
+  html body #tab-monthly [class*="active"], html body #tab-monthly .selected, html body #tab-monthly [aria-selected="true"] {
+    background: var(--sage-soft) !important; color: var(--sage) !important; border-left: 3px solid var(--sage) !important;
+  }
+</style>
+
+<!-- OPSLIX Schema 1 — Runtime theme converter (catches class-based dark elements) -->
+<script id="opslix-schema1-converter">
+(function(){
+  var converted = new WeakSet();
+  function convertElement(el) {
+    if (converted.has(el)) return;
+    var cs = getComputedStyle(el);
+    var bg = cs.backgroundColor;
+    var bgM = bg.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (bgM) {
+      var r = +bgM[1], g = +bgM[2], b = +bgM[3];
+      if (r<60 && g<60 && b<100) {
+        el.style.setProperty('background-color', '#FFFFFF', 'important');
+        el.style.setProperty('color', '#1F1B17', 'important');
+        el.style.setProperty('border-color', '#D8D2C4', 'important');
+      }
+    }
+    var color = cs.color;
+    var colorM = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (colorM) {
+      var r2 = +colorM[1], g2 = +colorM[2], b2 = +colorM[3];
+      if (r2>200 && g2>200 && b2>200 && bg !== 'rgba(0, 0, 0, 0)') {
+        el.style.setProperty('color', '#1F1B17', 'important');
+      }
+    }
+    converted.add(el);
+  }
+  function processMonthlyPanel() {
+    var panel = document.getElementById('tab-monthly');
+    if (!panel) return;
+    panel.querySelectorAll('*').forEach(convertElement);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', processMonthlyPanel);
+  } else { processMonthlyPanel(); }
+  document.addEventListener('click', function(e) {
+    var tab = e.target.closest('.sh-tab');
+    if (tab && tab.textContent.trim() === 'Monthly Reports') {
+      setTimeout(processMonthlyPanel, 100);
+      setTimeout(processMonthlyPanel, 500);
+    }
+  }, true);
+  if (document.body) {
+    var obs = new MutationObserver(function() {
+      var p = document.getElementById('tab-monthly');
+      if (p && getComputedStyle(p).display !== 'none') processMonthlyPanel();
+    });
+    obs.observe(document.body, {childList: true, subtree: true});
+  }
+})();
+</script>
+<!-- OPSLIX_SCHEMA1_APPLIED at 20260427160505 -->
+<style data-marker="OPSLIX_FILTER_DRAG_SCROLL_V1">
+.sp-scope-filters,.sp-row4-filters,.ac-sub-tabs{user-select:none;-webkit-user-select:none}
+.sp-scope-filters.opslix-no-drag,.sp-row4-filters.opslix-no-drag,.ac-sub-tabs.opslix-no-drag{cursor:default !important}
+.sp-scope-filters.opslix-grabbing,.sp-row4-filters.opslix-grabbing,.ac-sub-tabs.opslix-grabbing{cursor:grabbing !important}
+</style>
+<script data-marker="OPSLIX_FILTER_DRAG_SCROLL_V1">
+(function(){
+if(window.__OPSLIX_FILTER_DRAG_INIT__)return;
+window.__OPSLIX_FILTER_DRAG_INIT__=true;
+var SELECTORS=['.sp-scope-filters','.sp-row4-filters','.ac-sub-tabs'];
+var DRAG_THRESHOLD=5;
+function isInteractive(t){
+if(!t)return false;
+var el=t.nodeType===1?t:t.parentElement;
+while(el&&el.tagName){
+var tag=el.tagName;
+if(tag==='SELECT'||tag==='BUTTON'||tag==='INPUT'||tag==='TEXTAREA'||tag==='A'||tag==='LABEL')return true;
+if(el.getAttribute('role')==='button'||el.getAttribute('contenteditable')==='true')return true;
+if(el.classList&&(el.classList.contains('sp-scope-filters')||el.classList.contains('sp-row4-filters')||el.classList.contains('ac-sub-tabs')))break;
+el=el.parentElement;
+}
+return false;
+}
+function attach(el){
+if(el.dataset.opslixDrag==='v1')return;
+el.dataset.opslixDrag='v1';
+var canScroll=el.scrollWidth>el.clientWidth;
+if(!canScroll){el.classList.add('opslix-no-drag');return;}
+el.classList.remove('opslix-no-drag');
+el.style.cursor='grab';
+var down=false,startX=0,startScroll=0,moved=false,suppressClick=false;
+el.addEventListener('mousedown',function(e){
+if(e.button!==0)return;
+if(isInteractive(e.target))return;
+down=true;moved=false;suppressClick=false;
+startX=e.pageX;startScroll=el.scrollLeft;
+});
+window.addEventListener('mousemove',function(e){
+if(!down)return;
+var dx=e.pageX-startX;
+if(!moved&&Math.abs(dx)<DRAG_THRESHOLD)return;
+if(!moved){moved=true;el.classList.add('opslix-grabbing');}
+e.preventDefault();
+el.scrollLeft=startScroll-dx;
+});
+window.addEventListener('mouseup',function(e){
+if(!down)return;
+down=false;
+if(moved){el.classList.remove('opslix-grabbing');suppressClick=true;setTimeout(function(){suppressClick=false;},50);}
+});
+el.addEventListener('click',function(e){if(suppressClick){e.stopPropagation();e.preventDefault();}},true);
+if(typeof ResizeObserver!=='undefined'){
+var ro=new ResizeObserver(function(){
+var canNow=el.scrollWidth>el.clientWidth;
+if(canNow){el.classList.remove('opslix-no-drag');el.style.cursor='grab';}
+else{el.classList.add('opslix-no-drag');el.style.cursor='';}
+});
+ro.observe(el);
+}
+}
+function applyAll(){SELECTORS.forEach(function(sel){document.querySelectorAll(sel).forEach(attach);});}
+function init(){applyAll();var obs=new MutationObserver(function(){applyAll();});obs.observe(document.body,{childList:true,subtree:true});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script></head>
 <script>
 window.openInvReportModal = function(id, desc, type) {
   var modal = document.getElementById('inv-report-modal');
@@ -1119,15 +1366,91 @@ window.closeInvModal = function() {
 
 <!-- CONTENT -->
 <div class="content">
-  <div class="sub-header" style="flex-direction:column;align-items:stretch;padding:0;gap:0;height:auto!important;min-height:auto!important;overflow:visible!important;">
-  <!-- ROW 1: Title + scrollable tabs -->
-  <div style="display:flex;align-items:center;gap:0;padding:0 16px;height:40px;flex-shrink:0;">
-    <span style="font-family:var(--fh);font-size:15px;font-weight:700;color:var(--t1);white-space:nowrap;flex-shrink:0;padding-right:12px;">Reports</span>
-    <span style="width:1px;height:16px;background:var(--border);flex-shrink:0;margin-right:8px;"></span>
-    <div id="rpt-tabs-scroll" style="flex:1;min-width:0;display:flex;align-items:center;gap:2px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-behavior:smooth;">
+  <div class="sub-header">
+
+  <!-- ROW 1: Page Identity -->
+  <div class="sp-page-identity" data-page="reports">
+    <div class="sp-page-identity-left">
+      <nav class="sp-page-breadcrumb">
+        <a href="/safetypro_v2">Home</a>
+        <span class="sp-page-breadcrumb-separator">/</span>
+        <a href="/safetypro_v2">Dashboard</a>
+      </nav>
+      <h1 class="sp-page-title">Reports</h1>
+    </div>
+    <div class="sp-page-identity-right">
+      <button class="sp-page-action" onclick="window.open('https://docs.safetyproworld.com/reports','_blank')">? Help</button>
+      <button class="sp-page-action sp-page-action--primary" onclick="rptToggleExport()">↓ Export</button>
+    </div>
+  </div>
+
+  <!-- ROW 2: Scope Filters -->
+  <div class="sp-scope-filters">
+    <label class="sp-scope-select sp-scope-select--org">
+      <span class="sp-scope-select-label">Org</span>
+      <select id="rpt-org" onchange="rptApplyFilters()">
+        <option value="">All Companies</option>
+        <option value="ieccl">IL&amp;FS Engineering (IECCL)</option>
+        <option value="abc">Contractor ABC</option>
+        <option value="xyz">Contractor XYZ</option>
+      </select>
+    </label>
+    <label class="sp-scope-select sp-scope-select--bu">
+      <span class="sp-scope-select-label">BU</span>
+      <select id="rpt-bu" onchange="if(typeof rptApplyFilters==='function')rptApplyFilters()">
+        <option value="">All Units</option>
+        <option value="civil">Civil</option>
+        <option value="mep">MEP</option>
+        <option value="commissioning">Commissioning</option>
+      </select>
+    </label>
+    <label class="sp-scope-select sp-scope-select--project">
+      <span class="sp-scope-select-label">Project</span>
+      <select id="rpt-project" onchange="rptApplyFilters()">
+        <option value="">All Projects</option>
+        <option value="bbrp">Birpur Bihpur Road (NH131)</option>
+        <option value="alpha">Site Alpha - Mumbai Metro</option>
+        <option value="tirora">Tirora Power Plant</option>
+      </select>
+    </label>
+    <label class="sp-scope-select sp-scope-select--region">
+      <span class="sp-scope-select-label">Zone</span>
+      <select id="rpt-zone" onchange="rptApplyFilters()">
+        <option value="">All Zones</option>
+        <option value="A">Zone A</option>
+        <option value="B">Zone B</option>
+        <option value="C">Zone C</option>
+      </select>
+    </label>
+    <label class="sp-scope-select sp-scope-select--standard">
+      <span class="sp-scope-select-label">Standard</span>
+      <select id="rpt-standard" onchange="rptApplyFilters()">
+        <option value="">All Standards</option>
+        <option value="iso45001">ISO 45001:2018</option>
+        <option value="iso14001">ISO 14001:2015</option>
+        <option value="iso9001">ISO 9001:2015</option>
+      </select>
+    </label>
+    <label class="sp-scope-select sp-scope-select--period">
+      <span class="sp-scope-select-label">Period</span>
+      <select id="rpt-period" onchange="rptApplyFilters()">
+        <option value="mar2026">March 2026</option>
+        <option value="feb2026">February 2026</option>
+        <option value="jan2026">January 2026</option>
+        <option value="q12026">Q1 2026</option>
+        <option value="ytd">Year to Date</option>
+      </select>
+    </label>
+    <input class="sp-scope-search" type="search" placeholder="Search reports...">
+  </div>
+
+  <!-- ROW 3: Main Tabs (14 tabs) -->
+  <div class="sh-left">
+    <div class="sh-title">Reports</div>
+    <div class="sh-tabs" id="sh-tabs-scroll">
       <div class="sh-tab active" onclick="rptTab(this,'stats')">Statistics</div>
       <div class="sh-tab" onclick="rptTab(this,'monthly')">Monthly Reports</div>
-      <div class="sh-tab" onclick="rptTab(this,'annual')">Annual HSE Report<span style="background:#10B981;color:#000;font-size:7px;font-weight:700;padding:0 4px;border-radius:3px;margin-left:4px;">NEW</span></div>
+      <div class="sh-tab" onclick="rptTab(this,'annual')">Annual HSE Report<span style="display:inline-flex;align-items:center;justify-content:center;background:var(--sage);color:#fff;font-size:8px;font-weight:700;padding:0 5px;height:14px;border-radius:7px;margin-left:4px;">NEW</span></div>
       <div class="sh-tab" onclick="rptTab(this,'ncrsummary')">NCR Summary</div>
       <div class="sh-tab" onclick="rptTab(this,'inspection')">Inspection Summary</div>
       <div class="sh-tab" onclick="rptTab(this,'contractor')">Contractor Performance</div>
@@ -1141,45 +1464,178 @@ window.closeInvModal = function() {
       <div class="sh-tab" onclick="rptTab(this,'scheduled')">Scheduled Delivery</div>
     </div>
   </div>
-  <!-- ROW 2: Multi-tenant filters + export -->
-  <div id="rpt-filter-bar" style="border-top:1px solid var(--border);background:var(--raised);flex-shrink:0;position:relative;padding-right:150px;">
-    <div id="fbar-fade-left" style="display:none;position:absolute;left:0;top:0;bottom:0;width:28px;background:linear-gradient(to right,var(--raised),transparent);z-index:10;pointer-events:none;"></div>
-    <div id="fbar-fade-right" style="display:none;position:absolute;right:140px;top:0;bottom:0;width:28px;background:linear-gradient(to left,var(--raised),transparent);z-index:10;pointer-events:none;"></div>
-    <button id="fbar-btn-l" onclick="fbarScroll(-1)" style="display:none;position:absolute;left:2px;top:50%;transform:translateY(-50%);z-index:20;background:var(--card);border:1px solid var(--border);color:var(--t2);width:20px;height:20px;border-radius:4px;cursor:pointer;font-size:11px;">&#8249;</button>
-    <div id="fbar-scroll" style="display:flex;align-items:center;gap:5px;padding:5px 14px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;flex-wrap:nowrap;" onscroll="fbarUpdateScroll()">
-      <span style="flex-shrink:0;font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:3px;white-space:nowrap;"><span style="width:5px;height:5px;background:var(--green);border-radius:50%;display:inline-block;"></span>FILTER</span>
-      <div style="width:1px;height:16px;background:var(--border);flex-shrink:0;"></div>
-      <div style="flex-shrink:0;"><div style="font-size:8px;color:var(--t3);font-weight:600;margin-bottom:1px;text-transform:uppercase;">Company</div><select id="rpt-org" onchange="rptApplyFilters()" style="background:var(--card);border:1px solid var(--border);color:var(--t1);font-size:11px;padding:3px 8px;border-radius:5px;cursor:pointer;outline:none;min-width:140px;"><option value="">All Companies</option><option value="ieccl">IL&amp;FS Engineering (IECCL)</option><option value="abc">Contractor ABC</option><option value="xyz">Contractor XYZ</option></select></div>
-      <div style="flex-shrink:0;"><div style="font-size:8px;color:var(--t3);font-weight:600;margin-bottom:1px;text-transform:uppercase;">Project</div><select id="rpt-project" onchange="rptApplyFilters()" style="background:var(--card);border:1px solid var(--border);color:var(--t1);font-size:11px;padding:3px 8px;border-radius:5px;cursor:pointer;outline:none;min-width:150px;"><option value="">All Projects</option><option value="bbrp">Birpur Bihpur Road (NH131)</option><option value="alpha">Site Alpha - Mumbai Metro</option><option value="tirora">Tirora Power Plant</option><option value="brahmapur">Brahmapur WTP</option></select></div>
-      <div style="flex-shrink:0;"><div style="font-size:8px;color:var(--t3);font-weight:600;margin-bottom:1px;text-transform:uppercase;">Zone/Area</div><select id="rpt-zone" onchange="rptApplyFilters()" style="background:var(--card);border:1px solid var(--border);color:var(--t1);font-size:11px;padding:3px 8px;border-radius:5px;cursor:pointer;outline:none;min-width:110px;"><option value="">All Zones</option><option value="zone-a">Zone A</option><option value="zone-b">Zone B</option><option value="zone-c">Zone C</option><option value="camp">Labour Camp</option></select></div>
-      <div style="flex-shrink:0;"><div style="font-size:8px;color:var(--t3);font-weight:600;margin-bottom:1px;text-transform:uppercase;">Period</div><select id="rpt-period" onchange="rptApplyFilters()" style="background:var(--card);border:1px solid var(--border);color:var(--t1);font-size:11px;padding:3px 8px;border-radius:5px;cursor:pointer;outline:none;min-width:120px;"><option value="mar26">March 2026</option><option value="feb26">February 2026</option><option value="jan26">January 2026</option><option value="q1-26">Q1 2026</option><option value="q4-25">Q4 2025</option><option value="fy26">FY 2025-26</option></select></div>
-      <div style="flex-shrink:0;"><div style="font-size:8px;color:var(--t3);font-weight:600;margin-bottom:1px;text-transform:uppercase;">Department</div><select id="rpt-dept" onchange="rptApplyFilters()" style="background:var(--card);border:1px solid var(--border);color:var(--t1);font-size:11px;padding:3px 8px;border-radius:5px;cursor:pointer;outline:none;min-width:105px;"><option value="">All Depts</option><option value="hse">HSE</option><option value="engineering">Engineering</option><option value="quality">Quality</option><option value="hr">HR</option></select></div>
-      <div style="flex-shrink:0;"><div style="font-size:8px;color:var(--t3);font-weight:600;margin-bottom:1px;text-transform:uppercase;">Standard</div><select id="rpt-standard" onchange="rptApplyFilters()" style="background:var(--card);border:1px solid var(--border);color:var(--t1);font-size:11px;padding:3px 8px;border-radius:5px;cursor:pointer;outline:none;min-width:120px;"><option value="">All Standards</option><option value="iso45001">ISO 45001:2018</option><option value="iso14001">ISO 14001:2015</option><option value="iso9001">ISO 9001:2015</option><option value="factory">Factories Act 1948</option><option value="bocw">BOCW Act 1996</option></select></div>
-      <div style="flex-shrink:0;"><div style="font-size:8px;color:var(--t3);font-weight:600;margin-bottom:1px;text-transform:uppercase;">Workforce</div><select id="rpt-workforce" onchange="rptApplyFilters()" style="background:var(--card);border:1px solid var(--border);color:var(--t1);font-size:11px;padding:3px 8px;border-radius:5px;cursor:pointer;outline:none;min-width:105px;"><option value="">All Types</option><option value="direct">Direct Workers</option><option value="contractor">Contractor</option><option value="subcontractor">Sub-contractor</option><option value="staff">Staff</option></select></div>
-      <div style="flex-shrink:0;"><div style="font-size:8px;color:var(--t3);font-weight:600;margin-bottom:1px;text-transform:uppercase;">Severity</div><select id="rpt-severity" onchange="rptApplyFilters()" style="background:var(--card);border:1px solid var(--border);color:var(--t1);font-size:11px;padding:3px 8px;border-radius:5px;cursor:pointer;outline:none;min-width:100px;"><option value="">All Severity</option><option value="fatal">Fatality</option><option value="lti">LTI</option><option value="mtc">MTC</option><option value="nearmiss">Near Miss</option></select></div>
-      <div style="flex-shrink:0;"><div style="font-size:8px;color:var(--t3);font-weight:600;margin-bottom:1px;text-transform:uppercase;">Status</div><select id="rpt-status" onchange="rptApplyFilters()" style="background:var(--card);border:1px solid var(--border);color:var(--t1);font-size:11px;padding:3px 8px;border-radius:5px;cursor:pointer;outline:none;min-width:95px;"><option value="">All Status</option><option value="open">Open</option><option value="inprogress">In Progress</option><option value="closed">Closed</option><option value="overdue">Overdue</option></select></div>
-      <div style="flex-shrink:0;width:6px;"></div>
-      <button onclick="rptClearFilters()" id="rpt-clear-btn" style="display:none;flex-shrink:0;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#EF4444;font-size:10px;font-weight:600;padding:3px 9px;border-radius:5px;cursor:pointer;white-space:nowrap;">x Clear</button>
-    </div>
-    <button id="fbar-btn-r" onclick="fbarScroll(1)" style="display:none;position:absolute;right:142px;top:50%;transform:translateY(-50%);z-index:20;background:var(--card);border:1px solid var(--border);color:var(--t2);width:20px;height:20px;border-radius:4px;cursor:pointer;font-size:11px;">&#8250;</button>
-    <div id="rpt-export-wrap" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);z-index:20;">
-      <button onclick="rptToggleExport()" style="background:var(--green);color:#0B0E12;border:none;font-size:11px;font-weight:700;padding:5px 12px;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Export &#9662;</button>
-      <div id="rpt-export-menu" style="display:none;position:absolute;top:calc(100% + 4px);right:0;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:4px;min-width:155px;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.4);">
-        <div onclick="rptExport('pdf')" style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:5px;cursor:pointer;font-size:11px;color:var(--t1);" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">Export as PDF</div>
-        <div onclick="rptExport('excel')" style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:5px;cursor:pointer;font-size:11px;color:var(--t1);" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">Export as Excel</div>
-        <div onclick="rptExport('print')" style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:5px;cursor:pointer;font-size:11px;color:var(--t2);" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background='transparent'">Print</div>
-      </div>
-    </div>
+
+</div>
+
+<!-- ROW 4: Sub-Tabs (OUTSIDE sub-header — scrolls with content) -->
+<style data-marker="OPSLIX_RPT_FULL_APPLIED">
+  .ac-sub-tabs-wrapper{padding:0;background:transparent;overflow:hidden}
+  .ac-sub-tabs-wrapper .ac-sub-tabs{display:none;gap:0;padding:0;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+  .ac-sub-tabs-wrapper .ac-sub-tabs::-webkit-scrollbar{display:none}
+  .ac-sub-tabs-wrapper[data-active="stats"]         .ac-sub-tabs[data-parent="stats"],
+  .ac-sub-tabs-wrapper[data-active="monthly"]       .ac-sub-tabs[data-parent="monthly"],
+  .ac-sub-tabs-wrapper[data-active="annual"]        .ac-sub-tabs[data-parent="annual"],
+  .ac-sub-tabs-wrapper[data-active="ncrsummary"]    .ac-sub-tabs[data-parent="ncrsummary"],
+  .ac-sub-tabs-wrapper[data-active="inspection"]    .ac-sub-tabs[data-parent="inspection"],
+  .ac-sub-tabs-wrapper[data-active="contractor"]    .ac-sub-tabs[data-parent="contractor"],
+  .ac-sub-tabs-wrapper[data-active="training"]      .ac-sub-tabs[data-parent="training"],
+  .ac-sub-tabs-wrapper[data-active="investigation"] .ac-sub-tabs[data-parent="investigation"],
+  .ac-sub-tabs-wrapper[data-active="benchmark"]     .ac-sub-tabs[data-parent="benchmark"],
+  .ac-sub-tabs-wrapper[data-active="objectives"]    .ac-sub-tabs[data-parent="objectives"],
+  .ac-sub-tabs-wrapper[data-active="roi"]           .ac-sub-tabs[data-parent="roi"],
+  .ac-sub-tabs-wrapper[data-active="maturity"]      .ac-sub-tabs[data-parent="maturity"],
+  .ac-sub-tabs-wrapper[data-active="regulatory"]    .ac-sub-tabs[data-parent="regulatory"],
+  .ac-sub-tabs-wrapper[data-active="scheduled"]     .ac-sub-tabs[data-parent="scheduled"]{display:flex}
+  .ac-sub-tabs-wrapper .ac-sub-tab{padding:7px 14px;font-size:11px;font-weight:500;color:var(--t2);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;flex-shrink:0;font-family:var(--sp-font-sans,'Inter',sans-serif)}
+  .ac-sub-tabs-wrapper .ac-sub-tab:hover{color:var(--t1)}
+  .ac-sub-tabs-wrapper .ac-sub-tab.active{color:var(--rust);border-bottom-color:var(--rust);font-weight:600}
+</style>
+<div class="ac-sub-tabs-wrapper" id="rpt-sub-tabs-wrapper" data-active="stats">
+  <div class="ac-sub-tabs" data-parent="stats">
+    <div class="ac-sub-tab active" onclick="rptSubTabSwitch(this)">KPI Trends</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">By Project</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">By Category</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Comparison</div>
   </div>
-  <style>#fbar-scroll::-webkit-scrollbar{display:none}</style>
-  <script>
-  function fbarScroll(d){var e=document.getElementById('fbar-scroll');if(e)e.scrollBy({left:d*180,behavior:'smooth'});setTimeout(fbarUpdateScroll,250);}
-  function fbarUpdateScroll(){var e=document.getElementById('fbar-scroll');if(!e)return;var aL=e.scrollLeft<=4,aR=e.scrollLeft>=e.scrollWidth-e.clientWidth-4;[["fbar-btn-l",!aL],["fbar-btn-r",!aR],["fbar-fade-left",!aL],["fbar-fade-right",!aR]].forEach(function(x){var el=document.getElementById(x[0]);if(el)el.style.display=x[1]?'block':'none';});}
-  function rptClearFilters(){['rpt-org','rpt-project','rpt-zone','rpt-dept','rpt-standard','rpt-workforce','rpt-severity','rpt-status'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});var btn=document.getElementById('rpt-clear-btn');if(btn)btn.style.display='none';if(typeof rptApplyFilters==='function')rptApplyFilters();}
-  document.addEventListener('change',function(e){var ids=['rpt-org','rpt-project','rpt-zone','rpt-dept','rpt-standard','rpt-workforce','rpt-severity','rpt-status'];var a=ids.some(function(id){var el=document.getElementById(id);return el&&el.value!=='';});var btn=document.getElementById('rpt-clear-btn');if(btn)btn.style.display=a?'block':'none';});
-  window.addEventListener('load',function(){setTimeout(fbarUpdateScroll,300);});
-  </script>
-  </div><!-- __SUBHEADER_CLOSE__ close sub-header -->
+  <div class="ac-sub-tabs" data-parent="monthly">
+    <div class="ac-sub-tab active" onclick="rptSubTabSwitch(this)">Current</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Past Months</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Templates</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="annual">
+    <div class="ac-sub-tab active" onclick="rptSubTabSwitch(this)">Current Year</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Past Years</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Templates</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="ncrsummary">
+    <div class="ac-sub-tab active" onclick="rptSubTabSwitch(this)">Open</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Closed</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Trend</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">By Type</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="inspection">
+    <div class="ac-sub-tab active" onclick="rptSubTabSwitch(this)">All</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">By Project</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Trend</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Findings</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="contractor">
+    <div class="ac-sub-tab active" onclick="rptSubTabSwitch(this)">All</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">By Score</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Trend</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Compliance</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="training">
+    <div class="ac-sub-tab active" onclick="rptSubTabSwitch(this)">All</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Completed</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Pending</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">By Department</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="investigation">
+    <div class="ac-sub-tab active" onclick="rptSubTabSwitch(this)">Open</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">In Progress</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Closed</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">RCA</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="benchmark">
+    <div class="ac-sub-tab active" onclick="rptSubTabSwitch(this)">Industry</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Peers</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Internal</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="objectives">
+    <div class="ac-sub-tab active" onclick="rptSubTabSwitch(this)">Active</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Achieved</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Trend</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="roi">
+    <div class="ac-sub-tab active" onclick="rptSubTabSwitch(this)">Cost Savings</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Value</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Forecast</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="maturity">
+    <div class="ac-sub-tab active" onclick="rptSubTabSwitch(this)">Current</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Trend</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Recommendations</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="regulatory">
+    <div class="ac-sub-tab active" onclick="rptSubTabSwitch(this)">Current</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Pending</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Templates</div>
+  </div>
+  <div class="ac-sub-tabs" data-parent="scheduled">
+    <div class="ac-sub-tab active" onclick="rptSubTabSwitch(this)">Active</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Past</div>
+    <div class="ac-sub-tab" onclick="rptSubTabSwitch(this)">Templates</div>
+  </div>
+</div>
+<script>
+  (function(){
+    window.rptSubTabSwitch=function(el){
+      var set=el.parentElement;
+      if(set)set.querySelectorAll('.ac-sub-tab').forEach(function(t){t.classList.remove('active')});
+      el.classList.add('active');
+    };
+    function bindMainTabs(){
+      var wrapper=document.getElementById('rpt-sub-tabs-wrapper');
+      if(!wrapper)return;
+      var tabs=document.querySelectorAll('#sh-tabs-scroll .sh-tab');
+      tabs.forEach(function(tab){
+        tab.addEventListener('click',function(){
+          var onclick=this.getAttribute('onclick')||'';
+          var m=onclick.match(/rptTab\(this,\s*['"]([^'"]+)['"]\)/);
+          if(m&&m[1])wrapper.setAttribute('data-active',m[1]);
+        });
+      });
+    }
+    if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bindMainTabs)}else{bindMainTabs()}
+  })();
+</script>
+
+<!-- ROW 5: Per-Tab Filter Bar (OUTSIDE sub-header) -->
+<div class="sp-row4 sp-row4--reports">
+  <div class="sp-row4-filters">
+    <label class="sp-row4-filter">
+      <span class="sp-row4-filter-label">Department</span>
+      <select id="rpt-dept" onchange="rptApplyFilters()">
+        <option value="">All Depts</option>
+        <option value="hse">HSE</option>
+        <option value="eng">Engineering</option>
+        <option value="quality">Quality</option>
+      </select>
+    </label>
+    <label class="sp-row4-filter">
+      <span class="sp-row4-filter-label">Workforce</span>
+      <select id="rpt-workforce" onchange="rptApplyFilters()">
+        <option value="">All Types</option>
+        <option value="direct">Direct Workers</option>
+        <option value="contractor">Contractor</option>
+        <option value="subcontractor">Sub-contractor</option>
+      </select>
+    </label>
+    <label class="sp-row4-filter">
+      <span class="sp-row4-filter-label">Severity</span>
+      <select id="rpt-severity" onchange="rptApplyFilters()">
+        <option value="">All Severity</option>
+        <option value="fatality">Fatality</option>
+        <option value="lti">LTI</option>
+        <option value="mtc">MTC</option>
+      </select>
+    </label>
+    <label class="sp-row4-filter">
+      <span class="sp-row4-filter-label">Status</span>
+      <select id="rpt-status" onchange="rptApplyFilters()">
+        <option value="">All Status</option>
+        <option value="open">Open</option>
+        <option value="inprogress">In Progress</option>
+        <option value="closed">Closed</option>
+      </select>
+    </label>
+  </div>
+  <div class="sp-row4-actions">
+    <button class="sp-row4-btn sp-row4-btn--clear" onclick="if(typeof rptClearFilters==='function')rptClearFilters()">✕ Clear</button>
+    <button class="sp-row4-btn sp-row4-btn--export" onclick="rptToggleExport()">↓ Export</button>
+  </div>
+</div><!-- __SUBHEADER_CLOSE__ close sub-header -->
 
   <div class="main">
 
@@ -1852,21 +2308,7 @@ window.closeInvModal = function() {
       </div>
 </div>
 
-      <div class="card">
-        <div class="card-head"><div><div class="card-title">Project Performance vs Benchmark</div><div class="card-sub">Each project compared against industry standard</div></div></div>
-        <div class="compare-table">
-          <table class="ctbl">
-            <thead>
-              <tr><th>Project</th><th>Incident Rate</th><th>Audit Score</th><th>Closure Rate</th><th>LTI Count</th><th>Overall Score</th><th>vs Industry</th></tr>
-            </thead>
-            <tbody>
-              <tr><td style="font-weight:600;color:var(--t1)">Birpur Bihpur Road</td><td><div class="vs-cell"><span class="vs-you">5.2</span><span class="vs-arrow">→</span><span class="vs-ind">8.2 avg</span></div></td><td><div class="vs-cell"><span class="vs-you">91%</span><span class="vs-arrow">→</span><span class="vs-ind">71% avg</span></div></td><td><div class="vs-cell"><span class="vs-you">84%</span></div></td><td><span class="vs-you" style="color:var(--green)">0</span></td><td><span style="font-family:var(--fh);font-size:13px;font-weight:800;color:var(--green)">84</span></td><td><span class="vs-badge vb-better">+22 pts</span></td></tr>
-              <tr><td style="font-weight:600;color:var(--t1)">Site Alpha — Mumbai</td><td><div class="vs-cell"><span class="vs-you">7.8</span><span class="vs-arrow">→</span><span class="vs-ind">8.2 avg</span></div></td><td><div class="vs-cell"><span class="vs-you">84%</span><span class="vs-arrow">→</span><span class="vs-ind">71% avg</span></div></td><td><div class="vs-cell"><span class="vs-you">76%</span></div></td><td><span class="vs-you" style="color:var(--amber)">1</span></td><td><span style="font-family:var(--fh);font-size:13px;font-weight:800;color:var(--blue)">71</span></td><td><span class="vs-badge vb-same">+9 pts</span></td></tr>
-              <tr><td style="font-weight:600;color:var(--t1)">Tirora Power Plant</td><td><div class="vs-cell"><span class="vs-you">9.1</span><span class="vs-arrow">→</span><span class="vs-ind">8.2 avg</span></div></td><td><div class="vs-cell"><span class="vs-you">79%</span><span class="vs-arrow">→</span><span class="vs-ind">71% avg</span></div></td><td><div class="vs-cell"><span class="vs-you">71%</span></div></td><td><span class="vs-you" style="color:var(--red)">2</span></td><td><span style="font-family:var(--fh);font-size:13px;font-weight:800;color:var(--amber)">65</span></td><td><span class="vs-badge vb-same">+3 pts</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      
     </div>
 
     <!-- ═══ APPRAISAL TAB ═══ -->
@@ -3868,7 +4310,7 @@ document.addEventListener('click',function(e){
 <!-- ══ STANDARD FOOTER ══ -->
 <footer class="sp-footer">
   <div class="sp-footer-left">
-    <span>&#169; 2026 OpsLix</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF)">Reports</span>
+    <span>&#169; 2026 SafetyPro AI</span><span class="sp-footer-sep">|</span><span style="color:var(--t2,#7A9BBF)">Reports</span>
     <span class="sp-footer-sep">|</span>
     <span id="sp-footer-version">v1.3.2</span>
     <span class="sp-footer-sep">|</span>
@@ -5520,8 +5962,60 @@ body .card {
   min-height: 80px !important;
   display: block !important;
 }
-</style><script src="sp-shell.js?v=8"></script>
+</style><script src="sp-shell.js?v=11"></script>
 <script src="sp-charts.js?v=7"></script>
 <script src="sp-dynamic-states.js?v=5"></script>
+
+<!-- OPSLIX_RPTTAB_FIX_APPLIED: wire main-tab + sub-tab active classes when switching -->
+<script id="opslix-rpttab-fix">
+(function() {
+  function applyFix() {
+    var origRptTab = window.rptTab;
+    window.rptTab = function(el, key) {
+      // 1. Call original (does panel show/hide if defined)
+      if (typeof origRptTab === 'function') {
+        try { origRptTab.apply(this, arguments); } catch(e) { console.warn('rptTab orig threw', e); }
+      }
+      // 2. Update active class on main tabs
+      document.querySelectorAll('#sh-tabs-scroll .sh-tab').forEach(function(t){
+        t.classList.remove('active');
+      });
+      if (el && el.classList) el.classList.add('active');
+      // 3. Update sub-tabs wrapper data-active + reset sub-tab .active state
+      var wrapper = document.getElementById('rpt-sub-tabs-wrapper');
+      if (wrapper) {
+        wrapper.setAttribute('data-active', key);
+        wrapper.querySelectorAll('.ac-sub-tab').forEach(function(t){
+          t.classList.remove('active');
+        });
+        var firstInNewSet = wrapper.querySelector('.ac-sub-tabs[data-parent="' + key + '"] .ac-sub-tab');
+        if (firstInNewSet) firstInNewSet.classList.add('active');
+      }
+    };
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyFix);
+  } else {
+    applyFix();
+  }
+})();
+</script>
+
+<!-- OPSLIX_TRIPLE_FIX: Tab strip auto-scroll on click -->
+<script id="opslix-tab-autoscroll">
+(function(){
+  function bindAutoScroll(){
+    var tabs=document.querySelectorAll('#sh-tabs-scroll .sh-tab');
+    if(!tabs.length)return;
+    tabs.forEach(function(tab){
+      tab.addEventListener('click',function(){
+        try{this.scrollIntoView({inline:'center',behavior:'smooth',block:'nearest'})}catch(e){}
+      });
+    });
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bindAutoScroll)}
+  else{bindAutoScroll()}
+})();
+</script>
 </body>
                                                                                                                                                                </html>
