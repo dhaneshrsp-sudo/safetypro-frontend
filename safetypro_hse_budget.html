@@ -1598,27 +1598,32 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     });
   }
 
-  function hbfScaleToTarget(){
+  function hbfShowScaleError(msg){
+    var e = document.getElementById('hbf-scale-error');
+    if (e) { e.textContent = msg; e.classList.add('active'); }
+    var c = document.getElementById('hbf-scale-confirm');
+    if (c) c.classList.remove('active');
+  }
+  function hbfClearScaleError(){
+    var e = document.getElementById('hbf-scale-error');
+    if (e) { e.textContent = ''; e.classList.remove('active'); }
+  }
+  function hbfHideScaleConfirm(){
+    var c = document.getElementById('hbf-scale-confirm');
+    if (c) { c.innerHTML = ''; c.classList.remove('active'); }
+  }
+  function hbfApplyScale(targetPct){
     var data = window.__hbfBudgetData;
     if (!data || !data.projectSummary || !data.projectSummary.value) return;
-    var input = document.getElementById('hbf-scale-input');
-    if (!input) return;
-    var targetPct = parseFloat(input.value);
-    if (isNaN(targetPct) || targetPct <= 0) {
-      alert('Enter a target percentage greater than 0');
-      return;
-    }
     var pv = data.projectSummary.value;
     var targetTotal = pv * (targetPct / 100);
     var currentTotal = data.totalBudget || 1;
     var factor = targetTotal / currentTotal;
-    if (!confirm('This will scale all line items by a factor of ' + factor.toFixed(4) + ' (target ' + targetPct.toFixed(2) + '% = ' + Math.round(targetTotal).toLocaleString('en-IN') + '). Manual edits will be preserved as scaled. Proceed?')) return;
     var oldTotal = currentTotal;
     data.categories.forEach(function(cat){
       (cat.lineItems || []).forEach(function(li){
         var oldT = Number(li.total) || 0;
         li.total = Math.round(oldT * factor);
-        // Also scale qty proportionally if rate stays same (keep rate intact)
         var rate = Number(li.unitRate) || 0;
         if (rate > 0) {
           li.quantity = +(li.total / rate).toFixed(2);
@@ -1632,6 +1637,63 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     hbfLogEdit('Budget total (Scale to %)', oldTotal, data.totalBudget, 'scale');
     hbfRenderBreakdown(data);
   }
+  function hbfScaleToTarget(){
+    var data = window.__hbfBudgetData;
+    if (!data || !data.projectSummary || !data.projectSummary.value) {
+      hbfShowScaleError('Generate a budget first.');
+      return;
+    }
+    var input = document.getElementById('hbf-scale-input');
+    if (!input) return;
+    hbfClearScaleError();
+    hbfHideScaleConfirm();
+    var raw = input.value;
+    var targetPct = parseFloat(raw);
+    if (raw === '' || isNaN(targetPct)) {
+      hbfShowScaleError('Enter a target percentage (e.g. 2.5).');
+      input.focus();
+      return;
+    }
+    if (targetPct <= 0) {
+      hbfShowScaleError('Target percentage must be greater than 0.');
+      input.focus();
+      return;
+    }
+    if (targetPct > 20) {
+      hbfShowScaleError('Target percentage above 20% is unusual. Adjust if intended.');
+      input.focus();
+      return;
+    }
+    var pv = data.projectSummary.value;
+    var targetTotal = pv * (targetPct / 100);
+    var currentTotal = data.totalBudget || 1;
+    var factor = targetTotal / currentTotal;
+    var currency = (data.projectSummary || {}).currency || '';
+    // Show inline confirm banner
+    var c = document.getElementById('hbf-scale-confirm');
+    if (!c) {
+      // Fallback: just apply
+      hbfApplyScale(targetPct);
+      return;
+    }
+    var direction = factor > 1 ? 'Increase' : (factor < 1 ? 'Decrease' : 'Keep');
+    var changePct = ((factor - 1) * 100);
+    var changeStr = (changePct >= 0 ? '+' : '') + changePct.toFixed(1) + '%';
+    var newTotalStr = (currency ? currency + ' ' : '') + Math.round(targetTotal).toLocaleString('en-IN');
+    c.innerHTML =
+      '<div class="hbf-scale-confirm-msg">' +
+      '<strong>' + direction + ' budget by ' + changeStr + '</strong>' +
+      ' &mdash; new total ' + newTotalStr + ' (' + targetPct.toFixed(2) + '% of project value).' +
+      ' All line items will be scaled proportionally.' +
+      '</div>' +
+      '<div class="hbf-scale-confirm-actions">' +
+      '<button class="hbf-btn hbf-btn-secondary" onclick="hbfHideScaleConfirm()">Cancel</button>' +
+      '<button class="hbf-btn hbf-btn-primary" onclick="hbfHideScaleConfirm();hbfApplyScale(' + targetPct + ')">Confirm Scale</button>' +
+      '</div>';
+    c.classList.add('active');
+  }
+  window.hbfApplyScale = hbfApplyScale;
+  window.hbfHideScaleConfirm = hbfHideScaleConfirm;
 
   function hbfToggleCategory(catIdx){
     var lines = document.getElementById('hbf-cat-lines-' + catIdx);
@@ -1724,12 +1786,16 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     html += '</div></div>';
 
     // Scale control
-    html += '<div class="hbf-scale-control">';
+    var pctNum = (typeof pct === 'string' && pct !== '-') ? parseFloat(pct) : (pct || 0);
+    var prefillVal = pctNum > 0 ? pctNum.toFixed(2) : '2.0';
+    html += '<div class="hbf-scale-control" id="hbf-scale-wrap">';
     html += '<span class="hbf-scale-label">Scale entire budget to:</span>';
-    html += '<input type="number" id="hbf-scale-input" class="hbf-scale-input" placeholder="2.5" step="0.1" min="0.1" max="20">';
+    html += '<input type="number" id="hbf-scale-input" class="hbf-scale-input" value="' + prefillVal + '" step="0.1" min="0.1" max="20">';
     html += '<span class="hbf-scale-label">%</span>';
-    html += '<button class="hbf-btn hbf-btn-primary" onclick="hbfScaleToTarget()">Apply</button>';
+    html += '<button class="hbf-btn hbf-btn-primary" id="hbf-scale-apply-btn" onclick="hbfScaleToTarget()">Apply</button>';
     html += '<span class="hbf-scale-info">Currently ' + pct + '% &middot; click qty / rate / total cells to edit</span>';
+    html += '<div class="hbf-scale-error" id="hbf-scale-error"></div>';
+    html += '<div class="hbf-scale-confirm" id="hbf-scale-confirm"></div>';
     html += '</div>';
 
     // Phase sections
@@ -2015,7 +2081,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     border-radius: 10px;
     padding: 14px 24px;
     margin-bottom: 12px;
-    max-width: 900px;
+    max-width: 100%;
     flex-wrap: wrap;
     gap: 8px;
   }
@@ -2064,7 +2130,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   body[data-page="hse-budgets"] .hbf-card {
     background: #fff; border: 1px solid var(--border, #E2DFD5);
     border-radius: 10px; padding: 24px; margin-bottom: 16px;
-    max-width: 900px;
+    max-width: 100%;
   }
   body[data-page="hse-budgets"] .hbf-title {
     font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
@@ -2113,7 +2179,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   body[data-page="hse-budgets"] .hbf-empty-state {
     background: #fff; border: 1px solid var(--border, #E2DFD5);
     border-radius: 10px; padding: 60px 24px; text-align: center;
-    max-width: 900px;
+    max-width: 100%;
   }
   body[data-page="hse-budgets"] .hbf-empty-title {
     font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
@@ -2133,7 +2199,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
   /* Overview cards */
   body[data-page="hse-budgets"] .hbf-overview-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 900px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 100%;
   }
   body[data-page="hse-budgets"] .hbf-overview-card {
     background: #fff; border: 1px solid var(--border, #E2DFD5);
@@ -2243,7 +2309,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   body[data-page="hse-budgets"] .hbf-breakdown-summary {
     background: #fff; border: 1px solid var(--border, #E2DFD5);
     border-radius: 10px; padding: 20px 24px; margin-bottom: 16px;
-    max-width: 1100px;
+    max-width: 100%;
   }
   body[data-page="hse-budgets"] .hbf-breakdown-summary-row {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
@@ -2262,7 +2328,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   body[data-page="hse-budgets"] .hbf-phase-section {
     background: #fff; border: 1px solid var(--border, #E2DFD5);
     border-radius: 10px; margin-bottom: 14px; overflow: hidden;
-    max-width: 1100px;
+    max-width: 100%;
   }
   body[data-page="hse-budgets"] .hbf-phase-header {
     padding: 12px 18px; background: #FAF8F2;
@@ -2295,7 +2361,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   }
   body[data-page="hse-budgets"] .hbf-breakdown-actions {
     display: flex; justify-content: flex-end; gap: 10px;
-    max-width: 1100px; margin-top: 16px;
+    max-width: 100%; margin-top: 16px;
   }
 
   /* ===== Phase 3.4 - Inline editing + Scale + Insights + Cash flow ===== */
@@ -2416,7 +2482,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     border-radius: 10px;
     padding: 14px 18px;
     margin-bottom: 14px;
-    max-width: 1100px;
+    max-width: 100%;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -2442,13 +2508,51 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     margin-left: auto;
   }
 
+  /* Phase 3.4.1 - inline error + confirm banner inside scale control */
+  body[data-page="hse-budgets"] .hbf-scale-control {
+    flex-wrap: wrap;
+  }
+  body[data-page="hse-budgets"] .hbf-scale-error {
+    flex-basis: 100%;
+    display: none;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: rgba(220, 38, 38, 0.06);
+    border: 1px solid rgba(220, 38, 38, 0.25);
+    border-radius: 6px;
+    color: #DC2626;
+    font-size: 12px;
+  }
+  body[data-page="hse-budgets"] .hbf-scale-error.active { display: block; }
+  body[data-page="hse-budgets"] .hbf-scale-confirm {
+    flex-basis: 100%;
+    display: none;
+    margin-top: 10px;
+    padding: 12px 14px;
+    background: rgba(245, 158, 11, 0.07);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 8px;
+    font-size: 12px;
+  }
+  body[data-page="hse-budgets"] .hbf-scale-confirm.active { display: block; }
+  body[data-page="hse-budgets"] .hbf-scale-confirm-msg {
+    color: var(--t1, #1F1B17);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  body[data-page="hse-budgets"] .hbf-scale-confirm-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
   /* Audit trail */
   body[data-page="hse-budgets"] .hbf-audit-section {
     background: #fff;
     border: 1px solid var(--border, #E2DFD5);
     border-radius: 10px;
     margin-top: 16px;
-    max-width: 1100px;
+    max-width: 100%;
     overflow: hidden;
   }
   body[data-page="hse-budgets"] .hbf-audit-header {
@@ -2510,7 +2614,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
-    max-width: 1100px;
+    max-width: 100%;
     margin-bottom: 16px;
   }
   body[data-page="hse-budgets"] .hbf-insight-card {
@@ -2549,7 +2653,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     border-radius: 10px;
     padding: 20px 24px;
     margin-bottom: 16px;
-    max-width: 1100px;
+    max-width: 100%;
   }
   body[data-page="hse-budgets"] .hbf-insight-section h3 {
     font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
@@ -2590,7 +2694,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     border-radius: 10px;
     padding: 20px 24px;
     margin-bottom: 16px;
-    max-width: 1100px;
+    max-width: 100%;
   }
   body[data-page="hse-budgets"] .hbf-cashflow-chart h3 {
     font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
@@ -2644,7 +2748,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     border-radius: 10px;
     padding: 20px 24px;
     margin-bottom: 16px;
-    max-width: 1100px;
+    max-width: 100%;
   }
   body[data-page="hse-budgets"] .hbf-exec-summary h3 {
     font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
