@@ -42,9 +42,9 @@ This plan describes how we clean it up safely across 7 sessions.
 
 \- \[ ] \*\*Session B\*\* â€” identify orphans (read-only analysis)
 
-\- \[x ] \*\*Session C\*\* â€” delete all \*.bak files in root
+\- \[x] \*\*Session C\*\* â€” delete all \*.bak files in root
 
-\- \[ ] \*\*Session D\*\* â€” delete orphan helper scripts
+\- \[x] \*\*Session D\*\* â€” delete orphan helper scripts
 
 \- \[ ] \*\*Session E\*\* â€” untrack backups/ and archive/ folders
 
