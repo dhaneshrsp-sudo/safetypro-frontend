@@ -48,7 +48,7 @@ This plan describes how we clean it up safely across 7 sessions.
 
 \- \[x] \*\*Session E\*\* â€” untrack backups/ and archive/ folders
 
-\- \[ ] \*\*Session F\*\* â€” delete backup HTML versions
+\- \[x] \*\*Session F\*\* â€” delete backup HTML versions
 
 \- \[ ] \*\*Session G\*\* â€” final smoke test
 
