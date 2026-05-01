@@ -1463,6 +1463,535 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   window.hbfPickScenario = hbfPickScenario;
   window.hbfSliderChange = hbfSliderChange;
   window.hbfGenerateBudget = hbfGenerateBudget;
+
+  // ===== Phase 3.4 - Edit machinery + Scale + Insights + Cash flow + Audit =====
+
+  // Audit log live in window.__hbfAudit
+  window.__hbfAudit = window.__hbfAudit || [];
+
+  function hbfNowStamp(){
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0') + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0') + ':' + String(d.getSeconds()).padStart(2,'0');
+  }
+
+  function hbfLogEdit(where, oldVal, newVal, source){
+    if (!window.__hbfAudit) window.__hbfAudit = [];
+    window.__hbfAudit.push({
+      ts: hbfNowStamp(),
+      where: where,
+      old: oldVal,
+      new: newVal,
+      source: source || 'manual'
+    });
+  }
+
+  function hbfRecalcCategory(catIdx){
+    var data = window.__hbfBudgetData;
+    if (!data || !data.categories || !data.categories[catIdx]) return;
+    var cat = data.categories[catIdx];
+    var sub = 0;
+    (cat.lineItems || []).forEach(function(li){ sub += (Number(li.total) || 0); });
+    cat.subtotal = sub;
+  }
+
+  function hbfRecalcAll(){
+    var data = window.__hbfBudgetData;
+    if (!data) return;
+    var subA = 0, subB = 0;
+    (data.categories || []).forEach(function(cat, i){
+      hbfRecalcCategory(i);
+      if (cat.id <= 10) subA += cat.subtotal || 0;
+      else subB += cat.subtotal || 0;
+    });
+    data.subtotalA = subA;
+    data.subtotalB = subB;
+    data.totalBudget = subA + subB;
+  }
+
+  function hbfMakeEditable(el){
+    if (el.querySelector('.hbf-edit-input')) return;
+    var oldText = el.textContent.trim();
+    var oldVal = parseFloat(el.getAttribute('data-raw') || oldText.replace(/[^0-9.-]/g,'')) || 0;
+    var input = document.createElement('input');
+    input.type = 'number';
+    input.className = 'hbf-edit-input';
+    input.value = String(oldVal);
+    input.step = 'any';
+    el.innerHTML = '';
+    el.appendChild(input);
+    input.focus();
+    input.select();
+
+    function save(){
+      var newVal = parseFloat(input.value) || 0;
+      var catIdx = parseInt(el.getAttribute('data-cat-idx'));
+      var liIdx = parseInt(el.getAttribute('data-li-idx'));
+      var field = el.getAttribute('data-field');
+      var data = window.__hbfBudgetData;
+      if (!data || !data.categories[catIdx] || !data.categories[catIdx].lineItems[liIdx]) {
+        return hbfRenderBreakdown(data);
+      }
+      var li = data.categories[catIdx].lineItems[liIdx];
+      var oldFieldVal = Number(li[field]) || 0;
+      if (newVal !== oldFieldVal) {
+        li[field] = newVal;
+        // Track override flag
+        if (!li._edited) li._edited = {};
+        li._edited[field] = true;
+        // Auto-recalc total if qty or unitRate changed AND total wasn't independently overridden
+        if ((field === 'quantity' || field === 'unitRate') && !(li._edited && li._edited.total)) {
+          li.total = (Number(li.quantity) || 0) * (Number(li.unitRate) || 0);
+        }
+        hbfRecalcAll();
+        var where = (data.categories[catIdx].name || 'Cat ' + (catIdx+1)) + ' / ' + (li.item || 'Item ' + (liIdx+1)) + ' / ' + field;
+        hbfLogEdit(where, oldFieldVal, newVal, 'manual');
+      }
+      hbfRenderBreakdown(data);
+    }
+
+    function cancel(){
+      hbfRenderBreakdown(window.__hbfBudgetData);
+    }
+
+    input.addEventListener('blur', save);
+    input.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+      else if (e.key === 'Escape') { e.preventDefault(); cancel(); }
+      else if (e.key === 'Tab') { /* let default tab behavior happen, blur fires save */ }
+    });
+  }
+
+  function hbfRevertField(catIdx, liIdx, field){
+    var data = window.__hbfBudgetData;
+    if (!data || !data.categories[catIdx] || !data.categories[catIdx].lineItems[liIdx]) return;
+    var li = data.categories[catIdx].lineItems[liIdx];
+    if (!li._aiOriginal || !(field in li._aiOriginal)) return;
+    var oldVal = Number(li[field]) || 0;
+    var aiVal = Number(li._aiOriginal[field]) || 0;
+    li[field] = aiVal;
+    if (li._edited) delete li._edited[field];
+    if (field === 'quantity' || field === 'unitRate') {
+      // Recalc total if it's not independently overridden
+      if (!(li._edited && li._edited.total)) {
+        li.total = (Number(li.quantity) || 0) * (Number(li.unitRate) || 0);
+      }
+    }
+    hbfRecalcAll();
+    var where = (data.categories[catIdx].name || 'Cat ' + (catIdx+1)) + ' / ' + (li.item || 'Item ' + (liIdx+1)) + ' / ' + field + ' (revert)';
+    hbfLogEdit(where, oldVal, aiVal, 'revert');
+    hbfRenderBreakdown(data);
+  }
+
+  function hbfSeedAiOriginals(){
+    var data = window.__hbfBudgetData;
+    if (!data || !data.categories) return;
+    data.categories.forEach(function(cat){
+      (cat.lineItems || []).forEach(function(li){
+        if (!li._aiOriginal) {
+          li._aiOriginal = {
+            quantity: Number(li.quantity) || 0,
+            unitRate: Number(li.unitRate) || 0,
+            total: Number(li.total) || 0
+          };
+        }
+      });
+    });
+  }
+
+  function hbfScaleToTarget(){
+    var data = window.__hbfBudgetData;
+    if (!data || !data.projectSummary || !data.projectSummary.value) return;
+    var input = document.getElementById('hbf-scale-input');
+    if (!input) return;
+    var targetPct = parseFloat(input.value);
+    if (isNaN(targetPct) || targetPct <= 0) {
+      alert('Enter a target percentage greater than 0');
+      return;
+    }
+    var pv = data.projectSummary.value;
+    var targetTotal = pv * (targetPct / 100);
+    var currentTotal = data.totalBudget || 1;
+    var factor = targetTotal / currentTotal;
+    if (!confirm('This will scale all line items by a factor of ' + factor.toFixed(4) + ' (target ' + targetPct.toFixed(2) + '% = ' + Math.round(targetTotal).toLocaleString('en-IN') + '). Manual edits will be preserved as scaled. Proceed?')) return;
+    var oldTotal = currentTotal;
+    data.categories.forEach(function(cat){
+      (cat.lineItems || []).forEach(function(li){
+        var oldT = Number(li.total) || 0;
+        li.total = Math.round(oldT * factor);
+        // Also scale qty proportionally if rate stays same (keep rate intact)
+        var rate = Number(li.unitRate) || 0;
+        if (rate > 0) {
+          li.quantity = +(li.total / rate).toFixed(2);
+        }
+        if (!li._edited) li._edited = {};
+        li._edited.total = true;
+        li._edited.quantity = true;
+      });
+    });
+    hbfRecalcAll();
+    hbfLogEdit('Budget total (Scale to %)', oldTotal, data.totalBudget, 'scale');
+    hbfRenderBreakdown(data);
+  }
+
+  function hbfToggleCategory(catIdx){
+    var lines = document.getElementById('hbf-cat-lines-' + catIdx);
+    var row = document.getElementById('hbf-cat-row-' + catIdx);
+    if (!lines || !row) return;
+    if (lines.classList.contains('show')) {
+      lines.classList.remove('show');
+      row.classList.remove('expanded');
+    } else {
+      lines.classList.add('show');
+      row.classList.add('expanded');
+    }
+  }
+
+  function hbfToggleAudit(){
+    var list = document.getElementById('hbf-audit-list');
+    var header = document.getElementById('hbf-audit-header');
+    if (!list || !header) return;
+    if (list.classList.contains('show')) {
+      list.classList.remove('show');
+      header.classList.add('collapsed');
+    } else {
+      list.classList.add('show');
+      header.classList.remove('collapsed');
+    }
+  }
+
+  // Override hbfRenderBreakdown to add edit machinery + scale control + audit trail
+  // Save reference to existing fmt then build extended renderer
+  var _origRenderBreakdown = window.hbfRenderBreakdown || function(){};
+
+  window.hbfRenderBreakdown = function(data){
+    var container = document.getElementById('hbf-breakdown-content');
+    if (!container) return;
+    if (!data || !data.categories) {
+      container.innerHTML = '<div class="hbf-empty-state"><h3 class="hbf-empty-title">No budget yet</h3><p class="hbf-empty-subtitle">Generate a budget first.</p><button class="hbf-btn hbf-btn-primary" onclick="hbfSwitchTab(\'generate\')">Go to Generate &rarr;</button></div>';
+      return;
+    }
+    hbfSeedAiOriginals();
+
+    var currency = (data.projectSummary && data.projectSummary.currency) || '';
+    var bench = data.industryBenchmark || {};
+    var pv = (data.projectSummary || {}).value || 0;
+    var pct = pv ? ((data.totalBudget / pv) * 100).toFixed(2) : '-';
+
+    var benchDisplay = '-';
+    if (bench.min != null && bench.max != null) {
+      if (bench.min < 100 && bench.max < 100) {
+        benchDisplay = bench.min.toFixed(1) + '-' + bench.max.toFixed(1) + '%';
+      } else if (pv > 0) {
+        benchDisplay = ((bench.min / pv) * 100).toFixed(1) + '-' + ((bench.max / pv) * 100).toFixed(1) + '%';
+      } else {
+        benchDisplay = hbfFmtMoney(bench.min, currency) + ' - ' + hbfFmtMoney(bench.max, currency);
+      }
+    }
+
+    // Group categories by dominant phase
+    var phaseOrder = ['TENDER', 'MOBILIZATION', 'EXECUTION', 'CLOSURE'];
+    var phaseLabels = { TENDER: 'Tender', MOBILIZATION: 'Mobilization', EXECUTION: 'Execution', CLOSURE: 'Closure' };
+    var phaseGroups = {};
+    phaseOrder.forEach(function(p){ phaseGroups[p] = []; });
+    var unphased = [];
+    var indexLookup = {};
+    (data.categories || []).forEach(function(cat, idx){
+      var counts = {};
+      (cat.lineItems || []).forEach(function(li){
+        var p = li.phase || 'EXECUTION';
+        counts[p] = (counts[p] || 0) + 1;
+      });
+      var topPhase = 'EXECUTION';
+      var topCount = 0;
+      Object.keys(counts).forEach(function(p){
+        if (counts[p] > topCount) { topCount = counts[p]; topPhase = p; }
+      });
+      indexLookup[idx] = idx;
+      var entry = {cat: cat, idx: idx};
+      if (phaseGroups[topPhase]) phaseGroups[topPhase].push(entry);
+      else unphased.push(entry);
+    });
+
+    var html = '';
+
+    // Summary row
+    html += '<div class="hbf-breakdown-summary">';
+    html += '<div class="hbf-breakdown-summary-row">';
+    html += '<div class="hbf-summary-stat"><div class="hbf-summary-num">' + hbfFmtMoney(data.totalBudget, currency) + '</div><div class="hbf-summary-label">Total Budget</div></div>';
+    html += '<div class="hbf-summary-stat"><div class="hbf-summary-num">' + pct + '%</div><div class="hbf-summary-label">Of Project Value</div></div>';
+    html += '<div class="hbf-summary-stat"><div class="hbf-summary-num">' + benchDisplay + '</div><div class="hbf-summary-label">Industry Benchmark</div></div>';
+    html += '<div class="hbf-summary-stat"><div class="hbf-summary-num">' + (data.categories || []).length + '</div><div class="hbf-summary-label">Categories</div></div>';
+    html += '</div></div>';
+
+    // Scale control
+    html += '<div class="hbf-scale-control">';
+    html += '<span class="hbf-scale-label">Scale entire budget to:</span>';
+    html += '<input type="number" id="hbf-scale-input" class="hbf-scale-input" placeholder="2.5" step="0.1" min="0.1" max="20">';
+    html += '<span class="hbf-scale-label">%</span>';
+    html += '<button class="hbf-btn hbf-btn-primary" onclick="hbfScaleToTarget()">Apply</button>';
+    html += '<span class="hbf-scale-info">Currently ' + pct + '% &middot; click qty / rate / total cells to edit</span>';
+    html += '</div>';
+
+    // Phase sections
+    function renderEntries(entries, phaseLabel) {
+      if (!entries || entries.length === 0) return '';
+      var phaseTotal = entries.reduce(function(s, e){ return s + (e.cat.subtotal || 0); }, 0);
+      var section = '<div class="hbf-phase-section">';
+      section += '<div class="hbf-phase-header">';
+      section += '<div class="hbf-phase-name">' + phaseLabel + ' &middot; ' + entries.length + (entries.length === 1 ? ' category' : ' categories') + '</div>';
+      section += '<div class="hbf-phase-total">' + hbfFmtMoney(phaseTotal, currency) + '</div>';
+      section += '</div>';
+      entries.forEach(function(entry){
+        var cat = entry.cat;
+        var idx = entry.idx;
+        var lineItemCount = (cat.lineItems || []).length;
+        section += '<div class="hbf-cat-row expandable" id="hbf-cat-row-' + idx + '" onclick="hbfToggleCategory(' + idx + ')">';
+        section += '<div><div class="hbf-cat-name"><span class="hbf-expand-icon">&#9656;</span>' + (cat.id ? cat.id + '. ' : '') + (cat.name || 'Unnamed') + '</div>';
+        section += '<div class="hbf-cat-meta">' + lineItemCount + (lineItemCount === 1 ? ' line item' : ' line items') + '</div></div>';
+        section += '<div class="hbf-cat-total">' + hbfFmtMoney(cat.subtotal, currency) + '</div>';
+        section += '</div>';
+        // Lines section (hidden by default)
+        section += '<div class="hbf-cat-lines" id="hbf-cat-lines-' + idx + '">';
+        section += '<div class="hbf-line-row hbf-line-header">';
+        section += '<div>Item</div><div>Qty</div><div>Unit</div><div>Phase</div><div>Unit Rate</div><div>Total</div><div></div>';
+        section += '</div>';
+        (cat.lineItems || []).forEach(function(li, liIdx){
+          var edited = li._edited || {};
+          var qtyClass = edited.quantity ? 'hbf-editable edited' : 'hbf-editable';
+          var rateClass = edited.unitRate ? 'hbf-editable edited' : 'hbf-editable';
+          var totalClass = edited.total ? 'hbf-editable edited' : 'hbf-editable';
+          var qty = Number(li.quantity) || 0;
+          var rate = Number(li.unitRate) || 0;
+          var total = Number(li.total) || 0;
+          section += '<div class="hbf-line-row">';
+          section += '<div><div class="hbf-line-item-name">' + (li.item || '-') + '</div>';
+          if (li.specification) section += '<div class="hbf-line-item-spec">' + li.specification + '</div>';
+          section += '</div>';
+          section += '<div class="hbf-line-num"><span class="' + qtyClass + '" data-cat-idx="' + idx + '" data-li-idx="' + liIdx + '" data-field="quantity" data-raw="' + qty + '" onclick="event.stopPropagation();hbfMakeEditable(this)">' + qty.toLocaleString('en-IN') + '</span>';
+          if (edited.quantity) section += '<button class="hbf-revert-btn" title="Revert to AI value" onclick="event.stopPropagation();hbfRevertField(' + idx + ',' + liIdx + ',\'quantity\')">&#8634;</button>';
+          section += '</div>';
+          section += '<div class="hbf-line-num">' + (li.unit || '-') + '</div>';
+          section += '<div style="font-size:9px;color:var(--t3,#B5A99A);text-transform:uppercase;letter-spacing:0.4px;">' + (li.phase || 'EXEC').slice(0,4) + '</div>';
+          section += '<div class="hbf-line-num"><span class="' + rateClass + '" data-cat-idx="' + idx + '" data-li-idx="' + liIdx + '" data-field="unitRate" data-raw="' + rate + '" onclick="event.stopPropagation();hbfMakeEditable(this)">' + rate.toLocaleString('en-IN') + '</span>';
+          if (edited.unitRate) section += '<button class="hbf-revert-btn" title="Revert to AI value" onclick="event.stopPropagation();hbfRevertField(' + idx + ',' + liIdx + ',\'unitRate\')">&#8634;</button>';
+          section += '</div>';
+          section += '<div class="hbf-line-num"><span class="' + totalClass + '" data-cat-idx="' + idx + '" data-li-idx="' + liIdx + '" data-field="total" data-raw="' + total + '" onclick="event.stopPropagation();hbfMakeEditable(this)">' + total.toLocaleString('en-IN') + '</span></div>';
+          section += '<div>';
+          if (edited.total && !edited.quantity && !edited.unitRate) section += '<button class="hbf-revert-btn" title="Revert to AI value" onclick="event.stopPropagation();hbfRevertField(' + idx + ',' + liIdx + ',\'total\')">&#8634;</button>';
+          section += '</div>';
+          section += '</div>';
+        });
+        section += '</div>';
+      });
+      section += '</div>';
+      return section;
+    }
+
+    phaseOrder.forEach(function(phase){ html += renderEntries(phaseGroups[phase], phaseLabels[phase]); });
+    if (unphased.length > 0) html += renderEntries(unphased, 'Other');
+
+    // Footer actions
+    html += '<div class="hbf-breakdown-actions">';
+    html += '<button class="hbf-btn hbf-btn-secondary" onclick="hbfSwitchTab(\'generate\')">&larr; Regenerate</button>';
+    html += '<button class="hbf-btn hbf-btn-primary" onclick="hbfSwitchTab(\'insights\')">View Insights &rarr;</button>';
+    html += '</div>';
+
+    // Audit trail
+    var auditCount = (window.__hbfAudit || []).length;
+    html += '<div class="hbf-audit-section">';
+    html += '<div class="hbf-audit-header collapsed" id="hbf-audit-header" onclick="hbfToggleAudit()">';
+    html += '<div class="hbf-audit-title">Audit Trail</div>';
+    html += '<div class="hbf-audit-count">' + auditCount + (auditCount === 1 ? ' edit' : ' edits') + ' &middot; click to ' + (auditCount > 0 ? 'expand' : 'view') + '</div>';
+    html += '</div>';
+    html += '<div class="hbf-audit-list" id="hbf-audit-list">';
+    if (auditCount === 0) {
+      html += '<div class="hbf-audit-entry" style="grid-template-columns:1fr;color:var(--t3,#B5A99A);text-align:center;">No edits yet. Click any qty / rate / total cell to start.</div>';
+    } else {
+      // Newest first
+      var entries = (window.__hbfAudit || []).slice().reverse();
+      entries.forEach(function(e){
+        html += '<div class="hbf-audit-entry">';
+        html += '<div class="hbf-audit-time">' + e.ts + '</div>';
+        html += '<div class="hbf-audit-where">' + e.where + '</div>';
+        html += '<div class="hbf-audit-source">' + (e.source || 'manual') + '</div>';
+        html += '<div class="hbf-audit-old">' + Number(e.old).toLocaleString('en-IN') + '</div>';
+        html += '<div class="hbf-audit-new">' + Number(e.new).toLocaleString('en-IN') + '</div>';
+        html += '</div>';
+      });
+    }
+    html += '</div></div>';
+
+    container.innerHTML = html;
+  };
+
+  // Insights renderer
+  window.hbfRenderInsights = function(){
+    var container = document.getElementById('hbf-insights-content');
+    if (!container) return;
+    var data = window.__hbfBudgetData;
+    if (!data || !data.categories || data.categories.length === 0) {
+      container.innerHTML = '<div class="hbf-empty-state"><h3 class="hbf-empty-title">No budget yet</h3><p class="hbf-empty-subtitle">Generate a budget first. Insights will analyze warnings, benchmarks, recommendations, and cash flow.</p><button class="hbf-btn hbf-btn-primary" onclick="hbfSwitchTab(\'generate\')">Go to Generate &rarr;</button></div>';
+      return;
+    }
+
+    var currency = (data.projectSummary || {}).currency || '';
+    var pv = (data.projectSummary || {}).value || 0;
+    var pct = pv ? ((data.totalBudget / pv) * 100).toFixed(2) : '-';
+    var bench = data.industryBenchmark || {};
+
+    var html = '';
+
+    // Top KPI row (3 cards) - benchmark status, top cost driver, total line items
+    var benchStatus = 'unknown';
+    var benchStatusText = 'Cannot determine - benchmark data missing';
+    var benchClass = '';
+    if (bench.min != null && bench.max != null && pv > 0) {
+      var benchMinPct, benchMaxPct;
+      if (bench.min < 100 && bench.max < 100) {
+        benchMinPct = bench.min; benchMaxPct = bench.max;
+      } else {
+        benchMinPct = (bench.min / pv) * 100; benchMaxPct = (bench.max / pv) * 100;
+      }
+      var actualPct = parseFloat(pct);
+      if (actualPct < benchMinPct * 0.85) {
+        benchStatus = 'low'; benchClass = 'danger';
+        benchStatusText = 'Significantly below industry benchmark of ' + benchMinPct.toFixed(1) + '-' + benchMaxPct.toFixed(1) + '%. Consider whether all critical HSE controls are budgeted.';
+      } else if (actualPct < benchMinPct) {
+        benchStatus = 'lean'; benchClass = 'warning';
+        benchStatusText = 'Slightly below benchmark range of ' + benchMinPct.toFixed(1) + '-' + benchMaxPct.toFixed(1) + '%. Lean but acceptable if hazard exposure is well managed.';
+      } else if (actualPct <= benchMaxPct) {
+        benchStatus = 'within'; benchClass = 'recommend';
+        benchStatusText = 'Within industry benchmark range of ' + benchMinPct.toFixed(1) + '-' + benchMaxPct.toFixed(1) + '%. Well-positioned.';
+      } else if (actualPct <= benchMaxPct * 1.15) {
+        benchStatus = 'high'; benchClass = 'warning';
+        benchStatusText = 'Slightly above benchmark range of ' + benchMinPct.toFixed(1) + '-' + benchMaxPct.toFixed(1) + '%. Justified for high-risk projects.';
+      } else {
+        benchStatus = 'overshoot'; benchClass = 'danger';
+        benchStatusText = 'Significantly above benchmark range of ' + benchMinPct.toFixed(1) + '-' + benchMaxPct.toFixed(1) + '%. Review categories for over-budgeting.';
+      }
+    }
+
+    // Top 3 cost drivers
+    var sortedCats = (data.categories || []).slice().sort(function(a,b){ return (b.subtotal||0) - (a.subtotal||0); });
+    var top3 = sortedCats.slice(0, 3);
+
+    html += '<div class="hbf-insights-grid">';
+    html += '<div class="hbf-insight-card ' + benchClass + '">';
+    html += '<h3 class="hbf-insight-title">Benchmark Status: ' + benchStatus.charAt(0).toUpperCase() + benchStatus.slice(1) + '</h3>';
+    html += '<p class="hbf-insight-body">' + benchStatusText + '</p>';
+    html += '</div>';
+
+    html += '<div class="hbf-insight-card">';
+    html += '<h3 class="hbf-insight-title">Top 3 Cost Drivers</h3>';
+    html += '<p class="hbf-insight-body">';
+    top3.forEach(function(c, i){
+      var catPct = data.totalBudget ? ((c.subtotal || 0) / data.totalBudget * 100).toFixed(1) : '-';
+      html += (i+1) + '. <strong>' + (c.name || '-') + '</strong> &middot; ' + hbfFmtMoney(c.subtotal, currency) + ' (' + catPct + '%)<br>';
+    });
+    html += '</p></div>';
+    html += '</div>';
+
+    // Cash flow chart
+    var phaseSummary = data.phaseSummary || {};
+    var phaseValues = {
+      tender: Number(phaseSummary.tender) || 0,
+      mobilization: Number(phaseSummary.mobilization) || 0,
+      execution: Number(phaseSummary.execution) || 0,
+      closure: Number(phaseSummary.closure) || 0
+    };
+    // If phaseSummary is empty/missing, derive from line items
+    var totalPhase = phaseValues.tender + phaseValues.mobilization + phaseValues.execution + phaseValues.closure;
+    if (totalPhase === 0) {
+      data.categories.forEach(function(cat){
+        (cat.lineItems || []).forEach(function(li){
+          var phase = (li.phase || 'EXECUTION').toLowerCase();
+          var t = Number(li.total) || 0;
+          if (phaseValues[phase] != null) phaseValues[phase] += t;
+        });
+      });
+      totalPhase = phaseValues.tender + phaseValues.mobilization + phaseValues.execution + phaseValues.closure;
+    }
+    var maxPhase = Math.max(phaseValues.tender, phaseValues.mobilization, phaseValues.execution, phaseValues.closure, 1);
+
+    html += '<div class="hbf-cashflow-chart">';
+    html += '<h3>Phase-wise Spend Distribution</h3>';
+    ['tender','mobilization','execution','closure'].forEach(function(p){
+      var v = phaseValues[p];
+      var pctOfMax = (v / maxPhase) * 100;
+      var pctOfTotal = totalPhase ? ((v / totalPhase) * 100).toFixed(1) : '-';
+      html += '<div class="hbf-bar-row">';
+      html += '<div class="hbf-bar-label">' + p.charAt(0).toUpperCase() + p.slice(1) + '</div>';
+      html += '<div class="hbf-bar-track"><div class="hbf-bar-fill ' + p + '" style="width:' + pctOfMax + '%;"></div></div>';
+      html += '<div class="hbf-bar-value">' + hbfFmtMoney(v, currency) + ' &middot; ' + pctOfTotal + '%</div>';
+      html += '</div>';
+    });
+    html += '<div style="font-size:10px;color:var(--t3,#B5A99A);margin-top:10px;text-align:right;">Monthly projection across project duration coming in Phase 3.5</div>';
+    html += '</div>';
+
+    // Warnings section
+    var warnings = data.warnings || [];
+    if (warnings.length > 0) {
+      html += '<div class="hbf-insight-section">';
+      html += '<h3>Warnings &amp; Risk Alerts</h3>';
+      warnings.forEach(function(w){
+        var text = typeof w === 'string' ? w : (w.message || w.text || JSON.stringify(w));
+        var icon = (typeof w === 'object' && w.severity === 'high') ? 'dang' : 'warn';
+        html += '<div class="hbf-insight-list-item"><span class="hbf-insight-icon ' + icon + '">!</span>' + text + '</div>';
+      });
+      html += '</div>';
+    }
+
+    // Recommendations section
+    var recs = data.recommendations || [];
+    if (recs.length > 0) {
+      html += '<div class="hbf-insight-section">';
+      html += '<h3>AI Recommendations</h3>';
+      recs.forEach(function(r){
+        var text = typeof r === 'string' ? r : (r.message || r.text || JSON.stringify(r));
+        html += '<div class="hbf-insight-list-item"><span class="hbf-insight-icon good">&#10003;</span>' + text + '</div>';
+      });
+      html += '</div>';
+    }
+
+    // Compliance assertions
+    var comps = data.complianceAssertions || [];
+    if (comps.length > 0) {
+      html += '<div class="hbf-insight-section">';
+      html += '<h3>Compliance Assertions</h3>';
+      comps.slice(0, 10).forEach(function(c){
+        var text = typeof c === 'string' ? c : (c.message || c.text || c.assertion || JSON.stringify(c));
+        html += '<div class="hbf-insight-list-item">' + text + '</div>';
+      });
+      if (comps.length > 10) html += '<div class="hbf-insight-list-item" style="color:var(--t3,#B5A99A);font-style:italic;">... and ' + (comps.length - 10) + ' more, full list in Excel export</div>';
+      html += '</div>';
+    }
+
+    // Executive summary
+    if (data.executiveSummary) {
+      html += '<div class="hbf-exec-summary">';
+      html += '<h3>Executive Summary</h3>';
+      var summText = typeof data.executiveSummary === 'string' ? data.executiveSummary : JSON.stringify(data.executiveSummary);
+      html += '<p>' + summText + '</p>';
+      html += '</div>';
+    }
+
+    // Footer
+    html += '<div class="hbf-breakdown-actions">';
+    html += '<button class="hbf-btn hbf-btn-secondary" onclick="hbfSwitchTab(\'breakdown\')">&larr; Back to Breakdown</button>';
+    html += '<button class="hbf-btn hbf-btn-primary" onclick="hbfSwitchTab(\'approval\')">Send for Approval &rarr;</button>';
+    html += '</div>';
+
+    container.innerHTML = html;
+  };
+
+  // Hook hbfSwitchTab to render Insights when switched in - moved to post-IIFE block (see below)
+
+  // Expose helpers
+  window.hbfMakeEditable = hbfMakeEditable;
+  window.hbfRevertField = hbfRevertField;
+  window.hbfScaleToTarget = hbfScaleToTarget;
+  window.hbfToggleCategory = hbfToggleCategory;
+  window.hbfToggleAudit = hbfToggleAudit;
 })();
 </script><style id="hse-budget-phase32-fix">
   /* Phase 3.2.1 - 7-tab guided workflow */
@@ -1767,6 +2296,368 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   body[data-page="hse-budgets"] .hbf-breakdown-actions {
     display: flex; justify-content: flex-end; gap: 10px;
     max-width: 1100px; margin-top: 16px;
+  }
+
+  /* ===== Phase 3.4 - Inline editing + Scale + Insights + Cash flow ===== */
+
+  /* Editable cells in breakdown */
+  body[data-page="hse-budgets"] .hbf-editable {
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.15s;
+    display: inline-block;
+    min-width: 60px;
+  }
+  body[data-page="hse-budgets"] .hbf-editable:hover {
+    background: #FAF8F2;
+    box-shadow: 0 0 0 1px var(--border, #E2DFD5);
+  }
+  body[data-page="hse-budgets"] .hbf-editable.edited {
+    background: #FEF3C7;
+    box-shadow: inset 0 0 0 1px #F59E0B;
+  }
+  body[data-page="hse-budgets"] .hbf-edit-input {
+    width: 100%;
+    padding: 4px 8px;
+    border: 2px solid #C6583E;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: var(--fh, monospace);
+    text-align: right;
+    background: #fff;
+    box-sizing: border-box;
+  }
+  body[data-page="hse-budgets"] .hbf-edit-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(198, 88, 62, 0.15);
+  }
+  body[data-page="hse-budgets"] .hbf-revert-btn {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 0 5px;
+    border: none;
+    background: transparent;
+    color: var(--t3, #B5A99A);
+    cursor: pointer;
+    font-size: 11px;
+    border-radius: 3px;
+  }
+  body[data-page="hse-budgets"] .hbf-revert-btn:hover {
+    background: #FEF3C7;
+    color: #F59E0B;
+  }
+
+  /* Line item rows in breakdown */
+  body[data-page="hse-budgets"] .hbf-line-row {
+    display: grid;
+    grid-template-columns: 1fr 80px 120px 60px 120px 120px 30px;
+    gap: 10px;
+    padding: 8px 18px;
+    border-bottom: 1px solid var(--border, #E2DFD5);
+    align-items: center;
+    font-size: 11px;
+  }
+  body[data-page="hse-budgets"] .hbf-line-row:last-child { border-bottom: none; }
+  body[data-page="hse-budgets"] .hbf-line-row.hbf-line-header {
+    background: #FAF8F2;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--t2, #7A6F5A);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-bottom: 1px solid var(--border, #E2DFD5);
+  }
+  body[data-page="hse-budgets"] .hbf-line-item-name {
+    font-size: 12px;
+    color: var(--t1, #1F1B17);
+    font-weight: 500;
+  }
+  body[data-page="hse-budgets"] .hbf-line-item-spec {
+    font-size: 10px;
+    color: var(--t2, #7A6F5A);
+    margin-top: 2px;
+  }
+  body[data-page="hse-budgets"] .hbf-line-num {
+    text-align: right;
+    font-family: var(--fh, monospace);
+    color: var(--t1, #1F1B17);
+  }
+
+  /* Phase header expandable */
+  body[data-page="hse-budgets"] .hbf-cat-row.expandable {
+    cursor: pointer;
+  }
+  body[data-page="hse-budgets"] .hbf-cat-row.expandable:hover {
+    background: #FAF8F2;
+  }
+  body[data-page="hse-budgets"] .hbf-expand-icon {
+    color: var(--t3, #B5A99A);
+    margin-right: 8px;
+    transition: transform 0.15s;
+    display: inline-block;
+    font-size: 10px;
+  }
+  body[data-page="hse-budgets"] .hbf-cat-row.expanded .hbf-expand-icon {
+    transform: rotate(90deg);
+  }
+  body[data-page="hse-budgets"] .hbf-cat-lines {
+    display: none;
+    background: #FDFCF9;
+  }
+  body[data-page="hse-budgets"] .hbf-cat-lines.show {
+    display: block;
+  }
+
+  /* Scale to % control */
+  body[data-page="hse-budgets"] .hbf-scale-control {
+    background: #fff;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+    max-width: 1100px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  body[data-page="hse-budgets"] .hbf-scale-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--t1, #1F1B17);
+  }
+  body[data-page="hse-budgets"] .hbf-scale-input {
+    width: 70px;
+    padding: 6px 10px;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: var(--fh, monospace);
+    text-align: right;
+  }
+  body[data-page="hse-budgets"] .hbf-scale-info {
+    font-size: 11px;
+    color: var(--t2, #7A6F5A);
+    margin-left: auto;
+  }
+
+  /* Audit trail */
+  body[data-page="hse-budgets"] .hbf-audit-section {
+    background: #fff;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 10px;
+    margin-top: 16px;
+    max-width: 1100px;
+    overflow: hidden;
+  }
+  body[data-page="hse-budgets"] .hbf-audit-header {
+    padding: 12px 18px;
+    background: #FAF8F2;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border, #E2DFD5);
+  }
+  body[data-page="hse-budgets"] .hbf-audit-header.collapsed { border-bottom: none; }
+  body[data-page="hse-budgets"] .hbf-audit-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--t1, #1F1B17);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  body[data-page="hse-budgets"] .hbf-audit-count {
+    font-size: 11px;
+    color: var(--t2, #7A6F5A);
+  }
+  body[data-page="hse-budgets"] .hbf-audit-list {
+    display: none;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  body[data-page="hse-budgets"] .hbf-audit-list.show { display: block; }
+  body[data-page="hse-budgets"] .hbf-audit-entry {
+    padding: 10px 18px;
+    border-bottom: 1px solid var(--border, #E2DFD5);
+    font-size: 11px;
+    display: grid;
+    grid-template-columns: 130px 1fr 80px 120px 120px;
+    gap: 10px;
+    align-items: center;
+  }
+  body[data-page="hse-budgets"] .hbf-audit-entry:last-child { border-bottom: none; }
+  body[data-page="hse-budgets"] .hbf-audit-time {
+    font-family: var(--fh, monospace);
+    color: var(--t3, #B5A99A);
+    font-size: 10px;
+  }
+  body[data-page="hse-budgets"] .hbf-audit-where {
+    color: var(--t1, #1F1B17);
+  }
+  body[data-page="hse-budgets"] .hbf-audit-old { color: var(--red, #DC2626); text-decoration: line-through; font-family: var(--fh, monospace); text-align: right; }
+  body[data-page="hse-budgets"] .hbf-audit-new { color: var(--green, #16A34A); font-weight: 600; font-family: var(--fh, monospace); text-align: right; }
+  body[data-page="hse-budgets"] .hbf-audit-source {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--t3, #B5A99A);
+  }
+
+  /* Insights tab */
+  body[data-page="hse-budgets"] .hbf-insights-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 1100px;
+    margin-bottom: 16px;
+  }
+  body[data-page="hse-budgets"] .hbf-insight-card {
+    background: #fff;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 10px;
+    padding: 18px 22px;
+  }
+  body[data-page="hse-budgets"] .hbf-insight-card.warning {
+    border-color: rgba(245, 158, 11, 0.35);
+    background: rgba(245, 158, 11, 0.04);
+  }
+  body[data-page="hse-budgets"] .hbf-insight-card.danger {
+    border-color: rgba(220, 38, 38, 0.35);
+    background: rgba(220, 38, 38, 0.04);
+  }
+  body[data-page="hse-budgets"] .hbf-insight-card.recommend {
+    border-color: rgba(22, 163, 74, 0.35);
+    background: rgba(22, 163, 74, 0.04);
+  }
+  body[data-page="hse-budgets"] .hbf-insight-title {
+    font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t1, #1F1B17);
+    margin: 0 0 6px;
+  }
+  body[data-page="hse-budgets"] .hbf-insight-body {
+    font-size: 12px;
+    color: var(--t2, #7A6F5A);
+    line-height: 1.5;
+  }
+  body[data-page="hse-budgets"] .hbf-insight-section {
+    background: #fff;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    max-width: 1100px;
+  }
+  body[data-page="hse-budgets"] .hbf-insight-section h3 {
+    font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t1, #1F1B17);
+    margin: 0 0 14px;
+  }
+  body[data-page="hse-budgets"] .hbf-insight-list-item {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border, #E2DFD5);
+    font-size: 12px;
+    color: var(--t1, #1F1B17);
+    line-height: 1.5;
+  }
+  body[data-page="hse-budgets"] .hbf-insight-list-item:last-child { border-bottom: none; }
+  body[data-page="hse-budgets"] .hbf-insight-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  body[data-page="hse-budgets"] .hbf-insight-icon.warn { background: #F59E0B; }
+  body[data-page="hse-budgets"] .hbf-insight-icon.dang { background: #DC2626; }
+  body[data-page="hse-budgets"] .hbf-insight-icon.good { background: #16A34A; }
+
+  /* Cash flow chart */
+  body[data-page="hse-budgets"] .hbf-cashflow-chart {
+    background: #fff;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    max-width: 1100px;
+  }
+  body[data-page="hse-budgets"] .hbf-cashflow-chart h3 {
+    font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t1, #1F1B17);
+    margin: 0 0 14px;
+  }
+  body[data-page="hse-budgets"] .hbf-bar-row {
+    display: grid;
+    grid-template-columns: 130px 1fr 130px;
+    gap: 12px;
+    align-items: center;
+    padding: 8px 0;
+  }
+  body[data-page="hse-budgets"] .hbf-bar-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--t1, #1F1B17);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  body[data-page="hse-budgets"] .hbf-bar-track {
+    height: 22px;
+    background: #FAF8F2;
+    border-radius: 11px;
+    overflow: hidden;
+    position: relative;
+  }
+  body[data-page="hse-budgets"] .hbf-bar-fill {
+    height: 100%;
+    border-radius: 11px;
+    transition: width 0.3s;
+  }
+  body[data-page="hse-budgets"] .hbf-bar-fill.tender { background: linear-gradient(90deg, #818CF8, #6366F1); }
+  body[data-page="hse-budgets"] .hbf-bar-fill.mobilization { background: linear-gradient(90deg, #FBBF24, #F59E0B); }
+  body[data-page="hse-budgets"] .hbf-bar-fill.execution { background: linear-gradient(90deg, #34D399, #16A34A); }
+  body[data-page="hse-budgets"] .hbf-bar-fill.closure { background: linear-gradient(90deg, #F87171, #DC2626); }
+  body[data-page="hse-budgets"] .hbf-bar-value {
+    font-family: var(--fh, monospace);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--t1, #1F1B17);
+    text-align: right;
+  }
+
+  /* Executive summary */
+  body[data-page="hse-budgets"] .hbf-exec-summary {
+    background: #fff;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    max-width: 1100px;
+  }
+  body[data-page="hse-budgets"] .hbf-exec-summary h3 {
+    font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t1, #1F1B17);
+    margin: 0 0 10px;
+  }
+  body[data-page="hse-budgets"] .hbf-exec-summary p {
+    font-size: 13px;
+    color: var(--t1, #1F1B17);
+    line-height: 1.6;
+    margin: 0;
   }
 </style>
 </head>
@@ -2207,10 +3098,12 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </div>
 
 <div id="hbf-tab-insights">
-  <div class="hbf-empty-state">
-    <h3 class="hbf-empty-title">Insights</h3>
-    <p class="hbf-empty-subtitle">AI-generated decision support: industry benchmarks comparison, underbudget warnings, risk-vs-allocation alerts, and recommendations to optimize the HSE spend.</p>
-    <span class="hbf-phase-badge">Phase 3.4</span>
+  <div id="hbf-insights-content">
+    <div class="hbf-empty-state">
+      <h3 class="hbf-empty-title">No budget yet</h3>
+      <p class="hbf-empty-subtitle">Generate a budget first. Insights will analyze warnings, benchmarks, recommendations, and cash flow.</p>
+      <button class="hbf-btn hbf-btn-primary" onclick="hbfSwitchTab('generate')">Go to Generate &rarr;</button>
+    </div>
   </div>
 </div>
 
@@ -2297,6 +3190,25 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
       }
     });
   });
+})();
+</script>
+
+<script id="hbf-insights-hook">
+// Phase 3.4 fix: wrap hbfSwitchTab AFTER both IIFEs have run.
+// This guarantees window.hbfSwitchTab is the final original version when we capture it.
+(function(){
+  if (!window.hbfSwitchTab || !window.hbfRenderInsights) return;
+  var _origSwitchTab = window.hbfSwitchTab;
+  window.hbfSwitchTab = function(name){
+    _origSwitchTab(name);
+    if (name === 'insights') {
+      try { window.hbfRenderInsights(); } catch(e) { console.error('hbfRenderInsights failed:', e); }
+    }
+    if (name === 'breakdown' && window.__hbfBudgetData && window.hbfRenderBreakdown) {
+      // Re-render breakdown on switch-in to pick up any external state changes
+      try { window.hbfRenderBreakdown(window.__hbfBudgetData); } catch(e) { console.error('hbfRenderBreakdown failed:', e); }
+    }
+  };
 })();
 </script>
 
