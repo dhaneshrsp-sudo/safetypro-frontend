@@ -1,4 +1,4 @@
-\# OpsLix Frontend Cleanup — Master Plan
+\# OpsLix Frontend Cleanup â€” Master Plan
 
 
 
@@ -38,19 +38,19 @@ This plan describes how we clean it up safely across 7 sessions.
 
 
 
-\- \[x] \*\*Session A\*\* — gitignore patterns + plan doc (this commit)
+\- \[x] \*\*Session A\*\* â€” gitignore patterns + plan doc (this commit)
 
-\- \[ ] \*\*Session B\*\* — identify orphans (read-only analysis)
+\- \[ ] \*\*Session B\*\* â€” identify orphans (read-only analysis)
 
-\- \[ ] \*\*Session C\*\* — delete all \*.bak files in root
+\- \[x ] \*\*Session C\*\* â€” delete all \*.bak files in root
 
-\- \[ ] \*\*Session D\*\* — delete orphan helper scripts
+\- \[ ] \*\*Session D\*\* â€” delete orphan helper scripts
 
-\- \[ ] \*\*Session E\*\* — untrack backups/ and archive/ folders
+\- \[ ] \*\*Session E\*\* â€” untrack backups/ and archive/ folders
 
-\- \[ ] \*\*Session F\*\* — delete backup HTML versions
+\- \[ ] \*\*Session F\*\* â€” delete backup HTML versions
 
-\- \[ ] \*\*Session G\*\* — final smoke test
+\- \[ ] \*\*Session G\*\* â€” final smoke test
 
 
 
@@ -126,9 +126,9 @@ Session B will grep all HTML files to confirm.
 
 5\. Cross-reference with files on disk to build:
 
-&#x20;  - `cleanup/lists/ORPHAN\_CONFIRMED.txt` — pattern-match junk (debug\_\*, fix\_\*, etc.) AND not referenced
+&#x20;  - `cleanup/lists/ORPHAN\_CONFIRMED.txt` â€” pattern-match junk (debug\_\*, fix\_\*, etc.) AND not referenced
 
-&#x20;  - `cleanup/lists/ORPHAN\_SUSPECTED.txt` — not referenced but doesn't match obvious junk pattern
+&#x20;  - `cleanup/lists/ORPHAN\_SUSPECTED.txt` â€” not referenced but doesn't match obvious junk pattern
 
 6\. Manually review SUSPECTED list, decide each
 
@@ -170,7 +170,7 @@ Delete orphan helper scripts in batches of \~30. Verify after each batch.
 
 \*\*Batch 3:\*\* `patch\_\*.js` (\~50 files)
 
-\*\*Batch 4:\*\* Other one-offs — `add\_\*.js`, `write\_\*.js`, `show\_\*.js`, `scan\_\*.js`, etc. (\~40 files)
+\*\*Batch 4:\*\* Other one-offs â€” `add\_\*.js`, `write\_\*.js`, `show\_\*.js`, `scan\_\*.js`, etc. (\~40 files)
 
 
 
