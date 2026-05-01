@@ -50,7 +50,7 @@ This plan describes how we clean it up safely across 7 sessions.
 
 \- \[x] \*\*Session F\*\* â€” delete backup HTML versions
 
-\- \[ ] \*\*Session G\*\* â€” final smoke test
+\- \[X] \*\*Session G\*\* â€” final smoke test
 
 
 
