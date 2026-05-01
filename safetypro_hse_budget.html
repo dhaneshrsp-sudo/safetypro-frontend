@@ -1454,6 +1454,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     // Footer actions
     html += '<div class="hbf-breakdown-actions">';
     html += '<button class="hbf-btn hbf-btn-secondary" onclick="hbfSwitchTab(\'generate\')">&larr; Regenerate</button>';
+    html += '<button class="hbf-btn hbf-btn-secondary" onclick="hbfShowSaveModal()" style="margin-left:auto;margin-right:8px;">&#128190; Save Budget</button>';
     html += '<button class="hbf-btn hbf-btn-primary" onclick="hbfSwitchTab(\'insights\')">View Insights &rarr;</button>';
     html += '</div>';
 
@@ -1859,6 +1860,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     // Footer actions
     html += '<div class="hbf-breakdown-actions">';
     html += '<button class="hbf-btn hbf-btn-secondary" onclick="hbfSwitchTab(\'generate\')">&larr; Regenerate</button>';
+    html += '<button class="hbf-btn hbf-btn-secondary" onclick="hbfShowSaveModal()" style="margin-left:auto;margin-right:8px;">&#128190; Save Budget</button>';
     html += '<button class="hbf-btn hbf-btn-primary" onclick="hbfSwitchTab(\'insights\')">View Insights &rarr;</button>';
     html += '</div>';
 
@@ -2546,6 +2548,272 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     gap: 8px;
   }
 
+  /* ===== Phase 3.5.1 - Persistence: Save modal, Overview list, Toast ===== */
+
+  /* Overview welcome bar */
+  body[data-page="hse-budgets"] .hbf-overview-welcome {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    background: #fff;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 16px;
+    max-width: 100%;
+  }
+  body[data-page="hse-budgets"] .hbf-overview-title {
+    font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--t1, #1F1B17);
+    margin: 0 0 4px;
+  }
+  body[data-page="hse-budgets"] .hbf-overview-sub {
+    font-size: 12px;
+    color: var(--t2, #7A6F5A);
+    margin: 0;
+    line-height: 1.5;
+  }
+  body[data-page="hse-budgets"] .hbf-overview-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  /* Saved budgets list */
+  body[data-page="hse-budgets"] .hbf-saved-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 100%;
+  }
+  body[data-page="hse-budgets"] .hbf-saved-loading {
+    background: #fff;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 10px;
+    padding: 24px;
+    text-align: center;
+    color: var(--t3, #B5A99A);
+    font-size: 13px;
+  }
+  body[data-page="hse-budgets"] .hbf-saved-empty {
+    background: #fff;
+    border: 1px dashed var(--border, #E2DFD5);
+    border-radius: 10px;
+    padding: 36px 24px;
+    text-align: center;
+  }
+  body[data-page="hse-budgets"] .hbf-saved-empty-title {
+    font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--t1, #1F1B17);
+    margin: 0 0 6px;
+  }
+  body[data-page="hse-budgets"] .hbf-saved-empty-sub {
+    font-size: 12px;
+    color: var(--t2, #7A6F5A);
+    margin: 0 0 14px;
+  }
+  body[data-page="hse-budgets"] .hbf-saved-card {
+    background: #fff;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 10px;
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: grid;
+    grid-template-columns: 1fr 140px 120px 110px;
+    gap: 16px;
+    align-items: center;
+  }
+  body[data-page="hse-budgets"] .hbf-saved-card:hover {
+    border-color: #C6583E;
+    box-shadow: 0 2px 8px rgba(198, 88, 62, 0.08);
+  }
+  body[data-page="hse-budgets"] .hbf-saved-card-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t1, #1F1B17);
+    margin: 0 0 2px;
+  }
+  body[data-page="hse-budgets"] .hbf-saved-card-meta {
+    font-size: 11px;
+    color: var(--t2, #7A6F5A);
+  }
+  body[data-page="hse-budgets"] .hbf-saved-card-amount {
+    font-family: var(--fh, monospace);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--t1, #1F1B17);
+    text-align: right;
+  }
+  body[data-page="hse-budgets"] .hbf-saved-card-pct {
+    font-size: 11px;
+    color: var(--t3, #B5A99A);
+    text-align: right;
+    margin-top: 2px;
+  }
+  body[data-page="hse-budgets"] .hbf-saved-card-date {
+    font-size: 11px;
+    color: var(--t3, #B5A99A);
+    text-align: right;
+  }
+
+  /* Status badges */
+  body[data-page="hse-budgets"] .hbf-status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    text-align: center;
+  }
+  body[data-page="hse-budgets"] .hbf-status-badge.draft {
+    background: rgba(245, 158, 11, 0.12);
+    color: #B45309;
+  }
+  body[data-page="hse-budgets"] .hbf-status-badge.finalized {
+    background: rgba(22, 163, 74, 0.12);
+    color: #166534;
+  }
+  body[data-page="hse-budgets"] .hbf-status-badge.archived {
+    background: rgba(100, 116, 139, 0.12);
+    color: #475569;
+  }
+
+  /* Save modal */
+  body[data-page="hse-budgets"] .hbf-modal-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  body[data-page="hse-budgets"] .hbf-modal-backdrop.show {
+    display: flex;
+  }
+  body[data-page="hse-budgets"] .hbf-modal {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    max-width: 500px;
+    width: 100%;
+    overflow: hidden;
+  }
+  body[data-page="hse-budgets"] .hbf-modal-header {
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border, #E2DFD5);
+  }
+  body[data-page="hse-budgets"] .hbf-modal-title {
+    font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--t1, #1F1B17);
+    margin: 0;
+  }
+  body[data-page="hse-budgets"] .hbf-modal-body {
+    padding: 22px;
+  }
+  body[data-page="hse-budgets"] .hbf-modal-field {
+    margin-bottom: 14px;
+  }
+  body[data-page="hse-budgets"] .hbf-modal-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--t2, #7A6F5A);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 6px;
+  }
+  body[data-page="hse-budgets"] .hbf-modal-input,
+  body[data-page="hse-budgets"] .hbf-modal-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--t1, #1F1B17);
+    background: #fff;
+    box-sizing: border-box;
+  }
+  body[data-page="hse-budgets"] .hbf-modal-input:focus,
+  body[data-page="hse-budgets"] .hbf-modal-select:focus {
+    outline: none;
+    border-color: #C6583E;
+    box-shadow: 0 0 0 3px rgba(198, 88, 62, 0.1);
+  }
+  body[data-page="hse-budgets"] .hbf-modal-summary {
+    background: #FAF8F2;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--t2, #7A6F5A);
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+  body[data-page="hse-budgets"] .hbf-modal-summary strong {
+    color: var(--t1, #1F1B17);
+  }
+  body[data-page="hse-budgets"] .hbf-modal-error {
+    display: none;
+    background: rgba(220, 38, 38, 0.06);
+    border: 1px solid rgba(220, 38, 38, 0.25);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: #DC2626;
+    font-size: 12px;
+    margin-bottom: 14px;
+  }
+  body[data-page="hse-budgets"] .hbf-modal-error.show { display: block; }
+  body[data-page="hse-budgets"] .hbf-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 0 22px 22px;
+  }
+
+  /* Toast notification */
+  body[data-page="hse-budgets"] .hbf-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #1F1B17;
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    font-size: 13px;
+    z-index: 9999;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s;
+    max-width: 380px;
+  }
+  body[data-page="hse-budgets"] .hbf-toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  body[data-page="hse-budgets"] .hbf-toast.success {
+    background: #166534;
+  }
+  body[data-page="hse-budgets"] .hbf-toast.error {
+    background: #B91C1C;
+  }
+
+
   /* Audit trail */
   body[data-page="hse-budgets"] .hbf-audit-section {
     background: #fff;
@@ -3015,28 +3283,18 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </div>
 
 <div id="hbf-tab-overview">
-  <div class="hbf-overview-grid">
-    <div class="hbf-overview-card">
-      <h3>Welcome to HSE Project Budget</h3>
-      <p>OpsLix generates AI-powered HSE budgets tailored to your project type, jurisdiction, and risk profile. Use the tabs above to walk through the lifecycle: Setup the project context, Generate a budget, review the Breakdown, study Insights, run Approval, and monitor Tracking.</p>
-      <button class="hbf-btn hbf-btn-primary" onclick="hbfSwitchTab('setup')">Start with Setup &rarr;</button>
+  <div class="hbf-overview-welcome">
+    <div>
+      <h2 class="hbf-overview-title">HSE Project Budget</h2>
+      <p class="hbf-overview-sub">AI-generated HSE budgets tailored to project type, jurisdiction, and risk profile. Saved budgets persist to your workspace.</p>
     </div>
-    <div class="hbf-overview-card">
-      <h3>Recent activity</h3>
-      <p>No budgets generated yet. Once you create your first budget, recent activity will appear here.</p>
-      <span class="hbf-phase-badge">Phase 3.5</span>
+    <div class="hbf-overview-actions">
+      <button class="hbf-btn hbf-btn-primary" onclick="hbfSwitchTab('setup')">+ New Budget</button>
+      <button class="hbf-btn hbf-btn-secondary" onclick="hbfRefreshSavedList()">Refresh</button>
     </div>
-    <div class="hbf-overview-card">
-      <h3>Budget vs project cost</h3>
-      <p>Once budgets are generated, this card will show HSE allocation as a percentage of total project value, with industry benchmarks for comparison.</p>
-      <span class="hbf-phase-badge">Phase 3.4</span>
-    </div>
-    <div class="hbf-overview-card">
-      <h3>Quick actions</h3>
-      <p>Common workflows:</p>
-      <button class="hbf-btn hbf-btn-primary" onclick="hbfSwitchTab('setup')" style="margin-right:8px">+ New Budget</button>
-      <button class="hbf-btn hbf-btn-secondary" onclick="hbfSwitchTab('breakdown')">View Breakdown</button>
-    </div>
+  </div>
+  <div id="hbf-saved-list" class="hbf-saved-list">
+    <div class="hbf-saved-loading">Loading saved budgets&hellip;</div>
   </div>
 </div>
 
@@ -3312,7 +3570,329 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
       // Re-render breakdown on switch-in to pick up any external state changes
       try { window.hbfRenderBreakdown(window.__hbfBudgetData); } catch(e) { console.error('hbfRenderBreakdown failed:', e); }
     }
+    if (name === 'overview') {
+      try { window.hbfRefreshSavedList(); } catch(e) { console.error('hbfRefreshSavedList failed:', e); }
+    }
   };
+})();
+</script>
+
+<script id="hbf-persistence">
+// Phase 3.5.1 - Persistence: save, list, load
+(function(){
+  var API_BASE = 'https://safetypro-backend.onrender.com/api/v1';
+
+  function getToken() {
+    return localStorage.getItem('sp_token') || '';
+  }
+
+  function fmtMoney(n, currency) {
+    if (n == null) return '-';
+    var s = Math.round(Number(n)).toLocaleString('en-IN');
+    return (currency ? currency + ' ' : '') + s;
+  }
+
+  function fmtDate(iso) {
+    if (!iso) return '-';
+    try {
+      var d = new Date(iso);
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch(e) { return iso; }
+  }
+
+  function showToast(msg, kind) {
+    var t = document.getElementById('hbf-toast');
+    if (!t) return;
+    t.textContent = msg;
+    t.className = 'hbf-toast ' + (kind || '') + ' show';
+    setTimeout(function(){ t.classList.remove('show'); }, 4000);
+  }
+
+  // ---------- Save modal ----------
+  window.hbfShowSaveModal = function(){
+    var data = window.__hbfBudgetData;
+    if (!data || !data.categories || data.categories.length === 0) {
+      showToast('Generate a budget first before saving.', 'error');
+      return;
+    }
+    var modal = document.getElementById('hbf-save-modal');
+    var summary = document.getElementById('hbf-save-summary');
+    var nameInput = document.getElementById('hbf-save-name');
+    var statusSelect = document.getElementById('hbf-save-status');
+    var errBox = document.getElementById('hbf-save-error');
+    if (!modal || !summary || !nameInput || !statusSelect) return;
+
+    // Build summary
+    var ps = data.projectSummary || {};
+    var pv = ps.value || 0;
+    var pct = pv ? ((data.totalBudget / pv) * 100).toFixed(2) : '-';
+    summary.innerHTML =
+      '<strong>' + (ps.name || 'Untitled') + '</strong><br>' +
+      (ps.type || '') + ' &middot; ' + (ps.jurisdiction || '') + ' &middot; ' +
+      (ps.durationMonths || '?') + ' months &middot; ' + (ps.peakWorkforce || '?') + ' workforce<br>' +
+      'Total: <strong>' + fmtMoney(data.totalBudget, ps.currency) + '</strong> ' +
+      '(' + pct + '% of project value) &middot; ' + (data.categories || []).length + ' categories';
+
+    // Default name suggestion
+    if (!nameInput.value) {
+      var today = new Date();
+      var dateStr = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+      nameInput.value = (ps.name || 'HSE Budget') + ' - ' + dateStr;
+    }
+    statusSelect.value = 'DRAFT';
+    errBox.classList.remove('show');
+    errBox.textContent = '';
+    modal.classList.add('show');
+    setTimeout(function(){ nameInput.focus(); nameInput.select(); }, 50);
+  };
+
+  window.hbfHideSaveModal = function(){
+    var modal = document.getElementById('hbf-save-modal');
+    if (modal) modal.classList.remove('show');
+  };
+
+  window.hbfDoSave = function(){
+    var data = window.__hbfBudgetData;
+    if (!data) return;
+    var nameInput = document.getElementById('hbf-save-name');
+    var statusSelect = document.getElementById('hbf-save-status');
+    var errBox = document.getElementById('hbf-save-error');
+    var btn = document.getElementById('hbf-save-confirm-btn');
+    var name = (nameInput.value || '').trim();
+    if (!name) {
+      errBox.textContent = 'Budget name is required.';
+      errBox.classList.add('show');
+      nameInput.focus();
+      return;
+    }
+    if (name.length > 200) {
+      errBox.textContent = 'Budget name must be 200 characters or fewer.';
+      errBox.classList.add('show');
+      return;
+    }
+
+    var ps = data.projectSummary || {};
+    var pv = ps.value || 0;
+    var pct = pv ? (data.totalBudget / pv) * 100 : 0;
+
+    // Build CreateHseBudgetDto payload
+    var payload = {
+      projectName: name,
+      projectType: ps.type || 'Highway',
+      jurisdiction: ps.jurisdiction || 'India',
+      currency: ps.currency || 'INR',
+      projectValue: Number(pv) || 0,
+      durationMonths: Number(ps.durationMonths) || 1,
+      peakWorkforce: Number(ps.peakWorkforce) || 1,
+      complexity: (ps.complexity || 'MEDIUM').toUpperCase(),
+      specialHazards: Array.isArray(ps.specialHazards) ? ps.specialHazards : [],
+      totalBudget: Number(data.totalBudget) || 0,
+      percentOfProjectValue: Number(pct.toFixed ? pct.toFixed(4) : pct) || 0,
+      budgetData: data
+    };
+    if (ps.currency === 'INR') payload.totalBudgetINREquiv = payload.totalBudget;
+
+    var statusVal = statusSelect.value || 'DRAFT';
+    // Status is set on creation via PATCH after if needed - DTO doesn't accept status on create
+    // Backend defaults to DRAFT; we'll PATCH if FINALIZED requested
+
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+    errBox.classList.remove('show');
+
+    fetch(API_BASE + '/hse-budgets', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + getToken()
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(function(r){
+      return r.text().then(function(txt){
+        var json = null;
+        try { json = JSON.parse(txt); } catch(e) {}
+        return { status: r.status, ok: r.ok, body: json, raw: txt };
+      });
+    })
+    .then(function(res){
+      if (!res.ok) {
+        var msg = 'Save failed (HTTP ' + res.status + ')';
+        if (res.body && res.body.message) {
+          msg = Array.isArray(res.body.message) ? res.body.message.join(', ') : res.body.message;
+        }
+        throw new Error(msg);
+      }
+      var savedId = res.body && res.body.id;
+
+      // If user wanted FINALIZED, PATCH to update status
+      if (statusVal === 'FINALIZED' && savedId) {
+        return fetch(API_BASE + '/hse-budgets/' + savedId, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getToken()
+          },
+          body: JSON.stringify({ status: 'FINALIZED' })
+        }).then(function(){ return res.body; });
+      }
+      return res.body;
+    })
+    .then(function(saved){
+      btn.disabled = false;
+      btn.textContent = 'Save Budget';
+      hbfHideSaveModal();
+      showToast('Budget saved: ' + name, 'success');
+      // Mark current data as saved
+      if (window.__hbfBudgetData) {
+        window.__hbfBudgetData._savedId = saved && saved.id;
+      }
+    })
+    .catch(function(err){
+      btn.disabled = false;
+      btn.textContent = 'Save Budget';
+      errBox.textContent = err.message || 'Save failed';
+      errBox.classList.add('show');
+      console.error('Save failed:', err);
+    });
+  };
+
+  // ---------- Overview list rendering ----------
+  window.hbfRefreshSavedList = function(){
+    var container = document.getElementById('hbf-saved-list');
+    if (!container) return;
+    container.innerHTML = '<div class="hbf-saved-loading">Loading saved budgets&hellip;</div>';
+
+    fetch(API_BASE + '/hse-budgets?limit=50', {
+      method: 'GET',
+      headers: { 'Authorization': 'Bearer ' + getToken() }
+    })
+    .then(function(r){
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function(data){
+      var items = (data && data.items) || [];
+      hbfRenderSavedList(items);
+    })
+    .catch(function(err){
+      container.innerHTML = '<div class="hbf-saved-loading" style="color:#B91C1C;">Failed to load: ' + (err.message || 'unknown error') + '</div>';
+      console.error('List fetch failed:', err);
+    });
+  };
+
+  function hbfRenderSavedList(items) {
+    var container = document.getElementById('hbf-saved-list');
+    if (!container) return;
+    if (!items || items.length === 0) {
+      container.innerHTML =
+        '<div class="hbf-saved-empty">' +
+        '<h3 class="hbf-saved-empty-title">No saved budgets yet</h3>' +
+        '<p class="hbf-saved-empty-sub">Generate your first AI budget and save it here. Saved budgets stay accessible across sessions.</p>' +
+        '<button class="hbf-btn hbf-btn-primary" onclick="hbfSwitchTab(\'setup\')">+ Create First Budget</button>' +
+        '</div>';
+      // Update stat cards in topbar to show 0s
+      hbfUpdateStatCards(items);
+      return;
+    }
+
+    var html = '';
+    items.forEach(function(item){
+      var pv = Number(item.projectValue) || 0;
+      var pct = item.percentOfProjectValue != null ? Number(item.percentOfProjectValue).toFixed(2) : '-';
+      var status = (item.status || 'DRAFT').toLowerCase();
+      var statusBadge = '<span class="hbf-status-badge ' + status + '">' + (item.status || 'DRAFT') + '</span>';
+      html +=
+        '<div class="hbf-saved-card" onclick="hbfLoadBudget(\'' + item.id + '\')" title="Click to load">' +
+        '<div>' +
+        '<div class="hbf-saved-card-name">' + (item.projectName || 'Untitled') + '</div>' +
+        '<div class="hbf-saved-card-meta">' +
+        (item.projectType || '') + ' &middot; ' + (item.jurisdiction || '') + ' &middot; ' +
+        (item.durationMonths || '?') + 'mo &middot; ' + (item.peakWorkforce || '?') + ' workforce' +
+        '</div>' +
+        '</div>' +
+        '<div>' +
+        '<div class="hbf-saved-card-amount">' + fmtMoney(item.totalBudget, item.currency) + '</div>' +
+        '<div class="hbf-saved-card-pct">' + pct + '% of ' + fmtMoney(pv, item.currency) + '</div>' +
+        '</div>' +
+        '<div style="text-align:center;">' + statusBadge + '</div>' +
+        '<div class="hbf-saved-card-date">' + fmtDate(item.createdAt) + '</div>' +
+        '</div>';
+    });
+    container.innerHTML = html;
+    hbfUpdateStatCards(items);
+  }
+
+  function hbfUpdateStatCards(items) {
+    // Update the 4 stat cards at top of page (Total Budgets, Active, Pending Review, This FY)
+    var total = items.length;
+    var active = items.filter(function(i){ return i.status === 'DRAFT'; }).length;
+    var finalized = items.filter(function(i){ return i.status === 'FINALIZED'; }).length;
+    var thisYear = new Date().getFullYear();
+    var thisFY = items.filter(function(i){
+      var d = new Date(i.createdAt || 0);
+      return d.getFullYear() === thisYear;
+    }).length;
+
+    var statCards = document.querySelectorAll('.hbf-stat-num');
+    if (statCards.length >= 4) {
+      statCards[0].textContent = total;
+      statCards[1].textContent = active;
+      statCards[2].textContent = finalized;
+      statCards[3].textContent = thisFY;
+    }
+  }
+
+  // ---------- Load a saved budget ----------
+  window.hbfLoadBudget = function(id){
+    if (!id) return;
+    showToast('Loading budget...', '');
+    fetch(API_BASE + '/hse-budgets/' + id, {
+      method: 'GET',
+      headers: { 'Authorization': 'Bearer ' + getToken() }
+    })
+    .then(function(r){
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function(saved){
+      // Restore window.__hbfBudgetData from saved.budgetData
+      var bd = saved.budgetData || {};
+      // Ensure projectSummary is there with the saved fields
+      if (!bd.projectSummary) bd.projectSummary = {};
+      bd.projectSummary.name = saved.projectName;
+      bd.projectSummary.type = saved.projectType;
+      bd.projectSummary.jurisdiction = saved.jurisdiction;
+      bd.projectSummary.currency = saved.currency;
+      bd.projectSummary.value = saved.projectValue;
+      bd.projectSummary.durationMonths = saved.durationMonths;
+      bd.projectSummary.peakWorkforce = saved.peakWorkforce;
+      bd.projectSummary.complexity = saved.complexity;
+      bd.projectSummary.specialHazards = saved.specialHazards || [];
+      bd._savedId = saved.id;
+      bd._savedStatus = saved.status;
+      window.__hbfBudgetData = bd;
+      // Switch to Breakdown tab - hbfSwitchTab wrapper will trigger re-render
+      window.hbfSwitchTab('breakdown');
+      showToast('Loaded: ' + saved.projectName, 'success');
+    })
+    .catch(function(err){
+      showToast('Load failed: ' + (err.message || 'unknown'), 'error');
+      console.error('Load failed:', err);
+    });
+  };
+
+  // ---------- Auto-refresh on first overview tab visit ----------
+  // The hbfSwitchTab wrapper above calls hbfRefreshSavedList for 'overview'.
+  // Trigger on initial page load too if overview is the active tab.
+  document.addEventListener('DOMContentLoaded', function(){
+    setTimeout(function(){
+      var active = document.body.getAttribute('data-active-tab');
+      if (active === 'overview' || !active) {
+        try { hbfRefreshSavedList(); } catch(e) {}
+      }
+    }, 300);
+  });
 })();
 </script>
 
@@ -3813,6 +4393,38 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
 </style><script src="sp-shell.js?v=8"></script>
 <script src="sp-charts.js?v=7"></script>
 <script src="sp-dynamic-states.js?v=5"></script>
+
+<!-- Phase 3.5.1 Save Budget modal -->
+<div class="hbf-modal-backdrop" id="hbf-save-modal" onclick="if(event.target===this)hbfHideSaveModal()">
+  <div class="hbf-modal">
+    <div class="hbf-modal-header">
+      <h3 class="hbf-modal-title">Save Budget</h3>
+    </div>
+    <div class="hbf-modal-body">
+      <div class="hbf-modal-summary" id="hbf-save-summary"></div>
+      <div class="hbf-modal-error" id="hbf-save-error"></div>
+      <div class="hbf-modal-field">
+        <label class="hbf-modal-label" for="hbf-save-name">Budget Name</label>
+        <input type="text" class="hbf-modal-input" id="hbf-save-name" maxlength="200" placeholder="e.g., BBRP HSE FY26 Draft v1">
+      </div>
+      <div class="hbf-modal-field">
+        <label class="hbf-modal-label" for="hbf-save-status">Status</label>
+        <select class="hbf-modal-select" id="hbf-save-status">
+          <option value="DRAFT" selected>Draft (work in progress)</option>
+          <option value="FINALIZED">Finalized (ready for approval)</option>
+        </select>
+      </div>
+    </div>
+    <div class="hbf-modal-actions">
+      <button class="hbf-btn hbf-btn-secondary" onclick="hbfHideSaveModal()">Cancel</button>
+      <button class="hbf-btn hbf-btn-primary" id="hbf-save-confirm-btn" onclick="hbfDoSave()">Save Budget</button>
+    </div>
+  </div>
+</div>
+
+<!-- Phase 3.5.1 Toast container -->
+<div class="hbf-toast" id="hbf-toast"></div>
+
 </body>
 </html>
 
