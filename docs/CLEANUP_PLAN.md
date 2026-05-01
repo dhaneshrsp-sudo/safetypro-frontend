@@ -46,7 +46,7 @@ This plan describes how we clean it up safely across 7 sessions.
 
 \- \[x] \*\*Session D\*\* â€” delete orphan helper scripts
 
-\- \[ ] \*\*Session E\*\* â€” untrack backups/ and archive/ folders
+\- \[x] \*\*Session E\*\* â€” untrack backups/ and archive/ folders
 
 \- \[ ] \*\*Session F\*\* â€” delete backup HTML versions
 
