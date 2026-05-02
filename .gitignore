@@ -149,4 +149,7 @@ _canonical_topnav.html
 _topnav_canonical.txt
 
 # Misc
-sw-old.js
+sw-old.js# Phase prep artifacts (not deployed - dev-only)
+PHASE_*.md
+PHASE_*.js
+*.bak
