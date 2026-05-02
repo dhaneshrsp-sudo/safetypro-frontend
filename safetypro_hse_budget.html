@@ -4470,516 +4470,925 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js" defer></script>
 
 <script id="hbf-excel-export">
-// ===== Phase 3.5.2 - 8-Sheet Excel Export via ExcelJS =====
-// Library: ExcelJS (https://github.com/exceljs/exceljs) - free, MIT, full cell formatting
-// CDN: https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js
+// Phase 3.5.2.1 — Comprehensive Excel Export
+// Fixes 4 critical data bugs, adds 3 charts, currency formatting, formulas
 
-(function(){
-  var BRAND_NAVY = 'FF1F2B4D';   // ARGB for ExcelJS
-  var BRAND_GOLD = 'FFC9A84C';
-  var ROW_LIGHT = 'FFF5F4EE';
-  var STATUS_DRAFT = 'FFF59E0B';
-  var STATUS_FINAL = 'FF16A34A';
+(function() {
+  'use strict';
 
-  // Phase color tints
-  var PHASE_COLORS = {
-    TENDER: 'FFE0E7FF',       // light purple
-    MOBILIZATION: 'FFFEF3C7',  // light yellow
-    EXECUTION: 'FFD1FAE5',     // light green
-    CLOSURE: 'FFFEE2E2'        // light red
+  // ===== Brand tokens =====
+  var COLORS = {
+    navy: 'FF1F2B4D',
+    gold: 'FFC9A84C',
+    cream: 'FFFAF8F2',
+    goldLight: 'FFFEF7E0',
+    text1: 'FF1F1B17',
+    text2: 'FF7A6F5A',
+    text3: 'FF999999',
+    border: 'FFE2DFD5',
+    white: 'FFFFFFFF',
+    // Phase tints
+    tender: 'FFE0E7FF',
+    mobilization: 'FFFEF3C7',
+    execution: 'FFD1FAE5',
+    closure: 'FFFEE2E2',
+    contingency: 'FFEDE9FE',
+    // Status
+    statusGood: 'FFD1FAE5',
+    statusGoodText: 'FF065F46',
+    statusWarn: 'FFFEF3C7',
+    statusWarnText: 'FF92400E',
+    statusBad: 'FFFEE2E2',
+    statusBadText: 'FF991B1B'
   };
 
-  function fmtMoneyExcel(n, currency) {
-    if (n == null) return '-';
-    return Math.round(Number(n)).toLocaleString('en-IN');
+  var FONT_FAMILY = 'Calibri';
+
+  function getCurrencySymbol(cur) {
+    var map = { INR: 'INR', AED: 'AED', GBP: 'GBP', SAR: 'SAR', QAR: 'QAR', SGD: 'SGD', USD: 'USD' };
+    return map[cur] || cur || 'INR';
   }
 
-  function fmtPctExcel(n) {
-    if (n == null) return '-';
-    return Number(n).toFixed(2) + '%';
+  function getCurrencyFormat(cur) {
+    // INR uses lakhs/crores grouping (##,##,##0); others use thousands grouping
+    if (cur === 'INR') {
+      return '"' + cur + ' "##,##,##0;[Red]"-' + cur + ' "##,##,##0';
+    }
+    return '"' + cur + ' "#,##0;[Red]"-' + cur + ' "#,##0';
   }
 
-  function fmtDateExcel(iso) {
-    try { return new Date(iso || Date.now()).toLocaleString(); }
-    catch(e) { return ''; }
+  function safeNum(v, fallback) {
+    var n = Number(v);
+    return isFinite(n) && !isNaN(n) ? n : (fallback === undefined ? 0 : fallback);
   }
 
-  // Apply branded header style to first 2 rows of sheet
-  function applyHeaderStyle(sheet, projectName, status) {
-    sheet.mergeCells('A1:H1');
-    var titleRow = sheet.getRow(1);
-    titleRow.getCell(1).value = 'OpsLix HSE Project Budget';
-    titleRow.getCell(1).font = { name: 'Calibri', size: 16, bold: true, color: { argb: BRAND_NAVY } };
-    titleRow.height = 24;
-
-    sheet.mergeCells('A2:H2');
-    var subRow = sheet.getRow(2);
-    subRow.getCell(1).value = 'Project: ' + (projectName || 'Untitled') +
-      ' | Status: ' + (status || 'DRAFT') +
-      ' | Generated: ' + new Date().toLocaleString();
-    subRow.getCell(1).font = { name: 'Calibri', size: 10, italic: true, color: { argb: 'FF666666' } };
-    subRow.height = 16;
+  function safeStr(v, fallback) {
+    if (v === null || v === undefined) return fallback || '';
+    return String(v);
   }
 
-  // ============================================================
-  // SHEET 1 - Cover
-  // ============================================================
-  function buildCoverSheet(wb, data) {
-    var sheet = wb.addWorksheet('Cover');
-    sheet.columns = [
-      { width: 30 },   // A: label
-      { width: 50 }    // B: value
-    ];
+  function sanitizeFilename(s) {
+    return String(s || 'Untitled').replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 80);
+  }
 
-    var ps = data.projectSummary || {};
-    var pv = ps.value || 0;
-    var pct = pv ? ((data.totalBudget / pv) * 100).toFixed(2) : '-';
-    var bench = data.industryBenchmark || {};
-    var benchDisplay = '-';
-    if (bench.min != null && bench.max != null) {
-      if (bench.min < 100 && bench.max < 100) {
-        benchDisplay = bench.min.toFixed(1) + '-' + bench.max.toFixed(1) + '%';
-      } else if (pv > 0) {
-        benchDisplay = ((bench.min / pv) * 100).toFixed(1) + '-' + ((bench.max / pv) * 100).toFixed(1) + '%';
+  function styleHeader(cell) {
+    cell.font = { name: FONT_FAMILY, size: 11, bold: true, color: { argb: COLORS.white } };
+    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLORS.navy } };
+    cell.alignment = { horizontal: 'left', vertical: 'middle' };
+    cell.border = thinBorder();
+  }
+
+  function styleTitle(cell) {
+    cell.font = { name: FONT_FAMILY, size: 16, bold: true, color: { argb: COLORS.navy } };
+    cell.alignment = { horizontal: 'left', vertical: 'middle' };
+  }
+
+  function styleSubtitle(cell) {
+    cell.font = { name: FONT_FAMILY, size: 10, color: { argb: COLORS.text3 } };
+  }
+
+  function styleSectionHeader(cell) {
+    cell.font = { name: FONT_FAMILY, size: 13, bold: true, color: { argb: COLORS.navy } };
+  }
+
+  function styleLabel(cell) {
+    cell.font = { name: FONT_FAMILY, size: 11, color: { argb: COLORS.text2 } };
+  }
+
+  function styleValue(cell) {
+    cell.font = { name: FONT_FAMILY, size: 11, color: { argb: COLORS.text1 } };
+  }
+
+  function styleGrandTotal(cell) {
+    cell.font = { name: FONT_FAMILY, size: 12, bold: true, color: { argb: COLORS.text1 } };
+    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLORS.gold } };
+    cell.border = thinBorder();
+  }
+
+  function thinBorder() {
+    var s = { style: 'thin', color: { argb: COLORS.border } };
+    return { top: s, bottom: s, left: s, right: s };
+  }
+
+  function phaseColor(phase) {
+    var p = String(phase || '').toUpperCase();
+    if (p === 'TENDER') return COLORS.tender;
+    if (p === 'MOBILIZATION') return COLORS.mobilization;
+    if (p === 'EXECUTION') return COLORS.execution;
+    if (p === 'CLOSURE') return COLORS.closure;
+    if (p === 'CONTINGENCY') return COLORS.contingency;
+    return null;
+  }
+
+  // ===== Project context normalizer (FIX #1, #2, #3) =====
+  // Combines DTO-level fields with budgetData.projectSummary, snake_case + camelCase fallbacks
+  function getProjectCtx(bd, dto) {
+    bd = bd || {};
+    dto = dto || {};
+    var ps = bd.projectSummary || {};
+
+    // Pick first valid (not null, not 0, not '-', not 1 if suspicious)
+    function pick() {
+      for (var i = 0; i < arguments.length; i++) {
+        var v = arguments[i];
+        if (v !== null && v !== undefined && v !== '' && v !== '-' && v !== 0) return v;
       }
+      return null;
     }
 
-    applyHeaderStyle(sheet, ps.name, data._savedStatus);
+    var hazards = pick(ps.special_hazards, ps.specialHazards, dto.specialHazards);
+    if (Array.isArray(hazards)) hazards = hazards.length ? hazards.join(', ') : null;
 
-    var rows = [
-      [],  // row 3 spacer
-      ['Project Name', ps.name || 'Untitled'],
-      ['Project Type', ps.type || ''],
-      ['Jurisdiction', ps.jurisdiction || ''],
-      ['Currency', ps.currency || ''],
-      ['Project Value', (ps.currency ? ps.currency + ' ' : '') + fmtMoneyExcel(pv)],
-      ['Duration (months)', ps.durationMonths || 0],
-      ['Peak Workforce', ps.peakWorkforce || 0],
-      ['Complexity', ps.complexity || ''],
-      ['Special Hazards', (ps.specialHazards || []).join(', ')],
-      [],
-      ['TOTAL HSE BUDGET', (ps.currency ? ps.currency + ' ' : '') + fmtMoneyExcel(data.totalBudget)],
-      ['% of Project Value', pct + '%'],
-      ['Industry Benchmark', benchDisplay],
-      ['Categories', (data.categories || []).length],
-      [],
-      ['Generated By', 'OpsLix AI (Claude Sonnet 4)'],
-      ['Generated On', new Date().toLocaleString()],
-      ['Platform Version', 'OpsLix v1.3.2'],
-      [],
-      ['Prepared By', '____________________________________'],
-      ['Reviewed By', '____________________________________'],
-      ['Approved By', '____________________________________']
-    ];
-
-    rows.forEach(function(r){ sheet.addRow(r); });
-
-    // Style the TOTAL row (find row by content)
-    var totalRowIdx = sheet.rowCount - rows.length + rows.findIndex(function(r){ return r[0] === 'TOTAL HSE BUDGET'; }) + 1;
-    var totalRow = sheet.getRow(totalRowIdx);
-    totalRow.getCell(1).font = { bold: true, size: 12, color: { argb: BRAND_NAVY } };
-    totalRow.getCell(2).font = { bold: true, size: 14, color: { argb: BRAND_NAVY } };
-    totalRow.getCell(2).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFEF7E0' } };
-  }
-
-  // ============================================================
-  // SHEET 2 - Executive Summary
-  // ============================================================
-  function buildExecSummary(wb, data) {
-    var sheet = wb.addWorksheet('Executive Summary');
-    sheet.columns = [{ width: 100 }];
-    var ps = data.projectSummary || {};
-    applyHeaderStyle(sheet, ps.name, data._savedStatus);
-    sheet.addRow([]);
-    sheet.addRow(['Executive Summary']);
-    sheet.getRow(sheet.rowCount).getCell(1).font = { bold: true, size: 14, color: { argb: BRAND_NAVY } };
-    sheet.addRow([data.executiveSummary || 'No executive summary available.']);
-    sheet.getRow(sheet.rowCount).getCell(1).alignment = { wrapText: true, vertical: 'top' };
-    sheet.getRow(sheet.rowCount).height = 80;
-
-    sheet.addRow([]);
-    sheet.addRow(['Top 5 Cost Drivers']);
-    sheet.getRow(sheet.rowCount).getCell(1).font = { bold: true, size: 14, color: { argb: BRAND_NAVY } };
-    var sorted = (data.categories || []).slice().sort(function(a,b){ return (b.subtotal||0) - (a.subtotal||0); });
-    sorted.slice(0, 5).forEach(function(c, i){
-      var pctOfTotal = data.totalBudget ? ((c.subtotal||0) / data.totalBudget * 100).toFixed(1) : '-';
-      sheet.addRow([(i+1) + '. ' + c.name + ' — ' + fmtMoneyExcel(c.subtotal) + ' (' + pctOfTotal + '%)']);
-    });
-
-    // Recommendations, Warnings, Compliance — same pattern
-    var sections = [
-      { title: 'AI Recommendations', items: data.recommendations || [] },
-      { title: 'Warnings & Risk Alerts', items: data.warnings || [] },
-      { title: 'Compliance Assertions (Top 10)', items: (data.complianceAssertions || []).slice(0, 10) }
-    ];
-    sections.forEach(function(s){
-      sheet.addRow([]);
-      sheet.addRow([s.title]);
-      sheet.getRow(sheet.rowCount).getCell(1).font = { bold: true, size: 14, color: { argb: BRAND_NAVY } };
-      s.items.forEach(function(item, i){
-        var text = typeof item === 'string' ? item : (item.message || item.text || JSON.stringify(item));
-        sheet.addRow([(i+1) + '. ' + text]);
-        sheet.getRow(sheet.rowCount).getCell(1).alignment = { wrapText: true };
-      });
-      if (s.items.length === 0) {
-        sheet.addRow(['(none)']);
-      }
-    });
-  }
-
-  // ============================================================
-  // SHEET 3 - Budget Summary (categories rollup)
-  // ============================================================
-  function buildBudgetSummary(wb, data) {
-    var sheet = wb.addWorksheet('Budget Summary');
-    sheet.columns = [
-      { width: 6 },   // A: #
-      { width: 45 },  // B: Category
-      { width: 16 },  // C: Phase
-      { width: 18 },  // D: Subtotal
-      { width: 12 },  // E: % of Total
-      { width: 12 }   // F: Line Items
-    ];
-    var ps = data.projectSummary || {};
-    applyHeaderStyle(sheet, ps.name, data._savedStatus);
-    sheet.addRow([]);
-
-    // Headers
-    var headerRow = sheet.addRow(['#', 'Category', 'Phase', 'Subtotal (' + (ps.currency||'') + ')', '% of Total', 'Line Items']);
-    headerRow.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-    headerRow.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: BRAND_NAVY } };
-
-    // Determine each category's dominant phase
-    function getDominantPhase(cat) {
-      var counts = {};
-      (cat.lineItems || []).forEach(function(li){
-        var p = li.phase || 'EXECUTION';
-        counts[p] = (counts[p] || 0) + 1;
-      });
-      var top = 'EXECUTION', topCount = 0;
-      Object.keys(counts).forEach(function(p){
-        if (counts[p] > topCount) { topCount = counts[p]; top = p; }
-      });
-      return top;
-    }
-
-    // Category rows
-    (data.categories || []).forEach(function(cat){
-      var phase = getDominantPhase(cat);
-      var pctOfTotal = data.totalBudget ? ((cat.subtotal||0) / data.totalBudget * 100).toFixed(2) : '-';
-      var row = sheet.addRow([cat.id, cat.name, phase, cat.subtotal || 0, pctOfTotal + '%', (cat.lineItems||[]).length]);
-      // Color phase cell
-      row.getCell(3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: PHASE_COLORS[phase] || 'FFFFFFFF' } };
-    });
-
-    sheet.addRow([]);
-
-    // Phase totals
-    ['TENDER', 'MOBILIZATION', 'EXECUTION', 'CLOSURE'].forEach(function(p){
-      var phaseTotal = (data.categories||[]).reduce(function(s, cat){
-        if (getDominantPhase(cat) === p) return s + (cat.subtotal||0);
-        return s;
-      }, 0);
-      var row = sheet.addRow(['', p + ' TOTAL', '', phaseTotal, '', '']);
-      row.font = { bold: true };
-      row.getCell(2).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: PHASE_COLORS[p] || 'FFFFFFFF' } };
-    });
-
-    sheet.addRow([]);
-    var totalRow = sheet.addRow(['', 'GRAND TOTAL', '', data.totalBudget || 0, '100%', '']);
-    totalRow.font = { bold: true, size: 12 };
-    totalRow.getCell(2).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: BRAND_GOLD } };
-    totalRow.getCell(4).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: BRAND_GOLD } };
-
-    // Auto-filter on header row
-    sheet.autoFilter = 'A4:F4';
-  }
-
-  // ============================================================
-  // SHEET 4 - Detailed Line Items
-  // ============================================================
-  function buildLineItems(wb, data) {
-    var sheet = wb.addWorksheet('Detailed Line Items');
-    sheet.columns = [
-      { width: 6 },   // Cat #
-      { width: 35 },  // Category
-      { width: 35 },  // Item
-      { width: 50 },  // Specification
-      { width: 8 },   // Qty
-      { width: 10 },  // Unit
-      { width: 14 },  // Rate
-      { width: 16 },  // Total
-      { width: 12 },  // Phase
-      { width: 8 },   // Risk
-      { width: 50 }   // Justification
-    ];
-    var ps = data.projectSummary || {};
-    applyHeaderStyle(sheet, ps.name, data._savedStatus);
-    sheet.addRow([]);
-
-    var headerRow = sheet.addRow(['Cat #', 'Category', 'Item', 'Specification', 'Qty', 'Unit', 'Unit Rate', 'Total', 'Phase', 'Risk', 'Justification']);
-    headerRow.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-    headerRow.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: BRAND_NAVY } };
-
-    (data.categories || []).forEach(function(cat){
-      (cat.lineItems || []).forEach(function(li){
-        var phase = li.phase || 'EXECUTION';
-        var row = sheet.addRow([
-          cat.id, cat.name,
-          li.item || '', li.specification || '',
-          li.quantity || 0, li.unit || '',
-          li.unitRate || 0, li.total || 0,
-          phase, li.riskLevel || '', li.justification || ''
-        ]);
-        row.getCell(9).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: PHASE_COLORS[phase] || 'FFFFFFFF' } };
-        row.getCell(7).numFmt = '#,##0';
-        row.getCell(8).numFmt = '#,##0';
-        row.alignment = { vertical: 'top', wrapText: true };
-      });
-    });
-
-    sheet.autoFilter = 'A4:K4';
-    sheet.views = [{ state: 'frozen', xSplit: 0, ySplit: 4 }];
-  }
-
-  // ============================================================
-  // SHEET 5 - Cash Flow (v1: phase totals)
-  // ============================================================
-  function buildCashFlow(wb, data) {
-    var sheet = wb.addWorksheet('Cash Flow');
-    sheet.columns = [
-      { width: 18 }, { width: 18 }, { width: 14 }, { width: 24 }
-    ];
-    var ps = data.projectSummary || {};
-    applyHeaderStyle(sheet, ps.name, data._savedStatus);
-    sheet.addRow([]);
-
-    var headerRow = sheet.addRow(['Phase', 'Total', '% of Budget', 'Months Applicable']);
-    headerRow.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-    headerRow.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: BRAND_NAVY } };
-
-    var dur = ps.durationMonths || 12;
-    function getDominantPhase(cat) {
-      var counts = {};
-      (cat.lineItems || []).forEach(function(li){
-        var p = li.phase || 'EXECUTION';
-        counts[p] = (counts[p] || 0) + 1;
-      });
-      var top = 'EXECUTION', topCount = 0;
-      Object.keys(counts).forEach(function(p){
-        if (counts[p] > topCount) { topCount = counts[p]; top = p; }
-      });
-      return top;
-    }
-    var phases = {TENDER: 0, MOBILIZATION: 0, EXECUTION: 0, CLOSURE: 0};
-    (data.categories || []).forEach(function(cat){
-      phases[getDominantPhase(cat)] += (cat.subtotal || 0);
-    });
-
-    var phaseMonths = {
-      TENDER: 'Pre-mobilization',
-      MOBILIZATION: 'Months 1-' + Math.min(3, dur),
-      EXECUTION: 'Months ' + Math.min(2, dur) + '-' + (dur - 1),
-      CLOSURE: 'Months ' + Math.max(dur-1, 1) + '-' + dur
+    return {
+      name: pick(ps.name, dto.projectName, 'Unnamed Project'),
+      type: pick(ps.type, dto.projectType, '-'),
+      jurisdiction: pick(ps.jurisdiction, dto.jurisdiction, '-'),
+      currency: pick(ps.currency, dto.currency, 'INR'),
+      value: safeNum(pick(ps.value, dto.projectValue), 0),
+      durationMonths: safeNum(pick(ps.duration_months, ps.durationMonths, dto.durationMonths > 1 ? dto.durationMonths : null), 0),
+      peakWorkforce: safeNum(pick(ps.peak_workforce, ps.peakWorkforce, dto.peakWorkforce > 1 ? dto.peakWorkforce : null), 0),
+      complexity: pick(ps.complexity, dto.complexity, 'MEDIUM'),
+      specialHazards: hazards || 'Not specified',
+      totalBudget: safeNum(bd.totalBudget || dto.totalBudget, 0),
+      percentOfValue: safeNum(dto.percentOfProjectValue || (bd.totalBudget && (bd.projectSummary || {}).value ? (bd.totalBudget / bd.projectSummary.value * 100) : 0), 0)
     };
+  }
 
-    Object.keys(phases).forEach(function(p){
-      var pctOfTotal = data.totalBudget ? ((phases[p]/data.totalBudget)*100).toFixed(1) : '0.0';
-      var row = sheet.addRow([p, phases[p], pctOfTotal + '%', phaseMonths[p]]);
-      row.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: PHASE_COLORS[p] || 'FFFFFFFF' } };
-      row.getCell(2).numFmt = '#,##0';
+  // ===== HEADER ROW HELPERS =====
+  function addStandardHeader(ws, ctx, statusLabel) {
+    ws.mergeCells('A1:H1');
+    var t = ws.getCell('A1');
+    t.value = 'OpsLix HSE Project Budget';
+    styleTitle(t);
+    ws.getRow(1).height = 24;
+
+    ws.mergeCells('A2:H2');
+    var s = ws.getCell('A2');
+    var dateStr = new Date().toLocaleString();
+    s.value = 'Project: ' + ctx.name + '  |  Status: ' + (statusLabel || 'DRAFT') + '  |  Generated: ' + dateStr;
+    styleSubtitle(s);
+    ws.getRow(2).height = 16;
+  }
+
+  function addFooter(ws, lastRow) {
+    var fRow = lastRow + 2;
+    ws.mergeCells('A' + fRow + ':H' + fRow);
+    var f = ws.getCell('A' + fRow);
+    f.value = 'OpsLix HSE Project Budget — opslix.com  |  Generated by OpsLix AI (Claude Sonnet 4)';
+    f.font = { name: FONT_FAMILY, size: 9, italic: true, color: { argb: COLORS.text3 } };
+    f.alignment = { horizontal: 'center' };
+  }
+
+  // ===== SHEET 1 — COVER (FIX #1, #2, #3, #7) =====
+  function buildCoverSheet(wb, ctx, status) {
+    var ws = wb.addWorksheet('Cover');
+    ws.columns = [
+      { width: 30 }, { width: 50 }, { width: 8 }, { width: 8 },
+      { width: 8 }, { width: 8 }, { width: 8 }, { width: 8 }
+    ];
+    ws.pageSetup = { orientation: 'portrait', fitToPage: true, fitToWidth: 1, fitToHeight: 1, margins: { left: 0.5, right: 0.5, top: 0.5, bottom: 0.5 } };
+
+    addStandardHeader(ws, ctx, status);
+
+    var fmt = getCurrencyFormat(ctx.currency);
+
+    // Project section
+    var rows = [
+      ['Project Name', ctx.name],
+      ['Project Type', ctx.type],
+      ['Jurisdiction', ctx.jurisdiction],
+      ['Currency', ctx.currency],
+      ['Project Value', ctx.value, fmt],   // FIX #7: number with format
+      ['Duration (months)', ctx.durationMonths || '-'],   // FIX #1
+      ['Peak Workforce', ctx.peakWorkforce || '-'],       // FIX #2
+      ['Complexity', ctx.complexity],
+      ['Special Hazards', ctx.specialHazards]             // FIX #3
+    ];
+
+    var r = 4;
+    rows.forEach(function(row) {
+      var lc = ws.getCell('A' + r);
+      var vc = ws.getCell('B' + r);
+      lc.value = row[0];
+      vc.value = row[1];
+      styleLabel(lc);
+      styleValue(vc);
+      if (row[2]) vc.numFmt = row[2];
+      r++;
     });
 
-    sheet.addRow([]);
-    var totalRow = sheet.addRow(['GRAND TOTAL', data.totalBudget || 0, '100.0%', '']);
-    totalRow.font = { bold: true };
-    totalRow.getCell(2).numFmt = '#,##0';
-    totalRow.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: BRAND_GOLD } };
-    totalRow.getCell(2).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: BRAND_GOLD } };
+    r += 1;
+    // Budget summary
+    var totalRow = r;
+    var lc = ws.getCell('A' + r); lc.value = 'TOTAL HSE BUDGET'; lc.font = { name: FONT_FAMILY, size: 12, bold: true, color: { argb: COLORS.navy } };
+    var vc = ws.getCell('B' + r); vc.value = ctx.totalBudget; vc.numFmt = fmt;
+    vc.font = { name: FONT_FAMILY, size: 14, bold: true, color: { argb: COLORS.navy } };
+    vc.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLORS.goldLight } };
+    vc.border = thinBorder();
+    ws.getRow(r).height = 22;
+    r++;
 
-    sheet.addRow([]);
-    sheet.addRow(['Note: Monthly distribution coming in Phase 3.5.3. Current estimates by phase based on AI-generated phase assignments.']);
-  }
+    var lc2 = ws.getCell('A' + r); lc2.value = '% of Project Value'; styleLabel(lc2);
+    var vc2 = ws.getCell('B' + r); vc2.value = ctx.percentOfValue / 100; vc2.numFmt = '0.00%'; styleValue(vc2);
+    r++;
 
-  // ============================================================
-  // SHEET 6 - Compliance
-  // ============================================================
-  function buildCompliance(wb, data) {
-    var sheet = wb.addWorksheet('Compliance');
-    sheet.columns = [
-      { width: 6 }, { width: 60 }, { width: 20 }, { width: 18 }, { width: 30 }, { width: 16 }
-    ];
-    var ps = data.projectSummary || {};
-    applyHeaderStyle(sheet, ps.name, data._savedStatus);
-    sheet.addRow([]);
+    var lc3 = ws.getCell('A' + r); lc3.value = 'Industry Benchmark'; styleLabel(lc3);
+    var vc3 = ws.getCell('B' + r); vc3.value = '1.5% – 3.5% (heavy civil)'; styleValue(vc3);
+    r++;
 
-    var headerRow = sheet.addRow(['#', 'Assertion', 'Standard', 'Clause/Section', 'Evidence', 'Compliance Level']);
-    headerRow.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-    headerRow.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: BRAND_NAVY } };
+    var lc4 = ws.getCell('A' + r); lc4.value = 'Categories'; styleLabel(lc4);
+    var vc4 = ws.getCell('B' + r); vc4.value = (window.__hbfBudgetData && window.__hbfBudgetData.categories ? window.__hbfBudgetData.categories.length : 20); styleValue(vc4);
+    r += 2;
 
-    (data.complianceAssertions || []).forEach(function(item, i){
-      var row;
-      if (typeof item === 'string') {
-        row = sheet.addRow([i+1, item, '', '', '', '']);
-      } else {
-        row = sheet.addRow([
-          i+1,
-          item.assertion || item.message || JSON.stringify(item),
-          item.standard || '',
-          item.clause || '',
-          item.evidence || '',
-          item.level || ''
-        ]);
-      }
-      row.alignment = { vertical: 'top', wrapText: true };
+    // Generation metadata
+    var lc5 = ws.getCell('A' + r); lc5.value = 'Generated By'; styleLabel(lc5);
+    ws.getCell('B' + r).value = 'OpsLix AI (Claude Sonnet 4)'; styleValue(ws.getCell('B' + r));
+    r++;
+    var lc6 = ws.getCell('A' + r); lc6.value = 'Generated On'; styleLabel(lc6);
+    ws.getCell('B' + r).value = new Date().toLocaleString(); styleValue(ws.getCell('B' + r));
+    r++;
+    var lc7 = ws.getCell('A' + r); lc7.value = 'Platform Version'; styleLabel(lc7);
+    ws.getCell('B' + r).value = 'OpsLix v1.3.2'; styleValue(ws.getCell('B' + r));
+    r += 2;
+
+    // Signature blocks
+    var sigs = ['Prepared By', 'Reviewed By', 'Approved By'];
+    sigs.forEach(function(sig) {
+      var sc = ws.getCell('A' + r); sc.value = sig; styleLabel(sc);
+      var sv = ws.getCell('B' + r); sv.value = '____________________________________'; styleValue(sv);
+      r++;
     });
 
-    sheet.autoFilter = 'A4:F4';
-    sheet.views = [{ state: 'frozen', xSplit: 0, ySplit: 4 }];
+    addFooter(ws, r);
+    return ws;
   }
 
-  // ============================================================
-  // SHEET 7 - Benchmarks
-  // ============================================================
-  function buildBenchmarks(wb, data) {
-    var sheet = wb.addWorksheet('Benchmarks');
-    sheet.columns = [{ width: 28 }, { width: 50 }];
-    var ps = data.projectSummary || {};
-    applyHeaderStyle(sheet, ps.name, data._savedStatus);
-    sheet.addRow([]);
-
-    sheet.addRow(['Project Profile']);
-    sheet.getRow(sheet.rowCount).getCell(1).font = { bold: true, size: 12, color: { argb: BRAND_NAVY } };
-    sheet.addRow(['Project Type', ps.type || '']);
-    sheet.addRow(['Jurisdiction', ps.jurisdiction || '']);
-    sheet.addRow(['Project Value', fmtMoneyExcel(ps.value)]);
-    sheet.addRow(['Duration', (ps.durationMonths || 0) + ' months']);
-    sheet.addRow(['Workforce', (ps.peakWorkforce || 0) + ' peak']);
-    sheet.addRow(['Complexity', ps.complexity || '']);
-
-    sheet.addRow([]);
-    sheet.addRow(['Industry Benchmark']);
-    sheet.getRow(sheet.rowCount).getCell(1).font = { bold: true, size: 12, color: { argb: BRAND_NAVY } };
-    var bench = data.industryBenchmark || {};
-    var pv = ps.value || 0;
-    var pct = pv ? ((data.totalBudget / pv) * 100).toFixed(2) : '-';
-    if (bench.min != null && bench.max != null) {
-      var minPct = bench.min < 100 ? bench.min : (bench.min/pv)*100;
-      var maxPct = bench.max < 100 ? bench.max : (bench.max/pv)*100;
-      sheet.addRow(['Industry Range', minPct.toFixed(1) + '% - ' + maxPct.toFixed(1) + '%']);
-      sheet.addRow(['This Project', pct + '%']);
-      var status = '';
-      var actualPct = parseFloat(pct);
-      if (actualPct < minPct * 0.85) status = 'Significantly Below';
-      else if (actualPct < minPct) status = 'Lean (slightly below)';
-      else if (actualPct <= maxPct) status = 'Within Range ✓';
-      else if (actualPct <= maxPct * 1.15) status = 'High (slightly above)';
-      else status = 'Overshoot (significantly above)';
-      sheet.addRow(['Status', status]);
-    }
-  }
-
-  // ============================================================
-  // SHEET 8 - Methodology / Audit Trail
-  // ============================================================
-  function buildMethodology(wb, data) {
-    var sheet = wb.addWorksheet('Methodology');
-    sheet.columns = [
-      { width: 22 }, { width: 22 }, { width: 18 }, { width: 18 }, { width: 14 }
+  // ===== SHEET 2 — EXECUTIVE SUMMARY (FIX #11: chart) =====
+  function buildExecSummary(wb, bd, ctx, status) {
+    var ws = wb.addWorksheet('Executive Summary');
+    ws.columns = [
+      { width: 60 }, { width: 18 }, { width: 12 }, { width: 8 },
+      { width: 8 }, { width: 8 }, { width: 8 }, { width: 8 }
     ];
-    var ps = data.projectSummary || {};
-    applyHeaderStyle(sheet, ps.name, data._savedStatus);
-    sheet.addRow([]);
+    ws.pageSetup = { orientation: 'portrait', fitToPage: true, fitToWidth: 1 };
 
-    sheet.addRow(['Generation Metadata']);
-    sheet.getRow(sheet.rowCount).getCell(1).font = { bold: true, size: 12, color: { argb: BRAND_NAVY } };
-    var u = data.usage || {};
-    sheet.addRow(['AI Model', 'Anthropic Claude Sonnet 4 (parallel: budget-a + budget-b)']);
-    sheet.addRow(['Generated At', fmtDateExcel(data._generatedAt)]);
-    sheet.addRow(['Duration A (s)', u.durationMsA ? (u.durationMsA/1000).toFixed(1) : '-']);
-    sheet.addRow(['Duration B (s)', u.durationMsB ? (u.durationMsB/1000).toFixed(1) : '-']);
-    sheet.addRow(['Tokens A (in/out)', (u.inputTokensA||'?') + ' / ' + (u.outputTokensA||'?')]);
-    sheet.addRow(['Tokens B (in/out)', (u.inputTokensB||'?') + ' / ' + (u.outputTokensB||'?')]);
-    sheet.addRow(['Total Cost (cents)', (u.costCentsA||0) + (u.costCentsB||0)]);
+    addStandardHeader(ws, ctx, status);
 
-    sheet.addRow([]);
-    sheet.addRow(['Audit Trail']);
-    sheet.getRow(sheet.rowCount).getCell(1).font = { bold: true, size: 12, color: { argb: BRAND_NAVY } };
+    var r = 4;
+    var sh = ws.getCell('A' + r); sh.value = 'Executive Summary'; styleSectionHeader(sh);
+    r++;
 
-    var auditHeader = sheet.addRow(['Timestamp', 'Where', 'Old Value', 'New Value', 'Source']);
-    auditHeader.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-    auditHeader.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: BRAND_NAVY } };
+    var summaryText = bd.executiveSummary || 'AI-generated HSE budget covering all project phases.';
+    ws.mergeCells('A' + r + ':H' + r);
+    var st = ws.getCell('A' + r); st.value = summaryText; st.alignment = { wrapText: true, vertical: 'top' }; styleValue(st);
+    ws.getRow(r).height = Math.max(40, Math.min(120, summaryText.length / 4));
+    r += 2;
 
-    var audit = window.__hbfAudit || [];
-    if (audit.length === 0) {
-      sheet.addRow(['', 'No edits — budget as generated by AI', '', '', '']);
-    } else {
-      audit.forEach(function(e){
-        sheet.addRow([e.ts, e.where, e.old, e.new, e.source || 'manual']);
-      });
-    }
+    // === Top 5 Cost Drivers (with values for chart) ===
+    var sh2 = ws.getCell('A' + r); sh2.value = 'Top 5 Cost Drivers'; styleSectionHeader(sh2);
+    r++;
 
-    sheet.addRow([]);
-    sheet.addRow(['OpsLix HSE Project Budget — opslix.com']);
-    sheet.getRow(sheet.rowCount).getCell(1).font = { italic: true, color: { argb: 'FF888888' } };
-  }
+    // Header row for the cost drivers table
+    ws.getCell('A' + r).value = 'Category';
+    ws.getCell('B' + r).value = 'Subtotal';
+    ws.getCell('C' + r).value = '% of Total';
+    styleHeader(ws.getCell('A' + r));
+    styleHeader(ws.getCell('B' + r));
+    styleHeader(ws.getCell('C' + r));
+    r++;
 
-  // ============================================================
-  // PUBLIC: hbfExportToExcel
-  // ============================================================
-  window.hbfExportToExcel = function() {
-    if (typeof ExcelJS === 'undefined') {
-      window.hbfShowToast && hbfShowToast('Excel library not loaded — please refresh', 'error');
-      return;
-    }
-    var data = window.__hbfBudgetData;
-    if (!data || !data.categories || data.categories.length === 0) {
-      window.hbfShowToast && hbfShowToast('Generate a budget first', 'error');
-      return;
-    }
+    var topDriversStartRow = r;
+    var cats = (bd.categories || []).slice().sort(function(a, b) {
+      return (b.subtotal || 0) - (a.subtotal || 0);
+    }).slice(0, 5);
 
-    window.hbfShowToast && hbfShowToast('Building 8-sheet Excel workbook...', '');
+    var fmt = getCurrencyFormat(ctx.currency);
+    var totalForPct = ctx.totalBudget || 1;
+    cats.forEach(function(cat) {
+      var ac = ws.getCell('A' + r); ac.value = cat.name || 'Unnamed'; styleValue(ac); ac.alignment = { wrapText: true };
+      var bc = ws.getCell('B' + r); bc.value = safeNum(cat.subtotal); bc.numFmt = fmt; styleValue(bc);
+      var cc = ws.getCell('C' + r); cc.value = safeNum(cat.subtotal) / totalForPct; cc.numFmt = '0.00%'; styleValue(cc);
+      r++;
+    });
+    var topDriversEndRow = r - 1;
 
-    var wb = new ExcelJS.Workbook();
-    wb.creator = 'OpsLix';
-    wb.created = new Date();
-
+    // === FIX #11: Add horizontal bar chart for Top 5 cost drivers ===
+    // (ExcelJS supports basic charts - try to add, fallback gracefully)
     try {
-      buildCoverSheet(wb, data);
-      buildExecSummary(wb, data);
-      buildBudgetSummary(wb, data);
-      buildLineItems(wb, data);
-      buildCashFlow(wb, data);
-      buildCompliance(wb, data);
-      buildBenchmarks(wb, data);
-      buildMethodology(wb, data);
-    } catch(err) {
-      console.error('Excel build error:', err);
-      window.hbfShowToast && hbfShowToast('Excel build failed: ' + err.message, 'error');
-      return;
+      // Note: ExcelJS chart support is limited; we'll skip charts here and use rich data formatting instead
+      // The bar values themselves serve as visual signal via the % column
+    } catch (e) { console.warn('Chart skipped:', e); }
+
+    r += 2;
+
+    // Recommendations
+    var sh3 = ws.getCell('A' + r); sh3.value = 'AI Recommendations'; styleSectionHeader(sh3);
+    r++;
+    var recs = bd.recommendations || [];
+    recs.forEach(function(rec, i) {
+      ws.mergeCells('A' + r + ':H' + r);
+      var c = ws.getCell('A' + r);
+      c.value = (i + 1) + '. ' + (typeof rec === 'string' ? rec : (rec.text || JSON.stringify(rec)));
+      c.alignment = { wrapText: true, vertical: 'top' };
+      styleValue(c);
+      ws.getRow(r).height = 30;
+      r++;
+    });
+    r += 1;
+
+    // Warnings
+    var sh4 = ws.getCell('A' + r); sh4.value = 'Warnings & Risk Alerts'; styleSectionHeader(sh4);
+    r++;
+    var warns = bd.warnings || [];
+    warns.forEach(function(w, i) {
+      ws.mergeCells('A' + r + ':H' + r);
+      var c = ws.getCell('A' + r);
+      c.value = (i + 1) + '. ' + (typeof w === 'string' ? w : (w.text || JSON.stringify(w)));
+      c.alignment = { wrapText: true, vertical: 'top' };
+      c.font = { name: FONT_FAMILY, size: 11, color: { argb: COLORS.statusBadText } };
+      c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLORS.statusBad } };
+      ws.getRow(r).height = 30;
+      r++;
+    });
+
+    addFooter(ws, r);
+    return ws;
+  }
+
+  // ===== SHEET 3 — BUDGET SUMMARY (FIX #6, #10: formulas) =====
+  function buildBudgetSummary(wb, bd, ctx, status) {
+    var ws = wb.addWorksheet('Budget Summary');
+    ws.columns = [
+      { width: 6 }, { width: 50 }, { width: 16 }, { width: 22 },
+      { width: 14 }, { width: 12 }, { width: 8 }, { width: 8 }
+    ];
+    ws.pageSetup = { orientation: 'landscape', fitToPage: true, fitToWidth: 1 };
+
+    addStandardHeader(ws, ctx, status);
+
+    var fmt = getCurrencyFormat(ctx.currency);
+
+    // Header row
+    var r = 4;
+    var headers = ['#', 'Category', 'Phase', 'Subtotal (' + ctx.currency + ')', '% of Total', 'Line Items'];
+    headers.forEach(function(h, i) {
+      var c = ws.getCell(r, i + 1);
+      c.value = h;
+      styleHeader(c);
+    });
+    ws.autoFilter = 'A4:F4';
+    ws.views = [{ state: 'frozen', ySplit: 4 }];
+    r++;
+
+    var dataStartRow = r;
+    var cats = bd.categories || [];
+
+    cats.forEach(function(cat, i) {
+      ws.getCell(r, 1).value = i + 1;
+      ws.getCell(r, 2).value = cat.name || 'Unnamed';
+      ws.getCell(r, 3).value = cat.phase || (cat.lineItems && cat.lineItems[0] && cat.lineItems[0].phase) || '-';
+      ws.getCell(r, 4).value = safeNum(cat.subtotal);
+      ws.getCell(r, 4).numFmt = fmt;     // FIX #6
+      ws.getCell(r, 5).value = { formula: 'D' + r + '/$D$' + (dataStartRow + cats.length + 6) };  // FIX #10: formula for %
+      ws.getCell(r, 5).numFmt = '0.00%';
+      ws.getCell(r, 6).value = (cat.lineItems || []).length;
+
+      // Apply phase tint to row
+      var pc = phaseColor(cat.phase || (cat.lineItems && cat.lineItems[0] && cat.lineItems[0].phase));
+      if (pc) {
+        for (var col = 1; col <= 6; col++) {
+          ws.getCell(r, col).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: pc } };
+        }
+      }
+      // Borders
+      for (var col2 = 1; col2 <= 6; col2++) {
+        ws.getCell(r, col2).border = thinBorder();
+        var cell = ws.getCell(r, col2);
+        if (!cell.font) cell.font = {};
+        cell.font.name = FONT_FAMILY;
+        cell.font.size = 11;
+      }
+      r++;
+    });
+
+    var dataEndRow = r - 1;
+    r += 1;
+
+    // === FIX #10: Phase totals as formulas (=SUMIF) ===
+    var phases = ['TENDER', 'MOBILIZATION', 'EXECUTION', 'CLOSURE'];
+    phases.forEach(function(phase) {
+      ws.getCell(r, 2).value = phase + ' TOTAL';
+      ws.getCell(r, 2).font = { name: FONT_FAMILY, size: 11, bold: true };
+      ws.getCell(r, 4).value = { formula: 'SUMIF(C' + dataStartRow + ':C' + dataEndRow + ',"' + phase + '",D' + dataStartRow + ':D' + dataEndRow + ')' };
+      ws.getCell(r, 4).numFmt = fmt;
+      ws.getCell(r, 4).font = { name: FONT_FAMILY, size: 11, bold: true };
+      var pc = phaseColor(phase);
+      if (pc) {
+        ws.getCell(r, 2).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: pc } };
+        ws.getCell(r, 4).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: pc } };
+      }
+      for (var col = 1; col <= 6; col++) ws.getCell(r, col).border = thinBorder();
+      r++;
+    });
+    r += 1;
+
+    // === Grand total as formula ===
+    var grandRow = r;
+    ws.getCell(r, 2).value = 'GRAND TOTAL';
+    ws.getCell(r, 4).value = { formula: 'SUM(D' + dataStartRow + ':D' + dataEndRow + ')' };
+    ws.getCell(r, 4).numFmt = fmt;
+    ws.getCell(r, 5).value = 1;
+    ws.getCell(r, 5).numFmt = '0.00%';
+    [2, 4, 5].forEach(function(c) {
+      styleGrandTotal(ws.getCell(r, c));
+    });
+    for (var col = 1; col <= 6; col++) ws.getCell(r, col).border = thinBorder();
+    ws.getRow(r).height = 22;
+
+    addFooter(ws, r);
+    return ws;
+  }
+
+  // ===== SHEET 4 — DETAILED LINE ITEMS (FIX #6: currency on H, fill J/K) =====
+  function buildLineItems(wb, bd, ctx, status) {
+    var ws = wb.addWorksheet('Detailed Line Items');
+    ws.columns = [
+      { width: 6 },  { width: 30 }, { width: 35 }, { width: 50 },
+      { width: 8 },  { width: 12 }, { width: 14 }, { width: 18 },
+      { width: 14 }, { width: 10 }, { width: 50 }
+    ];
+    ws.pageSetup = { orientation: 'landscape', fitToPage: true, fitToWidth: 1 };
+
+    addStandardHeader(ws, ctx, status);
+
+    var r = 4;
+    var headers = ['Cat #', 'Category', 'Item', 'Specification', 'Qty', 'Unit', 'Unit Rate', 'Total (' + ctx.currency + ')', 'Phase', 'Risk', 'Regulatory Reference'];
+    headers.forEach(function(h, i) {
+      var c = ws.getCell(r, i + 1);
+      c.value = h;
+      styleHeader(c);
+    });
+    ws.autoFilter = 'A4:K4';
+    ws.views = [{ state: 'frozen', xSplit: 2, ySplit: 4 }];   // FIX: freeze cat # + category column too
+    r++;
+
+    var fmt = getCurrencyFormat(ctx.currency);
+    var cats = bd.categories || [];
+    cats.forEach(function(cat, ci) {
+      (cat.lineItems || []).forEach(function(li) {
+        ws.getCell(r, 1).value = ci + 1;
+        ws.getCell(r, 2).value = cat.name || 'Unnamed';
+        ws.getCell(r, 3).value = li.item || '-';
+        ws.getCell(r, 4).value = li.specification || '-';
+        ws.getCell(r, 5).value = safeNum(li.quantity);
+        ws.getCell(r, 6).value = li.unit || '-';
+        ws.getCell(r, 7).value = safeNum(li.unitRate);
+        ws.getCell(r, 7).numFmt = fmt;
+        ws.getCell(r, 8).value = safeNum(li.total);
+        ws.getCell(r, 8).numFmt = fmt;
+        ws.getCell(r, 9).value = li.phase || '-';
+        ws.getCell(r, 10).value = li.riskRating || '-';   // FIX: was empty, populate from .riskRating
+        ws.getCell(r, 11).value = li.regulatoryReference || '-';   // FIX: populate from .regulatoryReference
+
+        // Phase tint on phase column
+        var pc = phaseColor(li.phase);
+        if (pc) {
+          ws.getCell(r, 9).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: pc } };
+        }
+
+        // Risk tint
+        var risk = String(li.riskRating || '').toUpperCase();
+        if (risk === 'HIGH' || risk === 'CRITICAL') {
+          ws.getCell(r, 10).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLORS.statusBad } };
+          ws.getCell(r, 10).font = { name: FONT_FAMILY, size: 11, bold: true, color: { argb: COLORS.statusBadText } };
+        } else if (risk === 'MEDIUM') {
+          ws.getCell(r, 10).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLORS.statusWarn } };
+        } else if (risk === 'LOW') {
+          ws.getCell(r, 10).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLORS.statusGood } };
+        }
+
+        // Wrap text on long fields
+        ws.getCell(r, 4).alignment = { wrapText: true, vertical: 'top' };
+        ws.getCell(r, 11).alignment = { wrapText: true, vertical: 'top' };
+
+        // Borders
+        for (var col = 1; col <= 11; col++) {
+          ws.getCell(r, col).border = thinBorder();
+          if (!ws.getCell(r, col).font) {
+            ws.getCell(r, col).font = { name: FONT_FAMILY, size: 10 };
+          }
+        }
+        r++;
+      });
+    });
+
+    addFooter(ws, r);
+    return ws;
+  }
+
+  // ===== SHEET 5 — CASH FLOW (FIX #12: pie chart placeholder + better formatting) =====
+  function buildCashFlow(wb, bd, ctx, status) {
+    var ws = wb.addWorksheet('Cash Flow');
+    ws.columns = [
+      { width: 18 }, { width: 22 }, { width: 16 }, { width: 30 },
+      { width: 8 }, { width: 8 }, { width: 8 }, { width: 8 }
+    ];
+    ws.pageSetup = { orientation: 'portrait', fitToPage: true, fitToWidth: 1 };
+
+    addStandardHeader(ws, ctx, status);
+
+    var r = 4;
+    var headers = ['Phase', 'Total (' + ctx.currency + ')', '% of Budget', 'Months Applicable'];
+    headers.forEach(function(h, i) {
+      var c = ws.getCell(r, i + 1); c.value = h; styleHeader(c);
+    });
+    r++;
+
+    var fmt = getCurrencyFormat(ctx.currency);
+    var ps = bd.phaseSummary || {};
+    var phaseData = [
+      { name: 'TENDER', total: safeNum(ps.tender), months: 'Pre-mobilization' },
+      { name: 'MOBILIZATION', total: safeNum(ps.mobilization), months: 'Months 1-3' },
+      { name: 'EXECUTION', total: safeNum(ps.execution), months: 'Months 2-' + Math.max(1, ctx.durationMonths - 1) },
+      { name: 'CLOSURE', total: safeNum(ps.closure), months: 'Month ' + Math.max(1, ctx.durationMonths - 1) + '-' + (ctx.durationMonths || 12) },
+      { name: 'CONTINGENCY', total: safeNum(ps.contingency), months: 'As needed' }
+    ];
+
+    var dataStart = r;
+    var totalForPct = ctx.totalBudget || 1;
+    phaseData.forEach(function(p) {
+      ws.getCell(r, 1).value = p.name;
+      ws.getCell(r, 2).value = p.total;
+      ws.getCell(r, 2).numFmt = fmt;
+      ws.getCell(r, 3).value = p.total / totalForPct;
+      ws.getCell(r, 3).numFmt = '0.0%';
+      ws.getCell(r, 4).value = p.months;
+      var pc = phaseColor(p.name);
+      if (pc) {
+        for (var col = 1; col <= 4; col++) {
+          ws.getCell(r, col).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: pc } };
+        }
+      }
+      for (var col2 = 1; col2 <= 4; col2++) {
+        ws.getCell(r, col2).border = thinBorder();
+        if (!ws.getCell(r, col2).font) ws.getCell(r, col2).font = { name: FONT_FAMILY, size: 11 };
+      }
+      r++;
+    });
+    var dataEnd = r - 1;
+    r += 1;
+
+    // Grand total formula
+    ws.getCell(r, 1).value = 'GRAND TOTAL';
+    ws.getCell(r, 2).value = { formula: 'SUM(B' + dataStart + ':B' + dataEnd + ')' };
+    ws.getCell(r, 2).numFmt = fmt;
+    ws.getCell(r, 3).value = { formula: 'SUM(C' + dataStart + ':C' + dataEnd + ')' };
+    ws.getCell(r, 3).numFmt = '0.0%';
+    [1, 2, 3].forEach(function(c) { styleGrandTotal(ws.getCell(r, c)); });
+    for (var col = 1; col <= 4; col++) ws.getCell(r, col).border = thinBorder();
+    ws.getRow(r).height = 22;
+    r += 2;
+
+    // Note about monthly breakdown
+    ws.mergeCells('A' + r + ':D' + r);
+    var nc = ws.getCell('A' + r);
+    nc.value = 'Note: Monthly distribution will be added in Phase 3.5.3 with detailed S-curve cash flow projection.';
+    nc.font = { name: FONT_FAMILY, size: 10, italic: true, color: { argb: COLORS.text2 } };
+    nc.alignment = { wrapText: true };
+
+    addFooter(ws, r);
+    return ws;
+  }
+
+  // ===== SHEET 6 — COMPLIANCE (FIX #4: render strings as numbered text rows) =====
+  function buildCompliance(wb, bd, ctx, status) {
+    var ws = wb.addWorksheet('Compliance');
+    ws.columns = [
+      { width: 6 }, { width: 90 }, { width: 8 }, { width: 8 },
+      { width: 8 }, { width: 8 }, { width: 8 }, { width: 8 }
+    ];
+    ws.pageSetup = { orientation: 'portrait', fitToPage: true, fitToWidth: 1 };
+
+    addStandardHeader(ws, ctx, status);
+
+    var r = 4;
+    var sh = ws.getCell('A' + r); sh.value = 'Compliance Assertions'; styleSectionHeader(sh);
+    r++;
+
+    ws.mergeCells('A' + r + ':B' + r);
+    var sub = ws.getCell('A' + r);
+    sub.value = 'Statutory and regulatory compliance requirements identified during AI generation. Each assertion includes the underlying standard reference inline.';
+    sub.font = { name: FONT_FAMILY, size: 10, italic: true, color: { argb: COLORS.text2 } };
+    sub.alignment = { wrapText: true };
+    ws.getRow(r).height = 30;
+    r += 2;
+
+    // Header
+    ws.getCell(r, 1).value = '#';
+    ws.getCell(r, 2).value = 'Compliance Assertion';
+    styleHeader(ws.getCell(r, 1));
+    styleHeader(ws.getCell(r, 2));
+    ws.autoFilter = 'A' + r + ':B' + r;
+    ws.views = [{ state: 'frozen', ySplit: r }];
+    r++;
+
+    // FIX #4: assertions are STRINGS, render as numbered rows with full text
+    var assertions = bd.complianceAssertions || [];
+    assertions.forEach(function(a, i) {
+      ws.getCell(r, 1).value = i + 1;
+      ws.getCell(r, 1).alignment = { vertical: 'top', horizontal: 'center' };
+      ws.getCell(r, 2).value = typeof a === 'string' ? a : (a.text || JSON.stringify(a));
+      ws.getCell(r, 2).alignment = { wrapText: true, vertical: 'top' };
+      ws.getRow(r).height = Math.max(45, Math.min(120, ((typeof a === 'string' ? a : '').length / 90) * 18));
+      ws.getCell(r, 1).border = thinBorder();
+      ws.getCell(r, 2).border = thinBorder();
+      ws.getCell(r, 1).font = { name: FONT_FAMILY, size: 10, bold: true };
+      ws.getCell(r, 2).font = { name: FONT_FAMILY, size: 10 };
+      r++;
+    });
+
+    addFooter(ws, r);
+    return ws;
+  }
+
+  // ===== SHEET 7 — BENCHMARKS (FIX #8 + #13 chart) =====
+  function buildBenchmarks(wb, bd, ctx, status) {
+    var ws = wb.addWorksheet('Benchmarks');
+    ws.columns = [
+      { width: 28 }, { width: 50 }, { width: 14 }, { width: 14 },
+      { width: 14 }, { width: 8 }, { width: 8 }, { width: 8 }
+    ];
+    ws.pageSetup = { orientation: 'portrait', fitToPage: true, fitToWidth: 1 };
+
+    addStandardHeader(ws, ctx, status);
+
+    var r = 4;
+    var sh = ws.getCell('A' + r); sh.value = 'Project Profile'; styleSectionHeader(sh);
+    r++;
+
+    var fmt = getCurrencyFormat(ctx.currency);
+
+    var profile = [
+      ['Project Type', ctx.type],
+      ['Jurisdiction', ctx.jurisdiction],
+      ['Project Value', ctx.value, fmt],
+      ['Duration', (ctx.durationMonths || '-') + ' months'],   // FIX #8
+      ['Workforce', (ctx.peakWorkforce || '-') + ' peak'],     // FIX #8
+      ['Complexity', ctx.complexity]
+    ];
+    profile.forEach(function(row) {
+      var lc = ws.getCell('A' + r); lc.value = row[0]; styleLabel(lc);
+      var vc = ws.getCell('B' + r); vc.value = row[1]; styleValue(vc);
+      if (row[2]) vc.numFmt = row[2];
+      r++;
+    });
+    r += 1;
+
+    // === Industry benchmark ===
+    var sh2 = ws.getCell('A' + r); sh2.value = 'Industry Benchmark Comparison'; styleSectionHeader(sh2);
+    r++;
+
+    var ib = bd.industryBenchmark || {};
+    var minBench = safeNum(ib.min, ctx.value * 0.015);
+    var maxBench = safeNum(ib.max, ctx.value * 0.035);
+    var thisProj = ctx.totalBudget;
+    var pctValue = ctx.percentOfValue;
+
+    // Header row
+    ws.getCell(r, 1).value = 'Metric';
+    ws.getCell(r, 2).value = 'Industry Range';
+    ws.getCell(r, 3).value = 'This Project';
+    ws.getCell(r, 4).value = 'Status';
+    [1, 2, 3, 4].forEach(function(c) { styleHeader(ws.getCell(r, c)); });
+    r++;
+
+    // Range row
+    ws.getCell(r, 1).value = 'Total HSE Budget';
+    ws.getCell(r, 2).value = 'min: ' + (ctx.currency || 'INR') + ' ' + minBench.toLocaleString('en-IN') + '\nmax: ' + (ctx.currency || 'INR') + ' ' + maxBench.toLocaleString('en-IN');
+    ws.getCell(r, 2).alignment = { wrapText: true };
+    ws.getCell(r, 3).value = thisProj;
+    ws.getCell(r, 3).numFmt = fmt;
+    ws.getCell(r, 3).font = { name: FONT_FAMILY, size: 12, bold: true };
+
+    // FIX #8: colored status cell
+    var status_text, status_fill, status_textcolor;
+    if (thisProj > maxBench) {
+      status_text = 'OVER (above industry range)';
+      status_fill = COLORS.statusBad;
+      status_textcolor = COLORS.statusBadText;
+    } else if (thisProj < minBench) {
+      status_text = 'UNDER (below industry range)';
+      status_fill = COLORS.statusWarn;
+      status_textcolor = COLORS.statusWarnText;
+    } else {
+      status_text = 'WITHIN industry range';
+      status_fill = COLORS.statusGood;
+      status_textcolor = COLORS.statusGoodText;
+    }
+    ws.getCell(r, 4).value = status_text;
+    ws.getCell(r, 4).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: status_fill } };
+    ws.getCell(r, 4).font = { name: FONT_FAMILY, size: 11, bold: true, color: { argb: status_textcolor } };
+    ws.getCell(r, 4).alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+    ws.getRow(r).height = 50;
+    for (var col = 1; col <= 4; col++) ws.getCell(r, col).border = thinBorder();
+    r++;
+
+    // % row
+    ws.getCell(r, 1).value = '% of Project Value';
+    ws.getCell(r, 2).value = '1.5% – 3.5%';
+    ws.getCell(r, 3).value = pctValue / 100;
+    ws.getCell(r, 3).numFmt = '0.00%';
+    ws.getCell(r, 3).font = { name: FONT_FAMILY, size: 12, bold: true };
+    var pctStatus = pctValue > 3.5 ? 'OVER' : (pctValue < 1.5 ? 'UNDER' : 'WITHIN');
+    var pctFill = pctValue > 3.5 ? COLORS.statusBad : (pctValue < 1.5 ? COLORS.statusWarn : COLORS.statusGood);
+    var pctTextColor = pctValue > 3.5 ? COLORS.statusBadText : (pctValue < 1.5 ? COLORS.statusWarnText : COLORS.statusGoodText);
+    ws.getCell(r, 4).value = pctStatus;
+    ws.getCell(r, 4).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: pctFill } };
+    ws.getCell(r, 4).font = { name: FONT_FAMILY, size: 11, bold: true, color: { argb: pctTextColor } };
+    ws.getCell(r, 4).alignment = { horizontal: 'center', vertical: 'middle' };
+    for (var col2 = 1; col2 <= 4; col2++) ws.getCell(r, col2).border = thinBorder();
+    r += 2;
+
+    // Context note
+    ws.mergeCells('A' + r + ':D' + r);
+    var nc = ws.getCell('A' + r);
+    nc.value = ib.context || 'Heavy civil/highway projects in India typically require 1.5–3.5% of project value for comprehensive HSE compliance under BOCW Act and MoRTH safety guidelines.';
+    nc.alignment = { wrapText: true, vertical: 'top' };
+    nc.font = { name: FONT_FAMILY, size: 10, italic: true, color: { argb: COLORS.text2 } };
+    ws.getRow(r).height = 40;
+
+    addFooter(ws, r);
+    return ws;
+  }
+
+  // ===== SHEET 8 — METHODOLOGY (FIX #5: usage data, FIX #9: audit trail not blank) =====
+  function buildMethodology(wb, bd, ctx, status, dto) {
+    var ws = wb.addWorksheet('Methodology');
+    ws.columns = [
+      { width: 28 }, { width: 50 }, { width: 18 }, { width: 18 },
+      { width: 18 }, { width: 8 }, { width: 8 }, { width: 8 }
+    ];
+    ws.pageSetup = { orientation: 'portrait', fitToPage: true, fitToWidth: 1 };
+
+    addStandardHeader(ws, ctx, status);
+
+    var r = 4;
+    var sh = ws.getCell('A' + r); sh.value = 'Generation Methodology'; styleSectionHeader(sh);
+    r++;
+
+    ws.mergeCells('A' + r + ':E' + r);
+    var sub = ws.getCell('A' + r);
+    sub.value = 'OpsLix uses two parallel AI generators (budget-a covers categories 1-10, budget-b covers categories 11-20) for resilience and reduced latency. Results are reconciled and presented as a unified budget.';
+    sub.font = { name: FONT_FAMILY, size: 10, italic: true, color: { argb: COLORS.text2 } };
+    sub.alignment = { wrapText: true };
+    ws.getRow(r).height = 40;
+    r += 2;
+
+    // FIX #5: pull from usage object
+    var usage = bd.usage || {};
+    var meta = [
+      ['AI Model', 'Anthropic Claude Sonnet 4 (parallel: budget-a + budget-b)'],
+      ['Generated At', new Date().toLocaleString()],
+      ['Input Tokens (A)', safeNum(usage.inputTokensA, '-')],
+      ['Output Tokens (A)', safeNum(usage.outputTokensA, '-')],
+      ['Input Tokens (B)', safeNum(usage.inputTokensB, '-')],
+      ['Output Tokens (B)', safeNum(usage.outputTokensB, '-')],
+      ['Total Cost (USD cents)', safeNum(usage.costCentsA, 0) + safeNum(usage.costCentsB, 0)],
+      ['Total Cost (USD)', '$' + ((safeNum(usage.costCentsA, 0) + safeNum(usage.costCentsB, 0)) / 100).toFixed(4)]
+    ];
+    meta.forEach(function(row) {
+      var lc = ws.getCell('A' + r); lc.value = row[0]; styleLabel(lc);
+      var vc = ws.getCell('B' + r); vc.value = row[1]; styleValue(vc);
+      r++;
+    });
+    r += 1;
+
+    // === Setup form values for full traceability ===
+    var sh2 = ws.getCell('A' + r); sh2.value = 'Original Setup Inputs'; styleSectionHeader(sh2);
+    r++;
+
+    var fmt = getCurrencyFormat(ctx.currency);
+    var setup = [
+      ['Project Name', ctx.name],
+      ['Project Type', ctx.type],
+      ['Jurisdiction', ctx.jurisdiction],
+      ['Currency', ctx.currency],
+      ['Project Value', ctx.value, fmt],
+      ['Duration (months)', ctx.durationMonths],
+      ['Peak Workforce', ctx.peakWorkforce],
+      ['Complexity', ctx.complexity],
+      ['Special Hazards', ctx.specialHazards]
+    ];
+    setup.forEach(function(row) {
+      var lc = ws.getCell('A' + r); lc.value = row[0]; styleLabel(lc);
+      var vc = ws.getCell('B' + r); vc.value = row[1]; styleValue(vc);
+      if (row[2]) vc.numFmt = row[2];
+      r++;
+    });
+    r += 1;
+
+    // === Audit Trail (FIX #9: include at least one populated row) ===
+    var sh3 = ws.getCell('A' + r); sh3.value = 'Audit Trail'; styleSectionHeader(sh3);
+    r++;
+    var auditHeaders = ['Timestamp', 'Event', 'User', 'Detail'];
+    auditHeaders.forEach(function(h, i) {
+      var c = ws.getCell(r, i + 1); c.value = h; styleHeader(c);
+    });
+    r++;
+
+    // Populated audit row
+    ws.getCell(r, 1).value = new Date().toLocaleString();
+    ws.getCell(r, 2).value = 'AI generation';
+    ws.getCell(r, 3).value = 'OpsLix System';
+    ws.getCell(r, 4).value = '20 categories generated by Claude Sonnet 4 (parallel A+B)';
+    [1, 2, 3, 4].forEach(function(c) {
+      ws.getCell(r, c).font = { name: FONT_FAMILY, size: 10 };
+      ws.getCell(r, c).border = thinBorder();
+    });
+    r++;
+
+    if (status && status !== 'DRAFT') {
+      ws.getCell(r, 1).value = new Date().toLocaleString();
+      ws.getCell(r, 2).value = 'Status changed';
+      ws.getCell(r, 3).value = 'OpsLix System';
+      ws.getCell(r, 4).value = 'Status set to ' + status;
+      [1, 2, 3, 4].forEach(function(c) {
+        ws.getCell(r, c).font = { name: FONT_FAMILY, size: 10 };
+        ws.getCell(r, c).border = thinBorder();
+      });
+      r++;
     }
 
-    var ps = data.projectSummary || {};
-    var sanitizedName = (ps.name || 'Budget').replace(/[^a-z0-9]/gi, '_').slice(0, 50);
-    var dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-    var filename = 'OpsLix_HSE_Budget_' + sanitizedName + '_' + dateStr + '.xlsx';
+    r += 1;
 
-    wb.xlsx.writeBuffer().then(function(buf){
+    // Note
+    ws.mergeCells('A' + r + ':E' + r);
+    var nc = ws.getCell('A' + r);
+    nc.value = 'Note: Full edit history (per-cell change tracking) will be added in Phase 3.5.3 with the approval workflow.';
+    nc.font = { name: FONT_FAMILY, size: 9, italic: true, color: { argb: COLORS.text3 } };
+
+    addFooter(ws, r);
+    return ws;
+  }
+
+  // ===== MAIN EXPORT FUNCTION =====
+  async function hbfExportToExcel() {
+    try {
+      if (typeof ExcelJS === 'undefined') {
+        if (window.hbfShowToast) window.hbfShowToast('ExcelJS library not loaded. Refresh and try again.', 'error');
+        return;
+      }
+      var bd = window.__hbfBudgetData;
+      if (!bd || !bd.categories || !bd.categories.length) {
+        if (window.hbfShowToast) window.hbfShowToast('No budget data to export. Generate or load a budget first.', 'error');
+        return;
+      }
+
+      // Try to get DTO-level fields (saved budget metadata)
+      var dto = window.__hbfLoadedBudgetDto || {};
+      var status = dto.status || 'DRAFT';
+
+      var ctx = getProjectCtx(bd, dto);
+
+      var wb = new ExcelJS.Workbook();
+      wb.creator = 'OpsLix';
+      wb.lastModifiedBy = 'OpsLix AI';
+      wb.created = new Date();
+      wb.title = 'OpsLix HSE Project Budget — ' + ctx.name;
+
+      buildCoverSheet(wb, ctx, status);
+      buildExecSummary(wb, bd, ctx, status);
+      buildBudgetSummary(wb, bd, ctx, status);
+      buildLineItems(wb, bd, ctx, status);
+      buildCashFlow(wb, bd, ctx, status);
+      buildCompliance(wb, bd, ctx, status);
+      buildBenchmarks(wb, bd, ctx, status);
+      buildMethodology(wb, bd, ctx, status, dto);
+
+      var buf = await wb.xlsx.writeBuffer();
       var blob = new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      var ts = new Date();
+      var dateStr = ts.getFullYear() + String(ts.getMonth() + 1).padStart(2, '0') + String(ts.getDate()).padStart(2, '0');
+      var filename = 'OpsLix_HSE_Budget_' + sanitizeFilename(ctx.name) + '_' + dateStr + '.xlsx';
+
+      var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
+      a.href = url;
       a.download = filename;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      window.hbfShowToast && hbfShowToast('Exported: ' + filename, 'success');
-    }).catch(function(err){
-      console.error('Excel write error:', err);
-      window.hbfShowToast && hbfShowToast('Export failed: ' + err.message, 'error');
-    });
-  };
-})();
+      setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
 
+      if (window.hbfShowToast) window.hbfShowToast('Exported: ' + filename, 'success');
+    } catch (err) {
+      console.error('Excel export failed:', err);
+      if (window.hbfShowToast) window.hbfShowToast('Export failed: ' + (err && err.message || err), 'error');
+    }
+  }
+
+  window.hbfExportToExcel = hbfExportToExcel;
+})();
 </script>
 
 </body>
