@@ -7,6 +7,26 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>HSE Project Budget - OpsLix</title>
+<style id="hbf-fouc-prevent">
+  /* FOUC prevention: paint OpsLix cream bg before stylesheets load to avoid white/dark flash */
+  html { background: #FAF8F2; }
+  body { visibility: hidden; opacity: 0; transition: opacity 0.15s ease-out; }
+  body.hbf-loaded { visibility: visible; opacity: 1; }
+</style>
+<script id="hbf-fouc-reveal">
+  // Reveal body once DOM is ready (CSS parsed) or after 800ms safety timeout
+  (function(){
+    var revealed = false;
+    function reveal(){ if (revealed) return; revealed = true; if (document.body) document.body.classList.add('hbf-loaded'); }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', reveal);
+    } else {
+      reveal();
+    }
+    // Safety net: never leave body invisible longer than 800ms
+    setTimeout(reveal, 800);
+  })();
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&family=Fraunces:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 /* ══════════════════════════════════════════════
@@ -2550,36 +2570,42 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
   /* ===== Phase 3.5.1 - Persistence: Save modal, Overview list, Toast ===== */
 
-  /* Overview welcome bar */
-  body[data-page="hse-budgets"] .hbf-overview-welcome {
+  /* Compact saved-list header (replaces redundant welcome bar) */
+  body[data-page="hse-budgets"] .hbf-saved-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-    background: #fff;
-    border: 1px solid var(--border, #E2DFD5);
-    border-radius: 10px;
-    padding: 18px 22px;
-    margin-bottom: 16px;
+    margin: 4px 0 10px;
     max-width: 100%;
   }
-  body[data-page="hse-budgets"] .hbf-overview-title {
-    font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
-    font-size: 18px;
+  body[data-page="hse-budgets"] .hbf-saved-header-label {
+    font-size: 11px;
     font-weight: 600;
-    color: var(--t1, #1F1B17);
-    margin: 0 0 4px;
-  }
-  body[data-page="hse-budgets"] .hbf-overview-sub {
-    font-size: 12px;
     color: var(--t2, #7A6F5A);
-    margin: 0;
-    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
-  body[data-page="hse-budgets"] .hbf-overview-actions {
-    display: flex;
-    gap: 8px;
+  body[data-page="hse-budgets"] .hbf-saved-refresh-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 6px;
+    padding: 5px 10px;
+    color: var(--t2, #7A6F5A);
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  body[data-page="hse-budgets"] .hbf-saved-refresh-btn:hover {
+    border-color: #C6583E;
+    color: #C6583E;
+    background: rgba(198, 88, 62, 0.04);
+  }
+  body[data-page="hse-budgets"] .hbf-saved-refresh-btn svg {
+    flex-shrink: 0;
   }
 
   /* Saved budgets list */
@@ -3283,15 +3309,12 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </div>
 
 <div id="hbf-tab-overview">
-  <div class="hbf-overview-welcome">
-    <div>
-      <h2 class="hbf-overview-title">HSE Project Budget</h2>
-      <p class="hbf-overview-sub">AI-generated HSE budgets tailored to project type, jurisdiction, and risk profile. Saved budgets persist to your workspace.</p>
-    </div>
-    <div class="hbf-overview-actions">
-      <button class="hbf-btn hbf-btn-primary" onclick="hbfSwitchTab('setup')">+ New Budget</button>
-      <button class="hbf-btn hbf-btn-secondary" onclick="hbfRefreshSavedList()">Refresh</button>
-    </div>
+  <div class="hbf-saved-header">
+    <span class="hbf-saved-header-label">Saved budgets</span>
+    <button class="hbf-saved-refresh-btn" onclick="hbfRefreshSavedList()" title="Refresh list" aria-label="Refresh saved budgets">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+      Refresh
+    </button>
   </div>
   <div id="hbf-saved-list" class="hbf-saved-list">
     <div class="hbf-saved-loading">Loading saved budgets&hellip;</div>
@@ -3824,7 +3847,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   }
 
   function hbfUpdateStatCards(items) {
-    // Update the 4 stat cards at top of page (Total Budgets, Active, Pending Review, This FY)
+    // Update the 4 stat cards at top of page using their actual IDs
     var total = items.length;
     var active = items.filter(function(i){ return i.status === 'DRAFT'; }).length;
     var finalized = items.filter(function(i){ return i.status === 'FINALIZED'; }).length;
@@ -3833,14 +3856,14 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
       var d = new Date(i.createdAt || 0);
       return d.getFullYear() === thisYear;
     }).length;
-
-    var statCards = document.querySelectorAll('.hbf-stat-num');
-    if (statCards.length >= 4) {
-      statCards[0].textContent = total;
-      statCards[1].textContent = active;
-      statCards[2].textContent = finalized;
-      statCards[3].textContent = thisFY;
-    }
+    var elTotal = document.getElementById('hbf-stat-total');
+    var elActive = document.getElementById('hbf-stat-active');
+    var elPending = document.getElementById('hbf-stat-pending');
+    var elFy = document.getElementById('hbf-stat-fy');
+    if (elTotal) elTotal.textContent = total;
+    if (elActive) elActive.textContent = active;
+    if (elPending) elPending.textContent = finalized;
+    if (elFy) elFy.textContent = thisFY;
   }
 
   // ---------- Load a saved budget ----------
