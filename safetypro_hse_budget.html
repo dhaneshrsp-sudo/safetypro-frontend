@@ -4972,7 +4972,7 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
       { width: 30 }, { width: 50 }, { width: 8 }, { width: 8 },
       { width: 8 }, { width: 8 }, { width: 8 }, { width: 8 }
     ];
-    ws.pageSetup = { orientation: 'portrait', fitToPage: true, fitToWidth: 1, fitToHeight: 1, margins: { left: 0.5, right: 0.5, top: 0.5, bottom: 0.5 } };
+    ws.pageSetup = { orientation: 'portrait', fitToPage: true, fitToWidth: 1, margins: { left: 0.5, right: 0.5, top: 0.5, bottom: 0.5 } };  // Phase 3.5.2.6: removed fitToHeight to match other sheets (sheet1 was triggering Excel repair)
 
     addStandardHeader(ws, ctx, status);
 
@@ -5805,11 +5805,13 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
 
       var buf = await wb.xlsx.writeBuffer();
 
-      // Phase 3.5.2.5: comprehensive ExcelJS 4.4.0 bug post-processor
-      // Fixes TWO issues that trigger Excel's "file repaired" warning:
+      // Phase 3.5.2.6: comprehensive ExcelJS 4.4.0 bug post-processor
+      // Fixes THREE issues that trigger Excel's "file repaired" warning:
       //   1. Orphaned <Default Extension="vml"/> in [Content_Types].xml (3.5.2.4 fix)
       //   2. Zero-size <a:xfrm><a:ext cx="0" cy="0"/></a:xfrm> in drawing shape properties
       //      when using oneCellAnchor with addImage (3.5.2.5 fix)
+      //   3. editAs="oneCell" attribute on <xdr:oneCellAnchor> - Excel strips this on repair (3.5.2.6 fix)
+      //      Per ExcelJS GitHub issue #1083
       try {
         if (typeof JSZip !== 'undefined') {
           var zip = await JSZip.loadAsync(buf);
@@ -5833,6 +5835,10 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
             if (/^xl\/drawings\/drawing\d+\.xml$/.test(fname)) {
               var dxml = await zip.file(fname).async('string');
               var dxmlFixed = dxml.replace(/<a:xfrm>\s*<a:off[^/]*\/>\s*<a:ext\s+cx="0"\s+cy="0"\/>\s*<\/a:xfrm>/g, '');
+              // Phase 3.5.2.6: also strip editAs="oneCell" attribute from <xdr:oneCellAnchor>
+              // Microsoft Excel doesn't like this attribute on oneCellAnchor (Excel strips it during repair)
+              // Confirmed via ExcelJS GitHub issue #1083
+              dxmlFixed = dxmlFixed.replace(/(<xdr:oneCellAnchor)\s+editAs="oneCell"/g, '$1');
               if (dxmlFixed.length < dxml.length) {
                 zip.file(fname, dxmlFixed);
                 fixesApplied++;
