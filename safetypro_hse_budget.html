@@ -3142,6 +3142,149 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     border-color: #EF4444;
   }
 
+  /* ===== Phase 3.5.3 Deploy 4 — history timeline ===== */
+  body[data-page="hse-budgets"] .hbf-wf-history-loading,
+  body[data-page="hse-budgets"] .hbf-wf-history-error {
+    font-size: 12px;
+    color: var(--t3, #B5A99A);
+    font-style: italic;
+    margin: 0;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-history-error {
+    color: #B91C1C;
+    font-style: normal;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-history-empty {
+    font-size: 12px;
+    color: var(--t3, #B5A99A);
+    font-style: italic;
+    margin: 0;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+  /* Vertical guide line drawn behind the dots */
+  body[data-page="hse-budgets"] .hbf-wf-timeline::before {
+    content: '';
+    position: absolute;
+    left: 9px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: var(--border, #E2DFD5);
+    z-index: 0;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-item {
+    position: relative;
+    padding-left: 32px;
+    padding-bottom: 18px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-item:last-child {
+    padding-bottom: 0;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-dot {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--green, #7A8B6D);
+    z-index: 1;
+  }
+  /* Dot color tied to outcome */
+  body[data-page="hse-budgets"] .hbf-wf-tl-dot--rejected {
+    border-color: #EF4444;
+    background: #EF4444;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-dot--archived {
+    border-color: #94A3B8;
+    background: #94A3B8;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-dot--neutral {
+    border-color: var(--t3, #B5A99A);
+    background: #fff;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-dot--approved {
+    border-color: var(--green, #7A8B6D);
+    background: var(--green, #7A8B6D);
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-actor {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--t1, #1F1B17);
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-action {
+    font-size: 13px;
+    color: var(--t2, #7A6F5A);
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-role {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--tier-low-soft, rgba(122, 139, 109, 0.10));
+    color: var(--tier-low-text, #3F4D34);
+    margin-left: 2px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-time {
+    font-size: 11px;
+    color: var(--t3, #B5A99A);
+    margin-left: auto;
+    white-space: nowrap;
+    font-feature-settings: 'tnum';
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-transition {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+    font-size: 11px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-transition .hbf-status-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+    letter-spacing: 0.4px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-arrow {
+    color: var(--t3, #B5A99A);
+    font-size: 12px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-comment {
+    font-size: 12px;
+    color: var(--t1, #1F1B17);
+    background: var(--bg, #F5F2EB);
+    border-left: 3px solid var(--border, #E2DFD5);
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-item--rejected .hbf-wf-tl-comment {
+    border-left-color: #EF4444;
+    background: rgba(239, 68, 68, 0.04);
+  }
+  body[data-page="hse-budgets"] .hbf-wf-tl-amount {
+    display: inline-block;
+    font-family: var(--fh, monospace);
+    font-size: 11px;
+    color: var(--t3, #B5A99A);
+    margin-top: 4px;
+  }
+
   /* Mobile: stepper labels stack tighter */
   @media (max-width: 720px) {
     body[data-page="hse-budgets"] .hbf-wf-summary {
@@ -4343,6 +4486,144 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     if (stepperEl) stepperEl.innerHTML = renderStepper(budget.status || 'DRAFT');
     if (actionsEl) actionsEl.innerHTML = renderActions(budget);
     if (window.__hbfBudgetData) window.__hbfBudgetData._savedStatus = budget.status;
+    // Phase 3.5.3 Deploy 4: history is fetched after every paint so the timeline
+    // stays current after transitions. Errors here don't block the rest of the UI.
+    loadHistory(budget.id);
+  }
+
+  // ---------- History timeline (Deploy 4) ----------
+
+  // Maps backend action codes to a friendly verb phrase
+  var ACTION_PHRASE = {
+    SUBMIT:                          'submitted for review',
+    HSE_APPROVE:                     'approved (HSE)',
+    PM_APPROVE:                      'gave final approval',
+    REJECT:                          'rejected the budget',
+    RECALL:                          'recalled the submission',
+    SEND_BACK:                       'sent it back to HSE',
+    REOPEN:                          'reopened it as Draft',
+    ARCHIVE:                         'archived the budget',
+    MIGRATED_FROM_LEGACY_FINALIZED:  'auto-migrated from legacy FINALIZED'
+  };
+
+  function fmtTimeStamp(iso) {
+    if (!iso) return '';
+    try {
+      var d = new Date(iso);
+      var now = new Date();
+      var diffMs = now - d;
+      var diffMin = Math.round(diffMs / 60000);
+      // Within 1 hour: relative
+      if (diffMin >= 0 && diffMin < 60) {
+        if (diffMin < 1) return 'just now';
+        return diffMin + ' min ago';
+      }
+      // Same calendar day: time only
+      if (d.toDateString() === now.toDateString()) {
+        return 'today, ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      }
+      // Older: "3 May 2026, 14:32"
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) +
+             ', ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) { return iso; }
+  }
+
+  function fmtMoneyShort(n, currency) {
+    if (n == null) return '';
+    var s = Math.round(Number(n)).toLocaleString('en-IN');
+    return (currency ? currency + ' ' : '') + s;
+  }
+
+  function dotClassFor(toStatus) {
+    if (toStatus === 'REJECTED') return 'hbf-wf-tl-dot--rejected';
+    if (toStatus === 'ARCHIVED') return 'hbf-wf-tl-dot--archived';
+    if (toStatus === 'APPROVED') return 'hbf-wf-tl-dot--approved';
+    if (toStatus === 'DRAFT') return 'hbf-wf-tl-dot--neutral';
+    return ''; // default sage outline
+  }
+
+  function renderHistoryItems(rows, currency) {
+    if (!rows || rows.length === 0) {
+      return '<p class="hbf-wf-history-empty">No transitions yet. Use the actions above to start the workflow.</p>';
+    }
+    var lis = rows.map(function(row){
+      var actor = (row.byUser && row.byUser.name) ? row.byUser.name : '(unknown user)';
+      var role = row.byRole || (row.byUser && row.byUser.role) || '';
+      var phrase = ACTION_PHRASE[row.action] || row.action.toLowerCase();
+      var fromLabel = STATUS_LABEL[row.fromStatus] || row.fromStatus;
+      var toLabel = STATUS_LABEL[row.toStatus] || row.toStatus;
+      var fromClass = String(row.fromStatus || '').toLowerCase();
+      var toClass = String(row.toStatus || '').toLowerCase();
+      var dotCls = dotClassFor(row.toStatus);
+      var itemModifier = (row.toStatus === 'REJECTED') ? ' hbf-wf-tl-item--rejected' : '';
+
+      var commentBlock = '';
+      if (row.comment && row.comment.trim().length) {
+        commentBlock = '<div class="hbf-wf-tl-comment">' + escapeHtml(row.comment) + '</div>';
+      }
+
+      var amountBlock = '';
+      if (row.budgetTotalAtTransition != null) {
+        amountBlock = '<div class="hbf-wf-tl-amount">Budget total at transition: ' +
+          fmtMoneyShort(row.budgetTotalAtTransition, currency) + '</div>';
+      }
+
+      return '' +
+        '<li class="hbf-wf-tl-item' + itemModifier + '">' +
+          '<span class="hbf-wf-tl-dot ' + dotCls + '"></span>' +
+          '<div class="hbf-wf-tl-head">' +
+            '<span class="hbf-wf-tl-actor">' + escapeHtml(actor) + '</span>' +
+            '<span class="hbf-wf-tl-action">' + escapeHtml(phrase) + '</span>' +
+            (role ? '<span class="hbf-wf-tl-role">' + escapeHtml(role) + '</span>' : '') +
+            '<span class="hbf-wf-tl-time" title="' + escapeHtml(row.createdAt || '') + '">' +
+              escapeHtml(fmtTimeStamp(row.createdAt)) +
+            '</span>' +
+          '</div>' +
+          '<div class="hbf-wf-tl-transition">' +
+            '<span class="hbf-status-badge ' + fromClass + '">' + escapeHtml(fromLabel) + '</span>' +
+            '<span class="hbf-wf-tl-arrow">&rarr;</span>' +
+            '<span class="hbf-status-badge ' + toClass + '">' + escapeHtml(toLabel) + '</span>' +
+          '</div>' +
+          commentBlock +
+          amountBlock +
+        '</li>';
+    }).join('');
+    return '<ul class="hbf-wf-timeline">' + lis + '</ul>';
+  }
+
+  function loadHistory(budgetId) {
+    if (!budgetId) return;
+    var historyEl = document.getElementById('hbf-wf-history');
+    if (!historyEl) return;
+    historyEl.innerHTML =
+      '<h4 class="hbf-wf-section-title">Audit trail</h4>' +
+      '<p class="hbf-wf-history-loading">Loading audit trail&hellip;</p>';
+
+    fetch(API_BASE + '/hse-budgets/' + budgetId + '/history', {
+      method: 'GET',
+      headers: { 'Authorization': 'Bearer ' + getToken() }
+    })
+    .then(function(r){
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function(rows){
+      var arr = Array.isArray(rows) ? rows : [];
+      // Newest-first feels more useful to a reviewer than oldest-first
+      var sorted = arr.slice().sort(function(a, b){
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      var currency = (currentBudget && currentBudget.currency) || '';
+      historyEl.innerHTML =
+        '<h4 class="hbf-wf-section-title">Audit trail</h4>' +
+        renderHistoryItems(sorted, currency);
+    })
+    .catch(function(err){
+      console.error('History fetch failed:', err);
+      historyEl.innerHTML =
+        '<h4 class="hbf-wf-section-title">Audit trail</h4>' +
+        '<p class="hbf-wf-history-error">Failed to load: ' + escapeHtml(err.message || 'unknown') + '</p>';
+    });
   }
 
   function renderApproval() {
