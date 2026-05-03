@@ -4639,6 +4639,330 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
     f.alignment = { horizontal: 'center' };
   }
 
+  // ===== Statutory vs Operational classifier (Phase 3.5.2.3) =====
+  // Identifies pure statutory cess/levy/insurance-premium line items (cash to govt/insurer)
+  // vs operational HSE work (training, equipment, personnel, infrastructure)
+  function classifyLineItems(bd) {
+    var statutoryKeywords = [
+      'BOCW Welfare Cess', 'BOCW Cess', 'Welfare Cess',
+      "Workmen's Compensation Insurance", "Workmen's Compensation",
+      'WC Insurance', 'ESI Contribution', 'EPF Contribution',
+      'ESI + EPF', "Employees' State Insurance",
+      'Statutory Levy', 'Statutory Cess'
+    ];
+
+    var statutoryItems = [];
+    var operationalItems = [];
+    var statutoryTotal = 0;
+    var operationalTotal = 0;
+    var bocwCessCount = 0;
+    var bocwCessAmount = 0;
+
+    (bd.categories || []).forEach(function(cat) {
+      (cat.lineItems || []).forEach(function(li) {
+        var item = String(li.item || '');
+        var amt = safeNum(li.total);
+        var isStat = false;
+        for (var i = 0; i < statutoryKeywords.length; i++) {
+          if (item.toLowerCase().indexOf(statutoryKeywords[i].toLowerCase()) !== -1) {
+            isStat = true;
+            break;
+          }
+        }
+        if (isStat) {
+          statutoryItems.push({ item: item, amount: amt, category: cat.name });
+          statutoryTotal += amt;
+          // Detect BOCW Cess specifically (for double-counting check)
+          if (item.toLowerCase().indexOf('bocw') !== -1 && item.toLowerCase().indexOf('cess') !== -1) {
+            bocwCessCount++;
+            bocwCessAmount += amt;
+          }
+        } else {
+          operationalItems.push({ item: item, amount: amt, category: cat.name });
+          operationalTotal += amt;
+        }
+      });
+    });
+
+    return {
+      statutoryItems: statutoryItems,
+      operationalItems: operationalItems,
+      statutoryTotal: statutoryTotal,
+      operationalTotal: operationalTotal,
+      bocwCessCount: bocwCessCount,
+      bocwCessAmount: bocwCessAmount,
+      grandTotal: statutoryTotal + operationalTotal
+    };
+  }
+
+  // ===== Build "Why over benchmark?" explanation (Phase 3.5.2.3) =====
+  function buildBenchmarkExplanation(bd, ctx) {
+    var split = classifyLineItems(bd);
+    var pv = ctx.value || 1;
+    var statutoryPct = split.statutoryTotal / pv * 100;
+    var operationalPct = split.operationalTotal / pv * 100;
+    var totalPct = ctx.percentOfValue;
+
+    var lines = [];
+
+    if (totalPct > 3.5) {
+      lines.push('Total HSE budget at ' + totalPct.toFixed(2) + '% exceeds the typical 1.5-3.5% industry benchmark for heavy civil/highway projects.');
+      lines.push('');
+      lines.push('Breakdown analysis:');
+      lines.push('  - Operational HSE spend: ' + operationalPct.toFixed(2) + '% of project value (' + (operationalPct >= 1.5 && operationalPct <= 3.5 ? 'within' : (operationalPct > 3.5 ? 'over' : 'under')) + ' the 1.5-3.5% benchmark)');
+      lines.push('  - Statutory levies (BOCW Cess, ESI/EPF, WC Insurance): ' + statutoryPct.toFixed(2) + '% of project value (typical: ~1.0-1.3%)');
+      lines.push('');
+
+      // Identify primary drivers
+      var topDrivers = [];
+      if (split.bocwCessAmount > 0) {
+        topDrivers.push('BOCW Welfare Cess (' + (ctx.currency || 'INR') + ' ' + (split.bocwCessAmount).toLocaleString('en-IN') + '): mandatory 1% statutory cess under BOCW Act 1996');
+      }
+      if (ctx.complexity === 'HIGH') {
+        topDrivers.push('HIGH complexity flag: AI applied upper-band risk pricing for insurance, contingencies, and supervision');
+      }
+      var hazards = String(ctx.specialHazards || '').toLowerCase();
+      if (hazards.indexOf('height') !== -1 || hazards.indexOf('excavation') !== -1) {
+        topDrivers.push('Special hazards (' + ctx.specialHazards + '): trigger additional PPE, training, supervision, and statutory inspection costs');
+      }
+      if (ctx.durationMonths > 18) {
+        topDrivers.push(ctx.durationMonths + '-month duration: HSE Personnel and recurring costs (audits, training refreshers, insurance renewals) accumulate over long projects');
+      }
+      if (ctx.peakWorkforce > 200) {
+        topDrivers.push('Peak workforce of ' + ctx.peakWorkforce + ': scales PPE quantity, welfare facilities, ESI premiums, training costs linearly');
+      }
+
+      if (topDrivers.length > 0) {
+        lines.push('Primary cost drivers:');
+        topDrivers.forEach(function(d, i) { lines.push('  ' + (i + 1) + '. ' + d); });
+        lines.push('');
+      }
+
+      // Recommendation
+      lines.push('Interpretation:');
+      if (operationalPct >= 1.5 && operationalPct <= 3.5) {
+        lines.push('  Operational HSE spend is WITHIN the 1.5-3.5% industry benchmark. The overshoot is driven by statutory levies, which are non-discretionary cash outflows mandated by the BOCW Act 1996, ESI Act 1948, and Workmen\'s Compensation Act 1923. These should be considered project-overhead cash flow rather than discretionary HSE budget bloat.');
+      } else if (operationalPct > 3.5) {
+        lines.push('  Operational HSE spend itself exceeds the benchmark. Consider reviewing line items for HIGH-complexity assumptions, special hazard pricing, or specific category bloat. A regeneration with Low or Medium scenario may produce a tighter budget.');
+      } else {
+        lines.push('  Operational HSE spend is below the benchmark, and the overshoot is purely from statutory levies. The actual safety operational budget may be conservative; verify category coverage is adequate.');
+      }
+
+      // Flag double-counted BOCW Cess if found
+      if (split.bocwCessCount > 1) {
+        lines.push('');
+        lines.push('IMPORTANT: AI flagged ' + split.bocwCessCount + ' BOCW Welfare Cess line items totaling ' + (ctx.currency || 'INR') + ' ' + split.bocwCessAmount.toLocaleString('en-IN') + '. This appears to be DOUBLE-COUNTED. The BOCW Cess is a single statutory payment of 1% of project value; verify only one cess line item is included before finalizing.');
+      }
+    } else if (totalPct < 1.5) {
+      lines.push('Total HSE budget at ' + totalPct.toFixed(2) + '% is BELOW the 1.5-3.5% industry benchmark for heavy civil/highway projects. Verify category coverage is adequate before proceeding.');
+    } else {
+      lines.push('Total HSE budget at ' + totalPct.toFixed(2) + '% is WITHIN the 1.5-3.5% industry benchmark for heavy civil/highway projects.');
+      lines.push('  - Operational HSE: ' + operationalPct.toFixed(2) + '%');
+      lines.push('  - Statutory levies: ' + statutoryPct.toFixed(2) + '%');
+    }
+
+    return lines.join('\n');
+  }
+
+  // ===== SVG-to-PNG converter for embedded charts (Phase 3.5.2.3) =====
+  // Renders an SVG string to a PNG ArrayBuffer for ExcelJS image embedding
+  function svgToPngBuffer(svgString, width, height) {
+    return new Promise(function(resolve, reject) {
+      try {
+        var blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var img = new Image();
+        img.onload = function() {
+          try {
+            var canvas = document.createElement('canvas');
+            canvas.width = width * 2;   // 2x for retina-quality
+            canvas.height = height * 2;
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            URL.revokeObjectURL(url);
+
+            canvas.toBlob(function(pngBlob) {
+              var reader = new FileReader();
+              reader.onloadend = function() { resolve(reader.result); };
+              reader.onerror = function() { reject(new Error('FileReader failed')); };
+              reader.readAsArrayBuffer(pngBlob);
+            }, 'image/png');
+          } catch (e) {
+            URL.revokeObjectURL(url);
+            reject(e);
+          }
+        };
+        img.onerror = function() {
+          URL.revokeObjectURL(url);
+          reject(new Error('SVG image load failed'));
+        };
+        img.src = url;
+      } catch (e) { reject(e); }
+    });
+  }
+
+  // ===== Chart 1: Top 5 Cost Drivers (horizontal bar) =====
+  function buildTopDriversSvg(bd, ctx, width, height) {
+    var cats = (bd.categories || []).slice().sort(function(a, b) {
+      return safeNum(b.subtotal) - safeNum(a.subtotal);
+    }).slice(0, 5);
+
+    var maxVal = cats.length ? safeNum(cats[0].subtotal) : 1;
+    var pad = { top: 40, right: 100, bottom: 30, left: 240 };
+    var chartW = width - pad.left - pad.right;
+    var chartH = height - pad.top - pad.bottom;
+    var barH = chartH / cats.length * 0.7;
+    var rowH = chartH / cats.length;
+
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '" viewBox="0 0 ' + width + ' ' + height + '">';
+    svg += '<rect width="' + width + '" height="' + height + '" fill="#FFFFFF"/>';
+    svg += '<text x="' + (width / 2) + '" y="22" text-anchor="middle" font-family="Calibri" font-size="14" font-weight="bold" fill="#1F2B4D">Top 5 Cost Drivers</text>';
+
+    cats.forEach(function(cat, i) {
+      var y = pad.top + i * rowH + (rowH - barH) / 2;
+      var name = String(cat.name || '').slice(0, 32);
+      var amt = safeNum(cat.subtotal);
+      var barW = maxVal > 0 ? (amt / maxVal) * chartW : 0;
+      var pct = ctx.totalBudget > 0 ? (amt / ctx.totalBudget * 100) : 0;
+
+      // Label
+      svg += '<text x="' + (pad.left - 8) + '" y="' + (y + barH / 2 + 4) + '" text-anchor="end" font-family="Calibri" font-size="11" fill="#1F1B17">' + escapeXml(name) + '</text>';
+      // Bar
+      svg += '<rect x="' + pad.left + '" y="' + y + '" width="' + barW + '" height="' + barH + '" fill="#C9A84C"/>';
+      // Value label
+      svg += '<text x="' + (pad.left + barW + 6) + '" y="' + (y + barH / 2 + 4) + '" font-family="Calibri" font-size="10" fill="#7A6F5A">' + (ctx.currency || 'INR') + ' ' + (amt / 100000).toFixed(0) + 'L (' + pct.toFixed(1) + '%)</text>';
+    });
+
+    svg += '</svg>';
+    return svg;
+  }
+
+  // ===== Chart 2: Phase Distribution (donut) =====
+  function buildPhaseDonutSvg(bd, ctx, width, height) {
+    var ps = bd.phaseSummary || {};
+    var phases = [
+      { name: 'TENDER', value: safeNum(ps.tender), color: '#7C8FE0' },
+      { name: 'MOBILIZATION', value: safeNum(ps.mobilization), color: '#F4B942' },
+      { name: 'EXECUTION', value: safeNum(ps.execution), color: '#3FA67D' },
+      { name: 'CLOSURE', value: safeNum(ps.closure), color: '#D85556' },
+      { name: 'CONTINGENCY', value: safeNum(ps.contingency), color: '#9F7DCC' }
+    ].filter(function(p) { return p.value > 0; });
+
+    var totalVal = phases.reduce(function(s, p) { return s + p.value; }, 0);
+    if (totalVal === 0) {
+      return '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '"><rect width="' + width + '" height="' + height + '" fill="#FFFFFF"/><text x="' + (width / 2) + '" y="' + (height / 2) + '" text-anchor="middle" font-family="Calibri" font-size="12" fill="#7A6F5A">No phase data</text></svg>';
+    }
+
+    var cx = width * 0.32;
+    var cy = height / 2 + 10;
+    var rOuter = Math.min(cx, height / 2) - 30;
+    var rInner = rOuter * 0.6;
+
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '" viewBox="0 0 ' + width + ' ' + height + '">';
+    svg += '<rect width="' + width + '" height="' + height + '" fill="#FFFFFF"/>';
+    svg += '<text x="' + (width / 2) + '" y="22" text-anchor="middle" font-family="Calibri" font-size="14" font-weight="bold" fill="#1F2B4D">Phase Distribution</text>';
+
+    var startAngle = -Math.PI / 2;
+    phases.forEach(function(p) {
+      var sweep = (p.value / totalVal) * Math.PI * 2;
+      var endAngle = startAngle + sweep;
+
+      var x1 = cx + rOuter * Math.cos(startAngle);
+      var y1 = cy + rOuter * Math.sin(startAngle);
+      var x2 = cx + rOuter * Math.cos(endAngle);
+      var y2 = cy + rOuter * Math.sin(endAngle);
+      var x3 = cx + rInner * Math.cos(endAngle);
+      var y3 = cy + rInner * Math.sin(endAngle);
+      var x4 = cx + rInner * Math.cos(startAngle);
+      var y4 = cy + rInner * Math.sin(startAngle);
+      var largeArc = sweep > Math.PI ? 1 : 0;
+
+      svg += '<path d="M ' + x1 + ' ' + y1 +
+             ' A ' + rOuter + ' ' + rOuter + ' 0 ' + largeArc + ' 1 ' + x2 + ' ' + y2 +
+             ' L ' + x3 + ' ' + y3 +
+             ' A ' + rInner + ' ' + rInner + ' 0 ' + largeArc + ' 0 ' + x4 + ' ' + y4 +
+             ' Z" fill="' + p.color + '"/>';
+
+      startAngle = endAngle;
+    });
+
+    // Center text
+    svg += '<text x="' + cx + '" y="' + (cy - 6) + '" text-anchor="middle" font-family="Calibri" font-size="10" fill="#7A6F5A">Total</text>';
+    svg += '<text x="' + cx + '" y="' + (cy + 12) + '" text-anchor="middle" font-family="Calibri" font-size="13" font-weight="bold" fill="#1F2B4D">' + (ctx.currency || 'INR') + ' ' + (totalVal / 10000000).toFixed(2) + ' Cr</text>';
+
+    // Legend
+    var lx = width * 0.62;
+    var ly = 50;
+    phases.forEach(function(p) {
+      var pct = (p.value / totalVal * 100).toFixed(1);
+      svg += '<rect x="' + lx + '" y="' + ly + '" width="14" height="14" fill="' + p.color + '"/>';
+      svg += '<text x="' + (lx + 22) + '" y="' + (ly + 11) + '" font-family="Calibri" font-size="11" fill="#1F1B17">' + p.name + '</text>';
+      svg += '<text x="' + (lx + 22) + '" y="' + (ly + 25) + '" font-family="Calibri" font-size="10" fill="#7A6F5A">' + (ctx.currency || 'INR') + ' ' + (p.value / 100000).toFixed(0) + 'L (' + pct + '%)</text>';
+      ly += 36;
+    });
+
+    svg += '</svg>';
+    return svg;
+  }
+
+  // ===== Chart 3: Benchmark Position (column with thresholds) =====
+  function buildBenchmarkSvg(bd, ctx, split, width, height) {
+    var operationalPct = split.operationalTotal / (ctx.value || 1) * 100;
+    var statutoryPct = split.statutoryTotal / (ctx.value || 1) * 100;
+    var combinedPct = ctx.percentOfValue;
+
+    var pad = { top: 40, right: 30, bottom: 50, left: 50 };
+    var chartW = width - pad.left - pad.right;
+    var chartH = height - pad.top - pad.bottom;
+    var maxScale = Math.max(5.0, combinedPct * 1.2);   // y-axis max
+
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '" viewBox="0 0 ' + width + ' ' + height + '">';
+    svg += '<rect width="' + width + '" height="' + height + '" fill="#FFFFFF"/>';
+    svg += '<text x="' + (width / 2) + '" y="22" text-anchor="middle" font-family="Calibri" font-size="14" font-weight="bold" fill="#1F2B4D">Benchmark Position vs Industry Range (1.5%-3.5%)</text>';
+
+    // Y-axis grid lines + labels
+    for (var i = 0; i <= 5; i++) {
+      var pctVal = (maxScale / 5) * i;
+      var y = pad.top + chartH - (pctVal / maxScale) * chartH;
+      svg += '<line x1="' + pad.left + '" y1="' + y + '" x2="' + (width - pad.right) + '" y2="' + y + '" stroke="#E2DFD5" stroke-width="0.5"/>';
+      svg += '<text x="' + (pad.left - 6) + '" y="' + (y + 3) + '" text-anchor="end" font-family="Calibri" font-size="9" fill="#7A6F5A">' + pctVal.toFixed(1) + '%</text>';
+    }
+
+    // Industry benchmark band (1.5-3.5%)
+    var bandTop = pad.top + chartH - (3.5 / maxScale) * chartH;
+    var bandBottom = pad.top + chartH - (1.5 / maxScale) * chartH;
+    svg += '<rect x="' + pad.left + '" y="' + bandTop + '" width="' + chartW + '" height="' + (bandBottom - bandTop) + '" fill="#3FA67D" opacity="0.15"/>';
+    svg += '<text x="' + (width - pad.right - 4) + '" y="' + (bandTop + 12) + '" text-anchor="end" font-family="Calibri" font-size="9" fill="#3FA67D">Industry Range</text>';
+
+    // Three bars: Operational, Statutory, Combined
+    var bars = [
+      { label: 'Operational HSE', value: operationalPct, color: '#3FA67D' },
+      { label: 'Statutory Levies', value: statutoryPct, color: '#F4B942' },
+      { label: 'Combined Total', value: combinedPct, color: combinedPct > 3.5 ? '#D85556' : (combinedPct < 1.5 ? '#F4B942' : '#3FA67D') }
+    ];
+    var barW = chartW / bars.length * 0.6;
+    var slotW = chartW / bars.length;
+
+    bars.forEach(function(b, i) {
+      var x = pad.left + slotW * i + (slotW - barW) / 2;
+      var barTop = pad.top + chartH - (b.value / maxScale) * chartH;
+      var barH = chartH - (barTop - pad.top);
+
+      svg += '<rect x="' + x + '" y="' + barTop + '" width="' + barW + '" height="' + barH + '" fill="' + b.color + '"/>';
+      svg += '<text x="' + (x + barW / 2) + '" y="' + (barTop - 6) + '" text-anchor="middle" font-family="Calibri" font-size="11" font-weight="bold" fill="#1F2B4D">' + b.value.toFixed(2) + '%</text>';
+      svg += '<text x="' + (x + barW / 2) + '" y="' + (height - pad.bottom + 18) + '" text-anchor="middle" font-family="Calibri" font-size="10" fill="#1F1B17">' + b.label + '</text>';
+    });
+
+    svg += '</svg>';
+    return svg;
+  }
+
+  function escapeXml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+  }
+
   // ===== SHEET 1 — COVER (FIX #1, #2, #3, #7) =====
   function buildCoverSheet(wb, ctx, status) {
     var ws = wb.addWorksheet('Cover');
@@ -4725,7 +5049,7 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
   }
 
   // ===== SHEET 2 — EXECUTIVE SUMMARY (FIX #11: chart) =====
-  function buildExecSummary(wb, bd, ctx, status) {
+  async function buildExecSummary(wb, bd, ctx, status) {
     var ws = wb.addWorksheet('Executive Summary');
     ws.properties.dyDescent = 0.25;  // FIX: ExcelJS bug emits dyDescent=55 by default; must be valid fractional value
     ws.columns = [
@@ -4774,14 +5098,42 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
     });
     var topDriversEndRow = r - 1;
 
-    // === FIX #11: Add horizontal bar chart for Top 5 cost drivers ===
-    // (ExcelJS supports basic charts - try to add, fallback gracefully)
+    // === Phase 3.5.2.3: Top 5 Cost Drivers chart embedded as PNG image ===
+    r += 1;
     try {
-      // Note: ExcelJS chart support is limited; we'll skip charts here and use rich data formatting instead
-      // The bar values themselves serve as visual signal via the % column
-    } catch (e) { console.warn('Chart skipped:', e); }
+      var driversSvg = buildTopDriversSvg(bd, ctx, 600, 240);
+      var driversPng = await svgToPngBuffer(driversSvg, 600, 240);
+      var driversImgId = wb.addImage({ buffer: driversPng, extension: 'png' });
+      ws.addImage(driversImgId, {
+        tl: { col: 0, row: r - 1 },
+        ext: { width: 600, height: 240 }
+      });
+      // Reserve rows for image
+      r += 12;
+    } catch (e) {
+      console.warn('Top drivers chart embed failed:', e);
+    }
 
-    r += 2;
+    r += 1;
+
+    // === Phase 3.5.2.3: Benchmark explanation auto-generated ===
+    var sh_exp = ws.getCell('A' + r); sh_exp.value = 'Benchmark Analysis'; styleSectionHeader(sh_exp);
+    r++;
+
+    var explanation = buildBenchmarkExplanation(bd, ctx);
+    ws.mergeCells('A' + r + ':H' + r);
+    var ec = ws.getCell('A' + r);
+    ec.value = explanation;
+    ec.alignment = { wrapText: true, vertical: 'top' };
+    ec.font = { name: FONT_FAMILY, size: 10, color: { argb: COLORS.text1 } };
+    ec.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF8F4E6' } };
+    ec.border = thinBorder();
+    // Estimate row height based on content length
+    var lineCount = (explanation.match(/\n/g) || []).length + 1;
+    ws.getRow(r).height = Math.max(60, Math.min(360, lineCount * 16));
+    r += 1;
+
+    r += 1;
 
     // Recommendations
     var sh3 = ws.getCell('A' + r); sh3.value = 'AI Recommendations'; styleSectionHeader(sh3);
@@ -4991,7 +5343,7 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
   }
 
   // ===== SHEET 5 — CASH FLOW (FIX #12: pie chart placeholder + better formatting) =====
-  function buildCashFlow(wb, bd, ctx, status) {
+  async function buildCashFlow(wb, bd, ctx, status) {
     var ws = wb.addWorksheet('Cash Flow');
     ws.properties.dyDescent = 0.25;  // FIX: ExcelJS bug emits dyDescent=55 by default; must be valid fractional value
     ws.columns = [
@@ -5053,6 +5405,21 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
     for (var col = 1; col <= 4; col++) ws.getCell(r, col).border = thinBorder();
     ws.getRow(r).height = 22;
     r += 2;
+
+    // === Phase 3.5.2.3: Phase distribution donut chart ===
+    r += 1;
+    try {
+      var donutSvg = buildPhaseDonutSvg(bd, ctx, 600, 280);
+      var donutPng = await svgToPngBuffer(donutSvg, 600, 280);
+      var donutImgId = wb.addImage({ buffer: donutPng, extension: 'png' });
+      ws.addImage(donutImgId, {
+        tl: { col: 0, row: r - 1 },
+        ext: { width: 600, height: 280 }
+      });
+      r += 14;
+    } catch (e) {
+      console.warn('Phase donut chart embed failed:', e);
+    }
 
     // Note about monthly breakdown
     ws.mergeCells('A' + r + ':D' + r);
@@ -5118,7 +5485,7 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
   }
 
   // ===== SHEET 7 — BENCHMARKS (FIX #8 + #13 chart) =====
-  function buildBenchmarks(wb, bd, ctx, status) {
+  async function buildBenchmarks(wb, bd, ctx, status) {
     var ws = wb.addWorksheet('Benchmarks');
     ws.properties.dyDescent = 0.25;  // FIX: ExcelJS bug emits dyDescent=55 by default; must be valid fractional value
     ws.columns = [
@@ -5151,78 +5518,140 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
     });
     r += 1;
 
-    // === Industry benchmark ===
-    var sh2 = ws.getCell('A' + r); sh2.value = 'Industry Benchmark Comparison'; styleSectionHeader(sh2);
+    // === Phase 3.5.2.3: Three-way Industry Benchmark Comparison ===
+    var sh2 = ws.getCell('A' + r); sh2.value = 'Industry Benchmark Comparison (Three-Way Split)'; styleSectionHeader(sh2);
     r++;
 
-    var ib = bd.industryBenchmark || {};
-    var minBench = safeNum(ib.min, ctx.value * 0.015);
-    var maxBench = safeNum(ib.max, ctx.value * 0.035);
-    var thisProj = ctx.totalBudget;
-    var pctValue = ctx.percentOfValue;
+    // Classify line items
+    var split = classifyLineItems(bd);
+    var pv = ctx.value || 1;
+    var operationalPct = split.operationalTotal / pv * 100;
+    var statutoryPct = split.statutoryTotal / pv * 100;
+    var combinedPct = ctx.percentOfValue;
 
     // Header row
-    ws.getCell(r, 1).value = 'Metric';
-    ws.getCell(r, 2).value = 'Industry Range';
-    ws.getCell(r, 3).value = 'This Project';
-    ws.getCell(r, 4).value = 'Status';
-    [1, 2, 3, 4].forEach(function(c) { styleHeader(ws.getCell(r, c)); });
+    ws.getCell(r, 1).value = 'Component';
+    ws.getCell(r, 2).value = 'Amount';
+    ws.getCell(r, 3).value = '% of Project Value';
+    ws.getCell(r, 4).value = 'Benchmark Range';
+    ws.getCell(r, 5).value = 'Status';
+    [1, 2, 3, 4, 5].forEach(function(c) { styleHeader(ws.getCell(r, c)); });
     r++;
 
-    // Range row
-    ws.getCell(r, 1).value = 'Total HSE Budget';
-    ws.getCell(r, 2).value = 'min: ' + (ctx.currency || 'INR') + ' ' + minBench.toLocaleString('en-IN') + '\nmax: ' + (ctx.currency || 'INR') + ' ' + maxBench.toLocaleString('en-IN');
-    ws.getCell(r, 2).alignment = { wrapText: true };
-    ws.getCell(r, 3).value = thisProj;
-    ws.getCell(r, 3).numFmt = fmt;
-    ws.getCell(r, 3).font = { name: FONT_FAMILY, size: 12, bold: true };
-
-    // FIX #8: colored status cell
-    var status_text, status_fill, status_textcolor;
-    if (thisProj > maxBench) {
-      status_text = 'OVER (above industry range)';
-      status_fill = COLORS.statusBad;
-      status_textcolor = COLORS.statusBadText;
-    } else if (thisProj < minBench) {
-      status_text = 'UNDER (below industry range)';
-      status_fill = COLORS.statusWarn;
-      status_textcolor = COLORS.statusWarnText;
-    } else {
-      status_text = 'WITHIN industry range';
-      status_fill = COLORS.statusGood;
-      status_textcolor = COLORS.statusGoodText;
+    function statusFor(value, lo, hi) {
+      if (value > hi) return { text: 'OVER', fill: COLORS.statusBad, textColor: COLORS.statusBadText };
+      if (value < lo) return { text: 'UNDER', fill: COLORS.statusWarn, textColor: COLORS.statusWarnText };
+      return { text: 'WITHIN', fill: COLORS.statusGood, textColor: COLORS.statusGoodText };
     }
-    ws.getCell(r, 4).value = status_text;
-    ws.getCell(r, 4).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: status_fill } };
-    ws.getCell(r, 4).font = { name: FONT_FAMILY, size: 11, bold: true, color: { argb: status_textcolor } };
-    ws.getCell(r, 4).alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
-    ws.getRow(r).height = 50;
-    for (var col = 1; col <= 4; col++) ws.getCell(r, col).border = thinBorder();
+
+    function addRow(label, amount, pct, lo, hi, rangeLabel) {
+      var st = statusFor(pct, lo, hi);
+      ws.getCell(r, 1).value = label;
+      ws.getCell(r, 2).value = amount;
+      ws.getCell(r, 2).numFmt = fmt;
+      ws.getCell(r, 3).value = pct / 100;
+      ws.getCell(r, 3).numFmt = '0.00%';
+      ws.getCell(r, 3).font = { name: FONT_FAMILY, size: 12, bold: true };
+      ws.getCell(r, 4).value = rangeLabel;
+      ws.getCell(r, 5).value = st.text;
+      ws.getCell(r, 5).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: st.fill } };
+      ws.getCell(r, 5).font = { name: FONT_FAMILY, size: 11, bold: true, color: { argb: st.textColor } };
+      ws.getCell(r, 5).alignment = { horizontal: 'center', vertical: 'middle' };
+      for (var col = 1; col <= 5; col++) ws.getCell(r, col).border = thinBorder();
+      r++;
+    }
+
+    addRow('Operational HSE', split.operationalTotal, operationalPct, 1.5, 3.5, '1.5% – 3.5%');
+    addRow('Statutory Levies', split.statutoryTotal, statutoryPct, 0.8, 1.5, '~1.0% – 1.3%');
+    addRow('Combined Total', ctx.totalBudget, combinedPct, 2.3, 4.5, '2.3% – 4.5% effective');
+    r += 1;
+
+    // === Chart: Benchmark position bars ===
+    try {
+      var benchSvg = buildBenchmarkSvg(bd, ctx, split, 600, 280);
+      var benchPng = await svgToPngBuffer(benchSvg, 600, 280);
+      var benchImgId = wb.addImage({ buffer: benchPng, extension: 'png' });
+      ws.addImage(benchImgId, {
+        tl: { col: 0, row: r - 1 },
+        ext: { width: 600, height: 280 }
+      });
+      r += 14;
+    } catch (e) {
+      console.warn('Benchmark chart embed failed:', e);
+    }
+
+    r += 1;
+
+    // Detailed statutory breakdown
+    var sh3 = ws.getCell('A' + r); sh3.value = 'Statutory Levies Breakdown'; styleSectionHeader(sh3);
     r++;
 
-    // % row
-    ws.getCell(r, 1).value = '% of Project Value';
-    ws.getCell(r, 2).value = '1.5% – 3.5%';
-    ws.getCell(r, 3).value = pctValue / 100;
-    ws.getCell(r, 3).numFmt = '0.00%';
-    ws.getCell(r, 3).font = { name: FONT_FAMILY, size: 12, bold: true };
-    var pctStatus = pctValue > 3.5 ? 'OVER' : (pctValue < 1.5 ? 'UNDER' : 'WITHIN');
-    var pctFill = pctValue > 3.5 ? COLORS.statusBad : (pctValue < 1.5 ? COLORS.statusWarn : COLORS.statusGood);
-    var pctTextColor = pctValue > 3.5 ? COLORS.statusBadText : (pctValue < 1.5 ? COLORS.statusWarnText : COLORS.statusGoodText);
-    ws.getCell(r, 4).value = pctStatus;
-    ws.getCell(r, 4).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: pctFill } };
-    ws.getCell(r, 4).font = { name: FONT_FAMILY, size: 11, bold: true, color: { argb: pctTextColor } };
-    ws.getCell(r, 4).alignment = { horizontal: 'center', vertical: 'middle' };
-    for (var col2 = 1; col2 <= 4; col2++) ws.getCell(r, col2).border = thinBorder();
-    r += 2;
+    ws.getCell(r, 1).value = 'Line Item';
+    ws.getCell(r, 4).value = 'Amount';
+    [1, 4].forEach(function(c) { styleHeader(ws.getCell(r, c)); });
+    ws.mergeCells('A' + r + ':C' + r);
+    r++;
+
+    if (split.statutoryItems.length === 0) {
+      ws.getCell(r, 1).value = 'No statutory levies identified in budget.';
+      ws.getCell(r, 1).font = { name: FONT_FAMILY, size: 10, italic: true, color: { argb: COLORS.text2 } };
+      r++;
+    } else {
+      split.statutoryItems.sort(function(a, b) { return b.amount - a.amount; });
+      split.statutoryItems.forEach(function(item) {
+        ws.getCell(r, 1).value = item.item;
+        ws.mergeCells('A' + r + ':C' + r);
+        ws.getCell(r, 1).alignment = { wrapText: true };
+        ws.getCell(r, 4).value = item.amount;
+        ws.getCell(r, 4).numFmt = fmt;
+        for (var col = 1; col <= 5; col++) {
+          if (col !== 2 && col !== 3) {
+            ws.getCell(r, col).border = thinBorder();
+            ws.getCell(r, col).font = { name: FONT_FAMILY, size: 10 };
+          }
+        }
+        r++;
+      });
+      // Statutory total
+      ws.getCell(r, 1).value = 'STATUTORY TOTAL';
+      ws.mergeCells('A' + r + ':C' + r);
+      ws.getCell(r, 1).font = { name: FONT_FAMILY, size: 11, bold: true };
+      ws.getCell(r, 4).value = split.statutoryTotal;
+      ws.getCell(r, 4).numFmt = fmt;
+      ws.getCell(r, 4).font = { name: FONT_FAMILY, size: 11, bold: true };
+      for (var col = 1; col <= 5; col++) {
+        if (col !== 2 && col !== 3) {
+          ws.getCell(r, col).border = thinBorder();
+          ws.getCell(r, col).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLORS.goldLight } };
+        }
+      }
+      r++;
+    }
+
+    // BOCW double-count warning
+    if (split.bocwCessCount > 1) {
+      r++;
+      ws.mergeCells('A' + r + ':E' + r);
+      var warn = ws.getCell('A' + r);
+      warn.value = 'WARNING: AI flagged ' + split.bocwCessCount + ' BOCW Welfare Cess line items totaling ' + (ctx.currency || 'INR') + ' ' + split.bocwCessAmount.toLocaleString('en-IN') + '. The BOCW Cess is a single statutory payment of 1% of project value. Verify only ONE cess line item is included before finalizing the budget.';
+      warn.alignment = { wrapText: true, vertical: 'top' };
+      warn.font = { name: FONT_FAMILY, size: 10, bold: true, color: { argb: COLORS.statusBadText } };
+      warn.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLORS.statusBad } };
+      warn.border = thinBorder();
+      ws.getRow(r).height = 50;
+      r++;
+    }
+
+    r += 1;
 
     // Context note
-    ws.mergeCells('A' + r + ':D' + r);
+    var ib = bd.industryBenchmark || {};
+    ws.mergeCells('A' + r + ':E' + r);
     var nc = ws.getCell('A' + r);
-    nc.value = ib.context || 'Heavy civil/highway projects in India typically require 1.5–3.5% of project value for comprehensive HSE compliance under BOCW Act and MoRTH safety guidelines.';
+    nc.value = (ib.context || 'Heavy civil/highway projects in India typically require 1.5–3.5% of project value for operational HSE compliance under BOCW Act and MoRTH safety guidelines.') + ' Statutory levies (BOCW Cess 1%, ESI/EPF, Workmen\'s Compensation Insurance) typically add another 1.0-1.3%, making the effective combined HSE cost ~2.5-4.5% of project value.';
     nc.alignment = { wrapText: true, vertical: 'top' };
     nc.font = { name: FONT_FAMILY, size: 10, italic: true, color: { argb: COLORS.text2 } };
-    ws.getRow(r).height = 40;
+    ws.getRow(r).height = 60;
 
     addFooter(ws, r);
     return ws;
@@ -5365,12 +5794,12 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
       wb.title = 'OpsLix HSE Project Budget — ' + ctx.name;
 
       buildCoverSheet(wb, ctx, status);
-      buildExecSummary(wb, bd, ctx, status);
+      await buildExecSummary(wb, bd, ctx, status);
       buildBudgetSummary(wb, bd, ctx, status);
       buildLineItems(wb, bd, ctx, status);
-      buildCashFlow(wb, bd, ctx, status);
+      await buildCashFlow(wb, bd, ctx, status);
       buildCompliance(wb, bd, ctx, status);
-      buildBenchmarks(wb, bd, ctx, status);
+      await buildBenchmarks(wb, bd, ctx, status);
       buildMethodology(wb, bd, ctx, status, dto);
 
       var buf = await wb.xlsx.writeBuffer();
