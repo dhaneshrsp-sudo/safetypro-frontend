@@ -2770,6 +2770,215 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     box-shadow: 0 0 0 3px rgba(198, 88, 62, 0.10);
   }
 
+  /* ===== Phase 3.5.3 — Approval workflow tab ===== */
+  body[data-page="hse-budgets"] .hbf-wf-summary {
+    background: #fff;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-summary-name {
+    font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--t1, #1F1B17);
+    margin: 0 0 4px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-summary-meta {
+    font-size: 12px;
+    color: var(--t2, #7A6F5A);
+    margin: 0 0 8px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-summary-amount {
+    font-family: var(--fh, monospace);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t1, #1F1B17);
+  }
+  body[data-page="hse-budgets"] .hbf-wf-summary-status {
+    text-align: right;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-summary-status .hbf-status-badge {
+    font-size: 12px;
+    padding: 6px 14px;
+    letter-spacing: 0.6px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-summary-status-label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--t3, #B5A99A);
+    margin-bottom: 6px;
+  }
+
+  /* Stepper */
+  body[data-page="hse-budgets"] .hbf-wf-stepper {
+    background: #fff;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 10px;
+    padding: 28px 24px 22px;
+    margin-bottom: 18px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-stepper-track {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    position: relative;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-step {
+    text-align: center;
+    position: relative;
+  }
+  /* Connector line drawn from each step EXCEPT the last */
+  body[data-page="hse-budgets"] .hbf-wf-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: calc(50% + 22px);
+    right: calc(-50% + 22px);
+    height: 2px;
+    background: var(--border, #E2DFD5);
+    z-index: 0;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-step.done:not(:last-child)::after {
+    background: #16A34A;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-step-circle {
+    position: relative;
+    z-index: 1;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--border, #E2DFD5);
+    color: var(--t3, #B5A99A);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 32px;
+    margin: 0 auto 8px;
+    transition: all 0.2s;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-step.active .hbf-wf-step-circle {
+    border-color: #C6583E;
+    background: #C6583E;
+    color: #fff;
+    box-shadow: 0 0 0 4px rgba(198, 88, 62, 0.15);
+  }
+  body[data-page="hse-budgets"] .hbf-wf-step.done .hbf-wf-step-circle {
+    border-color: #16A34A;
+    background: #16A34A;
+    color: #fff;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-step.rejected .hbf-wf-step-circle {
+    border-color: #EF4444;
+    background: #EF4444;
+    color: #fff;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-step-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--t2, #7A6F5A);
+    line-height: 1.3;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-step.active .hbf-wf-step-label {
+    color: #C6583E;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-step.done .hbf-wf-step-label {
+    color: var(--t1, #1F1B17);
+  }
+  body[data-page="hse-budgets"] .hbf-wf-step.rejected .hbf-wf-step-label {
+    color: #B91C1C;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-step-sub {
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--t3, #B5A99A);
+    margin-top: 2px;
+  }
+
+  /* Side-states callout (REJECTED / ARCHIVED / FINALIZED) */
+  body[data-page="hse-budgets"] .hbf-wf-callout {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-callout--rejected {
+    background: rgba(239, 68, 68, 0.06);
+    border-color: rgba(239, 68, 68, 0.25);
+    color: #991B1B;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-callout--archived {
+    background: rgba(100, 116, 139, 0.06);
+    border-color: rgba(100, 116, 139, 0.25);
+    color: #475569;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-callout--legacy {
+    background: rgba(245, 158, 11, 0.06);
+    border-color: rgba(245, 158, 11, 0.25);
+    color: #92400E;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-callout strong {
+    font-weight: 700;
+  }
+
+  /* Section panels (placeholders for Deploy 3 & 4) */
+  body[data-page="hse-budgets"] .hbf-wf-actions,
+  body[data-page="hse-budgets"] .hbf-wf-history {
+    background: #fff;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-section-title {
+    font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--t1, #1F1B17);
+    margin: 0 0 12px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-placeholder {
+    font-size: 12px;
+    color: var(--t3, #B5A99A);
+    font-style: italic;
+  }
+
+  /* Loading spinner inside the approval tab */
+  body[data-page="hse-budgets"] .hbf-wf-loading {
+    background: #fff;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 10px;
+    padding: 40px 24px;
+    text-align: center;
+    color: var(--t2, #7A6F5A);
+    font-size: 13px;
+  }
+
+  /* Mobile: stepper labels stack tighter */
+  @media (max-width: 720px) {
+    body[data-page="hse-budgets"] .hbf-wf-summary {
+      grid-template-columns: 1fr;
+    }
+    body[data-page="hse-budgets"] .hbf-wf-summary-status {
+      text-align: left;
+    }
+    body[data-page="hse-budgets"] .hbf-wf-step-label {
+      font-size: 10px;
+    }
+    body[data-page="hse-budgets"] .hbf-wf-step-sub {
+      display: none;
+    }
+  }
+
   /* Save modal */
   body[data-page="hse-budgets"] .hbf-modal-backdrop {
     display: none;
@@ -3566,10 +3775,23 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </div>
 
 <div id="hbf-tab-approval">
-  <div class="hbf-empty-state">
-    <h3 class="hbf-empty-title">Approval Workflow</h3>
-    <p class="hbf-empty-subtitle">Multi-stage approval flow: Draft &rarr; HSE Officer Review &rarr; PM Approval &rarr; Approved. Role-based gates with comment threads and audit trail.</p>
-    <span class="hbf-phase-badge">Phase 3.5</span>
+  <div id="hbf-wf-empty" class="hbf-empty-state" style="display:none;">
+    <h3 class="hbf-empty-title">No budget loaded</h3>
+    <p class="hbf-empty-subtitle">Load or generate a budget first to manage its approval workflow. The Approval tab shows the current stage, available actions for your role, and the full audit trail.</p>
+    <button class="hbf-btn hbf-btn-primary" onclick="hbfSwitchTab('overview')">Go to Overview &rarr;</button>
+  </div>
+  <div id="hbf-wf-loading" class="hbf-wf-loading" style="display:none;">Loading approval status&hellip;</div>
+  <div id="hbf-wf-main" style="display:none;">
+    <div id="hbf-wf-summary" class="hbf-wf-summary"></div>
+    <div id="hbf-wf-stepper" class="hbf-wf-stepper"></div>
+    <div id="hbf-wf-actions" class="hbf-wf-actions">
+      <h4 class="hbf-wf-section-title">Available actions</h4>
+      <p class="hbf-wf-placeholder">Action buttons will appear here based on the current stage and your role. (Coming in Deploy 3.)</p>
+    </div>
+    <div id="hbf-wf-history" class="hbf-wf-history">
+      <h4 class="hbf-wf-section-title">Audit trail</h4>
+      <p class="hbf-wf-placeholder">Full transition history with timestamps and actor names will appear here. (Coming in Deploy 4.)</p>
+    </div>
   </div>
 </div>
 
@@ -3671,6 +3893,195 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     }
     if (name === 'overview') {
       try { window.hbfRefreshSavedList(); } catch(e) { console.error('hbfRefreshSavedList failed:', e); }
+    }
+  };
+})();
+</script>
+
+<script id="hbf-approval-workflow">
+// Phase 3.5.3 — Approval Workflow rendering (frontend)
+// Reads window.__hbfBudgetData._savedId / _savedStatus to know which budget
+// is loaded. Fetches latest detail + history from backend on tab switch.
+(function(){
+  var API_BASE = 'https://safetypro-backend.onrender.com/api/v1';
+  function getToken() { return localStorage.getItem('sp_token') || ''; }
+  function fmtMoney(n, currency) {
+    if (n == null) return '-';
+    var s = Math.round(Number(n)).toLocaleString('en-IN');
+    return (currency ? currency + ' ' : '') + s;
+  }
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  // Display labels for status codes (lowercase class = code.toLowerCase())
+  var STATUS_LABEL = {
+    DRAFT:        'Draft',
+    SUBMITTED:    'Submitted',
+    HSE_APPROVED: 'HSE Approved',
+    APPROVED:     'Approved',
+    REJECTED:     'Rejected',
+    FINALIZED:    'Finalized',
+    ARCHIVED:     'Archived'
+  };
+
+  // 4 main pipeline stages — REJECTED / ARCHIVED / FINALIZED render via callout
+  var PIPELINE_STAGES = [
+    { code: 'DRAFT',        label: 'Draft',        sub: 'Created by team' },
+    { code: 'SUBMITTED',    label: 'Submitted',    sub: 'Awaiting HSE review' },
+    { code: 'HSE_APPROVED', label: 'HSE Approved', sub: 'Awaiting PM approval' },
+    { code: 'APPROVED',     label: 'Approved',     sub: 'Final sign-off' }
+  ];
+
+  function renderSummary(budget) {
+    var statusCode = budget.status || 'DRAFT';
+    var statusClass = statusCode.toLowerCase();
+    var statusLabel = STATUS_LABEL[statusCode] || statusCode;
+    var pv = Number(budget.projectValue) || 0;
+    var pct = budget.percentOfProjectValue != null
+      ? Number(budget.percentOfProjectValue).toFixed(2) + '%'
+      : '-';
+    return '' +
+      '<div>' +
+        '<h3 class="hbf-wf-summary-name">' + escapeHtml(budget.projectName || 'Untitled') + '</h3>' +
+        '<p class="hbf-wf-summary-meta">' +
+          escapeHtml(budget.projectType || '') + ' &middot; ' +
+          escapeHtml(budget.jurisdiction || '') + ' &middot; ' +
+          escapeHtml(String(budget.durationMonths || '?')) + ' months &middot; ' +
+          escapeHtml(String(budget.peakWorkforce || '?')) + ' peak workforce' +
+        '</p>' +
+        '<div class="hbf-wf-summary-amount">Total: ' +
+          fmtMoney(budget.totalBudget, budget.currency) + ' (' + pct + ' of ' +
+          fmtMoney(pv, budget.currency) + ')' +
+        '</div>' +
+      '</div>' +
+      '<div class="hbf-wf-summary-status">' +
+        '<span class="hbf-wf-summary-status-label">Current status</span>' +
+        '<span class="hbf-status-badge ' + statusClass + '">' + statusLabel + '</span>' +
+      '</div>';
+  }
+
+  function renderStepper(statusCode) {
+    // Determine state for each pipeline step
+    var idx = -1;
+    for (var i = 0; i < PIPELINE_STAGES.length; i++) {
+      if (PIPELINE_STAGES[i].code === statusCode) { idx = i; break; }
+    }
+
+    // Special handling for terminal off-pipeline statuses
+    var isRejected = statusCode === 'REJECTED';
+    var isArchived = statusCode === 'ARCHIVED';
+    var isFinalized = statusCode === 'FINALIZED';
+
+    // For REJECTED, we don't know which stage it was rejected from in this view —
+    // history (Deploy 4) will reveal that. Render the stepper in a neutral way.
+    var stepsHtml = PIPELINE_STAGES.map(function(stage, i){
+      var cls = '';
+      if (idx === -1) {
+        // Unknown / terminal — render all dim
+        cls = '';
+      } else if (i < idx) {
+        cls = 'done';
+      } else if (i === idx) {
+        cls = 'active';
+      }
+      return '' +
+        '<div class="hbf-wf-step ' + cls + '">' +
+          '<div class="hbf-wf-step-circle">' + (cls === 'done' ? '&#10003;' : (i + 1)) + '</div>' +
+          '<div class="hbf-wf-step-label">' + escapeHtml(stage.label) +
+            '<span class="hbf-wf-step-sub">' + escapeHtml(stage.sub) + '</span>' +
+          '</div>' +
+        '</div>';
+    }).join('');
+
+    var calloutHtml = '';
+    if (isRejected) {
+      calloutHtml =
+        '<div class="hbf-wf-callout hbf-wf-callout--rejected">' +
+        '<strong>Rejected.</strong> The budget creator can <em>Reopen</em> it (returns to Draft) ' +
+        'from the Available actions panel below. See the Audit trail for the rejection comment.' +
+        '</div>';
+    } else if (isArchived) {
+      calloutHtml =
+        '<div class="hbf-wf-callout hbf-wf-callout--archived">' +
+        '<strong>Archived.</strong> This budget is no longer active. Archived budgets cannot transition further.' +
+        '</div>';
+    } else if (isFinalized) {
+      calloutHtml =
+        '<div class="hbf-wf-callout hbf-wf-callout--legacy">' +
+        '<strong>Legacy status.</strong> This budget was created before the approval workflow ' +
+        'and is being treated as fully approved. New budgets follow the 4-stage pipeline above.' +
+        '</div>';
+    }
+
+    return '<div class="hbf-wf-stepper-track">' + stepsHtml + '</div>' + calloutHtml;
+  }
+
+  function showState(state) {
+    // state: 'empty' | 'loading' | 'main'
+    var ids = { empty: 'hbf-wf-empty', loading: 'hbf-wf-loading', main: 'hbf-wf-main' };
+    Object.keys(ids).forEach(function(k){
+      var el = document.getElementById(ids[k]);
+      if (el) el.style.display = (k === state) ? '' : 'none';
+    });
+  }
+
+  function renderApproval() {
+    var data = window.__hbfBudgetData;
+    var savedId = data && data._savedId;
+    if (!savedId) {
+      showState('empty');
+      return;
+    }
+    showState('loading');
+
+    fetch(API_BASE + '/hse-budgets/' + savedId, {
+      method: 'GET',
+      headers: { 'Authorization': 'Bearer ' + getToken() }
+    })
+    .then(function(r){
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function(budget){
+      // Refresh the cached status so other tabs see latest
+      if (window.__hbfBudgetData) window.__hbfBudgetData._savedStatus = budget.status;
+
+      var summaryEl = document.getElementById('hbf-wf-summary');
+      var stepperEl = document.getElementById('hbf-wf-stepper');
+      if (summaryEl) summaryEl.innerHTML = renderSummary(budget);
+      if (stepperEl) stepperEl.innerHTML = renderStepper(budget.status || 'DRAFT');
+
+      showState('main');
+    })
+    .catch(function(err){
+      console.error('Approval render failed:', err);
+      var loadingEl = document.getElementById('hbf-wf-loading');
+      if (loadingEl) {
+        loadingEl.textContent = 'Failed to load: ' + (err.message || 'unknown error');
+        loadingEl.style.color = '#B91C1C';
+      }
+      showState('loading');
+    });
+  }
+
+  // Expose for tab-switch hook below
+  window.hbfRenderApproval = renderApproval;
+})();
+</script>
+<script id="hbf-approval-hook">
+// Wire the approval renderer into the existing hbfSwitchTab wrapper.
+// This runs after both the tab IIFE and the approval IIFE.
+(function(){
+  if (!window.hbfSwitchTab || !window.hbfRenderApproval) return;
+  var _prev = window.hbfSwitchTab;
+  window.hbfSwitchTab = function(name){
+    _prev(name);
+    if (name === 'approval') {
+      try { window.hbfRenderApproval(); } catch(e) { console.error('hbfRenderApproval failed:', e); }
     }
   };
 })();
