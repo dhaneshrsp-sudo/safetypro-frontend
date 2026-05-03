@@ -2709,17 +2709,65 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     letter-spacing: 0.4px;
     text-align: center;
   }
+  /* Phase 3.5.3 — workflow status palette
+     7 states: DRAFT (amber) → SUBMITTED (blue) → HSE_APPROVED (indigo)
+              → APPROVED (green) | REJECTED (red) | FINALIZED (legacy green)
+              | ARCHIVED (slate)                                            */
   body[data-page="hse-budgets"] .hbf-status-badge.draft {
-    background: rgba(245, 158, 11, 0.12);
-    color: #B45309;
+    background: rgba(245, 158, 11, 0.12); color: #B45309;
+  }
+  body[data-page="hse-budgets"] .hbf-status-badge.submitted {
+    background: rgba(59, 130, 246, 0.12); color: #1D4ED8;
+  }
+  body[data-page="hse-budgets"] .hbf-status-badge.hse_approved {
+    background: rgba(99, 102, 241, 0.12); color: #4338CA;
+  }
+  body[data-page="hse-budgets"] .hbf-status-badge.approved {
+    background: rgba(22, 163, 74, 0.14); color: #166534;
+  }
+  body[data-page="hse-budgets"] .hbf-status-badge.rejected {
+    background: rgba(239, 68, 68, 0.12); color: #B91C1C;
   }
   body[data-page="hse-budgets"] .hbf-status-badge.finalized {
-    background: rgba(22, 163, 74, 0.12);
-    color: #166534;
+    /* Legacy — pre-3.5.3 budgets still in this state will be migrated. */
+    background: rgba(22, 163, 74, 0.10); color: #166534;
+    text-decoration: none; opacity: 0.85;
   }
   body[data-page="hse-budgets"] .hbf-status-badge.archived {
-    background: rgba(100, 116, 139, 0.12);
-    color: #475569;
+    background: rgba(100, 116, 139, 0.12); color: #475569;
+  }
+
+  /* Status filter dropdown — sits in the saved-budgets header next to Refresh */
+  body[data-page="hse-budgets"] .hbf-status-filter {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--t2, #7A6F5A);
+  }
+  body[data-page="hse-budgets"] .hbf-status-filter select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: #fff;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 6px;
+    padding: 5px 26px 5px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--t1, #1F1B17);
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%237A6F5A' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+  }
+  body[data-page="hse-budgets"] .hbf-status-filter select:hover {
+    border-color: #C6583E;
+  }
+  body[data-page="hse-budgets"] .hbf-status-filter select:focus {
+    outline: none;
+    border-color: #C6583E;
+    box-shadow: 0 0 0 3px rgba(198, 88, 62, 0.10);
   }
 
   /* Save modal */
@@ -3325,6 +3373,18 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
       Refresh
     </button>
+    <label class="hbf-status-filter">
+      Status
+      <select id="hbf-status-filter-select" onchange="hbfRefreshSavedList()">
+        <option value="">All</option>
+        <option value="DRAFT">Draft</option>
+        <option value="SUBMITTED">Submitted</option>
+        <option value="HSE_APPROVED">HSE Approved</option>
+        <option value="APPROVED">Approved</option>
+        <option value="REJECTED">Rejected</option>
+        <option value="ARCHIVED">Archived</option>
+      </select>
+    </label>
   </div>
   <div id="hbf-saved-list" class="hbf-saved-list">
     <div class="hbf-saved-loading">Loading saved budgets&hellip;</div>
@@ -3804,7 +3864,13 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     if (!container) return;
     container.innerHTML = '<div class="hbf-saved-loading">Loading saved budgets&hellip;</div>';
 
-    fetch(API_BASE + '/hse-budgets?limit=50', {
+    // Phase 3.5.3 — honor optional status filter from header dropdown
+    var filterSel = document.getElementById('hbf-status-filter-select');
+    var statusVal = filterSel ? filterSel.value : '';
+    var url = API_BASE + '/hse-budgets?limit=50';
+    if (statusVal) url += '&status=' + encodeURIComponent(statusVal);
+
+    fetch(url, {
       method: 'GET',
       headers: { 'Authorization': 'Bearer ' + getToken() }
     })
@@ -3838,11 +3904,23 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     }
 
     var html = '';
+    // Phase 3.5.3 — human-readable label per status code
+    var STATUS_LABEL = {
+      DRAFT:        'Draft',
+      SUBMITTED:    'Submitted',
+      HSE_APPROVED: 'HSE Approved',
+      APPROVED:     'Approved',
+      REJECTED:     'Rejected',
+      FINALIZED:    'Finalized',
+      ARCHIVED:     'Archived'
+    };
     items.forEach(function(item){
       var pv = Number(item.projectValue) || 0;
       var pct = item.percentOfProjectValue != null ? Number(item.percentOfProjectValue).toFixed(2) : '-';
-      var status = (item.status || 'DRAFT').toLowerCase();
-      var statusBadge = '<span class="hbf-status-badge ' + status + '">' + (item.status || 'DRAFT') + '</span>';
+      var statusCode = item.status || 'DRAFT';
+      var statusClass = statusCode.toLowerCase();
+      var statusLabel = STATUS_LABEL[statusCode] || statusCode;
+      var statusBadge = '<span class="hbf-status-badge ' + statusClass + '">' + statusLabel + '</span>';
       html +=
         '<div class="hbf-saved-card" onclick="hbfLoadBudget(\'' + item.id + '\')" title="Click to load">' +
         '<div>' +
@@ -3865,14 +3943,23 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   }
 
   function hbfUpdateStatCards(items) {
-    // Update the 4 stat cards at top of page using their actual IDs
+    // Phase 3.5.3 — meaningful counts for the new workflow:
+    //   Total      = all budgets (any status)
+    //   Active     = DRAFT (still being worked on by creator)
+    //   Pending    = SUBMITTED + HSE_APPROVED (in approval pipeline)
+    //   This FY    = approved or finalized this calendar year
     var total = items.length;
     var active = items.filter(function(i){ return i.status === 'DRAFT'; }).length;
-    var finalized = items.filter(function(i){ return i.status === 'FINALIZED'; }).length;
+    var pending = items.filter(function(i){
+      return i.status === 'SUBMITTED' || i.status === 'HSE_APPROVED';
+    }).length;
     var thisYear = new Date().getFullYear();
     var thisFY = items.filter(function(i){
       var d = new Date(i.createdAt || 0);
-      return d.getFullYear() === thisYear;
+      var yearOk = d.getFullYear() === thisYear;
+      // Only count fully-approved or legacy-finalized budgets in the FY tally
+      var statusOk = i.status === 'APPROVED' || i.status === 'FINALIZED';
+      return yearOk && statusOk;
     }).length;
     var elTotal = document.getElementById('hbf-stat-total');
     var elActive = document.getElementById('hbf-stat-active');
@@ -3880,7 +3967,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     var elFy = document.getElementById('hbf-stat-fy');
     if (elTotal) elTotal.textContent = total;
     if (elActive) elActive.textContent = active;
-    if (elPending) elPending.textContent = finalized;
+    if (elPending) elPending.textContent = pending;
     if (elFy) elFy.textContent = thisFY;
   }
 
