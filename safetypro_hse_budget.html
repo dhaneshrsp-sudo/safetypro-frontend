@@ -4642,6 +4642,7 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
   // ===== SHEET 1 — COVER (FIX #1, #2, #3, #7) =====
   function buildCoverSheet(wb, ctx, status) {
     var ws = wb.addWorksheet('Cover');
+    ws.properties.dyDescent = 0.25;  // FIX: ExcelJS bug emits dyDescent=55 by default; must be valid fractional value
     ws.columns = [
       { width: 30 }, { width: 50 }, { width: 8 }, { width: 8 },
       { width: 8 }, { width: 8 }, { width: 8 }, { width: 8 }
@@ -4726,6 +4727,7 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
   // ===== SHEET 2 — EXECUTIVE SUMMARY (FIX #11: chart) =====
   function buildExecSummary(wb, bd, ctx, status) {
     var ws = wb.addWorksheet('Executive Summary');
+    ws.properties.dyDescent = 0.25;  // FIX: ExcelJS bug emits dyDescent=55 by default; must be valid fractional value
     ws.columns = [
       { width: 60 }, { width: 18 }, { width: 12 }, { width: 8 },
       { width: 8 }, { width: 8 }, { width: 8 }, { width: 8 }
@@ -4818,6 +4820,7 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
   // ===== SHEET 3 — BUDGET SUMMARY (FIX #6, #10: formulas) =====
   function buildBudgetSummary(wb, bd, ctx, status) {
     var ws = wb.addWorksheet('Budget Summary');
+    ws.properties.dyDescent = 0.25;  // FIX: ExcelJS bug emits dyDescent=55 by default; must be valid fractional value
     ws.columns = [
       { width: 6 }, { width: 50 }, { width: 16 }, { width: 22 },
       { width: 14 }, { width: 12 }, { width: 8 }, { width: 8 }
@@ -4912,6 +4915,7 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
   // ===== SHEET 4 — DETAILED LINE ITEMS (FIX #6: currency on H, fill J/K) =====
   function buildLineItems(wb, bd, ctx, status) {
     var ws = wb.addWorksheet('Detailed Line Items');
+    ws.properties.dyDescent = 0.25;  // FIX: ExcelJS bug emits dyDescent=55 by default; must be valid fractional value
     ws.columns = [
       { width: 6 },  { width: 30 }, { width: 35 }, { width: 50 },
       { width: 8 },  { width: 12 }, { width: 14 }, { width: 18 },
@@ -4989,6 +4993,7 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
   // ===== SHEET 5 — CASH FLOW (FIX #12: pie chart placeholder + better formatting) =====
   function buildCashFlow(wb, bd, ctx, status) {
     var ws = wb.addWorksheet('Cash Flow');
+    ws.properties.dyDescent = 0.25;  // FIX: ExcelJS bug emits dyDescent=55 by default; must be valid fractional value
     ws.columns = [
       { width: 18 }, { width: 22 }, { width: 16 }, { width: 30 },
       { width: 8 }, { width: 8 }, { width: 8 }, { width: 8 }
@@ -5063,6 +5068,7 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
   // ===== SHEET 6 — COMPLIANCE (FIX #4: render strings as numbered text rows) =====
   function buildCompliance(wb, bd, ctx, status) {
     var ws = wb.addWorksheet('Compliance');
+    ws.properties.dyDescent = 0.25;  // FIX: ExcelJS bug emits dyDescent=55 by default; must be valid fractional value
     ws.columns = [
       { width: 6 }, { width: 90 }, { width: 8 }, { width: 8 },
       { width: 8 }, { width: 8 }, { width: 8 }, { width: 8 }
@@ -5114,6 +5120,7 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
   // ===== SHEET 7 — BENCHMARKS (FIX #8 + #13 chart) =====
   function buildBenchmarks(wb, bd, ctx, status) {
     var ws = wb.addWorksheet('Benchmarks');
+    ws.properties.dyDescent = 0.25;  // FIX: ExcelJS bug emits dyDescent=55 by default; must be valid fractional value
     ws.columns = [
       { width: 28 }, { width: 50 }, { width: 14 }, { width: 14 },
       { width: 14 }, { width: 8 }, { width: 8 }, { width: 8 }
@@ -5224,6 +5231,7 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
   // ===== SHEET 8 — METHODOLOGY (FIX #5: usage data, FIX #9: audit trail not blank) =====
   function buildMethodology(wb, bd, ctx, status, dto) {
     var ws = wb.addWorksheet('Methodology');
+    ws.properties.dyDescent = 0.25;  // FIX: ExcelJS bug emits dyDescent=55 by default; must be valid fractional value
     ws.columns = [
       { width: 28 }, { width: 50 }, { width: 18 }, { width: 18 },
       { width: 18 }, { width: 8 }, { width: 8 }, { width: 8 }
