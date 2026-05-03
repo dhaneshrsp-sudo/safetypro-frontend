@@ -8,8 +8,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>HSE Project Budget - OpsLix</title>
 <style id="hbf-fouc-prevent">
-  /* FOUC prevention: paint OpsLix cream bg before stylesheets load to avoid white/dark flash */
-  html { background: #FAF8F2; }
+  /* FOUC prevention: defeat the dark-theme tokens defined in the inline
+     TOKENS block below by forcing OpsLix cream on both html AND body.
+     Without !important on body, the later inline rule
+     `body { background: var(--bg); }` wins (same specificity, later in the
+     cascade) and shows a brief dark slate flash before opslix-shell.css
+     redefines --bg to cream. The exact cream #F5F2EB matches shell.css,
+     so when shell.css does load there is zero color shift. */
+  html, body { background: #F5F2EB !important; }
   body { visibility: hidden; opacity: 0; transition: opacity 0.15s ease-out; }
   body.hbf-loaded { visibility: visible; opacity: 1; }
 </style>
@@ -2723,14 +2729,16 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     background: rgba(99, 102, 241, 0.12); color: #4338CA;
   }
   body[data-page="hse-budgets"] .hbf-status-badge.approved {
-    background: rgba(22, 163, 74, 0.14); color: #166534;
+    background: var(--tier-low-soft, rgba(122, 139, 109, 0.14));
+    color: var(--tier-low-text, #3F4D34);
   }
   body[data-page="hse-budgets"] .hbf-status-badge.rejected {
     background: rgba(239, 68, 68, 0.12); color: #B91C1C;
   }
   body[data-page="hse-budgets"] .hbf-status-badge.finalized {
     /* Legacy — pre-3.5.3 budgets still in this state will be migrated. */
-    background: rgba(22, 163, 74, 0.10); color: #166534;
+    background: var(--tier-low-soft, rgba(122, 139, 109, 0.10));
+    color: var(--tier-low-text, #3F4D34);
     text-decoration: none; opacity: 0.85;
   }
   body[data-page="hse-budgets"] .hbf-status-badge.archived {
@@ -2846,7 +2854,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     z-index: 0;
   }
   body[data-page="hse-budgets"] .hbf-wf-step.done:not(:last-child)::after {
-    background: #16A34A;
+    background: var(--green, #7A8B6D);
   }
   body[data-page="hse-budgets"] .hbf-wf-step-circle {
     position: relative;
@@ -2864,14 +2872,14 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     transition: all 0.2s;
   }
   body[data-page="hse-budgets"] .hbf-wf-step.active .hbf-wf-step-circle {
-    border-color: #C6583E;
-    background: #C6583E;
+    border-color: var(--green, #7A8B6D);
+    background: var(--green, #7A8B6D);
     color: #fff;
-    box-shadow: 0 0 0 4px rgba(198, 88, 62, 0.15);
+    box-shadow: 0 0 0 4px var(--tier-low-soft, rgba(122, 139, 109, 0.20));
   }
   body[data-page="hse-budgets"] .hbf-wf-step.done .hbf-wf-step-circle {
-    border-color: #16A34A;
-    background: #16A34A;
+    border-color: var(--green, #7A8B6D);
+    background: var(--green, #7A8B6D);
     color: #fff;
   }
   body[data-page="hse-budgets"] .hbf-wf-step.rejected .hbf-wf-step-circle {
@@ -2886,7 +2894,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     line-height: 1.3;
   }
   body[data-page="hse-budgets"] .hbf-wf-step.active .hbf-wf-step-label {
-    color: #C6583E;
+    color: var(--tier-low-text, #3F4D34);
   }
   body[data-page="hse-budgets"] .hbf-wf-step.done .hbf-wf-step-label {
     color: var(--t1, #1F1B17);
@@ -2961,6 +2969,177 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     text-align: center;
     color: var(--t2, #7A6F5A);
     font-size: 13px;
+  }
+
+  /* ===== Phase 3.5.3 Deploy 3 — action buttons + comment modal ===== */
+  body[data-page="hse-budgets"] .hbf-wf-actions-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-actions-empty {
+    font-size: 12px;
+    color: var(--t3, #B5A99A);
+    font-style: italic;
+    margin: 0;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border: 1px solid;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: #fff;
+    font-family: inherit;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  /* Primary positive action (Submit / HSE Approve / PM Approve) */
+  body[data-page="hse-budgets"] .hbf-wf-action-btn--primary {
+    background: var(--green, #7A8B6D);
+    border-color: var(--green, #7A8B6D);
+    color: #fff;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-action-btn--primary:hover:not(:disabled) {
+    background: #65755A;
+    border-color: #65755A;
+  }
+  /* Negative action (Reject) */
+  body[data-page="hse-budgets"] .hbf-wf-action-btn--danger {
+    background: #fff;
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #B91C1C;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-action-btn--danger:hover:not(:disabled) {
+    background: rgba(239, 68, 68, 0.06);
+    border-color: #EF4444;
+  }
+  /* Neutral action (Recall / Send Back / Reopen) */
+  body[data-page="hse-budgets"] .hbf-wf-action-btn--neutral {
+    background: #fff;
+    border-color: var(--border, #E2DFD5);
+    color: var(--t1, #1F1B17);
+  }
+  body[data-page="hse-budgets"] .hbf-wf-action-btn--neutral:hover:not(:disabled) {
+    border-color: #94A3B8;
+    background: #F8FAFC;
+  }
+  /* Admin-only ghost action (Archive) */
+  body[data-page="hse-budgets"] .hbf-wf-action-btn--ghost {
+    background: transparent;
+    border-color: var(--border, #E2DFD5);
+    color: var(--t2, #7A6F5A);
+    font-weight: 500;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-action-btn--ghost:hover:not(:disabled) {
+    color: #475569;
+    border-color: #94A3B8;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-action-context {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--t3, #B5A99A);
+  }
+
+  /* Comment modal — reuses .hbf-modal-backdrop infrastructure */
+  body[data-page="hse-budgets"] .hbf-wf-modal {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+  body[data-page="hse-budgets"] .hbf-wf-modal-title {
+    font-family: var(--sp-font-serif, Fraunces, Georgia, serif);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--t1, #1F1B17);
+    margin: 0 0 6px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-modal-sub {
+    font-size: 13px;
+    color: var(--t2, #7A6F5A);
+    margin: 0 0 16px;
+    line-height: 1.5;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-modal-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--t2, #7A6F5A);
+    margin-bottom: 6px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-modal-required {
+    color: #B91C1C;
+    margin-left: 2px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-modal-textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 10px 12px;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--t1, #1F1B17);
+    resize: vertical;
+    box-sizing: border-box;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-modal-textarea:focus {
+    outline: none;
+    border-color: var(--green, #7A8B6D);
+    box-shadow: 0 0 0 3px var(--tier-low-soft, rgba(122, 139, 109, 0.12));
+  }
+  body[data-page="hse-budgets"] .hbf-wf-modal-error {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #B91C1C;
+    min-height: 16px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-modal-actions {
+    margin-top: 18px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-modal-cancel {
+    padding: 9px 16px;
+    background: #F5F2EB;
+    border: 1px solid var(--border, #E2DFD5);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--t1, #1F1B17);
+  }
+  body[data-page="hse-budgets"] .hbf-wf-modal-confirm {
+    padding: 9px 18px;
+    background: var(--green, #7A8B6D);
+    border: 1px solid var(--green, #7A8B6D);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #fff;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-modal-confirm:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  body[data-page="hse-budgets"] .hbf-wf-modal-confirm--danger {
+    background: #EF4444;
+    border-color: #EF4444;
   }
 
   /* Mobile: stepper labels stack tighter */
@@ -3898,13 +4077,52 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+<!-- Phase 3.5.3 Deploy 3 — comment modal for transitions requiring an explanation -->
+<div id="hbf-wf-modal-backdrop" class="hbf-modal-backdrop">
+  <div class="hbf-wf-modal">
+    <h3 id="hbf-wf-modal-title" class="hbf-wf-modal-title">Confirm action</h3>
+    <p id="hbf-wf-modal-sub" class="hbf-wf-modal-sub"></p>
+    <label class="hbf-wf-modal-label" for="hbf-wf-modal-comment">
+      Comment <span id="hbf-wf-modal-required" class="hbf-wf-modal-required">*</span>
+    </label>
+    <textarea id="hbf-wf-modal-comment" class="hbf-wf-modal-textarea"
+              placeholder="Briefly explain your decision&hellip;" maxlength="2000"></textarea>
+    <div id="hbf-wf-modal-error" class="hbf-wf-modal-error"></div>
+    <div class="hbf-wf-modal-actions">
+      <button type="button" class="hbf-wf-modal-cancel" onclick="window.hbfWfModalCancel()">Cancel</button>
+      <button type="button" id="hbf-wf-modal-confirm" class="hbf-wf-modal-confirm" onclick="window.hbfWfModalConfirm()">Confirm</button>
+    </div>
+  </div>
+</div>
+
 <script id="hbf-approval-workflow">
 // Phase 3.5.3 — Approval Workflow rendering (frontend)
 // Reads window.__hbfBudgetData._savedId / _savedStatus to know which budget
 // is loaded. Fetches latest detail + history from backend on tab switch.
+//
+// Deploy 3 additions:
+//   - Action buttons (filtered by current state + actor's role)
+//   - Comment modal for actions requiring an explanation
+//   - POST /:id/transition wired up with success refresh + toast
 (function(){
   var API_BASE = 'https://safetypro-backend.onrender.com/api/v1';
   function getToken() { return localStorage.getItem('sp_token') || ''; }
+  function getUserRole() {
+    try {
+      var t = getToken();
+      if (!t) return null;
+      var p = JSON.parse(atob(t.split('.')[1]));
+      return p.role || null;
+    } catch (e) { return null; }
+  }
+  function getUserId() {
+    try {
+      var t = getToken();
+      if (!t) return null;
+      var p = JSON.parse(atob(t.split('.')[1]));
+      return p.sub || null;
+    } catch (e) { return null; }
+  }
   function fmtMoney(n, currency) {
     if (n == null) return '-';
     var s = Math.round(Number(n)).toLocaleString('en-IN');
@@ -3915,6 +4133,9 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     return String(s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function showToast(msg, kind) {
+    if (typeof window.hbfShowToast === 'function') window.hbfShowToast(msg, kind);
   }
 
   // Display labels for status codes (lowercase class = code.toLowerCase())
@@ -3935,6 +4156,73 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     { code: 'HSE_APPROVED', label: 'HSE Approved', sub: 'Awaiting PM approval' },
     { code: 'APPROVED',     label: 'Approved',     sub: 'Final sign-off' }
   ];
+
+  // Mirror of backend src/hse-budgets/workflow/transitions.ts
+  // Keep these arrays in sync if the backend state machine changes.
+  var TRANSITIONS = [
+    { from: 'DRAFT',        action: 'SUBMIT',      to: 'SUBMITTED',    allowedRoles: ['SITE_USER','HSE_HEAD','MANAGER','ADMIN'], requireCreator: true },
+    { from: 'SUBMITTED',    action: 'RECALL',      to: 'DRAFT',        allowedRoles: ['SITE_USER','HSE_HEAD','MANAGER','ADMIN'], requireCreator: true },
+    { from: 'SUBMITTED',    action: 'HSE_APPROVE', to: 'HSE_APPROVED', allowedRoles: ['HSE_HEAD','ADMIN'] },
+    { from: 'SUBMITTED',    action: 'REJECT',      to: 'REJECTED',     allowedRoles: ['HSE_HEAD','ADMIN'], commentRequired: true },
+    { from: 'HSE_APPROVED', action: 'PM_APPROVE',  to: 'APPROVED',     allowedRoles: ['MANAGER','ADMIN'] },
+    { from: 'HSE_APPROVED', action: 'SEND_BACK',   to: 'SUBMITTED',    allowedRoles: ['MANAGER','ADMIN'], commentRequired: true },
+    { from: 'HSE_APPROVED', action: 'REJECT',      to: 'REJECTED',     allowedRoles: ['MANAGER','ADMIN'], commentRequired: true },
+    { from: 'REJECTED',     action: 'REOPEN',      to: 'DRAFT',        allowedRoles: ['SITE_USER','HSE_HEAD','MANAGER','ADMIN'], requireCreator: true },
+    { from: 'DRAFT',        action: 'ARCHIVE',     to: 'ARCHIVED',     allowedRoles: ['ADMIN'] },
+    { from: 'SUBMITTED',    action: 'ARCHIVE',     to: 'ARCHIVED',     allowedRoles: ['ADMIN'] },
+    { from: 'HSE_APPROVED', action: 'ARCHIVE',     to: 'ARCHIVED',     allowedRoles: ['ADMIN'] },
+    { from: 'APPROVED',     action: 'ARCHIVE',     to: 'ARCHIVED',     allowedRoles: ['ADMIN'] },
+    { from: 'REJECTED',     action: 'ARCHIVE',     to: 'ARCHIVED',     allowedRoles: ['ADMIN'] }
+  ];
+
+  // Visual styling per action — controls button class + modal copy
+  var ACTION_META = {
+    SUBMIT:      { label: 'Submit for review',  variant: 'primary', confirmLabel: 'Submit',     dangerModal: false, sub: 'Send this draft to HSE for first-stage review.' },
+    HSE_APPROVE: { label: 'HSE Approve',        variant: 'primary', confirmLabel: 'Approve',    dangerModal: false, sub: 'Confirm HSE-side approval. The budget moves to Manager review.' },
+    PM_APPROVE:  { label: 'Final Approve',      variant: 'primary', confirmLabel: 'Approve',    dangerModal: false, sub: 'Final sign-off. The budget becomes the approved baseline.' },
+    REJECT:      { label: 'Reject',             variant: 'danger',  confirmLabel: 'Reject',     dangerModal: true,  sub: 'A rejected budget can later be reopened by its creator. Provide a reason.' },
+    SEND_BACK:   { label: 'Send back to HSE',   variant: 'neutral', confirmLabel: 'Send back',  dangerModal: false, sub: 'Returns the budget to the HSE-approved stage for a second look.' },
+    RECALL:      { label: 'Recall',             variant: 'neutral', confirmLabel: 'Recall',     dangerModal: false, sub: 'Pull the submission back to Draft so you can edit it.' },
+    REOPEN:      { label: 'Reopen as Draft',    variant: 'neutral', confirmLabel: 'Reopen',     dangerModal: false, sub: 'Move this rejected budget back to Draft for revisions.' },
+    ARCHIVE:     { label: 'Archive',            variant: 'ghost',   confirmLabel: 'Archive',    dangerModal: false, sub: 'Archived budgets are read-only and no longer appear in the active workflow.' }
+  };
+
+  // Cached current budget so action handlers don't have to re-fetch
+  var currentBudget = null;
+
+  function findTransition(from, action) {
+    for (var i = 0; i < TRANSITIONS.length; i++) {
+      if (TRANSITIONS[i].from === from && TRANSITIONS[i].action === action) return TRANSITIONS[i];
+    }
+    return null;
+  }
+
+  function checkPermission(transition, actorRole, actorUserId, creatorUserId) {
+    var isAdmin = actorRole === 'ADMIN';
+    if (!isAdmin && transition.allowedRoles.indexOf(actorRole) === -1) {
+      return { ok: false, reason: 'role' };
+    }
+    if (transition.requireCreator && !isAdmin && actorUserId !== creatorUserId) {
+      return { ok: false, reason: 'creator' };
+    }
+    return { ok: true };
+  }
+
+  function availableActions(budget) {
+    var role = getUserRole();
+    var uid = getUserId();
+    if (!role || !uid) return [];
+    var status = budget.status || 'DRAFT';
+    var creatorId = budget.generatedById;
+    var out = [];
+    for (var i = 0; i < TRANSITIONS.length; i++) {
+      var t = TRANSITIONS[i];
+      if (t.from !== status) continue;
+      var perm = checkPermission(t, role, uid, creatorId);
+      if (perm.ok) out.push(t);
+    }
+    return out;
+  }
 
   function renderSummary(budget) {
     var statusCode = budget.status || 'DRAFT';
@@ -3965,32 +4253,28 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   }
 
   function renderStepper(statusCode) {
-    // Determine state for each pipeline step
     var idx = -1;
     for (var i = 0; i < PIPELINE_STAGES.length; i++) {
       if (PIPELINE_STAGES[i].code === statusCode) { idx = i; break; }
     }
-
-    // Special handling for terminal off-pipeline statuses
     var isRejected = statusCode === 'REJECTED';
     var isArchived = statusCode === 'ARCHIVED';
     var isFinalized = statusCode === 'FINALIZED';
 
-    // For REJECTED, we don't know which stage it was rejected from in this view —
-    // history (Deploy 4) will reveal that. Render the stepper in a neutral way.
     var stepsHtml = PIPELINE_STAGES.map(function(stage, i){
       var cls = '';
       if (idx === -1) {
-        // Unknown / terminal — render all dim
         cls = '';
       } else if (i < idx) {
         cls = 'done';
       } else if (i === idx) {
-        cls = 'active';
+        // Terminal APPROVED state shows as 'done' rather than 'active'
+        cls = (statusCode === 'APPROVED') ? 'done' : 'active';
       }
+      var inner = (cls === 'done') ? '&#10003;' : (i + 1);
       return '' +
         '<div class="hbf-wf-step ' + cls + '">' +
-          '<div class="hbf-wf-step-circle">' + (cls === 'done' ? '&#10003;' : (i + 1)) + '</div>' +
+          '<div class="hbf-wf-step-circle">' + inner + '</div>' +
           '<div class="hbf-wf-step-label">' + escapeHtml(stage.label) +
             '<span class="hbf-wf-step-sub">' + escapeHtml(stage.sub) + '</span>' +
           '</div>' +
@@ -4020,8 +4304,29 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     return '<div class="hbf-wf-stepper-track">' + stepsHtml + '</div>' + calloutHtml;
   }
 
+  function renderActions(budget) {
+    var actions = availableActions(budget);
+    var role = getUserRole() || 'unknown';
+    if (actions.length === 0) {
+      return '' +
+        '<h4 class="hbf-wf-section-title">Available actions</h4>' +
+        '<p class="hbf-wf-actions-empty">No actions available for your role (' + escapeHtml(role) +
+        ') at the current status (<strong>' + escapeHtml(STATUS_LABEL[budget.status] || budget.status) + '</strong>).</p>';
+    }
+    var btns = actions.map(function(t){
+      var meta = ACTION_META[t.action] || { label: t.action, variant: 'neutral' };
+      return '<button type="button" class="hbf-wf-action-btn hbf-wf-action-btn--' + meta.variant + '" ' +
+        'onclick="window.hbfWfRequestAction(\'' + t.action + '\')">' +
+        escapeHtml(meta.label) + '</button>';
+    }).join('');
+    return '' +
+      '<h4 class="hbf-wf-section-title">Available actions</h4>' +
+      '<div class="hbf-wf-actions-row">' + btns +
+      '<span class="hbf-wf-action-context">Acting as <strong>' + escapeHtml(role) + '</strong></span>' +
+      '</div>';
+  }
+
   function showState(state) {
-    // state: 'empty' | 'loading' | 'main'
     var ids = { empty: 'hbf-wf-empty', loading: 'hbf-wf-loading', main: 'hbf-wf-main' };
     Object.keys(ids).forEach(function(k){
       var el = document.getElementById(ids[k]);
@@ -4029,10 +4334,22 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     });
   }
 
+  function paint(budget) {
+    currentBudget = budget;
+    var summaryEl = document.getElementById('hbf-wf-summary');
+    var stepperEl = document.getElementById('hbf-wf-stepper');
+    var actionsEl = document.getElementById('hbf-wf-actions');
+    if (summaryEl) summaryEl.innerHTML = renderSummary(budget);
+    if (stepperEl) stepperEl.innerHTML = renderStepper(budget.status || 'DRAFT');
+    if (actionsEl) actionsEl.innerHTML = renderActions(budget);
+    if (window.__hbfBudgetData) window.__hbfBudgetData._savedStatus = budget.status;
+  }
+
   function renderApproval() {
     var data = window.__hbfBudgetData;
     var savedId = data && data._savedId;
     if (!savedId) {
+      currentBudget = null;
       showState('empty');
       return;
     }
@@ -4047,14 +4364,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
       return r.json();
     })
     .then(function(budget){
-      // Refresh the cached status so other tabs see latest
-      if (window.__hbfBudgetData) window.__hbfBudgetData._savedStatus = budget.status;
-
-      var summaryEl = document.getElementById('hbf-wf-summary');
-      var stepperEl = document.getElementById('hbf-wf-stepper');
-      if (summaryEl) summaryEl.innerHTML = renderSummary(budget);
-      if (stepperEl) stepperEl.innerHTML = renderStepper(budget.status || 'DRAFT');
-
+      paint(budget);
       showState('main');
     })
     .catch(function(err){
@@ -4068,7 +4378,132 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     });
   }
 
-  // Expose for tab-switch hook below
+  // ---------- Action handling ----------
+  var pendingAction = null; // { action, transition, meta }
+
+  function performTransition(action, comment) {
+    if (!currentBudget || !currentBudget.id) {
+      showToast('No budget loaded', 'error');
+      return Promise.reject(new Error('no budget'));
+    }
+    var body = { action: action };
+    if (comment != null && comment.trim().length > 0) body.comment = comment.trim();
+
+    return fetch(API_BASE + '/hse-budgets/' + currentBudget.id + '/transition', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + getToken(),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+    .then(function(r){
+      return r.json().then(function(j){ return { status: r.status, ok: r.ok, body: j }; });
+    });
+  }
+
+  // Open modal for confirmation (always — even non-comment-required actions
+  // get a one-step confirmation so an accidental click doesn't transition state)
+  window.hbfWfRequestAction = function(action){
+    if (!currentBudget) return;
+    var transition = findTransition(currentBudget.status || 'DRAFT', action);
+    if (!transition) {
+      showToast('Action not valid from current status', 'error');
+      return;
+    }
+    var meta = ACTION_META[action] || { label: action, confirmLabel: 'Confirm', sub: '', variant: 'neutral', dangerModal: false };
+    pendingAction = { action: action, transition: transition, meta: meta };
+
+    // Populate modal
+    var modal = document.getElementById('hbf-wf-modal-backdrop');
+    var titleEl = document.getElementById('hbf-wf-modal-title');
+    var subEl = document.getElementById('hbf-wf-modal-sub');
+    var requiredEl = document.getElementById('hbf-wf-modal-required');
+    var commentEl = document.getElementById('hbf-wf-modal-comment');
+    var errEl = document.getElementById('hbf-wf-modal-error');
+    var confirmBtn = document.getElementById('hbf-wf-modal-confirm');
+
+    if (titleEl) titleEl.textContent = meta.label;
+    if (subEl) subEl.textContent = meta.sub || '';
+    if (requiredEl) requiredEl.style.display = transition.commentRequired ? '' : 'none';
+    if (commentEl) {
+      commentEl.value = '';
+      commentEl.placeholder = transition.commentRequired
+        ? 'Required. Briefly explain your decision.'
+        : 'Optional. Add context if helpful.';
+    }
+    if (errEl) errEl.textContent = '';
+    if (confirmBtn) {
+      confirmBtn.textContent = meta.confirmLabel || 'Confirm';
+      confirmBtn.disabled = false;
+      confirmBtn.classList.toggle('hbf-wf-modal-confirm--danger', !!meta.dangerModal);
+    }
+    if (modal) modal.classList.add('show');
+    setTimeout(function(){ if (commentEl) commentEl.focus(); }, 50);
+  };
+
+  window.hbfWfModalCancel = function(){
+    var modal = document.getElementById('hbf-wf-modal-backdrop');
+    if (modal) modal.classList.remove('show');
+    pendingAction = null;
+  };
+
+  window.hbfWfModalConfirm = function(){
+    if (!pendingAction) return;
+    var commentEl = document.getElementById('hbf-wf-modal-comment');
+    var errEl = document.getElementById('hbf-wf-modal-error');
+    var confirmBtn = document.getElementById('hbf-wf-modal-confirm');
+    var comment = commentEl ? commentEl.value : '';
+    if (pendingAction.transition.commentRequired && (!comment || !comment.trim())) {
+      if (errEl) errEl.textContent = 'A comment is required for this action.';
+      if (commentEl) commentEl.focus();
+      return;
+    }
+    if (confirmBtn) { confirmBtn.disabled = true; confirmBtn.textContent = 'Working\u2026'; }
+    if (errEl) errEl.textContent = '';
+
+    performTransition(pendingAction.action, comment)
+      .then(function(res){
+        if (!res.ok) {
+          var msg = (res.body && res.body.message) || ('HTTP ' + res.status);
+          if (errEl) errEl.textContent = String(msg);
+          if (confirmBtn) {
+            confirmBtn.disabled = false;
+            confirmBtn.textContent = pendingAction.meta.confirmLabel || 'Confirm';
+          }
+          return;
+        }
+        // Success — close modal, refresh approval view, show toast
+        var modal = document.getElementById('hbf-wf-modal-backdrop');
+        if (modal) modal.classList.remove('show');
+        var actionLabel = pendingAction.meta.label;
+        pendingAction = null;
+        showToast(actionLabel + ' completed', 'success');
+        // Use the freshly returned budget if shape matches, else re-fetch
+        if (res.body && res.body.budget && res.body.budget.id) {
+          paint(res.body.budget);
+        } else {
+          renderApproval();
+        }
+      })
+      .catch(function(err){
+        if (errEl) errEl.textContent = 'Network error: ' + (err.message || 'unknown');
+        if (confirmBtn) {
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = pendingAction.meta.confirmLabel || 'Confirm';
+        }
+      });
+  };
+
+  // ESC closes modal
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') {
+      var modal = document.getElementById('hbf-wf-modal-backdrop');
+      if (modal && modal.classList.contains('show')) window.hbfWfModalCancel();
+    }
+  });
+
+  // Expose for tab-switch hook
   window.hbfRenderApproval = renderApproval;
 })();
 </script>
