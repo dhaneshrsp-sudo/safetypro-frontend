@@ -5805,24 +5805,48 @@ body .sb-toggle span, body .menu-toggle span { background: currentColor !importa
 
       var buf = await wb.xlsx.writeBuffer();
 
-      // Phase 3.5.2.4: post-process to strip orphaned vml Default from [Content_Types].xml
-      // ExcelJS 4.4.0 bug: emits <Default Extension="vml"/> even with no comments/.vml files,
-      // causing Excel to show "file repaired" warning on open. Fix by removing the orphaned line.
+      // Phase 3.5.2.5: comprehensive ExcelJS 4.4.0 bug post-processor
+      // Fixes TWO issues that trigger Excel's "file repaired" warning:
+      //   1. Orphaned <Default Extension="vml"/> in [Content_Types].xml (3.5.2.4 fix)
+      //   2. Zero-size <a:xfrm><a:ext cx="0" cy="0"/></a:xfrm> in drawing shape properties
+      //      when using oneCellAnchor with addImage (3.5.2.5 fix)
       try {
         if (typeof JSZip !== 'undefined') {
           var zip = await JSZip.loadAsync(buf);
+          var fixesApplied = 0;
+
+          // Fix 1: strip orphaned vml Default from Content_Types
           var ctFile = zip.file('[Content_Types].xml');
           if (ctFile) {
             var ct = await ctFile.async('string');
-            var stripped = ct.replace(/<Default\s+Extension="vml"\s+ContentType="application\/vnd\.openxmlformats-officedocument\.vmlDrawing"\s*\/>/g, '');
-            if (stripped.length < ct.length) {
-              zip.file('[Content_Types].xml', stripped);
-              buf = await zip.generateAsync({ type: 'arraybuffer', compression: 'DEFLATE' });
+            var ctStripped = ct.replace(/<Default\s+Extension="vml"\s+ContentType="application\/vnd\.openxmlformats-officedocument\.vmlDrawing"\s*\/>/g, '');
+            if (ctStripped.length < ct.length) {
+              zip.file('[Content_Types].xml', ctStripped);
+              fixesApplied++;
             }
+          }
+
+          // Fix 2: strip zero-size xfrm from each drawing's <xdr:spPr>
+          var fileNames = Object.keys(zip.files);
+          for (var fi = 0; fi < fileNames.length; fi++) {
+            var fname = fileNames[fi];
+            if (/^xl\/drawings\/drawing\d+\.xml$/.test(fname)) {
+              var dxml = await zip.file(fname).async('string');
+              var dxmlFixed = dxml.replace(/<a:xfrm>\s*<a:off[^/]*\/>\s*<a:ext\s+cx="0"\s+cy="0"\/>\s*<\/a:xfrm>/g, '');
+              if (dxmlFixed.length < dxml.length) {
+                zip.file(fname, dxmlFixed);
+                fixesApplied++;
+              }
+            }
+          }
+
+          if (fixesApplied > 0) {
+            buf = await zip.generateAsync({ type: 'arraybuffer', compression: 'DEFLATE' });
+            console.log('OpsLix Excel post-process: ' + fixesApplied + ' fixes applied');
           }
         }
       } catch (postErr) {
-        console.warn('Post-process strip failed (file still works, may show repair warning):', postErr);
+        console.warn('Post-process failed (file still works, may show repair warning):', postErr);
       }
 
       var blob = new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
