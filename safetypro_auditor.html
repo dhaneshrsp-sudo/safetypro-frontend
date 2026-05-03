@@ -7,6 +7,31 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Client &amp; Auditor Portal — SafetyPro . AI — Operations</title>
+<style id="hbf-fouc-prevent">
+  /* FOUC prevention: paint OpsLix cream on both html AND body to defeat
+     the dark-theme tokens defined in the inline TOKENS block below.
+     Without !important on body, the later inline rule
+     `body { background: var(--bg); }` wins (same specificity, later in
+     cascade) and shows a brief dark slate flash before opslix-shell.css
+     redefines --bg to cream. The cream #F5F2EB matches shell.css, so
+     when shell.css does load there is zero color shift. */
+  html, body { background: #F5F2EB !important; }
+  body { visibility: hidden; opacity: 0; transition: opacity 0.15s ease-out; }
+  body.hbf-loaded { visibility: visible; opacity: 1; }
+</style>
+<script id="hbf-fouc-reveal">
+  // Reveal body once DOM is ready (CSS parsed) or after 800ms safety timeout
+  (function(){
+    var revealed = false;
+    function reveal(){ if (revealed) return; revealed = true; if (document.body) document.body.classList.add('hbf-loaded'); }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', reveal);
+    } else {
+      reveal();
+    }
+    setTimeout(reveal, 800);
+  })();
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;600&family=Fraunces:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 /* ══════════════════════════════════════════════
